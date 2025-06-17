@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOVE STORY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Bubblegum Sans font -->
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+        
+        body {
+        font-family: 'Quicksand', sans-serif;
+        background-color: #FFF5F7;
+		}
+		
+		.calendar-container {
+			background-color: white;
+			border-radius: 24px;
+			box-shadow: 0 10px 25px rgba(252, 189, 210, 0.5);
+		}
+		
+		.calendar-header {
+			background-color: #FF85A2;
+			border-radius: 0;
+		}
+		
+		.day-name {
+			color: #FF85A2;
+			font-weight: 600;
+		}
+		
+		.day-name.weekend {
+			color: #FF5252;
+		}
+		
+		.date-cell {
+			border-radius: 50%;
+			width: 40px;
+			height: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.3s ease;
+			position: relative;
+		}
+		
+		.date-cell:hover {
+			background-color: #FFE0E8;
+			transform: scale(1.1);
+		}
+		
+		.date-cell.today {
+			background-color: #FF85A2;
+			color: white;
+			font-weight: bold;
+		}
+		
+		.date-cell.active {
+			background-color: #FFE0E8;
+			color: #FF85A2;
+			font-weight: bold;
+		}
+		
+		.date-cell.selected {
+			box-shadow: 0 0 0 2px #FF5252;
+			z-index: 10;
+			font-weight: bold;
+		}
+		
+		.date-cell.today.active {
+			background-color: #FF85A2;
+			color: white;
+		}
+		
+		.date-cell.other-month {
+			opacity: 0.4;
+			color: #999;
+		}
+		
+		.date-cell.weekend {
+			color: #FF5252;
+		}
+		
+		.date-cell.weekend.other-month {
+			color: #FF5252;
+			opacity: 0.4;
+		}
+		
+		.date-cell.has-event::after {
+			content: '';
+			position: absolute;
+			bottom: 2px;
+			width: 4px;
+			height: 4px;
+			background-color: #FF85A2;
+			border-radius: 50%;
+		}
+		
+		.date-cell.weekend.has-event::after {
+			background-color: #FF5252;
+		}
+		
+		.date-cell.today.has-event::after,
+		.date-cell.active.has-event::after {
+			background-color: white;
+		}
+		
+		.date-cell.anniversary {
+			position: relative;
+			z-index: 1;
+		}
+		
+		.date-cell.anniversary::before {
+			content: '❤️';
+			position: absolute;
+			font-size: 10px;
+			top: -2px;
+			right: 0px;
+			z-index: 1;
+		}
+		
+		.date-cell.anniversary::after {
+			content: '❤️';
+			position: absolute;
+			font-size: 10px;
+			bottom: -2px;
+			left: 0px;
+			z-index: 1;
+		}
+		
+		.month-nav {
+			transition: all 0.3s ease;
+		}
+		
+		.month-nav:hover {
+			transform: scale(1.2);
+		}
+		
+		.event-list {
+			max-height: 200px;
+			overflow-y: auto;
+			transition: max-height 0.3s ease;
+		}
+		
+		.event-list.collapsed {
+			max-height: 0;
+			overflow: hidden;
+		}
+		
+		.event-item {
+			padding: 8px 12px;
+			border-radius: 8px;
+			margin-bottom: 6px;
+			background-color: #FFE0E8;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			cursor: pointer;
+			transition: all 0.2s ease;
+		}
+		
+		.event-item:hover {
+			background-color: #FFD0E0;
+			transform: translateY(-2px);
+		}
+		
+		.event-item.anniversary {
+			background-color: #FFD0D0;
+			border-left: 3px solid #FF5252;
+		}
+		
+		.landscape-header {
+			border-radius: 24px 24px 0 0;
+			overflow: hidden;
+			position: relative;
+		}
+		
+		.days-counter {
+			font-family: 'Bubblegum Sans', cursive;
+			font-size: 3rem; /* Increased from 2rem to 3rem */
+			color: red;
+			text-align: center;
+			margin-bottom: 1rem;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+		}
+		
+		/* Slideshow styles */
+		.slideshow-container {
+			width: 100%;
+			max-width: 500px;
+			height: 300px; /* Fixed height */
+			position: relative;
+			margin: 2rem auto;
+			border-radius: 16px;
+			overflow: hidden;
+			box-shadow: 0 8px 20px rgba(252, 189, 210, 0.4);
+			background-color: #f8f8f8;
+		}
+		
+		.slideshow-background {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-size: cover;
+			background-position: center;
+			filter: blur(20px);
+			opacity: 0.7;
+			transform: scale(1.1); /* Slightly larger to cover blur edges */
+			transition: background-image 0.5s ease-in-out;
+		}
+		
+		.slideshow-image-container {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.slideshow-image {
+			max-width: 100%;
+			max-height: 100%;
+			object-fit: contain;
+			display: none;
+			opacity: 0;
+			transition: opacity 0.5s ease-in-out;
+		}
+		
+		.slideshow-image.active {
+			display: block;
+			opacity: 1;
+		}
+		
+		.slideshow-controls {
+			position: absolute;
+			top: 50%;
+			left: 0;
+			right: 0;
+			transform: translateY(-50%);
+			display: flex;
+			justify-content: space-between;
+			padding: 0 1rem;
+			pointer-events: none; /* This ensures clicks pass through to the container */
+		}
+		
+		.slideshow-btn {
+			background-color: rgba(255, 255, 255, 0.7);
+			color: #FF5252;
+			border: none;
+			border-radius: 50%;
+			width: 40px;
+			height: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			pointer-events: auto; /* This makes the buttons clickable */
+			z-index: 10;
+		}
+		
+		.slideshow-btn:hover {
+			background-color: rgba(255, 255, 255, 0.9);
+			transform: scale(1.1);
+		}
+		
+		.slideshow-loading {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: rgba(255, 255, 255, 0.8);
+			z-index: 10;
+		}
+		
+		/* Events toggle button */
+		.events-toggle {
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0.75rem 1rem;
+			background-color: #FFE0E8;
+			border-radius: 8px;
+			margin-bottom: 0.5rem;
+			transition: all 0.2s ease;
+		}
+		
+		.events-toggle:hover {
+			background-color: #FFD0E0;
+		}
+		
+		.events-toggle-arrow {
+			transition: transform 0.3s ease;
+			margin-left: 6px;
+		}
+		
+		.events-toggle-arrow.open {
+			transform: rotate(180deg);
+		}
+		
+		@media (max-width: 640px) {
+			.date-cell {
+				width: 32px;
+				height: 32px;
+				font-size: 0.9rem;
+			}
+			
+			.days-counter {
+				font-size: 2.5rem; /* Slightly smaller on mobile */
+			}
+			
+			.slideshow-container {
+				max-width: 100%;
+				height: 250px; /* Smaller height on mobile */
+			}
+		}
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+    <!-- Days counter label -->
+    <div id="daysCounter" class="days-counter"></div>
+    
+    <div class="calendar-container w-full max-w-md overflow-hidden">
+        <!-- Cute Oil Painting Landscape Header -->
+        <div class="landscape-header">
+            <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+                <!-- Sky -->
+                <defs>
+                    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFB6C1;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#FFF0F5;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect width="400" height="150" fill="url(#skyGradient)" />
+                
+                <!-- Sun -->
+                <circle cx="320" cy="40" r="20" fill="#FFDF80" />
+                <circle cx="320" cy="40" r="24" fill="#FFDF80" opacity="0.5" />
+                <circle cx="320" cy="40" r="28" fill="#FFDF80" opacity="0.3" />
+                
+                <!-- Clouds -->
+                <g opacity="0.9">
+                    <ellipse cx="100" cy="30" rx="25" ry="15" fill="white" />
+                    <ellipse cx="80" cy="35" rx="20" ry="12" fill="white" />
+                    <ellipse cx="120" cy="35" rx="20" ry="12" fill="white" />
+                </g>
+                <g opacity="0.7">
+                    <ellipse cx="250" cy="50" rx="30" ry="15" fill="white" />
+                    <ellipse cx="230" cy="55" rx="20" ry="12" fill="white" />
+                    <ellipse cx="270" cy="55" rx="25" ry="12" fill="white" />
+                </g>
+                
+                <!-- Far Mountains -->
+                <path d="M0,150 L0,90 Q50,60 100,80 Q150,100 200,70 Q250,40 300,60 Q350,80 400,70 L400,150 Z" fill="#C9A9D9" opacity="0.6" />
+                
+                <!-- Middle Hills -->
+                <path d="M0,150 L0,110 Q40,90 80,100 Q120,110 160,90 Q200,70 240,90 Q280,110 320,100 Q360,90 400,100 L400,150 Z" fill="#A7D7C5" />
+                
+                <!-- Foreground Hills -->
+                <path d="M0,150 L0,120 Q30,110 60,120 Q90,130 120,115 Q150,100 180,110 Q210,120 240,115 Q270,110 300,120 Q330,130 360,125 Q390,120 400,125 L400,150 Z" fill="#8BBE8A" />
+                
+                <!-- Trees -->
+                <!-- Tree 1 -->
+                <g transform="translate(50, 105) scale(0.7)">
+                    <path d="M0,0 L5,15 L-5,15 Z" fill="#654321" />
+                    <path d="M0,-20 L10,0 L-10,0 Z" fill="#8FBC8F" />
+                    <path d="M0,-30 L8,-10 L-8,-10 Z" fill="#8FBC8F" />
+                    <path d="M0,-40 L6,-20 L-6,-20 Z" fill="#8FBC8F" />
+                </g>
+                
+                <!-- Tree 2 -->
+                <g transform="translate(90, 100) scale(0.6)">
+                    <path d="M0,0 L5,15 L-5,15 Z" fill="#654321" />
+                    <circle cx="0" cy="-15" r="12" fill="#8FBC8F" />
+                </g>
+                
+                <!-- Tree 3 -->
+                <g transform="translate(150, 95) scale(0.8)">
+                    <path d="M0,0 L5,15 L-5,15 Z" fill="#654321" />
+                    <path d="M0,-20 L10,0 L-10,0 Z" fill="#8FBC8F" />
+                    <path d="M0,-30 L8,-10 L-8,-10 Z" fill="#8FBC8F" />
+                </g>
+                
+                <!-- Tree 4 -->
+                <g transform="translate(200, 105) scale(0.6)">
+                    <path d="M0,0 L5,15 L-5,15 Z" fill="#654321" />
+                    <circle cx="0" cy="-15" r="12" fill="#8FBC8F" />
+                </g>
+                
+                <!-- Tree 5 -->
+                <g transform="translate(250, 100) scale(0.7)">
+                    <path d="M0,0 L5,15 L-5,15 Z" fill="#654321" />
+                    <path d="M0,-20 L10,0 L-10,0 Z" fill="#8FBC8F" />
+                    <path d="M0,-30 L8,-10 L-8,-10 Z" fill="#8FBC8F" />
+                </g>
+                
+                <!-- Tree 6 -->
+                <g transform="translate(320, 110) scale(0.5)">
+                    <path d="M0,0 L5,15 L-5,15 Z" fill="#654321" />
+                    <circle cx="0" cy="-15" r="12" fill="#8FBC8F" />
+                </g>
+                
+                <!-- Tree 7 -->
+                <g transform="translate(350, 105) scale(0.6)">
+                    <path d="M0,0 L5,15 L-5,15 Z" fill="#654321" />
+                    <path d="M0,-20 L10,0 L-10,0 Z" fill="#8FBC8F" />
+                    <path d="M0,-30 L8,-10 L-8,-10 Z" fill="#8FBC8F" />
+                </g>
+                
+                <!-- Flowers -->
+                <g transform="translate(30, 130)">
+                    <circle cx="0" cy="0" r="2" fill="#FF69B4" />
+                    <circle cx="0" cy="-3" r="1" fill="#FFFFFF" />
+                </g>
+                <g transform="translate(120, 125)">
+                    <circle cx="0" cy="0" r="2" fill="#FF69B4" />
+                    <circle cx="0" cy="-3" r="1" fill="#FFFFFF" />
+                </g>
+                <g transform="translate(180, 135)">
+                    <circle cx="0" cy="0" r="2" fill="#FF69B4" />
+                    <circle cx="0" cy="-3" r="1" fill="#FFFFFF" />
+                </g>
+                <g transform="translate(270, 130)">
+                    <circle cx="0" cy="0" r="2" fill="#FF69B4" />
+                    <circle cx="0" cy="-3" r="1" fill="#FFFFFF" />
+                </g>
+                <g transform="translate(330, 135)">
+                    <circle cx="0" cy="0" r="2" fill="#FF69B4" />
+                    <circle cx="0" cy="-3" r="1" fill="#FFFFFF" />
+                </g>
+                
+                <!-- Brush stroke texture overlay -->
+                <rect width="400" height="150" fill="url(#brushTexture)" opacity="0.1" />
+                
+                <!-- Oil painting texture -->
+                <filter id="oilPaintingTexture">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
+                </filter>
+                <rect width="400" height="150" filter="url(#oilPaintingTexture)" fill="transparent" />
+            </svg>
+        </div>
+        
+        <div class="calendar-header p-4 flex items-center justify-between">
+            <button id="prevMonth" class="month-nav text-white hover:text-pink-100 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <div class="flex flex-col items-center">
+                <h2 id="currentMonth" class="text-2xl font-bold text-white">Tháng 5, 2023</h2>
+            </div>
+            <button id="nextMonth" class="month-nav text-white hover:text-pink-100 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+        
+        <div class="p-6">
+            <div class="grid grid-cols-7 gap-2 mb-4">
+                <div class="day-name text-center weekend">CN</div>
+                <div class="day-name text-center">T2</div>
+                <div class="day-name text-center">T3</div>
+                <div class="day-name text-center">T4</div>
+                <div class="day-name text-center">T5</div>
+                <div class="day-name text-center">T6</div>
+                <div class="day-name text-center weekend">T7</div>
+            </div>
+            
+            <div id="calendarDates" class="grid grid-cols-7 gap-2">
+                <!-- Calendar dates will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="p-4 bg-pink-50">
+        <!-- Events toggle header -->
+        <div id="eventsToggle" class="events-toggle">
+            <div class="flex items-center">
+                <span class="text-pink-500 font-medium">Tất cả sự kiện</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-500 events-toggle-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+            <div class="flex items-center">
+                <button id="todayBtn" class="px-3 py-1 bg-pink-400 text-white rounded-full hover:bg-pink-500 transition-colors text-xs">
+                    Hôm nay
+                </button>
+            </div>
+        </div>
+        
+        <!-- Events list (collapsed by default) -->
+        <div id="allEventsList" class="event-list collapsed">
+            <!-- All events will be listed here -->
+        </div>
+    </div>
+</div>
+    
+    <!-- Slideshow Container - Below the calendar -->
+    <div class="slideshow-container mt-6">
+        <div id="slideshowBackground" class="slideshow-background"></div>
+        <div id="slideshowLoading" class="slideshow-loading">
+            <svg class="animate-spin h-10 w-10 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+        </div>
+        <div class="slideshow-image-container" id="slideshowImages"></div>
+        <div class="slideshow-controls">
+            <button id="prevSlide" class="slideshow-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button id="nextSlide" class="slideshow-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const realToday = new Date();
+            let currentDate = new Date();
+            let currentMonth = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
+            let selectedDate = null;
+            
+            // Calculate days since February 22, 2022
+            const startDate = new Date(2022, 1, 22); // Month is 0-indexed (1 = February)
+            const today = new Date();
+            const timeDiff = today.getTime() - startDate.getTime();
+            const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+            
+            // Update the days counter with "of Love" text
+            document.getElementById('daysCounter').textContent = `${daysDiff} Days of Love`;
+            
+            // Sample events with your specific dates
+            const events = {
+            '2022-2-22': 'First day of love',
+			'2025-2-22': 'Gặp gỡ nhà gái',
+            '2025-3-23': 'Gặp nhà trai',
+            '2025-5-28': 'Dạm ngõ',
+			'2025-7-11': 'Ăn hỏi',
+			'2025-7-14': 'Lễ thành hôn'
+			};
+			
+			// Special anniversary dates (day and month only)
+			const anniversaries = [
+				{ day: 22, month: 2, name: 'First day of love' },  // February 22
+				{ day: 22, month: 2, name: 'Gặp gỡ nhà gái' },  // March 23
+				{ day: 23, month: 3, name: 'Gặp gỡ nhà trai' },  // March 23
+				{ day: 28, month: 5, name: 'Dạm ngõ' },   // May 28
+				{ day: 11, month: 7, name: 'Ăn hỏi' },
+				{ day: 14, month: 7, name: 'Lễ thành hôn' }
+			];
+			
+			// Events toggle functionality
+        const eventsToggle = document.getElementById('eventsToggle');
+        const eventsToggleArrow = document.querySelector('.events-toggle-arrow');
+        const allEventsList = document.getElementById('allEventsList');
+        
+        eventsToggle.addEventListener('click', function() {
+            allEventsList.classList.toggle('collapsed');
+            eventsToggleArrow.classList.toggle('open');
+        });
+        
+        // Slideshow functionality
+        const slideshowContainer = document.getElementById('slideshowImages');
+        const slideshowBackground = document.getElementById('slideshowBackground');
+        const slideshowLoading = document.getElementById('slideshowLoading');
+        const prevSlideBtn = document.getElementById('prevSlide');
+        const nextSlideBtn = document.getElementById('nextSlide');
+        
+        let currentSlideIndex = 0;
+        let slideInterval;
+        let images = [];
+        
+        // Google Drive API parameters
+        const folderId = '1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav';
+        const apiKey = 'AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0';
+        
+        // Function to fetch images from Google Drive
+        async function fetchImagesFromGoogleDrive() {
+            try {
+                // Using Google Drive API v3 to list files in the folder
+                const response = await fetch(
+                    `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,name,mimeType,webContentLink,thumbnailLink,webViewLink)`
+                );
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch images from Google Drive');
+                }
+                
+                const data = await response.json();
+                
+                // Filter for image files only
+                const imageFiles = data.files.filter(file => 
+                    file.mimeType.startsWith('image/')
+                );
+                
+                // Process the images
+                images = imageFiles.map(file => {
+                    // For Google Drive, we need to construct a direct download URL
+                    // This is a simplified approach - in production, you might need a more robust solution
+                    return {
+                        id: file.id,
+                        name: file.name,
+                        // Using the thumbnailLink but removing the =s220 parameter to get full size
+                        url: file.thumbnailLink ? file.thumbnailLink.replace('=s220', '') : 
+                             `https://drive.google.com/uc?export=view&id=${file.id}`
+                    };
+                });
+                
+                // If no images found, use placeholder images
+                if (images.length === 0) {
+                    images = [
+                        { id: '1', name: 'Love 1', url: 'https://source.unsplash.com/random/800x600/?love,couple' },
+                        { id: '2', name: 'Love 2', url: 'https://source.unsplash.com/random/800x600/?wedding,romance' },
+                        { id: '3', name: 'Love 3', url: 'https://source.unsplash.com/random/800x600/?heart,valentine' }
+                    ];
+                }
+                
+                // Initialize the slideshow
+                initializeSlideshow();
+                
+            } catch (error) {
+                console.error('Error fetching images:', error);
+                
+                // Use placeholder images if there's an error
+                images = [
+                    { id: '1', name: 'Love 1', url: 'https://source.unsplash.com/random/800x600/?love,couple' },
+                    { id: '2', name: 'Love 2', url: 'https://source.unsplash.com/random/800x600/?wedding,romance' },
+                    { id: '3', name: 'Love 3', url: 'https://source.unsplash.com/random/800x600/?heart,valentine' }
+                ];
+                
+                // Initialize the slideshow with placeholder images
+                initializeSlideshow();
+            }
+        }
+        
+        function initializeSlideshow() {
+            // Clear any existing content
+            slideshowContainer.innerHTML = '';
+            
+            // Create image elements
+            images.forEach((image, index) => {
+                const imgElement = document.createElement('img');
+                imgElement.src = image.url;
+                imgElement.alt = image.name;
+                imgElement.className = 'slideshow-image';
+                imgElement.dataset.index = index;
+                
+                if (index === 0) {
+                    imgElement.classList.add('active');
+                    // Set the first image as background
+                    slideshowBackground.style.backgroundImage = `url(${image.url})`;
+                }
+                
+                slideshowContainer.appendChild(imgElement);
+            });
+            
+            // Hide loading indicator
+            slideshowLoading.style.display = 'none';
+            
+            // Start automatic slideshow
+            startSlideshow();
+        }
+        
+        function startSlideshow() {
+            // Clear any existing interval
+            if (slideInterval) {
+                clearInterval(slideInterval);
+            }
+            
+            // Set new interval - change slide every 5 seconds
+            slideInterval = setInterval(() => {
+                nextSlide();
+            }, 5000);
+        }
+        
+        function goToSlide(index) {
+            // Remove active class from all slides
+            document.querySelectorAll('.slideshow-image').forEach(img => {
+                img.classList.remove('active');
+            });
+            
+            // Add active class to current slide
+            const slides = document.querySelectorAll('.slideshow-image');
+            
+            if (slides.length > 0 && index < slides.length) {
+                slides[index].classList.add('active');
+                currentSlideIndex = index;
+                
+                // Update the background with the current image
+                slideshowBackground.style.backgroundImage = `url(${images[index].url})`;
+            }
+            
+            // Restart the slideshow timer
+            startSlideshow();
+        }
+        
+        function nextSlide() {
+            let nextIndex = currentSlideIndex + 1;
+            if (nextIndex >= images.length) {
+                nextIndex = 0;
+            }
+            goToSlide(nextIndex);
+        }
+        
+        function prevSlide() {
+            let prevIndex = currentSlideIndex - 1;
+            if (prevIndex < 0) {
+                prevIndex = images.length - 1;
+            }
+            goToSlide(prevIndex);
+        }
+        
+        // Add event listeners for slideshow controls
+        prevSlideBtn.addEventListener('click', () => {
+            prevSlide();
+        });
+        
+        nextSlideBtn.addEventListener('click', () => {
+            nextSlide();
+        });
+        
+        // Initialize the slideshow
+        fetchImagesFromGoogleDrive();
+        
+        function updateCalendar() {
+            const monthNames = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 
+                               'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+            
+            document.getElementById('currentMonth').textContent = `${monthNames[currentMonth]}, ${currentYear}`;
+            
+            const calendarDates = document.getElementById('calendarDates');
+            calendarDates.innerHTML = '';
+            
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            
+            // Get the last day of the previous month
+            const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+            
+            // Add cells for days from the previous month
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const day = prevMonthLastDay - firstDay.getDay() + i + 1;
+                addDateCell(day, true, (i === 0 || i === 6), -1);
+            }
+            
+            // Add cells for each day of the current month
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dayOfWeek = new Date(currentYear, currentMonth, day).getDay();
+                const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+                addDateCell(day, false, isWeekend, 0);
+            }
+            
+            // Add cells for days from the next month
+            const totalCellsNeeded = 42; // 6 rows of 7 days
+            const cellsAdded = firstDay.getDay() + lastDay.getDate();
+            const nextMonthDays = totalCellsNeeded - cellsAdded;
+            
+            for (let day = 1; day <= nextMonthDays; day++) {
+                const dayOfWeek = new Date(currentYear, currentMonth + 1, day).getDay();
+                const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+                addDateCell(day, true, isWeekend, 1);
+            }
+            
+            function addDateCell(day, isOtherMonth, isWeekend, monthOffset) {
+                const dateCell = document.createElement('div');
+                dateCell.textContent = day;
+                dateCell.className = 'date-cell cursor-pointer';
+                
+                if (isOtherMonth) {
+                    dateCell.classList.add('other-month');
+                }
+                
+                if (isWeekend) {
+                    dateCell.classList.add('weekend');
+                }
+                
+                // Calculate the actual date for this cell
+                let cellYear = currentYear;
+                let cellMonth = currentMonth + monthOffset;
+                
+                if (cellMonth < 0) {
+                    cellMonth = 11;
+                    cellYear--;
+                } else if (cellMonth > 11) {
+                    cellMonth = 0;
+                    cellYear++;
+                }
+                
+                // Check if this date is today
+                if (day === realToday.getDate() && cellMonth === realToday.getMonth() && cellYear === realToday.getFullYear()) {
+                    dateCell.classList.add('today');
+                }
+                
+                // Check if this is the selected date
+                if (selectedDate && day === selectedDate.getDate() && cellMonth === selectedDate.getMonth() && cellYear === selectedDate.getFullYear()) {
+                    dateCell.classList.add('selected');
+                }
+                
+                // Check if this date has an event
+                const dateString = `${cellYear}-${cellMonth + 1}-${day}`;
+                if (events[dateString]) {
+                    dateCell.classList.add('has-event');
+                }
+                
+                // Check if this is an anniversary date (regardless of year)
+                const isAnniversary = anniversaries.some(date => date.day === day && date.month === (cellMonth + 1));
+                if (isAnniversary) {
+                    dateCell.classList.add('anniversary');
+                }
+                
+                // Add click event
+                dateCell.addEventListener('click', function() {
+                    selectDate(day, cellMonth, cellYear);
+                });
+                
+                calendarDates.appendChild(dateCell);
+            }
+        }
+        
+        function selectDate(day, month, year) {
+            // Remove selected class from all cells
+            document.querySelectorAll('.date-cell').forEach(cell => {
+                cell.classList.remove('selected');
+            });
+            
+            // Update selected date
+            selectedDate = new Date(year, month, day);
+            
+            // Update calendar to show the selected date
+            if (month !== currentMonth || year !== currentYear) {
+                currentMonth = month;
+                currentYear = year;
+                updateCalendar();
+            } else {
+                // Find and highlight the selected date cell
+                const cells = document.querySelectorAll('.date-cell:not(.other-month)');
+                for (let i = 0; i < cells.length; i++) {
+                    if (parseInt(cells[i].textContent) === day) {
+                        cells[i].classList.add('selected');
+                        break;
+                    }
+                }
+            }
+        }
+        
+        function updateAllEventsList() {
+            const allEventsList = document.getElementById('allEventsList');
+            allEventsList.innerHTML = '';
+            
+            // Create a simplified list with just one entry per event
+            const currentYear = new Date().getFullYear();
+            
+            // Add each anniversary event (just once)
+            anniversaries.forEach((anniversary) => {
+                const eventItem = document.createElement('div');
+                eventItem.className = 'event-item anniversary';
+                
+                eventItem.innerHTML = `
+                    <span>${anniversary.name}</span>
+                    <span class="text-xs text-pink-500">${anniversary.day}/${anniversary.month}</span>
+                `;
+                
+                // Add click event to navigate to this date in current year
+                eventItem.addEventListener('click', function() {
+                    selectDate(anniversary.day, anniversary.month - 1, currentYear);
+                });
+                
+                allEventsList.appendChild(eventItem);
+            });
+            
+            if (allEventsList.children.length === 0) {
+                allEventsList.innerHTML = '<div class="text-pink-600 text-center py-2">Không có sự kiện nào</div>';
+            }
+        }
+        
+        // Initialize calendar
+        updateCalendar();
+        
+        // Initialize events list
+        updateAllEventsList();
+        
+        // Add event listeners for navigation
+        document.getElementById('prevMonth').addEventListener('click', function() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            updateCalendar();
+        });
+        
+        document.getElementById('nextMonth').addEventListener('click', function() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateCalendar();
+        });
+        
+        // Today button
+        document.getElementById('todayBtn').addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent the click from toggling the events list
+            currentMonth = realToday.getMonth();
+            currentYear = realToday.getFullYear();
+            selectedDate = new Date(realToday);
+            updateCalendar();
+        });
+    });
+    </script>
+</body>
+</html>
