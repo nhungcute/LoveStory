@@ -1,369 +1,405 @@
- <!--         chu thich, tạo web             -->
-<!-- https://www.canva.com/ai/code/thread/4318ada7-3bcc-486a-aa14-12bb14a6e68f -->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOVE STORY</title>
-    <link rel="shortcut icon" type="image/png" href="img/heart.png"/>
+    <title>Lịch Tháng Cute với Slideshow</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Add Bubblegum Sans font -->
-	<link rel="shortcut icon" type="image/png" href="logo.png"/>
     <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
         
         body {
-        font-family: 'Quicksand', sans-serif;
-        background-color: #FFF5F7;
-		}
-		
-		.calendar-container {
-			background-color: white;
-			border-radius: 24px;
-			box-shadow: 0 10px 25px rgba(252, 189, 210, 0.5);
-		}
-		
-		.calendar-header {
-			background-color: #FF85A2;
-			border-radius: 0;
-		}
-		
-		.day-name {
-			color: #FF85A2;
-			font-weight: 600;
-		}
-		
-		.day-name.weekend {
-			color: #FF5252;
-		}
-		
-		.date-cell {
-			border-radius: 50%;
-			width: 40px;
-			height: 40px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: all 0.3s ease;
-			position: relative;
-		}
-		
-		.date-cell:hover {
-			background-color: #FFE0E8;
-			transform: scale(1.1);
-		}
-		
-		.date-cell.today {
-			background-color: #FF85A2;
-			color: white;
-			font-weight: bold;
-		}
-		
-		.date-cell.active {
-			background-color: #FFE0E8;
-			color: #FF85A2;
-			font-weight: bold;
-		}
-		
-		.date-cell.selected {
-			box-shadow: 0 0 0 2px #FF5252;
-			z-index: 10;
-			font-weight: bold;
-		}
-		
-		.date-cell.today.active {
-			background-color: #FF85A2;
-			color: white;
-		}
-		
-		.date-cell.other-month {
-			opacity: 0.4;
-			color: #999;
-		}
-		
-		.date-cell.weekend {
-			color: #FF5252;
-		}
-		
-		.date-cell.weekend.other-month {
-			color: #FF5252;
-			opacity: 0.4;
-		}
-		
-		.date-cell.has-event::after {
-			content: '';
-			position: absolute;
-			bottom: 2px;
-			width: 4px;
-			height: 4px;
-			background-color: #FF85A2;
-			border-radius: 50%;
-		}
-		
-		.date-cell.weekend.has-event::after {
-			background-color: #FF5252;
-		}
-		
-		.date-cell.today.has-event::after,
-		.date-cell.active.has-event::after {
-			background-color: white;
-		}
-		
-		.date-cell.anniversary {
-			position: relative;
-			z-index: 1;
-		}
-		
-		.date-cell.anniversary::before {
-			content: '❤️';
-			position: absolute;
-			font-size: 10px;
-			top: -2px;
-			right: 0px;
-			z-index: 1;
-		}
-		
-		.date-cell.anniversary::after {
-			content: '❤️';
-			position: absolute;
-			font-size: 10px;
-			bottom: -2px;
-			left: 0px;
-			z-index: 1;
-		}
-		
-		.month-nav {
-			transition: all 0.3s ease;
-		}
-		
-		.month-nav:hover {
-			transform: scale(1.2);
-		}
-		
-		.event-list {
-			max-height: 200px;
-			overflow-y: auto;
-			transition: max-height 0.3s ease;
-		}
-		
-		.event-list.collapsed {
-			max-height: 0;
-			overflow: hidden;
-		}
-		
-		.event-item {
-			padding: 8px 12px;
-			border-radius: 8px;
-			margin-bottom: 6px;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			cursor: pointer;
-			transition: all 0.2s ease;
-		}
-		
-		.event-item:hover {
-			transform: translateY(-2px);
-			filter: brightness(0.95);
-		}
-		
-		.event-item .event-icon {
-			margin-right: 8px;
-			font-size: 1.2rem;
-		}
-		
-		.event-item-1 {
-			background-color: #FFD0E0;
-			border-left: 3px solid #FF5252;
-		}
-		
-		.event-item-2 {
-			background-color: #D0F0FF;
-			border-left: 3px solid #5299FF;
-		}
-		
-		.event-item-3 {
-			background-color: #D8F8E0;
-			border-left: 3px solid #52CC7A;
-		}
-		
-		.event-item-4 {
-			background-color: #FFF0C0;
-			border-left: 3px solid #FFCC52;
-		}
-		
-		.event-item-5 {
-			background-color: #E8D0FF;
-			border-left: 3px solid #9952FF;
-		}
-		
-		.event-item-6 {
-			background-color: #FFD0D0;
-			border-left: 3px solid #FF7070;
-		}
-		
-		.landscape-header {
-			border-radius: 24px 24px 0 0;
-			overflow: hidden;
-			position: relative;
-		}
-		
-		.days-counter {
-			font-family: 'Bubblegum Sans', cursive;
-			font-size: 3rem; /* Increased from 2rem to 3rem */
-			color: red;
-			text-align: center;
-			margin-bottom: 1rem;
-			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-		}
-		
-		/* Slideshow styles */
-		.slideshow-container {
-			width: 100%;
-			max-width: 500px;
-			height: 300px; /* Fixed height */
-			position: relative;
-			margin: 2rem auto;
-			border-radius: 16px;
-			overflow: hidden;
-			box-shadow: 0 8px 20px rgba(252, 189, 210, 0.4);
-			background-color: #f8f8f8;
-		}
-		
-		.slideshow-background {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-size: cover;
-			background-position: center;
-			filter: blur(20px);
-			opacity: 0.7;
-			transform: scale(1.1); /* Slightly larger to cover blur edges */
-			transition: background-image 0.5s ease-in-out;
-		}
-		
-		.slideshow-image-container {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-		
-		.slideshow-image {
-			max-width: 100%;
-			max-height: 100%;
-			object-fit: contain;
-			display: none;
-			opacity: 0;
-			transition: opacity 0.5s ease-in-out;
-		}
-		
-		.slideshow-image.active {
-			display: block;
-			opacity: 1;
-		}
-		
-		.slideshow-controls {
-			position: absolute;
-			top: 50%;
-			left: 0;
-			right: 0;
-			transform: translateY(-50%);
-			display: flex;
-			justify-content: space-between;
-			padding: 0 1rem;
-			pointer-events: none; /* This ensures clicks pass through to the container */
-		}
-		
-		.slideshow-btn {
-			background-color: rgba(255, 255, 255, 0.7);
-			color: #FF5252;
-			border: none;
-			border-radius: 50%;
-			width: 40px;
-			height: 40px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			cursor: pointer;
-			transition: all 0.3s ease;
-			pointer-events: auto; /* This makes the buttons clickable */
-			z-index: 10;
-		}
-		
-		.slideshow-btn:hover {
-			background-color: rgba(255, 255, 255, 0.9);
-			transform: scale(1.1);
-		}
-		
-		.slideshow-loading {
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			background-color: rgba(255, 255, 255, 0.8);
-			z-index: 10;
-		}
-		
-		/* Events toggle button */
-		.events-toggle {
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 0.75rem 1rem;
-			background-color: #FFE0E8;
-			border-radius: 8px;
-			margin-bottom: 0.5rem;
-			transition: all 0.2s ease;
-		}
-		
-		.events-toggle:hover {
-			background-color: #FFD0E0;
-		}
-		
-		.events-toggle-arrow {
-			transition: transform 0.3s ease;
-			margin-left: 6px;
-		}
-		
-		.events-toggle-arrow.open {
-			transform: rotate(180deg);
-		}
-		
-		@media (max-width: 640px) {
-			.date-cell {
-				width: 32px;
-				height: 32px;
-				font-size: 0.9rem;
-			}
-			
-			.days-counter {
-				font-size: 2.5rem; /* Slightly smaller on mobile */
-			}
-			
-			.slideshow-container {
-				max-width: 100%;
-				height: 250px; /* Smaller height on mobile */
-			}
-		}
+            font-family: 'Quicksand', sans-serif;
+            background-color: #FFF5F7;
+        }
+        
+        .calendar-container {
+            background-color: white;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(252, 189, 210, 0.5);
+        }
+        
+        .calendar-header {
+            background-color: #FF85A2;
+            border-radius: 0;
+        }
+        
+        .day-name {
+            color: #FF85A2;
+            font-weight: 600;
+        }
+        
+        .day-name.weekend {
+            color: #FF5252;
+        }
+        
+        .date-cell {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .date-cell:hover {
+            background-color: #FFE0E8;
+            transform: scale(1.1);
+        }
+        
+        .date-cell.today {
+            background-color: #FF85A2;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .date-cell.active {
+            background-color: #FFE0E8;
+            color: #FF85A2;
+            font-weight: bold;
+        }
+        
+        .date-cell.selected {
+            box-shadow: 0 0 0 2px #FF5252;
+            z-index: 10;
+            font-weight: bold;
+        }
+        
+        .date-cell.today.active {
+            background-color: #FF85A2;
+            color: white;
+        }
+        
+        .date-cell.other-month {
+            opacity: 0.4;
+            color: #999;
+        }
+        
+        .date-cell.weekend {
+            color: #FF5252;
+        }
+        
+        .date-cell.weekend.other-month {
+            color: #FF5252;
+            opacity: 0.4;
+        }
+        
+        .date-cell.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            width: 4px;
+            height: 4px;
+            background-color: #FF85A2;
+            border-radius: 50%;
+        }
+        
+        .date-cell.weekend.has-event::after {
+            background-color: #FF5252;
+        }
+        
+        .date-cell.today.has-event::after,
+        .date-cell.active.has-event::after {
+            background-color: white;
+        }
+        
+        .date-cell.anniversary {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .date-cell.anniversary::before {
+            content: '❤️';
+            position: absolute;
+            font-size: 10px;
+            top: -2px;
+            right: 0px;
+            z-index: 1;
+        }
+        
+        .date-cell.anniversary::after {
+            content: '❤️';
+            position: absolute;
+            font-size: 10px;
+            bottom: -2px;
+            left: 0px;
+            z-index: 1;
+        }
+        
+        .month-nav {
+            transition: all 0.3s ease;
+        }
+        
+        .month-nav:hover {
+            transform: scale(1.2);
+        }
+        
+        .event-list {
+            max-height: 200px;
+            overflow-y: auto;
+            transition: max-height 0.3s ease;
+        }
+        
+        .event-list.collapsed {
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .event-item {
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .event-item:hover {
+            transform: translateY(-2px);
+            filter: brightness(0.95);
+        }
+        
+        .event-item .event-icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .event-item-1 {
+            background-color: #FFD0E0;
+            border-left: 3px solid #FF5252;
+        }
+        
+        .event-item-2 {
+            background-color: #D0F0FF;
+            border-left: 3px solid #5299FF;
+        }
+        
+        .event-item-3 {
+            background-color: #D8F8E0;
+            border-left: 3px solid #52CC7A;
+        }
+        
+        .event-item-4 {
+            background-color: #FFF0C0;
+            border-left: 3px solid #FFCC52;
+        }
+        
+        .event-item-5 {
+            background-color: #E8D0FF;
+            border-left: 3px solid #9952FF;
+        }
+        
+        .event-item-6 {
+            background-color: #FFD0D0;
+            border-left: 3px solid #FF7070;
+        }
+        
+        .landscape-header {
+            border-radius: 24px 24px 0 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .days-counter {
+            font-family: 'Bubblegum Sans', cursive;
+            font-size: 3rem; /* Increased from 2rem to 3rem */
+            color: red;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Slideshow styles */
+        .slideshow-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px; /* Fixed height */
+            position: relative;
+            margin: 2rem auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(252, 189, 210, 0.4);
+            background-color: #f8f8f8;
+        }
+        
+        .slideshow-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(20px);
+            opacity: 0.7;
+            transform: scale(1.1); /* Slightly larger to cover blur edges */
+            transition: background-image 0.5s ease-in-out;
+        }
+        
+        .slideshow-image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slideshow-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .slideshow-image.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        .slideshow-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem;
+            pointer-events: none; /* This ensures clicks pass through to the container */
+        }
+        
+        .slideshow-btn {
+            background-color: rgba(255, 255, 255, 0.7);
+            color: #FF5252;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: auto; /* This makes the buttons clickable */
+            z-index: 10;
+        }
+        
+        .slideshow-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: scale(1.1);
+        }
+        
+        .slideshow-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+        }
+        
+        /* Events toggle button */
+        .events-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background-color: #FFE0E8;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .events-toggle:hover {
+            background-color: #FFD0E0;
+        }
+        
+        .events-toggle-arrow {
+            transition: transform 0.3s ease;
+            margin-left: 6px;
+        }
+        
+        .events-toggle-arrow.open {
+            transform: rotate(180deg);
+        }
+        
+        /* Next event countdown box */
+        .next-event-box {
+            background-color: #FFF0F5;
+            border: 2px dashed #FF85A2;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(252, 189, 210, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .next-event-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(252, 189, 210, 0.4);
+        }
+        
+        .next-event-title {
+            font-weight: bold;
+            color: #FF5252;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .next-event-countdown {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FF85A2;
+        }
+        
+        .next-event-name {
+            font-style: italic;
+            color: #FF5252;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 640px) {
+            .date-cell {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            
+            .days-counter {
+                font-size: 2.5rem; /* Slightly smaller on mobile */
+            }
+            
+            .slideshow-container {
+                max-width: 100%;
+                height: 250px; /* Smaller height on mobile */
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-4">
     <!-- Days counter label -->
-    <div id="daysCounter" class="days-counter"></div>
+    <div id="daysCounter" class="days-counter">
+        <span id="daysCounterText"></span>
+    </div>
     
     <div class="calendar-container w-full max-w-md overflow-hidden">
         <!-- Cute Oil Painting Landscape Header -->
@@ -519,29 +555,42 @@
         </div>
         
         <div class="p-4 bg-pink-50">
-        <!-- Events toggle header -->
-        <div id="eventsToggle" class="events-toggle">
-            <div class="flex items-center">
-                <span class="text-pink-500 font-medium flex items-center">
-                    <span class="mr-2">📅</span> Tất cả sự kiện
-                </span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-500 events-toggle-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
+            <!-- Events toggle header -->
+            <div id="eventsToggle" class="events-toggle">
+                <div class="flex items-center">
+                    <span class="text-pink-500 font-medium flex items-center">
+                        <span class="mr-2">📅</span> Tất cả sự kiện
+                    </span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-500 events-toggle-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+                <div class="flex items-center">
+                    <button id="todayBtn" class="px-3 py-1 bg-pink-400 text-white rounded-full hover:bg-pink-500 transition-colors text-xs flex items-center">
+                        <span class="mr-1">📍</span> Hôm nay
+                    </button>
+                </div>
             </div>
-            <div class="flex items-center">
-                <button id="todayBtn" class="px-3 py-1 bg-pink-400 text-white rounded-full hover:bg-pink-500 transition-colors text-xs flex items-center">
-                    <span class="mr-1">📍</span> Hôm nay
-                </button>
+            
+            <!-- Events list (collapsed by default) -->
+            <div id="allEventsList" class="event-list collapsed">
+                <!-- All events will be listed here -->
             </div>
-        </div>
-        
-        <!-- Events list (collapsed by default) -->
-        <div id="allEventsList" class="event-list collapsed">
-            <!-- All events will be listed here -->
+            
+            <!-- Next event countdown box -->
+            <div class="next-event-box">
+                <div class="next-event-title">
+                    <span class="mr-2">⏳</span> Sự kiện tiếp theo
+                </div>
+                <div id="nextEventCountdown" class="next-event-countdown">
+                    Đang tính...
+                </div>
+                <div id="nextEventName" class="next-event-name">
+                    Đang tìm sự kiện gần nhất...
+                </div>
+            </div>
         </div>
     </div>
-</div>
     
     <!-- Slideshow Container - Below the calendar -->
     <div class="slideshow-container mt-6">
@@ -582,29 +631,74 @@
             const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
             
             // Update the days counter with "of Love" text
-            document.getElementById('daysCounter').textContent = `${daysDiff} Days of Love`;
+            document.getElementById('daysCounterText').textContent = `${daysDiff} Days of Love`;
             
-            // Sample events with your specific dates
-            const events = {
-            '2022-2-22': 'First day of love',
-			'2025-2-22': 'Gặp gỡ nhà gái',
-            '2025-3-23': 'Gặp nhà trai',
-            '2025-5-28': 'Dạm ngõ',
-			'2025-7-11': 'Ăn hỏi',
-			'2025-7-14': 'Lễ thành hôn'
-			};
-			
-			// Special anniversary dates (day and month only)
-			const anniversaries = [
-				{ day: 22, month: 2, name: 'First day of love(2022)', icon: '❤️', colorClass: 'event-item-1' },
-				{ day: 22, month: 2, name: 'Gặp gỡ nhà gái(2025)', icon: '🏠', colorClass: 'event-item-2' },
-				{ day: 23, month: 3, name: 'Gặp gỡ nhà trai(2025)', icon: '🏠', colorClass: 'event-item-3' },
-				{ day: 28, month: 5, name: 'Dạm ngõ(2025)', icon: '🌹', colorClass: 'event-item-4' },
-				{ day: 11, month: 7, name: 'Ăn hỏi(2025)', icon: '🎊', colorClass: 'event-item-5' },
-				{ day: 14, month: 7, name: 'Lễ thành hôn(2025)', icon: '💍', colorClass: 'event-item-6' }
-			];
-			
-		// Events toggle functionality
+            // Updated events with your specific dates
+        const events = {
+            '2022-02-22': 'First day of love',
+            '2025-02-22': 'Gặp gỡ nhà gái',
+            '2025-03-23': 'Gặp nhà trai',
+            '2025-05-28': 'Dạm ngõ',
+            '2025-07-11': 'Ăn hỏi',
+            '2025-07-14': 'Lễ thành hôn'
+        };
+        
+        // Special anniversary dates with icons - FIXED: different icons for Feb 22 events
+        const anniversaries = [
+            { day: 22, month: 2, name: 'First day of love', icon: '❤️', colorClass: 'event-item-1', year: 2022 },
+            { day: 22, month: 2, name: 'Gặp gỡ nhà gái', icon: '👰', colorClass: 'event-item-2', year: 2025 },
+            { day: 23, month: 3, name: 'Gặp nhà trai', icon: '🤵', colorClass: 'event-item-3', year: 2025 },
+            { day: 28, month: 5, name: 'Dạm ngõ', icon: '🌹', colorClass: 'event-item-4', year: 2025 },
+            { day: 11, month: 7, name: 'Ăn hỏi', icon: '🎊', colorClass: 'event-item-5', year: 2025 },
+            { day: 14, month: 7, name: 'Lễ thành hôn', icon: '💍', colorClass: 'event-item-6', year: 2025 }
+        ];
+        
+        // Function to update the next event countdown
+        function updateNextEventCountdown() {
+            const today = new Date();
+            let nextEvent = null;
+            let minDaysDiff = Infinity;
+            
+            // Find the next upcoming event
+            anniversaries.forEach(event => {
+                // Create date for this year's occurrence of the event
+                const eventDate = new Date(event.year, event.month - 1, event.day);
+                
+                // If the event is in the future
+                if (eventDate > today) {
+                    const daysDiff = Math.floor((eventDate - today) / (1000 * 60 * 60 * 24));
+                    if (daysDiff < minDaysDiff) {
+                        minDaysDiff = daysDiff;
+                        
+                        // Calculate anniversary years
+                        const anniversaryYears = eventDate.getFullYear() - event.year;
+                        
+                        nextEvent = {
+                            name: event.name,
+                            icon: event.icon,
+                            date: eventDate,
+                            daysUntil: daysDiff,
+                            anniversaryYears: anniversaryYears
+                        };
+                    }
+                }
+            });
+            
+            // Update the countdown display
+            const countdownElement = document.getElementById('nextEventCountdown');
+            const nameElement = document.getElementById('nextEventName');
+            
+            if (nextEvent) {
+                // Format: "22 ngày - Kỉ niệm xx năm"
+                countdownElement.textContent = `${nextEvent.daysUntil} ngày - Kỉ niệm ${nextEvent.anniversaryYears} năm`;
+                nameElement.textContent = `${nextEvent.icon} ${nextEvent.name}`;
+            } else {
+                countdownElement.textContent = 'Không có sự kiện sắp tới';
+                nameElement.textContent = 'Tất cả sự kiện đã qua';
+            }
+        }
+        
+        // Events toggle functionality
         const eventsToggle = document.getElementById('eventsToggle');
         const eventsToggleArrow = document.querySelector('.events-toggle-arrow');
         const allEventsList = document.getElementById('allEventsList');
@@ -852,15 +946,28 @@
                 }
                 
                 // Check if this date has an event
-                const dateString = `${cellYear}-${cellMonth + 1}-${day}`;
+                const dateString = `${cellYear}-${String(cellMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 if (events[dateString]) {
                     dateCell.classList.add('has-event');
                 }
                 
                 // Check if this is an anniversary date (regardless of year)
-                const isAnniversary = anniversaries.some(date => date.day === day && date.month === (cellMonth + 1));
-                if (isAnniversary) {
+                // FIXED: Check for both day and month AND year to distinguish between events on the same day
+                const matchingAnniversaries = anniversaries.filter(date => 
+                    date.day === day && 
+                    date.month === (cellMonth + 1) && 
+                    date.year === cellYear
+                );
+                
+                if (matchingAnniversaries.length > 0) {
                     dateCell.classList.add('anniversary');
+                    
+                    // If we have a specific event for this exact date (including year)
+                    // we could customize the cell further if needed
+                    if (matchingAnniversaries.length === 1) {
+                        // For example, we could add a custom data attribute with the event icon
+                        dateCell.dataset.eventIcon = matchingAnniversaries[0].icon;
+                    }
                 }
                 
                 // Add click event
@@ -902,28 +1009,34 @@
             const allEventsList = document.getElementById('allEventsList');
             allEventsList.innerHTML = '';
             
-            // Create a simplified list with just one entry per event
-            const currentYear = new Date().getFullYear();
-            
-            // Add each anniversary event (just once)
-            anniversaries.forEach((anniversary, index) => {
-                const eventItem = document.createElement('div');
-                eventItem.className = `event-item ${anniversary.colorClass}`;
+            // Create a list with events from the events object
+            Object.entries(events).forEach(([dateStr, eventName]) => {
+                const [year, month, day] = dateStr.split('-').map(Number);
                 
-                eventItem.innerHTML = `
-                    <div class="flex items-center">
-                        <span class="event-icon">${anniversary.icon}</span>
-                        <span>${anniversary.name}</span>
-                    </div>
-                    <span class="text-xs">${anniversary.day}/${anniversary.month}</span>
-                `;
+                // Find the matching anniversary to get the icon and color
+                const matchingAnniversary = anniversaries.find(
+                    ann => ann.day === day && ann.month === month && ann.year === year
+                );
                 
-                // Add click event to navigate to this date in current year
-                eventItem.addEventListener('click', function() {
-                    selectDate(anniversary.day, anniversary.month - 1, currentYear);
-                });
-                
-                allEventsList.appendChild(eventItem);
+                if (matchingAnniversary) {
+                    const eventItem = document.createElement('div');
+                    eventItem.className = `event-item ${matchingAnniversary.colorClass}`;
+                    
+                    eventItem.innerHTML = `
+                        <div class="flex items-center">
+                            <span class="event-icon">${matchingAnniversary.icon}</span>
+                            <span>${eventName}</span>
+                        </div>
+                        <span class="text-xs">${day}/${month}/${year}</span>
+                    `;
+                    
+                    // Add click event to navigate to this date
+                    eventItem.addEventListener('click', function() {
+                        selectDate(day, month - 1, year);
+                    });
+                    
+                    allEventsList.appendChild(eventItem);
+                }
             });
             
             if (allEventsList.children.length === 0) {
@@ -936,6 +1049,9 @@
         
         // Initialize events list
         updateAllEventsList();
+        
+        // Initialize next event countdown
+        updateNextEventCountdown();
         
         // Add event listeners for navigation
         document.getElementById('prevMonth').addEventListener('click', function() {
