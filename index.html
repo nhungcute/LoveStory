@@ -9,6 +9,7 @@
     <link rel="shortcut icon" type="image/png" href="img/heart.png"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Add Bubblegum Sans font -->
+	<link rel="shortcut icon" type="image/png" href="logo.png"/>
     <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
@@ -156,7 +157,6 @@
 			padding: 8px 12px;
 			border-radius: 8px;
 			margin-bottom: 6px;
-			background-color: #FFE0E8;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
@@ -165,13 +165,43 @@
 		}
 		
 		.event-item:hover {
-			background-color: #FFD0E0;
 			transform: translateY(-2px);
+			filter: brightness(0.95);
 		}
 		
-		.event-item.anniversary {
-			background-color: #FFD0D0;
+		.event-item .event-icon {
+			margin-right: 8px;
+			font-size: 1.2rem;
+		}
+		
+		.event-item-1 {
+			background-color: #FFD0E0;
 			border-left: 3px solid #FF5252;
+		}
+		
+		.event-item-2 {
+			background-color: #D0F0FF;
+			border-left: 3px solid #5299FF;
+		}
+		
+		.event-item-3 {
+			background-color: #D8F8E0;
+			border-left: 3px solid #52CC7A;
+		}
+		
+		.event-item-4 {
+			background-color: #FFF0C0;
+			border-left: 3px solid #FFCC52;
+		}
+		
+		.event-item-5 {
+			background-color: #E8D0FF;
+			border-left: 3px solid #9952FF;
+		}
+		
+		.event-item-6 {
+			background-color: #FFD0D0;
+			border-left: 3px solid #FF7070;
 		}
 		
 		.landscape-header {
@@ -492,14 +522,16 @@
         <!-- Events toggle header -->
         <div id="eventsToggle" class="events-toggle">
             <div class="flex items-center">
-                <span class="text-pink-500 font-medium">Tất cả sự kiện</span>
+                <span class="text-pink-500 font-medium flex items-center">
+                    <span class="mr-2">📅</span> Tất cả sự kiện
+                </span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-pink-500 events-toggle-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
             </div>
             <div class="flex items-center">
-                <button id="todayBtn" class="px-3 py-1 bg-pink-400 text-white rounded-full hover:bg-pink-500 transition-colors text-xs">
-                    Hôm nay
+                <button id="todayBtn" class="px-3 py-1 bg-pink-400 text-white rounded-full hover:bg-pink-500 transition-colors text-xs flex items-center">
+                    <span class="mr-1">📍</span> Hôm nay
                 </button>
             </div>
         </div>
@@ -564,15 +596,15 @@
 			
 			// Special anniversary dates (day and month only)
 			const anniversaries = [
-				{ day: 22, month: 2, name: 'First day of love' },  // February 22
-				{ day: 22, month: 2, name: 'Gặp gỡ nhà gái' },  // March 23
-				{ day: 23, month: 3, name: 'Gặp gỡ nhà trai' },  // March 23
-				{ day: 28, month: 5, name: 'Dạm ngõ' },   // May 28
-				{ day: 11, month: 7, name: 'Ăn hỏi' },
-				{ day: 14, month: 7, name: 'Lễ thành hôn' }
+				{ day: 22, month: 2, name: 'First day of love(2022)', icon: '❤️', colorClass: 'event-item-1' },
+				{ day: 22, month: 2, name: 'Gặp gỡ nhà gái(2025)', icon: '🏠', colorClass: 'event-item-2' },
+				{ day: 23, month: 3, name: 'Gặp gỡ nhà trai(2025)', icon: '🏠', colorClass: 'event-item-3' },
+				{ day: 28, month: 5, name: 'Dạm ngõ(2025)', icon: '🌹', colorClass: 'event-item-4' },
+				{ day: 11, month: 7, name: 'Ăn hỏi(2025)', icon: '🎊', colorClass: 'event-item-5' },
+				{ day: 14, month: 7, name: 'Lễ thành hôn(2025)', icon: '💍', colorClass: 'event-item-6' }
 			];
 			
-			// Events toggle functionality
+		// Events toggle functionality
         const eventsToggle = document.getElementById('eventsToggle');
         const eventsToggleArrow = document.querySelector('.events-toggle-arrow');
         const allEventsList = document.getElementById('allEventsList');
@@ -874,13 +906,16 @@
             const currentYear = new Date().getFullYear();
             
             // Add each anniversary event (just once)
-            anniversaries.forEach((anniversary) => {
+            anniversaries.forEach((anniversary, index) => {
                 const eventItem = document.createElement('div');
-                eventItem.className = 'event-item anniversary';
+                eventItem.className = `event-item ${anniversary.colorClass}`;
                 
                 eventItem.innerHTML = `
-                    <span>${anniversary.name}</span>
-                    <span class="text-xs text-pink-500">${anniversary.day}/${anniversary.month}</span>
+                    <div class="flex items-center">
+                        <span class="event-icon">${anniversary.icon}</span>
+                        <span>${anniversary.name}</span>
+                    </div>
+                    <span class="text-xs">${anniversary.day}/${anniversary.month}</span>
                 `;
                 
                 // Add click event to navigate to this date in current year
