@@ -18,11 +18,12 @@
         
         .calendar-container {
             background-color: white;
-            border-radius: 24px;
+            border-radius: 0;
             box-shadow: 0 10px 25px rgba(252, 189, 210, 0.5);
             overflow: hidden;
-            width: 100%;
-            max-width: none;
+            width: 95vw;
+            max-width: 95vw;
+            margin: 0 auto;
         }
         
         .calendar-header {
@@ -161,16 +162,16 @@
         }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8">
-    <div class="w-full mx-auto px-4">
+<body class="min-h-screen">
+    <div class="w-full mx-auto">
         <!-- Header -->
-        <div class="text-center mb-8">
+        <div class="text-center mb-8 px-4">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Lịch Tháng</h1>
             <p class="text-gray-600">Tháng <span id="currentMonth"></span> năm <span id="currentYear"></span></p>
         </div>
 
         <!-- Calendar Container -->
-        <div class="calendar-container">
+        <div class="calendar-container mx-auto">
             <!-- Calendar Header -->
             <div class="calendar-header p-4 md:p-6">
                 <div class="flex items-center justify-between">
@@ -211,7 +212,7 @@
 
         <!-- Today's Info and Anniversary Info -->
         <div class="mt-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 w-[90%] mx-auto">
                 <div class="today-info px-6 py-4 min-h-[120px] flex flex-col justify-center text-center">
                     <p class="text-gray-600 text-sm">Hôm nay</p>
                     <p id="todayDate" class="text-lg font-bold text-gray-800"></p>
@@ -226,11 +227,11 @@
         </div>
 
         <!-- Events List -->
-        <div class="mt-8">
-            <div class="calendar-container">
+        <div class="mt-8 flex justify-center">
+            <div class="calendar-container mx-auto">
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold text-gray-800">📅 Danh sách sự kiện</h3>
+                        <h3 class="text-xl font-bold text-gray-800">📅 Sự kiện</h3>
                         <div class="flex space-x-2">
                             <button id="addEventBtn" class="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors" data-bs-toggle="modal" data-bs-target="#addEventModal">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -659,9 +660,16 @@
                 return;
             }
             
+            // Sắp xếp sự kiện theo ngày tăng dần
+            const sortedEvents = [...events].sort((a, b) => {
+                const dateA = new Date(a.year, a.month - 1, a.day);
+                const dateB = new Date(b.year, b.month - 1, b.day);
+                return dateA - dateB;
+            });
+            
             eventsContainer.innerHTML = '';
             
-            events.forEach((event, index) => {
+            sortedEvents.forEach((event, index) => {
                 const eventElement = document.createElement('div');
                 eventElement.className = 'bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-lg p-3 hover:shadow-md transition-all duration-300 cursor-pointer event-item transform hover:scale-105';
                 eventElement.dataset.index = index;
@@ -689,7 +697,7 @@
                             <div class="w-3 h-3 ${eventColor} rounded-full mt-2"></div>
                         </div>
                         <div class="flex-1">
-                            <p class="text-gray-800 font-medium">
+                            <p class="text-gray-800 font-medium text-sm">
                                 <span class="text-pink-600 font-bold">${formattedDate}:</span> 
                                 ${eventContent}
                             </p>
@@ -709,7 +717,13 @@
                     eventElement.classList.remove('border-pink-200', 'from-pink-50', 'to-purple-50');
                     eventElement.classList.add('border-red-400', 'from-red-50', 'to-red-100', 'shadow-lg', 'scale-105');
                     
-                    selectedEventIndex = index;
+                    // Tìm chỉ số gốc của sự kiện trong mảng chưa sắp xếp
+                    selectedEventIndex = events.findIndex(originalEvent => 
+                        originalEvent.day === event.day && 
+                        originalEvent.month === event.month && 
+                        originalEvent.year === event.year && 
+                        originalEvent.contdetl === event.contdetl
+                    );
                     deleteBtn.disabled = false;
                     
                     // Cập nhật thông tin kỷ niệm cho sự kiện được chọn
@@ -1060,5 +1074,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d632ace35e0ec8',t:'MTc1NzU4MzU2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d66c0406e7e6aa',t:'MTc1NzU4NTkxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
