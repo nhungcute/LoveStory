@@ -41,15 +41,15 @@
         
         .date-cell {
             border-radius: 50%;
-            width: clamp(32px, 5vw, 40px);
-            height: clamp(32px, 5vw, 40px);
+            width: clamp(28px, 4vw, 45px);
+            height: clamp(28px, 4vw, 45px);
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
             position: relative;
             margin: auto;
-            font-size: clamp(12px, 2vw, 16px);
+            font-size: clamp(11px, 1.8vw, 18px);
         }
         
         .date-cell:hover {
@@ -162,7 +162,7 @@
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8">
-    <div class="max-w-6xl mx-auto px-4">
+    <div class="w-[90%] mx-auto px-4">
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Lịch Tháng</h1>
@@ -211,7 +211,7 @@
 
         <!-- Today's Info and Anniversary Info -->
         <div class="mt-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full mx-auto">
                 <div class="today-info px-6 py-4 min-h-[120px] flex flex-col justify-center">
                     <p class="text-gray-600 text-sm">Hôm nay</p>
                     <p id="todayDate" class="text-lg font-bold text-gray-800"></p>
@@ -411,7 +411,7 @@
         // Cấu hình API GitHub
         const GITHUB_USERNAME = 'nhungcute';
         const REPO_NAME = 'LoveStory';
-        const PAT = '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';
+        const PAT = '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';
         const FILE_PATH = 'notes.json';
         const API_BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
 
@@ -796,7 +796,7 @@
 
             createDayElement(date, currentMonth) {
                 const dayDiv = document.createElement('div');
-                dayDiv.className = 'p-1 md:p-2 text-center cursor-pointer min-h-[50px] md:min-h-[60px] flex items-center justify-center relative';
+                dayDiv.className = 'p-1 md:p-2 text-center cursor-pointer min-h-[45px] md:min-h-[65px] lg:min-h-[70px] flex items-center justify-center relative';
                 
                 const dateCell = document.createElement('div');
                 dateCell.className = 'date-cell';
@@ -1060,7 +1060,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d5ecd4f70e0ec8',t:'MTc1NzU4MDcwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d5fa6481170723',t:'MTc1NzU4MTI2MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-
