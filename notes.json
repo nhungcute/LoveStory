@@ -6,7 +6,7 @@
     "name": "First day of love",
     "contdetl": "First day of love",
     "icon": "❤️",
-    "colorClass": "event-item-1"
+    "colorClass": "bg-red-500"
   },
   {
     "day": "22",
@@ -15,7 +15,7 @@
     "name": "Gặp gỡ nhà gái",
     "contdetl": "Gặp gỡ nhà gái",
     "icon": "👰",
-    "colorClass": "event-item-2"
+    "colorClass": "bg-yellow-500"
   },
   {
     "day": "23",
@@ -24,7 +24,7 @@
     "name": "Gặp nhà trai",
     "contdetl": "Gặp nhà trai",
     "icon": "🤵",
-    "colorClass": "event-item-3"
+    "colorClass": "bg-pink-500"
   },
   {
     "day": "28",
@@ -33,7 +33,7 @@
     "name": "Dạm ngõ",
     "contdetl": "Dạm ngõ",
     "icon": "🌹",
-    "colorClass": "event-item-4"
+    "colorClass": "bg-brown-500"
   },
   {
     "day": "11",
@@ -42,7 +42,7 @@
     "name": "Ăn hỏi",
     "contdetl": "Ăn hỏi",
     "icon": "🎊",
-    "colorClass": "event-item-5"
+    "colorClass": "bg-orange-500"
   },
   {
     "day": "14",
@@ -51,7 +51,7 @@
     "name": "Lễ thành hôn",
     "contdetl": "Lễ thành hôn",
     "icon": "💍",
-    "colorClass": "event-item-6"
+    "colorClass": "bg-berry-500"
   },
   {
     "day": "7",
@@ -60,7 +60,7 @@
     "name": "First Baby",
     "contdetl": "Lần đầu biết tin bé con",
     "icon": "💍",
-    "colorClass": "event-item-6"
+    "colorClass": "bg-blue-500"
   },
   {
     "day": 9,
