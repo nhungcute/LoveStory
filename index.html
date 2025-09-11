@@ -21,6 +21,8 @@
             border-radius: 24px;
             box-shadow: 0 10px 25px rgba(252, 189, 210, 0.5);
             overflow: hidden;
+            width: 100%;
+            max-width: none;
         }
         
         .calendar-header {
@@ -39,14 +41,15 @@
         
         .date-cell {
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: clamp(32px, 5vw, 40px);
+            height: clamp(32px, 5vw, 40px);
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
             position: relative;
             margin: auto;
+            font-size: clamp(12px, 2vw, 16px);
         }
         
         .date-cell:hover {
@@ -159,7 +162,7 @@
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8">
-    <div class="w-1/2 mx-auto">
+    <div class="max-w-6xl mx-auto px-4">
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Lịch Tháng</h1>
@@ -207,13 +210,13 @@
         </div>
 
         <!-- Today's Info and Anniversary Info -->
-        <div class="mt-6 text-center">
-            <div class="flex justify-center space-x-4">
-                <div class="today-info px-6 py-4 w-64 min-h-[120px] flex flex-col justify-center">
+        <div class="mt-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-4xl mx-auto">
+                <div class="today-info px-6 py-4 min-h-[120px] flex flex-col justify-center">
                     <p class="text-gray-600 text-sm">Hôm nay</p>
                     <p id="todayDate" class="text-lg font-bold text-gray-800"></p>
                 </div>
-                <div id="anniversaryInfo" class="today-info px-6 py-4 bg-gradient-to-r from-pink-50 to-red-50 border-pink-300 w-64 min-h-[120px] flex flex-col justify-center">
+                <div id="anniversaryInfo" class="today-info px-6 py-4 bg-gradient-to-r from-pink-50 to-red-50 border-pink-300 min-h-[120px] flex flex-col justify-center">
                     <p class="text-pink-600 text-sm">Kỷ niệm sắp tới</p>
                     <p id="anniversaryDate" class="text-lg font-bold text-pink-800"></p>
                     <p id="daysLeft" class="text-sm text-pink-600 mt-1"></p>
@@ -272,7 +275,7 @@
 
     <!-- Modal Thêm Sự Kiện -->
     <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header bg-gradient-to-r from-pink-500 to-purple-600 text-white">
                     <h5 class="modal-title" id="addEventModalLabel">✨ Thêm Mới Sự Kiện</h5>
@@ -296,7 +299,7 @@
                         <!-- Màu -->
                         <div class="mb-3">
                             <label class="form-label fw-bold">🎨 Màu</label>
-                            <div class="d-flex flex-wrap gap-2 mt-2">
+                            <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center justify-content-sm-start">
                                 <input type="radio" class="btn-check" name="eventColor" id="color-pink" value="bg-pink-500" checked>
                                 <label class="btn btn-outline-secondary p-2" for="color-pink">
                                     <div class="w-6 h-6 bg-pink-500 rounded" style="width: 24px; height: 24px;"></div>
@@ -332,7 +335,7 @@
                         <!-- Icon -->
                         <div class="mb-3">
                             <label class="form-label fw-bold">🎭 Icon</label>
-                            <div class="d-flex flex-wrap gap-2 mt-2">
+                            <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center justify-content-sm-start">
                                 <input type="radio" class="btn-check" name="eventIcon" id="icon-heart" value="❤️" checked>
                                 <label class="btn btn-outline-secondary" for="icon-heart">❤️</label>
 
@@ -408,7 +411,7 @@
         // Cấu hình API GitHub
         const GITHUB_USERNAME = 'nhungcute';
         const REPO_NAME = 'LoveStory';
-        const PAT = 'ghp_6XNqIvxVI' + 'QBgkXRLF3Wn9knDMK5LVX4ML7wL';
+        const PAT = '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';
         const FILE_PATH = 'notes.json';
         const API_BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
 
@@ -1057,7 +1060,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d5bcdb90aae6aa',t:'MTc1NzU3ODc0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d5ecd4f70e0ec8',t:'MTc1NzU4MDcwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-
