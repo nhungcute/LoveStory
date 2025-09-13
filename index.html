@@ -593,6 +593,37 @@
                         <!-- Photos will be loaded here -->
                     </div>
                     
+                    <!-- Pagination Controls -->
+                    <div id="paginationControls" class="hidden mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-sm text-gray-600">
+                            Hiển thị <span id="currentRange"></span> trong tổng số <span id="totalPhotos"></span> ảnh
+                        </div>
+                        
+                        <div class="flex items-center gap-2">
+                            <button id="firstPageBtn" class="px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                <i class="bi bi-chevron-double-left"></i>
+                            </button>
+                            <button id="prevPageBtn" class="px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            
+                            <div class="flex items-center gap-1" id="pageNumbers">
+                                <!-- Page numbers will be generated here -->
+                            </div>
+                            
+                            <button id="nextPageBtn" class="px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                            <button id="lastPageBtn" class="px-3 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                <i class="bi bi-chevron-double-right"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="text-sm text-gray-600">
+                            Trang <span id="currentPageDisplay"></span> / <span id="totalPagesDisplay"></span>
+                        </div>
+                    </div>
+                    
                     <!-- Empty State for Photos -->
                     <div id="photosEmptyState" class="hidden text-center py-8 text-gray-500">
                         <p>📷 Chưa có ảnh nào</p>
@@ -815,14 +846,21 @@
         // Cấu hình Google Drive API
         const FOLDER_ID = '1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav';
         const API_KEY = 'AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0';
-        const DRIVE_API_URL = `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+mimeType+contains+'image/'&key=${API_KEY}&fields=files(id,name,webViewLink,thumbnailLink,webContentLink)`;
+        const PHOTOS_PER_PAGE = 50;
 
         // Global variables
-        let photosData = [];
+        let allPhotosData = [];
+        let currentPhotosPage = [];
         let commentsData = {};
+        let currentPage = 1;
+        let totalPages = 1;
+        let isLoadingPhotos = false;
 
-        // Hàm tải ảnh từ Google Drive
-        async function loadPhotosFromDrive() {
+        // Hàm tải tất cả ảnh từ Google Drive với phân trang
+        async function loadAllPhotosFromDrive() {
+            if (isLoadingPhotos) return;
+            isLoadingPhotos = true;
+            
             const loadingSpinner = document.getElementById('photos-loading-spinner');
             const photosGrid = document.getElementById('photosGrid');
             const emptyState = document.getElementById('photosEmptyState');
@@ -835,18 +873,41 @@
                 emptyState.classList.add('hidden');
                 errorMessage.classList.add('hidden');
                 
-                const response = await fetch(DRIVE_API_URL);
+                // Tải tất cả ảnh với pageSize lớn
+                let allFiles = [];
+                let nextPageToken = '';
+                let pageCount = 0;
+                const maxPages = 20; // Giới hạn số trang để tránh vòng lặp vô hạn
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                do {
+                    const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+mimeType+contains+'image/'&key=${API_KEY}&fields=files(id,name,webViewLink,thumbnailLink,webContentLink),nextPageToken&pageSize=1000${nextPageToken ? `&pageToken=${nextPageToken}` : ''}`;
+                    
+                    const response = await fetch(url);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    allFiles = allFiles.concat(data.files || []);
+                    nextPageToken = data.nextPageToken || '';
+                    pageCount++;
+                    
+                    // Cập nhật loading với số lượng ảnh đã tải
+                    const loadingText = loadingSpinner.querySelector('span');
+                    if (loadingText) {
+                        loadingText.textContent = `Đang tải ảnh... (${allFiles.length} ảnh)`;
+                    }
+                    
+                } while (nextPageToken && pageCount < maxPages);
                 
-                const data = await response.json();
-                photosData = data.files || [];
+                allPhotosData = allFiles;
+                totalPages = Math.ceil(allPhotosData.length / PHOTOS_PER_PAGE);
+                currentPage = 1;
                 
                 loadingSpinner.classList.add('hidden');
                 
-                if (photosData.length === 0) {
+                if (allPhotosData.length === 0) {
                     emptyState.classList.remove('hidden');
                     return;
                 }
@@ -870,23 +931,40 @@
                     });
                 }
                 
-                // Hiển thị ảnh
-                displayPhotos(photosData);
+                // Hiển thị trang đầu tiên
+                displayPhotosPage(1);
+                updatePaginationControls();
                 
             } catch (error) {
                 console.error('Lỗi khi tải ảnh từ Google Drive:', error);
                 loadingSpinner.classList.add('hidden');
                 errorMessage.classList.remove('hidden');
+            } finally {
+                isLoadingPhotos = false;
             }
         }
 
+        // Hàm hiển thị ảnh theo trang
+        function displayPhotosPage(page) {
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            const startIndex = (page - 1) * PHOTOS_PER_PAGE;
+            const endIndex = Math.min(startIndex + PHOTOS_PER_PAGE, allPhotosData.length);
+            
+            currentPhotosPage = allPhotosData.slice(startIndex, endIndex);
+            displayPhotos(currentPhotosPage, startIndex);
+            updatePaginationControls();
+        }
+
         // Hàm hiển thị ảnh trong grid
-        function displayPhotos(photos) {
+        function displayPhotos(photos, startIndex = 0) {
             const photosGrid = document.getElementById('photosGrid');
             photosGrid.innerHTML = '';
             
             photos.forEach((photo, index) => {
-                const photoCard = createPhotoCard(photo, index);
+                const globalIndex = startIndex + index;
+                const photoCard = createPhotoCard(photo, globalIndex);
                 photosGrid.appendChild(photoCard);
             });
         }
@@ -971,6 +1049,110 @@
             }
         }
 
+        // Hàm cập nhật điều khiển phân trang
+        function updatePaginationControls() {
+            const paginationControls = document.getElementById('paginationControls');
+            const currentRange = document.getElementById('currentRange');
+            const totalPhotos = document.getElementById('totalPhotos');
+            const currentPageDisplay = document.getElementById('currentPageDisplay');
+            const totalPagesDisplay = document.getElementById('totalPagesDisplay');
+            const pageNumbers = document.getElementById('pageNumbers');
+            
+            if (totalPages <= 1) {
+                paginationControls.classList.add('hidden');
+                return;
+            }
+            
+            paginationControls.classList.remove('hidden');
+            
+            // Cập nhật thông tin hiển thị
+            const startIndex = (currentPage - 1) * PHOTOS_PER_PAGE + 1;
+            const endIndex = Math.min(currentPage * PHOTOS_PER_PAGE, allPhotosData.length);
+            
+            currentRange.textContent = `${startIndex}-${endIndex}`;
+            totalPhotos.textContent = allPhotosData.length;
+            currentPageDisplay.textContent = currentPage;
+            totalPagesDisplay.textContent = totalPages;
+            
+            // Cập nhật trạng thái nút
+            const firstPageBtn = document.getElementById('firstPageBtn');
+            const prevPageBtn = document.getElementById('prevPageBtn');
+            const nextPageBtn = document.getElementById('nextPageBtn');
+            const lastPageBtn = document.getElementById('lastPageBtn');
+            
+            firstPageBtn.disabled = currentPage === 1;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages;
+            lastPageBtn.disabled = currentPage === totalPages;
+            
+            // Tạo số trang
+            pageNumbers.innerHTML = '';
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Điều chỉnh startPage nếu endPage đã đạt tối đa
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // Thêm dấu ... nếu cần
+            if (startPage > 1) {
+                const firstPageNumber = createPageButton(1);
+                pageNumbers.appendChild(firstPageNumber);
+                
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.className = 'px-2 py-1 text-gray-500';
+                    pageNumbers.appendChild(ellipsis);
+                }
+            }
+            
+            // Thêm các số trang
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = createPageButton(i);
+                pageNumbers.appendChild(pageButton);
+            }
+            
+            // Thêm dấu ... cuối nếu cần
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.className = 'px-2 py-1 text-gray-500';
+                    pageNumbers.appendChild(ellipsis);
+                }
+                
+                const lastPageNumber = createPageButton(totalPages);
+                pageNumbers.appendChild(lastPageNumber);
+            }
+        }
+        
+        // Hàm tạo nút trang
+        function createPageButton(pageNum) {
+            const button = document.createElement('button');
+            button.textContent = pageNum;
+            button.className = `px-3 py-2 text-sm border rounded-lg transition-colors ${
+                pageNum === currentPage 
+                    ? 'bg-pink-500 text-white border-pink-500' 
+                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+            }`;
+            
+            button.addEventListener('click', () => {
+                if (pageNum !== currentPage) {
+                    displayPhotosPage(pageNum);
+                    // Cuộn lên đầu danh sách ảnh
+                    document.getElementById('photosGrid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
+            
+            return button;
+        }
+
         // Hàm mở modal ảnh với nhiều URL dự phòng
         function openPhotoModal(photoId, imageName, index) {
             const modal = new bootstrap.Modal(document.getElementById('photoModal'));
@@ -980,7 +1162,7 @@
             const loadingSpinner = document.getElementById('imageLoadingSpinner');
             const errorMessage = document.getElementById('imageErrorMessage');
             
-            // Lưu chỉ số ảnh hiện tại
+            // Lưu chỉ số ảnh hiện tại (chỉ số trong trang hiện tại)
             currentPhotoIndex = index;
             
             // Reset trạng thái
@@ -989,7 +1171,7 @@
             errorMessage.classList.add('d-none');
             
             // Cập nhật thông tin
-            modalTitle.textContent = `📷 Ảnh ${index + 1} / ${photosData.length}`;
+            modalTitle.textContent = `📷 Ảnh ${index + 1} / ${allPhotosData.length}`;
             modalDescription.textContent = `💕 ${imageName}`;
             
             // Cập nhật nút điều hướng
@@ -1038,22 +1220,32 @@
 
         // Hàm điều hướng ảnh trong modal
         function navigatePhoto(direction) {
-            if (!photosData || photosData.length === 0) return;
+            if (!allPhotosData || allPhotosData.length === 0) return;
             
             currentPhotoIndex += direction;
             
             // Xử lý vòng lặp
             if (currentPhotoIndex < 0) {
-                currentPhotoIndex = photosData.length - 1;
-            } else if (currentPhotoIndex >= photosData.length) {
+                currentPhotoIndex = allPhotosData.length - 1;
+            } else if (currentPhotoIndex >= allPhotosData.length) {
                 currentPhotoIndex = 0;
+            }
+            
+            // Kiểm tra xem ảnh hiện tại có trong trang hiện tại không
+            const currentPageStart = (currentPage - 1) * PHOTOS_PER_PAGE;
+            const currentPageEnd = currentPageStart + PHOTOS_PER_PAGE;
+            
+            // Nếu ảnh không trong trang hiện tại, chuyển đến trang chứa ảnh đó
+            if (currentPhotoIndex < currentPageStart || currentPhotoIndex >= currentPageEnd) {
+                const targetPage = Math.floor(currentPhotoIndex / PHOTOS_PER_PAGE) + 1;
+                displayPhotosPage(targetPage);
             }
             
             // Cập nhật nút điều hướng
             updateNavigationButtons();
             
             // Tải ảnh mới
-            const photo = photosData[currentPhotoIndex];
+            const photo = allPhotosData[currentPhotoIndex];
             const modalImage = document.getElementById('modalImage');
             const modalTitle = document.getElementById('photoModalTitle');
             const modalDescription = document.getElementById('photoModalDescription');
@@ -1066,7 +1258,7 @@
             errorMessage.classList.add('d-none');
             
             // Cập nhật thông tin
-            modalTitle.textContent = `📷 Ảnh ${currentPhotoIndex + 1} / ${photosData.length}`;
+            modalTitle.textContent = `📷 Ảnh ${currentPhotoIndex + 1} / ${allPhotosData.length}`;
             modalDescription.textContent = `💕 ${photo.name}`;
             
             // Danh sách URL để thử theo thứ tự ưu tiên
@@ -1086,7 +1278,7 @@
             const prevBtn = document.getElementById('prevPhotoBtn');
             const nextBtn = document.getElementById('nextPhotoBtn');
             
-            if (photosData.length <= 1) {
+            if (allPhotosData.length <= 1) {
                 prevBtn.style.display = 'none';
                 nextBtn.style.display = 'none';
             } else {
@@ -1856,7 +2048,48 @@
             });
             
             // Tải ảnh từ Google Drive khi trang được tải
-            loadPhotosFromDrive();
+            loadAllPhotosFromDrive();
+            
+            // Thêm sự kiện cho các nút phân trang
+            document.getElementById('firstPageBtn').addEventListener('click', () => {
+                if (currentPage !== 1) {
+                    displayPhotosPage(1);
+                    document.getElementById('photosGrid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
+            
+            document.getElementById('prevPageBtn').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    displayPhotosPage(currentPage - 1);
+                    document.getElementById('photosGrid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
+            
+            document.getElementById('nextPageBtn').addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    displayPhotosPage(currentPage + 1);
+                    document.getElementById('photosGrid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
+            
+            document.getElementById('lastPageBtn').addEventListener('click', () => {
+                if (currentPage !== totalPages) {
+                    displayPhotosPage(totalPages);
+                    document.getElementById('photosGrid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
             
             // Thêm điều khiển bàn phím cho modal ảnh
             document.addEventListener('keydown', (e) => {
@@ -1892,7 +2125,7 @@
 
             // Thêm sự kiện cho nút làm mới ảnh
             document.getElementById('refreshPhotos').addEventListener('click', () => {
-                loadPhotosFromDrive();
+                loadAllPhotosFromDrive();
             });
 
             // Thêm sự kiện click vào vùng trống để bỏ chọn
@@ -2044,5 +2277,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e70c27a2743e53',t:'MTc1Nzc2MDI0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e7178ea72984ba',t:'MTc1Nzc2MDcxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
