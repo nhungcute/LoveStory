@@ -267,6 +267,181 @@
             z-index: 1;
         }
         
+        /* Photo Modal Styles */
+        #photoModal .modal-dialog {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            max-width: none;
+        }
+        
+        #photoModal .modal-content {
+            border-radius: 0;
+        }
+        
+        #photoModal .btn-close {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        
+        #photoModal .btn-close:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        #photoModal .modal-header {
+            transition: opacity 0.3s ease;
+        }
+        
+        #photoModal .modal-footer {
+            transition: opacity 0.3s ease;
+        }
+        
+        #photoModal:hover .modal-header,
+        #photoModal:hover .modal-footer {
+            opacity: 1;
+        }
+        
+        /* Messenger Style Comment Box */
+        .messenger-comment-box {
+            margin-top: 12px;
+        }
+        
+        .comment-input-container {
+            display: flex;
+            align-items: flex-end;
+            background: #f0f2f5;
+            border-radius: 20px;
+            padding: 8px 12px;
+            gap: 4px;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .comment-input-container.focused {
+            background: #ffffff;
+            border-color: #e91e63;
+            box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.2);
+        }
+        
+        .comment-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            resize: none;
+            outline: none;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 14px;
+            line-height: 24px;
+            max-height: 100px;
+            min-height: 24px;
+            padding: 0;
+            color: #1c1e21;
+            display: flex;
+            align-items: center;
+        }
+        
+        .comment-input::placeholder {
+            color: #65676b;
+        }
+        
+        .send-button {
+            background: #e91e63;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .send-button:hover:not(:disabled) {
+            background: #c2185b;
+            transform: scale(1.05);
+        }
+        
+        .send-button:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+        
+        .send-button:disabled {
+            background: #e4e6ea;
+            color: #bcc0c4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .send-button svg {
+            transition: transform 0.2s ease;
+            width: 12px;
+            height: 12px;
+            display: block;
+        }
+        
+        .send-button:hover:not(:disabled) svg {
+            transform: translateX(1px);
+        }
+        
+        /* Animation for send button */
+        @keyframes sendPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .send-button.sending {
+            animation: sendPulse 0.3s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #photoModal .modal-header,
+            #photoModal .modal-footer {
+                padding: 15px;
+            }
+            
+            #photoModal .btn-close {
+                padding: 10px;
+            }
+            
+            #modalImage {
+                max-height: 85vh !important;
+                max-width: 90vw !important;
+            }
+            
+            .comment-input-container {
+                padding: 6px 10px;
+            }
+            
+            .send-button {
+                width: 21px;
+                height: 21px;
+            }
+            
+            .send-button svg {
+                width: 9px;
+                height: 9px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            #photoModal .modal-header h5 {
+                font-size: 1rem;
+            }
+            
+            #photoModal .modal-footer p {
+                font-size: 0.9rem;
+            }
+        }
 
     </style>
 </head>
@@ -414,7 +589,7 @@
                     </div>
                     
                     <!-- Photos Grid -->
-                    <div id="photosGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div id="photosGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         <!-- Photos will be loaded here -->
                     </div>
                     
@@ -544,14 +719,54 @@
     </div>
 
     <!-- Photo Modal -->
-    <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content bg-transparent border-0">
-                <div class="modal-header border-0 position-absolute" style="top: 10px; right: 10px; z-index: 1050;">
-                    <button type="button" class="btn-close btn-close-white bg-dark rounded-circle p-2" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+        <div class="modal-dialog modal-fullscreen-lg-down modal-xl modal-dialog-centered">
+            <div class="modal-content bg-transparent border-0 h-100">
+                <!-- Header với nút đóng -->
+                <div class="modal-header border-0 position-absolute w-100 d-flex justify-content-between align-items-center p-3" style="top: 0; left: 0; z-index: 1060; background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);">
+                    <h5 id="photoModalTitle" class="modal-title text-white fw-bold m-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"></h5>
+                    <button type="button" class="position-relative" data-bs-dismiss="modal" aria-label="Đóng" style="background: white; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: red; font-size: 18px; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+                        ✕
+                    </button>
                 </div>
-                <div class="modal-body p-0 d-flex align-items-center justify-content-center">
-                    <img id="modalImage" src="" alt="Photo" class="img-fluid rounded shadow-lg" style="max-height: 90vh; max-width: 100%;">
+                
+                <!-- Nút điều hướng căn giữa -->
+                <button type="button" id="prevPhotoBtn" class="btn btn-outline-light position-absolute" onclick="navigatePhoto(-1)" style="left: 20px; top: 50%; transform: translateY(-50%); z-index: 1060; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
+                    <i class="bi bi-chevron-left" style="font-size: 20px;"></i>
+                </button>
+                <button type="button" id="nextPhotoBtn" class="btn btn-outline-light position-absolute" onclick="navigatePhoto(1)" style="right: 20px; top: 50%; transform: translateY(-50%); z-index: 1060; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
+                    <i class="bi bi-chevron-right" style="font-size: 20px;"></i>
+                </button>
+                
+                <!-- Body chứa ảnh -->
+                <div class="modal-body p-0 d-flex align-items-center justify-content-center h-100 position-relative" style="background: rgba(0,0,0,0.9);">
+                    <!-- Loading spinner -->
+                    <div id="imageLoadingSpinner" class="position-absolute d-flex flex-column align-items-center justify-content-center text-white">
+                        <div class="spinner-border text-light mb-3" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="visually-hidden">Đang tải...</span>
+                        </div>
+                        <p class="text-center">Đang tải ảnh...</p>
+                    </div>
+                    
+                    <!-- Ảnh chính -->
+                    <img id="modalImage" src="" alt="Photo" class="img-fluid d-none" 
+                         style="max-height: 90vh; max-width: 95vw; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"
+                         onload="handleImageLoad()" 
+                         onerror="handleImageError()">
+                    
+                    <!-- Thông báo lỗi -->
+                    <div id="imageErrorMessage" class="d-none text-center text-white">
+                        <div class="mb-3">
+                            <i class="bi bi-exclamation-triangle" style="font-size: 3rem;"></i>
+                        </div>
+                        <h5>Không thể tải ảnh</h5>
+                        <p class="text-muted">Vui lòng thử lại sau</p>
+                    </div>
+                </div>
+                
+                <!-- Footer với thông tin ảnh -->
+                <div class="modal-footer border-0 position-absolute w-100 d-flex justify-content-center p-3" style="bottom: 0; left: 0; z-index: 1060; background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);">
+                    <p id="photoModalDescription" class="text-white text-center m-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"></p>
                 </div>
             </div>
         </div>
@@ -636,9 +851,24 @@
                     return;
                 }
                 
-                // Tải comments
-                const { content: comments } = await readComments();
-                commentsData = comments;
+                // Tải comments và chuyển đổi cấu trúc dữ liệu
+                const { content: commentsArray } = await readComments();
+                commentsData = {};
+                
+                // Chuyển đổi từ mảng sang object với key là tên file ảnh
+                if (Array.isArray(commentsArray)) {
+                    commentsArray.forEach(comment => {
+                        if (comment.ID_IMG) {
+                            if (!commentsData[comment.ID_IMG]) {
+                                commentsData[comment.ID_IMG] = [];
+                            }
+                            commentsData[comment.ID_IMG].push({
+                                text: comment.comment,
+                                timestamp: comment.date_input
+                            });
+                        }
+                    });
+                }
                 
                 // Hiển thị ảnh
                 displayPhotos(photosData);
@@ -666,19 +896,21 @@
             const card = document.createElement('div');
             card.className = 'bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:scale-105';
             
-            // Tạo URL ảnh từ Google Drive
-            const imageUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w400-h400`;
-            const fullImageUrl = `https://drive.google.com/uc?id=${photo.id}`;
+            // Tạo URL ảnh từ Google Drive với nhiều phương án dự phòng
+            const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w400-h400`;
+            const directUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
+            const fallbackUrl = `https://lh3.googleusercontent.com/d/${photo.id}=w400-h400`;
             
-            // Lấy comments cho ảnh này
-            const photoComments = commentsData[photo.id] || [];
+            // Lấy comments cho ảnh này dựa trên tên file
+            const photoComments = commentsData[photo.name] || [];
             
             card.innerHTML = `
                 <div class="relative">
-                    <img src="${imageUrl}" alt="${photo.name}" 
+                    <img src="${thumbnailUrl}" alt="${photo.name}" 
                          class="w-full h-64 object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                         onclick="openPhotoModal('${fullImageUrl}', '${photo.name}')"
-                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMDAgMTUwQzE4Ni4xOSAxNTAgMTc1IDE2MS4xOSAxNzUgMTc1QzE3NSAxODguODEgMTg2LjE5IDIwMCAyMDAgMjAwQzIxMy44MSAyMDAgMjI1IDE4OC44MSAyMjUgMTc1QzIyNSAxNjEuMTkgMjEzLjgxIDE1MCAyMDAgMTUwWiIgZmlsbD0iIzlDQTNBRiIvPgo8cGF0aCBkPSJNMTI1IDEyNUMxMTguMDk2IDEyNSAxMTIuNSAxMzAuNTk2IDExMi41IDEzNy41VjI2Mi41QzExMi41IDI2OS40MDQgMTE4LjA5NiAyNzUgMTI1IDI3NUgyNzVDMjgxLjkwNCAyNzUgMjg3LjUgMjY5LjQwNCAyODcuNSAyNjIuNVYxMzcuNUMyODcuNSAxMzAuNTk2IDI4MS45MDQgMTI1IDI3NSAxMjVIMTI1WiIgc3Ryb2tlPSIjOUNBM0FGIiBzdHJva2Utd2lkdGg9IjEwIiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo='; this.alt='Không thể tải ảnh';">
+                         onclick="openPhotoModal('${photo.id}', '${photo.name}', ${index})"
+                         onerror="handleThumbnailError(this, '${directUrl}', '${fallbackUrl}')"
+                         loading="lazy">
                     <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs">
                         📷 ${index + 1}
                     </div>
@@ -692,27 +924,33 @@
                             <div class="max-h-32 overflow-y-auto space-y-2" id="comments-${photo.id}">
                                 ${photoComments.map(comment => `
                                     <div class="bg-gray-50 rounded p-2 text-sm">
-                                        <p class="text-gray-700">${comment.text}</p>
+                                        <p class="text-gray-700" style="white-space: pre-wrap;">${comment.text}</p>
                                         <span class="text-xs text-gray-500">${new Date(comment.timestamp).toLocaleString('vi-VN')}</span>
                                     </div>
                                 `).join('')}
                             </div>
                         </div>
                         
-                        <!-- Add Comment Form -->
-                        <div class="flex space-x-2">
-                            <textarea placeholder="Thêm bình luận..." 
-                                     class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent resize-none overflow-hidden"
-                                     id="comment-input-${photo.id}"
-                                     rows="1"
-                                     style="min-height: 38px;"
-                                     onkeypress="handleCommentKeyPress(event, '${photo.id}')"
-                                     oninput="autoResizeTextarea(this)"></textarea>
-                            <button onclick="addComment('${photo.id}')" 
-                                    class="px-3 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors text-sm flex items-center justify-center"
-                                    style="min-height: 38px;">
-                                <i class="bi bi-send"></i>
-                            </button>
+                        <!-- Add Comment Form - Messenger Style -->
+                        <div class="messenger-comment-box w-full">
+                            <div class="comment-input-container w-full">
+                                <textarea class="comment-input w-full" 
+                                          placeholder="Viết bình luận..." 
+                                          id="comment-input-${photo.id}"
+                                          rows="1"
+                                          onkeydown="handleCommentKeyDown(event, '${photo.id}')"
+                                          oninput="autoResizeTextarea(this)"
+                                          onfocus="focusCommentInput('${photo.id}')"
+                                          onblur="blurCommentInput('${photo.id}')"></textarea>
+                                <button class="send-button" 
+                                        id="send-btn-${photo.id}"
+                                        onclick="addComment('${photo.id}')"
+                                        disabled>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M16.6915026,12.4744748 L3.50612381,13.2599618 C3.19218622,13.2599618 3.03521743,13.4170592 3.03521743,13.5741566 L1.15159189,20.0151496 C0.8376543,20.8006365 0.99,21.89 1.77946707,22.52 C2.41,22.99 3.50612381,23.1 4.13399899,22.8429026 L21.714504,14.0454487 C22.6563168,13.5741566 23.1272231,12.6315722 22.9702544,11.6889879 C22.8132856,10.7464035 22.0274026,10.0151496 21.0855898,10.0151496 L4.13399899,1.21769050 C3.50612381,0.960492931 2.41,1.07 1.77946707,1.54 C0.99,2.17 0.8376543,3.26 1.15159189,4.04548596 L3.03521743,10.4864789 C3.03521743,10.6435763 3.19218622,10.8006737 3.50612381,10.8006737 L16.6915026,11.5861607 C16.6915026,11.5861607 16.6915026,12.4744748 16.6915026,12.4744748 Z"></path>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -721,20 +959,167 @@
             return card;
         }
 
-        // Hàm mở modal ảnh
-        function openPhotoModal(imageUrl, imageName) {
+        // Hàm xử lý lỗi khi tải thumbnail
+        function handleThumbnailError(img, directUrl, fallbackUrl) {
+            if (img.src !== directUrl) {
+                img.src = directUrl;
+            } else if (img.src !== fallbackUrl) {
+                img.src = fallbackUrl;
+            } else {
+                img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMDAgMTUwQzE4Ni4xOSAxNTAgMTc1IDE2MS4xOSAxNzUgMTc1QzE3NSAxODguODEgMTg2LjE5IDIwMCAyMDAgMjAwQzIxMy44MSAyMDAgMjI1IDE4OC44MSAyMjUgMTc1QzIyNSAxNjEuMTkgMjEzLjgxIDE1MCAyMDAgMTUwWiIgZmlsbD0iIzlDQTNBRiIvPgo8cGF0aCBkPSJNMTI1IDEyNUMxMTguMDk2IDEyNSAxMTIuNSAxMzAuNTk2IDExMi41IDEzNy41VjI2Mi41QzExMi41IDI2OS40MDQgMTE4LjA5NiAyNzUgMTI1IDI3NUgyNzVDMjgxLjkwNCAyNzUgMjg3LjUgMjY5LjQwNCAyODcuNSAyNjIuNVYxMzcuNUMyODcuNSAxMzAuNTk2IDI4MS45MDQgMTI1IDI3NSAxMjVIMTI1WiIgc3Ryb2tlPSIjOUNBM0FGIiBzdHJva2Utd2lkdGg9IjEwIiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo=';
+                img.alt = 'Không thể tải ảnh';
+            }
+        }
+
+        // Hàm mở modal ảnh với nhiều URL dự phòng
+        function openPhotoModal(photoId, imageName, index) {
             const modal = new bootstrap.Modal(document.getElementById('photoModal'));
             const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('photoModalTitle');
+            const modalDescription = document.getElementById('photoModalDescription');
+            const loadingSpinner = document.getElementById('imageLoadingSpinner');
+            const errorMessage = document.getElementById('imageErrorMessage');
             
-            modalImage.src = imageUrl;
-            modalImage.alt = imageName;
+            // Lưu chỉ số ảnh hiện tại
+            currentPhotoIndex = index;
+            
+            // Reset trạng thái
+            modalImage.classList.add('d-none');
+            loadingSpinner.classList.remove('d-none');
+            errorMessage.classList.add('d-none');
+            
+            // Cập nhật thông tin
+            modalTitle.textContent = `📷 Ảnh ${index + 1} / ${photosData.length}`;
+            modalDescription.textContent = `💕 ${imageName}`;
+            
+            // Cập nhật nút điều hướng
+            updateNavigationButtons();
+            
+            // Danh sách URL để thử theo thứ tự ưu tiên
+            const imageUrls = [
+                `https://drive.google.com/uc?export=view&id=${photoId}`,
+                `https://lh3.googleusercontent.com/d/${photoId}=w1200-h1200`,
+                `https://drive.google.com/thumbnail?id=${photoId}&sz=w1200-h1200`,
+                `https://drive.google.com/file/d/${photoId}/view`
+            ];
+            
+            // Thử tải ảnh với URL đầu tiên
+            tryLoadImage(modalImage, imageUrls, 0, imageName);
             
             modal.show();
         }
 
-        // Hàm xử lý khi nhấn Enter trong ô comment
-        function handleCommentKeyPress(event, photoId) {
-            if (event.key === 'Enter' && !event.shiftKey) {
+        // Hàm thử tải ảnh với nhiều URL
+        function tryLoadImage(imgElement, urls, currentIndex, imageName) {
+            if (currentIndex >= urls.length) {
+                // Đã thử hết tất cả URL, hiển thị lỗi
+                handleImageError();
+                return;
+            }
+            
+            const img = new Image();
+            img.onload = function() {
+                imgElement.src = urls[currentIndex];
+                imgElement.alt = imageName;
+                handleImageLoad();
+            };
+            
+            img.onerror = function() {
+                // Thử URL tiếp theo
+                tryLoadImage(imgElement, urls, currentIndex + 1, imageName);
+            };
+            
+            // Bắt đầu tải ảnh
+            img.src = urls[currentIndex];
+        }
+
+        // Biến lưu trữ chỉ số ảnh hiện tại trong modal
+        let currentPhotoIndex = 0;
+
+        // Hàm điều hướng ảnh trong modal
+        function navigatePhoto(direction) {
+            if (!photosData || photosData.length === 0) return;
+            
+            currentPhotoIndex += direction;
+            
+            // Xử lý vòng lặp
+            if (currentPhotoIndex < 0) {
+                currentPhotoIndex = photosData.length - 1;
+            } else if (currentPhotoIndex >= photosData.length) {
+                currentPhotoIndex = 0;
+            }
+            
+            // Cập nhật nút điều hướng
+            updateNavigationButtons();
+            
+            // Tải ảnh mới
+            const photo = photosData[currentPhotoIndex];
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('photoModalTitle');
+            const modalDescription = document.getElementById('photoModalDescription');
+            const loadingSpinner = document.getElementById('imageLoadingSpinner');
+            const errorMessage = document.getElementById('imageErrorMessage');
+            
+            // Reset trạng thái
+            modalImage.classList.add('d-none');
+            loadingSpinner.classList.remove('d-none');
+            errorMessage.classList.add('d-none');
+            
+            // Cập nhật thông tin
+            modalTitle.textContent = `📷 Ảnh ${currentPhotoIndex + 1} / ${photosData.length}`;
+            modalDescription.textContent = `💕 ${photo.name}`;
+            
+            // Danh sách URL để thử theo thứ tự ưu tiên
+            const imageUrls = [
+                `https://drive.google.com/uc?export=view&id=${photo.id}`,
+                `https://lh3.googleusercontent.com/d/${photo.id}=w1200-h1200`,
+                `https://drive.google.com/thumbnail?id=${photo.id}&sz=w1200-h1200`,
+                `https://drive.google.com/file/d/${photo.id}/view`
+            ];
+            
+            // Thử tải ảnh với URL đầu tiên
+            tryLoadImage(modalImage, imageUrls, 0, photo.name);
+        }
+
+        // Hàm cập nhật trạng thái nút điều hướng
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevPhotoBtn');
+            const nextBtn = document.getElementById('nextPhotoBtn');
+            
+            if (photosData.length <= 1) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'flex';
+                nextBtn.style.display = 'flex';
+            }
+        }
+
+        // Hàm xử lý khi ảnh tải thành công
+        function handleImageLoad() {
+            const modalImage = document.getElementById('modalImage');
+            const loadingSpinner = document.getElementById('imageLoadingSpinner');
+            const errorMessage = document.getElementById('imageErrorMessage');
+            
+            loadingSpinner.classList.add('d-none');
+            errorMessage.classList.add('d-none');
+            modalImage.classList.remove('d-none');
+        }
+
+        // Hàm xử lý khi ảnh tải thất bại
+        function handleImageError() {
+            const modalImage = document.getElementById('modalImage');
+            const loadingSpinner = document.getElementById('imageLoadingSpinner');
+            const errorMessage = document.getElementById('imageErrorMessage');
+            
+            loadingSpinner.classList.add('d-none');
+            modalImage.classList.add('d-none');
+            errorMessage.classList.remove('d-none');
+        }
+
+        // Hàm xử lý khi nhấn phím trong ô comment
+        function handleCommentKeyDown(event, photoId) {
+            if (event.key === 'Enter' && event.ctrlKey) {
                 event.preventDefault();
                 addComment(photoId);
             }
@@ -743,41 +1128,86 @@
         // Hàm tự động mở rộng textarea
         function autoResizeTextarea(textarea) {
             textarea.style.height = 'auto';
-            textarea.style.height = Math.max(38, textarea.scrollHeight) + 'px';
+            textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+            
+            // Cập nhật trạng thái nút gửi
+            const photoId = textarea.id.replace('comment-input-', '');
+            const sendButton = document.getElementById(`send-btn-${photoId}`);
+            const hasContent = textarea.value.trim().length > 0;
+            
+            if (sendButton) {
+                sendButton.disabled = !hasContent;
+            }
+        }
+        
+        // Hàm xử lý khi focus vào input
+        function focusCommentInput(photoId) {
+            const container = document.querySelector(`#comment-input-${photoId}`).closest('.comment-input-container');
+            if (container) {
+                container.classList.add('focused');
+            }
+        }
+        
+        // Hàm xử lý khi blur khỏi input
+        function blurCommentInput(photoId) {
+            const container = document.querySelector(`#comment-input-${photoId}`).closest('.comment-input-container');
+            if (container) {
+                setTimeout(() => {
+                    container.classList.remove('focused');
+                }, 150);
+            }
         }
 
         // Hàm thêm comment
         async function addComment(photoId) {
             const input = document.getElementById(`comment-input-${photoId}`);
+            const sendButton = document.getElementById(`send-btn-${photoId}`);
             const commentText = input.value.trim();
             
             if (!commentText) {
                 return;
             }
             
+            // Thêm hiệu ứng gửi
+            sendButton.classList.add('sending');
+            sendButton.disabled = true;
+            
             try {
-                // Tạo comment mới
+                // Tìm tên file ảnh từ photoId
+                const photo = photosData.find(p => p.id === photoId);
+                const imageName = photo ? photo.name : photoId;
+                
+                // Tạo comment mới với cấu trúc mới
                 const newComment = {
-                    text: commentText,
-                    timestamp: new Date().toISOString()
+                    ID_IMG: imageName,
+                    comment: commentText,
+                    date_input: new Date().toISOString()
                 };
                 
-                // Cập nhật dữ liệu comments
-                if (!commentsData[photoId]) {
-                    commentsData[photoId] = [];
-                }
-                commentsData[photoId].push(newComment);
+                // Đọc dữ liệu comments hiện tại
+                const { content: currentComments, sha } = await readComments();
+                
+                // Thêm comment mới vào mảng
+                currentComments.push(newComment);
                 
                 // Lưu vào GitHub
-                const { sha } = await readComments();
-                await writeComments(commentsData, sha);
+                await writeComments(currentComments, sha);
+                
+                // Cập nhật dữ liệu local
+                if (!commentsData[imageName]) {
+                    commentsData[imageName] = [];
+                }
+                commentsData[imageName].push({
+                    text: commentText,
+                    timestamp: new Date().toISOString()
+                });
                 
                 // Cập nhật giao diện
                 const commentsContainer = document.getElementById(`comments-${photoId}`);
                 const commentElement = document.createElement('div');
                 commentElement.className = 'bg-gray-50 rounded p-2 text-sm';
                 commentElement.innerHTML = `
-                    <p class="text-gray-700">${commentText}</p>
+                    <p class="text-gray-700" style="white-space: pre-wrap;">${commentText}</p>
                     <span class="text-xs text-gray-500">${new Date().toLocaleString('vi-VN')}</span>
                 `;
                 commentsContainer.appendChild(commentElement);
@@ -785,15 +1215,15 @@
                 // Cuộn xuống comment mới
                 commentsContainer.scrollTop = commentsContainer.scrollHeight;
                 
-                // Xóa nội dung input
+                // Xóa nội dung input và reset chiều cao
                 input.value = '';
+                input.style.height = 'auto';
                 
                 // Cập nhật số lượng comments
-                const photo = photosData.find(p => p.id === photoId);
                 if (photo) {
                     const photoCard = input.closest('.bg-white');
                     const commentCount = photoCard.querySelector('h5');
-                    commentCount.textContent = `💬 Bình luận (${commentsData[photoId].length})`;
+                    commentCount.textContent = `💬 Bình luận (${commentsData[imageName].length})`;
                 }
                 
                 showMessage('Bình luận đã được thêm! 💕', 'success');
@@ -801,6 +1231,12 @@
             } catch (error) {
                 console.error('Lỗi khi thêm bình luận:', error);
                 showMessage('Lỗi khi thêm bình luận. Vui lòng thử lại.', 'error');
+            } finally {
+                // Xóa hiệu ứng gửi
+                setTimeout(() => {
+                    sendButton.classList.remove('sending');
+                    sendButton.disabled = true; // Vẫn disabled vì input đã trống
+                }, 300);
             }
         }
 
@@ -888,7 +1324,7 @@
                 if (!response.ok) {
                     if (response.status === 404) {
                         // File chưa tồn tại, tạo file mới
-                        return { content: {}, sha: null };
+                        return { content: [], sha: null };
                     }
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -898,16 +1334,16 @@
                 return { content, sha: data.sha };
             } catch (error) {
                 console.error('Lỗi khi đọc comments từ GitHub:', error);
-                return { content: {}, sha: null };
+                return { content: [], sha: null };
             }
         }
 
-        async function writeComments(comments, sha) {
-            const content = JSON.stringify(comments, null, 2);
+        async function writeComments(commentsArray, sha) {
+            const content = JSON.stringify(commentsArray, null, 2);
             const encodedContent = base64Encode(content);
 
             const body = JSON.stringify({
-                message: 'Cập nhật comments',
+                message: 'Cập nhật bình luận ảnh',
                 content: encodedContent,
                 ...(sha && { sha: sha })
             });
@@ -1422,6 +1858,28 @@
             // Tải ảnh từ Google Drive khi trang được tải
             loadPhotosFromDrive();
             
+            // Thêm điều khiển bàn phím cho modal ảnh
+            document.addEventListener('keydown', (e) => {
+                const photoModal = document.getElementById('photoModal');
+                if (photoModal.classList.contains('show')) {
+                    switch(e.key) {
+                        case 'ArrowLeft':
+                            e.preventDefault();
+                            navigatePhoto(-1);
+                            break;
+                        case 'ArrowRight':
+                            e.preventDefault();
+                            navigatePhoto(1);
+                            break;
+                        case 'Escape':
+                            e.preventDefault();
+                            const modal = bootstrap.Modal.getInstance(photoModal);
+                            if (modal) modal.hide();
+                            break;
+                    }
+                }
+            });
+            
             // Thêm sự kiện cho nút làm mới sự kiện
             document.getElementById('refreshEvents').addEventListener('click', () => {
                 readNotes().then(({ content }) => {
@@ -1586,5 +2044,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97de9644527e6e46',t:'MTc1NzY3MTUzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e70c27a2743e53',t:'MTc1Nzc2MDI0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
