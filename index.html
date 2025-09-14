@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch Đáng Yêu 💕</title>
+    <title>Love Story 💕</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -852,6 +852,7 @@
         let allPhotosData = [];
         let currentPhotosPage = [];
         let commentsData = {};
+        let reactionsData = {};
         let currentPage = 1;
         let totalPages = 1;
         let isLoadingPhotos = false;
@@ -925,21 +926,41 @@
                     return;
                 }
                 
-                // Tải comments và chuyển đổi cấu trúc dữ liệu
+                // Tải comments và reactions, chuyển đổi cấu trúc dữ liệu
                 const { content: commentsArray } = await readComments();
                 commentsData = {};
+                reactionsData = {};
                 
                 // Chuyển đổi từ mảng sang object với key là tên file ảnh
                 if (Array.isArray(commentsArray)) {
                     commentsArray.forEach(comment => {
                         if (comment.ID_IMG) {
-                            if (!commentsData[comment.ID_IMG]) {
-                                commentsData[comment.ID_IMG] = [];
+                            // Xử lý comments
+                            if (comment.comment) {
+                                if (!commentsData[comment.ID_IMG]) {
+                                    commentsData[comment.ID_IMG] = [];
+                                }
+                                commentsData[comment.ID_IMG].push({
+                                    text: comment.comment,
+                                    timestamp: comment.date_input
+                                });
                             }
-                            commentsData[comment.ID_IMG].push({
-                                text: comment.comment,
-                                timestamp: comment.date_input
-                            });
+                            
+                            // Xử lý reactions
+                            if (!reactionsData[comment.ID_IMG]) {
+                                reactionsData[comment.ID_IMG] = {
+                                    count_tim: comment.count_tim || 0,
+                                    count_like: comment.count_like || 0
+                                };
+                            } else {
+                                // Cập nhật nếu có giá trị mới hơn
+                                if (comment.count_tim !== undefined) {
+                                    reactionsData[comment.ID_IMG].count_tim = comment.count_tim;
+                                }
+                                if (comment.count_like !== undefined) {
+                                    reactionsData[comment.ID_IMG].count_like = comment.count_like;
+                                }
+                            }
                         }
                     });
                 }
@@ -1008,6 +1029,9 @@
             // Lấy comments cho ảnh này dựa trên tên file
             const photoComments = commentsData[photo.name] || [];
             
+            // Lấy reactions cho ảnh này
+            const photoReactions = reactionsData[photo.name] || { count_tim: 0, count_like: 0 };
+            
             card.innerHTML = `
                 <div class="relative">
                     <img src="${thumbnailUrl}" alt="${photo.name}" 
@@ -1024,7 +1048,23 @@
                     <!-- Comments Section -->
                     <div class="border-t pt-3">
                         <div class="mb-3">
-                            <h5 class="text-sm font-medium text-gray-600 mb-2">💬 Bình luận (${photoComments.length})</h5>
+                            <div class="flex items-center justify-between mb-2">
+                                <h5 class="text-sm font-medium text-gray-600">💬 Bình luận (${photoComments.length})</h5>
+                                <div class="flex items-center space-x-3">
+                                    <button class="flex items-center space-x-1 text-red-500 hover:text-red-600 transition-colors" 
+                                            onclick="toggleReaction('${photo.id}', 'tim')" 
+                                            id="heart-btn-${photo.id}">
+                                        <i class="bi bi-suit-heart-fill text-red-500"></i>
+                                        <span class="text-xs font-medium" id="heart-count-${photo.id}">${photoReactions.count_tim}</span>
+                                    </button>
+                                    <button class="flex items-center space-x-1 text-blue-500 hover:text-blue-600 transition-colors" 
+                                            onclick="toggleReaction('${photo.id}', 'like')" 
+                                            id="like-btn-${photo.id}">
+                                        <i class="bi bi-hand-thumbs-up-fill text-blue-500"></i>
+                                        <span class="text-xs font-medium" id="like-count-${photo.id}">${photoReactions.count_like}</span>
+                                    </button>
+                                </div>
+                            </div>
                             <div class="max-h-32 overflow-y-auto space-y-2" id="comments-${photo.id}">
                                 ${photoComments.map(comment => `
                                     <div class="bg-gray-50 rounded p-2 text-sm">
@@ -1376,6 +1416,78 @@
             }
         }
 
+        // Hàm toggle reaction (tim hoặc like)
+        async function toggleReaction(photoId, reactionType) {
+            try {
+                // Tìm tên file ảnh từ photoId trong allPhotosData
+                const photo = allPhotosData.find(p => p.id === photoId);
+                const imageName = photo ? photo.name : photoId;
+                
+                // Đọc dữ liệu comments hiện tại
+                const { content: currentComments, sha } = await readComments();
+                
+                // Tìm hoặc tạo entry cho ảnh này
+                let imageEntry = currentComments.find(comment => comment.ID_IMG === imageName);
+                
+                if (!imageEntry) {
+                    // Tạo entry mới nếu chưa có
+                    imageEntry = {
+                        ID_IMG: imageName,
+                        count_tim: 0,
+                        count_like: 0,
+                        comment: '',
+                        date_input: new Date().toISOString()
+                    };
+                    currentComments.push(imageEntry);
+                }
+                
+                // Tăng số lượng reaction
+                if (reactionType === 'tim') {
+                    imageEntry.count_tim = (imageEntry.count_tim || 0) + 1;
+                } else if (reactionType === 'like') {
+                    imageEntry.count_like = (imageEntry.count_like || 0) + 1;
+                }
+                
+                // Cập nhật timestamp
+                imageEntry.date_input = new Date().toISOString();
+                
+                // Lưu vào GitHub
+                await writeComments(currentComments, sha);
+                
+                // Cập nhật dữ liệu local
+                if (!reactionsData[imageName]) {
+                    reactionsData[imageName] = { count_tim: 0, count_like: 0 };
+                }
+                
+                if (reactionType === 'tim') {
+                    reactionsData[imageName].count_tim = imageEntry.count_tim;
+                } else if (reactionType === 'like') {
+                    reactionsData[imageName].count_like = imageEntry.count_like;
+                }
+                
+                // Cập nhật giao diện
+                const countElement = document.getElementById(`${reactionType === 'tim' ? 'heart' : 'like'}-count-${photoId}`);
+                if (countElement) {
+                    countElement.textContent = imageEntry[`count_${reactionType}`];
+                }
+                
+                // Thêm hiệu ứng animation
+                const buttonElement = document.getElementById(`${reactionType === 'tim' ? 'heart' : 'like'}-btn-${photoId}`);
+                if (buttonElement) {
+                    buttonElement.classList.add('animate-pulse');
+                    setTimeout(() => {
+                        buttonElement.classList.remove('animate-pulse');
+                    }, 500);
+                }
+                
+                showMessage(`${reactionType === 'tim' ? '💖' : '👍'} +1!`, 'success');
+                
+            } catch (error) {
+                console.error('Lỗi khi cập nhật reaction:', error);
+                showMessage('Lỗi khi cập nhật reaction. Vui lòng thử lại.', 'error');
+            }
+        }
+
         // Hàm thêm comment
         async function addComment(photoId) {
             const input = document.getElementById(`comment-input-${photoId}`);
@@ -1395,18 +1507,33 @@
                 const photo = allPhotosData.find(p => p.id === photoId);
                 const imageName = photo ? photo.name : photoId;
                 
-                // Tạo comment mới với cấu trúc mới
-                const newComment = {
-                    ID_IMG: imageName,
-                    comment: commentText,
-                    date_input: new Date().toISOString()
-                };
-                
                 // Đọc dữ liệu comments hiện tại
                 const { content: currentComments, sha } = await readComments();
                 
-                // Thêm comment mới vào mảng
-                currentComments.push(newComment);
+                // Tìm entry hiện có cho ảnh này hoặc tạo mới
+                let imageEntry = currentComments.find(comment => comment.ID_IMG === imageName);
+                
+                if (imageEntry) {
+                    // Nếu đã có entry, tạo một entry mới cho comment
+                    const newComment = {
+                        ID_IMG: imageName,
+                        comment: commentText,
+                        date_input: new Date().toISOString(),
+                        count_tim: imageEntry.count_tim || 0,
+                        count_like: imageEntry.count_like || 0
+                    };
+                    currentComments.push(newComment);
+                } else {
+                    // Tạo entry mới hoàn toàn
+                    const newComment = {
+                        ID_IMG: imageName,
+                        comment: commentText,
+                        date_input: new Date().toISOString(),
+                        count_tim: 0,
+                        count_like: 0
+                    };
+                    currentComments.push(newComment);
+                }
                 
                 // Lưu vào GitHub
                 await writeComments(currentComments, sha);
@@ -2317,5 +2444,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ec3f25446f6ad4',t:'MTc1NzgxNDc2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97eeb2c6a53320e8',t:'MTc1Nzg0MDQ3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
