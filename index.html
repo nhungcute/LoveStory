@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch Đáng Yêu 💕 - Phiên bản 44</title>
+    <title>Love Story 💕</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -1063,10 +1063,10 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="max-h-32 overflow-y-auto space-y-2" id="comments-${photo.id}">
+                            <div class="max-h-32 overflow-y-auto overflow-x-hidden space-y-2" id="comments-${photo.id}">
                                 ${photoComments.map(comment => `
                                     <div class="bg-gray-50 rounded p-2 text-sm">
-                                        <p class="text-gray-700" style="white-space: pre-wrap;">${comment.text}</p>
+                                        <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${comment.text}</p>
                                         <span class="text-xs text-gray-500">${new Date(comment.timestamp).toLocaleString('vi-VN')}</span>
                                     </div>
                                 `).join('')}
@@ -1550,7 +1550,7 @@
                 const commentElement = document.createElement('div');
                 commentElement.className = 'bg-gray-50 rounded p-2 text-sm';
                 commentElement.innerHTML = `
-                    <p class="text-gray-700" style="white-space: pre-wrap;">${commentText}</p>
+                    <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${commentText}</p>
                     <span class="text-xs text-gray-500">${new Date().toLocaleString('vi-VN')}</span>
                 `;
                 commentsContainer.appendChild(commentElement);
@@ -2442,5 +2442,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f48017c72d04c5',t:'MTc1NzkwMTMxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f4ec4e2751dd9d',t:'MTc1NzkwNTc0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
