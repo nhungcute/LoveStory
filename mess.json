@@ -2,6 +2,11 @@
   {
     "ID_IMG": "thumbnail22.jpg",
     "count_tim": 1,
-    "comments": []
+    "comments": [
+      {
+        "comment": "Xinh quá",
+        "date_input": "2025-09-17T04:03:50.656Z"
+      }
+    ]
   }
 ]
