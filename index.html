@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story 💕</title>
+    <title>Lịch Đáng Yêu 💕 - Phiên bản 44</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -931,30 +931,25 @@
                 
                 // Chuyển đổi từ mảng sang object với key là tên file ảnh
                 if (Array.isArray(commentsArray)) {
-                    commentsArray.forEach(comment => {
-                        if (comment.ID_IMG) {
-                            // Xử lý comments
-                            if (comment.comment) {
-                                if (!commentsData[comment.ID_IMG]) {
-                                    commentsData[comment.ID_IMG] = [];
+                    commentsArray.forEach(entry => {
+                        if (entry.ID_IMG) {
+                            // Xử lý comments từ mảng comments trong entry
+                            if (entry.comments && Array.isArray(entry.comments)) {
+                                if (!commentsData[entry.ID_IMG]) {
+                                    commentsData[entry.ID_IMG] = [];
                                 }
-                                commentsData[comment.ID_IMG].push({
-                                    text: comment.comment,
-                                    timestamp: comment.date_input
+                                entry.comments.forEach(comment => {
+                                    commentsData[entry.ID_IMG].push({
+                                        text: comment.comment,
+                                        timestamp: comment.date_input
+                                    });
                                 });
                             }
                             
                             // Xử lý reactions (chỉ tim)
-                            if (!reactionsData[comment.ID_IMG]) {
-                                reactionsData[comment.ID_IMG] = {
-                                    count_tim: comment.count_tim || 0
-                                };
-                            } else {
-                                // Cập nhật nếu có giá trị mới hơn
-                                if (comment.count_tim !== undefined) {
-                                    reactionsData[comment.ID_IMG].count_tim = comment.count_tim;
-                                }
-                            }
+                            reactionsData[entry.ID_IMG] = {
+                                count_tim: entry.count_tim || 0
+                            };
                         }
                     });
                 }
@@ -1047,16 +1042,15 @@
                                     <button class="flex items-center px-2 py-1 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" 
                                             onclick="toggleReaction('${photo.id}', 'tim')" 
                                             id="heart-btn-${photo.id}">
-                                        <i class="bi bi-heart text-gray-600"></i>
+                                        <i class="bi ${photoReactions.count_tim > 0 ? 'bi-heart-fill text-red-500' : 'bi-heart text-gray-600'}" id="heart-icon-${photo.id}"></i>
                                         <span class="text-gray-600 text-sm font-medium ml-1">Thích</span>
-                                        <div class="w-px bg-gray-300 mx-2" style="height: 75%;"></div>
-                                        <div class="react-icon">
-                                            ❤️
-                                        </div>
-                                        <span class="text-sm font-medium text-gray-600 ml-1" id="heart-count-${photo.id}">${photoReactions.count_tim}</span>
                                     </button>
                                 </div>
                                 <div class="flex items-center space-x-3">
+                                    <div class="flex items-center space-x-1">
+                                        <i class="bi bi-chat-square-heart text-gray-600 text-sm"></i>
+                                        <span class="text-sm font-medium text-gray-600" id="heart-count-${photo.id}">${photoReactions.count_tim}</span>
+                                    </div>
                                     <div class="flex items-center space-x-1">
                                         <i class="bi bi-chat-square-dots text-gray-600 text-sm"></i>
                                         <span class="text-sm font-medium text-gray-600">${photoComments.length}</span>
@@ -1425,15 +1419,14 @@
                 const { content: currentComments, sha } = await readComments();
                 
                 // Tìm hoặc tạo entry cho ảnh này
-                let imageEntry = currentComments.find(comment => comment.ID_IMG === imageName);
+                let imageEntry = currentComments.find(entry => entry.ID_IMG === imageName);
                 
                 if (!imageEntry) {
                     // Tạo entry mới nếu chưa có
                     imageEntry = {
                         ID_IMG: imageName,
                         count_tim: 0,
-                        comment: '',
-                        date_input: new Date().toISOString()
+                        comments: []
                     };
                     currentComments.push(imageEntry);
                 }
@@ -1442,9 +1435,6 @@
                 if (reactionType === 'tim') {
                     imageEntry.count_tim = (imageEntry.count_tim || 0) + 1;
                 }
-                
-                // Cập nhật timestamp
-                imageEntry.date_input = new Date().toISOString();
                 
                 // Lưu vào GitHub
                 await writeComments(currentComments, sha);
@@ -1464,28 +1454,22 @@
                     countElement.textContent = imageEntry.count_tim;
                 }
                 
-                // Thêm hiệu ứng animation và chuyển màu tim
+                // Cập nhật icon tim dựa trên số lượng
+                const heartIcon = document.getElementById(`heart-icon-${photoId}`);
+                if (heartIcon) {
+                    if (imageEntry.count_tim > 0) {
+                        heartIcon.className = 'bi bi-heart-fill text-red-500';
+                    } else {
+                        heartIcon.className = 'bi bi-heart text-gray-600';
+                    }
+                }
+                
+                // Thêm hiệu ứng animation
                 const buttonElement = document.getElementById(`heart-btn-${photoId}`);
                 if (buttonElement) {
-                    const heartIcon = buttonElement.querySelector('i.bi-heart');
-                    if (heartIcon) {
-                        // Chuyển tim thành màu đỏ
-                        heartIcon.style.color = '#ef4444';
-                        heartIcon.classList.remove('bi-heart');
-                        heartIcon.classList.add('bi-heart-fill');
-                    }
-                    
                     buttonElement.classList.add('animate-pulse');
                     setTimeout(() => {
                         buttonElement.classList.remove('animate-pulse');
-                        // Sau 2 giây chuyển lại màu gốc
-                        setTimeout(() => {
-                            if (heartIcon) {
-                                heartIcon.style.color = '#6b7280';
-                                heartIcon.classList.remove('bi-heart-fill');
-                                heartIcon.classList.add('bi-heart');
-                            }
-                        }, 2000);
                     }, 500);
                 }
                 
@@ -1519,14 +1503,29 @@
                 // Đọc dữ liệu comments hiện tại
                 const { content: currentComments, sha } = await readComments();
                 
-                // Tạo entry mới cho comment
+                // Tìm hoặc tạo entry cho ảnh này
+                let imageEntry = currentComments.find(entry => entry.ID_IMG === imageName);
+                
+                if (!imageEntry) {
+                    // Tạo entry mới nếu chưa có
+                    imageEntry = {
+                        ID_IMG: imageName,
+                        count_tim: 0,
+                        comments: []
+                    };
+                    currentComments.push(imageEntry);
+                }
+                
+                // Thêm comment mới vào mảng comments
                 const newComment = {
-                    ID_IMG: imageName,
                     comment: commentText,
-                    date_input: new Date().toISOString(),
-                    count_tim: 0
+                    date_input: new Date().toISOString()
                 };
-                currentComments.push(newComment);
+                
+                if (!imageEntry.comments) {
+                    imageEntry.comments = [];
+                }
+                imageEntry.comments.push(newComment);
                 
                 // Lưu vào GitHub
                 await writeComments(currentComments, sha);
@@ -2436,5 +2435,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'980562396090f3c3',t:'MTc1ODA3ODM0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9805b19aa0da1087',t:'MTc1ODA4MTU5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
