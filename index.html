@@ -441,6 +441,10 @@
             }
         }
 
+        .p-4 {
+            padding: 0.5rem !important; 
+        }
+
     </style>
 </head>
 <body class="min-h-screen">
@@ -1033,7 +1037,7 @@
                     </div>
                 </div>
                 
-                <div class="pt-1.5">
+                <div class="p-4">
                     <!-- Count Section -->
                     <div class="dem-tong-count flex items-center justify-end space-x-4 mb-1.5 text-sm text-gray-600">
                         <div class="flex items-center space-x-1">
@@ -1051,7 +1055,7 @@
                         <button class="flex items-center justify-center px-2 py-1 rounded hover:bg-gray-50 transition-colors flex-1 text-xs" 
                                 onclick="toggleReaction('${photo.id}', 'tim')" 
                                 id="heart-btn-${photo.id}">
-                            <i class="bi ${photoReactions.count_tim > 0 ? 'bi-heart-fill text-red-500' : 'bi-heart text-gray-600'} mr-1 text-sm" id="heart-icon-${photo.id}"></i>
+                            <i class="bi bi-heart text-gray-600 mr-1 text-sm" id="heart-icon-${photo.id}"></i>
                             <span class="text-gray-700 font-medium">Thích</span>
                         </button>
                         
@@ -1076,7 +1080,7 @@
                             ${photoComments.map((comment, commentIndex) => `
                                 <div class="bg-gray-50 rounded p-2 text-sm cursor-pointer comment-item" onclick="toggleCommentTimestamp('${photo.id}', ${commentIndex})">
                                     <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${comment.text}</p>
-                                    <div class="text-right">
+                                    <div class="text-left">
                                         <span class="comment-timestamp hidden text-xs text-gray-500 italic" style="font-size: 6px;" id="timestamp-${photo.id}-${commentIndex}">${new Date(comment.timestamp).toLocaleString('vi-VN')}</span>
                                     </div>
                                 </div>
@@ -1561,14 +1565,16 @@
                     countElement.textContent = imageEntry.count_tim;
                 }
                 
-                // Cập nhật icon tim dựa trên số lượng
+                // Cập nhật icon tim - chỉ hiện đỏ khi vừa ấn
                 const heartIcon = document.getElementById(`heart-icon-${photoId}`);
                 if (heartIcon) {
-                    if (imageEntry.count_tim > 0) {
-                        heartIcon.className = 'bi bi-heart-fill text-red-500';
-                    } else {
-                        heartIcon.className = 'bi bi-heart text-gray-600';
-                    }
+                    // Hiện tim đỏ tạm thời khi ấn
+                    heartIcon.className = 'bi bi-heart-fill text-red-500 mr-1 text-sm';
+                    
+                    // Sau 1 giây trở về tim trắng
+                    setTimeout(() => {
+                        heartIcon.className = 'bi bi-heart text-gray-600 mr-1 text-sm';
+                    }, 1000);
                 }
                 
                 // Thêm hiệu ứng animation
@@ -1654,7 +1660,7 @@
                 commentElement.onclick = () => toggleCommentTimestamp(photoId, commentIndex);
                 commentElement.innerHTML = `
                     <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${commentText}</p>
-                    <div class="text-right">
+                    <div class="text-left">
                         <span class="comment-timestamp hidden text-xs text-gray-500 italic" style="font-size: 6px;" id="timestamp-${photoId}-${commentIndex}">${new Date().toLocaleString('vi-VN')}</span>
                     </div>
                 `;
@@ -2554,5 +2560,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'981033cae6c104c7',t:'MTc1ODE5MTc4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'981681bc2316b1bf',t:'MTc1ODI1Nzg5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
