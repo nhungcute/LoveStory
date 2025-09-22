@@ -577,11 +577,23 @@
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-bold text-gray-800">📸 Khoảnh Khắc Đáng Yêu</h3>
-                        <button id="refreshPhotos" class="p-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
-                            </svg>
-                        </button>
+                        <div class="flex space-x-2">
+                            <button id="uploadMetadataBtn" class="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors" title="Cập nhật danh sách ảnh">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                            <button id="autoUpdateToggle" class="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors" title="Bật/Tắt cập nhật tự động 9h sáng">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                            <button id="refreshPhotos" class="p-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors" title="Tải lại ảnh">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                     
                     <!-- Loading Spinner for Photos -->
@@ -842,8 +854,12 @@
         const PAT = 'ghp_a8VLpoCYQByLbUI' + 'wed3dy4hHjEpKwr3stE6T';
         const FILE_PATH = 'notes.json';
         const COMMENTS_FILE_PATH = 'mess.json';
+        const PHOTOS_METADATA_FILE_PATH = 'list_file_img_ggdriver.json';
+        const LOGS_FILE_PATH = 'logs.json';
         const API_BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
         const COMMENTS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${COMMENTS_FILE_PATH}`;
+        const PHOTOS_METADATA_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PHOTOS_METADATA_FILE_PATH}`;
+        const LOGS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${LOGS_FILE_PATH}`;
 
         // Cấu hình Google Drive API
         const FOLDER_ID = '1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav';
@@ -858,8 +874,489 @@
         let currentPage = 1;
         let totalPages = 1;
         let isLoadingPhotos = false;
+        let autoUpdateInterval = null;
 
-        // Hàm tải tất cả ảnh từ Google Drive với phân trang
+        // Hệ thống logging
+        async function readLogs() {
+            try {
+                const response = await fetch(LOGS_API_URL, {
+                    headers: {
+                        'Authorization': `token ${PAT}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        // File chưa tồn tại, tạo file mới
+                        return { content: [], sha: null };
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const content = JSON.parse(base64Decode(data.content));
+                return { content, sha: data.sha };
+            } catch (error) {
+                console.error('Lỗi khi đọc logs từ GitHub:', error);
+                return { content: [], sha: null };
+            }
+        }
+
+        async function writeLogs(logsArray, sha) {
+            const content = JSON.stringify(logsArray, null, 2);
+            const encodedContent = base64Encode(content);
+
+            const body = JSON.stringify({
+                message: 'Cập nhật logs hoạt động',
+                content: encodedContent,
+                ...(sha && { sha: sha })
+            });
+
+            try {
+                const response = await fetch(LOGS_API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${PAT}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: body
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Đã ghi log thành công lên GitHub:', data);
+                return data;
+            } catch (error) {
+                console.error('Lỗi khi ghi log lên GitHub:', error);
+                throw error;
+            }
+        }
+
+        async function addLog(action, details = '') {
+            try {
+                const now = new Date();
+                const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
+                
+                const logEntry = {
+                    date: vietnamTime.toLocaleDateString('vi-VN'),
+                    time: vietnamTime.toLocaleTimeString('vi-VN'),
+                    action: action,
+                    details: details,
+                    timestamp: vietnamTime.toISOString()
+                };
+
+                // Đọc logs hiện tại
+                const { content: currentLogs, sha } = await readLogs();
+                
+                // Thêm log mới vào đầu mảng (log mới nhất ở trên)
+                currentLogs.unshift(logEntry);
+                
+                // Giới hạn số lượng logs (giữ 1000 logs gần nhất)
+                if (currentLogs.length > 1000) {
+                    currentLogs.splice(1000);
+                }
+                
+                // Ghi lại logs
+                await writeLogs(currentLogs, sha);
+                
+                console.log('Đã thêm log:', logEntry);
+            } catch (error) {
+                console.error('Lỗi khi thêm log:', error);
+                // Không throw error để không ảnh hưởng đến chức năng chính
+            }
+        }
+
+        // Hàm kiểm tra và tự động cập nhật metadata
+        function setupAutoUpdate() {
+            // Kiểm tra xem đã đến giờ cập nhật chưa
+            function checkAndUpdate() {
+                const now = new Date();
+                const hour = now.getHours();
+                const minute = now.getMinutes();
+                
+                // Kiểm tra nếu là 9h sáng (từ 9:00 đến 9:05)
+                if (hour === 9 && minute >= 0 && minute <= 5) {
+                    const lastUpdateKey = 'lastMetadataUpdate';
+                    const today = now.toDateString();
+                    const lastUpdate = localStorage.getItem(lastUpdateKey);
+                    
+                    // Chỉ cập nhật nếu chưa cập nhật hôm nay
+                    if (lastUpdate !== today) {
+                        console.log('🕘 Bắt đầu cập nhật metadata tự động lúc 9h sáng...');
+                        uploadPhotosMetadata(true).then((photoCount) => {
+                            localStorage.setItem(lastUpdateKey, today);
+                            showMessage('🌅 Đã tự động cập nhật metadata ảnh lúc 9h sáng!', 'success');
+                            // Log đã được thêm trong hàm uploadPhotosMetadata
+                            
+                            // Thêm log hoàn thành
+                            addLog('Chức năng cập nhật tự động 9h sáng chạy hoàn thành', `Thành công: ${photoCount} ảnh`);
+                        }).catch(error => {
+                            console.error('Lỗi cập nhật tự động:', error);
+                            showMessage('⚠️ Cập nhật tự động thất bại. Vui lòng cập nhật thủ công.', 'error');
+                            // Thêm log lỗi
+                            addLog('Cập nhật danh sách ảnh vào file metadata tự động', 'Thất bại: ' + error.message);
+                            addLog('Chức năng cập nhật tự động 9h sáng chạy hoàn thành', 'Thất bại: ' + error.message);
+                        });
+                    }
+                }
+            }
+            
+            // Kiểm tra mỗi phút
+            autoUpdateInterval = setInterval(checkAndUpdate, 60000);
+            
+            // Kiểm tra ngay khi khởi động
+            checkAndUpdate();
+            
+            console.log('⏰ Đã thiết lập cập nhật tự động metadata lúc 9h sáng hằng ngày');
+        }
+
+        // Hàm dừng tự động cập nhật
+        function stopAutoUpdate() {
+            if (autoUpdateInterval) {
+                clearInterval(autoUpdateInterval);
+                autoUpdateInterval = null;
+                console.log('⏹️ Đã dừng cập nhật tự động');
+            }
+        }
+
+        // Hàm upload metadata ảnh lên GitHub
+        async function uploadPhotosMetadata(isAutoUpdate = false) {
+            const uploadBtn = document.getElementById('uploadMetadataBtn');
+            const loadingSpinner = document.getElementById('photos-loading-spinner');
+            const photosGrid = document.getElementById('photosGrid');
+            const emptyState = document.getElementById('photosEmptyState');
+            const errorMessage = document.getElementById('photosErrorMessage');
+            
+            if (isLoadingPhotos) return;
+            isLoadingPhotos = true;
+            
+            try {
+                // Hiển thị loading
+                loadingSpinner.classList.remove('hidden');
+                photosGrid.innerHTML = '';
+                emptyState.classList.add('hidden');
+                errorMessage.classList.add('hidden');
+                uploadBtn.disabled = true;
+                
+                // Cập nhật text loading
+                const loadingText = loadingSpinner.querySelector('span');
+                if (loadingText) {
+                    const updateType = isAutoUpdate ? 'tự động' : 'thủ công';
+                    loadingText.textContent = `Đang tải metadata từ Google Drive (${updateType})...`;
+                }
+                
+                // Tải tất cả ảnh từ Google Drive
+                let allFiles = [];
+                let nextPageToken = '';
+                let pageCount = 0;
+                
+                do {
+                    const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+mimeType+contains+'image/'&key=${API_KEY}&fields=files(id,name,webViewLink,thumbnailLink,webContentLink,createdTime,modifiedTime,size),nextPageToken&pageSize=1000${nextPageToken ? `&pageToken=${nextPageToken}` : ''}`;
+                    
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 giây timeout
+                    
+                    const response = await fetch(url, {
+                        signal: controller.signal
+                    });
+                    
+                    clearTimeout(timeoutId);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    allFiles = allFiles.concat(data.files || []);
+                    nextPageToken = data.nextPageToken || '';
+                    pageCount++;
+                    
+                    // Cập nhật loading với số lượng ảnh đã tải
+                    if (loadingText) {
+                        loadingText.textContent = `Đang tải metadata... (${allFiles.length} ảnh, trang ${pageCount})`;
+                    }
+                    
+                    // Thêm delay nhỏ giữa các request để tránh rate limit
+                    if (nextPageToken) {
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    
+                } while (nextPageToken);
+                
+                // Cập nhật text loading
+                if (loadingText) {
+                    loadingText.textContent = `Đang lưu metadata lên GitHub... (${allFiles.length} ảnh)`;
+                }
+                
+                // Lưu metadata lên GitHub
+                await writePhotosMetadata(allFiles);
+                
+                // Cập nhật dữ liệu local
+                allPhotosData = allFiles;
+                totalPages = Math.ceil(allPhotosData.length / PHOTOS_PER_PAGE);
+                currentPage = 1;
+                
+                // Tải comments và reactions
+                const { content: commentsArray } = await readComments();
+                commentsData = {};
+                reactionsData = {};
+                
+                if (Array.isArray(commentsArray)) {
+                    commentsArray.forEach(entry => {
+                        if (entry.ID_IMG) {
+                            if (entry.comments && Array.isArray(entry.comments)) {
+                                if (!commentsData[entry.ID_IMG]) {
+                                    commentsData[entry.ID_IMG] = [];
+                                }
+                                entry.comments.forEach(comment => {
+                                    commentsData[entry.ID_IMG].push({
+                                        text: comment.comment,
+                                        timestamp: comment.date_input
+                                    });
+                                });
+                            }
+                            
+                            reactionsData[entry.ID_IMG] = {
+                                count_tim: entry.count_tim || 0
+                            };
+                        }
+                    });
+                }
+                
+                loadingSpinner.classList.add('hidden');
+                
+                if (allPhotosData.length === 0) {
+                    emptyState.classList.remove('hidden');
+                    showMessage('Không tìm thấy ảnh nào trong folder!', 'error');
+                    return;
+                }
+                
+                // Hiển thị trang đầu tiên
+                displayPhotosPage(1);
+                updatePaginationControls();
+                
+                const updateType = isAutoUpdate ? 'tự động' : 'thủ công';
+                showMessage(`✅ Đã cập nhật ${updateType} thành công ${allFiles.length} ảnh lên GitHub!`, 'success');
+                
+                // Thêm log cho cả hai loại cập nhật
+                if (isAutoUpdate) {
+                    addLog('Cập nhật danh sách ảnh vào file metadata tự động', `${allFiles.length} ảnh`);
+                } else {
+                    addLog('Cập nhật danh sách ảnh vào file metadata thủ công', `${allFiles.length} ảnh`);
+                }
+                
+                // Trả về số lượng ảnh để sử dụng trong log tự động
+                return allFiles.length;
+                
+            } catch (error) {
+                console.error('Lỗi khi upload metadata:', error);
+                loadingSpinner.classList.add('hidden');
+                
+                if (error.name === 'AbortError') {
+                    errorMessage.querySelector('p').textContent = '⏰ Upload metadata bị timeout. Vui lòng thử lại.';
+                } else if (error.message.includes('403')) {
+                    errorMessage.querySelector('p').textContent = '🔒 Không có quyền truy cập folder ảnh hoặc GitHub.';
+                } else if (error.message.includes('404')) {
+                    errorMessage.querySelector('p').textContent = '📁 Không tìm thấy folder ảnh hoặc repository.';
+                } else {
+                    errorMessage.querySelector('p').textContent = '❌ Không thể upload metadata. Vui lòng thử lại.';
+                }
+                
+                errorMessage.classList.remove('hidden');
+                showMessage('❌ Lỗi khi cập nhật metadata ảnh!', 'error');
+            } finally {
+                isLoadingPhotos = false;
+                uploadBtn.disabled = false;
+            }
+        }
+
+        // Hàm ghi metadata ảnh lên GitHub
+        async function writePhotosMetadata(photosArray, sha = null) {
+            const content = JSON.stringify(photosArray, null, 2);
+            const encodedContent = base64Encode(content);
+
+            // Nếu không có sha, thử đọc file hiện tại để lấy sha
+            if (!sha) {
+                try {
+                    const response = await fetch(PHOTOS_METADATA_API_URL, {
+                        headers: {
+                            'Authorization': `token ${PAT}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        sha = data.sha;
+                    }
+                } catch (error) {
+                    console.log('File metadata chưa tồn tại, sẽ tạo mới');
+                }
+            }
+
+            const body = JSON.stringify({
+                message: `Cập nhật metadata ${photosArray.length} ảnh - ${new Date().toLocaleString('vi-VN')}`,
+                content: encodedContent,
+                ...(sha && { sha: sha })
+            });
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 giây timeout
+                
+                const response = await fetch(PHOTOS_METADATA_API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${PAT}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: body,
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Đã ghi metadata ảnh thành công lên GitHub:', data);
+                return data;
+            } catch (error) {
+                console.error('Lỗi khi ghi metadata ảnh lên GitHub:', error);
+                throw error;
+            }
+        }
+
+        // Hàm đọc metadata ảnh từ GitHub
+        async function loadPhotosMetadataFromGitHub() {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 giây timeout
+                
+                const response = await fetch(PHOTOS_METADATA_API_URL, {
+                    headers: {
+                        'Authorization': `token ${PAT}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        console.log('File metadata chưa tồn tại');
+                        return [];
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const content = JSON.parse(base64Decode(data.content));
+                return content;
+            } catch (error) {
+                console.error('Lỗi khi đọc metadata từ GitHub:', error);
+                return [];
+            }
+        }
+
+        // Hàm tải tất cả ảnh từ GitHub metadata (thay thế cho Google Drive API)
+        async function loadAllPhotosFromMetadata() {
+            if (isLoadingPhotos) return;
+            isLoadingPhotos = true;
+            
+            const loadingSpinner = document.getElementById('photos-loading-spinner');
+            const photosGrid = document.getElementById('photosGrid');
+            const emptyState = document.getElementById('photosEmptyState');
+            const errorMessage = document.getElementById('photosErrorMessage');
+            
+            try {
+                // Hiển thị loading
+                loadingSpinner.classList.remove('hidden');
+                photosGrid.innerHTML = '';
+                emptyState.classList.add('hidden');
+                errorMessage.classList.add('hidden');
+                
+                const loadingText = loadingSpinner.querySelector('span');
+                if (loadingText) {
+                    loadingText.textContent = 'Đang tải danh sách ảnh...';
+                }
+                
+                // Tải metadata từ GitHub
+                const photosMetadata = await loadPhotosMetadataFromGitHub();
+                
+                if (!photosMetadata || photosMetadata.length === 0) {
+                    loadingSpinner.classList.add('hidden');
+                    emptyState.classList.remove('hidden');
+                    showMessage('📷 Chưa có metadata ảnh. Vui lòng nhấn nút cập nhật để tải ảnh từ Google Drive!', 'error');
+                    return;
+                }
+                
+                allPhotosData = photosMetadata;
+                totalPages = Math.ceil(allPhotosData.length / PHOTOS_PER_PAGE);
+                currentPage = 1;
+                
+                // Tải comments và reactions
+                const { content: commentsArray } = await readComments();
+                commentsData = {};
+                reactionsData = {};
+                
+                if (Array.isArray(commentsArray)) {
+                    commentsArray.forEach(entry => {
+                        if (entry.ID_IMG) {
+                            if (entry.comments && Array.isArray(entry.comments)) {
+                                if (!commentsData[entry.ID_IMG]) {
+                                    commentsData[entry.ID_IMG] = [];
+                                }
+                                entry.comments.forEach(comment => {
+                                    commentsData[entry.ID_IMG].push({
+                                        text: comment.comment,
+                                        timestamp: comment.date_input
+                                    });
+                                });
+                            }
+                            
+                            reactionsData[entry.ID_IMG] = {
+                                count_tim: entry.count_tim || 0
+                            };
+                        }
+                    });
+                }
+                
+                loadingSpinner.classList.add('hidden');
+                
+                // Hiển thị trang đầu tiên
+                displayPhotosPage(1);
+                updatePaginationControls();
+                
+                // Thêm log
+                addLog('Load refresh hiển thị ảnh trên grid', `${allPhotosData.length} ảnh`);
+                
+            } catch (error) {
+                console.error('Lỗi khi tải metadata từ GitHub:', error);
+                loadingSpinner.classList.add('hidden');
+                
+                if (error.name === 'AbortError') {
+                    errorMessage.querySelector('p').textContent = '⏰ Tải metadata bị timeout. Vui lòng thử lại.';
+                } else {
+                    errorMessage.querySelector('p').textContent = '❌ Không thể tải danh sách ảnh. Vui lòng thử lại.';
+                }
+                
+                errorMessage.classList.remove('hidden');
+            } finally {
+                isLoadingPhotos = false;
+            }
+        }
+
+        // Hàm tải tất cả ảnh từ Google Drive với phân trang (giữ lại để backup)
         async function loadAllPhotosFromDrive() {
             if (isLoadingPhotos) return;
             isLoadingPhotos = true;
@@ -961,6 +1458,9 @@
                 // Hiển thị trang đầu tiên
                 displayPhotosPage(1);
                 updatePaginationControls();
+                
+                // Thêm log
+                addLog('Load refresh hiển thị ảnh trên grid', `${allPhotosData.length} ảnh`);
                 
             } catch (error) {
                 console.error('Lỗi khi tải ảnh từ Google Drive:', error);
@@ -1739,11 +2239,16 @@
         // Hàm xóa sự kiện
         async function deleteEvent(index) {
             const { content: currentEvents, sha } = await readNotes();
+            const deletedEvent = currentEvents[index];
             currentEvents.splice(index, 1); // Xóa phần tử tại vị trí index
             
             await writeNotes(currentEvents, sha);
             displayEvents(currentEvents);
             showMessage('Sự kiện đã được xóa thành công! 🗑️', 'success');
+            
+            // Thêm log
+            const eventInfo = deletedEvent ? `${deletedEvent.day}/${deletedEvent.month}/${deletedEvent.year}: ${deletedEvent.contdetl}` : 'Sự kiện không xác định';
+            addLog('Xóa sự kiện', eventInfo);
         }
 
         // Hàm hiển thị thông báo
@@ -2092,6 +2597,9 @@
                 // Hiển thị danh sách sự kiện
                 displayEvents(content);
                 
+                // Thêm log
+                addLog('Load refresh sự kiện', `${content.length} sự kiện`);
+                
                 return { content, sha: data.sha };
             } catch (error) {
                 console.error('Lỗi khi đọc ghi chú từ GitHub:', error);
@@ -2324,8 +2832,25 @@
                 }
             });
             
-            // Tải ảnh từ Google Drive khi trang được tải
-            loadAllPhotosFromDrive();
+            // Tải ảnh từ metadata GitHub khi trang được tải (thay vì Google Drive API)
+            loadAllPhotosFromMetadata();
+            
+            // Khởi tạo tự động cập nhật nếu đã được bật
+            const isAutoEnabled = localStorage.getItem('autoUpdateEnabled');
+            const toggleBtn = document.getElementById('autoUpdateToggle');
+            
+            if (isAutoEnabled === 'true') {
+                setupAutoUpdate();
+                toggleBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                toggleBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                toggleBtn.title = 'Tắt cập nhật tự động 9h sáng';
+            } else {
+                // Mặc định là tắt
+                localStorage.setItem('autoUpdateEnabled', 'false');
+                toggleBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                toggleBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                toggleBtn.title = 'Bật cập nhật tự động 9h sáng';
+            }
             
             // Thêm sự kiện cho các nút phân trang
             document.getElementById('firstPageBtn').addEventListener('click', () => {
@@ -2396,13 +2921,50 @@
                     if (content && content.length > 0) {
                         calendar.updateEventsFromData(content);
                     }
+                    // Log đã được thêm trong hàm readNotes()
                 });
                 calendar.goToToday();
             });
 
-            // Thêm sự kiện cho nút làm mới ảnh
+            // Thêm sự kiện cho nút cập nhật metadata ảnh
+            document.getElementById('uploadMetadataBtn').addEventListener('click', () => {
+                uploadPhotosMetadata();
+            });
+
+            // Thêm sự kiện cho nút bật/tắt tự động cập nhật
+            document.getElementById('autoUpdateToggle').addEventListener('click', () => {
+                const isAutoEnabled = localStorage.getItem('autoUpdateEnabled') === 'true';
+                const toggleBtn = document.getElementById('autoUpdateToggle');
+                
+                if (isAutoEnabled) {
+                    // Tắt tự động cập nhật
+                    localStorage.setItem('autoUpdateEnabled', 'false');
+                    stopAutoUpdate();
+                    toggleBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                    toggleBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                    toggleBtn.title = 'Bật cập nhật tự động 9h sáng';
+                    showMessage('⏹️ Đã tắt cập nhật tự động metadata', 'success');
+                    
+                    // Thêm log
+                    addLog('Tắt chức năng cập nhật tự động 9h sáng', 'Người dùng tắt thủ công');
+                } else {
+                    // Bật tự động cập nhật
+                    localStorage.setItem('autoUpdateEnabled', 'true');
+                    setupAutoUpdate();
+                    toggleBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                    toggleBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                    toggleBtn.title = 'Tắt cập nhật tự động 9h sáng';
+                    showMessage('⏰ Đã bật cập nhật tự động metadata lúc 9h sáng hằng ngày', 'success');
+                    
+                    // Thêm log
+                    addLog('Bật chức năng cập nhật tự động 9h sáng', 'Người dùng bật thủ công');
+                }
+            });
+
+            // Thêm sự kiện cho nút làm mới ảnh (tải từ metadata)
             document.getElementById('refreshPhotos').addEventListener('click', () => {
-                loadAllPhotosFromDrive();
+                loadAllPhotosFromMetadata();
+                // Log đã được thêm trong hàm loadAllPhotosFromMetadata()
             });
 
             // Thêm sự kiện click vào vùng trống để bỏ chọn
@@ -2534,6 +3096,10 @@
                     calendar.updateEventsFromData(currentEvents);
                     showMessage('Sự kiện đã được lưu thành công! 🎉');
 
+                    // Thêm log
+                    const eventInfo = `${day}/${month}/${year}: ${eventContent}`;
+                    addLog('Thêm mới sự kiện', eventInfo);
+
                     // Đóng modal và reset form
                     const modal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
                     modal.hide();
@@ -2554,5 +3120,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'982e43bc601909bc',t:'MTc1ODUwNzAxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'982ec12ca0730703',t:'MTc1ODUxMjE1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
