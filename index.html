@@ -1063,14 +1063,14 @@
                                 onclick="toggleComments('${photo.id}')" 
                                 id="comment-btn-${photo.id}">
                             <i class="bi bi-chat-right-dots text-gray-600 mr-1 text-sm"></i>
-                            <span class="text-gray-700 font-medium">Bình luận</span>
+                            <span class="text-gray-700 font-medium whitespace-nowrap">Bình luận</span>
                         </button>
                         
                         <button class="flex items-center justify-center px-2 py-1 rounded hover:bg-gray-50 transition-colors flex-1 text-xs" 
                                 onclick="sharePhoto('${photo.id}', '${photo.name}')" 
                                 id="share-btn-${photo.id}">
                             <i class="bi bi-share text-gray-600 mr-1 text-sm"></i>
-                            <span class="text-gray-700 font-medium">Chia sẻ</span>
+                            <span class="text-gray-700 font-medium whitespace-nowrap">Chia sẻ</span>
                         </button>
                     </div>
                     
@@ -1079,10 +1079,7 @@
                         <div class="max-h-32 overflow-y-auto overflow-x-hidden space-y-1 mb-3" id="comments-${photo.id}">
                             ${photoComments.map((comment, commentIndex) => `
                                 <div class="bg-gray-50 rounded p-2 text-sm cursor-pointer comment-item" onclick="toggleCommentTimestamp('${photo.id}', ${commentIndex})">
-                                    <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${comment.text}</p>
-                                    <div class="text-left">
-                                        <span class="comment-timestamp hidden text-xs text-gray-500 italic" style="font-size: 6px;" id="timestamp-${photo.id}-${commentIndex}">${new Date(comment.timestamp).toLocaleString('vi-VN')}</span>
-                                    </div>
+                                    <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${comment.text} <span class="comment-timestamp hidden text-xs text-gray-500 italic ml-2" style="font-size: 10px;" id="timestamp-${photo.id}-${commentIndex}">${new Date(comment.timestamp).toLocaleString('vi-VN')}</span></p>
                                 </div>
                             `).join('')}
                         </div>
@@ -1659,10 +1656,7 @@
                 commentElement.className = 'bg-gray-50 rounded p-2 text-sm cursor-pointer comment-item mb-1';
                 commentElement.onclick = () => toggleCommentTimestamp(photoId, commentIndex);
                 commentElement.innerHTML = `
-                    <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${commentText}</p>
-                    <div class="text-left">
-                        <span class="comment-timestamp hidden text-xs text-gray-500 italic" style="font-size: 6px;" id="timestamp-${photoId}-${commentIndex}">${new Date().toLocaleString('vi-VN')}</span>
-                    </div>
+                    <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${commentText} <span class="comment-timestamp hidden text-xs text-gray-500 italic ml-2" style="font-size: 10px;" id="timestamp-${photoId}-${commentIndex}">${new Date().toLocaleString('vi-VN')}</span></p>
                 `;
                 commentsContainer.appendChild(commentElement);
                 
@@ -2560,5 +2554,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'981681bc2316b1bf',t:'MTc1ODI1Nzg5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'982e43bc601909bc',t:'MTc1ODUwNzAxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
