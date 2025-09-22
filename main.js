@@ -1,1 +1,2 @@
-const API_KEY = 'GH_API_KEY'
+const API_KEY_2 = 'GH_API_KEY'
+console.log(API_KEY_2)
