@@ -21,6 +21,7 @@ jobs:
           # g/ specifies a global replacement
           # The file is specified at the end
           sed -i "s|API_KEY|${{ secrets.GH_API_KEY }}|g" LoveStory/main.js
+          sed -i "s|REPO_NAME|${{ secrets.GH_REPO_NAME }}|g" LoveStory/main.js
 
       - name: Display the modified file
         run: |
