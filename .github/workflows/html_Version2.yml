@@ -20,7 +20,7 @@ jobs:
           # s/API_KEY/ replace API_KEY with the value of the GH_API_KEY secret
           # g/ specifies a global replacement
           # The file is specified at the end
-          sed -i "s|API_KEY|${{ secrets.GH_API_KEY }}|g" path/to/your/file.js
+          sed -i "s|API_KEY|${{ secrets.GH_API_KEY }}|g" LoveStory/main.js
 
       - name: Display the modified file
         run: |
