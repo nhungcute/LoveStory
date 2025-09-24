@@ -1,6 +1,13 @@
 [
   {
     "date": "24/9/2025",
+    "time": "23:56:51",
+    "action": "Bật chức năng cập nhật tự động 9h sáng",
+    "details": "Người dùng bật thủ công",
+    "timestamp": "2025-09-24T16:56:51.800Z"
+  },
+  {
+    "date": "24/9/2025",
     "time": "23:56:43",
     "action": "Load refresh sự kiện",
     "details": "10 sự kiện",
