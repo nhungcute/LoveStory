@@ -848,23 +848,133 @@
     </div>
 
     <script>
-        // Cấu hình API GitHub
-        const GITHUB_USERNAME = 'nhungcute';
-        const REPO_NAME = 'LoveStory';
-        const PAT = 'ghp_a8VLpoCYQByLbUI' + 'wed3dy4hHjEpKwr3stE6T';
-        const FILE_PATH = 'notes.json';
-        const COMMENTS_FILE_PATH = 'mess.json';
-        const PHOTOS_METADATA_FILE_PATH = 'list_file_img_ggdriver.json';
-        const LOGS_FILE_PATH = 'logs.json';
-        const API_BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
-        const COMMENTS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${COMMENTS_FILE_PATH}`;
-        const PHOTOS_METADATA_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PHOTOS_METADATA_FILE_PATH}`;
-        const LOGS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${LOGS_FILE_PATH}`;
+        // Biến cấu hình toàn cục
+        let CONFIG = {};
+        let GITHUB_USERNAME, REPO_NAME, PAT, FILE_PATH, COMMENTS_FILE_PATH, PHOTOS_METADATA_FILE_PATH, LOGS_FILE_PATH;
+        let API_BASE_URL, COMMENTS_API_URL, PHOTOS_METADATA_API_URL, LOGS_API_URL;
+        let FOLDER_ID, API_KEY, PHOTOS_PER_PAGE;
+        let CONFIG_API_URL;
 
-        // Cấu hình Google Drive API
-        const FOLDER_ID = '1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav';
-        const API_KEY = 'AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0';
-        const PHOTOS_PER_PAGE = 50;
+        // Hàm cập nhật file cấu hình
+        async function updateConfigFile(key, value) {
+            try {
+                // Đọc file cấu hình hiện tại
+                const response = await fetch(CONFIG_API_URL, {
+                    headers: {
+                        'Authorization': `token ${PAT}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const currentConfig = JSON.parse(base64Decode(data.content));
+                
+                // Cập nhật giá trị
+                currentConfig[key] = value;
+                CONFIG[key] = value; // Cập nhật biến toàn cục
+                
+                // Ghi lại file cấu hình
+                const updatedContent = JSON.stringify(currentConfig, null, 2);
+                const encodedContent = base64Encode(updatedContent);
+                
+                const updateResponse = await fetch(CONFIG_API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${PAT}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify({
+                        message: `Cập nhật cấu hình ${key} = ${value}`,
+                        content: encodedContent,
+                        sha: data.sha
+                    })
+                });
+                
+                if (!updateResponse.ok) {
+                    throw new Error(`HTTP error! status: ${updateResponse.status}`);
+                }
+                
+                console.log(`✅ Đã cập nhật cấu hình ${key} = ${value}`);
+                
+            } catch (error) {
+                console.error('❌ Lỗi khi cập nhật file cấu hình:', error);
+                // Không throw error để không ảnh hưởng đến chức năng chính
+            }
+        }
+
+        // Hàm tải cấu hình từ file configApp.json
+        async function loadConfig() {
+            try {
+                console.log('🔧 Đang tải cấu hình từ configApp.json...');
+                
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 giây timeout
+                
+                const response = await fetch('./configApp.json', {
+                    signal: controller.signal,
+                    cache: 'no-cache'
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`❌ Lỗi khi tải cấu hình từ file configApp.json`);
+                }
+                
+                CONFIG = await response.json();
+                
+                // Kiểm tra các trường bắt buộc
+                if (!CONFIG.GITHUB_USERNAME || !CONFIG.REPO_NAME || !CONFIG.PAT1 || !CONFIG.PAT2) {
+                    throw new Error('❌ Lỗi khi tải cấu hình từ file configApp.json');
+                }
+                
+                // Thiết lập các biến từ config
+                GITHUB_USERNAME = CONFIG.GITHUB_USERNAME;
+                REPO_NAME = CONFIG.REPO_NAME;
+                PAT = CONFIG.PAT1 + CONFIG.PAT2; // Ghép PAT1 và PAT2
+                FILE_PATH = CONFIG.FILE_PATH;
+                COMMENTS_FILE_PATH = CONFIG.COMMENTS_FILE_PATH;
+                PHOTOS_METADATA_FILE_PATH = CONFIG.PHOTOS_METADATA_FILE_PATH;
+                LOGS_FILE_PATH = CONFIG.LOGS_FILE_PATH;
+                
+                // Thiết lập các URL API
+                API_BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
+                COMMENTS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${COMMENTS_FILE_PATH}`;
+                PHOTOS_METADATA_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PHOTOS_METADATA_FILE_PATH}`;
+                LOGS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${LOGS_FILE_PATH}`;
+                CONFIG_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/configApp.json`;
+                
+                // Cấu hình Google Drive API
+                FOLDER_ID = CONFIG.FOLDER_ID;
+                API_KEY = CONFIG.API_KEY;
+                PHOTOS_PER_PAGE = CONFIG.PHOTOS_PER_PAGE || 12;
+                
+                console.log('✅ Đã tải cấu hình thành công:', {
+                    username: GITHUB_USERNAME,
+                    repo: REPO_NAME,
+                    folderId: FOLDER_ID,
+                    photosPerPage: PHOTOS_PER_PAGE,
+                    autoLoadMetadata: CONFIG.AUTO_LOAD_METADATA
+                });
+                
+                return true;
+            } catch (error) {
+                console.error('❌ Lỗi khi tải cấu hình:', error);
+                
+                if (error.name === 'AbortError') {
+                    showMessage('❌ Lỗi khi tải cấu hình từ file configApp.json', 'error');
+                } else {
+                    showMessage('❌ Lỗi khi tải cấu hình từ file configApp.json', 'error');
+                }
+                
+                throw error;
+            }
+        }
 
         // Global variables
         let allPhotosData = [];
@@ -2819,37 +2929,56 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const calendar = new Calendar();
-            window.calendarInstance = calendar;
-            
+        // Hàm khởi tạo ứng dụng sau khi tải cấu hình
+        async function initializeApp() {
+            try {
+                // Tải cấu hình trước
+                await loadConfig();
+                
+                // Khởi tạo calendar
+                const calendar = new Calendar();
+                window.calendarInstance = calendar;
+                
+                // Tải danh sách sự kiện khi trang được tải
+                readNotes().then(({ content }) => {
+                    if (content && content.length > 0) {
+                        calendar.updateEventsFromData(content);
+                    }
+                });
+                
+                // Tải ảnh từ metadata GitHub khi trang được tải (thay vì Google Drive API)
+                loadAllPhotosFromMetadata();
+                
+                // Khởi tạo các sự kiện và chức năng khác
+                initializeEventHandlers();
+                
+                console.log('🎉 Ứng dụng đã khởi tạo thành công!');
+                
+            } catch (error) {
+                console.error('❌ Lỗi khi khởi tạo ứng dụng:', error);
+                showMessage('❌ Có lỗi khi khởi tạo ứng dụng. Vui lòng tải lại trang.', 'error');
+            }
+        }
 
-            
-            // Tải danh sách sự kiện khi trang được tải
-            readNotes().then(({ content }) => {
-                if (content && content.length > 0) {
-                    calendar.updateEventsFromData(content);
-                }
-            });
-            
-            // Tải ảnh từ metadata GitHub khi trang được tải (thay vì Google Drive API)
-            loadAllPhotosFromMetadata();
-            
-            // Khởi tạo tự động cập nhật nếu đã được bật
-            const isAutoEnabled = localStorage.getItem('autoUpdateEnabled');
+        // Hàm khởi tạo các sự kiện
+        function initializeEventHandlers() {
+            // Khởi tạo tự động cập nhật từ cấu hình
+            const isAutoEnabled = CONFIG.AUTO_LOAD_METADATA === "true" || CONFIG.AUTO_LOAD_METADATA === true;
             const toggleBtn = document.getElementById('autoUpdateToggle');
             
-            if (isAutoEnabled === 'true') {
+            if (isAutoEnabled) {
                 setupAutoUpdate();
                 toggleBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
                 toggleBtn.classList.add('bg-green-500', 'hover:bg-green-600');
                 toggleBtn.title = 'Tắt cập nhật tự động 9h sáng';
+                localStorage.setItem('autoUpdateEnabled', 'true');
             } else {
-                // Mặc định là tắt
-                localStorage.setItem('autoUpdateEnabled', 'false');
+                // Tắt tự động cập nhật
+                stopAutoUpdate();
                 toggleBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
                 toggleBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
                 toggleBtn.title = 'Bật cập nhật tự động 9h sáng';
+                localStorage.setItem('autoUpdateEnabled', 'false');
             }
             
             // Thêm sự kiện cho các nút phân trang
@@ -2932,7 +3061,7 @@
             });
 
             // Thêm sự kiện cho nút bật/tắt tự động cập nhật
-            document.getElementById('autoUpdateToggle').addEventListener('click', () => {
+            document.getElementById('autoUpdateToggle').addEventListener('click', async () => {
                 const isAutoEnabled = localStorage.getItem('autoUpdateEnabled') === 'true';
                 const toggleBtn = document.getElementById('autoUpdateToggle');
                 
@@ -2945,6 +3074,9 @@
                     toggleBtn.title = 'Bật cập nhật tự động 9h sáng';
                     showMessage('⏹️ Đã tắt cập nhật tự động metadata', 'success');
                     
+                    // Cập nhật cấu hình
+                    await updateConfigFile('AUTO_LOAD_METADATA', 'false');
+                    
                     // Thêm log
                     addLog('Tắt chức năng cập nhật tự động 9h sáng', 'Người dùng tắt thủ công');
                 } else {
@@ -2955,6 +3087,9 @@
                     toggleBtn.classList.add('bg-green-500', 'hover:bg-green-600');
                     toggleBtn.title = 'Tắt cập nhật tự động 9h sáng';
                     showMessage('⏰ Đã bật cập nhật tự động metadata lúc 9h sáng hằng ngày', 'success');
+                    
+                    // Cập nhật cấu hình
+                    await updateConfigFile('AUTO_LOAD_METADATA', 'true');
                     
                     // Thêm log
                     addLog('Bật chức năng cập nhật tự động 9h sáng', 'Người dùng bật thủ công');
@@ -3118,7 +3253,10 @@
                     saveSpinner.classList.add('d-none');
                 }
             });
-        });
+        }
+
+        // Khởi tạo ứng dụng khi DOM đã sẵn sàng
+        document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9842873dd2ab1114',t:'MTc1ODcxOTQ5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9843c831609a0701',t:'MTc1ODczMjYzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
