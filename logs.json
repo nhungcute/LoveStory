@@ -1,5 +1,12 @@
 [
   {
+    "date": "24/9/2025",
+    "time": "23:01:05",
+    "action": "Load refresh sự kiện",
+    "details": "10 sự kiện",
+    "timestamp": "2025-09-24T16:01:05.667Z"
+  },
+  {
     "date": "22/9/2025",
     "time": "17:37:24",
     "action": "Tắt chức năng cập nhật tự động 9h sáng",
