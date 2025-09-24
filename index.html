@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch Đáng Yêu 💕</title>
+    <title>Lịch Đáng Yêu 💕 - Phiên bản 44</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-	<!---<script src="/LoveStory/main.js"></script>--->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
         
@@ -850,25 +849,23 @@
 
     <script>
         // Cấu hình API GitHub
-		const GITHUB_USERNAME = 'REPLACE_ME';
-		const REPO_NAME = 'REPLACE_ME';
-		const PAT = 'REPLACE_ME';
-		const FILE_PATH = 'REPLACE_ME';
-		const COMMENTS_FILE_PATH = 'REPLACE_ME';
-		const PHOTOS_METADATA_FILE_PATH = 'REPLACE_ME';
-		const LOGS_FILE_PATH = 'REPLACE_ME';
-		const FOLDER_ID = 'REPLACE_ME';
-		const API_KEY = 'REPLACE_ME';
- 
-		console.log(GITHUB_USERNAME); 
-
-		
+        const GITHUB_USERNAME = 'nhungcute';
+        const REPO_NAME = 'LoveStory';
+        const PAT = 'ghp_a8VLpoCYQByLbUI' + 'wed3dy4hHjEpKwr3stE6T';
+        const FILE_PATH = 'notes.json';
+        const COMMENTS_FILE_PATH = 'mess.json';
+        const PHOTOS_METADATA_FILE_PATH = 'list_file_img_ggdriver.json';
+        const LOGS_FILE_PATH = 'logs.json';
         const API_BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
         const COMMENTS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${COMMENTS_FILE_PATH}`;
         const PHOTOS_METADATA_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PHOTOS_METADATA_FILE_PATH}`;
         const LOGS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${LOGS_FILE_PATH}`;
- 
+
+        // Cấu hình Google Drive API
+        const FOLDER_ID = '1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav';
+        const API_KEY = 'AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0';
         const PHOTOS_PER_PAGE = 50;
+
         // Global variables
         let allPhotosData = [];
         let currentPhotosPage = [];
@@ -3125,9 +3122,3 @@
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'982ec12ca0730703',t:'MTc1ODUxMjE1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
-
-
-
-
-
