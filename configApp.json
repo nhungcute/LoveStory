@@ -10,5 +10,5 @@
   "FOLDER_ID": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
   "API_KEY": "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
   "PHOTOS_PER_PAGE": 50,
-  "AUTO_LOAD_METADATA":"true"
+  "AUTO_LOAD_METADATA": "false"
 }
