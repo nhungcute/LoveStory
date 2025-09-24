@@ -1,3 +1,0 @@
-# netlify.toml
-[build]
-  functions = "netlify/functions/" # Đường dẫn đến thư mục chứa functions
