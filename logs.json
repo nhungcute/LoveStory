@@ -1,6 +1,13 @@
 [
   {
     "date": "25/9/2025",
+    "time": "16:45:22",
+    "action": "Load refresh sự kiện",
+    "details": "10 sự kiện",
+    "timestamp": "2025-09-25T09:45:22.096Z"
+  },
+  {
+    "date": "25/9/2025",
     "time": "16:00:34",
     "action": "Chức năng cập nhật tự động 9h sáng chạy hoàn thành",
     "details": "Thành công: 710 ảnh",
