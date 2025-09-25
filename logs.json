@@ -1,6 +1,13 @@
 [
   {
     "date": "26/9/2025",
+    "time": "00:21:02",
+    "action": "Load refresh sự kiện",
+    "details": "10 sự kiện",
+    "timestamp": "2025-09-25T17:21:02.976Z"
+  },
+  {
+    "date": "26/9/2025",
     "time": "00:20:56",
     "action": "Cập nhật ảnh cho sự kiện",
     "details": "Ảnh ID: 1-_iCLC0yAYJLZl9DF_QBAA3IH5rPz7cK, 1 sự kiện",
