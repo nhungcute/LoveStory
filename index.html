@@ -445,6 +445,165 @@
             padding: 0.5rem !important; 
         }
 
+        /* Radial Menu Variables */
+        :root {
+            --menu-radius: 70px;
+            --toggle-size: 50px;
+            --item-size: 45px;
+            --transition-speed: 0.3s;
+            --toggle-btn-color: linear-gradient(135deg, #9CA3AF 0%, #6B7280 50%, #4B5563 100%);
+            --toggle-btn-hover: linear-gradient(135deg, #6B7280 0%, #4B5563 50%, #374151 100%);
+            --item-btn-color: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            --item-btn-hover: linear-gradient(135deg, #FF85A2 0%, #FF6B9D 100%);
+            --icon-color: white;
+        }
+
+        /* Floating Settings Container */
+        .floating-settings {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .radial-menu-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: calc(var(--menu-radius) * 2.5);
+            height: calc(var(--menu-radius) * 2.5);
+        }
+
+        .toggle-btn {
+            position: relative;
+            width: var(--toggle-size);
+            height: var(--toggle-size);
+            background: var(--toggle-btn-color);
+            border: none;
+            border-radius: 50%;
+            color: var(--icon-color);
+            font-size: calc(var(--toggle-size) * 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform var(--transition-speed) cubic-bezier(0.68, -0.55, 0.27, 1.55), background 0.2s ease;
+            box-shadow: 0 4px 15px rgba(107, 114, 128, 0.4);
+        }
+
+        .toggle-btn:hover {
+            background: var(--toggle-btn-hover);
+            box-shadow: 0 6px 20px rgba(107, 114, 128, 0.6);
+        }
+
+        .radial-menu-container.active .toggle-btn {
+            transform: rotate(135deg);
+        }
+
+        .menu {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; 
+        }
+
+        .menu .item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: var(--item-size);
+            height: var(--item-size);
+            margin-top: calc(var(--item-size) / -2);
+            margin-left: calc(var(--item-size) / -2);
+            background: var(--item-btn-color);
+            border: 2px solid #FF85A2;
+            border-radius: 50%;
+            color: #FF85A2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: calc(var(--item-size) * 0.35);
+            text-decoration: none;
+            opacity: 0;
+            transform: translate(0, 0);
+            transition: transform var(--transition-speed) ease-out, opacity var(--transition-speed) ease-out, background 0.2s ease, color 0.2s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .menu .item:hover {
+            background: var(--item-btn-hover);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+        }
+
+        .radial-menu-container.active .menu {
+            pointer-events: auto;
+        }
+
+        .radial-menu-container.active .menu .item {
+            opacity: 1;
+        }
+
+        .radial-menu-container.active .item:nth-child(1) {
+            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)) rotate(0deg);
+            transition-delay: 0.0s;
+        }
+
+        .radial-menu-container.active .item:nth-child(2) {
+            transform: rotate(-36deg) translateY(calc(var(--menu-radius) * -1)) rotate(36deg);
+            transition-delay: 0.05s;
+        }
+
+        .radial-menu-container.active .item:nth-child(3) {
+            transform: rotate(-72deg) translateY(calc(var(--menu-radius) * -1)) rotate(72deg);
+            transition-delay: 0.1s;
+        }
+
+        .radial-menu-container.active .item:nth-child(4) {
+            transform: rotate(-108deg) translateY(calc(var(--menu-radius) * -1)) rotate(108deg);
+            transition-delay: 0.15s;
+        }
+
+        .radial-menu-container.active .item:nth-child(5) {
+            transform: rotate(-144deg) translateY(calc(var(--menu-radius) * -1)) rotate(144deg);
+            transition-delay: 0.2s;
+        }
+
+        .radial-menu-container.active .item:nth-child(6) {
+            transform: rotate(-180deg) translateY(calc(var(--menu-radius) * -1)) rotate(180deg);
+            transition-delay: 0.25s;
+        }
+
+        /* Tooltip cho radial menu items */
+        .menu .item::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: 50%;
+            right: calc(100% + 10px);
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu .item:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
     </style>
 </head>
 <body class="min-h-screen">
@@ -458,6 +617,45 @@
         <div class="absolute bottom-20 right-20 text-lg animate-pulse" style="animation-delay: 2.5s;">🦋</div>
         <div class="absolute bottom-10 left-1/4 text-2xl animate-bounce" style="animation-delay: 3s;">🌷</div>
         <div class="absolute top-1/4 right-1/3 text-lg animate-pulse" style="animation-delay: 0.8s;">💫</div>
+    </div>
+
+    <!-- Floating Settings Button -->
+    <div class="floating-settings">
+        <div class="radial-menu-container" id="radialMenuContainer">
+            <div class="menu">
+                <button class="item" data-tooltip="Thêm sự kiện" id="floatingAddEvent">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <button class="item" data-tooltip="Xóa sự kiện" id="floatingDeleteEvent">
+                    <i class="bi bi-trash"></i>
+                </button>
+                <button class="item" data-tooltip="Refresh sự kiện" id="floatingRefreshEvents">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <button class="item" data-tooltip="Cập nhật danh sách ảnh" id="floatingUploadMetadata">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <button class="item" data-tooltip="Bật/Tắt tự động 9h sáng" id="floatingAutoUpdate">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <button class="item" data-tooltip="Tải lại ảnh" id="floatingRefreshPhotos">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+            <button class="toggle-btn" id="settingsBtn">
+                <i class="bi bi-gear"></i>
+            </button>
+        </div>
     </div>
 
 
@@ -530,7 +728,7 @@
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-xl font-bold text-gray-800">📅 Sự kiện</h3>
-                        <div class="flex space-x-2">
+                        <div class="flex space-x-2" style="display: none;">
                             <button id="addEventBtn" class="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors" data-bs-toggle="modal" data-bs-target="#addEventModal">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
@@ -577,7 +775,7 @@
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-bold text-gray-800">📸 Khoảnh Khắc Đáng Yêu</h3>
-                        <div class="flex space-x-2">
+                        <div class="flex space-x-2" style="display: none;">
                             <button id="uploadMetadataBtn" class="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors" title="Cập nhật danh sách ảnh">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
@@ -2959,19 +3157,19 @@
                 } catch (configError) {
                     console.warn('⚠️ Không thể tải cấu hình, sử dụng cấu hình mặc định');
                     
-                    // Sử dụng cấu hình mặc định để ứng dụng vẫn có thể chạy
+                    // Sử dụng cấu hình demo để ứng dụng vẫn có thể chạy
                     CONFIG = {
-                        GITHUB_USERNAME: 'demo',
-                        REPO_NAME: 'demo',
-                        PAT1: '',
-                        PAT2: '',
-                        FILE_PATH: 'events.json',
-                        COMMENTS_FILE_PATH: 'comments.json',
-                        PHOTOS_METADATA_FILE_PATH: 'photos_metadata.json',
+                        GITHUB_USERNAME: 'nhungcute',
+                        REPO_NAME: 'LoveStory',
+                        PAT1: 'ghp_a8VLpoCYQByLbUIwe',
+                        PAT2: 'd3dy4hHjEpKwr3stE6T',
+                        FILE_PATH: 'notes.json',
+                        COMMENTS_FILE_PATH: 'mess.json',
+                        PHOTOS_METADATA_FILE_PATH: 'list_file_img_ggdriver.json',
                         LOGS_FILE_PATH: 'logs.json',
-                        FOLDER_ID: '',
-                        API_KEY: '',
-                        PHOTOS_PER_PAGE: 12,
+                        FOLDER_ID: '1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav',
+                        API_KEY: 'AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0',
+                        PHOTOS_PER_PAGE: 50,
                         AUTO_LOAD_METADATA: 'false'
                     };
                     
@@ -3032,7 +3230,6 @@
                 console.log('✅ Event handlers đã được khởi tạo');
                 
                 console.log('🎉 Ứng dụng đã khởi tạo thành công!');
-                showMessage('🎉 Ứng dụng đã sẵn sàng!', 'success');
                 
             } catch (error) {
                 console.error('❌ Lỗi nghiêm trọng khi khởi tạo ứng dụng:', {
@@ -3055,8 +3252,106 @@
             }
         }
 
+        // Hàm khởi tạo floating settings menu
+        function initializeFloatingSettings() {
+            const container = document.getElementById('radialMenuContainer');
+            const toggleBtn = document.getElementById('settingsBtn');
+
+            // Toggle menu khi click vào nút settings
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                container.classList.toggle('active');
+            });
+
+            // Đóng menu khi click ra ngoài
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.radial-menu-container')) {
+                    container.classList.remove('active');
+                }
+            });
+
+            // Xử lý các nút trong menu
+            document.getElementById('floatingAddEvent').addEventListener('click', () => {
+                document.getElementById('addEventBtn').click();
+                container.classList.remove('active');
+            });
+
+            document.getElementById('floatingDeleteEvent').addEventListener('click', () => {
+                document.getElementById('deleteEventBtn').click();
+                container.classList.remove('active');
+            });
+
+            document.getElementById('floatingRefreshEvents').addEventListener('click', () => {
+                document.getElementById('refreshEvents').click();
+                container.classList.remove('active');
+            });
+
+            document.getElementById('floatingUploadMetadata').addEventListener('click', () => {
+                document.getElementById('uploadMetadataBtn').click();
+                container.classList.remove('active');
+            });
+
+            document.getElementById('floatingAutoUpdate').addEventListener('click', () => {
+                document.getElementById('autoUpdateToggle').click();
+                container.classList.remove('active');
+            });
+
+            document.getElementById('floatingRefreshPhotos').addEventListener('click', () => {
+                document.getElementById('refreshPhotos').click();
+                container.classList.remove('active');
+            });
+
+            // Cập nhật trạng thái nút xóa sự kiện
+            const originalDeleteBtn = document.getElementById('deleteEventBtn');
+            const floatingDeleteBtn = document.getElementById('floatingDeleteEvent');
+            
+            // Theo dõi thay đổi trạng thái disabled của nút xóa gốc
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
+                        if (originalDeleteBtn.disabled) {
+                            floatingDeleteBtn.style.opacity = '0.5';
+                            floatingDeleteBtn.style.pointerEvents = 'none';
+                        } else {
+                            floatingDeleteBtn.style.opacity = '1';
+                            floatingDeleteBtn.style.pointerEvents = 'all';
+                        }
+                    }
+                });
+            });
+
+            observer.observe(originalDeleteBtn, { attributes: true });
+
+            // Thiết lập trạng thái ban đầu
+            if (originalDeleteBtn.disabled) {
+                floatingDeleteBtn.style.opacity = '0.5';
+                floatingDeleteBtn.style.pointerEvents = 'none';
+            }
+
+            // Cập nhật màu nút tự động cập nhật dựa trên trạng thái
+            updateAutoUpdateButtonColor();
+        }
+
+        // Hàm cập nhật màu nút tự động cập nhật
+        function updateAutoUpdateButtonColor() {
+            const isAutoEnabled = localStorage.getItem('autoUpdateEnabled') === 'true';
+            const floatingAutoBtn = document.getElementById('floatingAutoUpdate');
+            
+            if (isAutoEnabled) {
+                floatingAutoBtn.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
+                floatingAutoBtn.style.color = 'white';
+                floatingAutoBtn.style.borderColor = '#10B981';
+            } else {
+                floatingAutoBtn.style.background = 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)';
+                floatingAutoBtn.style.color = '#FF85A2';
+                floatingAutoBtn.style.borderColor = '#FF85A2';
+            }
+        }
+
         // Hàm khởi tạo các sự kiện
         function initializeEventHandlers() {
+            // Khởi tạo floating settings menu
+            initializeFloatingSettings();
             // Khởi tạo tự động cập nhật từ cấu hình
             const isAutoEnabled = CONFIG.AUTO_LOAD_METADATA === "true" || CONFIG.AUTO_LOAD_METADATA === true;
             const toggleBtn = document.getElementById('autoUpdateToggle');
@@ -3191,6 +3486,9 @@
                     // Thêm log
                     addLog('Bật chức năng cập nhật tự động 9h sáng', 'Người dùng bật thủ công');
                 }
+                
+                // Cập nhật màu nút floating
+                updateAutoUpdateButtonColor();
             });
 
             // Thêm sự kiện cho nút làm mới ảnh (tải từ metadata)
@@ -3357,5 +3655,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98476f3a41230443',t:'MTc1ODc3MDkzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98483dc722810f28',t:'MTc1ODc3OTM5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
