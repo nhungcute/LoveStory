@@ -447,14 +447,14 @@
 
         /* Radial Menu Variables */
         :root {
-            --menu-radius: 70px;
-            --toggle-size: 50px;
-            --item-size: 45px;
+            --menu-radius: 56px;
+            --toggle-size: 40px;
+            --item-size: 36px;
             --transition-speed: 0.3s;
-            --toggle-btn-color: linear-gradient(135deg, #9CA3AF 0%, #6B7280 50%, #4B5563 100%);
-            --toggle-btn-hover: linear-gradient(135deg, #6B7280 0%, #4B5563 50%, #374151 100%);
-            --item-btn-color: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            --item-btn-hover: linear-gradient(135deg, #FF85A2 0%, #FF6B9D 100%);
+            --toggle-btn-color: #ff4e00;
+            --toggle-btn-hover: #e63900;
+            --item-btn-color: #9CA3AF;
+            --item-btn-hover: #6B7280;
             --icon-color: white;
         }
 
@@ -462,8 +462,24 @@
         .floating-settings {
             position: fixed;
             top: 20px;
-            right: 20px;
+            right: 15px;
             z-index: 9999;
+            cursor: move;
+            user-select: none;
+            transition: none;
+        }
+
+        .floating-settings.dragging {
+            transition: none !important;
+            pointer-events: none;
+        }
+
+        .floating-settings.dragging * {
+            pointer-events: none;
+        }
+
+        .floating-settings:not(.dragging) {
+            transition: all 0.3s ease;
         }
 
         .radial-menu-container {
@@ -518,26 +534,26 @@
             margin-top: calc(var(--item-size) / -2);
             margin-left: calc(var(--item-size) / -2);
             background: var(--item-btn-color);
-            border: 2px solid #FF85A2;
+            border: 2px solid #9CA3AF;
             border-radius: 50%;
-            color: #FF85A2;
+            color: #6B7280;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: calc(var(--item-size) * 0.35);
+            font-size: 16px;
             text-decoration: none;
             opacity: 0;
             transform: translate(0, 0);
-            transition: transform var(--transition-speed) ease-out, opacity var(--transition-speed) ease-out, background 0.2s ease, color 0.2s ease;
+            transition: transform var(--transition-speed) ease-out, opacity var(--transition-speed) ease-out, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
             cursor: pointer;
         }
 
         .menu .item:hover {
             background: var(--item-btn-hover);
-            color: white;
+            border-color: #6B7280;
             transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.4);
+            box-shadow: 0 5px 15px rgba(107, 114, 128, 0.4);
         }
 
         .radial-menu-container.active .menu {
@@ -554,28 +570,23 @@
         }
 
         .radial-menu-container.active .item:nth-child(2) {
-            transform: rotate(-36deg) translateY(calc(var(--menu-radius) * -1)) rotate(36deg);
+            transform: rotate(-45deg) translateY(calc(var(--menu-radius) * -1)) rotate(45deg);
             transition-delay: 0.05s;
         }
 
         .radial-menu-container.active .item:nth-child(3) {
-            transform: rotate(-72deg) translateY(calc(var(--menu-radius) * -1)) rotate(72deg);
+            transform: rotate(-90deg) translateY(calc(var(--menu-radius) * -1)) rotate(90deg);
             transition-delay: 0.1s;
         }
 
         .radial-menu-container.active .item:nth-child(4) {
-            transform: rotate(-108deg) translateY(calc(var(--menu-radius) * -1)) rotate(108deg);
+            transform: rotate(-135deg) translateY(calc(var(--menu-radius) * -1)) rotate(135deg);
             transition-delay: 0.15s;
         }
 
         .radial-menu-container.active .item:nth-child(5) {
-            transform: rotate(-144deg) translateY(calc(var(--menu-radius) * -1)) rotate(144deg);
-            transition-delay: 0.2s;
-        }
-
-        .radial-menu-container.active .item:nth-child(6) {
             transform: rotate(-180deg) translateY(calc(var(--menu-radius) * -1)) rotate(180deg);
-            transition-delay: 0.25s;
+            transition-delay: 0.2s;
         }
 
         /* Tooltip cho radial menu items */
@@ -624,32 +635,20 @@
         <div class="radial-menu-container" id="radialMenuContainer">
             <div class="menu">
                 <button class="item" data-tooltip="Thêm sự kiện" id="floatingAddEvent">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
-                    </svg>
+                    <i class="bi bi-cloud-plus" style="color: #10B981;"></i>
                 </button>
                 <button class="item" data-tooltip="Xóa sự kiện" id="floatingDeleteEvent">
-                    <i class="bi bi-trash"></i>
+                    <i class="bi bi-trash" style="color: #EF4444;"></i>
                 </button>
-                <button class="item" data-tooltip="Refresh sự kiện" id="floatingRefreshEvents">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
-                    </svg>
-                </button>
+
                 <button class="item" data-tooltip="Cập nhật danh sách ảnh" id="floatingUploadMetadata">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                    </svg>
+                    <i class="bi bi-cloud-download" style="color: white;"></i>
                 </button>
                 <button class="item" data-tooltip="Bật/Tắt tự động 9h sáng" id="floatingAutoUpdate">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                    </svg>
+                    <i class="bi bi-alarm"></i>
                 </button>
-                <button class="item" data-tooltip="Tải lại ảnh" id="floatingRefreshPhotos">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
-                    </svg>
+                <button class="item" data-tooltip="Refresh dữ liệu" id="floatingRefreshPhotos">
+                    <i class="bi bi-arrow-repeat" style="color: #06B6D4;"></i>
                 </button>
             </div>
             <button class="toggle-btn" id="settingsBtn">
@@ -737,11 +736,7 @@
                             <button id="deleteEventBtn" class="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors" disabled>
                                 <i class="bi bi-trash"></i>
                             </button>
-                            <button id="refreshEvents" class="p-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
+
                         </div>
                     </div>
                     
@@ -786,7 +781,7 @@
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
                                 </svg>
                             </button>
-                            <button id="refreshPhotos" class="p-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors" title="Tải lại ảnh">
+                            <button id="refreshPhotos" class="p-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors" title="Refresh dữ liệu">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
                                 </svg>
@@ -3256,17 +3251,204 @@
         function initializeFloatingSettings() {
             const container = document.getElementById('radialMenuContainer');
             const toggleBtn = document.getElementById('settingsBtn');
+            const floatingSettings = document.querySelector('.floating-settings');
 
-            // Toggle menu khi click vào nút settings
-            toggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                container.classList.toggle('active');
+            let isDragging = false;
+            let dragStartX = 0;
+            let dragStartY = 0;
+            let initialX = 0;
+            let initialY = 0;
+            let dragTimeout = null;
+
+            // Lưu và khôi phục vị trí từ localStorage
+            function savePosition() {
+                const rect = floatingSettings.getBoundingClientRect();
+                localStorage.setItem('floatingSettingsPosition', JSON.stringify({
+                    top: rect.top,
+                    left: rect.left
+                }));
+            }
+
+            function loadPosition() {
+                const saved = localStorage.getItem('floatingSettingsPosition');
+                if (saved) {
+                    try {
+                        const position = JSON.parse(saved);
+                        // Kiểm tra vị trí có hợp lệ không (trong màn hình)
+                        if (position.top >= 0 && position.left >= 0 && 
+                            position.top < window.innerHeight - 100 && 
+                            position.left < window.innerWidth - 100) {
+                            floatingSettings.style.top = position.top + 'px';
+                            floatingSettings.style.left = position.left + 'px';
+                            floatingSettings.style.right = 'auto';
+                        }
+                    } catch (e) {
+                        console.log('Không thể khôi phục vị trí settings');
+                    }
+                }
+            }
+
+            // Khôi phục vị trí khi tải trang
+            loadPosition();
+
+            // Xử lý sự kiện kéo thả
+            function handleMouseDown(e) {
+                // Chỉ cho phép kéo bằng chuột trái
+                if (e.button !== 0) return;
+                
+                isDragging = false;
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+                
+                const rect = floatingSettings.getBoundingClientRect();
+                initialX = rect.left;
+                initialY = rect.top;
+
+                // Thêm event listeners cho document
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', handleMouseUp);
+                
+                // Ngăn chặn selection
+                e.preventDefault();
+            }
+
+            function handleMouseMove(e) {
+                const deltaX = e.clientX - dragStartX;
+                const deltaY = e.clientY - dragStartY;
+                
+                // Chỉ bắt đầu kéo khi di chuyển đủ xa (tránh kéo nhầm khi click)
+                if (!isDragging && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
+                    isDragging = true;
+                    floatingSettings.classList.add('dragging');
+                    container.classList.remove('active'); // Đóng menu khi bắt đầu kéo
+                }
+
+                if (isDragging) {
+                    let newX = initialX + deltaX;
+                    let newY = initialY + deltaY;
+                    
+                    // Giới hạn trong màn hình
+                    const maxX = window.innerWidth - floatingSettings.offsetWidth;
+                    const maxY = window.innerHeight - floatingSettings.offsetHeight;
+                    
+                    newX = Math.max(0, Math.min(newX, maxX));
+                    newY = Math.max(0, Math.min(newY, maxY));
+                    
+                    floatingSettings.style.left = newX + 'px';
+                    floatingSettings.style.top = newY + 'px';
+                    floatingSettings.style.right = 'auto';
+                }
+            }
+
+            function handleMouseUp(e) {
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', handleMouseUp);
+                
+                if (isDragging) {
+                    floatingSettings.classList.remove('dragging');
+                    savePosition(); // Lưu vị trí mới
+                    
+                    // Delay một chút trước khi cho phép click lại
+                    setTimeout(() => {
+                        isDragging = false;
+                    }, 100);
+                } else {
+                    // Nếu không kéo thì xử lý như click bình thường
+                    e.stopPropagation();
+                    container.classList.toggle('active');
+                }
+            }
+
+            // Xử lý touch events cho mobile
+            function handleTouchStart(e) {
+                if (e.touches.length !== 1) return;
+                
+                const touch = e.touches[0];
+                isDragging = false;
+                dragStartX = touch.clientX;
+                dragStartY = touch.clientY;
+                
+                const rect = floatingSettings.getBoundingClientRect();
+                initialX = rect.left;
+                initialY = rect.top;
+
+                document.addEventListener('touchmove', handleTouchMove, { passive: false });
+                document.addEventListener('touchend', handleTouchEnd);
+            }
+
+            function handleTouchMove(e) {
+                if (e.touches.length !== 1) return;
+                
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - dragStartX;
+                const deltaY = touch.clientY - dragStartY;
+                
+                if (!isDragging && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
+                    isDragging = true;
+                    floatingSettings.classList.add('dragging');
+                    container.classList.remove('active');
+                }
+
+                if (isDragging) {
+                    e.preventDefault(); // Ngăn scroll trang
+                    
+                    let newX = initialX + deltaX;
+                    let newY = initialY + deltaY;
+                    
+                    const maxX = window.innerWidth - floatingSettings.offsetWidth;
+                    const maxY = window.innerHeight - floatingSettings.offsetHeight;
+                    
+                    newX = Math.max(0, Math.min(newX, maxX));
+                    newY = Math.max(0, Math.min(newY, maxY));
+                    
+                    floatingSettings.style.left = newX + 'px';
+                    floatingSettings.style.top = newY + 'px';
+                    floatingSettings.style.right = 'auto';
+                }
+            }
+
+            function handleTouchEnd(e) {
+                document.removeEventListener('touchmove', handleTouchMove);
+                document.removeEventListener('touchend', handleTouchEnd);
+                
+                if (isDragging) {
+                    floatingSettings.classList.remove('dragging');
+                    savePosition();
+                    
+                    setTimeout(() => {
+                        isDragging = false;
+                    }, 100);
+                } else {
+                    // Touch click
+                    e.preventDefault();
+                    container.classList.toggle('active');
+                }
+            }
+
+            // Thêm event listeners
+            toggleBtn.addEventListener('mousedown', handleMouseDown);
+            toggleBtn.addEventListener('touchstart', handleTouchStart, { passive: true });
+
+            // Đóng menu khi click ra ngoài (chỉ khi không đang kéo)
+            document.addEventListener('click', (e) => {
+                if (!isDragging && !e.target.closest('.radial-menu-container')) {
+                    container.classList.remove('active');
+                }
             });
 
-            // Đóng menu khi click ra ngoài
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.radial-menu-container')) {
-                    container.classList.remove('active');
+            // Xử lý khi thay đổi kích thước màn hình
+            window.addEventListener('resize', () => {
+                const rect = floatingSettings.getBoundingClientRect();
+                const maxX = window.innerWidth - floatingSettings.offsetWidth;
+                const maxY = window.innerHeight - floatingSettings.offsetHeight;
+                
+                if (rect.left > maxX || rect.top > maxY) {
+                    const newX = Math.max(0, Math.min(rect.left, maxX));
+                    const newY = Math.max(0, Math.min(rect.top, maxY));
+                    
+                    floatingSettings.style.left = newX + 'px';
+                    floatingSettings.style.top = newY + 'px';
+                    savePosition();
                 }
             });
 
@@ -3281,10 +3463,7 @@
                 container.classList.remove('active');
             });
 
-            document.getElementById('floatingRefreshEvents').addEventListener('click', () => {
-                document.getElementById('refreshEvents').click();
-                container.classList.remove('active');
-            });
+
 
             document.getElementById('floatingUploadMetadata').addEventListener('click', () => {
                 document.getElementById('uploadMetadataBtn').click();
@@ -3336,15 +3515,14 @@
         function updateAutoUpdateButtonColor() {
             const isAutoEnabled = localStorage.getItem('autoUpdateEnabled') === 'true';
             const floatingAutoBtn = document.getElementById('floatingAutoUpdate');
+            const alarmIcon = floatingAutoBtn.querySelector('i');
             
             if (isAutoEnabled) {
-                floatingAutoBtn.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
-                floatingAutoBtn.style.color = 'white';
-                floatingAutoBtn.style.borderColor = '#10B981';
+                // Trạng thái bật - icon màu đỏ để chỉ có thể tắt
+                alarmIcon.style.color = '#EF4444';
             } else {
-                floatingAutoBtn.style.background = 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)';
-                floatingAutoBtn.style.color = '#FF85A2';
-                floatingAutoBtn.style.borderColor = '#FF85A2';
+                // Trạng thái tắt - icon màu xanh để chỉ có thể bật
+                alarmIcon.style.color = '#10B981';
             }
         }
 
@@ -3434,18 +3612,7 @@
                 }
             });
             
-            // Thêm sự kiện cho nút làm mới sự kiện
-            document.getElementById('refreshEvents').addEventListener('click', () => {
-                readNotes().then(({ content }) => {
-                    if (content && content.length > 0 && window.calendarInstance) {
-                        window.calendarInstance.updateEventsFromData(content);
-                    }
-                    // Log đã được thêm trong hàm readNotes()
-                });
-                if (window.calendarInstance) {
-                    window.calendarInstance.goToToday();
-                }
-            });
+
 
             // Thêm sự kiện cho nút cập nhật metadata ảnh
             document.getElementById('uploadMetadataBtn').addEventListener('click', () => {
@@ -3491,10 +3658,26 @@
                 updateAutoUpdateButtonColor();
             });
 
-            // Thêm sự kiện cho nút làm mới ảnh (tải từ metadata)
-            document.getElementById('refreshPhotos').addEventListener('click', () => {
-                loadAllPhotosFromMetadata();
-                // Log đã được thêm trong hàm loadAllPhotosFromMetadata()
+            // Thêm sự kiện cho nút refresh dữ liệu (tải lại cả sự kiện và ảnh)
+            document.getElementById('refreshPhotos').addEventListener('click', async () => {
+                try {
+                    // Refresh sự kiện
+                    const { content } = await readNotes();
+                    if (content && content.length > 0 && window.calendarInstance) {
+                        window.calendarInstance.updateEventsFromData(content);
+                    }
+                    if (window.calendarInstance) {
+                        window.calendarInstance.goToToday();
+                    }
+                    
+                    // Refresh ảnh
+                    await loadAllPhotosFromMetadata();
+                    
+                    showMessage('✅ Đã refresh toàn bộ dữ liệu thành công!', 'success');
+                } catch (error) {
+                    console.error('Lỗi khi refresh dữ liệu:', error);
+                    showMessage('❌ Có lỗi khi refresh dữ liệu. Vui lòng thử lại.', 'error');
+                }
             });
 
             // Thêm sự kiện click vào vùng trống để bỏ chọn
@@ -3502,8 +3685,7 @@
                 // Kiểm tra nếu click không phải vào sự kiện hoặc các nút điều khiển
                 if (!e.target.closest('.event-item') && 
                     !e.target.closest('#deleteEventBtn') && 
-                    !e.target.closest('#addEventBtn') && 
-                    !e.target.closest('#refreshEvents')) {
+                    !e.target.closest('#addEventBtn')) {
                     
                     // Bỏ chọn tất cả sự kiện
                     document.querySelectorAll('.event-item').forEach(item => {
@@ -3655,5 +3837,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98483dc722810f28',t:'MTc1ODc3OTM5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98499ebff2c68b2f',t:'MTc1ODc5Mzg1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
