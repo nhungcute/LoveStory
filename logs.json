@@ -1,6 +1,13 @@
 [
   {
     "date": "26/9/2025",
+    "time": "00:22:14",
+    "action": "Load refresh sự kiện",
+    "details": "10 sự kiện",
+    "timestamp": "2025-09-25T17:22:14.483Z"
+  },
+  {
+    "date": "26/9/2025",
     "time": "00:21:34",
     "action": "Load refresh sự kiện",
     "details": "10 sự kiện",
