@@ -923,24 +923,30 @@
                 clearTimeout(timeoutId);
                 
                 if (!response.ok) {
-                    throw new Error(`❌ Lỗi khi tải cấu hình từ file configApp.json`);
+                    console.error(`❌ HTTP Error: ${response.status} - ${response.statusText}`);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
                 CONFIG = await response.json();
+                console.log('📄 Raw config loaded:', CONFIG);
                 
-                // Kiểm tra các trường bắt buộc
-                if (!CONFIG.GITHUB_USERNAME || !CONFIG.REPO_NAME || !CONFIG.PAT1 || !CONFIG.PAT2) {
-                    throw new Error('❌ Lỗi khi tải cấu hình từ file configApp.json');
+                // Kiểm tra các trường bắt buộc với logging chi tiết
+                const requiredFields = ['GITHUB_USERNAME', 'REPO_NAME', 'PAT1', 'PAT2'];
+                const missingFields = requiredFields.filter(field => !CONFIG[field]);
+                
+                if (missingFields.length > 0) {
+                    console.error('❌ Thiếu các trường bắt buộc:', missingFields);
+                    throw new Error(`Thiếu cấu hình: ${missingFields.join(', ')}`);
                 }
                 
                 // Thiết lập các biến từ config
                 GITHUB_USERNAME = CONFIG.GITHUB_USERNAME;
                 REPO_NAME = CONFIG.REPO_NAME;
                 PAT = CONFIG.PAT1 + CONFIG.PAT2; // Ghép PAT1 và PAT2
-                FILE_PATH = CONFIG.FILE_PATH;
-                COMMENTS_FILE_PATH = CONFIG.COMMENTS_FILE_PATH;
-                PHOTOS_METADATA_FILE_PATH = CONFIG.PHOTOS_METADATA_FILE_PATH;
-                LOGS_FILE_PATH = CONFIG.LOGS_FILE_PATH;
+                FILE_PATH = CONFIG.FILE_PATH || 'events.json';
+                COMMENTS_FILE_PATH = CONFIG.COMMENTS_FILE_PATH || 'comments.json';
+                PHOTOS_METADATA_FILE_PATH = CONFIG.PHOTOS_METADATA_FILE_PATH || 'photos_metadata.json';
+                LOGS_FILE_PATH = CONFIG.LOGS_FILE_PATH || 'logs.json';
                 
                 // Thiết lập các URL API
                 API_BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
@@ -950,28 +956,40 @@
                 CONFIG_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/configApp.json`;
                 
                 // Cấu hình Google Drive API
-                FOLDER_ID = CONFIG.FOLDER_ID;
-                API_KEY = CONFIG.API_KEY;
+                FOLDER_ID = CONFIG.FOLDER_ID || '';
+                API_KEY = CONFIG.API_KEY || '';
                 PHOTOS_PER_PAGE = CONFIG.PHOTOS_PER_PAGE || 12;
                 
                 console.log('✅ Đã tải cấu hình thành công:', {
                     username: GITHUB_USERNAME,
                     repo: REPO_NAME,
-                    folderId: FOLDER_ID,
+                    folderId: FOLDER_ID ? 'Có' : 'Không có',
+                    apiKey: API_KEY ? 'Có' : 'Không có',
                     photosPerPage: PHOTOS_PER_PAGE,
                     autoLoadMetadata: CONFIG.AUTO_LOAD_METADATA
                 });
                 
                 return true;
             } catch (error) {
-                console.error('❌ Lỗi khi tải cấu hình:', error);
+                console.error('❌ Chi tiết lỗi khi tải cấu hình:', {
+                    name: error.name,
+                    message: error.message,
+                    stack: error.stack
+                });
+                
+                let errorMessage = '❌ Không thể tải cấu hình ứng dụng';
                 
                 if (error.name === 'AbortError') {
-                    showMessage('❌ Lỗi khi tải cấu hình từ file configApp.json', 'error');
-                } else {
-                    showMessage('❌ Lỗi khi tải cấu hình từ file configApp.json', 'error');
+                    errorMessage = '⏰ Timeout khi tải cấu hình (quá 10 giây)';
+                } else if (error.message.includes('404')) {
+                    errorMessage = '📄 Không tìm thấy file configApp.json';
+                } else if (error.message.includes('Thiếu cấu hình')) {
+                    errorMessage = `🔧 ${error.message}`;
+                } else if (error.message.includes('JSON')) {
+                    errorMessage = '📝 File cấu hình không đúng định dạng JSON';
                 }
                 
+                showMessage(errorMessage, 'error');
                 throw error;
             }
         }
@@ -2932,31 +2950,108 @@
         // Hàm khởi tạo ứng dụng sau khi tải cấu hình
         async function initializeApp() {
             try {
+                console.log('🚀 Bắt đầu khởi tạo ứng dụng...');
+                
                 // Tải cấu hình trước
-                await loadConfig();
+                try {
+                    await loadConfig();
+                    console.log('✅ Cấu hình đã được tải thành công');
+                } catch (configError) {
+                    console.warn('⚠️ Không thể tải cấu hình, sử dụng cấu hình mặc định');
+                    
+                    // Sử dụng cấu hình mặc định để ứng dụng vẫn có thể chạy
+                    CONFIG = {
+                        GITHUB_USERNAME: 'demo',
+                        REPO_NAME: 'demo',
+                        PAT1: '',
+                        PAT2: '',
+                        FILE_PATH: 'events.json',
+                        COMMENTS_FILE_PATH: 'comments.json',
+                        PHOTOS_METADATA_FILE_PATH: 'photos_metadata.json',
+                        LOGS_FILE_PATH: 'logs.json',
+                        FOLDER_ID: '',
+                        API_KEY: '',
+                        PHOTOS_PER_PAGE: 12,
+                        AUTO_LOAD_METADATA: 'false'
+                    };
+                    
+                    // Thiết lập các biến cơ bản
+                    GITHUB_USERNAME = CONFIG.GITHUB_USERNAME;
+                    REPO_NAME = CONFIG.REPO_NAME;
+                    PAT = CONFIG.PAT1 + CONFIG.PAT2;
+                    FILE_PATH = CONFIG.FILE_PATH;
+                    COMMENTS_FILE_PATH = CONFIG.COMMENTS_FILE_PATH;
+                    PHOTOS_METADATA_FILE_PATH = CONFIG.PHOTOS_METADATA_FILE_PATH;
+                    LOGS_FILE_PATH = CONFIG.LOGS_FILE_PATH;
+                    FOLDER_ID = CONFIG.FOLDER_ID;
+                    API_KEY = CONFIG.API_KEY;
+                    PHOTOS_PER_PAGE = CONFIG.PHOTOS_PER_PAGE;
+                    
+                    // Thiết lập URL API (sẽ không hoạt động nhưng không gây lỗi)
+                    API_BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
+                    COMMENTS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${COMMENTS_FILE_PATH}`;
+                    PHOTOS_METADATA_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PHOTOS_METADATA_FILE_PATH}`;
+                    LOGS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${LOGS_FILE_PATH}`;
+                    CONFIG_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/configApp.json`;
+                    
+                    showMessage('⚠️ Chạy ở chế độ demo - một số tính năng có thể không hoạt động', 'error');
+                }
                 
                 // Khởi tạo calendar
+                console.log('📅 Khởi tạo calendar...');
                 const calendar = new Calendar();
                 window.calendarInstance = calendar;
+                console.log('✅ Calendar đã được khởi tạo');
                 
-                // Tải danh sách sự kiện khi trang được tải
-                readNotes().then(({ content }) => {
+                // Tải danh sách sự kiện khi trang được tải (với error handling)
+                console.log('📋 Tải danh sách sự kiện...');
+                try {
+                    const { content } = await readNotes();
                     if (content && content.length > 0) {
                         calendar.updateEventsFromData(content);
+                        console.log(`✅ Đã tải ${content.length} sự kiện`);
+                    } else {
+                        console.log('📝 Chưa có sự kiện nào');
                     }
-                });
+                } catch (eventsError) {
+                    console.warn('⚠️ Không thể tải sự kiện:', eventsError.message);
+                }
                 
-                // Tải ảnh từ metadata GitHub khi trang được tải (thay vì Google Drive API)
-                loadAllPhotosFromMetadata();
+                // Tải ảnh từ metadata GitHub (với error handling)
+                console.log('🖼️ Tải danh sách ảnh...');
+                try {
+                    await loadAllPhotosFromMetadata();
+                    console.log('✅ Đã tải danh sách ảnh');
+                } catch (photosError) {
+                    console.warn('⚠️ Không thể tải ảnh:', photosError.message);
+                }
                 
                 // Khởi tạo các sự kiện và chức năng khác
+                console.log('🔧 Khởi tạo event handlers...');
                 initializeEventHandlers();
+                console.log('✅ Event handlers đã được khởi tạo');
                 
                 console.log('🎉 Ứng dụng đã khởi tạo thành công!');
+                showMessage('🎉 Ứng dụng đã sẵn sàng!', 'success');
                 
             } catch (error) {
-                console.error('❌ Lỗi khi khởi tạo ứng dụng:', error);
-                showMessage('❌ Có lỗi khi khởi tạo ứng dụng. Vui lòng tải lại trang.', 'error');
+                console.error('❌ Lỗi nghiêm trọng khi khởi tạo ứng dụng:', {
+                    name: error.name,
+                    message: error.message,
+                    stack: error.stack
+                });
+                
+                // Vẫn cố gắng khởi tạo calendar cơ bản
+                try {
+                    console.log('🔄 Thử khởi tạo calendar cơ bản...');
+                    const calendar = new Calendar();
+                    window.calendarInstance = calendar;
+                    initializeEventHandlers();
+                    showMessage('⚠️ Ứng dụng chạy ở chế độ hạn chế. Một số tính năng có thể không hoạt động.', 'error');
+                } catch (fallbackError) {
+                    console.error('💥 Không thể khởi tạo ứng dụng:', fallbackError);
+                    showMessage('❌ Có lỗi nghiêm trọng. Vui lòng tải lại trang hoặc liên hệ hỗ trợ.', 'error');
+                }
             }
         }
 
@@ -3262,5 +3357,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9846ead506083424',t:'MTc1ODc2NTUxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98476f3a41230443',t:'MTc1ODc3MDkzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
