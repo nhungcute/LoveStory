@@ -1,6 +1,13 @@
 [
   {
     "date": "25/9/2025",
+    "time": "23:37:37",
+    "action": "Cập nhật danh sách ảnh vào file metadata thủ công",
+    "details": "710 ảnh",
+    "timestamp": "2025-09-25T16:37:37.667Z"
+  },
+  {
+    "date": "25/9/2025",
     "time": "23:36:13",
     "action": "Load refresh hiển thị ảnh trên grid",
     "details": "710 ảnh",
