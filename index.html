@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lịch Đáng Yêu 💕 - Phiên bản 44</title>
+    <title>Love Story 💕</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -466,39 +466,45 @@
             transform: translateX(-50%);
             z-index: 9999;
             user-select: none;
-            transition: none;
             opacity: 0.5;
+            transition: all 0.3s ease;
         }
 
-        .floating-settings:hover,
         .floating-settings.active {
+            opacity: 1;
+        }
+
+        .floating-settings:hover {
+            opacity: 1;
+        }
+
+        .floating-settings .toggle-btn:hover {
+            opacity: 1;
+        }
+
+        .floating-settings:hover .toggle-btn {
             opacity: 1;
         }
 
         .floating-settings.dragging {
             transition: none !important;
-            pointer-events: none;
         }
 
-        .floating-settings.dragging * {
+        .floating-settings.dragging .toggle-btn {
             pointer-events: none;
-        }
-
-        .floating-settings:not(.dragging) {
-            transition: all 0.3s ease;
         }
 
         .radial-menu-container {
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: calc(var(--menu-radius) * 2.5);
-            height: calc(var(--menu-radius) * 2.5);
+            width: var(--toggle-size);
+            height: var(--toggle-size);
         }
 
         .toggle-btn {
-            position: relative;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: var(--toggle-size);
             height: var(--toggle-size);
             background: var(--toggle-btn-color);
@@ -520,19 +526,29 @@
         }
 
         .toggle-btn:hover {
-            background: var(--toggle-btn-hover);
-            box-shadow: 0 6px 20px rgba(107, 114, 128, 0.6);
+            background: #e63900;
+            box-shadow: 0 6px 20px rgba(230, 57, 0, 0.6);
+            transform: translate(-50%, -50%) scale(1.05);
         }
 
         .radial-menu-container.active .toggle-btn {
-            transform: rotate(135deg);
+            transform: translate(-50%, -50%) rotate(135deg);
         }
 
         .menu {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; 
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(var(--menu-radius) * 2.5);
+            height: calc(var(--menu-radius) * 2.5);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .radial-menu-container.active .menu {
+            opacity: 1;
         }
 
         .menu .item {
@@ -565,10 +581,6 @@
             border-color: rgba(107, 114, 128, 0.5);
             transform: scale(1.1);
             box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
-        }
-
-        .radial-menu-container.active .menu {
-            pointer-events: auto;
         }
 
         .radial-menu-container.active .menu .item {
@@ -3814,6 +3826,7 @@
             let isDragging = false;
             let hasDragged = false;
             let startX, startY, initialX, initialY;
+            let dragThreshold = 3; // Giảm threshold để phản hồi nhanh hơn
 
             // Utility function to convert CSS variable string to number
             function varToNum(varName) {
@@ -3881,8 +3894,11 @@
                 }
             }
 
-            // --- DRAG LOGIC ---
+            // --- DRAG LOGIC - CHỈ CHO NÚT TOGGLE ---
             toggleBtn.addEventListener('mousedown', (e) => {
+                // Chỉ xử lý khi click trực tiếp vào nút toggle hoặc icon bên trong
+                if (e.target !== toggleBtn && e.target.parentElement !== toggleBtn) return;
+                
                 isDragging = true;
                 hasDragged = false;
                 
@@ -3899,6 +3915,7 @@
                 
                 // Prevent default to avoid text selection
                 e.preventDefault();
+                e.stopPropagation();
             });
 
             document.addEventListener('mousemove', (e) => {
@@ -3909,49 +3926,64 @@
                 const dy = e.clientY - startY;
 
                 // If the mouse has moved a significant amount, register it as a drag
-                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-                    hasDragged = true;
-                    container.classList.remove('active'); // Close menu when dragging starts
-                    floatingSettings.classList.remove('active');
+                if (Math.abs(dx) > dragThreshold || Math.abs(dy) > dragThreshold) {
+                    if (!hasDragged) {
+                        hasDragged = true;
+                        container.classList.remove('active'); // Close menu when dragging starts
+                        floatingSettings.classList.remove('active');
+                        floatingSettings.classList.add('dragging'); // Add dragging class
+                    }
                 }
 
-                // Calculate new position
-                let newLeft = initialX + dx;
-                let newTop = initialY + dy;
-                
-                // Constrain the button within the viewport
-                const containerWidth = container.offsetWidth;
-                const containerHeight = container.offsetHeight;
-                const menuDiameter = (varToNum('--menu-radius') * 2) + varToNum('--item-size');
+                if (hasDragged) {
+                    // Calculate new position với smooth tracking
+                    let newLeft = initialX + dx;
+                    let newTop = initialY + dy;
+                    
+                    // Constrain the button within the viewport
+                    const containerWidth = container.offsetWidth;
+                    const containerHeight = container.offsetHeight;
+                    const menuDiameter = (varToNum('--menu-radius') * 2) + varToNum('--item-size');
 
-                newLeft = Math.max(menuDiameter / 2, Math.min(newLeft, window.innerWidth - containerWidth - (menuDiameter / 2)));
-                newTop = Math.max(menuDiameter / 2, Math.min(newTop, window.innerHeight - containerHeight - (menuDiameter / 2)));
+                    newLeft = Math.max(menuDiameter / 2, Math.min(newLeft, window.innerWidth - containerWidth - (menuDiameter / 2)));
+                    newTop = Math.max(menuDiameter / 2, Math.min(newTop, window.innerHeight - containerHeight - (menuDiameter / 2)));
 
-                // Apply new position to floating settings container
-                floatingSettings.style.left = `${newLeft}px`;
-                floatingSettings.style.top = `${newTop}px`;
-                floatingSettings.style.transform = 'translate(0, 0)'; // Remove initial centering transform
+                    // Apply new position với requestAnimationFrame để smooth hơn
+                    requestAnimationFrame(() => {
+                        floatingSettings.style.left = `${newLeft}px`;
+                        floatingSettings.style.top = `${newTop}px`;
+                        floatingSettings.style.transform = 'translate(0, 0)';
+                    });
+                }
             });
 
-            document.addEventListener('mouseup', () => {
+            document.addEventListener('mouseup', (e) => {
                 if (isDragging) {
                     isDragging = false;
                     toggleBtn.style.cursor = 'grab';
                     document.body.style.userSelect = 'auto';
+                    floatingSettings.classList.remove('dragging'); // Remove dragging class
                     
                     if (hasDragged) {
                         savePosition(); // Save position after dragging
                         setMenuDirection(); // Update menu direction after dragging
+                        // Reset hasDragged sau một khoảng thời gian ngắn để tránh trigger click
+                        setTimeout(() => {
+                            hasDragged = false;
+                        }, 100);
                     }
                 }
             });
 
-            // --- MENU TOGGLE LOGIC ---
-            toggleBtn.addEventListener('click', () => {
-                // If the button was dragged, don't toggle the menu on mouse up
-                if (hasDragged) {
-                    return;
-                }
+            // --- MENU TOGGLE LOGIC - CHỈ CHO NÚT TOGGLE ---
+            toggleBtn.addEventListener('click', (e) => {
+                // Chỉ xử lý khi click trực tiếp vào nút toggle hoặc icon bên trong và không phải drag
+                if (e.target !== toggleBtn && e.target.parentElement !== toggleBtn) return;
+                if (hasDragged) return;
+                
+                e.preventDefault();
+                e.stopPropagation();
+                
                 // Determine the best direction to open BEFORE toggling the active class
                 setMenuDirection();
                 const isActive = container.classList.toggle('active');
@@ -3962,8 +3994,10 @@
                 }
             });
 
-            // Xử lý touch events cho mobile
+            // Xử lý touch events cho mobile - CHỈ CHO NÚT TOGGLE
             function handleTouchStart(e) {
+                // Chỉ xử lý khi touch trực tiếp vào nút toggle hoặc icon bên trong
+                if (e.target !== toggleBtn && e.target.parentElement !== toggleBtn) return;
                 if (e.touches.length !== 1) return;
                 
                 const touch = e.touches[0];
@@ -3978,6 +4012,9 @@
 
                 document.addEventListener('touchmove', handleTouchMove, { passive: false });
                 document.addEventListener('touchend', handleTouchEnd);
+                
+                e.preventDefault();
+                e.stopPropagation();
             }
 
             function handleTouchMove(e) {
@@ -3987,10 +4024,13 @@
                 const dx = touch.clientX - startX;
                 const dy = touch.clientY - startY;
                 
-                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-                    hasDragged = true;
-                    container.classList.remove('active');
-                    floatingSettings.classList.remove('active');
+                if (Math.abs(dx) > dragThreshold || Math.abs(dy) > dragThreshold) {
+                    if (!hasDragged) {
+                        hasDragged = true;
+                        container.classList.remove('active');
+                        floatingSettings.classList.remove('active');
+                        floatingSettings.classList.add('dragging');
+                    }
                 }
 
                 if (hasDragged) {
@@ -4006,9 +4046,11 @@
                     newLeft = Math.max(menuDiameter / 2, Math.min(newLeft, window.innerWidth - containerWidth - (menuDiameter / 2)));
                     newTop = Math.max(menuDiameter / 2, Math.min(newTop, window.innerHeight - containerHeight - (menuDiameter / 2)));
                     
-                    floatingSettings.style.left = `${newLeft}px`;
-                    floatingSettings.style.top = `${newTop}px`;
-                    floatingSettings.style.transform = 'translate(0, 0)';
+                    requestAnimationFrame(() => {
+                        floatingSettings.style.left = `${newLeft}px`;
+                        floatingSettings.style.top = `${newTop}px`;
+                        floatingSettings.style.transform = 'translate(0, 0)';
+                    });
                 }
             }
 
@@ -4018,10 +4060,14 @@
                 
                 if (isDragging) {
                     isDragging = false;
+                    floatingSettings.classList.remove('dragging');
                     
                     if (hasDragged) {
                         savePosition();
                         setMenuDirection();
+                        setTimeout(() => {
+                            hasDragged = false;
+                        }, 100);
                     } else {
                         // Touch click
                         e.preventDefault();
@@ -4036,12 +4082,15 @@
                 }
             }
 
-            // Thêm touch event listeners
-            toggleBtn.addEventListener('touchstart', handleTouchStart, { passive: true });
+            // Thêm touch event listeners - CHỈ CHO NÚT TOGGLE
+            toggleBtn.addEventListener('touchstart', handleTouchStart, { passive: false });
 
-            // Đóng menu khi click ra ngoài
+            // Đóng menu khi click ra ngoài - CHỈ ĐÓNG KHI CLICK NGOÀI NÚT TOGGLE
             document.addEventListener('click', (e) => {
-                if (!hasDragged && !e.target.closest('.radial-menu-container')) {
+                if (!hasDragged && 
+                    e.target !== toggleBtn && 
+                    e.target.parentElement !== toggleBtn &&
+                    !e.target.closest('.menu')) {
                     container.classList.remove('active');
                     floatingSettings.classList.remove('active');
                 }
@@ -4466,5 +4515,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984f7054f4388e91',t:'MTc1ODg1NDg2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984fecbb24515167',t:'MTc1ODg1OTk2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
