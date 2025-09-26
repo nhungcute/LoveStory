@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story 💕</title>
+    <title>Lịch Đáng Yêu 💕 - Phiên bản 44</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -462,11 +462,17 @@
         .floating-settings {
             position: fixed;
             top: 20px;
-            right: 15px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 9999;
-            cursor: move;
             user-select: none;
             transition: none;
+            opacity: 0.5;
+        }
+
+        .floating-settings:hover,
+        .floating-settings.active {
+            opacity: 1;
         }
 
         .floating-settings.dragging {
@@ -503,10 +509,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
+            cursor: grab;
             z-index: 10;
             transition: transform var(--transition-speed) cubic-bezier(0.68, -0.55, 0.27, 1.55), background 0.2s ease;
             box-shadow: 0 4px 15px rgba(107, 114, 128, 0.4);
+        }
+
+        .toggle-btn:active {
+            cursor: grabbing;
         }
 
         .toggle-btn:hover {
@@ -533,27 +543,28 @@
             height: var(--item-size);
             margin-top: calc(var(--item-size) / -2);
             margin-left: calc(var(--item-size) / -2);
-            background: var(--item-btn-color);
-            border: 2px solid #9CA3AF;
+            background: rgba(156, 163, 175, 0.3);
+            border: 1px solid rgba(156, 163, 175, 0.4);
             border-radius: 50%;
             color: #6B7280;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 16px;
+            font-size: 18px;
+            font-weight: bold;
             text-decoration: none;
             opacity: 0;
             transform: translate(0, 0);
             transition: transform var(--transition-speed) ease-out, opacity var(--transition-speed) ease-out, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             cursor: pointer;
         }
 
         .menu .item:hover {
-            background: var(--item-btn-hover);
-            border-color: #6B7280;
+            background: rgba(107, 114, 128, 0.4);
+            border-color: rgba(107, 114, 128, 0.5);
             transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(107, 114, 128, 0.4);
+            box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
         }
 
         .radial-menu-container.active .menu {
@@ -564,29 +575,118 @@
             opacity: 1;
         }
 
+        /* Default positioning (top section) - items appear below */
         .radial-menu-container.active .item:nth-child(1) {
-            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)) rotate(0deg);
+            transform: rotate(0deg) translateY(calc(var(--menu-radius) * 1)) rotate(0deg);
             transition-delay: 0.0s;
         }
 
         .radial-menu-container.active .item:nth-child(2) {
-            transform: rotate(-45deg) translateY(calc(var(--menu-radius) * -1)) rotate(45deg);
+            transform: rotate(45deg) translateY(calc(var(--menu-radius) * 1)) rotate(-45deg);
             transition-delay: 0.05s;
         }
 
         .radial-menu-container.active .item:nth-child(3) {
-            transform: rotate(-90deg) translateY(calc(var(--menu-radius) * -1)) rotate(90deg);
+            transform: rotate(90deg) translateY(calc(var(--menu-radius) * 1)) rotate(-90deg);
             transition-delay: 0.1s;
         }
 
         .radial-menu-container.active .item:nth-child(4) {
-            transform: rotate(-135deg) translateY(calc(var(--menu-radius) * -1)) rotate(135deg);
+            transform: rotate(135deg) translateY(calc(var(--menu-radius) * 1)) rotate(-135deg);
             transition-delay: 0.15s;
         }
 
         .radial-menu-container.active .item:nth-child(5) {
-            transform: rotate(-180deg) translateY(calc(var(--menu-radius) * -1)) rotate(180deg);
+            transform: rotate(180deg) translateY(calc(var(--menu-radius) * 1)) rotate(-180deg);
             transition-delay: 0.2s;
+        }
+
+        /* Open to the RIGHT (when button is on the left edge) */
+        .radial-menu-container.open-right.active .item:nth-child(1) { 
+            transform: rotate(-90deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.0s; 
+        }
+        .radial-menu-container.open-right.active .item:nth-child(2) { 
+            transform: rotate(-45deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.05s; 
+        }
+        .radial-menu-container.open-right.active .item:nth-child(3) { 
+            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.1s; 
+        }
+        .radial-menu-container.open-right.active .item:nth-child(4) { 
+            transform: rotate(45deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.15s; 
+        }
+        .radial-menu-container.open-right.active .item:nth-child(5) { 
+            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.2s; 
+        }
+        
+        /* Open to the LEFT (when button is on the right edge) */
+        .radial-menu-container.open-left.active .item:nth-child(1) { 
+            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.0s; 
+        }
+        .radial-menu-container.open-left.active .item:nth-child(2) { 
+            transform: rotate(135deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.05s; 
+        }
+        .radial-menu-container.open-left.active .item:nth-child(3) { 
+            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.1s; 
+        }
+        .radial-menu-container.open-left.active .item:nth-child(4) { 
+            transform: rotate(225deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.15s; 
+        }
+        .radial-menu-container.open-left.active .item:nth-child(5) { 
+            transform: rotate(270deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.2s; 
+        }
+        
+        /* Open UP (when button is on the bottom edge) */
+        .radial-menu-container.open-up.active .item:nth-child(1) { 
+            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.0s; 
+        }
+        .radial-menu-container.open-up.active .item:nth-child(2) { 
+            transform: rotate(225deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.05s; 
+        }
+        .radial-menu-container.open-up.active .item:nth-child(3) { 
+            transform: rotate(270deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.1s; 
+        }
+        .radial-menu-container.open-up.active .item:nth-child(4) { 
+            transform: rotate(315deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.15s; 
+        }
+        .radial-menu-container.open-up.active .item:nth-child(5) { 
+            transform: rotate(360deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.2s; 
+        }
+        
+        /* Open DOWN (when button is on the top edge) */
+        .radial-menu-container.open-down.active .item:nth-child(1) { 
+            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.0s; 
+        }
+        .radial-menu-container.open-down.active .item:nth-child(2) { 
+            transform: rotate(45deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.05s; 
+        }
+        .radial-menu-container.open-down.active .item:nth-child(3) { 
+            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.1s; 
+        }
+        .radial-menu-container.open-down.active .item:nth-child(4) { 
+            transform: rotate(135deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.15s; 
+        }
+        .radial-menu-container.open-down.active .item:nth-child(5) { 
+            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)); 
+            transition-delay: 0.2s; 
         }
 
         /* Tooltip cho radial menu items */
@@ -635,7 +735,7 @@
         <div class="radial-menu-container" id="radialMenuContainer">
             <div class="menu">
                 <button class="item" data-tooltip="Thêm sự kiện" id="floatingAddEvent">
-                    <i class="bi bi-cloud-plus" style="color: #10B981;"></i>
+                    <i class="bi bi-file-earmark-plus" style="color: #10B981;"></i>
                 </button>
                 <button class="item" data-tooltip="Xóa sự kiện" id="floatingDeleteEvent">
                     <i class="bi bi-trash" style="color: #EF4444;"></i>
@@ -3712,11 +3812,13 @@
             const floatingSettings = document.querySelector('.floating-settings');
 
             let isDragging = false;
-            let dragStartX = 0;
-            let dragStartY = 0;
-            let initialX = 0;
-            let initialY = 0;
-            let dragTimeout = null;
+            let hasDragged = false;
+            let startX, startY, initialX, initialY;
+
+            // Utility function to convert CSS variable string to number
+            function varToNum(varName) {
+                return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(varName));
+            }
 
             // Lưu và khôi phục vị trí từ localStorage
             function savePosition() {
@@ -3736,9 +3838,9 @@
                         if (position.top >= 0 && position.left >= 0 && 
                             position.top < window.innerHeight - 100 && 
                             position.left < window.innerWidth - 100) {
-                            floatingSettings.style.top = position.top + 'px';
                             floatingSettings.style.left = position.left + 'px';
-                            floatingSettings.style.right = 'auto';
+                            floatingSettings.style.top = position.top + 'px';
+                            floatingSettings.style.transform = 'translate(0, 0)'; // Remove initial centering transform
                         }
                     } catch (e) {
                         console.log('Không thể khôi phục vị trí settings');
@@ -3748,120 +3850,165 @@
 
             // Khôi phục vị trí khi tải trang
             loadPosition();
+            
+            // Cập nhật vị trí menu ban đầu
+            setTimeout(() => {
+                setMenuDirection();
+            }, 100);
 
-            // Xử lý sự kiện kéo thả
-            function handleMouseDown(e) {
-                // Chỉ cho phép kéo bằng chuột trái
-                if (e.button !== 0) return;
-                
-                isDragging = false;
-                dragStartX = e.clientX;
-                dragStartY = e.clientY;
-                
-                const rect = floatingSettings.getBoundingClientRect();
-                initialX = rect.left;
-                initialY = rect.top;
+            // Hàm xác định hướng mở menu dựa trên vị trí hiện tại
+            function setMenuDirection() {
+                const rect = container.getBoundingClientRect();
+                const winWidth = window.innerWidth;
+                const winHeight = window.innerHeight;
 
-                // Thêm event listeners cho document
-                document.addEventListener('mousemove', handleMouseMove);
-                document.addEventListener('mouseup', handleMouseUp);
+                const distTop = rect.top + (rect.height / 2);
+                const distBottom = winHeight - (rect.bottom - (rect.height / 2));
+                const distLeft = rect.left + (rect.width / 2);
+                const distRight = winWidth - (rect.right - (rect.width / 2));
+                const minDistance = Math.min(distTop, distBottom, distLeft, distRight);
+
+                container.classList.remove('position-top', 'position-bottom', 'position-left', 'position-right');
+
+                if (minDistance === distTop) {
+                    container.classList.add('position-top'); // Open down
+                } else if (minDistance === distBottom) {
+                    container.classList.add('position-bottom'); // Open up
+                } else if (minDistance === distLeft) {
+                    container.classList.add('position-left'); // Open right
+                } else { // distRight
+                    container.classList.add('position-right'); // Open left
+                }
+            }
+
+            // --- DRAG LOGIC ---
+            toggleBtn.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                hasDragged = false;
                 
-                // Ngăn chặn selection
+                // Record the initial mouse position and the element's initial position
+                startX = e.clientX;
+                startY = e.clientY;
+                const floatingRect = floatingSettings.getBoundingClientRect();
+                initialX = floatingRect.left;
+                initialY = floatingRect.top;
+
+                // Change cursor and prevent text selection
+                toggleBtn.style.cursor = 'grabbing';
+                document.body.style.userSelect = 'none';
+                
+                // Prevent default to avoid text selection
                 e.preventDefault();
-            }
+            });
 
-            function handleMouseMove(e) {
-                const deltaX = e.clientX - dragStartX;
-                const deltaY = e.clientY - dragStartY;
-                
-                // Chỉ bắt đầu kéo khi di chuyển đủ xa (tránh kéo nhầm khi click)
-                if (!isDragging && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
-                    isDragging = true;
-                    floatingSettings.classList.add('dragging');
-                    container.classList.remove('active'); // Đóng menu khi bắt đầu kéo
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+
+                // Calculate mouse movement
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+
+                // If the mouse has moved a significant amount, register it as a drag
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                    hasDragged = true;
+                    container.classList.remove('active'); // Close menu when dragging starts
+                    floatingSettings.classList.remove('active');
                 }
 
-                if (isDragging) {
-                    let newX = initialX + deltaX;
-                    let newY = initialY + deltaY;
-                    
-                    // Giới hạn trong màn hình
-                    const maxX = window.innerWidth - floatingSettings.offsetWidth;
-                    const maxY = window.innerHeight - floatingSettings.offsetHeight;
-                    
-                    newX = Math.max(0, Math.min(newX, maxX));
-                    newY = Math.max(0, Math.min(newY, maxY));
-                    
-                    floatingSettings.style.left = newX + 'px';
-                    floatingSettings.style.top = newY + 'px';
-                    floatingSettings.style.right = 'auto';
-                }
-            }
-
-            function handleMouseUp(e) {
-                document.removeEventListener('mousemove', handleMouseMove);
-                document.removeEventListener('mouseup', handleMouseUp);
+                // Calculate new position
+                let newLeft = initialX + dx;
+                let newTop = initialY + dy;
                 
+                // Constrain the button within the viewport
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
+                const menuDiameter = (varToNum('--menu-radius') * 2) + varToNum('--item-size');
+
+                newLeft = Math.max(menuDiameter / 2, Math.min(newLeft, window.innerWidth - containerWidth - (menuDiameter / 2)));
+                newTop = Math.max(menuDiameter / 2, Math.min(newTop, window.innerHeight - containerHeight - (menuDiameter / 2)));
+
+                // Apply new position to floating settings container
+                floatingSettings.style.left = `${newLeft}px`;
+                floatingSettings.style.top = `${newTop}px`;
+                floatingSettings.style.transform = 'translate(0, 0)'; // Remove initial centering transform
+            });
+
+            document.addEventListener('mouseup', () => {
                 if (isDragging) {
-                    floatingSettings.classList.remove('dragging');
-                    savePosition(); // Lưu vị trí mới
+                    isDragging = false;
+                    toggleBtn.style.cursor = 'grab';
+                    document.body.style.userSelect = 'auto';
                     
-                    // Delay một chút trước khi cho phép click lại
-                    setTimeout(() => {
-                        isDragging = false;
-                    }, 100);
+                    if (hasDragged) {
+                        savePosition(); // Save position after dragging
+                        setMenuDirection(); // Update menu direction after dragging
+                    }
+                }
+            });
+
+            // --- MENU TOGGLE LOGIC ---
+            toggleBtn.addEventListener('click', () => {
+                // If the button was dragged, don't toggle the menu on mouse up
+                if (hasDragged) {
+                    return;
+                }
+                // Determine the best direction to open BEFORE toggling the active class
+                setMenuDirection();
+                const isActive = container.classList.toggle('active');
+                if (isActive) {
+                    floatingSettings.classList.add('active');
                 } else {
-                    // Nếu không kéo thì xử lý như click bình thường
-                    e.stopPropagation();
-                    container.classList.toggle('active');
+                    floatingSettings.classList.remove('active');
                 }
-            }
+            });
 
             // Xử lý touch events cho mobile
             function handleTouchStart(e) {
                 if (e.touches.length !== 1) return;
                 
                 const touch = e.touches[0];
-                isDragging = false;
-                dragStartX = touch.clientX;
-                dragStartY = touch.clientY;
+                isDragging = true;
+                hasDragged = false;
                 
-                const rect = floatingSettings.getBoundingClientRect();
-                initialX = rect.left;
-                initialY = rect.top;
+                startX = touch.clientX;
+                startY = touch.clientY;
+                const floatingRect = floatingSettings.getBoundingClientRect();
+                initialX = floatingRect.left;
+                initialY = floatingRect.top;
 
                 document.addEventListener('touchmove', handleTouchMove, { passive: false });
                 document.addEventListener('touchend', handleTouchEnd);
             }
 
             function handleTouchMove(e) {
-                if (e.touches.length !== 1) return;
+                if (!isDragging || e.touches.length !== 1) return;
                 
                 const touch = e.touches[0];
-                const deltaX = touch.clientX - dragStartX;
-                const deltaY = touch.clientY - dragStartY;
+                const dx = touch.clientX - startX;
+                const dy = touch.clientY - startY;
                 
-                if (!isDragging && (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5)) {
-                    isDragging = true;
-                    floatingSettings.classList.add('dragging');
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                    hasDragged = true;
                     container.classList.remove('active');
+                    floatingSettings.classList.remove('active');
                 }
 
-                if (isDragging) {
+                if (hasDragged) {
                     e.preventDefault(); // Ngăn scroll trang
                     
-                    let newX = initialX + deltaX;
-                    let newY = initialY + deltaY;
+                    let newLeft = initialX + dx;
+                    let newTop = initialY + dy;
                     
-                    const maxX = window.innerWidth - floatingSettings.offsetWidth;
-                    const maxY = window.innerHeight - floatingSettings.offsetHeight;
+                    const containerWidth = container.offsetWidth;
+                    const containerHeight = container.offsetHeight;
+                    const menuDiameter = (varToNum('--menu-radius') * 2) + varToNum('--item-size');
+
+                    newLeft = Math.max(menuDiameter / 2, Math.min(newLeft, window.innerWidth - containerWidth - (menuDiameter / 2)));
+                    newTop = Math.max(menuDiameter / 2, Math.min(newTop, window.innerHeight - containerHeight - (menuDiameter / 2)));
                     
-                    newX = Math.max(0, Math.min(newX, maxX));
-                    newY = Math.max(0, Math.min(newY, maxY));
-                    
-                    floatingSettings.style.left = newX + 'px';
-                    floatingSettings.style.top = newY + 'px';
-                    floatingSettings.style.right = 'auto';
+                    floatingSettings.style.left = `${newLeft}px`;
+                    floatingSettings.style.top = `${newTop}px`;
+                    floatingSettings.style.transform = 'translate(0, 0)';
                 }
             }
 
@@ -3870,55 +4017,74 @@
                 document.removeEventListener('touchend', handleTouchEnd);
                 
                 if (isDragging) {
-                    floatingSettings.classList.remove('dragging');
-                    savePosition();
+                    isDragging = false;
                     
-                    setTimeout(() => {
-                        isDragging = false;
-                    }, 100);
-                } else {
-                    // Touch click
-                    e.preventDefault();
-                    container.classList.toggle('active');
+                    if (hasDragged) {
+                        savePosition();
+                        setMenuDirection();
+                    } else {
+                        // Touch click
+                        e.preventDefault();
+                        setMenuDirection();
+                        const isActive = container.classList.toggle('active');
+                        if (isActive) {
+                            floatingSettings.classList.add('active');
+                        } else {
+                            floatingSettings.classList.remove('active');
+                        }
+                    }
                 }
             }
 
-            // Thêm event listeners
-            toggleBtn.addEventListener('mousedown', handleMouseDown);
+            // Thêm touch event listeners
             toggleBtn.addEventListener('touchstart', handleTouchStart, { passive: true });
 
-            // Đóng menu khi click ra ngoài (chỉ khi không đang kéo)
+            // Đóng menu khi click ra ngoài
             document.addEventListener('click', (e) => {
-                if (!isDragging && !e.target.closest('.radial-menu-container')) {
+                if (!hasDragged && !e.target.closest('.radial-menu-container')) {
                     container.classList.remove('active');
+                    floatingSettings.classList.remove('active');
                 }
             });
 
             // Xử lý khi thay đổi kích thước màn hình
             window.addEventListener('resize', () => {
                 const rect = floatingSettings.getBoundingClientRect();
-                const maxX = window.innerWidth - floatingSettings.offsetWidth;
-                const maxY = window.innerHeight - floatingSettings.offsetHeight;
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
+                const menuDiameter = (varToNum('--menu-radius') * 2) + varToNum('--item-size');
                 
-                if (rect.left > maxX || rect.top > maxY) {
-                    const newX = Math.max(0, Math.min(rect.left, maxX));
-                    const newY = Math.max(0, Math.min(rect.top, maxY));
+                const maxX = window.innerWidth - containerWidth - (menuDiameter / 2);
+                const maxY = window.innerHeight - containerHeight - (menuDiameter / 2);
+                const minX = menuDiameter / 2;
+                const minY = menuDiameter / 2;
+                
+                if (rect.left > maxX || rect.top > maxY || rect.left < minX || rect.top < minY) {
+                    const newX = Math.max(minX, Math.min(rect.left, maxX));
+                    const newY = Math.max(minY, Math.min(rect.top, maxY));
                     
                     floatingSettings.style.left = newX + 'px';
                     floatingSettings.style.top = newY + 'px';
                     savePosition();
                 }
+                
+                // Cập nhật hướng menu sau khi resize
+                setTimeout(() => {
+                    setMenuDirection();
+                }, 100);
             });
 
             // Xử lý các nút trong menu
             document.getElementById('floatingAddEvent').addEventListener('click', () => {
                 document.getElementById('addEventBtn').click();
                 container.classList.remove('active');
+                floatingSettings.classList.remove('active');
             });
 
             document.getElementById('floatingDeleteEvent').addEventListener('click', () => {
                 document.getElementById('deleteEventBtn').click();
                 container.classList.remove('active');
+                floatingSettings.classList.remove('active');
             });
 
 
@@ -3926,16 +4092,19 @@
             document.getElementById('floatingUploadMetadata').addEventListener('click', () => {
                 document.getElementById('uploadMetadataBtn').click();
                 container.classList.remove('active');
+                floatingSettings.classList.remove('active');
             });
 
             document.getElementById('floatingAutoUpdate').addEventListener('click', () => {
                 document.getElementById('autoUpdateToggle').click();
                 container.classList.remove('active');
+                floatingSettings.classList.remove('active');
             });
 
             document.getElementById('floatingRefreshPhotos').addEventListener('click', () => {
                 document.getElementById('refreshPhotos').click();
                 container.classList.remove('active');
+                floatingSettings.classList.remove('active');
             });
 
             // Cập nhật trạng thái nút xóa sự kiện
@@ -4297,5 +4466,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9849e773856d03b7',t:'MTc1ODc5NjgzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984f7054f4388e91',t:'MTc1ODg1NDg2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
