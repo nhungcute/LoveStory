@@ -1,6 +1,13 @@
 [
   {
     "date": "29/9/2025",
+    "time": "17:09:08",
+    "action": "Load refresh sự kiện",
+    "details": "10 sự kiện",
+    "timestamp": "2025-09-29T10:09:08.348Z"
+  },
+  {
+    "date": "29/9/2025",
     "time": "16:48:42",
     "action": "Cập nhật danh sách ảnh vào file metadata thủ công",
     "details": "710 ảnh",
