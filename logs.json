@@ -1,6 +1,13 @@
 [
   {
     "date": "29/9/2025",
+    "time": "17:09:24",
+    "action": "Load refresh hiển thị ảnh trên grid",
+    "details": "710 ảnh",
+    "timestamp": "2025-09-29T10:09:24.898Z"
+  },
+  {
+    "date": "29/9/2025",
     "time": "17:09:08",
     "action": "Load refresh sự kiện",
     "details": "10 sự kiện",
