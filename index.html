@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story 💕</title>
+    <title>Lịch Đáng Yêu 💕 - Phiên bản 44</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -574,6 +574,12 @@
             transition: transform var(--transition-speed) ease-out, opacity var(--transition-speed) ease-out, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             cursor: pointer;
+            pointer-events: none;
+        }
+
+        /* Icon bên trong nút luôn nằm ngang */
+        .menu .item i {
+            transform: rotate(0deg) !important;
         }
 
         .menu .item:hover {
@@ -585,6 +591,7 @@
 
         .radial-menu-container.active .menu .item {
             opacity: 1;
+            pointer-events: all;
         }
 
         /* Default positioning (top section) - items appear below */
@@ -614,99 +621,103 @@
         }
 
         /* Open to the RIGHT (when button is on the left edge) */
+        /* Thêm sự kiện (12h) -> Xóa sự kiện -> Cập nhật metadata -> Tự động cập nhật -> Refresh (6h) */
         .radial-menu-container.open-right.active .item:nth-child(1) { 
-            transform: rotate(-90deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)) rotate(0deg); 
             transition-delay: 0.0s; 
         }
         .radial-menu-container.open-right.active .item:nth-child(2) { 
-            transform: rotate(-45deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(45deg) translateY(calc(var(--menu-radius) * -1)) rotate(-45deg); 
             transition-delay: 0.05s; 
         }
         .radial-menu-container.open-right.active .item:nth-child(3) { 
-            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)) rotate(-90deg); 
             transition-delay: 0.1s; 
         }
         .radial-menu-container.open-right.active .item:nth-child(4) { 
-            transform: rotate(45deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(135deg) translateY(calc(var(--menu-radius) * -1)) rotate(-135deg); 
             transition-delay: 0.15s; 
         }
         .radial-menu-container.open-right.active .item:nth-child(5) { 
-            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)) rotate(-180deg); 
             transition-delay: 0.2s; 
         }
         
         /* Open to the LEFT (when button is on the right edge) */
+        /* Thêm sự kiện (12h) -> Xóa sự kiện -> Cập nhật metadata -> Tự động cập nhật -> Refresh (6h) */
         .radial-menu-container.open-left.active .item:nth-child(1) { 
-            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)) rotate(-180deg); 
             transition-delay: 0.0s; 
         }
         .radial-menu-container.open-left.active .item:nth-child(2) { 
-            transform: rotate(135deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(225deg) translateY(calc(var(--menu-radius) * -1)) rotate(-225deg); 
             transition-delay: 0.05s; 
         }
         .radial-menu-container.open-left.active .item:nth-child(3) { 
-            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(270deg) translateY(calc(var(--menu-radius) * -1)) rotate(-270deg); 
             transition-delay: 0.1s; 
         }
         .radial-menu-container.open-left.active .item:nth-child(4) { 
-            transform: rotate(225deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(315deg) translateY(calc(var(--menu-radius) * -1)) rotate(-315deg); 
             transition-delay: 0.15s; 
         }
         .radial-menu-container.open-left.active .item:nth-child(5) { 
-            transform: rotate(270deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)) rotate(0deg); 
             transition-delay: 0.2s; 
         }
         
         /* Open UP (when button is on the bottom edge) */
+        /* Thêm sự kiện (3h) -> Xóa sự kiện -> Cập nhật metadata -> Tự động cập nhật -> Refresh (9h) */
         .radial-menu-container.open-up.active .item:nth-child(1) { 
-            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(270deg) translateY(calc(var(--menu-radius) * -1)) rotate(-270deg); 
             transition-delay: 0.0s; 
         }
         .radial-menu-container.open-up.active .item:nth-child(2) { 
-            transform: rotate(225deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(315deg) translateY(calc(var(--menu-radius) * -1)) rotate(-315deg); 
             transition-delay: 0.05s; 
         }
         .radial-menu-container.open-up.active .item:nth-child(3) { 
-            transform: rotate(270deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)) rotate(0deg); 
             transition-delay: 0.1s; 
         }
         .radial-menu-container.open-up.active .item:nth-child(4) { 
-            transform: rotate(315deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(45deg) translateY(calc(var(--menu-radius) * -1)) rotate(-45deg); 
             transition-delay: 0.15s; 
         }
         .radial-menu-container.open-up.active .item:nth-child(5) { 
-            transform: rotate(360deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)) rotate(-90deg); 
             transition-delay: 0.2s; 
         }
         
         /* Open DOWN (when button is on the top edge) */
+        /* Thêm sự kiện (3h) -> Xóa sự kiện -> Cập nhật metadata -> Tự động cập nhật -> Refresh (9h) */
         .radial-menu-container.open-down.active .item:nth-child(1) { 
-            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)) rotate(-90deg); 
             transition-delay: 0.0s; 
         }
         .radial-menu-container.open-down.active .item:nth-child(2) { 
-            transform: rotate(45deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(135deg) translateY(calc(var(--menu-radius) * -1)) rotate(-135deg); 
             transition-delay: 0.05s; 
         }
         .radial-menu-container.open-down.active .item:nth-child(3) { 
-            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)) rotate(-180deg); 
             transition-delay: 0.1s; 
         }
         .radial-menu-container.open-down.active .item:nth-child(4) { 
-            transform: rotate(135deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(225deg) translateY(calc(var(--menu-radius) * -1)) rotate(-225deg); 
             transition-delay: 0.15s; 
         }
         .radial-menu-container.open-down.active .item:nth-child(5) { 
-            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)); 
+            transform: rotate(270deg) translateY(calc(var(--menu-radius) * -1)) rotate(-270deg); 
             transition-delay: 0.2s; 
         }
 
-        /* Tooltip cho radial menu items */
+        /* Tooltip cho radial menu items - luôn hiển thị ngang */
         .menu .item::before {
             content: attr(data-tooltip);
             position: absolute;
             top: 50%;
-            right: calc(100% + 10px);
+            left: calc(100% + 10px);
             transform: translateY(-50%);
             background: rgba(0, 0, 0, 0.8);
             color: white;
@@ -720,6 +731,61 @@
             z-index: 10000;
             pointer-events: none;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Tooltip cho các nút ở bên phải màn hình - hiển thị bên trái */
+        .radial-menu-container.open-left .menu .item::before {
+            left: auto;
+            right: calc(100% + 10px);
+        }
+
+        /* Tooltip cho các nút ở trên/dưới - hiển thị ngang tùy vị trí */
+        .radial-menu-container.open-up .menu .item::before,
+        .radial-menu-container.open-down .menu .item::before {
+            /* Reset về vị trí mặc định trước */
+            left: auto;
+            right: auto;
+            top: 50%;
+            bottom: auto;
+            transform: translateY(-50%);
+        }
+
+        /* Tooltip cho nút ở vị trí 12h và 6h (trên/dưới) - hiển thị bên phải */
+        .radial-menu-container.open-up .menu .item:nth-child(3)::before,
+        .radial-menu-container.open-down .menu .item:nth-child(3)::before {
+            left: calc(100% + 10px);
+        }
+
+        /* Tooltip cho nút ở vị trí 3h (phải) - hiển thị bên phải khi menu mở xuống, bên trái khi mở lên */
+        .radial-menu-container.open-down .menu .item:nth-child(1)::before {
+            left: calc(100% + 10px);
+        }
+        .radial-menu-container.open-up .menu .item:nth-child(1)::before {
+            right: calc(100% + 10px);
+        }
+
+        /* Tooltip cho nút ở vị trí 9h (trái) - hiển thị bên trái khi menu mở xuống, bên phải khi mở lên */
+        .radial-menu-container.open-down .menu .item:nth-child(5)::before {
+            right: calc(100% + 10px);
+        }
+        .radial-menu-container.open-up .menu .item:nth-child(5)::before {
+            left: calc(100% + 10px);
+        }
+
+        /* Tooltip cho nút ở vị trí 1:30h và 4:30h - hiển thị bên phải khi menu mở xuống, bên trái khi mở lên */
+        .radial-menu-container.open-down .menu .item:nth-child(2)::before {
+            left: calc(100% + 10px);
+        }
+        .radial-menu-container.open-up .menu .item:nth-child(2)::before {
+            right: calc(100% + 10px);
+        }
+
+        /* Tooltip cho nút ở vị trí 7:30h và 10:30h - hiển thị bên trái khi menu mở xuống, bên phải khi mở lên */
+        .radial-menu-container.open-down .menu .item:nth-child(4)::before {
+            right: calc(100% + 10px);
+        }
+        .radial-menu-container.open-up .menu .item:nth-child(4)::before {
+            left: calc(100% + 10px);
         }
 
         .menu .item:hover::before {
@@ -3826,11 +3892,86 @@
             let isDragging = false;
             let hasDragged = false;
             let startX, startY, initialX, initialY;
-            let dragThreshold = 3; // Giảm threshold để phản hồi nhanh hơn
+            let dragThreshold = 3;
+            let snapAnimationId = null;
 
             // Utility function to convert CSS variable string to number
             function varToNum(varName) {
                 return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(varName));
+            }
+
+            // Hàm tính toán vị trí snap vào cạnh màn hình
+            function calculateSnapPosition(currentX, currentY) {
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
+                const winWidth = window.innerWidth;
+                const winHeight = window.innerHeight;
+                const margin = 20; // Khoảng cách từ cạnh màn hình
+
+                // Tính khoảng cách đến các cạnh
+                const distToLeft = currentX;
+                const distToRight = winWidth - (currentX + containerWidth);
+                const distToTop = currentY;
+                const distToBottom = winHeight - (currentY + containerHeight);
+
+                // Tìm cạnh gần nhất
+                const minDist = Math.min(distToLeft, distToRight, distToTop, distToBottom);
+                
+                let snapX = currentX;
+                let snapY = currentY;
+
+                if (minDist === distToLeft) {
+                    // Snap to left edge
+                    snapX = margin;
+                } else if (minDist === distToRight) {
+                    // Snap to right edge
+                    snapX = winWidth - containerWidth - margin;
+                } else if (minDist === distToTop) {
+                    // Snap to top edge
+                    snapY = margin;
+                } else if (minDist === distToBottom) {
+                    // Snap to bottom edge
+                    snapY = winHeight - containerHeight - margin;
+                }
+
+                return { x: snapX, y: snapY };
+            }
+
+            // Hàm animate snap với easing
+            function animateSnapToEdge(targetX, targetY) {
+                const startX = parseFloat(floatingSettings.style.left) || 0;
+                const startY = parseFloat(floatingSettings.style.top) || 0;
+                const duration = 300; // ms
+                const startTime = performance.now();
+
+                function easeOutCubic(t) {
+                    return 1 - Math.pow(1 - t, 3);
+                }
+
+                function animate(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easedProgress = easeOutCubic(progress);
+
+                    const currentX = startX + (targetX - startX) * easedProgress;
+                    const currentY = startY + (targetY - startY) * easedProgress;
+
+                    floatingSettings.style.left = currentX + 'px';
+                    floatingSettings.style.top = currentY + 'px';
+
+                    if (progress < 1) {
+                        snapAnimationId = requestAnimationFrame(animate);
+                    } else {
+                        snapAnimationId = null;
+                        savePosition();
+                        setMenuDirection();
+                    }
+                }
+
+                if (snapAnimationId) {
+                    cancelAnimationFrame(snapAnimationId);
+                }
+                snapAnimationId = requestAnimationFrame(animate);
             }
 
             // Lưu và khôi phục vị trí từ localStorage
@@ -3847,13 +3988,19 @@
                 if (saved) {
                     try {
                         const position = JSON.parse(saved);
+                        const margin = 20;
                         // Kiểm tra vị trí có hợp lệ không (trong màn hình)
-                        if (position.top >= 0 && position.left >= 0 && 
+                        if (position.top >= margin && position.left >= margin && 
                             position.top < window.innerHeight - 100 && 
                             position.left < window.innerWidth - 100) {
                             floatingSettings.style.left = position.left + 'px';
                             floatingSettings.style.top = position.top + 'px';
-                            floatingSettings.style.transform = 'translate(0, 0)'; // Remove initial centering transform
+                            floatingSettings.style.transform = 'translate(0, 0)';
+                        } else {
+                            // Nếu vị trí không hợp lệ, đặt về vị trí mặc định (top center)
+                            floatingSettings.style.left = '50%';
+                            floatingSettings.style.top = '20px';
+                            floatingSettings.style.transform = 'translateX(-50%)';
                         }
                     } catch (e) {
                         console.log('Không thể khôi phục vị trí settings');
@@ -3881,16 +4028,16 @@
                 const distRight = winWidth - (rect.right - (rect.width / 2));
                 const minDistance = Math.min(distTop, distBottom, distLeft, distRight);
 
-                container.classList.remove('position-top', 'position-bottom', 'position-left', 'position-right');
+                container.classList.remove('open-up', 'open-down', 'open-left', 'open-right');
 
                 if (minDistance === distTop) {
-                    container.classList.add('position-top'); // Open down
+                    container.classList.add('open-down');
                 } else if (minDistance === distBottom) {
-                    container.classList.add('position-bottom'); // Open up
+                    container.classList.add('open-up');
                 } else if (minDistance === distLeft) {
-                    container.classList.add('position-left'); // Open right
-                } else { // distRight
-                    container.classList.add('position-right'); // Open left
+                    container.classList.add('open-right');
+                } else {
+                    container.classList.add('open-left');
                 }
             }
 
@@ -3962,11 +4109,14 @@
                     isDragging = false;
                     toggleBtn.style.cursor = 'grab';
                     document.body.style.userSelect = 'auto';
-                    floatingSettings.classList.remove('dragging'); // Remove dragging class
+                    floatingSettings.classList.remove('dragging');
                     
                     if (hasDragged) {
-                        savePosition(); // Save position after dragging
-                        setMenuDirection(); // Update menu direction after dragging
+                        // Tính toán vị trí snap và animate
+                        const currentRect = floatingSettings.getBoundingClientRect();
+                        const snapPos = calculateSnapPosition(currentRect.left, currentRect.top);
+                        animateSnapToEdge(snapPos.x, snapPos.y);
+                        
                         // Reset hasDragged sau một khoảng thời gian ngắn để tránh trigger click
                         setTimeout(() => {
                             hasDragged = false;
@@ -4063,8 +4213,11 @@
                     floatingSettings.classList.remove('dragging');
                     
                     if (hasDragged) {
-                        savePosition();
-                        setMenuDirection();
+                        // Tính toán vị trí snap và animate cho touch
+                        const currentRect = floatingSettings.getBoundingClientRect();
+                        const snapPos = calculateSnapPosition(currentRect.left, currentRect.top);
+                        animateSnapToEdge(snapPos.x, snapPos.y);
+                        
                         setTimeout(() => {
                             hasDragged = false;
                         }, 100);
@@ -4123,37 +4276,78 @@
                 }, 100);
             });
 
-            // Xử lý các nút trong menu
-            document.getElementById('floatingAddEvent').addEventListener('click', () => {
-                document.getElementById('addEventBtn').click();
-                container.classList.remove('active');
-                floatingSettings.classList.remove('active');
-            });
+            // Xử lý các nút trong menu với event delegation
+            document.addEventListener('click', (e) => {
+                // Thêm sự kiện
+                if (e.target.closest('#floatingAddEvent')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const addEventModal = new bootstrap.Modal(document.getElementById('addEventModal'));
+                    addEventModal.show();
+                    container.classList.remove('active');
+                    floatingSettings.classList.remove('active');
+                    return;
+                }
 
-            document.getElementById('floatingDeleteEvent').addEventListener('click', () => {
-                document.getElementById('deleteEventBtn').click();
-                container.classList.remove('active');
-                floatingSettings.classList.remove('active');
-            });
+                // Xóa sự kiện
+                if (e.target.closest('#floatingDeleteEvent')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (selectedEventIndex === -1) {
+                        showMessage('Vui lòng chọn sự kiện cần xóa.', 'error');
+                        container.classList.remove('active');
+                        floatingSettings.classList.remove('active');
+                        return;
+                    }
 
+                    const selectedEvent = currentEventsData[selectedEventIndex];
+                    const day = String(selectedEvent.day).padStart(2, '0');
+                    const month = String(selectedEvent.month).padStart(2, '0');
+                    const formattedDate = `${day}/${month}/${selectedEvent.year}`;
+                    const eventContent = selectedEvent.contdetl || 'Không có nội dung';
+                    
+                    // Hiển thị thông tin sự kiện trong modal xác nhận
+                    document.getElementById('eventToDelete').innerHTML = `
+                        <strong>${formattedDate}:</strong> ${eventContent}
+                    `;
+                    
+                    // Hiển thị modal xác nhận
+                    const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+                    deleteModal.show();
+                    container.classList.remove('active');
+                    floatingSettings.classList.remove('active');
+                    return;
+                }
 
+                // Cập nhật metadata
+                if (e.target.closest('#floatingUploadMetadata')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    uploadPhotosMetadata();
+                    container.classList.remove('active');
+                    floatingSettings.classList.remove('active');
+                    return;
+                }
 
-            document.getElementById('floatingUploadMetadata').addEventListener('click', () => {
-                document.getElementById('uploadMetadataBtn').click();
-                container.classList.remove('active');
-                floatingSettings.classList.remove('active');
-            });
+                // Toggle tự động cập nhật
+                if (e.target.closest('#floatingAutoUpdate')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleFloatingAutoUpdate();
+                    container.classList.remove('active');
+                    floatingSettings.classList.remove('active');
+                    return;
+                }
 
-            document.getElementById('floatingAutoUpdate').addEventListener('click', () => {
-                document.getElementById('autoUpdateToggle').click();
-                container.classList.remove('active');
-                floatingSettings.classList.remove('active');
-            });
-
-            document.getElementById('floatingRefreshPhotos').addEventListener('click', () => {
-                document.getElementById('refreshPhotos').click();
-                container.classList.remove('active');
-                floatingSettings.classList.remove('active');
+                // Refresh dữ liệu
+                if (e.target.closest('#floatingRefreshPhotos')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleFloatingRefresh();
+                    container.classList.remove('active');
+                    floatingSettings.classList.remove('active');
+                    return;
+                }
             });
 
             // Cập nhật trạng thái nút xóa sự kiện
@@ -4199,6 +4393,60 @@
             } else {
                 // Trạng thái tắt - icon màu xanh để chỉ có thể bật
                 alarmIcon.style.color = '#10B981';
+            }
+        }
+
+        // Hàm xử lý toggle tự động cập nhật cho floating menu
+        async function handleFloatingAutoUpdate() {
+            const isAutoEnabled = localStorage.getItem('autoUpdateEnabled') === 'true';
+            
+            if (isAutoEnabled) {
+                // Tắt tự động cập nhật
+                localStorage.setItem('autoUpdateEnabled', 'false');
+                stopAutoUpdate();
+                showMessage('⏹️ Đã tắt cập nhật tự động metadata', 'success');
+                
+                // Cập nhật cấu hình
+                await updateConfigFile('AUTO_LOAD_METADATA', 'false');
+                
+                // Thêm log
+                addLog('Tắt chức năng cập nhật tự động 9h sáng', 'Người dùng tắt thủ công');
+            } else {
+                // Bật tự động cập nhật
+                localStorage.setItem('autoUpdateEnabled', 'true');
+                setupAutoUpdate();
+                showMessage('⏰ Đã bật cập nhật tự động metadata lúc 9h sáng hằng ngày', 'success');
+                
+                // Cập nhật cấu hình
+                await updateConfigFile('AUTO_LOAD_METADATA', 'true');
+                
+                // Thêm log
+                addLog('Bật chức năng cập nhật tự động 9h sáng', 'Người dùng bật thủ công');
+            }
+            
+            // Cập nhật màu nút floating
+            updateAutoUpdateButtonColor();
+        }
+
+        // Hàm xử lý refresh dữ liệu cho floating menu
+        async function handleFloatingRefresh() {
+            try {
+                // Refresh sự kiện
+                const { content } = await readNotes();
+                if (content && content.length > 0 && window.calendarInstance) {
+                    window.calendarInstance.updateEventsFromData(content);
+                }
+                if (window.calendarInstance) {
+                    window.calendarInstance.goToToday();
+                }
+                
+                // Refresh ảnh
+                await loadAllPhotosFromMetadata();
+                
+                showMessage('✅ Đã refresh toàn bộ dữ liệu thành công!', 'success');
+            } catch (error) {
+                console.error('Lỗi khi refresh dữ liệu:', error);
+                showMessage('❌ Có lỗi khi refresh dữ liệu. Vui lòng thử lại.', 'error');
             }
         }
 
@@ -4515,5 +4763,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'984fecbb24515167',t:'MTc1ODg1OTk2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98686591147ee2e3',t:'MTc1OTExNjU3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
