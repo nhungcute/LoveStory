@@ -1852,12 +1852,13 @@
 
         async function addLog(action, details = '') {
             try {
+                // Tạo thời gian UTC+7 (Việt Nam)
                 const now = new Date();
                 const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
                 
                 const logEntry = {
-                    date: vietnamTime.toLocaleDateString('vi-VN'),
-                    time: vietnamTime.toLocaleTimeString('vi-VN'),
+                    date: vietnamTime.toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }),
+                    time: vietnamTime.toLocaleTimeString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }),
                     action: action,
                     details: details,
                     timestamp: vietnamTime.toISOString()
@@ -1888,14 +1889,16 @@
         function setupAutoUpdate() {
             // Kiểm tra xem đã đến giờ cập nhật chưa
             function checkAndUpdate() {
+                // Tạo thời gian UTC+7 (Việt Nam)
                 const now = new Date();
-                const hour = now.getHours();
-                const minute = now.getMinutes();
+                const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
+                const hour = vietnamTime.getHours();
+                const minute = vietnamTime.getMinutes();
                 
                 // Kiểm tra nếu là 9h sáng (từ 9:00 đến 9:05)
                 if (hour === 9 && minute >= 0 && minute <= 5) {
                     const lastUpdateKey = 'lastMetadataUpdate';
-                    const today = now.toDateString();
+                    const today = vietnamTime.toDateString();
                     const lastUpdate = localStorage.getItem(lastUpdateKey);
                     
                     // Chỉ cập nhật nếu chưa cập nhật hôm nay
@@ -2112,8 +2115,12 @@
                 }
             }
 
+            // Tạo thời gian UTC+7 (Việt Nam)
+            const now = new Date();
+            const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
+            
             const body = JSON.stringify({
-                message: `Cập nhật metadata ${photosArray.length} ảnh - ${new Date().toLocaleString('vi-VN')}`,
+                message: `Cập nhật metadata ${photosArray.length} ảnh - ${vietnamTime.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}`,
                 content: encodedContent,
                 ...(sha && { sha: sha })
             });
@@ -2501,11 +2508,16 @@
                     <!-- Comments Section (Hidden by default) -->
                     <div class="comments-section hidden" id="comments-section-${photo.id}">
                         <div class="max-h-32 overflow-y-auto overflow-x-hidden space-y-1 mb-3" id="comments-${photo.id}">
-                            ${photoComments.map((comment, commentIndex) => `
+                            ${photoComments.map((comment, commentIndex) => {
+                                // Chuyển đổi timestamp sang UTC+7
+                                const commentTime = new Date(comment.timestamp);
+                                const vietnamCommentTime = new Date(commentTime.getTime() + (7 * 60 * 60 * 1000));
+                                return `
                                 <div class="bg-gray-50 rounded p-2 text-sm cursor-pointer comment-item" onclick="toggleCommentTimestamp('${photo.id}', ${commentIndex})">
-                                    <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${comment.text} <span class="comment-timestamp hidden text-xs text-gray-500 italic ml-2" style="font-size: 10px;" id="timestamp-${photo.id}-${commentIndex}">${new Date(comment.timestamp).toLocaleString('vi-VN')}</span></p>
+                                    <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${comment.text} <span class="comment-timestamp hidden text-xs text-gray-500 italic ml-2" style="font-size: 10px;" id="timestamp-${photo.id}-${commentIndex}">${vietnamCommentTime.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}</span></p>
                                 </div>
-                            `).join('')}
+                                `;
+                            }).join('')}
                         </div>
                         
                         <!-- Add Comment Form - Messenger Style -->
@@ -3955,10 +3967,14 @@
                     currentComments.push(imageEntry);
                 }
                 
+                // Tạo thời gian UTC+7 (Việt Nam)
+                const now = new Date();
+                const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
+                
                 // Thêm comment mới vào mảng comments
                 const newComment = {
                     comment: commentText,
-                    date_input: new Date().toISOString()
+                    date_input: vietnamTime.toISOString()
                 };
                 
                 if (!imageEntry.comments) {
@@ -3975,7 +3991,7 @@
                 }
                 commentsData[imageName].push({
                     text: commentText,
-                    timestamp: new Date().toISOString()
+                    timestamp: vietnamTime.toISOString()
                 });
                 
                 // Cập nhật giao diện
@@ -3985,7 +4001,7 @@
                 commentElement.className = 'bg-gray-50 rounded p-2 text-sm cursor-pointer comment-item mb-1';
                 commentElement.onclick = () => toggleCommentTimestamp(photoId, commentIndex);
                 commentElement.innerHTML = `
-                    <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${commentText} <span class="comment-timestamp hidden text-xs text-gray-500 italic ml-2" style="font-size: 10px;" id="timestamp-${photoId}-${commentIndex}">${new Date().toLocaleString('vi-VN')}</span></p>
+                    <p class="text-gray-700 break-words" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">${commentText} <span class="comment-timestamp hidden text-xs text-gray-500 italic ml-2" style="font-size: 10px;" id="timestamp-${photoId}-${commentIndex}">${vietnamTime.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}</span></p>
                 `;
                 commentsContainer.appendChild(commentElement);
                 
@@ -4468,8 +4484,11 @@
         class Calendar {
             constructor(isModal = false) {
                 this.isModal = isModal;
-                this.currentDate = new Date();
-                this.today = new Date();
+                // Tạo thời gian UTC+7 (Việt Nam)
+                const now = new Date();
+                const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
+                this.currentDate = vietnamTime;
+                this.today = vietnamTime;
                 this.selectedDate = null;
                 this.monthNames = [
                     'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
@@ -4610,12 +4629,18 @@
             }
 
             updateTodayInfo() {
-                const todayString = `${this.dayNames[this.today.getDay()]}, ${this.today.getDate()}/${this.today.getMonth() + 1}/${this.today.getFullYear()}`;
+                // Tạo thời gian UTC+7 (Việt Nam)
+                const now = new Date();
+                const vietnamToday = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
+                
+                const todayString = `${this.dayNames[vietnamToday.getDay()]}, ${vietnamToday.getDate()}/${vietnamToday.getMonth() + 1}/${vietnamToday.getFullYear()}`;
                 document.getElementById('todayDate').textContent = todayString;
             }
 
             goToToday() {
-                this.currentDate = new Date();
+                // Tạo thời gian UTC+7 (Việt Nam)
+                const now = new Date();
+                this.currentDate = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
                 this.render();
             }
 
@@ -5709,6 +5734,10 @@
                     const month = parseInt(dateParts[1]);
                     const year = parseInt(dateParts[0]);
 
+                    // Tạo thời gian UTC+7 (Việt Nam)
+                    const now = new Date();
+                    const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
+                    
                     // Tạo sự kiện mới
                     const newEvent = {
                         day: day,
@@ -5718,7 +5747,7 @@
                         colorClass: eventColor,
                         icon: eventIcon,
                         URL: eventImageFolder || '',
-                        date: new Date().toISOString()
+                        date: vietnamTime.toISOString()
                     };
                     
                     // Thêm sự kiện mới vào mảng
@@ -5764,5 +5793,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98724914d30208bc',t:'MTc1OTIyMDI2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987250da90cf0461',t:'MTc1OTIyMDU4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
