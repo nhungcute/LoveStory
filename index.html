@@ -1431,10 +1431,6 @@
                     </h5>
                     <div class="d-flex align-items-center gap-3">
                         <span id="selectedPhotosCount" class="badge bg-success fs-6">0 ảnh được chọn</span>
-                        <button type="button" class="btn btn-success btn-sm" id="addSelectedPhotosBtn" disabled>
-                            <i class="bi bi-plus-circle me-1"></i>
-                            Thêm Vào Sự Kiện
-                        </button>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                 </div>
@@ -1516,9 +1512,9 @@
                             </span>
                         </div>
                         <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-success" id="confirmAddPhotosBtn" disabled>
+                            <button type="button" class="btn btn-success" id="confirmAddPhotosBtn">
                                 <i class="bi bi-check-lg me-1"></i>
-                                Xác Nhận Thêm (<span id="confirmCount">0</span>)
+                                Xác Nhận Cập Nhật
                             </button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                         </div>
@@ -3303,7 +3299,8 @@
                 photoItem.innerHTML = `
                     <div class="photo-browser-item ${isInCurrentEvent ? 'selected' : ''}" 
                          data-photo-id="${photo.id}" 
-                         data-photo-index="${globalIndex}">
+                         data-photo-index="${globalIndex}"
+                         data-originally-in-event="${isInCurrentEvent}">
                         <div class="position-relative">
                             <img src="${thumbnailUrl}" alt="${photo.name}" 
                                  class="w-100" 
@@ -3628,7 +3625,6 @@
             
             // Cập nhật badge số lượng
             document.getElementById('selectedPhotosCount').textContent = `${selectedCount} ảnh được chọn`;
-            document.getElementById('confirmCount').textContent = selectedCount;
             
             // Cập nhật thông tin
             const infoText = selectedCount === 0 ? 'Chưa chọn ảnh nào' : 
@@ -3636,10 +3632,8 @@
                            `${selectedCount} ảnh được chọn`;
             document.getElementById('selectedPhotosInfo').textContent = infoText;
             
-            // Cập nhật trạng thái nút
-            const hasSelection = selectedCount > 0;
-            document.getElementById('addSelectedPhotosBtn').disabled = !hasSelection;
-            document.getElementById('confirmAddPhotosBtn').disabled = !hasSelection;
+            // Nút xác nhận luôn có thể nhấn để cập nhật (kể cả khi không chọn ảnh nào)
+            document.getElementById('confirmAddPhotosBtn').disabled = false;
         }
 
         // Hàm chọn tất cả ảnh trong trang hiện tại
@@ -3658,18 +3652,13 @@
 
         // Hàm xác nhận thêm ảnh vào sự kiện
         async function confirmAddPhotosToEvent() {
-            if (photoBrowserSelectedPhotos.size === 0) {
-                showMessage('Vui lòng chọn ít nhất một ảnh', 'error');
-                return;
-            }
-            
             const confirmBtn = document.getElementById('confirmAddPhotosBtn');
             const originalText = confirmBtn.innerHTML;
             
             try {
                 // Hiển thị loading
                 confirmBtn.disabled = true;
-                confirmBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang thêm...';
+                confirmBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang cập nhật...';
                 
                 // Đọc dữ liệu sự kiện hiện tại
                 const { content: currentEvents, sha } = await readNotes();
@@ -3684,14 +3673,44 @@
                     event.image = [];
                 }
                 
-                // Thêm các ảnh được chọn (tránh trùng lặp)
+                // Lấy danh sách ảnh ban đầu trong sự kiện
+                const originalPhotos = new Set(event.image);
+                
+                // Tính toán thay đổi
                 let addedCount = 0;
-                photoBrowserSelectedPhotos.forEach(photoId => {
-                    if (!event.image.includes(photoId)) {
-                        event.image.push(photoId);
-                        addedCount++;
+                let removedCount = 0;
+                
+                // Lấy tất cả ảnh trong container để kiểm tra trạng thái
+                const container = document.getElementById('photoBrowserContainer');
+                const photoItems = container.querySelectorAll('.photo-browser-item');
+                
+                // Tạo danh sách ảnh mới dựa trên trạng thái checkbox
+                const newPhotoList = [];
+                
+                photoItems.forEach(item => {
+                    const photoId = item.dataset.photoId;
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    const wasOriginallyInEvent = item.dataset.originallyInEvent === 'true';
+                    const isCurrentlySelected = checkbox.checked;
+                    
+                    if (isCurrentlySelected) {
+                        // Ảnh được chọn - thêm vào danh sách mới
+                        newPhotoList.push(photoId);
+                        
+                        // Nếu ảnh không có trong sự kiện ban đầu thì đếm là thêm mới
+                        if (!wasOriginallyInEvent) {
+                            addedCount++;
+                        }
+                    } else {
+                        // Ảnh không được chọn - nếu có trong sự kiện ban đầu thì đếm là xóa
+                        if (wasOriginallyInEvent) {
+                            removedCount++;
+                        }
                     }
                 });
+                
+                // Cập nhật danh sách ảnh của sự kiện
+                event.image = newPhotoList;
                 
                 // Lưu lại dữ liệu
                 await writeNotes(currentEvents, sha);
@@ -3714,14 +3733,27 @@
                     window.calendarInstance.updateEventsFromData(currentEvents);
                 }
                 
-                showMessage(`✅ Đã thêm ${addedCount} ảnh vào sự kiện thành công!`, 'success');
+                // Hiển thị thông báo chi tiết
+                let message = '✅ Đã cập nhật ảnh cho sự kiện thành công!';
+                if (addedCount > 0 && removedCount > 0) {
+                    message = `✅ Đã thêm ${addedCount} ảnh và xóa ${removedCount} ảnh khỏi sự kiện!`;
+                } else if (addedCount > 0) {
+                    message = `✅ Đã thêm ${addedCount} ảnh vào sự kiện!`;
+                } else if (removedCount > 0) {
+                    message = `✅ Đã xóa ${removedCount} ảnh khỏi sự kiện!`;
+                }
+                
+                showMessage(message, 'success');
                 
                 // Thêm log
-                addLog('Thêm ảnh vào sự kiện qua trình duyệt', `${addedCount} ảnh mới, tổng ${photoBrowserSelectedPhotos.size} ảnh được chọn`);
+                const logDetails = [];
+                if (addedCount > 0) logDetails.push(`+${addedCount} ảnh`);
+                if (removedCount > 0) logDetails.push(`-${removedCount} ảnh`);
+                addLog('Cập nhật ảnh sự kiện qua trình duyệt', logDetails.join(', ') || 'Không có thay đổi');
                 
             } catch (error) {
-                console.error('Lỗi khi thêm ảnh vào sự kiện:', error);
-                showMessage('❌ Lỗi khi thêm ảnh vào sự kiện. Vui lòng thử lại.', 'error');
+                console.error('Lỗi khi cập nhật ảnh sự kiện:', error);
+                showMessage('❌ Lỗi khi cập nhật ảnh sự kiện. Vui lòng thử lại.', 'error');
             } finally {
                 // Khôi phục nút
                 confirmBtn.disabled = false;
@@ -5614,7 +5646,6 @@
             document.getElementById('browsePhotosBtn').addEventListener('click', openPhotoBrowser);
             document.getElementById('selectAllPhotosBtn').addEventListener('click', selectAllPhotos);
             document.getElementById('clearSelectionBtn').addEventListener('click', clearAllSelection);
-            document.getElementById('addSelectedPhotosBtn').addEventListener('click', confirmAddPhotosToEvent);
             document.getElementById('confirmAddPhotosBtn').addEventListener('click', confirmAddPhotosToEvent);
 
             // Thêm sự kiện cho các nút phân trang browser
@@ -5797,5 +5828,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98726b4bc2174639',t:'MTc1OTIyMTY2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98728731c18a09c4',t:'MTc1OTIyMjgwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
