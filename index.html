@@ -825,6 +825,109 @@
             visibility: visible;
         }
 
+        /* Photo Browser Styles */
+        .photo-browser-item {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 3px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .photo-browser-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .photo-browser-item.selected {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+        }
+
+        .photo-browser-item.drag-selecting {
+            border-color: #198754;
+            box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.25);
+        }
+
+        .photo-browser-item .selection-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(13, 110, 253, 0.2);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .photo-browser-item.selected .selection-overlay {
+            display: flex;
+        }
+
+        .photo-browser-item .selection-checkbox {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            z-index: 3;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 4px;
+            padding: 2px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .photo-browser-item:hover .selection-checkbox,
+        .photo-browser-item.selected .selection-checkbox {
+            opacity: 1;
+        }
+
+        .photo-browser-item .photo-index {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 3;
+        }
+
+        /* Drag selection area */
+        .drag-selection-area {
+            position: absolute;
+            border: 2px dashed #0d6efd;
+            background: rgba(13, 110, 253, 0.1);
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        /* Disable text selection during drag */
+        .photo-browser-dragging {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* Photo browser grid responsive */
+        @media (max-width: 768px) {
+            .photo-browser-item {
+                border-width: 2px;
+            }
+            
+            .photo-browser-item .photo-index {
+                font-size: 10px;
+                padding: 1px 4px;
+            }
+        }
+
     </style>
 </head>
 <body class="min-h-screen">
@@ -1307,7 +1410,93 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="browsePhotosBtn">
+                        <i class="bi bi-search me-1"></i>
+                        Duyệt Ảnh
+                    </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Duyệt Ảnh -->
+    <div class="modal fade" id="photoBrowserModal" tabindex="-1" aria-labelledby="photoBrowserModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+                    <h5 class="modal-title" id="photoBrowserModalLabel">
+                        <i class="bi bi-images me-2"></i>
+                        Duyệt Ảnh - Chọn Ảnh Cho Sự Kiện
+                    </h5>
+                    <div class="d-flex align-items-center gap-3">
+                        <span id="selectedPhotosCount" class="badge bg-success fs-6">0 ảnh được chọn</span>
+                        <button type="button" class="btn btn-success btn-sm" id="addSelectedPhotosBtn" disabled>
+                            <i class="bi bi-plus-circle me-1"></i>
+                            Thêm Vào Sự Kiện
+                        </button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body p-0">
+                    <!-- Toolbar -->
+                    <div class="bg-light border-bottom p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-3">
+                                <button type="button" class="btn btn-outline-primary btn-sm" id="selectAllPhotosBtn">
+                                    <i class="bi bi-check-all me-1"></i>
+                                    Chọn Tất Cả
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="clearSelectionBtn">
+                                    <i class="bi bi-x-circle me-1"></i>
+                                    Bỏ Chọn Tất Cả
+                                </button>
+                                <div class="vr"></div>
+                                <small class="text-muted">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Giữ chuột và kéo để chọn nhiều ảnh
+                                </small>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="text-muted small">Tổng: <span id="totalPhotosInBrowser">0</span> ảnh</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Loading Spinner -->
+                    <div id="photoBrowser-loading-spinner" class="d-flex justify-content-center align-items-center py-5">
+                        <div class="spinner-border text-primary me-3" role="status">
+                            <span class="visually-hidden">Đang tải...</span>
+                        </div>
+                        <span class="text-muted">Đang tải danh sách ảnh...</span>
+                    </div>
+                    
+                    <!-- Photos Grid -->
+                    <div id="photoBrowserGrid" class="p-3" style="display: none;">
+                        <div class="row g-3" id="photoBrowserContainer">
+                            <!-- Ảnh sẽ được tải ở đây -->
+                        </div>
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="photoBrowser-emptyState" class="text-center py-5" style="display: none;">
+                        <i class="bi bi-images display-1 text-muted"></i>
+                        <p class="mt-3 text-muted">Không có ảnh nào để hiển thị</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div>
+                            <span id="selectedPhotosInfo" class="text-muted small">Chưa chọn ảnh nào</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-success" id="confirmAddPhotosBtn" disabled>
+                                <i class="bi bi-check-lg me-1"></i>
+                                Xác Nhận Thêm (<span id="confirmCount">0</span>)
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2513,6 +2702,13 @@
         let isViewingEventPhotos = false; // Flag để biết đang xem ảnh của sự kiện
         let eventPhotosModalInstance = null; // Lưu instance của modal sự kiện
 
+        // Photo Browser variables
+        let photoBrowserSelectedPhotos = new Set(); // Set chứa ID các ảnh được chọn
+        let currentBrowsingEventIndex = -1; // Index của sự kiện đang duyệt ảnh
+        let isDragSelecting = false;
+        let dragStartX, dragStartY;
+        let dragSelectionArea = null;
+
         // Hàm điều hướng ảnh trong modal
         function navigatePhoto(direction) {
             const photosToNavigate = isViewingEventPhotos ? currentEventPhotos : allPhotosData;
@@ -2843,6 +3039,8 @@
                 
                 // Lưu instance modal để có thể mở lại sau
                 eventPhotosModalInstance = modal;
+                // Lưu index sự kiện đang xem
+                currentBrowsingEventIndex = eventIndex;
                 
                 // Hiển thị thông tin sự kiện
                 const day = String(event.day).padStart(2, '0');
@@ -2933,6 +3131,415 @@
             } catch (error) {
                 console.error('Lỗi khi tải ảnh của sự kiện:', error);
                 showMessage('❌ Không thể tải ảnh của sự kiện. Vui lòng thử lại.', 'error');
+            }
+        }
+
+        // Hàm mở modal duyệt ảnh
+        async function openPhotoBrowser() {
+            if (currentBrowsingEventIndex === -1) {
+                showMessage('Không xác định được sự kiện', 'error');
+                return;
+            }
+
+            const modal = new bootstrap.Modal(document.getElementById('photoBrowserModal'));
+            const loadingSpinner = document.getElementById('photoBrowser-loading-spinner');
+            const photosGrid = document.getElementById('photoBrowserGrid');
+            const emptyState = document.getElementById('photoBrowser-emptyState');
+            const totalPhotosSpan = document.getElementById('totalPhotosInBrowser');
+            
+            // Reset selection
+            photoBrowserSelectedPhotos.clear();
+            updatePhotoBrowserUI();
+            
+            // Hiển thị loading
+            loadingSpinner.style.display = 'flex';
+            photosGrid.style.display = 'none';
+            emptyState.style.display = 'none';
+            
+            try {
+                // Đọc dữ liệu sự kiện để lấy danh sách ảnh hiện tại
+                const { content: events } = await readNotes();
+                const currentEvent = events[currentBrowsingEventIndex];
+                const currentEventPhotos = currentEvent?.image || [];
+                
+                if (!allPhotosData || allPhotosData.length === 0) {
+                    loadingSpinner.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    modal.show();
+                    return;
+                }
+                
+                // Hiển thị tất cả ảnh
+                displayPhotoBrowser(allPhotosData, currentEventPhotos);
+                totalPhotosSpan.textContent = allPhotosData.length;
+                
+                loadingSpinner.style.display = 'none';
+                photosGrid.style.display = 'block';
+                
+                modal.show();
+                
+                // Thêm log
+                addLog('Mở trình duyệt ảnh', `${allPhotosData.length} ảnh có sẵn`);
+                
+            } catch (error) {
+                console.error('Lỗi khi mở trình duyệt ảnh:', error);
+                loadingSpinner.style.display = 'none';
+                emptyState.style.display = 'block';
+                showMessage('❌ Không thể tải danh sách ảnh', 'error');
+            }
+        }
+
+        // Hàm hiển thị ảnh trong photo browser
+        function displayPhotoBrowser(photos, currentEventPhotos = []) {
+            const container = document.getElementById('photoBrowserContainer');
+            container.innerHTML = '';
+            
+            // Tạo drag selection area
+            if (!dragSelectionArea) {
+                dragSelectionArea = document.createElement('div');
+                dragSelectionArea.className = 'drag-selection-area';
+                document.body.appendChild(dragSelectionArea);
+            }
+            
+            photos.forEach((photo, index) => {
+                const isInCurrentEvent = currentEventPhotos.includes(photo.id);
+                const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w300-h300`;
+                const directUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
+                const fallbackUrl = `https://lh3.googleusercontent.com/d/${photo.id}=w300-h300`;
+                
+                const photoItem = document.createElement('div');
+                photoItem.className = 'col-6 col-md-4 col-lg-3 col-xl-2';
+                photoItem.innerHTML = `
+                    <div class="photo-browser-item ${isInCurrentEvent ? 'selected' : ''}" 
+                         data-photo-id="${photo.id}" 
+                         data-photo-index="${index}">
+                        <div class="position-relative">
+                            <img src="${thumbnailUrl}" alt="${photo.name}" 
+                                 class="w-100" 
+                                 style="height: 200px; object-fit: cover;"
+                                 onerror="handleThumbnailError(this, '${directUrl}', '${fallbackUrl}')"
+                                 loading="lazy">
+                            
+                            <div class="photo-index">${index + 1}</div>
+                            
+                            <div class="selection-checkbox">
+                                <input type="checkbox" class="form-check-input" ${isInCurrentEvent ? 'checked' : ''}>
+                            </div>
+                            
+                            <div class="selection-overlay">
+                                <i class="bi bi-check-circle-fill text-white" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <small class="text-muted text-truncate d-block" title="${photo.name}">${photo.name}</small>
+                        </div>
+                    </div>
+                `;
+                
+                // Nếu ảnh đã có trong sự kiện, thêm vào selection
+                if (isInCurrentEvent) {
+                    photoBrowserSelectedPhotos.add(photo.id);
+                }
+                
+                container.appendChild(photoItem);
+            });
+            
+            // Thêm event listeners cho drag selection
+            setupDragSelection(container);
+            
+            // Cập nhật UI
+            updatePhotoBrowserUI();
+        }
+
+        // Hàm thiết lập drag selection
+        function setupDragSelection(container) {
+            let isMouseDown = false;
+            let startX, startY;
+            let initialSelectedPhotos = new Set();
+            
+            container.addEventListener('mousedown', (e) => {
+                // Chỉ xử lý click trái
+                if (e.button !== 0) return;
+                
+                const photoItem = e.target.closest('.photo-browser-item');
+                
+                // Nếu click vào checkbox, xử lý riêng
+                if (e.target.type === 'checkbox') {
+                    togglePhotoSelection(photoItem.dataset.photoId);
+                    return;
+                }
+                
+                // Nếu click vào ảnh, toggle selection
+                if (photoItem && !e.shiftKey && !e.ctrlKey) {
+                    togglePhotoSelection(photoItem.dataset.photoId);
+                    return;
+                }
+                
+                // Bắt đầu drag selection
+                isMouseDown = true;
+                isDragSelecting = false;
+                startX = e.clientX;
+                startY = e.clientY;
+                
+                // Lưu trạng thái selection hiện tại
+                initialSelectedPhotos = new Set(photoBrowserSelectedPhotos);
+                
+                // Ngăn chặn selection text
+                e.preventDefault();
+                document.body.classList.add('photo-browser-dragging');
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isMouseDown) return;
+                
+                const deltaX = Math.abs(e.clientX - startX);
+                const deltaY = Math.abs(e.clientY - startY);
+                
+                // Bắt đầu drag selection nếu di chuyển đủ xa
+                if (!isDragSelecting && (deltaX > 5 || deltaY > 5)) {
+                    isDragSelecting = true;
+                    dragSelectionArea.style.display = 'block';
+                }
+                
+                if (isDragSelecting) {
+                    // Cập nhật vùng selection
+                    const rect = container.getBoundingClientRect();
+                    const containerScrollTop = container.scrollTop || 0;
+                    const containerScrollLeft = container.scrollLeft || 0;
+                    
+                    const left = Math.min(startX, e.clientX) - rect.left + containerScrollLeft;
+                    const top = Math.min(startY, e.clientY) - rect.top + containerScrollTop;
+                    const width = Math.abs(e.clientX - startX);
+                    const height = Math.abs(e.clientY - startY);
+                    
+                    dragSelectionArea.style.left = (rect.left + left) + 'px';
+                    dragSelectionArea.style.top = (rect.top + top) + 'px';
+                    dragSelectionArea.style.width = width + 'px';
+                    dragSelectionArea.style.height = height + 'px';
+                    
+                    // Kiểm tra ảnh nào nằm trong vùng selection
+                    const selectionRect = {
+                        left: left,
+                        top: top,
+                        right: left + width,
+                        bottom: top + height
+                    };
+                    
+                    // Reset về trạng thái ban đầu
+                    photoBrowserSelectedPhotos = new Set(initialSelectedPhotos);
+                    
+                    // Kiểm tra từng ảnh
+                    const photoItems = container.querySelectorAll('.photo-browser-item');
+                    photoItems.forEach(item => {
+                        const itemRect = item.getBoundingClientRect();
+                        const itemRelativeRect = {
+                            left: itemRect.left - rect.left + containerScrollLeft,
+                            top: itemRect.top - rect.top + containerScrollTop,
+                            right: itemRect.right - rect.left + containerScrollLeft,
+                            bottom: itemRect.bottom - rect.top + containerScrollTop
+                        };
+                        
+                        // Kiểm tra overlap
+                        const isOverlapping = !(
+                            itemRelativeRect.right < selectionRect.left ||
+                            itemRelativeRect.left > selectionRect.right ||
+                            itemRelativeRect.bottom < selectionRect.top ||
+                            itemRelativeRect.top > selectionRect.bottom
+                        );
+                        
+                        const photoId = item.dataset.photoId;
+                        
+                        if (isOverlapping) {
+                            // Thêm vào selection nếu chưa có, hoặc xóa nếu đã có (toggle)
+                            if (initialSelectedPhotos.has(photoId)) {
+                                photoBrowserSelectedPhotos.delete(photoId);
+                            } else {
+                                photoBrowserSelectedPhotos.add(photoId);
+                            }
+                            item.classList.add('drag-selecting');
+                        } else {
+                            item.classList.remove('drag-selecting');
+                        }
+                    });
+                    
+                    updatePhotoBrowserUI();
+                }
+            });
+            
+            document.addEventListener('mouseup', (e) => {
+                if (isMouseDown) {
+                    isMouseDown = false;
+                    
+                    if (isDragSelecting) {
+                        isDragSelecting = false;
+                        dragSelectionArea.style.display = 'none';
+                        
+                        // Xóa class drag-selecting
+                        container.querySelectorAll('.drag-selecting').forEach(item => {
+                            item.classList.remove('drag-selecting');
+                        });
+                        
+                        // Cập nhật UI cuối cùng
+                        updatePhotoBrowserSelectionDisplay();
+                    }
+                    
+                    document.body.classList.remove('photo-browser-dragging');
+                }
+            });
+            
+            // Xử lý click vào từng ảnh
+            container.addEventListener('click', (e) => {
+                const photoItem = e.target.closest('.photo-browser-item');
+                if (photoItem && !isDragSelecting) {
+                    const checkbox = photoItem.querySelector('input[type="checkbox"]');
+                    if (e.target !== checkbox) {
+                        checkbox.checked = !checkbox.checked;
+                        togglePhotoSelection(photoItem.dataset.photoId);
+                    }
+                }
+            });
+        }
+
+        // Hàm toggle selection của một ảnh
+        function togglePhotoSelection(photoId) {
+            if (photoBrowserSelectedPhotos.has(photoId)) {
+                photoBrowserSelectedPhotos.delete(photoId);
+            } else {
+                photoBrowserSelectedPhotos.add(photoId);
+            }
+            updatePhotoBrowserUI();
+        }
+
+        // Hàm cập nhật UI của photo browser
+        function updatePhotoBrowserUI() {
+            updatePhotoBrowserSelectionDisplay();
+            updatePhotoBrowserButtons();
+        }
+
+        // Hàm cập nhật hiển thị selection
+        function updatePhotoBrowserSelectionDisplay() {
+            const container = document.getElementById('photoBrowserContainer');
+            const photoItems = container.querySelectorAll('.photo-browser-item');
+            
+            photoItems.forEach(item => {
+                const photoId = item.dataset.photoId;
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                const isSelected = photoBrowserSelectedPhotos.has(photoId);
+                
+                if (isSelected) {
+                    item.classList.add('selected');
+                    checkbox.checked = true;
+                } else {
+                    item.classList.remove('selected');
+                    checkbox.checked = false;
+                }
+            });
+        }
+
+        // Hàm cập nhật trạng thái các nút
+        function updatePhotoBrowserButtons() {
+            const selectedCount = photoBrowserSelectedPhotos.size;
+            
+            // Cập nhật badge số lượng
+            document.getElementById('selectedPhotosCount').textContent = `${selectedCount} ảnh được chọn`;
+            document.getElementById('confirmCount').textContent = selectedCount;
+            
+            // Cập nhật thông tin
+            const infoText = selectedCount === 0 ? 'Chưa chọn ảnh nào' : 
+                           selectedCount === 1 ? '1 ảnh được chọn' : 
+                           `${selectedCount} ảnh được chọn`;
+            document.getElementById('selectedPhotosInfo').textContent = infoText;
+            
+            // Cập nhật trạng thái nút
+            const hasSelection = selectedCount > 0;
+            document.getElementById('addSelectedPhotosBtn').disabled = !hasSelection;
+            document.getElementById('confirmAddPhotosBtn').disabled = !hasSelection;
+        }
+
+        // Hàm chọn tất cả ảnh
+        function selectAllPhotos() {
+            allPhotosData.forEach(photo => {
+                photoBrowserSelectedPhotos.add(photo.id);
+            });
+            updatePhotoBrowserUI();
+        }
+
+        // Hàm bỏ chọn tất cả ảnh
+        function clearAllSelection() {
+            photoBrowserSelectedPhotos.clear();
+            updatePhotoBrowserUI();
+        }
+
+        // Hàm xác nhận thêm ảnh vào sự kiện
+        async function confirmAddPhotosToEvent() {
+            if (photoBrowserSelectedPhotos.size === 0) {
+                showMessage('Vui lòng chọn ít nhất một ảnh', 'error');
+                return;
+            }
+            
+            const confirmBtn = document.getElementById('confirmAddPhotosBtn');
+            const originalText = confirmBtn.innerHTML;
+            
+            try {
+                // Hiển thị loading
+                confirmBtn.disabled = true;
+                confirmBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang thêm...';
+                
+                // Đọc dữ liệu sự kiện hiện tại
+                const { content: currentEvents, sha } = await readNotes();
+                const event = currentEvents[currentBrowsingEventIndex];
+                
+                if (!event) {
+                    throw new Error('Không tìm thấy sự kiện');
+                }
+                
+                // Khởi tạo mảng image nếu chưa có
+                if (!event.image) {
+                    event.image = [];
+                }
+                
+                // Thêm các ảnh được chọn (tránh trùng lặp)
+                let addedCount = 0;
+                photoBrowserSelectedPhotos.forEach(photoId => {
+                    if (!event.image.includes(photoId)) {
+                        event.image.push(photoId);
+                        addedCount++;
+                    }
+                });
+                
+                // Lưu lại dữ liệu
+                await writeNotes(currentEvents, sha);
+                
+                // Đóng modal browser
+                const browserModal = bootstrap.Modal.getInstance(document.getElementById('photoBrowserModal'));
+                browserModal.hide();
+                
+                // Cập nhật modal ảnh sự kiện nếu đang mở
+                if (eventPhotosModalInstance) {
+                    // Reload ảnh của sự kiện
+                    setTimeout(() => {
+                        loadEventPhotos(currentBrowsingEventIndex);
+                    }, 300);
+                }
+                
+                // Cập nhật giao diện chính
+                displayEvents(currentEvents);
+                if (window.calendarInstance) {
+                    window.calendarInstance.updateEventsFromData(currentEvents);
+                }
+                
+                showMessage(`✅ Đã thêm ${addedCount} ảnh vào sự kiện thành công!`, 'success');
+                
+                // Thêm log
+                addLog('Thêm ảnh vào sự kiện qua trình duyệt', `${addedCount} ảnh mới, tổng ${photoBrowserSelectedPhotos.size} ảnh được chọn`);
+                
+            } catch (error) {
+                console.error('Lỗi khi thêm ảnh vào sự kiện:', error);
+                showMessage('❌ Lỗi khi thêm ảnh vào sự kiện. Vui lòng thử lại.', 'error');
+            } finally {
+                // Khôi phục nút
+                confirmBtn.disabled = false;
+                confirmBtn.innerHTML = originalText;
             }
         }
 
@@ -4804,6 +5411,13 @@
             // Xử lý sự kiện khi nhấn nút "Lưu Ảnh Vào Sự Kiện"
             document.getElementById('savePhotoToEventsBtn').addEventListener('click', savePhotoToEvents);
 
+            // Xử lý sự kiện cho Photo Browser
+            document.getElementById('browsePhotosBtn').addEventListener('click', openPhotoBrowser);
+            document.getElementById('selectAllPhotosBtn').addEventListener('click', selectAllPhotos);
+            document.getElementById('clearSelectionBtn').addEventListener('click', clearAllSelection);
+            document.getElementById('addSelectedPhotosBtn').addEventListener('click', confirmAddPhotosToEvent);
+            document.getElementById('confirmAddPhotosBtn').addEventListener('click', confirmAddPhotosToEvent);
+
             // Xử lý sự kiện khi nhấn nút "Lưu Sự Kiện"
             document.getElementById('saveEventBtn').addEventListener('click', async () => {
                 const eventDate = document.getElementById('eventDate').value;
@@ -4889,5 +5503,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9869cfb7e6e120f6',t:'MTc1OTEzMTQwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9870ea73d4504639',t:'MTc1OTIwNTkwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
