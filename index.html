@@ -898,6 +898,61 @@
             z-index: 3;
         }
 
+        /* Event Photos Selection Styles */
+        .event-photo-item {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 3px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .event-photo-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .event-photo-item.selected {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+        }
+
+        .event-photo-item .selection-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(220, 53, 69, 0.2);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .event-photo-item.selected .selection-overlay {
+            display: flex;
+        }
+
+        .event-photo-item .selection-checkbox {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            z-index: 3;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 4px;
+            padding: 2px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .event-photo-item:hover .selection-checkbox,
+        .event-photo-item.selected .selection-checkbox {
+            opacity: 1;
+        }
+
         /* Drag selection area */
         .drag-selection-area {
             position: absolute;
@@ -1384,11 +1439,38 @@
                         <i class="bi bi-images me-2"></i>
                         Ảnh Của Sự Kiện
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="d-flex align-items-center gap-3">
+                        <span id="selectedEventPhotosCount" class="badge bg-danger fs-6" style="display: none;">0 ảnh được chọn</span>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <div id="eventPhotosInfo" class="mb-4">
                         <!-- Thông tin sự kiện sẽ hiển thị ở đây -->
+                    </div>
+                    
+                    <!-- Toolbar cho chọn ảnh -->
+                    <div id="eventPhotosToolbar" class="bg-light border rounded p-3 mb-4" style="display: none;">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3 flex-wrap">
+                                <button type="button" class="btn btn-outline-danger btn-sm" id="selectAllEventPhotosBtn">
+                                    <i class="bi bi-check-all me-1"></i>
+                                    Chọn Tất Cả
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="clearEventPhotosSelectionBtn">
+                                    <i class="bi bi-x-circle me-1"></i>
+                                    Bỏ Chọn Tất Cả
+                                </button>
+                                <div class="vr d-none d-md-block"></div>
+                                <small class="text-muted d-none d-md-inline">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Click vào ảnh để chọn/bỏ chọn
+                                </small>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="text-muted small">Tổng: <span id="totalEventPhotos">0</span> ảnh</span>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Loading Spinner -->
@@ -1410,11 +1492,22 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="browsePhotosBtn">
-                        <i class="bi bi-search me-1"></i>
-                        Duyệt Ảnh
-                    </button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <div class="d-flex justify-content-between align-items-center w-100 flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-3">
+                            <span id="selectedEventPhotosInfo" class="text-muted small">Chưa chọn ảnh nào</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-danger" id="deleteSelectedPhotosBtn" style="display: none;">
+                                <i class="bi bi-trash me-1"></i>
+                                Xóa Ảnh Đã Chọn
+                            </button>
+                            <button type="button" class="btn btn-primary" id="browsePhotosBtn">
+                                <i class="bi bi-search me-1"></i>
+                                Duyệt Ảnh
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2745,6 +2838,9 @@
         let dragStartX, dragStartY;
         let dragSelectionArea = null;
         
+        // Event Photos Selection variables
+        let eventPhotosSelectedPhotos = new Set(); // Set chứa ID các ảnh được chọn trong modal sự kiện
+        
         // Photo Browser pagination variables
         let browserCurrentPage = 1;
         let browserTotalPages = 1;
@@ -3088,6 +3184,12 @@
                 const photosGrid = document.getElementById('eventPhotosGrid');
                 const emptyState = document.getElementById('eventPhotos-emptyState');
                 const eventInfo = document.getElementById('eventPhotosInfo');
+                const toolbar = document.getElementById('eventPhotosToolbar');
+                const totalEventPhotos = document.getElementById('totalEventPhotos');
+                
+                // Reset selection
+                eventPhotosSelectedPhotos.clear();
+                updateEventPhotosSelectionUI();
                 
                 // Lưu instance modal để có thể mở lại sau
                 eventPhotosModalInstance = modal;
@@ -3118,6 +3220,7 @@
                 loadingSpinner.classList.remove('hidden');
                 photosGrid.innerHTML = '';
                 emptyState.classList.add('hidden');
+                toolbar.style.display = 'none';
                 
                 // Kiểm tra xem sự kiện có ảnh không
                 if (!event.image || !Array.isArray(event.image) || event.image.length === 0) {
@@ -3148,29 +3251,61 @@
                     return;
                 }
                 
-                // Hiển thị ảnh
+                // Hiển thị toolbar và cập nhật tổng số ảnh
+                toolbar.style.display = 'block';
+                totalEventPhotos.textContent = eventPhotos.length;
+                
+                // Hiển thị ảnh với khả năng chọn
                 eventPhotos.forEach((photo, index) => {
                     const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w300-h300`;
                     const directUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
                     const fallbackUrl = `https://lh3.googleusercontent.com/d/${photo.id}=w300-h300`;
                     
                     const photoCard = document.createElement('div');
-                    photoCard.className = 'bg-white rounded-lg shadow-md overflow-hidden cursor-pointer';
+                    photoCard.className = 'event-photo-item bg-white rounded-lg shadow-md overflow-hidden';
+                    photoCard.dataset.photoId = photo.id;
                     photoCard.innerHTML = `
                         <div class="relative">
                             <img src="${thumbnailUrl}" alt="${photo.name}" 
                                  class="w-full h-48 object-cover"
-                                 onclick="openPhotoModal('${photo.id}', '${photo.name}', ${index}, true)"
                                  onerror="handleThumbnailError(this, '${directUrl}', '${fallbackUrl}')"
                                  loading="lazy">
                             <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs">
                                 ${index + 1}/${eventPhotos.length}
+                            </div>
+                            
+                            <div class="selection-checkbox">
+                                <input type="checkbox" class="form-check-input">
+                            </div>
+                            
+                            <div class="selection-overlay">
+                                <i class="bi bi-check-circle-fill text-white" style="font-size: 2rem;"></i>
                             </div>
                         </div>
                         <div class="p-3">
                             <p class="text-sm text-gray-700 truncate" title="${photo.name}">${photo.name}</p>
                         </div>
                     `;
+                    
+                    // Thêm event listener cho click
+                    photoCard.addEventListener('click', (e) => {
+                        // Nếu click vào checkbox, xử lý riêng
+                        if (e.target.type === 'checkbox') {
+                            toggleEventPhotoSelection(photo.id);
+                            return;
+                        }
+                        
+                        // Nếu có phím Ctrl/Cmd, toggle selection
+                        if (e.ctrlKey || e.metaKey) {
+                            e.preventDefault();
+                            const checkbox = photoCard.querySelector('input[type="checkbox"]');
+                            checkbox.checked = !checkbox.checked;
+                            toggleEventPhotoSelection(photo.id);
+                        } else {
+                            // Click bình thường - mở modal ảnh
+                            openPhotoModal(photo.id, photo.name, index, true);
+                        }
+                    });
                     
                     photosGrid.appendChild(photoCard);
                 });
@@ -3650,6 +3785,131 @@
             updatePhotoBrowserUI();
         }
 
+        // Hàm toggle selection của ảnh trong modal sự kiện
+        function toggleEventPhotoSelection(photoId) {
+            if (eventPhotosSelectedPhotos.has(photoId)) {
+                eventPhotosSelectedPhotos.delete(photoId);
+            } else {
+                eventPhotosSelectedPhotos.add(photoId);
+            }
+            updateEventPhotosSelectionUI();
+        }
+
+        // Hàm cập nhật UI selection cho modal sự kiện
+        function updateEventPhotosSelectionUI() {
+            const selectedCount = eventPhotosSelectedPhotos.size;
+            
+            // Cập nhật badge số lượng
+            const countBadge = document.getElementById('selectedEventPhotosCount');
+            const deleteBtn = document.getElementById('deleteSelectedPhotosBtn');
+            const infoText = document.getElementById('selectedEventPhotosInfo');
+            
+            if (selectedCount > 0) {
+                countBadge.textContent = `${selectedCount} ảnh được chọn`;
+                countBadge.style.display = 'inline-block';
+                deleteBtn.style.display = 'inline-block';
+                
+                const text = selectedCount === 1 ? '1 ảnh được chọn' : `${selectedCount} ảnh được chọn`;
+                infoText.textContent = text;
+            } else {
+                countBadge.style.display = 'none';
+                deleteBtn.style.display = 'none';
+                infoText.textContent = 'Chưa chọn ảnh nào';
+            }
+            
+            // Cập nhật hiển thị selection trên các ảnh
+            const photoItems = document.querySelectorAll('.event-photo-item');
+            photoItems.forEach(item => {
+                const photoId = item.dataset.photoId;
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                const isSelected = eventPhotosSelectedPhotos.has(photoId);
+                
+                if (isSelected) {
+                    item.classList.add('selected');
+                    checkbox.checked = true;
+                } else {
+                    item.classList.remove('selected');
+                    checkbox.checked = false;
+                }
+            });
+        }
+
+        // Hàm chọn tất cả ảnh trong modal sự kiện
+        function selectAllEventPhotos() {
+            currentEventPhotos.forEach(photo => {
+                eventPhotosSelectedPhotos.add(photo.id);
+            });
+            updateEventPhotosSelectionUI();
+        }
+
+        // Hàm bỏ chọn tất cả ảnh trong modal sự kiện
+        function clearAllEventPhotosSelection() {
+            eventPhotosSelectedPhotos.clear();
+            updateEventPhotosSelectionUI();
+        }
+
+        // Hàm xóa ảnh đã chọn khỏi sự kiện
+        async function deleteSelectedEventPhotos() {
+            if (eventPhotosSelectedPhotos.size === 0) {
+                showMessage('Vui lòng chọn ảnh cần xóa', 'error');
+                return;
+            }
+
+            const deleteBtn = document.getElementById('deleteSelectedPhotosBtn');
+            const originalText = deleteBtn.innerHTML;
+            
+            try {
+                // Hiển thị loading
+                deleteBtn.disabled = true;
+                deleteBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Đang xóa...';
+                
+                // Đọc dữ liệu sự kiện hiện tại
+                const { content: currentEvents, sha } = await readNotes();
+                const event = currentEvents[currentBrowsingEventIndex];
+                
+                if (!event) {
+                    throw new Error('Không tìm thấy sự kiện');
+                }
+                
+                // Xóa các ảnh đã chọn khỏi danh sách
+                const originalCount = event.image ? event.image.length : 0;
+                const photosToDelete = Array.from(eventPhotosSelectedPhotos);
+                
+                if (event.image && Array.isArray(event.image)) {
+                    event.image = event.image.filter(photoId => !eventPhotosSelectedPhotos.has(photoId));
+                }
+                
+                const deletedCount = originalCount - (event.image ? event.image.length : 0);
+                
+                // Lưu lại dữ liệu
+                await writeNotes(currentEvents, sha);
+                
+                // Cập nhật giao diện chính
+                displayEvents(currentEvents);
+                if (window.calendarInstance) {
+                    window.calendarInstance.updateEventsFromData(currentEvents);
+                }
+                
+                // Reload modal ảnh sự kiện
+                setTimeout(() => {
+                    loadEventPhotos(currentBrowsingEventIndex);
+                }, 300);
+                
+                showMessage(`✅ Đã xóa ${deletedCount} ảnh khỏi sự kiện thành công!`, 'success');
+                
+                // Thêm log
+                addLog('Xóa ảnh khỏi sự kiện', `${deletedCount} ảnh, ID: ${photosToDelete.join(', ')}`);
+                
+            } catch (error) {
+                console.error('Lỗi khi xóa ảnh khỏi sự kiện:', error);
+                showMessage('❌ Lỗi khi xóa ảnh khỏi sự kiện. Vui lòng thử lại.', 'error');
+            } finally {
+                // Khôi phục nút
+                deleteBtn.disabled = false;
+                deleteBtn.innerHTML = originalText;
+            }
+        }
+
         // Hàm xác nhận thêm ảnh vào sự kiện
         async function confirmAddPhotosToEvent() {
             const confirmBtn = document.getElementById('confirmAddPhotosBtn');
@@ -3676,16 +3936,15 @@
                 // Lấy danh sách ảnh ban đầu trong sự kiện
                 const originalPhotos = new Set(event.image);
                 
-                // Tính toán thay đổi
+                // Tính toán thay đổi - CHỈ THÊM MỚI, KHÔNG XÓA
                 let addedCount = 0;
-                let removedCount = 0;
                 
                 // Lấy tất cả ảnh trong container để kiểm tra trạng thái
                 const container = document.getElementById('photoBrowserContainer');
                 const photoItems = container.querySelectorAll('.photo-browser-item');
                 
-                // Tạo danh sách ảnh mới dựa trên trạng thái checkbox
-                const newPhotoList = [];
+                // Chỉ thêm ảnh mới được chọn, giữ nguyên ảnh cũ
+                const photosToAdd = [];
                 
                 photoItems.forEach(item => {
                     const photoId = item.dataset.photoId;
@@ -3693,24 +3952,19 @@
                     const wasOriginallyInEvent = item.dataset.originallyInEvent === 'true';
                     const isCurrentlySelected = checkbox.checked;
                     
-                    if (isCurrentlySelected) {
-                        // Ảnh được chọn - thêm vào danh sách mới
-                        newPhotoList.push(photoId);
-                        
-                        // Nếu ảnh không có trong sự kiện ban đầu thì đếm là thêm mới
-                        if (!wasOriginallyInEvent) {
-                            addedCount++;
-                        }
-                    } else {
-                        // Ảnh không được chọn - nếu có trong sự kiện ban đầu thì đếm là xóa
-                        if (wasOriginallyInEvent) {
-                            removedCount++;
-                        }
+                    // Chỉ xử lý ảnh được chọn và chưa có trong sự kiện
+                    if (isCurrentlySelected && !wasOriginallyInEvent) {
+                        photosToAdd.push(photoId);
+                        addedCount++;
                     }
                 });
                 
-                // Cập nhật danh sách ảnh của sự kiện
-                event.image = newPhotoList;
+                // Thêm ảnh mới vào danh sách hiện tại (không thay thế)
+                photosToAdd.forEach(photoId => {
+                    if (!event.image.includes(photoId)) {
+                        event.image.push(photoId);
+                    }
+                });
                 
                 // Lưu lại dữ liệu
                 await writeNotes(currentEvents, sha);
@@ -3735,21 +3989,17 @@
                 
                 // Hiển thị thông báo chi tiết
                 let message = '✅ Đã cập nhật ảnh cho sự kiện thành công!';
-                if (addedCount > 0 && removedCount > 0) {
-                    message = `✅ Đã thêm ${addedCount} ảnh và xóa ${removedCount} ảnh khỏi sự kiện!`;
-                } else if (addedCount > 0) {
+                if (addedCount > 0) {
                     message = `✅ Đã thêm ${addedCount} ảnh vào sự kiện!`;
-                } else if (removedCount > 0) {
-                    message = `✅ Đã xóa ${removedCount} ảnh khỏi sự kiện!`;
+                } else {
+                    message = '✅ Không có ảnh mới nào được thêm vào sự kiện!';
                 }
                 
                 showMessage(message, 'success');
                 
                 // Thêm log
-                const logDetails = [];
-                if (addedCount > 0) logDetails.push(`+${addedCount} ảnh`);
-                if (removedCount > 0) logDetails.push(`-${removedCount} ảnh`);
-                addLog('Cập nhật ảnh sự kiện qua trình duyệt', logDetails.join(', ') || 'Không có thay đổi');
+                const logDetails = addedCount > 0 ? `+${addedCount} ảnh` : 'Không có ảnh mới';
+                addLog('Thêm ảnh vào sự kiện qua trình duyệt', logDetails);
                 
             } catch (error) {
                 console.error('Lỗi khi cập nhật ảnh sự kiện:', error);
@@ -5648,6 +5898,11 @@
             document.getElementById('clearSelectionBtn').addEventListener('click', clearAllSelection);
             document.getElementById('confirmAddPhotosBtn').addEventListener('click', confirmAddPhotosToEvent);
 
+            // Xử lý sự kiện cho Event Photos Selection
+            document.getElementById('selectAllEventPhotosBtn').addEventListener('click', selectAllEventPhotos);
+            document.getElementById('clearEventPhotosSelectionBtn').addEventListener('click', clearAllEventPhotosSelection);
+            document.getElementById('deleteSelectedPhotosBtn').addEventListener('click', deleteSelectedEventPhotos);
+
             // Thêm sự kiện cho các nút phân trang browser
             document.getElementById('browserFirstPageBtn').addEventListener('click', async () => {
                 if (browserCurrentPage !== 1) {
@@ -5708,6 +5963,9 @@
                 currentEventPhotos = [];
                 eventPhotosModalInstance = null;
                 currentBrowsingEventIndex = -1;
+                
+                // Reset selection
+                eventPhotosSelectedPhotos.clear();
                 
                 // Đảm bảo xóa backdrop
                 setTimeout(() => {
@@ -5828,5 +6086,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98728731c18a09c4',t:'MTc1OTIyMjgwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9872a091d2b94639',t:'MTc1OTIyMzg0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
