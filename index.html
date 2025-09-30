@@ -2821,6 +2821,15 @@
                 setTimeout(() => {
                     eventPhotosModalInstance.show();
                 }, 300); // Delay để modal ảnh đóng hoàn toàn trước
+            } else {
+                // Đảm bảo xóa backdrop nếu không có modal nào khác
+                setTimeout(() => {
+                    const backdrops = document.querySelectorAll('.modal-backdrop');
+                    backdrops.forEach(backdrop => backdrop.remove());
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = '';
+                    document.body.style.paddingRight = '';
+                }, 300);
             }
             
             // Reset flag khi đóng modal
@@ -3165,6 +3174,7 @@
                 if (!allPhotosData || allPhotosData.length === 0) {
                     loadingSpinner.style.display = 'none';
                     emptyState.style.display = 'block';
+                    photosGrid.style.display = 'none';
                     modal.show();
                     return;
                 }
@@ -3173,8 +3183,10 @@
                 displayPhotoBrowser(allPhotosData, currentEventPhotos);
                 totalPhotosSpan.textContent = allPhotosData.length;
                 
+                // Ẩn loading và hiển thị grid
                 loadingSpinner.style.display = 'none';
                 photosGrid.style.display = 'block';
+                emptyState.style.display = 'none';
                 
                 modal.show();
                 
@@ -3185,6 +3197,7 @@
                 console.error('Lỗi khi mở trình duyệt ảnh:', error);
                 loadingSpinner.style.display = 'none';
                 emptyState.style.display = 'block';
+                photosGrid.style.display = 'none';
                 showMessage('❌ Không thể tải danh sách ảnh', 'error');
             }
         }
@@ -5418,6 +5431,44 @@
             document.getElementById('addSelectedPhotosBtn').addEventListener('click', confirmAddPhotosToEvent);
             document.getElementById('confirmAddPhotosBtn').addEventListener('click', confirmAddPhotosToEvent);
 
+            // Xử lý sự kiện đóng modal để tránh backdrop bị kẹt
+            document.getElementById('eventPhotosModal').addEventListener('hidden.bs.modal', () => {
+                // Reset các biến trạng thái
+                isViewingEventPhotos = false;
+                currentEventPhotos = [];
+                eventPhotosModalInstance = null;
+                currentBrowsingEventIndex = -1;
+                
+                // Đảm bảo xóa backdrop
+                setTimeout(() => {
+                    const backdrops = document.querySelectorAll('.modal-backdrop');
+                    if (backdrops.length > 0) {
+                        backdrops.forEach(backdrop => backdrop.remove());
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = '';
+                        document.body.style.paddingRight = '';
+                    }
+                }, 100);
+            });
+
+            // Xử lý sự kiện đóng modal duyệt ảnh
+            document.getElementById('photoBrowserModal').addEventListener('hidden.bs.modal', () => {
+                // Reset selection
+                photoBrowserSelectedPhotos.clear();
+                updatePhotoBrowserUI();
+                
+                // Đảm bảo xóa backdrop
+                setTimeout(() => {
+                    const backdrops = document.querySelectorAll('.modal-backdrop');
+                    if (backdrops.length > 0) {
+                        backdrops.forEach(backdrop => backdrop.remove());
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = '';
+                        document.body.style.paddingRight = '';
+                    }
+                }, 100);
+            });
+
             // Xử lý sự kiện khi nhấn nút "Lưu Sự Kiện"
             document.getElementById('saveEventBtn').addEventListener('click', async () => {
                 const eventDate = document.getElementById('eventDate').value;
@@ -5503,5 +5554,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9870ea73d4504639',t:'MTc1OTIwNTkwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9870fd9e0716dda2',t:'MTc1OTIwNjY4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
