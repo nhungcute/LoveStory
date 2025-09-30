@@ -1441,18 +1441,18 @@
                 <div class="modal-body p-0">
                     <!-- Toolbar -->
                     <div class="bg-light border-bottom p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3 flex-wrap">
                                 <button type="button" class="btn btn-outline-primary btn-sm" id="selectAllPhotosBtn">
                                     <i class="bi bi-check-all me-1"></i>
-                                    Chọn Tất Cả
+                                    Chọn Tất Cả Trang
                                 </button>
                                 <button type="button" class="btn btn-outline-secondary btn-sm" id="clearSelectionBtn">
                                     <i class="bi bi-x-circle me-1"></i>
                                     Bỏ Chọn Tất Cả
                                 </button>
-                                <div class="vr"></div>
-                                <small class="text-muted">
+                                <div class="vr d-none d-md-block"></div>
+                                <small class="text-muted d-none d-md-inline">
                                     <i class="bi bi-info-circle me-1"></i>
                                     Giữ chuột và kéo để chọn nhiều ảnh
                                 </small>
@@ -1478,6 +1478,29 @@
                         </div>
                     </div>
                     
+                    <!-- Pagination Controls for Browser -->
+                    <div id="photoBrowserPagination" class="d-flex justify-content-center align-items-center py-3 border-top bg-light" style="display: none !important;">
+                        <div class="d-flex align-items-center gap-2">
+                            <button id="browserFirstPageBtn" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-chevron-double-left"></i>
+                            </button>
+                            <button id="browserPrevPageBtn" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            
+                            <div class="d-flex align-items-center gap-1" id="browserPageNumbers">
+                                <!-- Page numbers will be generated here -->
+                            </div>
+                            
+                            <button id="browserNextPageBtn" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                            <button id="browserLastPageBtn" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-chevron-double-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
                     <!-- Empty State -->
                     <div id="photoBrowser-emptyState" class="text-center py-5" style="display: none;">
                         <i class="bi bi-images display-1 text-muted"></i>
@@ -1485,9 +1508,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <div>
+                    <div class="d-flex justify-content-between align-items-center w-100 flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-3">
                             <span id="selectedPhotosInfo" class="text-muted small">Chưa chọn ảnh nào</span>
+                            <span id="browserPageInfo" class="text-muted small d-none d-md-inline">
+                                Trang <span id="browserCurrentPage">1</span> / <span id="browserTotalPages">1</span>
+                            </span>
                         </div>
                         <div class="d-flex gap-2">
                             <button type="button" class="btn btn-success" id="confirmAddPhotosBtn" disabled>
@@ -2708,6 +2734,13 @@
         let isDragSelecting = false;
         let dragStartX, dragStartY;
         let dragSelectionArea = null;
+        
+        // Photo Browser pagination variables
+        let browserCurrentPage = 1;
+        let browserTotalPages = 1;
+        let browserPhotosPerPage = 24; // Số ảnh mỗi trang trong browser
+        let browserAllPhotos = []; // Tất cả ảnh trong browser
+        let browserCurrentPagePhotos = []; // Ảnh của trang hiện tại
 
         // Hàm điều hướng ảnh trong modal
         function navigatePhoto(direction) {
@@ -3155,15 +3188,18 @@
             const photosGrid = document.getElementById('photoBrowserGrid');
             const emptyState = document.getElementById('photoBrowser-emptyState');
             const totalPhotosSpan = document.getElementById('totalPhotosInBrowser');
+            const paginationControls = document.getElementById('photoBrowserPagination');
             
-            // Reset selection
+            // Reset selection và pagination
             photoBrowserSelectedPhotos.clear();
+            browserCurrentPage = 1;
             updatePhotoBrowserUI();
             
             // Hiển thị loading
             loadingSpinner.style.display = 'flex';
             photosGrid.style.display = 'none';
             emptyState.style.display = 'none';
+            paginationControls.style.display = 'none';
             
             try {
                 // Đọc dữ liệu sự kiện để lấy danh sách ảnh hiện tại
@@ -3179,8 +3215,12 @@
                     return;
                 }
                 
-                // Hiển thị tất cả ảnh
-                displayPhotoBrowser(allPhotosData, currentEventPhotos);
+                // Thiết lập dữ liệu phân trang
+                browserAllPhotos = allPhotosData;
+                browserTotalPages = Math.ceil(browserAllPhotos.length / browserPhotosPerPage);
+                
+                // Hiển thị trang đầu tiên
+                displayPhotoBrowserPage(1, currentEventPhotos);
                 totalPhotosSpan.textContent = allPhotosData.length;
                 
                 // Ẩn loading và hiển thị grid
@@ -3188,10 +3228,16 @@
                 photosGrid.style.display = 'block';
                 emptyState.style.display = 'none';
                 
+                // Hiển thị pagination nếu có nhiều hơn 1 trang
+                if (browserTotalPages > 1) {
+                    paginationControls.style.display = 'flex';
+                    updateBrowserPaginationControls();
+                }
+                
                 modal.show();
                 
                 // Thêm log
-                addLog('Mở trình duyệt ảnh', `${allPhotosData.length} ảnh có sẵn`);
+                addLog('Mở trình duyệt ảnh', `${allPhotosData.length} ảnh có sẵn, ${browserTotalPages} trang`);
                 
             } catch (error) {
                 console.error('Lỗi khi mở trình duyệt ảnh:', error);
@@ -3202,8 +3248,21 @@
             }
         }
 
+        // Hàm hiển thị trang ảnh trong photo browser
+        function displayPhotoBrowserPage(page, currentEventPhotos = []) {
+            if (page < 1 || page > browserTotalPages) return;
+            
+            browserCurrentPage = page;
+            const startIndex = (page - 1) * browserPhotosPerPage;
+            const endIndex = Math.min(startIndex + browserPhotosPerPage, browserAllPhotos.length);
+            
+            browserCurrentPagePhotos = browserAllPhotos.slice(startIndex, endIndex);
+            displayPhotoBrowser(browserCurrentPagePhotos, currentEventPhotos, startIndex);
+            updateBrowserPaginationControls();
+        }
+
         // Hàm hiển thị ảnh trong photo browser
-        function displayPhotoBrowser(photos, currentEventPhotos = []) {
+        function displayPhotoBrowser(photos, currentEventPhotos = [], startIndex = 0) {
             const container = document.getElementById('photoBrowserContainer');
             container.innerHTML = '';
             
@@ -3215,6 +3274,7 @@
             }
             
             photos.forEach((photo, index) => {
+                const globalIndex = startIndex + index;
                 const isInCurrentEvent = currentEventPhotos.includes(photo.id);
                 const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w300-h300`;
                 const directUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
@@ -3225,7 +3285,7 @@
                 photoItem.innerHTML = `
                     <div class="photo-browser-item ${isInCurrentEvent ? 'selected' : ''}" 
                          data-photo-id="${photo.id}" 
-                         data-photo-index="${index}">
+                         data-photo-index="${globalIndex}">
                         <div class="position-relative">
                             <img src="${thumbnailUrl}" alt="${photo.name}" 
                                  class="w-100" 
@@ -3233,7 +3293,7 @@
                                  onerror="handleThumbnailError(this, '${directUrl}', '${fallbackUrl}')"
                                  loading="lazy">
                             
-                            <div class="photo-index">${index + 1}</div>
+                            <div class="photo-index">${globalIndex + 1}</div>
                             
                             <div class="selection-checkbox">
                                 <input type="checkbox" class="form-check-input" ${isInCurrentEvent ? 'checked' : ''}>
@@ -3262,6 +3322,101 @@
             
             // Cập nhật UI
             updatePhotoBrowserUI();
+        }
+
+        // Hàm cập nhật điều khiển phân trang cho browser
+        function updateBrowserPaginationControls() {
+            const currentPageSpan = document.getElementById('browserCurrentPage');
+            const totalPagesSpan = document.getElementById('browserTotalPages');
+            const pageNumbers = document.getElementById('browserPageNumbers');
+            
+            // Cập nhật thông tin trang
+            currentPageSpan.textContent = browserCurrentPage;
+            totalPagesSpan.textContent = browserTotalPages;
+            
+            // Cập nhật trạng thái nút
+            const firstPageBtn = document.getElementById('browserFirstPageBtn');
+            const prevPageBtn = document.getElementById('browserPrevPageBtn');
+            const nextPageBtn = document.getElementById('browserNextPageBtn');
+            const lastPageBtn = document.getElementById('browserLastPageBtn');
+            
+            firstPageBtn.disabled = browserCurrentPage === 1;
+            prevPageBtn.disabled = browserCurrentPage === 1;
+            nextPageBtn.disabled = browserCurrentPage === browserTotalPages;
+            lastPageBtn.disabled = browserCurrentPage === browserTotalPages;
+            
+            // Tạo số trang
+            pageNumbers.innerHTML = '';
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, browserCurrentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(browserTotalPages, startPage + maxVisiblePages - 1);
+            
+            // Điều chỉnh startPage nếu endPage đã đạt tối đa
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // Thêm dấu ... nếu cần
+            if (startPage > 1) {
+                const firstPageNumber = createBrowserPageButton(1);
+                pageNumbers.appendChild(firstPageNumber);
+                
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.className = 'px-2 py-1 text-muted';
+                    pageNumbers.appendChild(ellipsis);
+                }
+            }
+            
+            // Thêm các số trang
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = createBrowserPageButton(i);
+                pageNumbers.appendChild(pageButton);
+            }
+            
+            // Thêm dấu ... cuối nếu cần
+            if (endPage < browserTotalPages) {
+                if (endPage < browserTotalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.className = 'px-2 py-1 text-muted';
+                    pageNumbers.appendChild(ellipsis);
+                }
+                
+                const lastPageNumber = createBrowserPageButton(browserTotalPages);
+                pageNumbers.appendChild(lastPageNumber);
+            }
+        }
+        
+        // Hàm tạo nút trang cho browser
+        function createBrowserPageButton(pageNum) {
+            const button = document.createElement('button');
+            button.textContent = pageNum;
+            button.className = `btn btn-sm ${
+                pageNum === browserCurrentPage 
+                    ? 'btn-primary' 
+                    : 'btn-outline-secondary'
+            }`;
+            
+            button.addEventListener('click', async () => {
+                if (pageNum !== browserCurrentPage) {
+                    // Đọc lại dữ liệu sự kiện để đảm bảo đồng bộ
+                    const { content: events } = await readNotes();
+                    const currentEvent = events[currentBrowsingEventIndex];
+                    const currentEventPhotos = currentEvent?.image || [];
+                    
+                    displayPhotoBrowserPage(pageNum, currentEventPhotos);
+                    
+                    // Cuộn lên đầu grid
+                    document.getElementById('photoBrowserGrid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
+            
+            return button;
         }
 
         // Hàm thiết lập drag selection
@@ -3469,9 +3624,9 @@
             document.getElementById('confirmAddPhotosBtn').disabled = !hasSelection;
         }
 
-        // Hàm chọn tất cả ảnh
+        // Hàm chọn tất cả ảnh trong trang hiện tại
         function selectAllPhotos() {
-            allPhotosData.forEach(photo => {
+            browserCurrentPagePhotos.forEach(photo => {
                 photoBrowserSelectedPhotos.add(photo.id);
             });
             updatePhotoBrowserUI();
@@ -5431,6 +5586,59 @@
             document.getElementById('addSelectedPhotosBtn').addEventListener('click', confirmAddPhotosToEvent);
             document.getElementById('confirmAddPhotosBtn').addEventListener('click', confirmAddPhotosToEvent);
 
+            // Thêm sự kiện cho các nút phân trang browser
+            document.getElementById('browserFirstPageBtn').addEventListener('click', async () => {
+                if (browserCurrentPage !== 1) {
+                    const { content: events } = await readNotes();
+                    const currentEvent = events[currentBrowsingEventIndex];
+                    const currentEventPhotos = currentEvent?.image || [];
+                    displayPhotoBrowserPage(1, currentEventPhotos);
+                    document.getElementById('photoBrowserGrid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
+            
+            document.getElementById('browserPrevPageBtn').addEventListener('click', async () => {
+                if (browserCurrentPage > 1) {
+                    const { content: events } = await readNotes();
+                    const currentEvent = events[currentBrowsingEventIndex];
+                    const currentEventPhotos = currentEvent?.image || [];
+                    displayPhotoBrowserPage(browserCurrentPage - 1, currentEventPhotos);
+                    document.getElementById('photoBrowserGrid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
+            
+            document.getElementById('browserNextPageBtn').addEventListener('click', async () => {
+                if (browserCurrentPage < browserTotalPages) {
+                    const { content: events } = await readNotes();
+                    const currentEvent = events[currentBrowsingEventIndex];
+                    const currentEventPhotos = currentEvent?.image || [];
+                    displayPhotoBrowserPage(browserCurrentPage + 1, currentEventPhotos);
+                    document.getElementById('photoBrowserGrid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
+            
+            document.getElementById('browserLastPageBtn').addEventListener('click', async () => {
+                if (browserCurrentPage !== browserTotalPages) {
+                    const { content: events } = await readNotes();
+                    const currentEvent = events[currentBrowsingEventIndex];
+                    const currentEventPhotos = currentEvent?.image || [];
+                    displayPhotoBrowserPage(browserTotalPages, currentEventPhotos);
+                    document.getElementById('photoBrowserGrid').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            });
+
             // Xử lý sự kiện đóng modal để tránh backdrop bị kẹt
             document.getElementById('eventPhotosModal').addEventListener('hidden.bs.modal', () => {
                 // Reset các biến trạng thái
@@ -5554,5 +5762,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9870fd9e0716dda2',t:'MTc1OTIwNjY4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98719e04d3954639',t:'MTc1OTIxMzI1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
