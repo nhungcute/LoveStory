@@ -2190,6 +2190,7 @@
             const photosGrid = document.getElementById('photosGrid');
             const emptyState = document.getElementById('photosEmptyState');
             const errorMessage = document.getElementById('photosErrorMessage');
+            const paginationControls = document.getElementById('paginationControls');
             
             try {
                 // Hiển thị loading
@@ -2197,6 +2198,7 @@
                 photosGrid.innerHTML = '';
                 emptyState.classList.add('hidden');
                 errorMessage.classList.add('hidden');
+                paginationControls.classList.add('hidden');
                 
                 const loadingText = loadingSpinner.querySelector('span');
                 if (loadingText) {
@@ -2206,8 +2208,10 @@
                 // Tải metadata từ GitHub
                 const photosMetadata = await loadPhotosMetadataFromGitHub();
                 
+                // Ẩn loading trước khi xử lý kết quả
+                loadingSpinner.classList.add('hidden');
+                
                 if (!photosMetadata || photosMetadata.length === 0) {
-                    loadingSpinner.classList.add('hidden');
                     emptyState.classList.remove('hidden');
                     showMessage('📷 Chưa có metadata ảnh. Vui lòng nhấn nút cập nhật để tải ảnh từ Google Drive!', 'error');
                     return;
@@ -2243,8 +2247,6 @@
                         }
                     });
                 }
-                
-                loadingSpinner.classList.add('hidden');
                 
                 // Hiển thị trang đầu tiên
                 displayPhotosPage(1);
@@ -5762,5 +5764,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98719e04d3954639',t:'MTc1OTIxMzI1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98724914d30208bc',t:'MTc1OTIyMDI2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
