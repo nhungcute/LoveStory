@@ -1,6 +1,13 @@
 [
   {
     "date": "30/9/2025",
+    "time": "18:26:46",
+    "action": "Mở trình duyệt ảnh",
+    "details": "710 ảnh có sẵn",
+    "timestamp": "2025-09-30T11:26:46.491Z"
+  },
+  {
+    "date": "30/9/2025",
     "time": "18:26:42",
     "action": "Xem ảnh của sự kiện",
     "details": "First day of love: 7 ảnh",
