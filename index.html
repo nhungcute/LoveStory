@@ -3289,8 +3289,8 @@
                     
                     // Thêm event listener cho click
                     photoCard.addEventListener('click', (e) => {
-                        // Nếu click vào checkbox, xử lý riêng
-                        if (e.target.type === 'checkbox') {
+                        // Nếu click vào checkbox icon, toggle selection
+                        if (e.target.closest('.selection-checkbox')) {
                             toggleEventPhotoSelection(photo.id);
                             return;
                         }
@@ -3298,8 +3298,6 @@
                         // Nếu có phím Ctrl/Cmd, toggle selection
                         if (e.ctrlKey || e.metaKey) {
                             e.preventDefault();
-                            const checkbox = photoCard.querySelector('input[type="checkbox"]');
-                            checkbox.checked = !checkbox.checked;
                             toggleEventPhotoSelection(photo.id);
                         } else {
                             // Click bình thường - mở modal ảnh
@@ -3335,8 +3333,7 @@
             const totalPhotosSpan = document.getElementById('totalPhotosInBrowser');
             const paginationControls = document.getElementById('photoBrowserPagination');
             
-            // Reset selection và pagination
-            photoBrowserSelectedPhotos.clear();
+            // Không reset selection - giữ nguyên để người dùng có thể tiếp tục chọn
             browserCurrentPage = 1;
             updatePhotoBrowserUI();
             
@@ -3709,9 +3706,8 @@
             container.addEventListener('click', (e) => {
                 const photoItem = e.target.closest('.photo-browser-item');
                 if (photoItem && !isDragSelecting) {
-                    const checkbox = photoItem.querySelector('input[type="checkbox"]');
-                    if (e.target !== checkbox) {
-                        checkbox.checked = !checkbox.checked;
+                    // Nếu click vào checkbox icon hoặc bất kỳ đâu trên ảnh
+                    if (e.target.closest('.selection-checkbox') || !e.target.closest('.selection-checkbox')) {
                         togglePhotoSelection(photoItem.dataset.photoId);
                     }
                 }
@@ -3741,15 +3737,12 @@
             
             photoItems.forEach(item => {
                 const photoId = item.dataset.photoId;
-                const checkbox = item.querySelector('input[type="checkbox"]');
                 const isSelected = photoBrowserSelectedPhotos.has(photoId);
                 
                 if (isSelected) {
                     item.classList.add('selected');
-                    checkbox.checked = true;
                 } else {
                     item.classList.remove('selected');
-                    checkbox.checked = false;
                 }
             });
         }
@@ -3821,15 +3814,12 @@
             const photoItems = document.querySelectorAll('.event-photo-item');
             photoItems.forEach(item => {
                 const photoId = item.dataset.photoId;
-                const checkbox = item.querySelector('input[type="checkbox"]');
                 const isSelected = eventPhotosSelectedPhotos.has(photoId);
                 
                 if (isSelected) {
                     item.classList.add('selected');
-                    checkbox.checked = true;
                 } else {
                     item.classList.remove('selected');
-                    checkbox.checked = false;
                 }
             });
         }
@@ -6086,5 +6076,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9872a091d2b94639',t:'MTc1OTIyMzg0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987878a5d4c40447',t:'MTc1OTI4NTEyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
