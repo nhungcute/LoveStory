@@ -5545,22 +5545,16 @@
         function initializeEventHandlers() {
             // Khởi tạo floating settings menu
             initializeFloatingSettings();
+            
             // Khởi tạo tự động cập nhật từ cấu hình
             const isAutoEnabled = CONFIG.AUTO_LOAD_METADATA === "true" || CONFIG.AUTO_LOAD_METADATA === true;
-            const toggleBtn = document.getElementById('autoUpdateToggle');
             
             if (isAutoEnabled) {
                 setupAutoUpdate();
-                toggleBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
-                toggleBtn.classList.add('bg-green-500', 'hover:bg-green-600');
-                toggleBtn.title = 'Tắt cập nhật tự động 9h sáng';
                 localStorage.setItem('autoUpdateEnabled', 'true');
             } else {
                 // Tắt tự động cập nhật
                 stopAutoUpdate();
-                toggleBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
-                toggleBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
-                toggleBtn.title = 'Bật cập nhật tự động 9h sáng';
                 localStorage.setItem('autoUpdateEnabled', 'false');
             }
             
@@ -5915,5 +5909,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9878ef81b69d8533',t:'MTc1OTI4OTk5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9878f49fe6180447',t:'MTc1OTI5MDIwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
