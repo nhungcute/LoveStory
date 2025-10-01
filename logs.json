@@ -1,6 +1,13 @@
 [
   {
     "date": "1/10/2025",
+    "time": "19:15:37",
+    "action": "Mở trình duyệt ảnh",
+    "details": "710 ảnh có sẵn, 30 trang",
+    "timestamp": "2025-10-01T12:15:37.681Z"
+  },
+  {
+    "date": "1/10/2025",
     "time": "19:15:30",
     "action": "Load refresh sự kiện",
     "details": "10 sự kiện",
