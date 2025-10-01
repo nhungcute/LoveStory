@@ -4548,7 +4548,7 @@
         function displayEvents(events) {
             const eventsContainer = document.getElementById('eventsContainer');
             const emptyState = document.getElementById('emptyState');
-            const deleteBtn = document.getElementById('deleteEventBtn');
+
             
             // Lưu dữ liệu sự kiện hiện tại
             currentEventsData = events;
@@ -4563,7 +4563,6 @@
             
             if (!events || events.length === 0) {
                 emptyState.classList.remove('hidden');
-                deleteBtn.disabled = true;
                 return;
             }
             
@@ -5657,18 +5656,26 @@
             document.addEventListener('click', (e) => {
                 // Kiểm tra nếu click không phải vào sự kiện hoặc các nút điều khiển
                 if (!e.target.closest('.event-item') && 
-                    !e.target.closest('#deleteEventBtn') && 
-                    !e.target.closest('#addEventBtn')) {
+                    !e.target.closest('.floating-settings') &&
+                    !e.target.closest('.modal')) {
                     
                     // Bỏ chọn tất cả sự kiện
                     document.querySelectorAll('.event-item').forEach(item => {
                         item.classList.remove('border-red-400', 'bg-gradient-to-r', 'from-red-50', 'to-red-100', 'shadow-lg');
                         item.classList.add('border-pink-200', 'from-pink-50', 'to-purple-50');
+                        const row = item.querySelector('.event-row');
+                        if (row) {
+                            row.classList.remove('bg-red-100');
+                        }
                     });
                     
                     // Reset selection
                     selectedEventIndex = -1;
-                    document.getElementById('deleteEventBtn').disabled = true;
+                    
+                    // Cập nhật trạng thái nút xóa floating
+                    const floatingDeleteBtn = document.getElementById('floatingDeleteEvent');
+                    floatingDeleteBtn.style.opacity = '0.5';
+                    floatingDeleteBtn.style.pointerEvents = 'none';
                     
                     // Khôi phục thông tin kỷ niệm về sự kiện gần nhất
                     updateAnniversaryInfo(currentEventsData);
@@ -5695,7 +5702,11 @@
                     
                     // Reset selection
                     selectedEventIndex = -1;
-                    document.getElementById('deleteEventBtn').disabled = true;
+                    
+                    // Cập nhật trạng thái nút xóa floating
+                    const floatingDeleteBtn = document.getElementById('floatingDeleteEvent');
+                    floatingDeleteBtn.style.opacity = '0.5';
+                    floatingDeleteBtn.style.pointerEvents = 'none';
                     
                 } catch (error) {
                     console.error('Lỗi khi xóa sự kiện:', error);
@@ -5904,5 +5915,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9878e1ed3172c5e8',t:'MTc1OTI4OTQzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9878ef81b69d8533',t:'MTc1OTI4OTk5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
