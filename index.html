@@ -2123,6 +2123,33 @@
             }
         }
 
+        // Hàm mở ảnh từ modal sự kiện
+        function openPhotoModalFromEvent(photoId, photoName, webViewLink, webContentLink, createdTime) {
+            // Lưu lại modal hiện tại (eventPhotosModal)
+            previousModal = 'eventPhotosModal';
+            
+            // Gọi hàm mở ảnh bình thường
+            openPhotoModal(photoId, photoName, webViewLink, webContentLink, createdTime);
+        }
+
+        // Thêm sự kiện ESC cho modal ảnh
+        document.addEventListener('DOMContentLoaded', function() {
+            const photoModal = document.getElementById('photoModal');
+            photoModal.addEventListener('hidden.bs.modal', function() {
+                // Khi modal ảnh đóng, kiểm tra xem có cần mở lại modal trước đó không
+                if (previousModal) {
+                    setTimeout(() => {
+                        const prevModalElement = document.getElementById(previousModal);
+                        if (prevModalElement) {
+                            const prevModalInstance = new bootstrap.Modal(prevModalElement);
+                            prevModalInstance.show();
+                        }
+                        previousModal = null; // Reset
+                    }, 100);
+                }
+            });
+        });
+
         // Hàm upload metadata ảnh lên GitHub
         async function uploadPhotosMetadata(isAutoUpdate = false) {
             const uploadBtn = document.getElementById('uploadMetadataBtn');
@@ -2282,4 +2309,5 @@
             // Nếu không có sha, thử đọc file hiện tại để lấy sha
             if (!sha) {
                 try {
-                    const response = await fetch(PHOTOS_<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987a5d2316550447',t:'MTc1OTMwNDk3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+                    const response = await fetch(PHOTOS_
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987a7bf0b5cce676',t:'MTc1OTMwNjIzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
