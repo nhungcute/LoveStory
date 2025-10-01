@@ -2,6 +2,13 @@
   {
     "date": "1/10/2025",
     "time": "22:08:59",
+    "action": "Load refresh sự kiện",
+    "details": "10 sự kiện",
+    "timestamp": "2025-10-01T15:08:59.664Z"
+  },
+  {
+    "date": "1/10/2025",
+    "time": "22:08:59",
     "action": "Xem ảnh của sự kiện",
     "details": "Lễ thành hôn 37 ảnh",
     "timestamp": "2025-10-01T15:08:59.674Z"
