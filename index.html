@@ -3300,9 +3300,9 @@
             const totalPhotosSpan = document.getElementById('totalPhotosInBrowser');
             const paginationControls = document.getElementById('photoBrowserPagination');
             
-            // Không reset selection - giữ nguyên để người dùng có thể tiếp tục chọn
+            // Reset selection và load lại danh sách ảnh hiện tại của sự kiện
+            photoBrowserSelectedPhotos.clear();
             browserCurrentPage = 1;
-            updatePhotoBrowserUI();
             
             // Hiển thị loading
             loadingSpinner.classList.remove('d-none');
@@ -3316,6 +3316,11 @@
                 const { content: events } = await readNotes();
                 const currentEvent = events[currentBrowsingEventIndex];
                 const currentEventPhotos = currentEvent?.image || [];
+                
+                // Thêm tất cả ảnh hiện tại của sự kiện vào selection
+                currentEventPhotos.forEach(photoId => {
+                    photoBrowserSelectedPhotos.add(photoId);
+                });
                 
                 if (!allPhotosData || allPhotosData.length === 0) {
                     loadingSpinner.classList.add('d-none');
@@ -3346,10 +3351,13 @@
                     updateBrowserPaginationControls();
                 }
                 
+                // Cập nhật UI với số lượng ảnh đã chọn
+                updatePhotoBrowserUI();
+                
                 modal.show();
                 
                 // Thêm log
-                addLog('Mở trình duyệt ảnh', `${allPhotosData.length} ảnh có sẵn, ${browserTotalPages} trang`);
+                addLog('Mở trình duyệt ảnh', `${allPhotosData.length} ảnh có sẵn, ${browserTotalPages} trang, ${currentEventPhotos.length} ảnh đã có trong sự kiện`);
                 
             } catch (error) {
                 console.error('Lỗi khi mở trình duyệt ảnh:', error);
@@ -3388,7 +3396,6 @@
             
             photos.forEach((photo, index) => {
                 const globalIndex = startIndex + index;
-                const isInCurrentEvent = currentEventPhotos.includes(photo.id);
                 const isSelected = photoBrowserSelectedPhotos.has(photo.id);
                 const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w300-h300`;
                 const directUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
@@ -3400,7 +3407,6 @@
                     <div class="photo-browser-item ${isSelected ? 'selected' : ''}" 
                          data-photo-id="${photo.id}" 
                          data-photo-index="${globalIndex}"
-                         data-originally-in-event="${isInCurrentEvent}"
                          style="cursor: pointer;">
                         <div class="position-relative">
                             <img src="${thumbnailUrl}" alt="${photo.name}" 
@@ -3420,11 +3426,6 @@
                         </div>
                     </div>
                 `;
-                
-                // Nếu ảnh đã có trong sự kiện, thêm vào selection
-                if (isInCurrentEvent) {
-                    photoBrowserSelectedPhotos.add(photo.id);
-                }
                 
                 // Thêm event listener cho click trực tiếp vào ảnh
                 const photoElement = photoItem.querySelector('.photo-browser-item');
@@ -3895,63 +3896,16 @@
                     throw new Error('Không tìm thấy sự kiện');
                 }
                 
-                // Khởi tạo mảng image nếu chưa có
-                if (!event.image) {
-                    event.image = [];
-                }
-                
                 // Lấy danh sách ảnh ban đầu trong sự kiện
-                const originalPhotos = new Set(event.image);
+                const originalPhotos = event.image || [];
+                const originalCount = originalPhotos.length;
                 
-                // Tính toán thay đổi
-                let addedCount = 0;
-                let removedCount = 0;
+                // Cập nhật hoàn toàn danh sách ảnh của sự kiện bằng danh sách được chọn
+                event.image = Array.from(photoBrowserSelectedPhotos);
                 
-                // Lấy tất cả ảnh trong container để kiểm tra trạng thái ban đầu
-                const container = document.getElementById('photoBrowserContainer');
-                const photoItems = container.querySelectorAll('.photo-browser-item');
-                
-                // Tạo map để theo dõi trạng thái ban đầu
-                const originallyInEventMap = new Map();
-                photoItems.forEach(item => {
-                    const photoId = item.dataset.photoId;
-                    const wasOriginallyInEvent = item.dataset.originallyInEvent === 'true';
-                    originallyInEventMap.set(photoId, wasOriginallyInEvent);
-                });
-                
-                // Xử lý các ảnh được chọn
-                const photosToAdd = [];
-                const photosToRemove = [];
-                
-                // Kiểm tra ảnh được chọn - thêm vào sự kiện nếu chưa có
-                photoBrowserSelectedPhotos.forEach(photoId => {
-                    const wasOriginallyInEvent = originallyInEventMap.get(photoId) || false;
-                    
-                    if (!wasOriginallyInEvent && !event.image.includes(photoId)) {
-                        photosToAdd.push(photoId);
-                        addedCount++;
-                    }
-                });
-                
-                // Kiểm tra ảnh bị bỏ chọn - xóa khỏi sự kiện
-                originalPhotos.forEach(photoId => {
-                    if (!photoBrowserSelectedPhotos.has(photoId)) {
-                        photosToRemove.push(photoId);
-                        removedCount++;
-                    }
-                });
-                
-                // Cập nhật danh sách ảnh của sự kiện
-                photosToAdd.forEach(photoId => {
-                    event.image.push(photoId);
-                });
-                
-                photosToRemove.forEach(photoId => {
-                    const index = event.image.indexOf(photoId);
-                    if (index > -1) {
-                        event.image.splice(index, 1);
-                    }
-                });
+                const newCount = event.image.length;
+                const addedCount = Math.max(0, newCount - originalCount);
+                const removedCount = Math.max(0, originalCount - newCount);
                 
                 // Lưu lại dữ liệu
                 await writeNotes(currentEvents, sha);
@@ -3975,22 +3929,20 @@
                 
                 // Hiển thị thông báo
                 let message = '✅ Đã cập nhật ảnh cho sự kiện thành công!';
-                if (addedCount > 0 && removedCount > 0) {
-                    message = `✅ Đã thêm ${addedCount} ảnh và xóa ${removedCount} ảnh!`;
-                } else if (addedCount > 0) {
-                    message = `✅ Đã thêm ${addedCount} ảnh vào sự kiện!`;
-                } else if (removedCount > 0) {
-                    message = `✅ Đã xóa ${removedCount} ảnh khỏi sự kiện!`;
+                if (originalCount === 0 && newCount > 0) {
+                    message = `✅ Đã thêm ${newCount} ảnh vào sự kiện!`;
+                } else if (originalCount > 0 && newCount === 0) {
+                    message = `✅ Đã xóa tất cả ${originalCount} ảnh khỏi sự kiện!`;
+                } else if (originalCount !== newCount) {
+                    message = `✅ Đã cập nhật từ ${originalCount} ảnh thành ${newCount} ảnh!`;
                 } else {
-                    message = '✅ Không có thay đổi nào!';
+                    message = '✅ Danh sách ảnh không thay đổi!';
                 }
                 
                 showMessage(message, 'success');
                 
                 // Thêm log
-                const logDetails = addedCount > 0 && removedCount > 0 ? `+${addedCount} ảnh, -${removedCount} ảnh` :
-                                  addedCount > 0 ? `+${addedCount} ảnh` :
-                                  removedCount > 0 ? `-${removedCount} ảnh` : 'Không có thay đổi';
+                const logDetails = `Từ ${originalCount} ảnh → ${newCount} ảnh (${event.image.length > 0 ? event.image.slice(0, 3).join(', ') + (event.image.length > 3 ? '...' : '') : 'Trống'})`;
                 addLog('Cập nhật ảnh sự kiện qua trình duyệt', logDetails);
                 
             } catch (error) {
@@ -5948,5 +5900,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98797516e672e676',t:'MTc1OTI5NTQ2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98798671026f8533',t:'MTc1OTI5NjE3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
