@@ -12,6 +12,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
         
         body {
+            box-sizing: border-box;
             font-family: 'Quicksand', sans-serif;
             background: linear-gradient(135deg, #FFF5F7 0%, #FFE8ED 50%, #FFF0F5 100%);
             min-height: 100vh;
@@ -441,9 +442,7 @@
             }
         }
 
-        .p-4 {
-            padding: 0.5rem !important; 
-        }
+
 
         /* Radial Menu Variables */
         :root {
@@ -1118,17 +1117,7 @@
                         <button id="showCalendarBtn" class="p-2 text-red-500 hover:text-red-600 transition-colors" data-bs-toggle="modal" data-bs-target="#calendarModal" title="Xem lịch">
                             <i class="bi bi-calendar-heart"></i>
                         </button>
-                        <div class="flex space-x-2" style="display: none;">
-                            <button id="addEventBtn" class="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors" data-bs-toggle="modal" data-bs-target="#addEventModal">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <button id="deleteEventBtn" class="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors" disabled>
-                                <i class="bi bi-trash"></i>
-                            </button>
 
-                        </div>
                     </div>
                     
                     <!-- Loading Spinner -->
@@ -1161,23 +1150,7 @@
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-bold text-gray-800">📸 Khoảnh Khắc Đáng Yêu</h3>
-                        <div class="flex space-x-2" style="display: none;">
-                            <button id="uploadMetadataBtn" class="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors" title="Cập nhật danh sách ảnh">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <button id="autoUpdateToggle" class="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors" title="Bật/Tắt cập nhật tự động 9h sáng">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <button id="refreshPhotos" class="p-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors" title="Refresh dữ liệu">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                        </div>
+
                     </div>
                     
                     <!-- Loading Spinner for Photos -->
@@ -1793,10 +1766,8 @@
         // Hàm tải cấu hình từ file configApp.json
         async function loadConfig() {
             try {
-                console.log('🔧 Đang tải cấu hình từ configApp.json...');
-                
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 giây timeout
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
                 
                 const response = await fetch('./configApp.json', {
                     signal: controller.signal,
@@ -1806,14 +1777,12 @@
                 clearTimeout(timeoutId);
                 
                 if (!response.ok) {
-                    console.error(`❌ HTTP Error: ${response.status} - ${response.statusText}`);
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
                 CONFIG = await response.json();
-                console.log('📄 Raw config loaded:', CONFIG);
                 
-                // Kiểm tra các trường bắt buộc với logging chi tiết
+                // Kiểm tra các trường bắt buộc
                 const requiredFields = ['GITHUB_USERNAME', 'REPO_NAME', 'PAT1', 'PAT2'];
                 const missingFields = requiredFields.filter(field => {
                     const value = CONFIG[field];
@@ -1821,20 +1790,13 @@
                 });
                 
                 if (missingFields.length > 0) {
-                    console.error('❌ Thiếu các trường bắt buộc:', missingFields);
-                    console.error('📋 Giá trị hiện tại của các trường:', 
-                        requiredFields.reduce((obj, field) => {
-                            obj[field] = CONFIG[field] || 'undefined/empty';
-                            return obj;
-                        }, {})
-                    );
                     throw new Error(`Thiếu cấu hình: ${missingFields.join(', ')}`);
                 }
                 
                 // Thiết lập các biến từ config
                 GITHUB_USERNAME = CONFIG.GITHUB_USERNAME;
                 REPO_NAME = CONFIG.REPO_NAME;
-                PAT = CONFIG.PAT1 + CONFIG.PAT2; // Ghép PAT1 và PAT2
+                PAT = CONFIG.PAT1 + CONFIG.PAT2;
                 FILE_PATH = CONFIG.FILE_PATH || 'events.json';
                 COMMENTS_FILE_PATH = CONFIG.COMMENTS_FILE_PATH || 'comments.json';
                 PHOTOS_METADATA_FILE_PATH = CONFIG.PHOTOS_METADATA_FILE_PATH || 'photos_metadata.json';
@@ -1852,27 +1814,12 @@
                 API_KEY = CONFIG.API_KEY || '';
                 PHOTOS_PER_PAGE = CONFIG.PHOTOS_PER_PAGE || 12;
                 
-                console.log('✅ Đã tải cấu hình thành công:', {
-                    username: GITHUB_USERNAME,
-                    repo: REPO_NAME,
-                    folderId: FOLDER_ID ? 'Có' : 'Không có',
-                    apiKey: API_KEY ? 'Có' : 'Không có',
-                    photosPerPage: PHOTOS_PER_PAGE,
-                    autoLoadMetadata: CONFIG.AUTO_LOAD_METADATA
-                });
-                
                 return true;
             } catch (error) {
-                console.error('❌ Chi tiết lỗi khi tải cấu hình:', {
-                    name: error.name,
-                    message: error.message,
-                    stack: error.stack
-                });
-                
                 let errorMessage = '❌ Không thể tải cấu hình ứng dụng';
                 
                 if (error.name === 'AbortError') {
-                    errorMessage = '⏰ Timeout khi tải cấu hình (quá 10 giây)';
+                    errorMessage = '⏰ Timeout khi tải cấu hình';
                 } else if (error.message.includes('404')) {
                     errorMessage = '📄 Không tìm thấy file configApp.json';
                 } else if (error.message.includes('Thiếu cấu hình')) {
@@ -1917,7 +1864,23 @@
                 }
                 
                 const data = await response.json();
-                const content = JSON.parse(base64Decode(data.content));
+                let content = [];
+                
+                try {
+                    const decodedContent = base64Decode(data.content);
+                    if (decodedContent.trim()) {
+                        content = JSON.parse(decodedContent);
+                    }
+                } catch (parseError) {
+                    console.warn('Lỗi parse JSON logs, khởi tạo mảng rỗng:', parseError);
+                    content = [];
+                }
+                
+                // Đảm bảo content là mảng
+                if (!Array.isArray(content)) {
+                    content = [];
+                }
+                
                 return { content, sha: data.sha };
             } catch (error) {
                 console.error('Lỗi khi đọc logs từ GitHub:', error);
@@ -1948,6 +1911,25 @@
                 const now = new Date();
                 const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000));
                 const timeString = vietnamTime.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+
+                // Nếu không có sha, thử lấy sha hiện tại từ file
+                if (!sha) {
+                    try {
+                        const currentResponse = await fetch(LOGS_API_URL, {
+                            headers: {
+                                'Authorization': `token ${PAT}`,
+                                'Accept': 'application/vnd.github.v3+json'
+                            }
+                        });
+                        
+                        if (currentResponse.ok) {
+                            const currentData = await currentResponse.json();
+                            sha = currentData.sha;
+                        }
+                    } catch (shaError) {
+                        console.log('Không thể lấy SHA hiện tại, tạo file mới');
+                    }
+                }
 
                 const body = JSON.stringify({
                     message: `Cập nhật logs hoạt động - ${timeString}`,
@@ -2451,133 +2433,7 @@
             }
         }
 
-        // Hàm tải tất cả ảnh từ Google Drive với phân trang (giữ lại để backup)
-        async function loadAllPhotosFromDrive() {
-            if (isLoadingPhotos) return;
-            isLoadingPhotos = true;
-            
-            const loadingSpinner = document.getElementById('photos-loading-spinner');
-            const photosGrid = document.getElementById('photosGrid');
-            const emptyState = document.getElementById('photosEmptyState');
-            const errorMessage = document.getElementById('photosErrorMessage');
-            
-            try {
-                // Hiển thị loading
-                loadingSpinner.classList.remove('hidden');
-                photosGrid.innerHTML = '';
-                emptyState.classList.add('hidden');
-                errorMessage.classList.add('hidden');
-                
-                // Tải tất cả ảnh với pageSize lớn và timeout
-                let allFiles = [];
-                let nextPageToken = '';
-                let pageCount = 0;
-                const maxPages = 10; // Giảm số trang để tránh timeout
-                
-                do {
-                    const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+mimeType+contains+'image/'&key=${API_KEY}&fields=files(id,name,webViewLink,thumbnailLink,webContentLink),nextPageToken&pageSize=500${nextPageToken ? `&pageToken=${nextPageToken}` : ''}`;
-                    
-                    // Thêm timeout cho fetch request
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 giây timeout
-                    
-                    const response = await fetch(url, {
-                        signal: controller.signal
-                    });
-                    
-                    clearTimeout(timeoutId);
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    allFiles = allFiles.concat(data.files || []);
-                    nextPageToken = data.nextPageToken || '';
-                    pageCount++;
-                    
-                    // Cập nhật loading với số lượng ảnh đã tải
-                    const loadingText = loadingSpinner.querySelector('span');
-                    if (loadingText) {
-                        loadingText.textContent = `Đang tải ảnh... (${allFiles.length} ảnh)`;
-                    }
-                    
-                    // Thêm delay nhỏ giữa các request để tránh rate limit
-                    if (nextPageToken && pageCount < maxPages) {
-                        await new Promise(resolve => setTimeout(resolve, 500));
-                    }
-                    
-                } while (nextPageToken && pageCount < maxPages);
-                
-                allPhotosData = allFiles;
-                totalPages = Math.ceil(allPhotosData.length / PHOTOS_PER_PAGE);
-                currentPage = 1;
-                
-                loadingSpinner.classList.add('hidden');
-                
-                if (allPhotosData.length === 0) {
-                    emptyState.classList.remove('hidden');
-                    return;
-                }
-                
-                // Tải comments và reactions, chuyển đổi cấu trúc dữ liệu
-                const { content: commentsArray } = await readComments();
-                commentsData = {};
-                reactionsData = {};
-                
-                // Chuyển đổi từ mảng sang object với key là tên file ảnh
-                if (Array.isArray(commentsArray)) {
-                    commentsArray.forEach(entry => {
-                        if (entry.ID_IMG) {
-                            // Xử lý comments từ mảng comments trong entry
-                            if (entry.comments && Array.isArray(entry.comments)) {
-                                if (!commentsData[entry.ID_IMG]) {
-                                    commentsData[entry.ID_IMG] = [];
-                                }
-                                entry.comments.forEach(comment => {
-                                    commentsData[entry.ID_IMG].push({
-                                        text: comment.comment,
-                                        timestamp: comment.date_input
-                                    });
-                                });
-                            }
-                            
-                            // Xử lý reactions (chỉ tim)
-                            reactionsData[entry.ID_IMG] = {
-                                count_tim: entry.count_tim || 0
-                            };
-                        }
-                    });
-                }
-                
-                // Hiển thị trang đầu tiên
-                displayPhotosPage(1);
-                updatePaginationControls();
-                
-                // Thêm log
-                addLog('Load refresh hiển thị ảnh trên grid', `${allPhotosData.length} ảnh`);
-                
-            } catch (error) {
-                console.error('Lỗi khi tải ảnh từ Google Drive:', error);
-                loadingSpinner.classList.add('hidden');
-                
-                // Xử lý các loại lỗi khác nhau
-                if (error.name === 'AbortError') {
-                    console.log('Request bị timeout sau 15 giây');
-                    errorMessage.querySelector('p').textContent = '⏰ Tải ảnh bị timeout. Vui lòng thử lại.';
-                } else if (error.message.includes('403')) {
-                    errorMessage.querySelector('p').textContent = '🔒 Không có quyền truy cập folder ảnh.';
-                } else if (error.message.includes('404')) {
-                    errorMessage.querySelector('p').textContent = '📁 Không tìm thấy folder ảnh.';
-                } else {
-                    errorMessage.querySelector('p').textContent = '❌ Không thể tải danh sách ảnh. Vui lòng thử lại.';
-                }
-                
-                errorMessage.classList.remove('hidden');
-            } finally {
-                isLoadingPhotos = false;
-            }
-        }
+
 
         // Hàm hiển thị ảnh theo trang
         function displayPhotosPage(page) {
@@ -2597,13 +2453,13 @@
             const photosGrid = document.getElementById('photosGrid');
             photosGrid.innerHTML = '';
             
+            // Reset flag khi hiển thị ảnh từ grid chính
+            isViewingEventPhotos = false;
+            
             photos.forEach((photo, index) => {
                 const globalIndex = startIndex + index;
                 const photoCard = createPhotoCard(photo, globalIndex);
                 photosGrid.appendChild(photoCard);
-                
-                // Reset flag khi hiển thị ảnh từ grid chính
-                isViewingEventPhotos = false;
             });
         }
 
@@ -2612,15 +2468,13 @@
             const card = document.createElement('div');
             card.className = 'bg-white rounded-lg shadow-md overflow-hidden';
             
-            // Tạo URL ảnh từ Google Drive với nhiều phương án dự phòng
+            // Tạo URL ảnh từ Google Drive
             const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w400-h400`;
             const directUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
             const fallbackUrl = `https://lh3.googleusercontent.com/d/${photo.id}=w400-h400`;
             
-            // Lấy comments cho ảnh này dựa trên tên file
+            // Lấy comments và reactions cho ảnh này
             const photoComments = commentsData[photo.name] || [];
-            
-            // Lấy reactions cho ảnh này
             const photoReactions = reactionsData[photo.name] || { count_tim: 0 };
             
             card.innerHTML = `
@@ -4010,33 +3864,53 @@
                 // Lấy danh sách ảnh ban đầu trong sự kiện
                 const originalPhotos = new Set(event.image);
                 
-                // Tính toán thay đổi - CHỈ THÊM MỚI, KHÔNG XÓA
+                // Tính toán thay đổi
                 let addedCount = 0;
+                let removedCount = 0;
                 
-                // Lấy tất cả ảnh trong container để kiểm tra trạng thái
+                // Lấy tất cả ảnh trong container để kiểm tra trạng thái ban đầu
                 const container = document.getElementById('photoBrowserContainer');
                 const photoItems = container.querySelectorAll('.photo-browser-item');
                 
-                // Chỉ thêm ảnh mới được chọn, giữ nguyên ảnh cũ
-                const photosToAdd = [];
-                
+                // Tạo map để theo dõi trạng thái ban đầu
+                const originallyInEventMap = new Map();
                 photoItems.forEach(item => {
                     const photoId = item.dataset.photoId;
-                    const checkbox = item.querySelector('input[type="checkbox"]');
                     const wasOriginallyInEvent = item.dataset.originallyInEvent === 'true';
-                    const isCurrentlySelected = checkbox.checked;
+                    originallyInEventMap.set(photoId, wasOriginallyInEvent);
+                });
+                
+                // Xử lý các ảnh được chọn
+                const photosToAdd = [];
+                const photosToRemove = [];
+                
+                // Kiểm tra ảnh được chọn - thêm vào sự kiện nếu chưa có
+                photoBrowserSelectedPhotos.forEach(photoId => {
+                    const wasOriginallyInEvent = originallyInEventMap.get(photoId) || false;
                     
-                    // Chỉ xử lý ảnh được chọn và chưa có trong sự kiện
-                    if (isCurrentlySelected && !wasOriginallyInEvent) {
+                    if (!wasOriginallyInEvent && !event.image.includes(photoId)) {
                         photosToAdd.push(photoId);
                         addedCount++;
                     }
                 });
                 
-                // Thêm ảnh mới vào danh sách hiện tại (không thay thế)
+                // Kiểm tra ảnh bị bỏ chọn - xóa khỏi sự kiện
+                originalPhotos.forEach(photoId => {
+                    if (!photoBrowserSelectedPhotos.has(photoId)) {
+                        photosToRemove.push(photoId);
+                        removedCount++;
+                    }
+                });
+                
+                // Cập nhật danh sách ảnh của sự kiện
                 photosToAdd.forEach(photoId => {
-                    if (!event.image.includes(photoId)) {
-                        event.image.push(photoId);
+                    event.image.push(photoId);
+                });
+                
+                photosToRemove.forEach(photoId => {
+                    const index = event.image.indexOf(photoId);
+                    if (index > -1) {
+                        event.image.splice(index, 1);
                     }
                 });
                 
@@ -4049,7 +3923,6 @@
                 
                 // Cập nhật modal ảnh sự kiện nếu đang mở
                 if (eventPhotosModalInstance) {
-                    // Reload ảnh của sự kiện
                     setTimeout(() => {
                         loadEventPhotos(currentBrowsingEventIndex);
                     }, 300);
@@ -4061,19 +3934,25 @@
                     window.calendarInstance.updateEventsFromData(currentEvents);
                 }
                 
-                // Hiển thị thông báo chi tiết
+                // Hiển thị thông báo
                 let message = '✅ Đã cập nhật ảnh cho sự kiện thành công!';
-                if (addedCount > 0) {
+                if (addedCount > 0 && removedCount > 0) {
+                    message = `✅ Đã thêm ${addedCount} ảnh và xóa ${removedCount} ảnh!`;
+                } else if (addedCount > 0) {
                     message = `✅ Đã thêm ${addedCount} ảnh vào sự kiện!`;
+                } else if (removedCount > 0) {
+                    message = `✅ Đã xóa ${removedCount} ảnh khỏi sự kiện!`;
                 } else {
-                    message = '✅ Không có ảnh mới nào được thêm vào sự kiện!';
+                    message = '✅ Không có thay đổi nào!';
                 }
                 
                 showMessage(message, 'success');
                 
                 // Thêm log
-                const logDetails = addedCount > 0 ? `+${addedCount} ảnh` : 'Không có ảnh mới';
-                addLog('Thêm ảnh vào sự kiện qua trình duyệt', logDetails);
+                const logDetails = addedCount > 0 && removedCount > 0 ? `+${addedCount} ảnh, -${removedCount} ảnh` :
+                                  addedCount > 0 ? `+${addedCount} ảnh` :
+                                  removedCount > 0 ? `-${removedCount} ảnh` : 'Không có thay đổi';
+                addLog('Cập nhật ảnh sự kiện qua trình duyệt', logDetails);
                 
             } catch (error) {
                 console.error('Lỗi khi cập nhật ảnh sự kiện:', error);
@@ -4775,7 +4654,16 @@
                         originalEvent.year === event.year && 
                         originalEvent.contdetl === event.contdetl
                     );
-                    deleteBtn.disabled = false;
+                    
+                    // Cập nhật trạng thái nút xóa floating
+                    const floatingDeleteBtn = document.getElementById('floatingDeleteEvent');
+                    if (selectedEventIndex !== -1) {
+                        floatingDeleteBtn.style.opacity = '1';
+                        floatingDeleteBtn.style.pointerEvents = 'all';
+                    } else {
+                        floatingDeleteBtn.style.opacity = '0.5';
+                        floatingDeleteBtn.style.pointerEvents = 'none';
+                    }
                     
                     // Cập nhật thông tin kỷ niệm cho sự kiện được chọn
                     updateAnniversaryInfoForSelectedEvent(event);
@@ -4894,8 +4782,7 @@
                 const headerId = this.isModal ? 'monthYearModal' : 'monthYear';
                 document.getElementById(headerId).textContent = monthYear;
                 
-                // Debug log
-                console.log('Updating calendar for:', monthYear, this.isModal ? '(Modal)' : '(Main)');
+
             }
 
             renderDays() {
@@ -4917,10 +4804,7 @@
                     const currentDate = new Date(startDate);
                     currentDate.setDate(startDate.getDate() + i);
                     
-                    // Debug log for first few dates
-                    if (i < 7 && !this.isModal) {
-                        console.log(`Day ${i}: ${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`);
-                    }
+
                     
                     const dayElement = this.createDayElement(currentDate, month);
                     calendarDays.appendChild(dayElement);
@@ -5065,78 +4949,48 @@
         // Hàm khởi tạo ứng dụng sau khi tải cấu hình
         async function initializeApp() {
             try {
-                console.log('🚀 Bắt đầu khởi tạo ứng dụng...');
-                
                 // Tải cấu hình trước - bắt buộc phải có
-                try {
-                    await loadConfig();
-                    console.log('✅ Cấu hình đã được tải thành công');
-                } catch (configError) {
-                    console.error('❌ Không thể tải cấu hình:', configError);
-                    showMessage('❌ Không thể tải file cấu hình. Vui lòng kiểm tra file configApp.json', 'error');
-                    throw configError; // Dừng khởi tạo nếu không có cấu hình
-                }
+                await loadConfig();
                 
-                // Khởi tạo calendar chính (ẩn)
-                console.log('📅 Khởi tạo calendar chính...');
+                // Khởi tạo calendar
                 const calendar = new Calendar(false);
-                window.calendarInstance = calendar;
-                console.log('✅ Calendar chính đã được khởi tạo');
-                
-                // Khởi tạo calendar modal
-                console.log('📅 Khởi tạo calendar modal...');
                 const calendarModal = new Calendar(true);
+                window.calendarInstance = calendar;
                 window.calendarModalInstance = calendarModal;
-                console.log('✅ Calendar modal đã được khởi tạo');
                 
-                // Tải danh sách sự kiện khi trang được tải (với error handling)
-                console.log('📋 Tải danh sách sự kiện...');
+                // Tải danh sách sự kiện
                 try {
                     const { content } = await readNotes();
                     if (content && content.length > 0) {
                         calendar.updateEventsFromData(content);
                         calendarModal.updateEventsFromData(content);
-                        console.log(`✅ Đã tải ${content.length} sự kiện`);
-                    } else {
-                        console.log('📝 Chưa có sự kiện nào');
                     }
                 } catch (eventsError) {
-                    console.warn('⚠️ Không thể tải sự kiện:', eventsError.message);
+                    console.warn('Không thể tải sự kiện:', eventsError.message);
                 }
                 
-                // Tải ảnh từ metadata GitHub (với error handling)
-                console.log('🖼️ Tải danh sách ảnh...');
+                // Tải ảnh từ metadata GitHub
                 try {
                     await loadAllPhotosFromMetadata();
-                    console.log('✅ Đã tải danh sách ảnh');
                 } catch (photosError) {
-                    console.warn('⚠️ Không thể tải ảnh:', photosError.message);
+                    console.warn('Không thể tải ảnh:', photosError.message);
                 }
                 
-                // Khởi tạo các sự kiện và chức năng khác
-                console.log('🔧 Khởi tạo event handlers...');
+                // Khởi tạo event handlers
                 initializeEventHandlers();
-                console.log('✅ Event handlers đã được khởi tạo');
-                
-                console.log('🎉 Ứng dụng đã khởi tạo thành công!');
                 
             } catch (error) {
-                console.error('❌ Lỗi nghiêm trọng khi khởi tạo ứng dụng:', {
-                    name: error.name,
-                    message: error.message,
-                    stack: error.stack
-                });
+                console.error('Lỗi khi khởi tạo ứng dụng:', error);
                 
-                // Vẫn cố gắng khởi tạo calendar cơ bản
+                // Fallback: khởi tạo calendar cơ bản
                 try {
-                    console.log('🔄 Thử khởi tạo calendar cơ bản...');
                     const calendar = new Calendar();
                     window.calendarInstance = calendar;
                     initializeEventHandlers();
                     showMessage('⚠️ Ứng dụng chạy ở chế độ hạn chế. Một số tính năng có thể không hoạt động.', 'error');
                 } catch (fallbackError) {
-                    console.error('💥 Không thể khởi tạo ứng dụng:', fallbackError);
-                    showMessage('❌ Có lỗi nghiêm trọng. Vui lòng tải lại trang hoặc liên hệ hỗ trợ.', 'error');
+                    console.error('Không thể khởi tạo ứng dụng:', fallbackError);
+                    showMessage('❌ Có lỗi nghiêm trọng. Vui lòng tải lại trang.', 'error');
                 }
             }
         }
@@ -5608,32 +5462,12 @@
                 }
             });
 
-            // Cập nhật trạng thái nút xóa sự kiện
-            const originalDeleteBtn = document.getElementById('deleteEventBtn');
+            // Cập nhật trạng thái nút xóa sự kiện floating
             const floatingDeleteBtn = document.getElementById('floatingDeleteEvent');
             
-            // Theo dõi thay đổi trạng thái disabled của nút xóa gốc
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
-                        if (originalDeleteBtn.disabled) {
-                            floatingDeleteBtn.style.opacity = '0.5';
-                            floatingDeleteBtn.style.pointerEvents = 'none';
-                        } else {
-                            floatingDeleteBtn.style.opacity = '1';
-                            floatingDeleteBtn.style.pointerEvents = 'all';
-                        }
-                    }
-                });
-            });
-
-            observer.observe(originalDeleteBtn, { attributes: true });
-
             // Thiết lập trạng thái ban đầu
-            if (originalDeleteBtn.disabled) {
-                floatingDeleteBtn.style.opacity = '0.5';
-                floatingDeleteBtn.style.pointerEvents = 'none';
-            }
+            floatingDeleteBtn.style.opacity = '0.5';
+            floatingDeleteBtn.style.pointerEvents = 'none';
 
             // Cập nhật màu nút tự động cập nhật dựa trên trạng thái
             updateAutoUpdateButtonColor();
@@ -5795,76 +5629,7 @@
             
 
 
-            // Thêm sự kiện cho nút cập nhật metadata ảnh
-            document.getElementById('uploadMetadataBtn').addEventListener('click', () => {
-                uploadPhotosMetadata();
-            });
 
-            // Thêm sự kiện cho nút bật/tắt tự động cập nhật
-            document.getElementById('autoUpdateToggle').addEventListener('click', async () => {
-                const isAutoEnabled = localStorage.getItem('autoUpdateEnabled') === 'true';
-                const toggleBtn = document.getElementById('autoUpdateToggle');
-                
-                if (isAutoEnabled) {
-                    // Tắt tự động cập nhật
-                    localStorage.setItem('autoUpdateEnabled', 'false');
-                    stopAutoUpdate();
-                    toggleBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
-                    toggleBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
-                    toggleBtn.title = 'Bật cập nhật tự động 9h sáng';
-                    showMessage('⏹️ Đã tắt cập nhật tự động metadata', 'success');
-                    
-                    // Cập nhật cấu hình
-                    await updateConfigFile('AUTO_LOAD_METADATA', 'false');
-                    
-                    // Thêm log
-                    addLog('Tắt chức năng cập nhật tự động 9h sáng', 'Người dùng tắt thủ công');
-                } else {
-                    // Bật tự động cập nhật
-                    localStorage.setItem('autoUpdateEnabled', 'true');
-                    setupAutoUpdate();
-                    toggleBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
-                    toggleBtn.classList.add('bg-green-500', 'hover:bg-green-600');
-                    toggleBtn.title = 'Tắt cập nhật tự động 9h sáng';
-                    showMessage('⏰ Đã bật cập nhật tự động metadata lúc 9h sáng hằng ngày', 'success');
-                    
-                    // Cập nhật cấu hình
-                    await updateConfigFile('AUTO_LOAD_METADATA', 'true');
-                    
-                    // Thêm log
-                    addLog('Bật chức năng cập nhật tự động 9h sáng', 'Người dùng bật thủ công');
-                }
-                
-                // Cập nhật màu nút floating
-                updateAutoUpdateButtonColor();
-            });
-
-            // Thêm sự kiện cho nút refresh dữ liệu (tải lại cả sự kiện và ảnh)
-            document.getElementById('refreshPhotos').addEventListener('click', async () => {
-                try {
-                    // Refresh sự kiện
-                    const { content } = await readNotes();
-                    if (content && content.length > 0) {
-                        if (window.calendarInstance) {
-                            window.calendarInstance.updateEventsFromData(content);
-                        }
-                        if (window.calendarModalInstance) {
-                            window.calendarModalInstance.updateEventsFromData(content);
-                        }
-                    }
-                    if (window.calendarInstance) {
-                        window.calendarInstance.goToToday();
-                    }
-                    
-                    // Refresh ảnh
-                    await loadAllPhotosFromMetadata();
-                    
-                    showMessage('✅ Đã refresh toàn bộ dữ liệu thành công!', 'success');
-                } catch (error) {
-                    console.error('Lỗi khi refresh dữ liệu:', error);
-                    showMessage('❌ Có lỗi khi refresh dữ liệu. Vui lòng thử lại.', 'error');
-                }
-            });
 
             // Thêm sự kiện cho nút "Về Hôm Nay" trong modal lịch
             document.getElementById('goToTodayBtn').addEventListener('click', () => {
@@ -5910,28 +5675,7 @@
                 }
             });
 
-            // Xử lý sự kiện khi nhấn nút "Xóa Sự Kiện"
-            document.getElementById('deleteEventBtn').addEventListener('click', () => {
-                if (selectedEventIndex === -1) {
-                    showMessage('Vui lòng chọn sự kiện cần xóa.', 'error');
-                    return;
-                }
 
-                const selectedEvent = currentEventsData[selectedEventIndex];
-                const day = String(selectedEvent.day).padStart(2, '0');
-                const month = String(selectedEvent.month).padStart(2, '0');
-                const formattedDate = `${day}/${month}/${selectedEvent.year}`;
-                const eventContent = selectedEvent.contdetl || 'Không có nội dung';
-                
-                // Hiển thị thông tin sự kiện trong modal xác nhận
-                document.getElementById('eventToDelete').innerHTML = `
-                    <strong>${formattedDate}:</strong> ${eventContent}
-                `;
-                
-                // Hiển thị modal xác nhận
-                const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-                deleteModal.show();
-            });
 
             // Xử lý sự kiện khi nhấn nút xác nhận xóa
             document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
@@ -6160,5 +5904,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9878994e06e7e676',t:'MTc1OTI4NjQ2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9878e1ed3172c5e8',t:'MTc1OTI4OTQzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
