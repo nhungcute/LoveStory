@@ -1826,6 +1826,7 @@
         let autoUpdateInterval = null;
         let selectedPhotoId = null;
         let selectedEventsForPhoto = new Set();
+        let previousModal = null; // Biến để lưu modal trước đó
 
         // Hệ thống logging
         async function readLogs() {
@@ -2132,23 +2133,35 @@
             openPhotoModal(photoId, photoName, webViewLink, webContentLink, createdTime);
         }
 
-        // Thêm sự kiện ESC cho modal ảnh
-        document.addEventListener('DOMContentLoaded', function() {
-            const photoModal = document.getElementById('photoModal');
-            photoModal.addEventListener('hidden.bs.modal', function() {
-                // Khi modal ảnh đóng, kiểm tra xem có cần mở lại modal trước đó không
-                if (previousModal) {
-                    setTimeout(() => {
-                        const prevModalElement = document.getElementById(previousModal);
-                        if (prevModalElement) {
-                            const prevModalInstance = new bootstrap.Modal(prevModalElement);
-                            prevModalInstance.show();
-                        }
-                        previousModal = null; // Reset
-                    }, 100);
-                }
-            });
-        });
+        // Hàm xử lý đóng modal ảnh
+        function handlePhotoModalClose() {
+            const photoModal = bootstrap.Modal.getInstance(document.getElementById('photoModal'));
+            if (photoModal) {
+                photoModal.hide();
+            }
+        }
+
+        // Hàm xử lý khi ảnh tải thành công
+        function handleImageLoad() {
+            const loadingSpinner = document.getElementById('imageLoadingSpinner');
+            const modalImage = document.getElementById('modalImage');
+            const errorMessage = document.getElementById('imageErrorMessage');
+            
+            loadingSpinner.classList.add('d-none');
+            modalImage.classList.remove('d-none');
+            errorMessage.classList.add('d-none');
+        }
+
+        // Hàm xử lý khi ảnh tải thất bại
+        function handleImageError() {
+            const loadingSpinner = document.getElementById('imageLoadingSpinner');
+            const modalImage = document.getElementById('modalImage');
+            const errorMessage = document.getElementById('imageErrorMessage');
+            
+            loadingSpinner.classList.add('d-none');
+            modalImage.classList.add('d-none');
+            errorMessage.classList.remove('d-none');
+        }
 
         // Hàm upload metadata ảnh lên GitHub
         async function uploadPhotosMetadata(isAutoUpdate = false) {
@@ -2167,7 +2180,7 @@
                 photosGrid.innerHTML = '';
                 emptyState.classList.add('hidden');
                 errorMessage.classList.add('hidden');
-                uploadBtn.disabled = true;
+                if (uploadBtn) uploadBtn.disabled = true;
                 
                 // Cập nhật text loading
                 const loadingText = loadingSpinner.querySelector('span');
@@ -2277,37 +2290,4 @@
                 }
                 
                 // Trả về số lượng ảnh để sử dụng trong log tự động
-                return allFiles.length;
-                
-            } catch (error) {
-                console.error('Lỗi khi upload metadata:', error);
-                loadingSpinner.classList.add('hidden');
-                
-                if (error.name === 'AbortError') {
-                    errorMessage.querySelector('p').textContent = '⏰ Upload metadata bị timeout. Vui lòng thử lại.';
-                } else if (error.message.includes('403')) {
-                    errorMessage.querySelector('p').textContent = '🔒 Không có quyền truy cập folder ảnh hoặc GitHub.';
-                } else if (error.message.includes('404')) {
-                    errorMessage.querySelector('p').textContent = '📁 Không tìm thấy folder ảnh hoặc repository.';
-                } else {
-                    errorMessage.querySelector('p').textContent = '❌ Không thể upload metadata. Vui lòng thử lại.';
-                }
-                
-                errorMessage.classList.remove('hidden');
-                showMessage('❌ Lỗi khi cập nhật metadata ảnh!', 'error');
-            } finally {
-                isLoadingPhotos = false;
-                uploadBtn.disabled = false;
-            }
-        }
-
-        // Hàm ghi metadata ảnh lên GitHub
-        async function writePhotosMetadata(photosArray, sha = null) {
-            const content = JSON.stringify(photosArray, null, 2);
-            const encodedContent = base64Encode(content);
-
-            // Nếu không có sha, thử đọc file hiện tại để lấy sha
-            if (!sha) {
-                try {
-                    const response = await fetch(PHOTOS_
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987a7bf0b5cce676',t:'MTc1OTMwNjIzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+                return allFiles.length;<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987a914242678533',t:'MTc1OTMwNzEwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
