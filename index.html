@@ -20,21 +20,6 @@
             overflow-x: hidden;
         }
         
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 105, 180, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 192, 203, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-        
         .calendar-container {
             background: linear-gradient(145deg, #ffffff 0%, #fef7ff 100%);
             border-radius: 20px;
@@ -50,191 +35,6 @@
             backdrop-filter: blur(10px);
         }
         
-        .calendar-container::before {
-            content: '';
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 20px;
-            animation: sparkle 2s ease-in-out infinite;
-            z-index: 10;
-        }
-        
-        .calendar-container::after {
-            content: '💖';
-            position: absolute;
-            bottom: 15px;
-            left: 20px;
-            font-size: 18px;
-            animation: heartbeat 1.5s ease-in-out infinite;
-            z-index: 10;
-        }
-        
-        @keyframes sparkle {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
-            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
-        }
-        
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        .calendar-header {
-            background: linear-gradient(135deg, #FF85A2 0%, #FF6B9D 50%, #E91E63 100%);
-            border-radius: 20px 20px 0 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .calendar-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        
-        .calendar-header::after {
-            content: '🌸 💕 🌸';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 12px;
-            opacity: 0.3;
-            white-space: nowrap;
-            pointer-events: none;
-        }
-        
-        .day-name {
-            color: #FF85A2;
-            font-weight: 600;
-        }
-        
-        .day-name.weekend {
-            color: #FF5252;
-        }
-        
-        .date-cell {
-            border-radius: 50%;
-            width: clamp(28px, 4vw, 45px);
-            height: clamp(28px, 4vw, 45px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            position: relative;
-            margin: auto;
-            font-size: clamp(14px, 2.3vw, 23px);
-        }
-        
-        .date-cell:hover {
-            background-color: #FFE0E8;
-            transform: scale(1.1);
-        }
-        
-        .date-cell.today {
-            background-color: #FF85A2;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .date-cell.active {
-            background-color: #FFE0E8;
-            color: #FF85A2;
-            font-weight: bold;
-        }
-        
-        .date-cell.selected {
-            box-shadow: 0 0 0 2px #FF5252;
-            z-index: 10;
-            font-weight: bold;
-        }
-        
-        .date-cell.today.active {
-            background-color: #FF85A2;
-            color: white;
-        }
-        
-        .date-cell.other-month {
-            opacity: 0.4;
-            color: #999;
-        }
-        
-        .date-cell.weekend {
-            color: #FF5252;
-        }
-        
-        .date-cell.weekend.other-month {
-            color: #FF5252;
-            opacity: 0.4;
-        }
-        
-        .date-cell.has-event::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            width: 4px;
-            height: 4px;
-            background-color: #FF85A2;
-            border-radius: 50%;
-        }
-        
-        .date-cell.weekend.has-event::after {
-            background-color: #FF5252;
-        }
-        
-        .date-cell.today.has-event::after,
-        .date-cell.active.has-event::after {
-            background-color: white;
-        }
-        
-        .date-cell.anniversary {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .date-cell.anniversary::before {
-            content: '❤️';
-            position: absolute;
-            font-size: 10px;
-            top: -2px;
-            right: 0px;
-            z-index: 1;
-        }
-        
-        .date-cell.anniversary::after {
-            content: '❤️';
-            position: absolute;
-            font-size: 10px;
-            bottom: -2px;
-            left: 0px;
-            z-index: 1;
-        }
-        
-        .month-nav {
-            transition: all 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .month-nav:hover {
-            transform: scale(1.2);
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-        
         .today-info {
             background: linear-gradient(145deg, #ffffff 0%, #fef7ff 100%);
             border: 2px solid #FFE0E8;
@@ -244,28 +44,6 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
             position: relative;
             overflow: hidden;
-        }
-        
-        .today-info::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 182, 193, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-            pointer-events: none;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .today-info > * {
-            position: relative;
-            z-index: 1;
         }
         
         /* Photo Modal Styles */
@@ -280,801 +58,17 @@
             border-radius: 0;
         }
         
-        #photoModal .btn-close {
-            transition: all 0.3s ease;
-            transform: scale(1);
+        /* Loading spinner */
+        .spinner-border {
+            width: 2rem;
+            height: 2rem;
         }
-        
-        #photoModal .btn-close:hover {
-            transform: scale(1.1);
-            background: rgba(255, 255, 255, 0.2) !important;
-        }
-        
-        #photoModal .modal-header {
-            transition: opacity 0.3s ease;
-        }
-        
-        #photoModal .modal-footer {
-            transition: opacity 0.3s ease;
-        }
-        
-        #photoModal:hover .modal-header,
-        #photoModal:hover .modal-footer {
-            opacity: 1;
-        }
-        
-        /* Messenger Style Comment Box */
-        .messenger-comment-box {
-            margin-top: 6px;
-        }
-        
-        .comment-input-container {
-            display: flex;
-            align-items: center;
-            background: #f0f2f5;
-            border-radius: 20px;
-            padding: 8px 12px;
-            gap: 4px;
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-        }
-        
-        .comment-input-container.focused {
-            background: #ffffff;
-            border-color: #e91e63;
-            box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.2);
-        }
-        
-        .comment-input {
-            flex: 1;
-            border: none;
-            background: transparent;
-            resize: none;
-            outline: none;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 14px;
-            line-height: 24px;
-            max-height: 100px;
-            min-height: 24px;
-            padding: 0;
-            color: #1c1e21;
-            display: flex;
-            align-items: center;
-        }
-        
-        .comment-input::placeholder {
-            color: #65676b;
-        }
-        
-        .send-button {
-            background: #e91e63;
-            border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: white;
-            flex-shrink: 0;
-        }
-        
-        .send-button:hover:not(:disabled) {
-            background: #c2185b;
-            transform: scale(1.05);
-        }
-        
-        .send-button:active:not(:disabled) {
-            transform: scale(0.95);
-        }
-        
-        .send-button:disabled {
-            background: #e4e6ea;
-            color: #bcc0c4;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .send-button svg {
-            transition: transform 0.2s ease;
-            width: 12px;
-            height: 12px;
-            display: block;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .send-button:hover:not(:disabled) svg {
-            transform: translateX(1px);
-        }
-        
-        /* Animation for send button */
-        @keyframes sendPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        .send-button.sending {
-            animation: sendPulse 0.3s ease;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            #photoModal .modal-header,
-            #photoModal .modal-footer {
-                padding: 15px;
-            }
-            
-            #photoModal .btn-close {
-                padding: 10px;
-            }
-            
-            #modalImage {
-                max-height: 85vh !important;
-                max-width: 90vw !important;
-            }
-            
-            .comment-input-container {
-                padding: 6px 10px;
-            }
-            
-            .send-button {
-                width: 21px;
-                height: 21px;
-            }
-            
-            .send-button svg {
-                width: 9px;
-                height: 9px;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            #photoModal .modal-header h5 {
-                font-size: 1rem;
-            }
-            
-            #photoModal .modal-footer p {
-                font-size: 0.9rem;
-            }
-        }
-
-
-
-        /* Radial Menu Variables */
-        :root {
-            --menu-radius: 56px;
-            --toggle-size: 40px;
-            --item-size: 36px;
-            --transition-speed: 0.3s;
-            --toggle-btn-color: #ff4e00;
-            --toggle-btn-hover: #e63900;
-            --item-btn-color: #9CA3AF;
-            --item-btn-hover: #6B7280;
-            --icon-color: white;
-        }
-
-        /* Floating Settings Container */
-        .floating-settings {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            user-select: none;
-            opacity: 0.5;
-            transition: all 0.3s ease;
-        }
-
-        .floating-settings.active {
-            opacity: 1;
-        }
-
-        .floating-settings:hover {
-            opacity: 1;
-        }
-
-        .floating-settings .toggle-btn:hover {
-            opacity: 1;
-        }
-
-        .floating-settings:hover .toggle-btn {
-            opacity: 1;
-        }
-
-        .floating-settings.dragging {
-            transition: none !important;
-        }
-
-        .floating-settings.dragging .toggle-btn {
-            pointer-events: none;
-        }
-
-        .radial-menu-container {
-            position: relative;
-            width: var(--toggle-size);
-            height: var(--toggle-size);
-        }
-
-        .toggle-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: var(--toggle-size);
-            height: var(--toggle-size);
-            background: var(--toggle-btn-color);
-            border: none;
-            border-radius: 50%;
-            color: var(--icon-color);
-            font-size: calc(var(--toggle-size) * 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: grab;
-            z-index: 10;
-            transition: transform var(--transition-speed) cubic-bezier(0.68, -0.55, 0.27, 1.55), background 0.2s ease;
-            box-shadow: 0 4px 15px rgba(107, 114, 128, 0.4);
-        }
-
-        .toggle-btn:active {
-            cursor: grabbing;
-        }
-
-        .toggle-btn:hover {
-            background: #e63900;
-            box-shadow: 0 6px 20px rgba(230, 57, 0, 0.6);
-            transform: translate(-50%, -50%) scale(1.05);
-        }
-
-        .radial-menu-container.active .toggle-btn {
-            transform: translate(-50%, -50%) rotate(135deg);
-        }
-
-        .menu {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: calc(var(--menu-radius) * 2.5);
-            height: calc(var(--menu-radius) * 2.5);
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .radial-menu-container.active .menu {
-            opacity: 1;
-        }
-
-        .menu .item {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: var(--item-size);
-            height: var(--item-size);
-            margin-top: calc(var(--item-size) / -2);
-            margin-left: calc(var(--item-size) / -2);
-            background: rgba(156, 163, 175, 0.3);
-            border: 1px solid rgba(156, 163, 175, 0.4);
-            border-radius: 50%;
-            color: #6B7280;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: none;
-            opacity: 0;
-            transform: translate(0, 0);
-            transition: transform var(--transition-speed) ease-out, opacity var(--transition-speed) ease-out, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            pointer-events: none;
-        }
-
-        /* Icon bên trong nút luôn nằm ngang */
-        .menu .item i {
-            transform: rotate(0deg) !important;
-        }
-
-        .menu .item:hover {
-            background: rgba(107, 114, 128, 0.4);
-            border-color: rgba(107, 114, 128, 0.5);
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
-        }
-
-        .radial-menu-container.active .menu .item {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* Default positioning (top section) - items appear below */
-        .radial-menu-container.active .item:nth-child(1) {
-            transform: rotate(0deg) translateY(calc(var(--menu-radius) * 1)) rotate(0deg);
-            transition-delay: 0.0s;
-        }
-
-        .radial-menu-container.active .item:nth-child(2) {
-            transform: rotate(45deg) translateY(calc(var(--menu-radius) * 1)) rotate(-45deg);
-            transition-delay: 0.05s;
-        }
-
-        .radial-menu-container.active .item:nth-child(3) {
-            transform: rotate(90deg) translateY(calc(var(--menu-radius) * 1)) rotate(-90deg);
-            transition-delay: 0.1s;
-        }
-
-        .radial-menu-container.active .item:nth-child(4) {
-            transform: rotate(135deg) translateY(calc(var(--menu-radius) * 1)) rotate(-135deg);
-            transition-delay: 0.15s;
-        }
-
-        .radial-menu-container.active .item:nth-child(5) {
-            transform: rotate(180deg) translateY(calc(var(--menu-radius) * 1)) rotate(-180deg);
-            transition-delay: 0.2s;
-        }
-
-        /* Open to the RIGHT (when button is on the left edge) */
-        /* Thêm sự kiện (12h) -> Xóa sự kiện -> Cập nhật metadata -> Tự động cập nhật -> Refresh (6h) */
-        .radial-menu-container.open-right.active .item:nth-child(1) { 
-            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)) rotate(0deg); 
-            transition-delay: 0.0s; 
-        }
-        .radial-menu-container.open-right.active .item:nth-child(2) { 
-            transform: rotate(45deg) translateY(calc(var(--menu-radius) * -1)) rotate(-45deg); 
-            transition-delay: 0.05s; 
-        }
-        .radial-menu-container.open-right.active .item:nth-child(3) { 
-            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)) rotate(-90deg); 
-            transition-delay: 0.1s; 
-        }
-        .radial-menu-container.open-right.active .item:nth-child(4) { 
-            transform: rotate(135deg) translateY(calc(var(--menu-radius) * -1)) rotate(-135deg); 
-            transition-delay: 0.15s; 
-        }
-        .radial-menu-container.open-right.active .item:nth-child(5) { 
-            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)) rotate(-180deg); 
-            transition-delay: 0.2s; 
-        }
-        
-        /* Open to the LEFT (when button is on the right edge) */
-        /* Thêm sự kiện (12h) -> Xóa sự kiện -> Cập nhật metadata -> Tự động cập nhật -> Refresh (6h) */
-        .radial-menu-container.open-left.active .item:nth-child(1) { 
-            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)) rotate(-180deg); 
-            transition-delay: 0.0s; 
-        }
-        .radial-menu-container.open-left.active .item:nth-child(2) { 
-            transform: rotate(225deg) translateY(calc(var(--menu-radius) * -1)) rotate(-225deg); 
-            transition-delay: 0.05s; 
-        }
-        .radial-menu-container.open-left.active .item:nth-child(3) { 
-            transform: rotate(270deg) translateY(calc(var(--menu-radius) * -1)) rotate(-270deg); 
-            transition-delay: 0.1s; 
-        }
-        .radial-menu-container.open-left.active .item:nth-child(4) { 
-            transform: rotate(315deg) translateY(calc(var(--menu-radius) * -1)) rotate(-315deg); 
-            transition-delay: 0.15s; 
-        }
-        .radial-menu-container.open-left.active .item:nth-child(5) { 
-            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)) rotate(0deg); 
-            transition-delay: 0.2s; 
-        }
-        
-        /* Open UP (when button is on the bottom edge) */
-        /* Thêm sự kiện (3h) -> Xóa sự kiện -> Cập nhật metadata -> Tự động cập nhật -> Refresh (9h) */
-        .radial-menu-container.open-up.active .item:nth-child(1) { 
-            transform: rotate(270deg) translateY(calc(var(--menu-radius) * -1)) rotate(-270deg); 
-            transition-delay: 0.0s; 
-        }
-        .radial-menu-container.open-up.active .item:nth-child(2) { 
-            transform: rotate(315deg) translateY(calc(var(--menu-radius) * -1)) rotate(-315deg); 
-            transition-delay: 0.05s; 
-        }
-        .radial-menu-container.open-up.active .item:nth-child(3) { 
-            transform: rotate(0deg) translateY(calc(var(--menu-radius) * -1)) rotate(0deg); 
-            transition-delay: 0.1s; 
-        }
-        .radial-menu-container.open-up.active .item:nth-child(4) { 
-            transform: rotate(45deg) translateY(calc(var(--menu-radius) * -1)) rotate(-45deg); 
-            transition-delay: 0.15s; 
-        }
-        .radial-menu-container.open-up.active .item:nth-child(5) { 
-            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)) rotate(-90deg); 
-            transition-delay: 0.2s; 
-        }
-        
-        /* Open DOWN (when button is on the top edge) */
-        /* Thêm sự kiện (3h) -> Xóa sự kiện -> Cập nhật metadata -> Tự động cập nhật -> Refresh (9h) */
-        .radial-menu-container.open-down.active .item:nth-child(1) { 
-            transform: rotate(90deg) translateY(calc(var(--menu-radius) * -1)) rotate(-90deg); 
-            transition-delay: 0.0s; 
-        }
-        .radial-menu-container.open-down.active .item:nth-child(2) { 
-            transform: rotate(135deg) translateY(calc(var(--menu-radius) * -1)) rotate(-135deg); 
-            transition-delay: 0.05s; 
-        }
-        .radial-menu-container.open-down.active .item:nth-child(3) { 
-            transform: rotate(180deg) translateY(calc(var(--menu-radius) * -1)) rotate(-180deg); 
-            transition-delay: 0.1s; 
-        }
-        .radial-menu-container.open-down.active .item:nth-child(4) { 
-            transform: rotate(225deg) translateY(calc(var(--menu-radius) * -1)) rotate(-225deg); 
-            transition-delay: 0.15s; 
-        }
-        .radial-menu-container.open-down.active .item:nth-child(5) { 
-            transform: rotate(270deg) translateY(calc(var(--menu-radius) * -1)) rotate(-270deg); 
-            transition-delay: 0.2s; 
-        }
-
-        /* Tooltip cho radial menu items - luôn hiển thị ngang */
-        .menu .item::before {
-            content: attr(data-tooltip);
-            position: absolute;
-            top: 50%;
-            left: calc(100% + 10px);
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 10000;
-            pointer-events: none;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Tooltip cho các nút ở bên phải màn hình - hiển thị bên trái */
-        .radial-menu-container.open-left .menu .item::before {
-            left: auto;
-            right: calc(100% + 10px);
-        }
-
-        /* Tooltip cho các nút ở trên/dưới - hiển thị ngang tùy vị trí */
-        .radial-menu-container.open-up .menu .item::before,
-        .radial-menu-container.open-down .menu .item::before {
-            /* Reset về vị trí mặc định trước */
-            left: auto;
-            right: auto;
-            top: 50%;
-            bottom: auto;
-            transform: translateY(-50%);
-        }
-
-        /* Tooltip cho nút ở vị trí 12h và 6h (trên/dưới) - hiển thị bên phải */
-        .radial-menu-container.open-up .menu .item:nth-child(3)::before,
-        .radial-menu-container.open-down .menu .item:nth-child(3)::before {
-            left: calc(100% + 10px);
-        }
-
-        /* Tooltip cho nút ở vị trí 3h (phải) - hiển thị bên phải khi menu mở xuống, bên trái khi mở lên */
-        .radial-menu-container.open-down .menu .item:nth-child(1)::before {
-            left: calc(100% + 10px);
-        }
-        .radial-menu-container.open-up .menu .item:nth-child(1)::before {
-            right: calc(100% + 10px);
-        }
-
-        /* Tooltip cho nút ở vị trí 9h (trái) - hiển thị bên trái khi menu mở xuống, bên phải khi mở lên */
-        .radial-menu-container.open-down .menu .item:nth-child(5)::before {
-            right: calc(100% + 10px);
-        }
-        .radial-menu-container.open-up .menu .item:nth-child(5)::before {
-            left: calc(100% + 10px);
-        }
-
-        /* Tooltip cho nút xóa sự kiện (item thứ 2) - luôn hoạt động */
-        .radial-menu-container .menu .item:nth-child(2)::before {
-            left: calc(100% + 10px) !important;
-            right: auto !important;
-            pointer-events: auto !important;
-        }
-        
-        /* Tooltip hiển thị khi hover - bao gồm cả khi disabled */
-        .radial-menu-container .menu .item:nth-child(2):hover::before,
-        .radial-menu-container .menu .item:nth-child(2)[style*="opacity: 0.5"]:hover::before,
-        .radial-menu-container .menu .item:nth-child(2)[style*="pointer-events: none"]:hover::before {
-            opacity: 1 !important;
-            visibility: visible !important;
-            pointer-events: auto !important;
-        }
-
-        /* Đảm bảo tooltip luôn có thể hover được */
-        .radial-menu-container .menu .item:nth-child(2) {
-            position: relative;
-        }
-
-        .radial-menu-container .menu .item:nth-child(2)::after {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            pointer-events: auto !important;
-            z-index: 1;
-        }
-
-        /* Tooltip cho nút ở vị trí 1:30h và 4:30h - hiển thị bên phải khi menu mở xuống, bên trái khi mở lên */
-        .radial-menu-container.open-down .menu .item:nth-child(2)::before {
-            left: calc(100% + 10px);
-        }
-        .radial-menu-container.open-up .menu .item:nth-child(2)::before {
-            right: calc(100% + 10px);
-        }
-
-        /* Tooltip cho nút ở vị trí 7:30h và 10:30h - hiển thị bên trái khi menu mở xuống, bên phải khi mở lên */
-        .radial-menu-container.open-down .menu .item:nth-child(4)::before {
-            right: calc(100% + 10px);
-        }
-        .radial-menu-container.open-up .menu .item:nth-child(4)::before {
-            left: calc(100% + 10px);
-        }
-
-        .menu .item:hover::before {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Photo Browser Styles */
-        .photo-browser-item {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 3px solid transparent;
-            border-radius: 8px;
-            overflow: hidden;
-            user-select: none;
-        }
-
-        .photo-browser-item:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .photo-browser-item.selected {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
-        }
-
-        .photo-browser-item.drag-selecting {
-            border-color: #198754;
-            box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.25);
-        }
-
-        .photo-browser-item .selection-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(13, 110, 253, 0.2);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-        }
-
-        .photo-browser-item.selected .selection-overlay {
-            display: flex;
-        }
-
-        .photo-browser-item:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .photo-browser-item.selected {
-            border-color: #198754;
-            box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.25);
-        }
-
-        .photo-browser-item .photo-index {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-            z-index: 3;
-        }
-
-        /* Event Photos Selection Styles */
-        .event-photo-item {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 3px solid transparent;
-            border-radius: 8px;
-            overflow: hidden;
-            user-select: none;
-        }
-
-        .event-photo-item:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .event-photo-item.selected {
-            border-color: #dc3545;
-            box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
-        }
-
-        .event-photo-item .selection-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(220, 53, 69, 0.2);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-        }
-
-        .event-photo-item.selected .selection-overlay {
-            display: flex;
-        }
-
-        .event-photo-item .selection-checkbox {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            z-index: 3;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-        }
-
-        .event-photo-item .selection-checkbox i {
-            font-size: 20px;
-            color: #dc3545;
-        }
-
-        .event-photo-item:hover .selection-checkbox,
-        .event-photo-item.selected .selection-checkbox {
-            opacity: 1;
-        }
-
-        /* Drag selection area */
-        .drag-selection-area {
-            position: absolute;
-            border: 2px dashed #0d6efd;
-            background: rgba(13, 110, 253, 0.1);
-            pointer-events: none;
-            z-index: 1000;
-            display: none;
-        }
-
-        /* Disable text selection during drag */
-        .photo-browser-dragging {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
-
-        /* Photo browser grid responsive */
-        @media (max-width: 768px) {
-            .photo-browser-item {
-                border-width: 2px;
-            }
-            
-            .photo-browser-item .photo-index {
-                font-size: 10px;
-                padding: 1px 4px;
-            }
-        }
-
     </style>
 </head>
 <body class="min-h-screen">
-    <!-- Floating Decorations -->
-    <div class="fixed inset-0 pointer-events-none z-0">
-        <div class="absolute top-10 left-10 text-2xl animate-bounce" style="animation-delay: 0s;">🌸</div>
-        <div class="absolute top-20 right-16 text-xl animate-pulse" style="animation-delay: 1s;">💖</div>
-        <div class="absolute top-1/3 left-20 text-lg animate-bounce" style="animation-delay: 2s;">✨</div>
-        <div class="absolute top-1/2 right-10 text-2xl animate-pulse" style="animation-delay: 0.5s;">🌺</div>
-        <div class="absolute bottom-1/3 left-16 text-xl animate-bounce" style="animation-delay: 1.5s;">💕</div>
-        <div class="absolute bottom-20 right-20 text-lg animate-pulse" style="animation-delay: 2.5s;">🦋</div>
-        <div class="absolute bottom-10 left-1/4 text-2xl animate-bounce" style="animation-delay: 3s;">🌷</div>
-        <div class="absolute top-1/4 right-1/3 text-lg animate-pulse" style="animation-delay: 0.8s;">💫</div>
-    </div>
-
-    <!-- Floating Settings Button -->
-    <div class="floating-settings">
-        <div class="radial-menu-container" id="radialMenuContainer">
-            <div class="menu">
-                <button class="item" data-tooltip="Thêm sự kiện" id="floatingAddEvent">
-                    <i class="bi bi-file-earmark-plus" style="color: #10B981;"></i>
-                </button>
-                <button class="item" data-tooltip="Xóa sự kiện" id="floatingDeleteEvent">
-                    <i class="bi bi-trash" style="color: #EF4444;"></i>
-                </button>
-
-                <button class="item" data-tooltip="Cập nhật danh sách ảnh" id="floatingUploadMetadata">
-                    <i class="bi bi-cloud-download" style="color: white;"></i>
-                </button>
-                <button class="item" data-tooltip="Bật/Tắt tự động 9h sáng" id="floatingAutoUpdate">
-                    <i class="bi bi-alarm"></i>
-                </button>
-                <button class="item" data-tooltip="Refresh dữ liệu" id="floatingRefreshPhotos">
-                    <i class="bi bi-arrow-repeat" style="color: #06B6D4;"></i>
-                </button>
-            </div>
-            <button class="toggle-btn" id="settingsBtn">
-                <i class="bi bi-gear"></i>
-            </button>
-        </div>
-    </div>
-
-
-
+    <!-- Main Content -->
     <div class="w-full mx-auto relative z-10">
-        <!-- Header -->
-        <div class="text-center mb-8 px-4">
-            <!-- Header removed -->
-        </div>
-
-        <!-- Calendar Container - Hidden -->
-        <div class="calendar-container mx-auto" style="display: none;" id="mainCalendar">
-            <!-- Calendar Header -->
-            <div class="calendar-header p-4 md:p-6">
-                <div class="flex items-center justify-between">
-                    <button id="prevMonth" class="month-nav">
-                        <svg class="w-5 h-5" fill="white" stroke="white" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                        </svg>
-                    </button>
-                    
-                    <div class="text-center">
-                        <h2 id="monthYear" class="text-xl md:text-2xl font-bold text-white"></h2>
-                    </div>
-                    
-                    <button id="nextMonth" class="month-nav">
-                        <svg class="w-5 h-5" fill="white" stroke="white" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Days of Week -->
-            <div class="grid grid-cols-7 bg-gray-50 border-b">
-                <div class="p-2 md:p-3 text-center font-semibold day-name text-base md:text-lg">CN</div>
-                <div class="p-2 md:p-3 text-center font-semibold day-name text-base md:text-lg">T2</div>
-                <div class="p-2 md:p-3 text-center font-semibold day-name text-base md:text-lg">T3</div>
-                <div class="p-2 md:p-3 text-center font-semibold day-name text-base md:text-lg">T4</div>
-                <div class="p-2 md:p-3 text-center font-semibold day-name text-base md:text-lg">T5</div>
-                <div class="p-2 md:p-3 text-center font-semibold day-name weekend text-base md:text-lg">T6</div>
-                <div class="p-2 md:p-3 text-center font-semibold day-name weekend text-base md:text-lg">T7</div>
-            </div>
-
-            <!-- Calendar Days -->
-            <div id="calendarDays" class="grid grid-cols-7 p-2">
-                <!-- Days will be generated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- Today's Info and Anniversary Info -->
+        <!-- Today's Info -->
         <div class="mt-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 w-[90%] max-w-[1200px] mx-auto">
                 <div class="today-info px-6 py-4 min-h-[120px] flex flex-col justify-center text-center">
@@ -1090,59 +84,28 @@
             </div>
         </div>
 
-        <!-- Events List -->
-        <div class="mt-8 flex justify-center">
-            <div class="calendar-container mx-auto">
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold text-gray-800">📅 Sự kiện</h3>
-                        <button id="showCalendarBtn" class="p-2 text-red-500 hover:text-red-600 transition-colors" data-bs-toggle="modal" data-bs-target="#calendarModal" title="Xem lịch">
-                            <i class="bi bi-calendar-heart"></i>
-                        </button>
-
-                    </div>
-                    
-                    <!-- Loading Spinner -->
-                    <div id="loading-spinner" class="hidden flex justify-center items-center py-8">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-500"></div>
-                        <span class="ml-2 text-gray-600">Đang tải...</span>
-                    </div>
-                    
-                    <!-- Events Container -->
-                    <div id="eventsContainer" class="space-y-3">
-                        <!-- Events will be loaded here -->
-                    </div>
-                    
-                    <!-- Empty State -->
-                    <div id="emptyState" class="hidden text-center py-8 text-gray-500">
-                        <p>📝 Chưa có sự kiện nào</p>
-                    </div>
-                    
-                    <!-- Error Message -->
-                    <div id="errorMessage" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
-                        <p>❌ Không thể tải danh sách sự kiện</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Newsfeed Section -->
         <div class="mt-8 flex justify-center">
             <div class="calendar-container mx-auto">
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-bold text-gray-800">📸 Khoảnh Khắc Đáng Yêu</h3>
-
+                        <button id="uploadMetadataBtn" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                            <i class="bi bi-cloud-upload me-1"></i>
+                            Cập nhật ảnh
+                        </button>
                     </div>
                     
                     <!-- Loading Spinner for Photos -->
-                    <div id="photos-loading-spinner" class="hidden flex justify-center items-center py-8">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-500"></div>
+                    <div id="photos-loading-spinner" class="flex justify-center items-center py-8">
+                        <div class="spinner-border text-pink-500" role="status">
+                            <span class="visually-hidden">Đang tải...</span>
+                        </div>
                         <span class="ml-2 text-gray-600">Đang tải ảnh...</span>
                     </div>
                     
                     <!-- Photos Grid -->
-                    <div id="photosGrid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div id="photosGrid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6" style="display: none;">
                         <!-- Photos will be loaded here -->
                     </div>
                     
@@ -1189,144 +152,23 @@
                 </div>
             </div>
         </div>
-
-    </div>
-
-
-
-    <!-- Modal Thêm Sự Kiện -->
-    <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-to-r from-pink-500 to-purple-600 text-white">
-                    <h5 class="modal-title" id="addEventModalLabel">✨ Thêm Mới Sự Kiện</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addEventForm">
-                        <!-- Ngày sự kiện -->
-                        <div class="mb-3">
-                            <label for="eventDate" class="form-label fw-bold">📅 Ngày sự kiện</label>
-                            <input type="date" class="form-control" id="eventDate" required>
-                            <div class="form-text">Hoặc nhập theo định dạng DD/MM/YYYY</div>
-                        </div>
-
-                        <!-- Nội dung -->
-                        <div class="mb-3">
-                            <label for="eventContent" class="form-label fw-bold">📝 Nội dung</label>
-                            <textarea class="form-control" id="eventContent" rows="3" placeholder="Nhập nội dung sự kiện..." required></textarea>
-                        </div>
-
-                        <!-- Màu -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">🎨 Màu</label>
-                            <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center justify-content-sm-start">
-                                <input type="radio" class="btn-check" name="eventColor" id="color-pink" value="bg-pink-500" checked>
-                                <label class="btn btn-outline-secondary p-2" for="color-pink">
-                                    <div class="w-6 h-6 bg-pink-500 rounded" style="width: 24px; height: 24px;"></div>
-                                </label>
-
-                                <input type="radio" class="btn-check" name="eventColor" id="color-blue" value="bg-blue-500">
-                                <label class="btn btn-outline-secondary p-2" for="color-blue">
-                                    <div class="w-6 h-6 bg-blue-500 rounded" style="width: 24px; height: 24px;"></div>
-                                </label>
-
-                                <input type="radio" class="btn-check" name="eventColor" id="color-green" value="bg-green-500">
-                                <label class="btn btn-outline-secondary p-2" for="color-green">
-                                    <div class="w-6 h-6 bg-green-500 rounded" style="width: 24px; height: 24px;"></div>
-                                </label>
-
-                                <input type="radio" class="btn-check" name="eventColor" id="color-yellow" value="bg-yellow-500">
-                                <label class="btn btn-outline-secondary p-2" for="color-yellow">
-                                    <div class="w-6 h-6 bg-yellow-500 rounded" style="width: 24px; height: 24px;"></div>
-                                </label>
-
-                                <input type="radio" class="btn-check" name="eventColor" id="color-purple" value="bg-purple-500">
-                                <label class="btn btn-outline-secondary p-2" for="color-purple">
-                                    <div class="w-6 h-6 bg-purple-500 rounded" style="width: 24px; height: 24px;"></div>
-                                </label>
-
-                                <input type="radio" class="btn-check" name="eventColor" id="color-red" value="bg-red-500">
-                                <label class="btn btn-outline-secondary p-2" for="color-red">
-                                    <div class="w-6 h-6 bg-red-500 rounded" style="width: 24px; height: 24px;"></div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Icon -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">🎭 Icon</label>
-                            <div class="d-flex flex-wrap gap-2 mt-2 justify-content-center justify-content-sm-start">
-                                <input type="radio" class="btn-check" name="eventIcon" id="icon-heart" value="❤️" checked>
-                                <label class="btn btn-outline-secondary" for="icon-heart">❤️</label>
-
-                                <input type="radio" class="btn-check" name="eventIcon" id="icon-star" value="⭐">
-                                <label class="btn btn-outline-secondary" for="icon-star">⭐</label>
-
-                                <input type="radio" class="btn-check" name="eventIcon" id="icon-cake" value="🎂">
-                                <label class="btn btn-outline-secondary" for="icon-cake">🎂</label>
-
-                                <input type="radio" class="btn-check" name="eventIcon" id="icon-gift" value="🎁">
-                                <label class="btn btn-outline-secondary" for="icon-gift">🎁</label>
-
-                                <input type="radio" class="btn-check" name="eventIcon" id="icon-party" value="🎉">
-                                <label class="btn btn-outline-secondary" for="icon-party">🎉</label>
-
-                                <input type="radio" class="btn-check" name="eventIcon" id="icon-music" value="🎵">
-                                <label class="btn btn-outline-secondary" for="icon-music">🎵</label>
-
-                                <input type="radio" class="btn-check" name="eventIcon" id="icon-travel" value="✈️">
-                                <label class="btn btn-outline-secondary" for="icon-travel">✈️</label>
-
-                                <input type="radio" class="btn-check" name="eventIcon" id="icon-work" value="💼">
-                                <label class="btn btn-outline-secondary" for="icon-work">💼</label>
-                            </div>
-                        </div>
-
-                        <!-- Folder ảnh -->
-                        <div class="mb-3">
-                            <label for="eventImageFolder" class="form-label fw-bold">📁 Folder ảnh</label>
-                            <input type="text" class="form-control" id="eventImageFolder" placeholder="Nhập đường dẫn folder ảnh...">
-                            <div class="form-text">Tùy chọn: Đường dẫn đến thư mục chứa ảnh liên quan</div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary" id="saveEventBtn">
-                        <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
-                        💾 Lưu Sự Kiện
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Photo Modal -->
-    <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+    <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen-lg-down modal-xl modal-dialog-centered">
             <div class="modal-content bg-transparent border-0 h-100">
-                <!-- Header với nút đóng -->
+                <!-- Header -->
                 <div class="modal-header border-0 position-absolute w-100 d-flex justify-content-between align-items-center p-3" style="top: 0; left: 0; z-index: 1060; background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);">
-                    <h5 id="photoModalTitle" class="modal-title text-white fw-bold m-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"></h5>
-                    <button type="button" class="position-relative" onclick="handlePhotoModalClose()" aria-label="Đóng" style="background: white; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: red; font-size: 18px; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
-                        ✕
-                    </button>
+                    <h5 id="photoModalTitle" class="modal-title text-white fw-bold m-0"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 
-                <!-- Nút điều hướng căn giữa -->
-                <button type="button" id="prevPhotoBtn" class="btn btn-outline-light position-absolute" onclick="navigatePhoto(-1)" style="left: 20px; top: 50%; transform: translateY(-50%); z-index: 1060; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
-                    <i class="bi bi-chevron-left" style="font-size: 20px;"></i>
-                </button>
-                <button type="button" id="nextPhotoBtn" class="btn btn-outline-light position-absolute" onclick="navigatePhoto(1)" style="right: 20px; top: 50%; transform: translateY(-50%); z-index: 1060; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
-                    <i class="bi bi-chevron-right" style="font-size: 20px;"></i>
-                </button>
-                
-                <!-- Body chứa ảnh -->
+                <!-- Body -->
                 <div class="modal-body p-0 d-flex align-items-center justify-content-center h-100 position-relative" style="background: rgba(0,0,0,0.9);">
                     <!-- Loading spinner -->
                     <div id="imageLoadingSpinner" class="position-absolute d-flex flex-column align-items-center justify-content-center text-white">
-                        <div class="spinner-border text-light mb-3" role="status" style="width: 3rem; height: 3rem;">
+                        <div class="spinner-border text-light mb-3" role="status">
                             <span class="visually-hidden">Đang tải...</span>
                         </div>
                         <p class="text-center">Đang tải ảnh...</p>
@@ -1334,7 +176,7 @@
                     
                     <!-- Ảnh chính -->
                     <img id="modalImage" src="" alt="Photo" class="img-fluid d-none" 
-                         style="max-height: 90vh; max-width: 95vw; object-fit: contain; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"
+                         style="max-height: 90vh; max-width: 95vw; object-fit: contain;"
                          onload="handleImageLoad()" 
                          onerror="handleImageError()">
                     
@@ -1347,491 +189,102 @@
                         <p class="text-muted">Vui lòng thử lại sau</p>
                     </div>
                 </div>
-                
-                <!-- Footer với thông tin ảnh -->
-                <div class="modal-footer border-0 position-absolute w-100 d-flex justify-content-center p-3" style="bottom: 0; left: 0; z-index: 1060; background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);">
-                    <p id="photoModalDescription" class="text-white text-center m-0" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Chọn Sự Kiện Cho Ảnh -->
-    <div class="modal fade" id="eventSelectionModal" tabindex="-1" aria-labelledby="eventSelectionModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-                    <h5 class="modal-title" id="eventSelectionModalLabel">
-                        <i class="bi bi-camera-fill me-2"></i>
-                        Thêm Ảnh Vào Sự Kiện
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <p class="text-muted">Chọn sự kiện để thêm ảnh này vào:</p>
-                        <div id="selectedPhotoInfo" class="bg-light p-3 rounded mb-3">
-                            <!-- Thông tin ảnh được chọn sẽ hiển thị ở đây -->
-                        </div>
-                    </div>
-                    
-                    <!-- Loading Spinner -->
-                    <div id="eventSelection-loading-spinner" class="hidden flex justify-center items-center py-8">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                        <span class="ml-2 text-gray-600">Đang tải danh sách sự kiện...</span>
-                    </div>
-                    
-                    <!-- Danh sách sự kiện -->
-                    <div id="eventSelectionList" class="space-y-2 max-h-96 overflow-y-auto">
-                        <!-- Danh sách sự kiện sẽ được tải ở đây -->
-                    </div>
-                    
-                    <!-- Empty State -->
-                    <div id="eventSelection-emptyState" class="hidden text-center py-8 text-gray-500">
-                        <i class="bi bi-calendar-x display-1 text-muted"></i>
-                        <p class="mt-3">Chưa có sự kiện nào</p>
-                        <p class="text-sm">Vui lòng tạo sự kiện trước khi thêm ảnh</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" id="savePhotoToEventsBtn" disabled>
-                        <span class="spinner-border spinner-border-sm d-none" id="savePhotoSpinner" role="status" aria-hidden="true"></span>
-                        <i class="bi bi-check-lg me-1"></i>
-                        Lưu Thay Đổi
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Hiển Thị Ảnh Của Sự Kiện -->
-    <div class="modal fade" id="eventPhotosModal" tabindex="-1" aria-labelledby="eventPhotosModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-to-r from-pink-500 to-purple-600 text-white">
-                    <h5 class="modal-title" id="eventPhotosModalLabel">
-                        <i class="bi bi-images me-2"></i>
-                        Ảnh Của Sự Kiện
-                    </h5>
-                    <div class="d-flex align-items-center gap-3">
-                        <span id="selectedEventPhotosCount" class="badge bg-danger fs-6" style="display: none;">0 ảnh được chọn</span>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div id="eventPhotosInfo" class="mb-4">
-                        <!-- Thông tin sự kiện sẽ hiển thị ở đây -->
-                    </div>
-                    
-                    <!-- Toolbar cho chọn ảnh -->
-                    <div id="eventPhotosToolbar" class="bg-light border rounded p-3 mb-4" style="display: none;">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                            <div class="d-flex align-items-center gap-3 flex-wrap">
-                                <button type="button" class="btn btn-outline-danger btn-sm" id="selectAllEventPhotosBtn">
-                                    <i class="bi bi-check-all me-1"></i>
-                                    Chọn Tất Cả
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm" id="clearEventPhotosSelectionBtn">
-                                    <i class="bi bi-x-circle me-1"></i>
-                                    Bỏ Chọn Tất Cả
-                                </button>
-                                <div class="vr d-none d-md-block"></div>
-                                <small class="text-muted d-none d-md-inline">
-                                    <i class="bi bi-info-circle me-1"></i>
-                                    Click vào ảnh để chọn/bỏ chọn
-                                </small>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="text-muted small">Tổng: <span id="totalEventPhotos">0</span> ảnh</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Loading Spinner -->
-                    <div id="eventPhotos-loading-spinner" class="hidden flex justify-center items-center py-8">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-500"></div>
-                        <span class="ml-2 text-gray-600">Đang tải ảnh...</span>
-                    </div>
-                    
-                    <!-- Grid ảnh -->
-                    <div id="eventPhotosGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <!-- Ảnh sẽ được tải ở đây -->
-                    </div>
-                    
-                    <!-- Empty State -->
-                    <div id="eventPhotos-emptyState" class="hidden text-center py-8 text-gray-500">
-                        <i class="bi bi-image display-1 text-muted"></i>
-                        <p class="mt-3">Sự kiện này chưa có ảnh nào</p>
-                        <p class="text-sm">Sử dụng nút <i class="bi bi-camera-fill"></i> trên ảnh để thêm vào sự kiện này</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="d-flex justify-content-between align-items-center w-100 flex-wrap gap-2">
-                        <div class="d-flex align-items-center gap-3">
-                            <span id="selectedEventPhotosInfo" class="text-muted small">Chưa chọn ảnh nào</span>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-danger" id="deleteSelectedPhotosBtn" style="display: none;">
-                                <i class="bi bi-trash me-1"></i>
-                                Xóa Ảnh Đã Chọn
-                            </button>
-                            <button type="button" class="btn btn-primary" id="browsePhotosBtn">
-                                <i class="bi bi-search me-1"></i>
-                                Duyệt Ảnh
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Duyệt Ảnh -->
-    <div class="modal fade" id="photoBrowserModal" tabindex="-1" aria-labelledby="photoBrowserModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-                    <h5 class="modal-title" id="photoBrowserModalLabel">
-                        <i class="bi bi-images me-2"></i>
-                        Duyệt Ảnh - Chọn Ảnh Cho Sự Kiện
-                    </h5>
-                    <div class="d-flex align-items-center gap-3">
-                        <span id="selectedPhotosCount" class="badge bg-success fs-6">0 ảnh được chọn</span>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                </div>
-                <div class="modal-body p-0">
-                    <!-- Toolbar -->
-                    <div class="bg-light border-bottom p-3">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                            <div class="d-flex align-items-center gap-3 flex-wrap">
-                                <button type="button" class="btn btn-outline-primary btn-sm" id="selectAllPhotosBtn">
-                                    <i class="bi bi-check-all me-1"></i>
-                                    Chọn Tất Cả Trang
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm" id="clearSelectionBtn">
-                                    <i class="bi bi-x-circle me-1"></i>
-                                    Bỏ Chọn Tất Cả
-                                </button>
-                                <div class="vr d-none d-md-block"></div>
-                                <small class="text-muted d-none d-md-inline">
-                                    <i class="bi bi-info-circle me-1"></i>
-                                    Giữ chuột và kéo để chọn nhiều ảnh
-                                </small>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="text-muted small">Tổng: <span id="totalPhotosInBrowser">0</span> ảnh</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Loading Spinner -->
-                    <div id="photoBrowser-loading-spinner" class="d-flex justify-content-center align-items-center py-5">
-                        <div class="spinner-border text-primary me-3" role="status">
-                            <span class="visually-hidden">Đang tải...</span>
-                        </div>
-                        <span class="text-muted">Đang tải danh sách ảnh...</span>
-                    </div>
-                    
-                    <!-- Photos Grid -->
-                    <div id="photoBrowserGrid" class="p-3" style="display: none;">
-                        <div class="row g-3" id="photoBrowserContainer">
-                            <!-- Ảnh sẽ được tải ở đây -->
-                        </div>
-                    </div>
-                    
-                    <!-- Pagination Controls for Browser -->
-                    <div id="photoBrowserPagination" class="d-flex justify-content-center align-items-center py-3 border-top bg-light" style="display: none !important;">
-                        <div class="d-flex align-items-center gap-2">
-                            <button id="browserFirstPageBtn" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-chevron-double-left"></i>
-                            </button>
-                            <button id="browserPrevPageBtn" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-chevron-left"></i>
-                            </button>
-                            
-                            <div class="d-flex align-items-center gap-1" id="browserPageNumbers">
-                                <!-- Page numbers will be generated here -->
-                            </div>
-                            
-                            <button id="browserNextPageBtn" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
-                            <button id="browserLastPageBtn" class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-chevron-double-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Empty State -->
-                    <div id="photoBrowser-emptyState" class="text-center py-5" style="display: none;">
-                        <i class="bi bi-images display-1 text-muted"></i>
-                        <p class="mt-3 text-muted">Không có ảnh nào để hiển thị</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="d-flex justify-content-between align-items-center w-100 flex-wrap gap-2">
-                        <div class="d-flex align-items-center gap-3">
-                            <span id="selectedPhotosInfo" class="text-muted small">Chưa chọn ảnh nào</span>
-                            <span id="browserPageInfo" class="text-muted small d-none d-md-inline">
-                                Trang <span id="browserCurrentPage">1</span> / <span id="browserTotalPages">1</span>
-                            </span>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-success" id="confirmAddPhotosBtn">
-                                <i class="bi bi-check-lg me-1"></i>
-                                Xác Nhận Cập Nhật
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Xác Nhận Xóa -->
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title" id="deleteConfirmModalLabel">
-                        <i class="bi bi-trash me-2"></i>
-                        Xác Nhận Xóa
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="mb-3">Bạn có chắc chắn muốn xóa sự kiện này không?</p>
-                    <div id="eventToDelete" class="bg-light p-3 rounded">
-                        <!-- Thông tin sự kiện sẽ được hiển thị ở đây -->
-                    </div>
-                    <p class="text-muted mt-2 mb-0"><small>⚠️ Hành động này không thể hoàn tác!</small></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
-                        <span class="spinner-border spinner-border-sm d-none" id="deleteSpinner" role="status" aria-hidden="true"></span>
-                        <i class="bi bi-trash me-1"></i>
-                        Xóa Sự Kiện
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Lịch -->
-    <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-to-r from-pink-500 to-purple-600 text-white">
-                    <h5 class="modal-title" id="calendarModalLabel">
-                        <i class="bi bi-calendar3 me-2"></i>
-                        Lịch Sự Kiện
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-0">
-                    <!-- Calendar Container trong Modal -->
-                    <div class="calendar-container mx-auto" style="border-radius: 0; box-shadow: none; width: 100%; max-width: none;">
-                        <!-- Calendar Header -->
-                        <div class="calendar-header p-4 md:p-6">
-                            <div class="flex items-center justify-between">
-                                <button id="prevMonthModal" class="month-nav">
-                                    <svg class="w-5 h-5" fill="white" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                                    </svg>
-                                </button>
-                                
-                                <div class="text-center">
-                                    <h2 id="monthYearModal" class="text-xl md:text-2xl font-bold text-white"></h2>
-                                </div>
-                                
-                                <button id="nextMonthModal" class="month-nav">
-                                    <svg class="w-5 h-5" fill="white" stroke="white" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Days of Week -->
-                        <div class="grid grid-cols-7 bg-gray-50 border-b">
-                            <div class="p-2 md:p-3 text-center font-semibold day-name text-base md:text-lg">CN</div>
-                            <div class="p-2 md:p-3 text-center font-semibold day-name text-base md:text-lg">T2</div>
-                            <div class="p-2 md:p-3 text-center font-semibold day-name text-base md:text-lg">T3</div>
-                            <div class="p-2 md:p-3 text-center font-semibold day-name text-base md:text-lg">T4</div>
-                            <div class="p-2 md:p-3 text-center font-semibold day-name text-base md:text-lg">T5</div>
-                            <div class="p-2 md:p-3 text-center font-semibold day-name weekend text-base md:text-lg">T6</div>
-                            <div class="p-2 md:p-3 text-center font-semibold day-name weekend text-base md:text-lg">T7</div>
-                        </div>
-
-                        <!-- Calendar Days -->
-                        <div id="calendarDaysModal" class="grid grid-cols-7 p-2">
-                            <!-- Days will be generated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" id="goToTodayBtn">
-                        <i class="bi bi-calendar-check me-1"></i>
-                        Về Hôm Nay
-                    </button>
-                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Biến cấu hình toàn cục
+        // Global variables
         let CONFIG = {};
-        let GITHUB_USERNAME, REPO_NAME, PAT, FILE_PATH, COMMENTS_FILE_PATH, PHOTOS_METADATA_FILE_PATH, LOGS_FILE_PATH;
-        let API_BASE_URL, COMMENTS_API_URL, PHOTOS_METADATA_API_URL, LOGS_API_URL;
+        let GITHUB_USERNAME, REPO_NAME, PAT, PHOTOS_METADATA_FILE_PATH, PHOTOS_METADATA_API_URL;
         let FOLDER_ID, API_KEY, PHOTOS_PER_PAGE;
-        let CONFIG_API_URL;
+        let allPhotosData = [];
+        let currentPage = 1;
+        let totalPages = 1;
+        let isLoadingPhotos = false;
 
-        // Hàm cập nhật file cấu hình
-        async function updateConfigFile(key, value) {
-            try {
-                // Đọc file cấu hình hiện tại
-                const response = await fetch(CONFIG_API_URL, {
-                    headers: {
-                        'Authorization': `token ${PAT}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                const currentConfig = JSON.parse(base64Decode(data.content));
-                
-                // Cập nhật giá trị
-                currentConfig[key] = value;
-                CONFIG[key] = value; // Cập nhật biến toàn cục
-                
-                // Ghi lại file cấu hình
-                const updatedContent = JSON.stringify(currentConfig, null, 2);
-                const encodedContent = base64Encode(updatedContent);
-                
-                const updateResponse = await fetch(CONFIG_API_URL, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${PAT}`,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/vnd.github.v3+json'
-                    },
-                    body: JSON.stringify({
-                        message: `Cập nhật cấu hình ${key} = ${value}`,
-                        content: encodedContent,
-                        sha: data.sha
-                    })
-                });
-                
-                if (!updateResponse.ok) {
-                    throw new Error(`HTTP error! status: ${updateResponse.status}`);
-                }
-                
-                console.log(`✅ Đã cập nhật cấu hình ${key} = ${value}`);
-                
-            } catch (error) {
-                console.error('❌ Lỗi khi cập nhật file cấu hình:', error);
-                // Không throw error để không ảnh hưởng đến chức năng chính
-            }
-        }
-
-        // Hàm tải cấu hình từ file configApp.json
+        // Hàm tải cấu hình
         async function loadConfig() {
             try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000);
-                
-                const response = await fetch('./configApp.json', {
-                    signal: controller.signal,
-                    cache: 'no-cache'
-                });
-                
-                clearTimeout(timeoutId);
-                
+                const response = await fetch('./configApp.json', { cache: 'no-cache' });
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
                 CONFIG = await response.json();
                 
-                // Kiểm tra các trường bắt buộc
-                const requiredFields = ['GITHUB_USERNAME', 'REPO_NAME', 'PAT1', 'PAT2'];
-                const missingFields = requiredFields.filter(field => {
-                    const value = CONFIG[field];
-                    return !value || value.toString().trim() === '';
-                });
-                
-                if (missingFields.length > 0) {
-                    throw new Error(`Thiếu cấu hình: ${missingFields.join(', ')}`);
-                }
-                
                 // Thiết lập các biến từ config
                 GITHUB_USERNAME = CONFIG.GITHUB_USERNAME;
                 REPO_NAME = CONFIG.REPO_NAME;
                 PAT = CONFIG.PAT1 + CONFIG.PAT2;
-                FILE_PATH = CONFIG.FILE_PATH || 'events.json';
-                COMMENTS_FILE_PATH = CONFIG.COMMENTS_FILE_PATH || 'comments.json';
                 PHOTOS_METADATA_FILE_PATH = CONFIG.PHOTOS_METADATA_FILE_PATH || 'photos_metadata.json';
-                LOGS_FILE_PATH = CONFIG.LOGS_FILE_PATH || 'logs.json';
-                
-                // Thiết lập các URL API
-                API_BASE_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
-                COMMENTS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${COMMENTS_FILE_PATH}`;
                 PHOTOS_METADATA_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PHOTOS_METADATA_FILE_PATH}`;
-                LOGS_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${LOGS_FILE_PATH}`;
-                CONFIG_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/configApp.json`;
                 
-                // Cấu hình Google Drive API
                 FOLDER_ID = CONFIG.FOLDER_ID || '';
                 API_KEY = CONFIG.API_KEY || '';
                 PHOTOS_PER_PAGE = CONFIG.PHOTOS_PER_PAGE || 12;
                 
                 return true;
             } catch (error) {
-                let errorMessage = '❌ Không thể tải cấu hình ứng dụng';
-                
-                if (error.name === 'AbortError') {
-                    errorMessage = '⏰ Timeout khi tải cấu hình';
-                } else if (error.message.includes('404')) {
-                    errorMessage = '📄 Không tìm thấy file configApp.json';
-                } else if (error.message.includes('Thiếu cấu hình')) {
-                    errorMessage = `🔧 ${error.message}`;
-                } else if (error.message.includes('JSON')) {
-                    errorMessage = '📝 File cấu hình không đúng định dạng JSON';
-                }
-                
-                showMessage(errorMessage, 'error');
+                showMessage('❌ Không thể tải cấu hình ứng dụng', 'error');
                 throw error;
             }
         }
 
-        // Global variables
-        let allPhotosData = [];
-        let currentPhotosPage = [];
-        let commentsData = {};
-        let reactionsData = {};
-        let currentPage = 1;
-        let totalPages = 1;
-        let isLoadingPhotos = false;
-        let autoUpdateInterval = null;
-        let selectedPhotoId = null;
-        let selectedEventsForPhoto = new Set();
-        let previousModal = null; // Biến để lưu modal trước đó
+        // Hàm hiển thị thông báo
+        function showMessage(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'info'} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; max-width: 400px;';
+            
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
 
-        // Hệ thống logging
-        async function readLogs() {
+        // Hàm encode/decode base64
+        function base64Encode(str) {
+            return btoa(unescape(encodeURIComponent(str)));
+        }
+
+        function base64Decode(str) {
+            return decodeURIComponent(escape(atob(str)));
+        }
+
+        // Hàm xử lý ảnh
+        function handleImageLoad() {
+            const loadingSpinner = document.getElementById('imageLoadingSpinner');
+            const modalImage = document.getElementById('modalImage');
+            const errorMessage = document.getElementById('imageErrorMessage');
+            
+            if (loadingSpinner) loadingSpinner.classList.add('d-none');
+            if (modalImage) modalImage.classList.remove('d-none');
+            if (errorMessage) errorMessage.classList.add('d-none');
+        }
+
+        function handleImageError() {
+            const loadingSpinner = document.getElementById('imageLoadingSpinner');
+            const modalImage = document.getElementById('modalImage');
+            const errorMessage = document.getElementById('imageErrorMessage');
+            
+            if (loadingSpinner) loadingSpinner.classList.add('d-none');
+            if (modalImage) modalImage.classList.add('d-none');
+            if (errorMessage) errorMessage.classList.remove('d-none');
+        }
+
+        // Hàm đọc metadata ảnh
+        async function readPhotosMetadata() {
             try {
-                const response = await fetch(LOGS_API_URL, {
+                const response = await fetch(PHOTOS_METADATA_API_URL, {
                     headers: {
                         'Authorization': `token ${PAT}`,
                         'Accept': 'application/vnd.github.v3+json'
@@ -1840,7 +293,6 @@
                 
                 if (!response.ok) {
                     if (response.status === 404) {
-                        // File chưa tồn tại, tạo file mới
                         return { content: [], sha: null };
                     }
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -1855,52 +307,34 @@
                         content = JSON.parse(decodedContent);
                     }
                 } catch (parseError) {
-                    console.warn('Lỗi parse JSON logs, khởi tạo mảng rỗng:', parseError);
+                    console.warn('Lỗi parse JSON metadata:', parseError);
                     content = [];
                 }
                 
-                // Đảm bảo content là mảng
                 if (!Array.isArray(content)) {
                     content = [];
                 }
                 
                 return { content, sha: data.sha };
             } catch (error) {
-                console.error('Lỗi khi đọc logs từ GitHub:', error);
+                console.error('Lỗi khi đọc metadata từ GitHub:', error);
                 return { content: [], sha: null };
             }
         }
 
-        async function writeLogs(logsArray, sha, retryCount = 0) {
-            const maxRetries = 3;
-            
+        // Hàm ghi metadata ảnh
+        async function writePhotosMetadata(photosArray) {
             try {
-                // Đảm bảo logsArray là mảng hợp lệ
-                if (!Array.isArray(logsArray)) {
-                    logsArray = [];
-                }
-
-                // Làm sạch dữ liệu logs - loại bỏ các ký tự không hợp lệ
-                const cleanLogs = logsArray.map(log => ({
-                    date: String(log.date || '').replace(/[^\w\s\/\-:]/g, ''),
-                    time: String(log.time || '').replace(/[^\w\s\/\-:]/g, ''),
-                    action: String(log.action || '').replace(/[^\w\s\-_àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐ]/g, ''),
-                    details: String(log.details || '').replace(/[^\w\s\-_.,()àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐ]/g, ''),
-                    timestamp: log.timestamp || new Date().toISOString()
-                }));
-
-                const content = JSON.stringify(cleanLogs, null, 2);
+                const content = JSON.stringify(photosArray, null, 2);
                 const encodedContent = base64Encode(content);
 
-                // Tạo thời gian UTC+7 cho commit message
                 const now = new Date();
                 const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000));
-                const timeString = vietnamTime.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+                const timeString = vietnamTime.toLocaleString('vi-VN');
 
-                // Luôn lấy SHA mới nhất trước khi ghi
-                let currentSha = sha;
+                let currentSha = null;
                 try {
-                    const currentResponse = await fetch(LOGS_API_URL, {
+                    const currentResponse = await fetch(PHOTOS_METADATA_API_URL, {
                         headers: {
                             'Authorization': `token ${PAT}`,
                             'Accept': 'application/vnd.github.v3+json'
@@ -1912,16 +346,16 @@
                         currentSha = currentData.sha;
                     }
                 } catch (shaError) {
-                    console.log('Không thể lấy SHA hiện tại, sử dụng SHA được truyền vào');
+                    console.log('Không thể lấy SHA hiện tại');
                 }
 
                 const body = JSON.stringify({
-                    message: `Cập nhật logs hoạt động - ${timeString}`,
+                    message: `Cập nhật metadata ảnh - ${timeString}`,
                     content: encodedContent,
                     ...(currentSha && { sha: currentSha })
                 });
 
-                const response = await fetch(LOGS_API_URL, {
+                const response = await fetch(PHOTOS_METADATA_API_URL, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `token ${PAT}`,
@@ -1932,305 +366,46 @@
                 });
 
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    
-                    // Nếu là lỗi conflict (409) và còn retry, thử lại
-                    if (response.status === 409 && retryCount < maxRetries) {
-                        console.log(`Conflict detected, retrying... (${retryCount + 1}/${maxRetries})`);
-                        
-                        // Đợi một chút trước khi retry
-                        await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
-                        
-                        // Đọc lại logs hiện tại và merge
-                        const { content: currentLogs, sha: newSha } = await readLogs();
-                        
-                        // Merge logs mới vào logs hiện tại (tránh duplicate)
-                        const mergedLogs = [...currentLogs];
-                        cleanLogs.forEach(newLog => {
-                            // Kiểm tra xem log đã tồn tại chưa (dựa trên timestamp và action)
-                            const exists = mergedLogs.some(existingLog => 
-                                existingLog.timestamp === newLog.timestamp && 
-                                existingLog.action === newLog.action
-                            );
-                            
-                            if (!exists) {
-                                mergedLogs.unshift(newLog); // Thêm vào đầu
-                            }
-                        });
-                        
-                        // Giới hạn số lượng logs
-                        if (mergedLogs.length > 500) {
-                            mergedLogs.splice(500);
-                        }
-                        
-                        // Retry với dữ liệu đã merge
-                        return await writeLogs(mergedLogs, newSha, retryCount + 1);
-                    }
-                    
-                    console.error('GitHub API Error Response:', errorText);
-                    throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                const data = await response.json();
-                console.log('Đã ghi log thành công lên GitHub');
-                return data;
+                console.log('Đã ghi metadata thành công lên GitHub');
+                return await response.json();
             } catch (error) {
-                console.error('Lỗi khi ghi log lên GitHub:', error);
-                
-                // Nếu còn retry và không phải lỗi network, thử lại
-                if (retryCount < maxRetries && !error.message.includes('fetch')) {
-                    console.log(`Retrying write logs... (${retryCount + 1}/${maxRetries})`);
-                    await new Promise(resolve => setTimeout(resolve, 2000 * (retryCount + 1)));
-                    
-                    // Đọc lại SHA mới nhất
-                    const { sha: freshSha } = await readLogs();
-                    return await writeLogs(logsArray, freshSha, retryCount + 1);
-                }
-                
+                console.error('Lỗi khi ghi metadata lên GitHub:', error);
                 throw error;
             }
         }
 
-        async function addLog(action, details = '') {
-            try {
-                // Kiểm tra và làm sạch input
-                if (!action || typeof action !== 'string') {
-                    console.warn('Action không hợp lệ, bỏ qua log');
-                    return;
-                }
-
-                // Tạo thời gian UTC+7 (Việt Nam)
-                const now = new Date();
-                const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
-                
-                // Làm sạch dữ liệu đầu vào
-                const cleanAction = String(action).substring(0, 200); // Giới hạn độ dài
-                const cleanDetails = String(details).substring(0, 500); // Giới hạn độ dài
-                
-                const logEntry = {
-                    date: vietnamTime.toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }),
-                    time: vietnamTime.toLocaleTimeString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }),
-                    action: cleanAction,
-                    details: cleanDetails,
-                    timestamp: vietnamTime.toISOString()
-                };
-
-                // Đọc logs hiện tại với timeout
-                const timeoutPromise = new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('Timeout khi đọc logs')), 10000)
-                );
-                
-                const { content: currentLogs, sha } = await Promise.race([
-                    readLogs(),
-                    timeoutPromise
-                ]);
-                
-                // Đảm bảo currentLogs là mảng
-                const logsArray = Array.isArray(currentLogs) ? currentLogs : [];
-                
-                // Thêm log mới vào đầu mảng (log mới nhất ở trên)
-                logsArray.unshift(logEntry);
-                
-                // Giới hạn số lượng logs (giữ 500 logs gần nhất để tránh file quá lớn)
-                if (logsArray.length > 500) {
-                    logsArray.splice(500);
-                }
-                
-                // Ghi lại logs với timeout
-                const writeTimeoutPromise = new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('Timeout khi ghi logs')), 15000)
-                );
-                
-                await Promise.race([
-                    writeLogs(logsArray, sha),
-                    writeTimeoutPromise
-                ]);
-                
-                console.log('✅ Đã thêm log thành công:', cleanAction);
-            } catch (error) {
-                console.warn('⚠️ Không thể ghi log:', error.message);
-                // Lưu log vào localStorage như backup
-                try {
-                    const localLogs = JSON.parse(localStorage.getItem('backupLogs') || '[]');
-                    localLogs.unshift({
-                        action: String(action).substring(0, 200),
-                        details: String(details).substring(0, 500),
-                        timestamp: new Date().toISOString(),
-                        status: 'backup'
-                    });
-                    // Giới hạn backup logs
-                    if (localLogs.length > 50) {
-                        localLogs.splice(50);
-                    }
-                    localStorage.setItem('backupLogs', JSON.stringify(localLogs));
-                } catch (localError) {
-                    console.warn('Không thể lưu backup log:', localError);
-                }
-            }
-        }
-
-        // Hàm kiểm tra và tự động cập nhật metadata
-        function setupAutoUpdate() {
-            // Kiểm tra xem đã đến giờ cập nhật chưa
-            function checkAndUpdate() {
-                // Tạo thời gian UTC+7 (Việt Nam)
-                const now = new Date();
-                const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
-                const hour = vietnamTime.getHours();
-                const minute = vietnamTime.getMinutes();
-                
-                // Kiểm tra nếu là 9h sáng (từ 9:00 đến 9:05)
-                if (hour === 9 && minute >= 0 && minute <= 5) {
-                    const lastUpdateKey = 'lastMetadataUpdate';
-                    const today = vietnamTime.toDateString();
-                    const lastUpdate = localStorage.getItem(lastUpdateKey);
-                    
-                    // Chỉ cập nhật nếu chưa cập nhật hôm nay
-                    if (lastUpdate !== today) {
-                        console.log('🕘 Bắt đầu cập nhật metadata tự động lúc 9h sáng...');
-                        uploadPhotosMetadata(true).then((photoCount) => {
-                            localStorage.setItem(lastUpdateKey, today);
-                            showMessage('🌅 Đã tự động cập nhật metadata ảnh lúc 9h sáng!', 'success');
-                            // Log đã được thêm trong hàm uploadPhotosMetadata
-                            
-                            // Thêm log hoàn thành
-                            addLog('Chức năng cập nhật tự động 9h sáng chạy hoàn thành', `Thành công: ${photoCount} ảnh`);
-                        }).catch(error => {
-                            console.error('Lỗi cập nhật tự động:', error);
-                            showMessage('⚠️ Cập nhật tự động thất bại. Vui lòng cập nhật thủ công.', 'error');
-                            // Thêm log lỗi
-                            addLog('Cập nhật danh sách ảnh vào file metadata tự động', 'Thất bại: ' + error.message);
-                            addLog('Chức năng cập nhật tự động 9h sáng chạy hoàn thành', 'Thất bại: ' + error.message);
-                        });
-                    }
-                }
-            }
+        // Hàm upload metadata ảnh
+        async function uploadPhotosMetadata() {
+            if (isLoadingPhotos) return;
+            isLoadingPhotos = true;
             
-            // Kiểm tra mỗi phút
-            autoUpdateInterval = setInterval(checkAndUpdate, 60000);
-            
-            // Kiểm tra ngay khi khởi động
-            checkAndUpdate();
-            
-            console.log('⏰ Đã thiết lập cập nhật tự động metadata lúc 9h sáng hằng ngày');
-        }
-
-        // Hàm dừng tự động cập nhật
-        function stopAutoUpdate() {
-            if (autoUpdateInterval) {
-                clearInterval(autoUpdateInterval);
-                autoUpdateInterval = null;
-                console.log('⏹️ Đã dừng cập nhật tự động');
-            }
-        }
-
-        // Hàm mở ảnh từ modal sự kiện
-        function openPhotoModalFromEvent(photoId, photoName, webViewLink, webContentLink, createdTime) {
-            // Lưu lại modal hiện tại (eventPhotosModal)
-            previousModal = 'eventPhotosModal';
-            
-            // Gọi hàm mở ảnh bình thường
-            openPhotoModal(photoId, photoName, webViewLink, webContentLink, createdTime);
-        }
-
-        // Hàm xử lý đóng modal ảnh
-        function handlePhotoModalClose() {
-            const photoModal = bootstrap.Modal.getInstance(document.getElementById('photoModal'));
-            if (photoModal) {
-                photoModal.hide();
-            }
-        }
-
-        // Hàm xử lý khi ảnh tải thành công
-        function handleImageLoad() {
-            const loadingSpinner = document.getElementById('imageLoadingSpinner');
-            const modalImage = document.getElementById('modalImage');
-            const errorMessage = document.getElementById('imageErrorMessage');
-            
-            loadingSpinner.classList.add('d-none');
-            modalImage.classList.remove('d-none');
-            errorMessage.classList.add('d-none');
-        }
-
-        // Hàm xử lý khi ảnh tải thất bại
-        function handleImageError() {
-            const loadingSpinner = document.getElementById('imageLoadingSpinner');
-            const modalImage = document.getElementById('modalImage');
-            const errorMessage = document.getElementById('imageErrorMessage');
-            
-            loadingSpinner.classList.add('d-none');
-            modalImage.classList.add('d-none');
-            errorMessage.classList.remove('d-none');
-        }
-
-        // Hàm upload metadata ảnh lên GitHub
-        async function uploadPhotosMetadata(isAutoUpdate = false) {
             const uploadBtn = document.getElementById('uploadMetadataBtn');
             const loadingSpinner = document.getElementById('photos-loading-spinner');
             const photosGrid = document.getElementById('photosGrid');
             const emptyState = document.getElementById('photosEmptyState');
             const errorMessage = document.getElementById('photosErrorMessage');
             
-            if (isLoadingPhotos) return;
-            isLoadingPhotos = true;
-            
             try {
                 // Hiển thị loading
-                loadingSpinner.classList.remove('hidden');
-                photosGrid.innerHTML = '';
+                loadingSpinner.style.display = 'flex';
+                photosGrid.style.display = 'none';
                 emptyState.classList.add('hidden');
                 errorMessage.classList.add('hidden');
                 if (uploadBtn) uploadBtn.disabled = true;
                 
-                // Cập nhật text loading
-                const loadingText = loadingSpinner.querySelector('span');
-                if (loadingText) {
-                    const updateType = isAutoUpdate ? 'tự động' : 'thủ công';
-                    loadingText.textContent = `Đang tải metadata từ Google Drive (${updateType})...`;
+                // Tải ảnh từ Google Drive
+                const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+mimeType+contains+'image/'&key=${API_KEY}&fields=files(id,name,webViewLink,thumbnailLink,webContentLink,createdTime,modifiedTime,size)&pageSize=1000`;
+                
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                // Tải tất cả ảnh từ Google Drive
-                let allFiles = [];
-                let nextPageToken = '';
-                let pageCount = 0;
-                
-                do {
-                    const url = `https://www.googleapis.com/drive/v3/files?q='${FOLDER_ID}'+in+parents+and+mimeType+contains+'image/'&key=${API_KEY}&fields=files(id,name,webViewLink,thumbnailLink,webContentLink,createdTime,modifiedTime,size),nextPageToken&pageSize=1000${nextPageToken ? `&pageToken=${nextPageToken}` : ''}`;
-                    
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 giây timeout
-                    
-                    const response = await fetch(url, {
-                        signal: controller.signal
-                    });
-                    
-                    clearTimeout(timeoutId);
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    allFiles = allFiles.concat(data.files || []);
-                    nextPageToken = data.nextPageToken || '';
-                    pageCount++;
-                    
-                    // Cập nhật loading với số lượng ảnh đã tải
-                    if (loadingText) {
-                        loadingText.textContent = `Đang tải metadata... (${allFiles.length} ảnh, trang ${pageCount})`;
-                    }
-                    
-                    // Thêm delay nhỏ giữa các request để tránh rate limit
-                    if (nextPageToken) {
-                        await new Promise(resolve => setTimeout(resolve, 1000));
-                    }
-                    
-                } while (nextPageToken);
-                
-                // Cập nhật text loading
-                if (loadingText) {
-                    loadingText.textContent = `Đang lưu metadata lên GitHub... (${allFiles.length} ảnh)`;
-                }
+                const data = await response.json();
+                const allFiles = data.files || [];
                 
                 // Lưu metadata lên GitHub
                 await writePhotosMetadata(allFiles);
@@ -2240,34 +415,7 @@
                 totalPages = Math.ceil(allPhotosData.length / PHOTOS_PER_PAGE);
                 currentPage = 1;
                 
-                // Tải comments và reactions
-                const { content: commentsArray } = await readComments();
-                commentsData = {};
-                reactionsData = {};
-                
-                if (Array.isArray(commentsArray)) {
-                    commentsArray.forEach(entry => {
-                        if (entry.ID_IMG) {
-                            if (entry.comments && Array.isArray(entry.comments)) {
-                                if (!commentsData[entry.ID_IMG]) {
-                                    commentsData[entry.ID_IMG] = [];
-                                }
-                                entry.comments.forEach(comment => {
-                                    commentsData[entry.ID_IMG].push({
-                                        text: comment.comment,
-                                        timestamp: comment.date_input
-                                    });
-                                });
-                            }
-                            
-                            reactionsData[entry.ID_IMG] = {
-                                count_tim: entry.count_tim || 0
-                            };
-                        }
-                    });
-                }
-                
-                loadingSpinner.classList.add('hidden');
+                loadingSpinner.style.display = 'none';
                 
                 if (allPhotosData.length === 0) {
                     emptyState.classList.remove('hidden');
@@ -2278,16 +426,192 @@
                 // Hiển thị trang đầu tiên
                 displayPhotosPage(1);
                 updatePaginationControls();
+                photosGrid.style.display = 'grid';
                 
-                const updateType = isAutoUpdate ? 'tự động' : 'thủ công';
-                showMessage(`✅ Đã cập nhật ${updateType} thành công ${allFiles.length} ảnh lên GitHub!`, 'success');
+                showMessage(`✅ Đã cập nhật thành công ${allFiles.length} ảnh!`, 'success');
                 
-                // Thêm log cho cả hai loại cập nhật
-                if (isAutoUpdate) {
-                    addLog('Cập nhật danh sách ảnh vào file metadata tự động', `${allFiles.length} ảnh`);
-                } else {
-                    addLog('Cập nhật danh sách ảnh vào file metadata thủ công', `${allFiles.length} ảnh`);
+            } catch (error) {
+                console.error('Lỗi khi upload metadata:', error);
+                loadingSpinner.style.display = 'none';
+                errorMessage.classList.remove('hidden');
+                
+                let errorMsg = 'Không thể tải danh sách ảnh';
+                if (error.message.includes('403')) {
+                    errorMsg = 'Không có quyền truy cập Google Drive API';
+                } else if (error.message.includes('404')) {
+                    errorMsg = 'Không tìm thấy folder hoặc API key không hợp lệ';
                 }
                 
-                // Trả về số lượng ảnh để sử dụng trong log tự động
-                return allFiles.length;<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987a914242678533',t:'MTc1OTMwNzEwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+                showMessage(errorMsg, 'error');
+            } finally {
+                isLoadingPhotos = false;
+                if (uploadBtn) uploadBtn.disabled = false;
+            }
+        }
+
+        // Hàm hiển thị trang ảnh
+        function displayPhotosPage(page) {
+            const photosGrid = document.getElementById('photosGrid');
+            if (!photosGrid || !allPhotosData.length) return;
+            
+            const startIndex = (page - 1) * PHOTOS_PER_PAGE;
+            const endIndex = startIndex + PHOTOS_PER_PAGE;
+            const pagePhotos = allPhotosData.slice(startIndex, endIndex);
+            
+            photosGrid.innerHTML = '';
+            
+            pagePhotos.forEach((photo, index) => {
+                const photoDiv = document.createElement('div');
+                photoDiv.className = 'bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300';
+                
+                const globalIndex = startIndex + index;
+                
+                photoDiv.innerHTML = `
+                    <div class="relative">
+                        <img src="${photo.thumbnailLink}" alt="${photo.name}" 
+                             class="w-full h-48 object-cover cursor-pointer"
+                             onclick="openPhotoModal('${photo.id}', '${photo.name}', '${photo.webViewLink}', '${photo.webContentLink}', '${photo.createdTime}')"
+                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5YTNhZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkzhu5dpIHThuqNpIOG6o25oPC90ZXh0Pjwvc3ZnPg=='">
+                        <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
+                            ${globalIndex + 1}
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2 truncate">${photo.name}</h3>
+                        <p class="text-sm text-gray-600 mb-3">
+                            📅 ${new Date(photo.createdTime).toLocaleDateString('vi-VN')}
+                        </p>
+                    </div>
+                `;
+                
+                photosGrid.appendChild(photoDiv);
+            });
+        }
+
+        // Hàm cập nhật phân trang
+        function updatePaginationControls() {
+            const paginationControls = document.getElementById('paginationControls');
+            if (!paginationControls) return;
+            
+            if (allPhotosData.length === 0) {
+                paginationControls.classList.add('hidden');
+                return;
+            }
+            
+            paginationControls.classList.remove('hidden');
+            
+            const startIndex = (currentPage - 1) * PHOTOS_PER_PAGE + 1;
+            const endIndex = Math.min(currentPage * PHOTOS_PER_PAGE, allPhotosData.length);
+            
+            const currentRange = document.getElementById('currentRange');
+            const totalPhotosSpan = document.getElementById('totalPhotos');
+            const currentPageDisplay = document.getElementById('currentPageDisplay');
+            const totalPagesDisplay = document.getElementById('totalPagesDisplay');
+            
+            if (currentRange) currentRange.textContent = `${startIndex}-${endIndex}`;
+            if (totalPhotosSpan) totalPhotosSpan.textContent = allPhotosData.length;
+            if (currentPageDisplay) currentPageDisplay.textContent = currentPage;
+            if (totalPagesDisplay) totalPagesDisplay.textContent = totalPages;
+            
+            // Cập nhật nút
+            const firstBtn = document.getElementById('firstPageBtn');
+            const prevBtn = document.getElementById('prevPageBtn');
+            const nextBtn = document.getElementById('nextPageBtn');
+            const lastBtn = document.getElementById('lastPageBtn');
+            
+            if (firstBtn) firstBtn.disabled = currentPage === 1;
+            if (prevBtn) prevBtn.disabled = currentPage === 1;
+            if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+            if (lastBtn) lastBtn.disabled = currentPage === totalPages;
+        }
+
+        // Hàm chuyển trang
+        function goToPage(page) {
+            if (page < 1 || page > totalPages || page === currentPage) return;
+            
+            currentPage = page;
+            displayPhotosPage(currentPage);
+            updatePaginationControls();
+        }
+
+        // Hàm mở modal ảnh
+        function openPhotoModal(photoId, photoName, webViewLink, webContentLink, createdTime) {
+            const modal = new bootstrap.Modal(document.getElementById('photoModal'));
+            const modalTitle = document.getElementById('photoModalTitle');
+            const modalImage = document.getElementById('modalImage');
+            const loadingSpinner = document.getElementById('imageLoadingSpinner');
+            const errorMessage = document.getElementById('imageErrorMessage');
+            
+            // Reset modal state
+            modalImage.classList.add('d-none');
+            loadingSpinner.classList.remove('d-none');
+            errorMessage.classList.add('d-none');
+            
+            // Set title
+            if (modalTitle) modalTitle.textContent = photoName;
+            
+            // Set image source
+            if (modalImage) {
+                modalImage.src = webContentLink || webViewLink;
+            }
+            
+            modal.show();
+        }
+
+        // Khởi tạo ứng dụng
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                await loadConfig();
+                
+                // Hiển thị ngày hôm nay
+                const todayDate = document.getElementById('todayDate');
+                if (todayDate) {
+                    const now = new Date();
+                    todayDate.textContent = now.toLocaleDateString('vi-VN', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                }
+                
+                // Tải dữ liệu ban đầu
+                const { content: photosMetadata } = await readPhotosMetadata();
+                if (Array.isArray(photosMetadata) && photosMetadata.length > 0) {
+                    allPhotosData = photosMetadata;
+                    totalPages = Math.ceil(allPhotosData.length / PHOTOS_PER_PAGE);
+                    
+                    displayPhotosPage(1);
+                    updatePaginationControls();
+                    
+                    document.getElementById('photos-loading-spinner').style.display = 'none';
+                    document.getElementById('photosGrid').style.display = 'grid';
+                } else {
+                    document.getElementById('photos-loading-spinner').style.display = 'none';
+                    document.getElementById('photosEmptyState').classList.remove('hidden');
+                }
+                
+                // Setup event listeners
+                const uploadBtn = document.getElementById('uploadMetadataBtn');
+                if (uploadBtn) uploadBtn.onclick = uploadPhotosMetadata;
+                
+                const firstBtn = document.getElementById('firstPageBtn');
+                const prevBtn = document.getElementById('prevPageBtn');
+                const nextBtn = document.getElementById('nextPageBtn');
+                const lastBtn = document.getElementById('lastPageBtn');
+                
+                if (firstBtn) firstBtn.onclick = () => goToPage(1);
+                if (prevBtn) prevBtn.onclick = () => goToPage(currentPage - 1);
+                if (nextBtn) nextBtn.onclick = () => goToPage(currentPage + 1);
+                if (lastBtn) lastBtn.onclick = () => goToPage(totalPages);
+                
+                console.log('✅ Ứng dụng đã khởi tạo thành công');
+                
+            } catch (error) {
+                console.error('❌ Lỗi khởi tạo ứng dụng:', error);
+                showMessage('Không thể khởi tạo ứng dụng. Vui lòng kiểm tra cấu hình.', 'error');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987aa1dba1500447',t:'MTc1OTMwNzc4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
