@@ -1888,7 +1888,9 @@
             }
         }
 
-        async function writeLogs(logsArray, sha) {
+        async function writeLogs(logsArray, sha, retryCount = 0) {
+            const maxRetries = 3;
+            
             try {
                 // Đảm bảo logsArray là mảng hợp lệ
                 if (!Array.isArray(logsArray)) {
@@ -1912,29 +1914,28 @@
                 const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000));
                 const timeString = vietnamTime.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
 
-                // Nếu không có sha, thử lấy sha hiện tại từ file
-                if (!sha) {
-                    try {
-                        const currentResponse = await fetch(LOGS_API_URL, {
-                            headers: {
-                                'Authorization': `token ${PAT}`,
-                                'Accept': 'application/vnd.github.v3+json'
-                            }
-                        });
-                        
-                        if (currentResponse.ok) {
-                            const currentData = await currentResponse.json();
-                            sha = currentData.sha;
+                // Luôn lấy SHA mới nhất trước khi ghi
+                let currentSha = sha;
+                try {
+                    const currentResponse = await fetch(LOGS_API_URL, {
+                        headers: {
+                            'Authorization': `token ${PAT}`,
+                            'Accept': 'application/vnd.github.v3+json'
                         }
-                    } catch (shaError) {
-                        console.log('Không thể lấy SHA hiện tại, tạo file mới');
+                    });
+                    
+                    if (currentResponse.ok) {
+                        const currentData = await currentResponse.json();
+                        currentSha = currentData.sha;
                     }
+                } catch (shaError) {
+                    console.log('Không thể lấy SHA hiện tại, sử dụng SHA được truyền vào');
                 }
 
                 const body = JSON.stringify({
                     message: `Cập nhật logs hoạt động - ${timeString}`,
                     content: encodedContent,
-                    ...(sha && { sha: sha })
+                    ...(currentSha && { sha: currentSha })
                 });
 
                 const response = await fetch(LOGS_API_URL, {
@@ -1949,6 +1950,40 @@
 
                 if (!response.ok) {
                     const errorText = await response.text();
+                    
+                    // Nếu là lỗi conflict (409) và còn retry, thử lại
+                    if (response.status === 409 && retryCount < maxRetries) {
+                        console.log(`Conflict detected, retrying... (${retryCount + 1}/${maxRetries})`);
+                        
+                        // Đợi một chút trước khi retry
+                        await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1)));
+                        
+                        // Đọc lại logs hiện tại và merge
+                        const { content: currentLogs, sha: newSha } = await readLogs();
+                        
+                        // Merge logs mới vào logs hiện tại (tránh duplicate)
+                        const mergedLogs = [...currentLogs];
+                        cleanLogs.forEach(newLog => {
+                            // Kiểm tra xem log đã tồn tại chưa (dựa trên timestamp và action)
+                            const exists = mergedLogs.some(existingLog => 
+                                existingLog.timestamp === newLog.timestamp && 
+                                existingLog.action === newLog.action
+                            );
+                            
+                            if (!exists) {
+                                mergedLogs.unshift(newLog); // Thêm vào đầu
+                            }
+                        });
+                        
+                        // Giới hạn số lượng logs
+                        if (mergedLogs.length > 500) {
+                            mergedLogs.splice(500);
+                        }
+                        
+                        // Retry với dữ liệu đã merge
+                        return await writeLogs(mergedLogs, newSha, retryCount + 1);
+                    }
+                    
                     console.error('GitHub API Error Response:', errorText);
                     throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
                 }
@@ -1958,6 +1993,17 @@
                 return data;
             } catch (error) {
                 console.error('Lỗi khi ghi log lên GitHub:', error);
+                
+                // Nếu còn retry và không phải lỗi network, thử lại
+                if (retryCount < maxRetries && !error.message.includes('fetch')) {
+                    console.log(`Retrying write logs... (${retryCount + 1}/${maxRetries})`);
+                    await new Promise(resolve => setTimeout(resolve, 2000 * (retryCount + 1)));
+                    
+                    // Đọc lại SHA mới nhất
+                    const { sha: freshSha } = await readLogs();
+                    return await writeLogs(logsArray, freshSha, retryCount + 1);
+                }
+                
                 throw error;
             }
         }
@@ -5909,5 +5955,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9878f49fe6180447',t:'MTc1OTI5MDIwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9879364b01c60447',t:'MTc1OTI5Mjg5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
