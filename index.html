@@ -1906,16 +1906,35 @@
         }
 
         async function writeLogs(logsArray, sha) {
-            const content = JSON.stringify(logsArray, null, 2);
-            const encodedContent = base64Encode(content);
-
-            const body = JSON.stringify({
-                message: 'Cập nhật logs hoạt động',
-                content: encodedContent,
-                ...(sha && { sha: sha })
-            });
-
             try {
+                // Đảm bảo logsArray là mảng hợp lệ
+                if (!Array.isArray(logsArray)) {
+                    logsArray = [];
+                }
+
+                // Làm sạch dữ liệu logs - loại bỏ các ký tự không hợp lệ
+                const cleanLogs = logsArray.map(log => ({
+                    date: String(log.date || '').replace(/[^\w\s\/\-:]/g, ''),
+                    time: String(log.time || '').replace(/[^\w\s\/\-:]/g, ''),
+                    action: String(log.action || '').replace(/[^\w\s\-_àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐ]/g, ''),
+                    details: String(log.details || '').replace(/[^\w\s\-_.,()àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐ]/g, ''),
+                    timestamp: log.timestamp || new Date().toISOString()
+                }));
+
+                const content = JSON.stringify(cleanLogs, null, 2);
+                const encodedContent = base64Encode(content);
+
+                // Tạo thời gian UTC+7 cho commit message
+                const now = new Date();
+                const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000));
+                const timeString = vietnamTime.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+
+                const body = JSON.stringify({
+                    message: `Cập nhật logs hoạt động - ${timeString}`,
+                    content: encodedContent,
+                    ...(sha && { sha: sha })
+                });
+
                 const response = await fetch(LOGS_API_URL, {
                     method: 'PUT',
                     headers: {
@@ -1927,11 +1946,13 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const errorText = await response.text();
+                    console.error('GitHub API Error Response:', errorText);
+                    throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
                 }
 
                 const data = await response.json();
-                console.log('Đã ghi log thành công lên GitHub:', data);
+                console.log('Đã ghi log thành công lên GitHub');
                 return data;
             } catch (error) {
                 console.error('Lỗi khi ghi log lên GitHub:', error);
@@ -1941,36 +1962,79 @@
 
         async function addLog(action, details = '') {
             try {
+                // Kiểm tra và làm sạch input
+                if (!action || typeof action !== 'string') {
+                    console.warn('Action không hợp lệ, bỏ qua log');
+                    return;
+                }
+
                 // Tạo thời gian UTC+7 (Việt Nam)
                 const now = new Date();
                 const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000)); // UTC+7
                 
+                // Làm sạch dữ liệu đầu vào
+                const cleanAction = String(action).substring(0, 200); // Giới hạn độ dài
+                const cleanDetails = String(details).substring(0, 500); // Giới hạn độ dài
+                
                 const logEntry = {
                     date: vietnamTime.toLocaleDateString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }),
                     time: vietnamTime.toLocaleTimeString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }),
-                    action: action,
-                    details: details,
+                    action: cleanAction,
+                    details: cleanDetails,
                     timestamp: vietnamTime.toISOString()
                 };
 
-                // Đọc logs hiện tại
-                const { content: currentLogs, sha } = await readLogs();
+                // Đọc logs hiện tại với timeout
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Timeout khi đọc logs')), 10000)
+                );
+                
+                const { content: currentLogs, sha } = await Promise.race([
+                    readLogs(),
+                    timeoutPromise
+                ]);
+                
+                // Đảm bảo currentLogs là mảng
+                const logsArray = Array.isArray(currentLogs) ? currentLogs : [];
                 
                 // Thêm log mới vào đầu mảng (log mới nhất ở trên)
-                currentLogs.unshift(logEntry);
+                logsArray.unshift(logEntry);
                 
-                // Giới hạn số lượng logs (giữ 1000 logs gần nhất)
-                if (currentLogs.length > 1000) {
-                    currentLogs.splice(1000);
+                // Giới hạn số lượng logs (giữ 500 logs gần nhất để tránh file quá lớn)
+                if (logsArray.length > 500) {
+                    logsArray.splice(500);
                 }
                 
-                // Ghi lại logs
-                await writeLogs(currentLogs, sha);
+                // Ghi lại logs với timeout
+                const writeTimeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Timeout khi ghi logs')), 15000)
+                );
                 
-                console.log('Đã thêm log:', logEntry);
+                await Promise.race([
+                    writeLogs(logsArray, sha),
+                    writeTimeoutPromise
+                ]);
+                
+                console.log('✅ Đã thêm log thành công:', cleanAction);
             } catch (error) {
-                console.error('Lỗi khi thêm log:', error);
-                // Không throw error để không ảnh hưởng đến chức năng chính
+                console.warn('⚠️ Không thể ghi log:', error.message);
+                // Lưu log vào localStorage như backup
+                try {
+                    const localLogs = JSON.parse(localStorage.getItem('backupLogs') || '[]');
+                    localLogs.unshift({
+                        action: String(action).substring(0, 200),
+                        details: String(details).substring(0, 500),
+                        timestamp: new Date().toISOString(),
+                        status: 'backup'
+                    });
+                    // Giới hạn backup logs
+                    if (localLogs.length > 50) {
+                        localLogs.splice(50);
+                    }
+                    localStorage.setItem('backupLogs', JSON.stringify(localLogs));
+                } catch (localError) {
+                    console.warn('Không thể lưu backup log:', localError);
+                }
             }
         }
 
@@ -6076,5 +6140,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987878a5d4c40447',t:'MTc1OTI4NTEyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98788374d7bc0447',t:'MTc1OTI4NTU2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
