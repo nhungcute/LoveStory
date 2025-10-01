@@ -874,10 +874,20 @@
             right: 8px;
             z-index: 3;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 4px;
-            padding: 2px;
+            border-radius: 50%;
+            padding: 4px;
             opacity: 0;
             transition: opacity 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+
+        .photo-browser-item .selection-checkbox i {
+            font-size: 16px;
+            color: #0d6efd;
         }
 
         .photo-browser-item:hover .selection-checkbox,
@@ -942,10 +952,20 @@
             right: 8px;
             z-index: 3;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 4px;
-            padding: 2px;
+            border-radius: 50%;
+            padding: 4px;
             opacity: 0;
             transition: opacity 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+
+        .event-photo-item .selection-checkbox i {
+            font-size: 16px;
+            color: #dc3545;
         }
 
         .event-photo-item:hover .selection-checkbox,
@@ -3339,7 +3359,7 @@
                             </div>
                             
                             <div class="selection-checkbox">
-                                <input type="checkbox" class="form-check-input">
+                                <i class="bi bi-check-circle"></i>
                             </div>
                             
                             <div class="selection-overlay">
@@ -3507,7 +3527,7 @@
                             <div class="photo-index">${globalIndex + 1}</div>
                             
                             <div class="selection-checkbox">
-                                <input type="checkbox" class="form-check-input" ${isInCurrentEvent ? 'checked' : ''}>
+                                <i class="bi bi-check-circle"></i>
                             </div>
                             
                             <div class="selection-overlay">
@@ -3642,8 +3662,8 @@
                 
                 const photoItem = e.target.closest('.photo-browser-item');
                 
-                // Nếu click vào checkbox, xử lý riêng
-                if (e.target.type === 'checkbox') {
+                // Nếu click vào checkbox icon, xử lý riêng
+                if (e.target.closest('.selection-checkbox')) {
                     togglePhotoSelection(photoItem.dataset.photoId);
                     return;
                 }
@@ -6140,5 +6160,5 @@
         // Khởi tạo ứng dụng khi DOM đã sẵn sàng
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98788374d7bc0447',t:'MTc1OTI4NTU2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9878994e06e7e676',t:'MTc1OTI4NjQ2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
