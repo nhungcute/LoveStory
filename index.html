@@ -3,1073 +3,1029 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story - Nhật Ký Tình Yêu</title>
+    <title>Love Story Dashboard - Quản Lý Kỷ Niệm</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
-            background: #0f0f23;
-            color: white;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-
-        .app-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            grid-template-rows: 70px 1fr;
-            grid-template-areas: 
-                "sidebar header"
-                "sidebar main";
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
         }
 
-        .app-header {
-            grid-area: header;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border-bottom: 1px solid #2a2a4a;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 2rem;
-            backdrop-filter: blur(20px);
+        .sidebar {
+            background: linear-gradient(180deg, #2d1b69 0%, #11998e 100%);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            width: 256px;
         }
 
-        .app-sidebar {
-            grid-area: sidebar;
-            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f23 100%);
-            border-right: 1px solid #2a2a4a;
-            padding: 2rem 0;
-            position: relative;
-            overflow-y: auto;
+
+
+        .sidebar-text {
+            transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
-        .app-main {
-            grid-area: main;
-            background: #0f0f23;
-            padding: 2rem;
-            overflow-y: auto;
-            position: relative;
+        .logo-text {
+            transition: all 0.3s ease;
         }
 
-        .sidebar-brand {
-            text-align: center;
-            padding: 0 2rem 2rem;
-            border-bottom: 1px solid #2a2a4a;
-            margin-bottom: 2rem;
-        }
-
-        .brand-logo {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, #ff6b9d, #c44569);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
-        }
-
-        .brand-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: white;
-            margin: 0;
-        }
-
-        .brand-subtitle {
-            font-size: 0.8rem;
-            color: #8892b0;
-            margin: 0;
-        }
-
-        .nav-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .nav-item {
-            margin: 0.5rem 1rem;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            color: #8892b0;
-            text-decoration: none;
+        .sidebar-item {
+            transition: all 0.3s ease;
             border-radius: 12px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
+            margin: 4px 8px;
+            display: flex;
+            align-items: center;
         }
 
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 107, 157, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .nav-link:hover::before {
-            left: 100%;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: white;
-            background: linear-gradient(135deg, rgba(255, 107, 157, 0.2), rgba(196, 69, 105, 0.1));
-            border-left: 3px solid #ff6b9d;
-            transform: translateX(5px);
-        }
-
-        .nav-icon {
-            width: 20px;
-            margin-right: 1rem;
-            text-align: center;
-        }
-
-        .header-search {
-            flex: 1;
-            max-width: 400px;
-            margin: 0 2rem;
-        }
-
-        .search-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid #2a2a4a;
-            border-radius: 25px;
-            padding: 0.75rem 1.5rem;
-            color: white;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #ff6b9d;
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.2);
+        .sidebar-item:hover {
             background: rgba(255, 255, 255, 0.1);
+            transform: translateX(8px);
         }
 
-        .search-input::placeholder {
-            color: #8892b0;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .action-btn {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid #2a2a4a;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #8892b0;
-            cursor: pointer;
+        .sidebar-item i {
+            min-width: 20px;
+            text-align: center;
             transition: all 0.3s ease;
         }
 
-        .action-btn:hover {
-            background: rgba(255, 107, 157, 0.1);
-            border-color: #ff6b9d;
-            color: white;
-            transform: translateY(-2px);
+        .sidebar-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+        .header-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .widget-card {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border: 1px solid #2a2a4a;
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .widget-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #ff6b9d, #c44569, #ff6b9d);
-            background-size: 200% 100%;
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        .widget-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border-color: #ff6b9d;
-        }
-
-        .widget-header {
-            display: flex;
-            align-items: center;
-            justify-content: between;
-            margin-bottom: 1.5rem;
-        }
-
-        .widget-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: white;
-            margin: 0;
-        }
-
-        .widget-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(45deg, #ff6b9d, #c44569);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, #ff6b9d, #c44569);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: #8892b0;
-            font-size: 0.9rem;
-            font-weight: 500;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .progress-ring {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .progress-ring svg {
-            width: 100%;
-            height: 100%;
             transform: rotate(-90deg);
         }
 
-        .progress-ring circle {
-            fill: none;
-            stroke-width: 8;
-        }
-
-        .progress-ring .bg {
-            stroke: #2a2a4a;
-        }
-
-        .progress-ring .progress {
-            stroke: url(#gradient);
-            stroke-linecap: round;
-            stroke-dasharray: 283;
-            stroke-dashoffset: 283;
-            animation: progress 2s ease-out forwards;
-        }
-
-        @keyframes progress {
-            to {
-                stroke-dashoffset: 70;
-            }
-        }
-
-        .calendar-widget {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border-radius: 20px;
-            padding: 1.5rem;
-            border: 1px solid #2a2a4a;
-        }
-
-        .calendar-header {
-            display: flex;
-            justify-content: between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .calendar-nav {
-            background: none;
-            border: none;
-            color: #8892b0;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .calendar-nav:hover {
-            color: white;
-            background: rgba(255, 107, 157, 0.1);
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform-origin: 50% 50%;
         }
 
         .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
-            font-weight: 500;
-            position: relative;
+            border-radius: 8px;
         }
 
         .calendar-day:hover {
-            background: rgba(255, 107, 157, 0.2);
-            color: white;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transform: scale(1.1);
         }
 
-        .calendar-day.today {
-            background: linear-gradient(45deg, #ff6b9d, #c44569);
-            color: white;
-            font-weight: 700;
-        }
-
-        .calendar-day.has-event::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            width: 6px;
-            height: 6px;
-            background: #00d4aa;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-
-        .event-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .event-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
-            border-left: 3px solid #ff6b9d;
-            transition: all 0.3s ease;
-        }
-
-        .event-item:hover {
-            background: rgba(255, 107, 157, 0.1);
-            transform: translateX(5px);
-        }
-
-        .event-icon {
-            font-size: 1.5rem;
-            margin-right: 1rem;
-        }
-
-        .event-content h6 {
-            margin: 0 0 0.25rem;
-            color: white;
-            font-weight: 600;
-        }
-
-        .event-content small {
-            color: #8892b0;
-        }
-
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
+        .calendar-day.has-event {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
 
         .photo-item {
-            aspect-ratio: 1;
-            background: linear-gradient(45deg, #ff6b9d, #c44569, #00d4aa);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
+            border-radius: 12px;
             overflow: hidden;
         }
 
-        .photo-item::before {
+        .photo-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
             content: '';
             position: absolute;
-            top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
         }
 
-        .photo-item:hover::before {
-            opacity: 1;
-        }
-
-        .photo-item:hover {
-            transform: scale(1.05) rotate(2deg);
-        }
-
-        .floating-add {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, #ff6b9d, #c44569);
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .happiness-meter {
+            background: conic-gradient(from 0deg, #ff6b6b 0%, #feca57 25%, #48dbfb 50%, #ff9ff3 75%, #54a0ff 100%);
+            border-radius: 50%;
+            padding: 4px;
+        }
+
+        .happiness-inner {
+            background: #1a1a2e;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
-            transition: all 0.3s ease;
-            z-index: 1000;
         }
 
-        .floating-add:hover {
-            transform: scale(1.1) rotate(90deg);
-            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
-        }
-
-        .modal-dark .modal-content {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border: 1px solid #2a2a4a;
-            border-radius: 20px;
-            color: white;
-        }
-
-        .form-dark {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid #2a2a4a;
-            border-radius: 12px;
-            color: white;
-            padding: 0.75rem 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-dark:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #ff6b9d;
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.2);
-            outline: none;
-            color: white;
-        }
-
-        .form-dark::placeholder {
-            color: #8892b0;
-        }
-
-        .btn-primary-custom {
-            background: linear-gradient(45deg, #ff6b9d, #c44569);
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
-            border-radius: 12px;
-            padding: 0.75rem 2rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.3);
-        }
-
-        .btn-outline-custom {
-            background: transparent;
-            border: 2px solid #2a2a4a;
-            border-radius: 12px;
-            color: #8892b0;
-            padding: 0.75rem 2rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-outline-custom:hover {
-            border-color: #ff6b9d;
             color: white;
-            background: rgba(255, 107, 157, 0.1);
+            border-radius: 12px;
+            padding: 12px 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .modal-dark {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content-dark {
+            background: linear-gradient(135deg, #2d1b69 0%, #11998e 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+
+        .form-control-dark {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+        }
+
+        .form-control-dark:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #667eea;
+            color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .form-control-dark::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         @media (max-width: 768px) {
-            .app-layout {
-                grid-template-columns: 1fr;
-                grid-template-areas: 
-                    "header"
-                    "main";
+            .sidebar {
+                transform: translateX(-100%);
+                width: 256px !important;
             }
             
-            .app-sidebar {
-                display: none;
+            .sidebar.mobile-open {
+                transform: translateX(0);
             }
-            
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .app-main {
-                padding: 1rem;
+
+
+        }
+
+        .main-content {
+            margin-left: 256px;
+            transition: margin-left 0.3s ease;
+        }
+
+
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0 !important;
             }
         }
 
-        .section {
-            display: none;
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
-        .section.active {
-            display: block;
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
     </style>
 </head>
-<body>
-    <div class="app-layout">
-        <!-- Header -->
-        <header class="app-header">
-            <div class="header-search">
-                <input type="text" class="search-input" placeholder="Tìm kiếm kỷ niệm, sự kiện...">
+<body class="text-white">
+    <!-- Sidebar -->
+    <div class="sidebar fixed left-0 top-0 h-full z-50" id="sidebar">
+        <div class="p-6">
+            <div class="flex items-center space-x-3 mb-8">
+                <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <i class="fas fa-heart text-white"></i>
+                </div>
+                <h1 class="text-xl font-bold logo-text">Love Dashboard</h1>
             </div>
-            <div class="header-actions">
-                <div class="action-btn" onclick="showNotifications()">
-                    <i class="fas fa-bell"></i>
+            
+            <nav class="space-y-2">
+                <a href="#" class="sidebar-item active flex items-center p-3 text-white" onclick="showSection('dashboard')">
+                    <i class="fas fa-home w-5 mr-3"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center p-3 text-white" onclick="showSection('calendar')">
+                    <i class="fas fa-calendar w-5 mr-3"></i>
+                    <span class="sidebar-text">Lịch Sự Kiện</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center p-3 text-white" onclick="showSection('memories')">
+                    <i class="fas fa-images w-5 mr-3"></i>
+                    <span class="sidebar-text">Kỷ Niệm</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center p-3 text-white" onclick="showSection('gallery')">
+                    <i class="fas fa-camera w-5 mr-3"></i>
+                    <span class="sidebar-text">Thư Viện Ảnh</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center p-3 text-white" onclick="showSection('timeline')">
+                    <i class="fas fa-clock w-5 mr-3"></i>
+                    <span class="sidebar-text">Timeline</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center p-3 text-white" onclick="showSection('analytics')">
+                    <i class="fas fa-chart-bar w-5 mr-3"></i>
+                    <span class="sidebar-text">Thống Kê</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Header -->
+        <header class="header-gradient p-4 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button class="md:hidden text-white" onclick="toggleSidebar()">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold hidden md:block" id="pageTitle">Dashboard</h2>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" placeholder="Tìm kiếm..." class="search-box px-4 py-2 text-white w-64">
+                    <i class="fas fa-search absolute right-3 top-3 text-gray-300"></i>
                 </div>
-                <div class="action-btn" onclick="showProfile()">
-                    <i class="fas fa-user"></i>
+                <button class="btn-gradient" onclick="showAddModal()">
+                    <i class="fas fa-plus mr-2"></i>Thêm Mới
+                </button>
+                
+                <!-- Notification Icon -->
+                <div class="relative">
+                    <button class="w-10 h-10 bg-white bg-opacity-10 rounded-full flex items-center justify-center hover:bg-opacity-20 transition-all" onclick="toggleNotifications()">
+                        <i class="fas fa-bell text-white"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
                 </div>
-                <div class="action-btn" onclick="showSettings()">
-                    <i class="fas fa-cog"></i>
+                
+                <!-- Settings Icon -->
+                <div class="relative">
+                    <button class="w-10 h-10 bg-white bg-opacity-10 rounded-full flex items-center justify-center hover:bg-opacity-20 transition-all" onclick="toggleSettings()">
+                        <i class="fas fa-cog text-white"></i>
+                    </button>
+                </div>
+                
+                <!-- User Icon -->
+                <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center cursor-pointer" onclick="toggleUserMenu()">
+                    <i class="fas fa-user text-white"></i>
                 </div>
             </div>
         </header>
 
-        <!-- Sidebar -->
-        <aside class="app-sidebar">
-            <div class="sidebar-brand">
-                <div class="brand-logo">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <h2 class="brand-title">Love Story</h2>
-                <p class="brand-subtitle">Nhật ký tình yêu</p>
+        <!-- Notifications Dropdown -->
+        <div id="notificationsDropdown" class="fixed top-16 right-4 w-80 widget-card p-4 z-50 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-semibold text-lg">Thông Báo</h3>
+                <button onclick="toggleNotifications()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-            
-            <nav>
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active" data-section="dashboard">
-                            <i class="fas fa-home nav-icon"></i>
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="calendar">
-                            <i class="fas fa-calendar nav-icon"></i>
-                            Lịch Sự Kiện
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="memories">
-                            <i class="fas fa-heart nav-icon"></i>
-                            Kỷ Niệm
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="gallery">
-                            <i class="fas fa-images nav-icon"></i>
-                            Thư Viện
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="timeline">
-                            <i class="fas fa-clock nav-icon"></i>
-                            Timeline
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-section="analytics">
-                            <i class="fas fa-chart-line nav-icon"></i>
-                            Thống Kê
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
+            <div class="space-y-3">
+                <div class="flex items-start space-x-3 p-3 bg-white bg-opacity-5 rounded-lg">
+                    <div class="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-heart text-white text-xs"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium">Kỷ niệm mới được thêm</p>
+                        <p class="text-xs text-gray-400">5 phút trước</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3 p-3 bg-white bg-opacity-5 rounded-lg">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-teal-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-calendar text-white text-xs"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium">Sự kiện sắp tới: Ngày Valentine</p>
+                        <p class="text-xs text-gray-400">1 giờ trước</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3 p-3 bg-white bg-opacity-5 rounded-lg">
+                    <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-yellow-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-camera text-white text-xs"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium">10 ảnh mới được tải lên</p>
+                        <p class="text-xs text-gray-400">2 giờ trước</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <!-- Main Content -->
-        <main class="app-main">
-            <!-- Dashboard Section -->
-            <div id="dashboard" class="section active">
-                <div class="dashboard-grid">
-                    <!-- Stats Widget -->
-                    <div class="widget-card">
-                        <div class="widget-header">
-                            <div class="widget-icon">
-                                <i class="fas fa-heart"></i>
-                            </div>
-                            <h3 class="widget-title">Thống Kê Tình Yêu</h3>
+        <!-- Settings Dropdown -->
+        <div id="settingsDropdown" class="fixed top-16 right-4 w-64 widget-card p-4 z-50 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-semibold text-lg">Cài Đặt</h3>
+                <button onclick="toggleSettings()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-2">
+                <button class="w-full text-left p-3 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all">
+                    <i class="fas fa-palette mr-3"></i>Giao diện
+                </button>
+                <button class="w-full text-left p-3 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all">
+                    <i class="fas fa-bell mr-3"></i>Thông báo
+                </button>
+                <button class="w-full text-left p-3 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all">
+                    <i class="fas fa-shield-alt mr-3"></i>Bảo mật
+                </button>
+                <button class="w-full text-left p-3 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all">
+                    <i class="fas fa-download mr-3"></i>Sao lưu dữ liệu
+                </button>
+                <hr class="border-gray-600 my-2">
+                <button class="w-full text-left p-3 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all text-red-400">
+                    <i class="fas fa-sign-out-alt mr-3"></i>Đăng xuất
+                </button>
+            </div>
+        </div>
+
+        <!-- User Menu Dropdown -->
+        <div id="userMenuDropdown" class="fixed top-16 right-4 w-48 widget-card p-4 z-50 hidden">
+            <div class="text-center mb-4">
+                <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <i class="fas fa-user text-white text-xl"></i>
+                </div>
+                <p class="font-semibold">Couple Name</p>
+                <p class="text-sm text-gray-400">couple@love.com</p>
+            </div>
+            <div class="space-y-2">
+                <button class="w-full text-left p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all">
+                    <i class="fas fa-user-edit mr-2"></i>Hồ sơ
+                </button>
+                <button class="w-full text-left p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all">
+                    <i class="fas fa-heart mr-2"></i>Tài khoản đôi
+                </button>
+                <hr class="border-gray-600 my-2">
+                <button class="w-full text-left p-2 hover:bg-white hover:bg-opacity-10 rounded-lg transition-all text-red-400">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" class="p-6">
+            <!-- Stats Widgets -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="widget-card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-300 text-sm">Tổng Sự Kiện</p>
+                            <p class="text-3xl font-bold text-white" id="totalEvents">24</p>
                         </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="stat-number" id="totalDays">365</div>
-                                <div class="stat-label">Ngày Yêu</div>
-                            </div>
-                            <div class="col-6">
-                                <div class="stat-number" id="totalEvents">12</div>
-                                <div class="stat-label">Sự Kiện</div>
-                            </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-calendar text-white"></i>
                         </div>
                     </div>
-
-                    <!-- Progress Widget -->
-                    <div class="widget-card">
-                        <div class="widget-header">
-                            <div class="widget-icon">
-                                <i class="fas fa-chart-pie"></i>
-                            </div>
-                            <h3 class="widget-title">Tiến Trình Năm</h3>
+                </div>
+                
+                <div class="widget-card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-300 text-sm">Ảnh Kỷ Niệm</p>
+                            <p class="text-3xl font-bold text-white" id="totalPhotos">156</p>
                         </div>
-                        <div class="text-center">
-                            <div class="progress-ring">
-                                <svg>
-                                    <defs>
-                                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" style="stop-color:#ff6b9d"/>
-                                            <stop offset="100%" style="stop-color:#c44569"/>
-                                        </linearGradient>
-                                    </defs>
-                                    <circle class="bg" cx="60" cy="60" r="45"/>
-                                    <circle class="progress" cx="60" cy="60" r="45"/>
-                                </svg>
-                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                    <div class="stat-number" style="font-size: 1.5rem;">75%</div>
-                                </div>
-                            </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-pink-500 to-red-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-images text-white"></i>
                         </div>
                     </div>
-
-                    <!-- Calendar Widget -->
-                    <div class="widget-card">
-                        <div class="widget-header">
-                            <div class="widget-icon">
-                                <i class="fas fa-calendar"></i>
-                            </div>
-                            <h3 class="widget-title">Lịch Nhanh</h3>
+                </div>
+                
+                <div class="widget-card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-300 text-sm">Ngày Bên Nhau</p>
+                            <p class="text-3xl font-bold text-white" id="daysTogether">365</p>
                         </div>
-                        <div class="calendar-widget">
-                            <div class="calendar-header">
-                                <button class="calendar-nav" onclick="prevMonth()">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <h5 id="calendarMonth" class="text-white mb-0"></h5>
-                                <button class="calendar-nav" onclick="nextMonth()">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                            </div>
-                            <div class="calendar-grid">
-                                <div class="text-center text-muted small py-1">CN</div>
-                                <div class="text-center text-muted small py-1">T2</div>
-                                <div class="text-center text-muted small py-1">T3</div>
-                                <div class="text-center text-muted small py-1">T4</div>
-                                <div class="text-center text-muted small py-1">T5</div>
-                                <div class="text-center text-muted small py-1">T6</div>
-                                <div class="text-center text-muted small py-1">T7</div>
-                            </div>
-                            <div class="calendar-grid" id="calendarDays"></div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-heart text-white"></i>
                         </div>
                     </div>
-
-                    <!-- Recent Events Widget -->
-                    <div class="widget-card">
-                        <div class="widget-header">
-                            <div class="widget-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <h3 class="widget-title">Sự Kiện Gần Đây</h3>
+                </div>
+                
+                <div class="widget-card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-300 text-sm">Mức Hạnh Phúc</p>
+                            <p class="text-3xl font-bold text-white">98%</p>
                         </div>
-                        <div class="event-list" id="recentEventsList">
-                            <!-- Events will be populated here -->
+                        <div class="happiness-meter w-12 h-12">
+                            <div class="happiness-inner">
+                                <i class="fas fa-smile text-yellow-400"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Calendar Section -->
-            <div id="calendar" class="section">
-                <h2 class="text-white mb-4">Lịch Sự Kiện</h2>
-                <div class="widget-card">
-                    <div class="calendar-widget">
-                        <div class="calendar-header mb-3">
-                            <button class="calendar-nav" onclick="prevMonth()">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <h4 id="fullCalendarMonth" class="text-white mb-0"></h4>
-                            <button class="calendar-nav" onclick="nextMonth()">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
+            <!-- Progress Rings -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="widget-card p-6 text-center">
+                    <h3 class="text-lg font-semibold mb-4">Mục Tiêu Năm</h3>
+                    <div class="relative w-32 h-32 mx-auto">
+                        <svg class="progress-ring w-32 h-32">
+                            <circle cx="64" cy="64" r="56" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="transparent"/>
+                            <circle cx="64" cy="64" r="56" stroke="url(#gradient1)" stroke-width="8" fill="transparent" 
+                                    stroke-dasharray="351.86" stroke-dashoffset="87.97" class="progress-ring-circle"/>
+                            <defs>
+                                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#667eea"/>
+                                    <stop offset="100%" style="stop-color:#764ba2"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-2xl font-bold">75%</span>
                         </div>
-                        <div class="calendar-grid mb-3">
-                            <div class="text-center text-muted py-2">Chủ Nhật</div>
-                            <div class="text-center text-muted py-2">Thứ Hai</div>
-                            <div class="text-center text-muted py-2">Thứ Ba</div>
-                            <div class="text-center text-muted py-2">Thứ Tư</div>
-                            <div class="text-center text-muted py-2">Thứ Năm</div>
-                            <div class="text-center text-muted py-2">Thứ Sáu</div>
-                            <div class="text-center text-muted py-2">Thứ Bảy</div>
-                        </div>
-                        <div class="calendar-grid" id="fullCalendarDays" style="grid-template-rows: repeat(6, 50px);"></div>
                     </div>
+                    <p class="text-gray-300 mt-2">Hoàn thành mục tiêu</p>
+                </div>
+                
+                <div class="widget-card p-6 text-center">
+                    <h3 class="text-lg font-semibold mb-4">Hoạt Động Tháng</h3>
+                    <div class="relative w-32 h-32 mx-auto">
+                        <svg class="progress-ring w-32 h-32">
+                            <circle cx="64" cy="64" r="56" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="transparent"/>
+                            <circle cx="64" cy="64" r="56" stroke="url(#gradient2)" stroke-width="8" fill="transparent" 
+                                    stroke-dasharray="351.86" stroke-dashoffset="105.56" class="progress-ring-circle"/>
+                            <defs>
+                                <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#f093fb"/>
+                                    <stop offset="100%" style="stop-color:#f5576c"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-2xl font-bold">70%</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mt-2">Hoạt động trong tháng</p>
+                </div>
+                
+                <div class="widget-card p-6 text-center">
+                    <h3 class="text-lg font-semibold mb-4">Kỷ Niệm Mới</h3>
+                    <div class="relative w-32 h-32 mx-auto">
+                        <svg class="progress-ring w-32 h-32">
+                            <circle cx="64" cy="64" r="56" stroke="rgba(255,255,255,0.1)" stroke-width="8" fill="transparent"/>
+                            <circle cx="64" cy="64" r="56" stroke="url(#gradient3)" stroke-width="8" fill="transparent" 
+                                    stroke-dasharray="351.86" stroke-dashoffset="70.37" class="progress-ring-circle"/>
+                            <defs>
+                                <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#4facfe"/>
+                                    <stop offset="100%" style="stop-color:#00f2fe"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-2xl font-bold">80%</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mt-2">Kỷ niệm được thêm</p>
                 </div>
             </div>
 
-            <!-- Memories Section -->
-            <div id="memories" class="section">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="text-white mb-0">Kỷ Niệm Đặc Biệt</h2>
-                    <button class="btn btn-primary-custom" onclick="showAddModal()">
-                        <i class="fas fa-plus me-2"></i>Thêm Kỷ Niệm
+            <!-- Recent Activities -->
+            <div class="widget-card p-6">
+                <h3 class="text-xl font-semibold mb-4">Hoạt Động Gần Đây</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4 p-3 bg-white bg-opacity-5 rounded-lg">
+                        <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-heart text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium">Thêm sự kiện mới: "Ngày kỷ niệm 1 năm"</p>
+                            <p class="text-gray-400 text-sm">2 giờ trước</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4 p-3 bg-white bg-opacity-5 rounded-lg">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-teal-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-camera text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium">Tải lên 5 ảnh mới vào thư viện</p>
+                            <p class="text-gray-400 text-sm">1 ngày trước</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4 p-3 bg-white bg-opacity-5 rounded-lg">
+                        <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-yellow-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-comment text-white text-sm"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium">Thêm bình luận cho ảnh "Chuyến đi Đà Lạt"</p>
+                            <p class="text-gray-400 text-sm">3 ngày trước</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Section -->
+        <div id="calendarSection" class="p-6" style="display: none;">
+            <div class="widget-card p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold">Lịch Sự Kiện</h3>
+                    <div class="flex space-x-2">
+                        <button class="btn-gradient" onclick="previousMonth()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn-gradient" onclick="nextMonth()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="text-center mb-6">
+                    <h4 class="text-xl font-semibold" id="calendarMonth"></h4>
+                </div>
+                
+                <div class="grid grid-cols-7 gap-2 mb-4">
+                    <div class="text-center font-semibold text-gray-300 py-2">CN</div>
+                    <div class="text-center font-semibold text-gray-300 py-2">T2</div>
+                    <div class="text-center font-semibold text-gray-300 py-2">T3</div>
+                    <div class="text-center font-semibold text-gray-300 py-2">T4</div>
+                    <div class="text-center font-semibold text-gray-300 py-2">T5</div>
+                    <div class="text-center font-semibold text-gray-300 py-2">T6</div>
+                    <div class="text-center font-semibold text-gray-300 py-2">T7</div>
+                </div>
+                
+                <div class="grid grid-cols-7 gap-2" id="calendarDays"></div>
+            </div>
+        </div>
+
+        <!-- Memories Section -->
+        <div id="memoriesSection" class="p-6" style="display: none;">
+            <div class="widget-card p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold">Quản Lý Kỷ Niệm</h3>
+                    <button class="btn-gradient" onclick="showAddMemoryModal()">
+                        <i class="fas fa-plus mr-2"></i>Thêm Kỷ Niệm
                     </button>
                 </div>
-                <div id="memoriesList">
-                    <!-- Memories will be populated here -->
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="memoriesList">
+                    <!-- Memories will be loaded here -->
                 </div>
             </div>
+        </div>
 
-            <!-- Gallery Section -->
-            <div id="gallery" class="section">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="text-white mb-0">Thư Viện Ảnh</h2>
-                    <button class="btn btn-primary-custom" onclick="uploadPhoto()">
-                        <i class="fas fa-upload me-2"></i>Tải Ảnh
+        <!-- Gallery Section -->
+        <div id="gallerySection" class="p-6" style="display: none;">
+            <div class="widget-card p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold">Thư Viện Ảnh</h3>
+                    <button class="btn-gradient" onclick="showAddPhotoModal()">
+                        <i class="fas fa-upload mr-2"></i>Tải Ảnh Lên
                     </button>
                 </div>
-                <div class="photo-gallery" id="photoGallery">
-                    <!-- Photos will be populated here -->
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="photoGallery">
+                    <!-- Photos will be loaded here -->
                 </div>
             </div>
+        </div>
 
-            <!-- Timeline Section -->
-            <div id="timeline" class="section">
-                <h2 class="text-white mb-4">Timeline Tình Yêu</h2>
-                <div id="timelineContainer">
-                    <!-- Timeline will be populated here -->
+        <!-- Timeline Section -->
+        <div id="timelineSection" class="p-6" style="display: none;">
+            <div class="widget-card p-6">
+                <h3 class="text-2xl font-bold mb-6">Timeline Kỷ Niệm</h3>
+                
+                <div class="space-y-6" id="timelineList">
+                    <!-- Timeline items will be loaded here -->
                 </div>
             </div>
+        </div>
 
-            <!-- Analytics Section -->
-            <div id="analytics" class="section">
-                <h2 class="text-white mb-4">Thống Kê & Phân Tích</h2>
-                <div class="dashboard-grid">
-                    <div class="widget-card">
-                        <div class="widget-header">
-                            <div class="widget-icon">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <h3 class="widget-title">Hoạt Động Theo Tháng</h3>
-                        </div>
-                        <div class="text-center">
-                            <canvas id="monthlyChart" width="300" height="200"></canvas>
-                        </div>
-                    </div>
-                    
-                    <div class="widget-card">
-                        <div class="widget-header">
-                            <div class="widget-icon">
-                                <i class="fas fa-heart"></i>
-                            </div>
-                            <h3 class="widget-title">Mức Độ Hạnh Phúc</h3>
-                        </div>
-                        <div class="text-center">
-                            <div class="stat-number">9.5</div>
-                            <div class="stat-label">/ 10 điểm</div>
-                            <div class="mt-3">
-                                <div style="background: #2a2a4a; height: 10px; border-radius: 5px; overflow: hidden;">
-                                    <div style="background: linear-gradient(90deg, #ff6b9d, #c44569); width: 95%; height: 100%; border-radius: 5px;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Analytics Section -->
+        <div id="analyticsSection" class="p-6" style="display: none;">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="widget-card p-6">
+                    <h3 class="text-xl font-semibold mb-4">Thống Kê Hoạt Động</h3>
+                    <canvas id="activityChart" width="400" height="200"></canvas>
                 </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Floating Add Button -->
-    <div class="floating-add" onclick="showAddModal()">
-        <i class="fas fa-plus"></i>
-    </div>
-
-    <!-- Add Event Modal -->
-    <div class="modal fade modal-dark" id="addEventModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title text-white">
-                        <i class="fas fa-heart me-2"></i>Thêm Kỷ Niệm Mới
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                
+                <div class="widget-card p-6">
+                    <h3 class="text-xl font-semibold mb-4">Phân Bố Sự Kiện</h3>
+                    <canvas id="eventChart" width="400" height="200"></canvas>
                 </div>
-                <div class="modal-body">
-                    <form id="eventForm">
-                        <div class="mb-3">
-                            <label class="form-label text-white">Tiêu đề</label>
-                            <input type="text" class="form-control form-dark" id="eventTitle" placeholder="Nhập tiêu đề kỷ niệm...">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-white">Ngày</label>
-                            <input type="date" class="form-control form-dark" id="eventDate">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-white">Mô tả</label>
-                            <textarea class="form-control form-dark" id="eventDescription" rows="3" placeholder="Mô tả chi tiết..."></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-white">Biểu tượng</label>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="❤️">❤️</button>
-                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="💕">💕</button>
-                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="🌹">🌹</button>
-                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="💍">💍</button>
-                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="🎂">🎂</button>
-                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="🎁">🎁</button>
-                            </div>
-                            <input type="hidden" id="selectedIcon" value="❤️">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-primary-custom" onclick="saveEvent()">
-                        <i class="fas fa-save me-2"></i>Lưu Kỷ Niệm
-                    </button>
+                
+                <div class="widget-card p-6 lg:col-span-2">
+                    <h3 class="text-xl font-semibold mb-4">Mức Độ Hạnh Phúc Theo Thời Gian</h3>
+                    <canvas id="happinessChart" width="800" height="300"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Application State
-        let currentDate = new Date();
-        let events = JSON.parse(localStorage.getItem('loveStoryEvents')) || [];
-        let photos = JSON.parse(localStorage.getItem('loveStoryPhotos')) || [];
+    <!-- Add Memory Modal -->
+    <div id="addMemoryModal" class="fixed inset-0 modal-dark z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="modal-content-dark p-6 w-full max-w-md">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">Thêm Kỷ Niệm Mới</h3>
+                    <button onclick="closeModal('addMemoryModal')" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="memoryForm">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Tiêu đề</label>
+                        <input type="text" id="memoryTitle" class="form-control-dark w-full p-3" placeholder="Nhập tiêu đề kỷ niệm">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Ngày</label>
+                        <input type="date" id="memoryDate" class="form-control-dark w-full p-3">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Mô tả</label>
+                        <textarea id="memoryDescription" class="form-control-dark w-full p-3 h-24" placeholder="Mô tả chi tiết về kỷ niệm"></textarea>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">Loại sự kiện</label>
+                        <select id="memoryType" class="form-control-dark w-full p-3">
+                            <option value="anniversary">Kỷ niệm</option>
+                            <option value="date">Hẹn hò</option>
+                            <option value="travel">Du lịch</option>
+                            <option value="special">Đặc biệt</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button type="button" onclick="closeModal('addMemoryModal')" class="flex-1 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
+                            Hủy
+                        </button>
+                        <button type="submit" class="flex-1 btn-gradient">
+                            Thêm Kỷ Niệm
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-        // Initialize sample data
-        if (events.length === 0) {
-            events = [
+    <script>
+        // Global variables
+        let currentDate = new Date();
+        let memories = JSON.parse(localStorage.getItem('memories')) || [];
+        let photos = JSON.parse(localStorage.getItem('photos')) || [];
+        
+        // Sample data if empty
+        if (memories.length === 0) {
+            memories = [
                 {
                     id: 1,
-                    title: 'Ngày đầu gặp nhau',
-                    date: '2024-01-15',
-                    description: 'Ngày đầu tiên chúng ta gặp nhau tại quán cà phê',
-                    icon: '❤️'
+                    title: "Ngày đầu gặp nhau",
+                    date: "2023-02-14",
+                    description: "Ngày đầu tiên chúng ta gặp nhau tại quán cà phê",
+                    type: "special"
                 },
                 {
                     id: 2,
-                    title: 'Lần đầu nắm tay',
-                    date: '2024-01-22',
-                    description: 'Cảm giác ấm áp khi lần đầu nắm tay nhau',
-                    icon: '💕'
-                },
-                {
-                    id: 3,
-                    title: 'Valentine đầu tiên',
-                    date: '2024-02-14',
-                    description: 'Ngày Valentine đầu tiên cùng nhau',
-                    icon: '🌹'
-                },
-                {
-                    id: 4,
-                    title: 'Kỷ niệm 100 ngày',
-                    date: '2024-04-25',
-                    description: '100 ngày yêu nhau',
-                    icon: '🎁'
+                    title: "Chuyến đi Đà Lạt",
+                    date: "2023-05-20",
+                    description: "Chuyến du lịch đầu tiên cùng nhau",
+                    type: "travel"
                 }
             ];
-            localStorage.setItem('loveStoryEvents', JSON.stringify(events));
-        }
-
-        if (photos.length === 0) {
-            photos = Array.from({length: 12}, (_, i) => ({
-                id: i + 1,
-                title: `Kỷ niệm ${i + 1}`,
-                likes: Math.floor(Math.random() * 20) + 1
-            }));
-            localStorage.setItem('loveStoryPhotos', JSON.stringify(photos));
+            localStorage.setItem('memories', JSON.stringify(memories));
         }
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
-            setupNavigation();
-            renderDashboard();
+            updateStats();
             renderCalendar();
             renderMemories();
             renderGallery();
             renderTimeline();
-            setupEventForm();
+            initCharts();
         });
 
-        // Navigation
-        function setupNavigation() {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const section = this.dataset.section;
-                    showSection(section);
-                    
-                    // Update active nav
-                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        }
-
+        // Navigation functions
         function showSection(sectionName) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
+            // Hide all sections
+            const sections = ['dashboard', 'calendar', 'memories', 'gallery', 'timeline', 'analytics'];
+            sections.forEach(section => {
+                document.getElementById(section + 'Section').style.display = 'none';
             });
-            document.getElementById(sectionName).classList.add('active');
+            
+            // Show selected section
+            document.getElementById(sectionName + 'Section').style.display = 'block';
+            
+            // Update active sidebar item
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.sidebar-item').classList.add('active');
+            
+            // Update page title
+            const titles = {
+                dashboard: 'Dashboard',
+                calendar: 'Lịch Sự Kiện',
+                memories: 'Quản Lý Kỷ Niệm',
+                gallery: 'Thư Viện Ảnh',
+                timeline: 'Timeline',
+                analytics: 'Thống Kê'
+            };
+            document.getElementById('pageTitle').textContent = titles[sectionName];
         }
 
-        // Dashboard
-        function renderDashboard() {
-            // Update stats
-            document.getElementById('totalEvents').textContent = events.length;
-            
-            const firstEventDate = new Date(Math.min(...events.map(e => new Date(e.date))));
-            const daysTogether = Math.floor((new Date() - firstEventDate) / (1000 * 60 * 60 * 24));
-            document.getElementById('totalDays').textContent = daysTogether;
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
 
-            // Render recent events
-            const recentEventsList = document.getElementById('recentEventsList');
-            const recentEvents = events.slice(-3).reverse();
+
+
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationsDropdown');
+            const settingsDropdown = document.getElementById('settingsDropdown');
+            const userDropdown = document.getElementById('userMenuDropdown');
             
-            recentEventsList.innerHTML = recentEvents.map(event => `
-                <div class="event-item">
-                    <div class="event-icon">${event.icon}</div>
-                    <div class="event-content">
-                        <h6>${event.title}</h6>
-                        <small>${new Date(event.date).toLocaleDateString('vi-VN')}</small>
+            // Close other dropdowns
+            settingsDropdown.classList.add('hidden');
+            userDropdown.classList.add('hidden');
+            
+            dropdown.classList.toggle('hidden');
+        }
+
+        function toggleSettings() {
+            const dropdown = document.getElementById('settingsDropdown');
+            const notificationsDropdown = document.getElementById('notificationsDropdown');
+            const userDropdown = document.getElementById('userMenuDropdown');
+            
+            // Close other dropdowns
+            notificationsDropdown.classList.add('hidden');
+            userDropdown.classList.add('hidden');
+            
+            dropdown.classList.toggle('hidden');
+        }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userMenuDropdown');
+            const notificationsDropdown = document.getElementById('notificationsDropdown');
+            const settingsDropdown = document.getElementById('settingsDropdown');
+            
+            // Close other dropdowns
+            notificationsDropdown.classList.add('hidden');
+            settingsDropdown.classList.add('hidden');
+            
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Modal functions
+        function showAddModal() {
+            document.getElementById('addMemoryModal').classList.remove('hidden');
+        }
+
+        function showAddMemoryModal() {
+            document.getElementById('addMemoryModal').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Memory management
+        function addMemory(event) {
+            event.preventDefault();
+            
+            const memory = {
+                id: Date.now(),
+                title: document.getElementById('memoryTitle').value,
+                date: document.getElementById('memoryDate').value,
+                description: document.getElementById('memoryDescription').value,
+                type: document.getElementById('memoryType').value
+            };
+            
+            memories.push(memory);
+            localStorage.setItem('memories', JSON.stringify(memories));
+            
+            renderMemories();
+            renderTimeline();
+            updateStats();
+            closeModal('addMemoryModal');
+            
+            // Reset form
+            document.getElementById('memoryForm').reset();
+        }
+
+        function deleteMemory(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa kỷ niệm này?')) {
+                memories = memories.filter(memory => memory.id !== id);
+                localStorage.setItem('memories', JSON.stringify(memories));
+                renderMemories();
+                renderTimeline();
+                updateStats();
+            }
+        }
+
+        function editMemory(id) {
+            const memory = memories.find(m => m.id === id);
+            if (memory) {
+                document.getElementById('memoryTitle').value = memory.title;
+                document.getElementById('memoryDate').value = memory.date;
+                document.getElementById('memoryDescription').value = memory.description;
+                document.getElementById('memoryType').value = memory.type;
+                
+                // Remove old memory and show modal
+                deleteMemory(id);
+                showAddMemoryModal();
+            }
+        }
+
+        // Render functions
+        function renderMemories() {
+            const memoriesList = document.getElementById('memoriesList');
+            memoriesList.innerHTML = '';
+            
+            memories.forEach(memory => {
+                const memoryCard = document.createElement('div');
+                memoryCard.className = 'widget-card p-4 animate-fade-in';
+                memoryCard.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="font-semibold text-lg">${memory.title}</h4>
+                        <div class="flex space-x-2">
+                            <button onclick="editMemory(${memory.id})" class="text-blue-400 hover:text-blue-300">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteMemory(${memory.id})" class="text-red-400 hover:text-red-300">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            `).join('');
-
-            renderCalendar();
+                    <p class="text-gray-300 text-sm mb-2">${formatDate(memory.date)}</p>
+                    <p class="text-gray-400 text-sm mb-3">${memory.description}</p>
+                    <span class="inline-block px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full text-xs">
+                        ${getTypeLabel(memory.type)}
+                    </span>
+                `;
+                memoriesList.appendChild(memoryCard);
+            });
         }
 
-        // Calendar
-        function renderCalendar() {
-            const calendarDays = document.getElementById('calendarDays');
-            const fullCalendarDays = document.getElementById('fullCalendarDays');
-            const calendarMonth = document.getElementById('calendarMonth');
-            const fullCalendarMonth = document.getElementById('fullCalendarMonth');
+        function renderGallery() {
+            const gallery = document.getElementById('photoGallery');
+            gallery.innerHTML = '';
             
+            // Sample photos
+            for (let i = 1; i <= 12; i++) {
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item cursor-pointer';
+                photoItem.innerHTML = `
+                    <img src="https://picsum.photos/300/300?random=${i}" alt="Ảnh ${i}" class="w-full h-48 object-cover">
+                `;
+                photoItem.onclick = () => openPhotoModal(i);
+                gallery.appendChild(photoItem);
+            }
+        }
+
+        function renderTimeline() {
+            const timeline = document.getElementById('timelineList');
+            timeline.innerHTML = '';
+            
+            const sortedMemories = [...memories].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedMemories.forEach(memory => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item animate-slide-in';
+                timelineItem.innerHTML = `
+                    <div class="widget-card p-4 ml-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-semibold text-lg">${memory.title}</h4>
+                                <p class="text-gray-300 text-sm">${formatDate(memory.date)}</p>
+                                <p class="text-gray-400 mt-2">${memory.description}</p>
+                            </div>
+                            <span class="inline-block px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full text-xs">
+                                ${getTypeLabel(memory.type)}
+                            </span>
+                        </div>
+                    </div>
+                `;
+                timeline.appendChild(timelineItem);
+            });
+        }
+
+        function renderCalendar() {
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
             
-            const monthName = new Intl.DateTimeFormat('vi-VN', { 
-                month: 'long', 
-                year: 'numeric' 
-            }).format(currentDate);
+            // Update month display
+            const monthNames = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+                              'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+            document.getElementById('calendarMonth').textContent = `${monthNames[month]} ${year}`;
             
-            if (calendarMonth) calendarMonth.textContent = monthName;
-            if (fullCalendarMonth) fullCalendarMonth.textContent = monthName;
+            // Get first day and number of days
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
             
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const startDate = new Date(firstDay);
-            startDate.setDate(startDate.getDate() - firstDay.getDay());
+            // Clear calendar
+            const calendarDays = document.getElementById('calendarDays');
+            calendarDays.innerHTML = '';
             
-            [calendarDays, fullCalendarDays].forEach(container => {
-                if (!container) return;
-                container.innerHTML = '';
+            // Add empty cells
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                calendarDays.appendChild(emptyDay);
+            }
+            
+            // Add days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day text-center py-3 cursor-pointer';
+                dayElement.textContent = day;
                 
-                for (let i = 0; i < 42; i++) {
-                    const currentDay = new Date(startDate);
-                    currentDay.setDate(startDate.getDate() + i);
-                    
-                    const dayElement = document.createElement('div');
-                    dayElement.className = 'calendar-day';
-                    dayElement.textContent = currentDay.getDate();
-                    
-                    // Check if it's today
-                    const today = new Date();
-                    if (currentDay.toDateString() === today.toDateString()) {
-                        dayElement.classList.add('today');
-                    }
-                    
-                    // Check if it's current month
-                    if (currentDay.getMonth() !== month) {
-                        dayElement.style.opacity = '0.3';
-                    }
-                    
-                    // Check for events
-                    const dateString = currentDay.toISOString().split('T')[0];
-                    const hasEvent = events.some(event => event.date === dateString);
-                    if (hasEvent) {
-                        dayElement.classList.add('has-event');
-                    }
-                    
-                    container.appendChild(dayElement);
+                // Check for events
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const hasEvent = memories.some(memory => memory.date === dateString);
+                
+                if (hasEvent) {
+                    dayElement.classList.add('has-event');
                 }
-            });
+                
+                calendarDays.appendChild(dayElement);
+            }
         }
 
-        function prevMonth() {
+        function previousMonth() {
             currentDate.setMonth(currentDate.getMonth() - 1);
             renderCalendar();
         }
@@ -1079,163 +1035,200 @@
             renderCalendar();
         }
 
-        // Memories
-        function renderMemories() {
-            const memoriesList = document.getElementById('memoriesList');
-            const sortedEvents = events.sort((a, b) => new Date(b.date) - new Date(a.date));
+        // Utility functions
+        function updateStats() {
+            document.getElementById('totalEvents').textContent = memories.length;
+            document.getElementById('totalPhotos').textContent = Math.floor(Math.random() * 200) + 100;
             
-            memoriesList.innerHTML = sortedEvents.map(event => `
-                <div class="widget-card mb-3">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="d-flex align-items-center flex-grow-1">
-                            <div class="widget-icon me-3">
-                                ${event.icon}
-                            </div>
-                            <div>
-                                <h5 class="text-white mb-1">${event.title}</h5>
-                                <p class="text-muted mb-1">${new Date(event.date).toLocaleDateString('vi-VN')}</p>
-                                <p class="text-white opacity-75 mb-0">${event.description}</p>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-outline-custom btn-sm" onclick="editEvent(${event.id})">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-outline-custom btn-sm" onclick="deleteEvent(${event.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+            // Calculate days together (from first memory)
+            if (memories.length > 0) {
+                const firstDate = new Date(Math.min(...memories.map(m => new Date(m.date))));
+                const today = new Date();
+                const daysTogether = Math.floor((today - firstDate) / (1000 * 60 * 60 * 24));
+                document.getElementById('daysTogether').textContent = daysTogether;
+            }
         }
 
-        // Gallery
-        function renderGallery() {
-            const photoGallery = document.getElementById('photoGallery');
-            
-            photoGallery.innerHTML = photos.map(photo => `
-                <div class="photo-item" onclick="viewPhoto(${photo.id})">
-                    📷
-                </div>
-            `).join('');
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
         }
 
-        // Timeline
-        function renderTimeline() {
-            const timeline = document.getElementById('timelineContainer');
-            const sortedEvents = events.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            timeline.innerHTML = sortedEvents.map(event => `
-                <div class="widget-card mb-3">
-                    <div class="d-flex align-items-center">
-                        <div class="widget-icon me-3">
-                            ${event.icon}
-                        </div>
-                        <div>
-                            <h5 class="text-white mb-1">${event.title}</h5>
-                            <p class="text-muted mb-1">${new Date(event.date).toLocaleDateString('vi-VN')}</p>
-                            <p class="text-white opacity-75 mb-0">${event.description}</p>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+        function getTypeLabel(type) {
+            const labels = {
+                anniversary: 'Kỷ niệm',
+                date: 'Hẹn hò',
+                travel: 'Du lịch',
+                special: 'Đặc biệt'
+            };
+            return labels[type] || type;
         }
 
-        // Event Management
-        function showAddModal() {
-            const modal = new bootstrap.Modal(document.getElementById('addEventModal'));
-            modal.show();
+        function openPhotoModal(index) {
+            // Implementation for photo modal
+            alert(`Mở ảnh ${index} - Tính năng sẽ được phát triển!`);
         }
 
-        function setupEventForm() {
-            document.querySelectorAll('.icon-select').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    document.querySelectorAll('.icon-select').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    document.getElementById('selectedIcon').value = this.dataset.icon;
-                });
+        function initCharts() {
+            // Activity Chart
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+                    datasets: [{
+                        label: 'Hoạt động',
+                        data: [12, 19, 3, 5, 2, 3, 9],
+                        borderColor: 'rgb(102, 126, 234)',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Event Chart
+            const eventCtx = document.getElementById('eventChart').getContext('2d');
+            new Chart(eventCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Kỷ niệm', 'Hẹn hò', 'Du lịch', 'Đặc biệt'],
+                    datasets: [{
+                        data: [30, 25, 20, 25],
+                        backgroundColor: [
+                            'rgb(102, 126, 234)',
+                            'rgb(240, 147, 251)',
+                            'rgb(79, 172, 254)',
+                            'rgb(245, 87, 108)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Happiness Chart
+            const happinessCtx = document.getElementById('happinessChart').getContext('2d');
+            new Chart(happinessCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+                    datasets: [{
+                        label: 'Mức độ hạnh phúc (%)',
+                        data: [85, 90, 78, 92, 88, 95, 87, 91, 89, 93, 86, 94],
+                        backgroundColor: 'rgba(240, 147, 251, 0.8)',
+                        borderColor: 'rgb(240, 147, 251)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
             });
         }
 
-        function saveEvent() {
-            const title = document.getElementById('eventTitle').value;
-            const date = document.getElementById('eventDate').value;
-            const description = document.getElementById('eventDescription').value;
-            const icon = document.getElementById('selectedIcon').value;
+        // Form submission
+        document.getElementById('memoryForm').addEventListener('submit', addMemory);
+
+        // Responsive sidebar
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                document.getElementById('sidebar').classList.remove('mobile-open');
+            }
+        });
+
+        // Close dropdowns and sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            const notificationsDropdown = document.getElementById('notificationsDropdown');
+            const settingsDropdown = document.getElementById('settingsDropdown');
+            const userDropdown = document.getElementById('userMenuDropdown');
+            const sidebar = document.getElementById('sidebar');
             
-            if (!title || !date || !description) {
-                alert('Vui lòng điền đầy đủ thông tin!');
-                return;
+            // Check if click is outside dropdowns and their trigger buttons
+            if (!event.target.closest('#notificationsDropdown') && 
+                !event.target.closest('button[onclick="toggleNotifications()"]')) {
+                notificationsDropdown.classList.add('hidden');
             }
             
-            const newEvent = {
-                id: Date.now(),
-                title,
-                date,
-                description,
-                icon
-            };
-            
-            events.push(newEvent);
-            localStorage.setItem('loveStoryEvents', JSON.stringify(events));
-            
-            // Refresh all sections
-            renderDashboard();
-            renderMemories();
-            renderTimeline();
-            
-            // Close modal and reset form
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
-            modal.hide();
-            document.getElementById('eventForm').reset();
-            document.getElementById('selectedIcon').value = '❤️';
-        }
-
-        function editEvent(eventId) {
-            const event = events.find(e => e.id === eventId);
-            if (event) {
-                document.getElementById('eventTitle').value = event.title;
-                document.getElementById('eventDate').value = event.date;
-                document.getElementById('eventDescription').value = event.description;
-                document.getElementById('selectedIcon').value = event.icon;
-                
-                events = events.filter(e => e.id !== eventId);
-                showAddModal();
+            if (!event.target.closest('#settingsDropdown') && 
+                !event.target.closest('button[onclick="toggleSettings()"]')) {
+                settingsDropdown.classList.add('hidden');
             }
-        }
-
-        function deleteEvent(eventId) {
-            if (confirm('Bạn có chắc muốn xóa kỷ niệm này?')) {
-                events = events.filter(e => e.id !== eventId);
-                localStorage.setItem('loveStoryEvents', JSON.stringify(events));
-                
-                renderDashboard();
-                renderMemories();
-                renderTimeline();
+            
+            if (!event.target.closest('#userMenuDropdown') && 
+                !event.target.closest('div[onclick="toggleUserMenu()"]')) {
+                userDropdown.classList.add('hidden');
             }
-        }
-
-        function viewPhoto(photoId) {
-            alert(`Xem ảnh ${photoId} - Chức năng sẽ được phát triển!`);
-        }
-
-        function uploadPhoto() {
-            alert('Chức năng tải ảnh lên sẽ được tích hợp!');
-        }
-
-        function showNotifications() {
-            alert('Thông báo - Chức năng sẽ được phát triển!');
-        }
-
-        function showProfile() {
-            alert('Hồ sơ - Chức năng sẽ được phát triển!');
-        }
-
-        function showSettings() {
-            alert('Cài đặt - Chức năng sẽ được phát triển!');
-        }
+            
+            // Close sidebar on mobile when clicking outside
+            if (window.innerWidth < 768 && 
+                !event.target.closest('#sidebar') && 
+                !event.target.closest('button[onclick="toggleSidebar()"]')) {
+                sidebar.classList.remove('mobile-open');
+            }
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9882ad9e33b4096a',t:'MTc1OTM5MjE1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98830745a44125e5',t:'MTc1OTM5NTgyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
