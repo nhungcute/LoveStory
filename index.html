@@ -6,716 +6,1070 @@
     <title>Love Story - Nhật Ký Tình Yêu</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             box-sizing: border-box;
-            font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #ffeef8 0%, #f3e7ff 50%, #e7f3ff 100%);
+            font-family: 'Inter', sans-serif;
+            background: #0f0f23;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .app-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: 70px 1fr;
+            grid-template-areas: 
+                "sidebar header"
+                "sidebar main";
             min-height: 100vh;
         }
 
-        .love-gradient {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        .app-header {
+            grid-area: header;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-bottom: 1px solid #2a2a4a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            backdrop-filter: blur(20px);
         }
 
-        .heart-beat {
-            animation: heartbeat 1.5s ease-in-out infinite;
+        .app-sidebar {
+            grid-area: sidebar;
+            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f23 100%);
+            border-right: 1px solid #2a2a4a;
+            padding: 2rem 0;
+            position: relative;
+            overflow-y: auto;
         }
 
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.1); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.1); }
-            70% { transform: scale(1); }
+        .app-main {
+            grid-area: main;
+            background: #0f0f23;
+            padding: 2rem;
+            overflow-y: auto;
+            position: relative;
         }
 
-        .sparkle {
-            animation: sparkle 2s linear infinite;
+        .sidebar-brand {
+            text-align: center;
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid #2a2a4a;
+            margin-bottom: 2rem;
         }
 
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
+        .brand-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+        }
+
+        .brand-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+        }
+
+        .brand-subtitle {
+            font-size: 0.8rem;
+            color: #8892b0;
+            margin: 0;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin: 0.5rem 1rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: #8892b0;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 157, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-link:hover::before {
+            left: 100%;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.2), rgba(196, 69, 105, 0.1));
+            border-left: 3px solid #ff6b9d;
+            transform: translateX(5px);
+        }
+
+        .nav-icon {
+            width: 20px;
+            margin-right: 1rem;
+            text-align: center;
+        }
+
+        .header-search {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #2a2a4a;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #ff6b9d;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #8892b0;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #2a2a4a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8892b0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 107, 157, 0.1);
+            border-color: #ff6b9d;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .widget-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 1px solid #2a2a4a;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .widget-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b9d, #c44569, #ff6b9d);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .widget-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: #ff6b9d;
+        }
+
+        .widget-header {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            margin-bottom: 1.5rem;
+        }
+
+        .widget-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+        }
+
+        .widget-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #8892b0;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .progress-ring svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 8;
+        }
+
+        .progress-ring .bg {
+            stroke: #2a2a4a;
+        }
+
+        .progress-ring .progress {
+            stroke: url(#gradient);
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            animation: progress 2s ease-out forwards;
+        }
+
+        @keyframes progress {
+            to {
+                stroke-dashoffset: 70;
+            }
+        }
+
+        .calendar-widget {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid #2a2a4a;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-nav {
+            background: none;
+            border: none;
+            color: #8892b0;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-nav:hover {
+            color: white;
+            background: rgba(255, 107, 157, 0.1);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
         }
 
         .calendar-day {
-            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
         }
 
         .calendar-day:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3);
-        }
-
-        .event-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-        }
-
-        .radial-menu {
-            position: fixed;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .radial-menu.docked-left {
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .radial-menu.docked-right {
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .radial-menu.docked-top {
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .radial-menu.docked-bottom {
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .photo-grid img {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .photo-grid img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        .love-shadow {
-            box-shadow: 0 8px 32px rgba(255, 154, 158, 0.3);
-        }
-
-        .nav-tab {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .nav-tab.active {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            background: rgba(255, 107, 157, 0.2);
             color: white;
         }
 
-        .nav-tab:hover:not(.active) {
-            background: rgba(255, 154, 158, 0.1);
+        .calendar-day.today {
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            color: white;
+            font-weight: 700;
+        }
+
+        .calendar-day.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 6px;
+            height: 6px;
+            background: #00d4aa;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .event-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border-left: 3px solid #ff6b9d;
+            transition: all 0.3s ease;
+        }
+
+        .event-item:hover {
+            background: rgba(255, 107, 157, 0.1);
+            transform: translateX(5px);
+        }
+
+        .event-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .event-content h6 {
+            margin: 0 0 0.25rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .event-content small {
+            color: #8892b0;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .photo-item {
+            aspect-ratio: 1;
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #00d4aa);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .photo-item:hover::before {
+            opacity: 1;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .floating-add {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .floating-add:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
+        }
+
+        .modal-dark .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 1px solid #2a2a4a;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .form-dark {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #2a2a4a;
+            border-radius: 12px;
+            color: white;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-dark:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #ff6b9d;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.2);
+            outline: none;
+            color: white;
+        }
+
+        .form-dark::placeholder {
+            color: #8892b0;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.3);
+        }
+
+        .btn-outline-custom {
+            background: transparent;
+            border: 2px solid #2a2a4a;
+            border-radius: 12px;
+            color: #8892b0;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-custom:hover {
+            border-color: #ff6b9d;
+            color: white;
+            background: rgba(255, 107, 157, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .app-layout {
+                grid-template-columns: 1fr;
+                grid-template-areas: 
+                    "header"
+                    "main";
+            }
+            
+            .app-sidebar {
+                display: none;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .app-main {
+                padding: 1rem;
+            }
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- Radial Menu -->
-    <div id="radialMenu" class="radial-menu docked-right">
-        <div class="bg-white rounded-full p-3 love-shadow cursor-move" id="menuHandle">
-            <i class="fas fa-heart text-pink-500 text-xl heart-beat"></i>
-        </div>
-        <div id="menuItems" class="mt-2 space-y-2 hidden">
-            <button class="btn btn-sm love-gradient text-white rounded-full p-2" onclick="showAddEventModal()">
-                <i class="fas fa-plus"></i>
-            </button>
-            <button class="btn btn-sm bg-red-400 text-white rounded-full p-2" onclick="deleteSelectedEvent()">
-                <i class="fas fa-trash"></i>
-            </button>
-            <button class="btn btn-sm bg-blue-400 text-white rounded-full p-2" onclick="updateMetadata()">
-                <i class="fas fa-sync"></i>
-            </button>
-            <button class="btn btn-sm bg-green-400 text-white rounded-full p-2" onclick="toggleAutoUpdate()">
-                <i class="fas fa-clock"></i>
-            </button>
-            <button class="btn btn-sm bg-purple-400 text-white rounded-full p-2" onclick="refreshData()">
-                <i class="fas fa-refresh"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- Status Indicator -->
-    <div id="statusIndicator" class="position-fixed bottom-0 start-0 m-3 px-3 py-2 rounded-full glass-effect text-sm" style="z-index: 999;">
-        <i class="fas fa-circle text-success me-1"></i>
-        <span id="statusText">Đã kết nối</span>
-    </div>
-
-    <!-- Main Container -->
-    <div class="container-fluid px-4 py-6">
+    <div class="app-layout">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-800 mb-2">
-                <i class="fas fa-heart text-pink-500 heart-beat mr-2"></i>
-                Love Story
-                <i class="fas fa-heart text-pink-500 heart-beat ml-2"></i>
-            </h1>
-            <p class="text-gray-600">Nhật ký tình yêu của chúng ta</p>
-        </div>
+        <header class="app-header">
+            <div class="header-search">
+                <input type="text" class="search-input" placeholder="Tìm kiếm kỷ niệm, sự kiện...">
+            </div>
+            <div class="header-actions">
+                <div class="action-btn" onclick="showNotifications()">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="action-btn" onclick="showProfile()">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="action-btn" onclick="showSettings()">
+                    <i class="fas fa-cog"></i>
+                </div>
+            </div>
+        </header>
 
-        <!-- Navigation Tabs -->
-        <div class="flex justify-center mb-6">
-            <div class="glass-effect rounded-full p-1">
-                <div class="flex space-x-1">
-                    <div class="nav-tab active px-6 py-3 rounded-full font-medium" onclick="showTab('calendar')">
-                        <i class="fas fa-calendar-heart mr-2"></i>Lịch Sự Kiện
+        <!-- Sidebar -->
+        <aside class="app-sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h2 class="brand-title">Love Story</h2>
+                <p class="brand-subtitle">Nhật ký tình yêu</p>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-section="dashboard">
+                            <i class="fas fa-home nav-icon"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="calendar">
+                            <i class="fas fa-calendar nav-icon"></i>
+                            Lịch Sự Kiện
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="memories">
+                            <i class="fas fa-heart nav-icon"></i>
+                            Kỷ Niệm
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="gallery">
+                            <i class="fas fa-images nav-icon"></i>
+                            Thư Viện
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="timeline">
+                            <i class="fas fa-clock nav-icon"></i>
+                            Timeline
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-section="analytics">
+                            <i class="fas fa-chart-line nav-icon"></i>
+                            Thống Kê
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="section active">
+                <div class="dashboard-grid">
+                    <!-- Stats Widget -->
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <div class="widget-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3 class="widget-title">Thống Kê Tình Yêu</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="stat-number" id="totalDays">365</div>
+                                <div class="stat-label">Ngày Yêu</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-number" id="totalEvents">12</div>
+                                <div class="stat-label">Sự Kiện</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="nav-tab px-6 py-3 rounded-full font-medium" onclick="showTab('moments')">
-                        <i class="fas fa-images mr-2"></i>Khoảnh Khắc
+
+                    <!-- Progress Widget -->
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <div class="widget-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <h3 class="widget-title">Tiến Trình Năm</h3>
+                        </div>
+                        <div class="text-center">
+                            <div class="progress-ring">
+                                <svg>
+                                    <defs>
+                                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#ff6b9d"/>
+                                            <stop offset="100%" style="stop-color:#c44569"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <circle class="bg" cx="60" cy="60" r="45"/>
+                                    <circle class="progress" cx="60" cy="60" r="45"/>
+                                </svg>
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                    <div class="stat-number" style="font-size: 1.5rem;">75%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Widget -->
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <div class="widget-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <h3 class="widget-title">Lịch Nhanh</h3>
+                        </div>
+                        <div class="calendar-widget">
+                            <div class="calendar-header">
+                                <button class="calendar-nav" onclick="prevMonth()">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <h5 id="calendarMonth" class="text-white mb-0"></h5>
+                                <button class="calendar-nav" onclick="nextMonth()">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="text-center text-muted small py-1">CN</div>
+                                <div class="text-center text-muted small py-1">T2</div>
+                                <div class="text-center text-muted small py-1">T3</div>
+                                <div class="text-center text-muted small py-1">T4</div>
+                                <div class="text-center text-muted small py-1">T5</div>
+                                <div class="text-center text-muted small py-1">T6</div>
+                                <div class="text-center text-muted small py-1">T7</div>
+                            </div>
+                            <div class="calendar-grid" id="calendarDays"></div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Events Widget -->
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <div class="widget-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h3 class="widget-title">Sự Kiện Gần Đây</h3>
+                        </div>
+                        <div class="event-list" id="recentEventsList">
+                            <!-- Events will be populated here -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Calendar Tab -->
-        <div id="calendarTab" class="tab-content">
-            <div class="row">
-                <!-- Calendar -->
-                <div class="col-lg-8">
-                    <div class="glass-effect rounded-3xl p-6 love-shadow">
-                        <div class="flex justify-between items-center mb-4">
-                            <button class="btn love-gradient text-white rounded-full" onclick="previousMonth()">
+            <!-- Calendar Section -->
+            <div id="calendar" class="section">
+                <h2 class="text-white mb-4">Lịch Sự Kiện</h2>
+                <div class="widget-card">
+                    <div class="calendar-widget">
+                        <div class="calendar-header mb-3">
+                            <button class="calendar-nav" onclick="prevMonth()">
                                 <i class="fas fa-chevron-left"></i>
                             </button>
-                            <h3 id="currentMonth" class="text-2xl font-semibold text-gray-800"></h3>
-                            <button class="btn love-gradient text-white rounded-full" onclick="nextMonth()">
+                            <h4 id="fullCalendarMonth" class="text-white mb-0"></h4>
+                            <button class="calendar-nav" onclick="nextMonth()">
                                 <i class="fas fa-chevron-right"></i>
                             </button>
                         </div>
-                        <div id="calendar" class="grid grid-cols-7 gap-2"></div>
-                    </div>
-                </div>
-
-                <!-- Events List -->
-                <div class="col-lg-4">
-                    <div class="glass-effect rounded-3xl p-6 love-shadow">
-                        <h4 class="text-xl font-semibold text-gray-800 mb-4">
-                            <i class="fas fa-list-heart mr-2 text-pink-500"></i>Sự Kiện
-                        </h4>
-                        <div id="eventsList" class="space-y-3 max-h-96 overflow-y-auto"></div>
+                        <div class="calendar-grid mb-3">
+                            <div class="text-center text-muted py-2">Chủ Nhật</div>
+                            <div class="text-center text-muted py-2">Thứ Hai</div>
+                            <div class="text-center text-muted py-2">Thứ Ba</div>
+                            <div class="text-center text-muted py-2">Thứ Tư</div>
+                            <div class="text-center text-muted py-2">Thứ Năm</div>
+                            <div class="text-center text-muted py-2">Thứ Sáu</div>
+                            <div class="text-center text-muted py-2">Thứ Bảy</div>
+                        </div>
+                        <div class="calendar-grid" id="fullCalendarDays" style="grid-template-rows: repeat(6, 50px);"></div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Moments Tab -->
-        <div id="momentsTab" class="tab-content hidden">
-            <div class="glass-effect rounded-3xl p-6 love-shadow">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-2xl font-semibold text-gray-800">
-                        <i class="fas fa-camera-retro mr-2 text-pink-500"></i>Khoảnh Khắc Đẹp
-                    </h3>
-                    <button class="btn love-gradient text-white rounded-full px-4 py-2" onclick="uploadPhoto()">
-                        <i class="fas fa-plus mr-2"></i>Thêm Ảnh
+            <!-- Memories Section -->
+            <div id="memories" class="section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="text-white mb-0">Kỷ Niệm Đặc Biệt</h2>
+                    <button class="btn btn-primary-custom" onclick="showAddModal()">
+                        <i class="fas fa-plus me-2"></i>Thêm Kỷ Niệm
                     </button>
                 </div>
-                
-                <div id="photoGrid" class="photo-grid row g-3"></div>
-                
-                <!-- Pagination -->
-                <div class="d-flex justify-content-center mt-6">
-                    <nav>
-                        <ul id="pagination" class="pagination"></ul>
-                    </nav>
+                <div id="memoriesList">
+                    <!-- Memories will be populated here -->
                 </div>
             </div>
-        </div>
+
+            <!-- Gallery Section -->
+            <div id="gallery" class="section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="text-white mb-0">Thư Viện Ảnh</h2>
+                    <button class="btn btn-primary-custom" onclick="uploadPhoto()">
+                        <i class="fas fa-upload me-2"></i>Tải Ảnh
+                    </button>
+                </div>
+                <div class="photo-gallery" id="photoGallery">
+                    <!-- Photos will be populated here -->
+                </div>
+            </div>
+
+            <!-- Timeline Section -->
+            <div id="timeline" class="section">
+                <h2 class="text-white mb-4">Timeline Tình Yêu</h2>
+                <div id="timelineContainer">
+                    <!-- Timeline will be populated here -->
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div id="analytics" class="section">
+                <h2 class="text-white mb-4">Thống Kê & Phân Tích</h2>
+                <div class="dashboard-grid">
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <div class="widget-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h3 class="widget-title">Hoạt Động Theo Tháng</h3>
+                        </div>
+                        <div class="text-center">
+                            <canvas id="monthlyChart" width="300" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <div class="widget-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3 class="widget-title">Mức Độ Hạnh Phúc</h3>
+                        </div>
+                        <div class="text-center">
+                            <div class="stat-number">9.5</div>
+                            <div class="stat-label">/ 10 điểm</div>
+                            <div class="mt-3">
+                                <div style="background: #2a2a4a; height: 10px; border-radius: 5px; overflow: hidden;">
+                                    <div style="background: linear-gradient(90deg, #ff6b9d, #c44569); width: 95%; height: 100%; border-radius: 5px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Add Button -->
+    <div class="floating-add" onclick="showAddModal()">
+        <i class="fas fa-plus"></i>
     </div>
 
     <!-- Add Event Modal -->
-    <div class="modal fade" id="addEventModal" tabindex="-1">
+    <div class="modal fade modal-dark" id="addEventModal" tabindex="-1">
         <div class="modal-dialog">
-            <div class="modal-content glass-effect border-0">
-                <div class="modal-header love-gradient text-white">
-                    <h5 class="modal-title">
-                        <i class="fas fa-heart mr-2"></i>Thêm Sự Kiện Mới
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-white">
+                        <i class="fas fa-heart me-2"></i>Thêm Kỷ Niệm Mới
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="eventForm">
                         <div class="mb-3">
-                            <label class="form-label">Ngày</label>
-                            <input type="date" class="form-control" id="eventDate" required>
+                            <label class="form-label text-white">Tiêu đề</label>
+                            <input type="text" class="form-control form-dark" id="eventTitle" placeholder="Nhập tiêu đề kỷ niệm...">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Nội dung</label>
-                            <textarea class="form-control" id="eventContent" rows="3" required></textarea>
+                            <label class="form-label text-white">Ngày</label>
+                            <input type="date" class="form-control form-dark" id="eventDate">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Màu sắc</label>
-                            <div class="d-flex gap-2">
-                                <input type="color" class="form-control form-control-color" id="eventColor" value="#ff9a9e">
-                            </div>
+                            <label class="form-label text-white">Mô tả</label>
+                            <textarea class="form-control form-dark" id="eventDescription" rows="3" placeholder="Mô tả chi tiết..."></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Biểu tượng</label>
+                            <label class="form-label text-white">Biểu tượng</label>
                             <div class="d-flex gap-2 flex-wrap">
-                                <button type="button" class="btn btn-outline-secondary icon-btn" data-icon="heart">
-                                    <i class="fas fa-heart"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary icon-btn" data-icon="gift">
-                                    <i class="fas fa-gift"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary icon-btn" data-icon="birthday-cake">
-                                    <i class="fas fa-birthday-cake"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary icon-btn" data-icon="ring">
-                                    <i class="fas fa-ring"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary icon-btn" data-icon="plane">
-                                    <i class="fas fa-plane"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary icon-btn" data-icon="star">
-                                    <i class="fas fa-star"></i>
-                                </button>
+                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="❤️">❤️</button>
+                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="💕">💕</button>
+                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="🌹">🌹</button>
+                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="💍">💍</button>
+                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="🎂">🎂</button>
+                                <button type="button" class="btn btn-outline-custom icon-select" data-icon="🎁">🎁</button>
                             </div>
-                            <input type="hidden" id="selectedIcon" value="heart">
+                            <input type="hidden" id="selectedIcon" value="❤️">
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn love-gradient text-white" onclick="addEvent()">
-                        <i class="fas fa-save mr-2"></i>Lưu Sự Kiện
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary-custom" onclick="saveEvent()">
+                        <i class="fas fa-save me-2"></i>Lưu Kỷ Niệm
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Photo Modal -->
-    <div class="modal fade" id="photoModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content glass-effect border-0">
-                <div class="modal-header">
-                    <h5 class="modal-title">Khoảnh Khắc</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <img id="modalPhoto" class="img-fluid rounded-3" style="max-height: 500px;">
-                    <div class="mt-4">
-                        <div class="d-flex justify-content-center align-items-center gap-4 mb-3">
-                            <button class="btn love-gradient text-white rounded-full" onclick="likePhoto()">
-                                <i id="likeIcon" class="fas fa-heart"></i>
-                                <span id="likeCount">0</span>
-                            </button>
-                            <button class="btn btn-outline-secondary rounded-full" onclick="previousPhoto()">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <button class="btn btn-outline-secondary rounded-full" onclick="nextPhoto()">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                        </div>
-                        
-                        <!-- Comments Section -->
-                        <div class="text-start">
-                            <h6>Bình luận</h6>
-                            <div id="commentsList" class="mb-3 max-h-32 overflow-y-auto"></div>
-                            <div class="input-group">
-                                <input type="text" id="commentInput" class="form-control" placeholder="Thêm bình luận...">
-                                <button class="btn love-gradient text-white" onclick="addComment()">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
         // Application State
         let currentDate = new Date();
-        let events = [];
-        let photos = [];
-        let comments = {};
-        let currentPhotoIndex = 0;
-        let currentPage = 1;
-        const photosPerPage = 12;
-        let autoUpdateEnabled = false;
-        let selectedEventId = null;
-        let isLoading = false;
+        let events = JSON.parse(localStorage.getItem('loveStoryEvents')) || [];
+        let photos = JSON.parse(localStorage.getItem('loveStoryPhotos')) || [];
 
-        // API Configuration
-        const API_BASE_URL = 'https://your-serverless-functions.vercel.app/api'; // Replace with your actual serverless function URL
-        
-        // GitHub repository configuration (for reference)
-        const GITHUB_CONFIG = {
-            owner: 'your-username',
-            repo: 'love-story-data',
-            branch: 'main'
-        };
-
-        // API Functions for GitHub Backend
-        async function apiCall(endpoint, method = 'GET', data = null) {
-            try {
-                const options = {
-                    method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                };
-                
-                if (data) {
-                    options.body = JSON.stringify(data);
+        // Initialize sample data
+        if (events.length === 0) {
+            events = [
+                {
+                    id: 1,
+                    title: 'Ngày đầu gặp nhau',
+                    date: '2024-01-15',
+                    description: 'Ngày đầu tiên chúng ta gặp nhau tại quán cà phê',
+                    icon: '❤️'
+                },
+                {
+                    id: 2,
+                    title: 'Lần đầu nắm tay',
+                    date: '2024-01-22',
+                    description: 'Cảm giác ấm áp khi lần đầu nắm tay nhau',
+                    icon: '💕'
+                },
+                {
+                    id: 3,
+                    title: 'Valentine đầu tiên',
+                    date: '2024-02-14',
+                    description: 'Ngày Valentine đầu tiên cùng nhau',
+                    icon: '🌹'
+                },
+                {
+                    id: 4,
+                    title: 'Kỷ niệm 100 ngày',
+                    date: '2024-04-25',
+                    description: '100 ngày yêu nhau',
+                    icon: '🎁'
                 }
-                
-                const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
-                
-                if (!response.ok) {
-                    throw new Error(`API Error: ${response.status} ${response.statusText}`);
-                }
-                
-                return await response.json();
-            } catch (error) {
-                console.error('API Call Error:', error);
-                // Fallback to localStorage for demo purposes
-                return handleOfflineMode(endpoint, method, data);
-            }
+            ];
+            localStorage.setItem('loveStoryEvents', JSON.stringify(events));
         }
 
-        // Offline mode fallback using localStorage
-        function handleOfflineMode(endpoint, method, data) {
-            const storageKey = `loveStory${endpoint.replace('/', '')}`;
-            
-            if (method === 'GET') {
-                const stored = localStorage.getItem(storageKey);
-                return stored ? JSON.parse(stored) : getDefaultData(endpoint);
-            } else if (method === 'POST' || method === 'PUT') {
-                localStorage.setItem(storageKey, JSON.stringify(data));
-                return { success: true, data };
-            }
-        }
-
-        function getDefaultData(endpoint) {
-            switch (endpoint) {
-                case '/events':
-                    return [];
-                case '/photos':
-                    return generateSamplePhotos();
-                case '/comments':
-                    return {};
-                default:
-                    return [];
-            }
-        }
-
-        // Sample photos generator (fallback)
-        function generateSamplePhotos() {
-            const samplePhotos = [];
-            for (let i = 1; i <= 24; i++) {
-                samplePhotos.push({
-                    id: i,
-                    url: `https://picsum.photos/400/300?random=${i}`,
-                    likes: Math.floor(Math.random() * 50),
-                    linkedEvents: [],
-                    date: new Date(2024, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1),
-                    metadata: {
-                        name: `photo_${i}.jpg`,
-                        size: Math.floor(Math.random() * 1000000) + 500000,
-                        driveId: `drive_id_${i}`
-                    }
-                });
-            }
-            return samplePhotos;
-        }
-
-        // Data Loading Functions
-        async function loadAllData() {
-            if (isLoading) return;
-            isLoading = true;
-            
-            showLoadingIndicator();
-            
-            try {
-                // Load data in parallel
-                const [eventsData, photosData, commentsData] = await Promise.all([
-                    apiCall('/events'),
-                    apiCall('/photos'),
-                    apiCall('/comments')
-                ]);
-                
-                events = eventsData || [];
-                photos = photosData || generateSamplePhotos();
-                comments = commentsData || {};
-                
-                // Update UI
-                renderCalendar();
-                renderEvents();
-                renderPhotos();
-                
-                logAction('Đã tải dữ liệu từ GitHub repository');
-            } catch (error) {
-                console.error('Error loading data:', error);
-                showErrorMessage('Không thể tải dữ liệu. Đang sử dụng chế độ offline.');
-            } finally {
-                isLoading = false;
-                hideLoadingIndicator();
-            }
-        }
-
-        async function saveEvents() {
-            try {
-                await apiCall('/events', 'PUT', events);
-                logAction('Đã lưu sự kiện lên GitHub');
-            } catch (error) {
-                console.error('Error saving events:', error);
-                showErrorMessage('Không thể lưu sự kiện. Dữ liệu được lưu cục bộ.');
-            }
-        }
-
-        async function saveComments() {
-            try {
-                await apiCall('/comments', 'PUT', comments);
-                logAction('Đã lưu bình luận lên GitHub');
-            } catch (error) {
-                console.error('Error saving comments:', error);
-                showErrorMessage('Không thể lưu bình luận. Dữ liệu được lưu cục bộ.');
-            }
-        }
-
-        async function updatePhotosMetadata() {
-            try {
-                showLoadingIndicator('Đang cập nhật metadata từ Google Drive...');
-                
-                const updatedPhotos = await apiCall('/photos/update-metadata', 'POST');
-                photos = updatedPhotos || photos;
-                
-                renderPhotos();
-                logAction('Đã cập nhật metadata ảnh từ Google Drive');
-                showSuccessMessage('Đã cập nhật metadata thành công!');
-            } catch (error) {
-                console.error('Error updating metadata:', error);
-                showErrorMessage('Không thể cập nhật metadata từ Google Drive.');
-            } finally {
-                hideLoadingIndicator();
-            }
-        }
-
-        // UI Helper Functions
-        function showLoadingIndicator(message = 'Đang tải...') {
-            const existingLoader = document.getElementById('loadingIndicator');
-            if (existingLoader) existingLoader.remove();
-            
-            const loader = document.createElement('div');
-            loader.id = 'loadingIndicator';
-            loader.className = 'position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center';
-            loader.style.backgroundColor = 'rgba(0,0,0,0.5)';
-            loader.style.zIndex = '9999';
-            
-            loader.innerHTML = `
-                <div class="glass-effect rounded-3xl p-6 text-center">
-                    <div class="spinner-border text-pink-500 mb-3" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="text-gray-800 font-medium">${message}</div>
-                </div>
-            `;
-            
-            document.body.appendChild(loader);
-        }
-
-        function hideLoadingIndicator() {
-            const loader = document.getElementById('loadingIndicator');
-            if (loader) loader.remove();
-        }
-
-        function showSuccessMessage(message) {
-            showToast(message, 'success');
-        }
-
-        function showErrorMessage(message) {
-            showToast(message, 'error');
-        }
-
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.className = `position-fixed top-0 end-0 m-4 p-4 rounded-3 text-white ${type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-info'}`;
-            toast.style.zIndex = '9999';
-            toast.style.minWidth = '300px';
-            
-            toast.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
-                    <span>${message}</span>
-                    <button class="btn-close btn-close-white ms-auto" onclick="this.parentElement.parentElement.remove()"></button>
-                </div>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                if (toast.parentElement) {
-                    toast.remove();
-                }
-            }, 5000);
+        if (photos.length === 0) {
+            photos = Array.from({length: 12}, (_, i) => ({
+                id: i + 1,
+                title: `Kỷ niệm ${i + 1}`,
+                likes: Math.floor(Math.random() * 20) + 1
+            }));
+            localStorage.setItem('loveStoryPhotos', JSON.stringify(photos));
         }
 
         // Initialize app
-        document.addEventListener('DOMContentLoaded', async function() {
-            initializeRadialMenu();
-            
-            // Load data from GitHub/API
-            await loadAllData();
-            
-            setupAutoUpdate();
-            
-            // Icon selection
-            document.querySelectorAll('.icon-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('btn-primary'));
-                    this.classList.add('btn-primary');
-                    document.getElementById('selectedIcon').value = this.dataset.icon;
-                });
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            setupNavigation();
+            renderDashboard();
+            renderCalendar();
+            renderMemories();
+            renderGallery();
+            renderTimeline();
+            setupEventForm();
         });
 
-        // Radial Menu Functions
-        function initializeRadialMenu() {
-            const menu = document.getElementById('radialMenu');
-            const handle = document.getElementById('menuHandle');
-            const items = document.getElementById('menuItems');
-            let isDragging = false;
-            let startX, startY;
-
-            handle.addEventListener('mousedown', function(e) {
-                isDragging = true;
-                startX = e.clientX - menu.offsetLeft;
-                startY = e.clientY - menu.offsetTop;
-                document.addEventListener('mousemove', drag);
-                document.addEventListener('mouseup', stopDrag);
+        // Navigation
+        function setupNavigation() {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.dataset.section;
+                    showSection(section);
+                    
+                    // Update active nav
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
-
-            handle.addEventListener('click', function() {
-                if (!isDragging) {
-                    items.classList.toggle('hidden');
-                }
-            });
-
-            function drag(e) {
-                if (!isDragging) return;
-                
-                let newX = e.clientX - startX;
-                let newY = e.clientY - startY;
-                
-                // Snap to edges
-                const threshold = 50;
-                const windowWidth = window.innerWidth;
-                const windowHeight = window.innerHeight;
-                
-                menu.classList.remove('docked-left', 'docked-right', 'docked-top', 'docked-bottom');
-                
-                if (newX < threshold) {
-                    menu.classList.add('docked-left');
-                } else if (newX > windowWidth - threshold) {
-                    menu.classList.add('docked-right');
-                } else if (newY < threshold) {
-                    menu.classList.add('docked-top');
-                } else if (newY > windowHeight - threshold) {
-                    menu.classList.add('docked-bottom');
-                } else {
-                    menu.style.left = newX + 'px';
-                    menu.style.top = newY + 'px';
-                    menu.style.transform = 'none';
-                }
-            }
-
-            function stopDrag() {
-                isDragging = false;
-                document.removeEventListener('mousemove', drag);
-                document.removeEventListener('mouseup', stopDrag);
-            }
         }
 
-        // Calendar Functions
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionName).classList.add('active');
+        }
+
+        // Dashboard
+        function renderDashboard() {
+            // Update stats
+            document.getElementById('totalEvents').textContent = events.length;
+            
+            const firstEventDate = new Date(Math.min(...events.map(e => new Date(e.date))));
+            const daysTogether = Math.floor((new Date() - firstEventDate) / (1000 * 60 * 60 * 24));
+            document.getElementById('totalDays').textContent = daysTogether;
+
+            // Render recent events
+            const recentEventsList = document.getElementById('recentEventsList');
+            const recentEvents = events.slice(-3).reverse();
+            
+            recentEventsList.innerHTML = recentEvents.map(event => `
+                <div class="event-item">
+                    <div class="event-icon">${event.icon}</div>
+                    <div class="event-content">
+                        <h6>${event.title}</h6>
+                        <small>${new Date(event.date).toLocaleDateString('vi-VN')}</small>
+                    </div>
+                </div>
+            `).join('');
+
+            renderCalendar();
+        }
+
+        // Calendar
         function renderCalendar() {
-            const calendar = document.getElementById('calendar');
-            const monthElement = document.getElementById('currentMonth');
+            const calendarDays = document.getElementById('calendarDays');
+            const fullCalendarDays = document.getElementById('fullCalendarDays');
+            const calendarMonth = document.getElementById('calendarMonth');
+            const fullCalendarMonth = document.getElementById('fullCalendarMonth');
             
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
             
-            monthElement.textContent = `Tháng ${month + 1}, ${year}`;
+            const monthName = new Intl.DateTimeFormat('vi-VN', { 
+                month: 'long', 
+                year: 'numeric' 
+            }).format(currentDate);
+            
+            if (calendarMonth) calendarMonth.textContent = monthName;
+            if (fullCalendarMonth) fullCalendarMonth.textContent = monthName;
             
             const firstDay = new Date(year, month, 1);
             const lastDay = new Date(year, month + 1, 0);
             const startDate = new Date(firstDay);
             startDate.setDate(startDate.getDate() - firstDay.getDay());
             
-            calendar.innerHTML = '';
-            
-            // Day headers
-            const dayHeaders = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
-            dayHeaders.forEach(day => {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'text-center font-semibold text-gray-600 py-2';
-                dayHeader.textContent = day;
-                calendar.appendChild(dayHeader);
+            [calendarDays, fullCalendarDays].forEach(container => {
+                if (!container) return;
+                container.innerHTML = '';
+                
+                for (let i = 0; i < 42; i++) {
+                    const currentDay = new Date(startDate);
+                    currentDay.setDate(startDate.getDate() + i);
+                    
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'calendar-day';
+                    dayElement.textContent = currentDay.getDate();
+                    
+                    // Check if it's today
+                    const today = new Date();
+                    if (currentDay.toDateString() === today.toDateString()) {
+                        dayElement.classList.add('today');
+                    }
+                    
+                    // Check if it's current month
+                    if (currentDay.getMonth() !== month) {
+                        dayElement.style.opacity = '0.3';
+                    }
+                    
+                    // Check for events
+                    const dateString = currentDay.toISOString().split('T')[0];
+                    const hasEvent = events.some(event => event.date === dateString);
+                    if (hasEvent) {
+                        dayElement.classList.add('has-event');
+                    }
+                    
+                    container.appendChild(dayElement);
+                }
             });
-            
-            // Calendar days
-            for (let i = 0; i < 42; i++) {
-                const date = new Date(startDate);
-                date.setDate(startDate.getDate() + i);
-                
-                const dayElement = document.createElement('div');
-                dayElement.className = 'calendar-day relative bg-white rounded-lg p-3 text-center border-2 border-transparent';
-                
-                if (date.getMonth() !== month) {
-                    dayElement.classList.add('text-gray-300');
-                } else {
-                    dayElement.classList.add('text-gray-800');
-                }
-                
-                if (date.toDateString() === new Date().toDateString()) {
-                    dayElement.classList.add('love-gradient', 'text-white', 'font-bold');
-                }
-                
-                if (date.getDay() === 0 || date.getDay() === 6) {
-                    dayElement.classList.add('bg-pink-50');
-                }
-                
-                dayElement.textContent = date.getDate();
-                
-                // Check for events
-                const dayEvents = events.filter(event => {
-                    const eventDate = new Date(event.date);
-                    return eventDate.toDateString() === date.toDateString();
-                });
-                
-                if (dayEvents.length > 0) {
-                    const dot = document.createElement('div');
-                    dot.className = 'event-dot';
-                    dot.style.backgroundColor = dayEvents[0].color;
-                    dayElement.appendChild(dot);
-                }
-                
-                dayElement.addEventListener('click', () => selectDate(date));
-                calendar.appendChild(dayElement);
-            }
         }
 
-        function previousMonth() {
+        function prevMonth() {
             currentDate.setMonth(currentDate.getMonth() - 1);
             renderCalendar();
         }
@@ -725,492 +1079,163 @@
             renderCalendar();
         }
 
-        function selectDate(date) {
-            document.getElementById('eventDate').value = date.toISOString().split('T')[0];
-            showAddEventModal();
-        }
-
-        // Event Functions
-        function renderEvents() {
-            const eventsList = document.getElementById('eventsList');
-            eventsList.innerHTML = '';
-            
+        // Memories
+        function renderMemories() {
+            const memoriesList = document.getElementById('memoriesList');
             const sortedEvents = events.sort((a, b) => new Date(b.date) - new Date(a.date));
             
-            sortedEvents.forEach(event => {
-                const eventElement = document.createElement('div');
-                eventElement.className = `bg-white rounded-lg p-3 border-l-4 cursor-pointer transition-all hover:shadow-lg ${selectedEventId === event.id ? 'ring-2 ring-pink-300' : ''}`;
-                eventElement.style.borderLeftColor = event.color;
-                
-                eventElement.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <i class="fas fa-${event.icon} text-lg mr-2" style="color: ${event.color}"></i>
+            memoriesList.innerHTML = sortedEvents.map(event => `
+                <div class="widget-card mb-3">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <div class="widget-icon me-3">
+                                ${event.icon}
+                            </div>
                             <div>
-                                <div class="font-semibold text-gray-800">${event.content}</div>
-                                <div class="text-sm text-gray-500">${new Date(event.date).toLocaleDateString('vi-VN')}</div>
+                                <h5 class="text-white mb-1">${event.title}</h5>
+                                <p class="text-muted mb-1">${new Date(event.date).toLocaleDateString('vi-VN')}</p>
+                                <p class="text-white opacity-75 mb-0">${event.description}</p>
                             </div>
                         </div>
-                        <button class="btn btn-sm btn-outline-danger" onclick="selectEventForDeletion('${event.id}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-custom btn-sm" onclick="editEvent(${event.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-outline-custom btn-sm" onclick="deleteEvent(${event.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
-                `;
-                
-                eventElement.addEventListener('click', () => selectEvent(event.id));
-                eventsList.appendChild(eventElement);
-            });
+                </div>
+            `).join('');
         }
 
-        function showAddEventModal() {
+        // Gallery
+        function renderGallery() {
+            const photoGallery = document.getElementById('photoGallery');
+            
+            photoGallery.innerHTML = photos.map(photo => `
+                <div class="photo-item" onclick="viewPhoto(${photo.id})">
+                    📷
+                </div>
+            `).join('');
+        }
+
+        // Timeline
+        function renderTimeline() {
+            const timeline = document.getElementById('timelineContainer');
+            const sortedEvents = events.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            timeline.innerHTML = sortedEvents.map(event => `
+                <div class="widget-card mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="widget-icon me-3">
+                            ${event.icon}
+                        </div>
+                        <div>
+                            <h5 class="text-white mb-1">${event.title}</h5>
+                            <p class="text-muted mb-1">${new Date(event.date).toLocaleDateString('vi-VN')}</p>
+                            <p class="text-white opacity-75 mb-0">${event.description}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Event Management
+        function showAddModal() {
             const modal = new bootstrap.Modal(document.getElementById('addEventModal'));
             modal.show();
         }
 
-        async function addEvent() {
-            const form = document.getElementById('eventForm');
-            
-            const event = {
-                id: Date.now().toString(),
-                date: document.getElementById('eventDate').value,
-                content: document.getElementById('eventContent').value,
-                color: document.getElementById('eventColor').value,
-                icon: document.getElementById('selectedIcon').value,
-                createdAt: new Date().toISOString()
-            };
-            
-            events.push(event);
-            
-            // Update UI immediately for better UX
-            renderCalendar();
-            renderEvents();
-            
-            // Save to backend
-            await saveEvents();
-            
-            logAction(`Đã thêm sự kiện: ${event.content}`);
-            showSuccessMessage('Đã thêm sự kiện thành công!');
-            
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
-            modal.hide();
-            form.reset();
+        function setupEventForm() {
+            document.querySelectorAll('.icon-select').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.icon-select').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById('selectedIcon').value = this.dataset.icon;
+                });
+            });
         }
 
-        function selectEvent(eventId) {
-            selectedEventId = selectedEventId === eventId ? null : eventId;
-            renderEvents();
-        }
-
-        function selectEventForDeletion(eventId) {
-            selectedEventId = eventId;
-            renderEvents();
-        }
-
-        async function deleteSelectedEvent() {
-            if (!selectedEventId) {
-                showErrorMessage('Vui lòng chọn một sự kiện để xóa');
+        function saveEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const description = document.getElementById('eventDescription').value;
+            const icon = document.getElementById('selectedIcon').value;
+            
+            if (!title || !date || !description) {
+                alert('Vui lòng điền đầy đủ thông tin!');
                 return;
             }
             
-            if (confirm('Bạn có chắc chắn muốn xóa sự kiện này?')) {
-                const eventIndex = events.findIndex(e => e.id === selectedEventId);
-                if (eventIndex > -1) {
-                    const deletedEvent = events[eventIndex];
-                    events.splice(eventIndex, 1);
-                    
-                    // Update UI immediately
-                    selectedEventId = null;
-                    renderCalendar();
-                    renderEvents();
-                    
-                    // Save to backend
-                    await saveEvents();
-                    
-                    logAction(`Đã xóa sự kiện: ${deletedEvent.content}`);
-                    showSuccessMessage('Đã xóa sự kiện thành công!');
-                }
+            const newEvent = {
+                id: Date.now(),
+                title,
+                date,
+                description,
+                icon
+            };
+            
+            events.push(newEvent);
+            localStorage.setItem('loveStoryEvents', JSON.stringify(events));
+            
+            // Refresh all sections
+            renderDashboard();
+            renderMemories();
+            renderTimeline();
+            
+            // Close modal and reset form
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+            modal.hide();
+            document.getElementById('eventForm').reset();
+            document.getElementById('selectedIcon').value = '❤️';
+        }
+
+        function editEvent(eventId) {
+            const event = events.find(e => e.id === eventId);
+            if (event) {
+                document.getElementById('eventTitle').value = event.title;
+                document.getElementById('eventDate').value = event.date;
+                document.getElementById('eventDescription').value = event.description;
+                document.getElementById('selectedIcon').value = event.icon;
+                
+                events = events.filter(e => e.id !== eventId);
+                showAddModal();
             }
         }
 
-        // Photo Functions
-        function renderPhotos() {
-            const photoGrid = document.getElementById('photoGrid');
-            const startIndex = (currentPage - 1) * photosPerPage;
-            const endIndex = startIndex + photosPerPage;
-            const pagePhotos = photos.slice(startIndex, endIndex);
-            
-            photoGrid.innerHTML = '';
-            
-            pagePhotos.forEach((photo, index) => {
-                const photoElement = document.createElement('div');
-                photoElement.className = 'col-md-3 col-sm-6';
+        function deleteEvent(eventId) {
+            if (confirm('Bạn có chắc muốn xóa kỷ niệm này?')) {
+                events = events.filter(e => e.id !== eventId);
+                localStorage.setItem('loveStoryEvents', JSON.stringify(events));
                 
-                const photoComments = comments[photo.id] || [];
-                const commentCount = photoComments.filter(c => c.type !== 'like').length;
-                
-                photoElement.innerHTML = `
-                    <div class="position-relative">
-                        <img src="${photo.url}" class="img-fluid rounded-3 love-shadow" onclick="openPhotoModal(${startIndex + index})" alt="Khoảnh khắc ${photo.id}">
-                        <div class="position-absolute bottom-0 start-0 end-0 bg-gradient-to-t from-black/50 to-transparent rounded-bottom-3 p-2">
-                            <div class="text-white text-sm">
-                                <i class="fas fa-heart text-red-400"></i> ${photo.likes || 0}
-                                <i class="fas fa-comment text-blue-400 ml-2"></i> ${commentCount}
-                            </div>
-                        </div>
-                        ${photo.linkedEvents && photo.linkedEvents.length > 0 ? 
-                            `<div class="position-absolute top-0 end-0 m-2">
-                                <span class="badge love-gradient">
-                                    <i class="fas fa-link"></i> ${photo.linkedEvents.length}
-                                </span>
-                            </div>` : ''
-                        }
-                    </div>
-                `;
-                
-                photoGrid.appendChild(photoElement);
-            });
-            
-            renderPagination();
-        }
-
-        function renderPagination() {
-            const pagination = document.getElementById('pagination');
-            const totalPages = Math.ceil(photos.length / photosPerPage);
-            
-            pagination.innerHTML = '';
-            
-            for (let i = 1; i <= totalPages; i++) {
-                const pageItem = document.createElement('li');
-                pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                
-                const pageLink = document.createElement('a');
-                pageLink.className = 'page-link';
-                pageLink.href = '#';
-                pageLink.textContent = i;
-                pageLink.onclick = (e) => {
-                    e.preventDefault();
-                    currentPage = i;
-                    renderPhotos();
-                };
-                
-                pageItem.appendChild(pageLink);
-                pagination.appendChild(pageItem);
+                renderDashboard();
+                renderMemories();
+                renderTimeline();
             }
         }
 
-        function openPhotoModal(index) {
-            currentPhotoIndex = index;
-            const photo = photos[currentPhotoIndex];
-            const photoComments = comments[photo.id] || [];
-            
-            document.getElementById('modalPhoto').src = photo.url;
-            document.getElementById('likeCount').textContent = photo.likes || 0;
-            document.getElementById('likeIcon').className = photo.liked ? 'fas fa-heart text-red-500' : 'fas fa-heart';
-            
-            renderComments();
-            
-            const modal = new bootstrap.Modal(document.getElementById('photoModal'));
-            modal.show();
-        }
-
-        async function likePhoto() {
-            const photo = photos[currentPhotoIndex];
-            
-            if (photo.liked) {
-                photo.likes = (photo.likes || 0) - 1;
-                photo.liked = false;
-            } else {
-                photo.likes = (photo.likes || 0) + 1;
-                photo.liked = true;
-            }
-            
-            document.getElementById('likeCount').textContent = photo.likes;
-            document.getElementById('likeIcon').className = photo.liked ? 'fas fa-heart text-red-500' : 'fas fa-heart';
-            
-            // Update the photo in the grid
-            renderPhotos();
-            
-            // Save likes data to comments structure
-            if (!comments[photo.id]) {
-                comments[photo.id] = [];
-            }
-            
-            // Store like status in a special comment entry
-            const likeEntry = comments[photo.id].find(c => c.type === 'like');
-            if (likeEntry) {
-                likeEntry.likes = photo.likes;
-                likeEntry.liked = photo.liked;
-            } else {
-                comments[photo.id].push({
-                    type: 'like',
-                    likes: photo.likes,
-                    liked: photo.liked,
-                    date: new Date().toISOString()
-                });
-            }
-            
-            await saveComments();
-        }
-
-        function previousPhoto() {
-            if (currentPhotoIndex > 0) {
-                currentPhotoIndex--;
-                openPhotoModal(currentPhotoIndex);
-            }
-        }
-
-        function nextPhoto() {
-            if (currentPhotoIndex < photos.length - 1) {
-                currentPhotoIndex++;
-                openPhotoModal(currentPhotoIndex);
-            }
-        }
-
-        function renderComments() {
-            const commentsList = document.getElementById('commentsList');
-            const photo = photos[currentPhotoIndex];
-            const photoComments = comments[photo.id] || [];
-            
-            commentsList.innerHTML = '';
-            
-            photoComments.forEach(comment => {
-                const commentElement = document.createElement('div');
-                commentElement.className = 'bg-gray-100 rounded p-2 mb-2';
-                commentElement.innerHTML = `
-                    <div class="font-semibold text-sm">${comment.author}</div>
-                    <div class="text-sm">${comment.text}</div>
-                    <div class="text-xs text-gray-500">${new Date(comment.date).toLocaleString('vi-VN')}</div>
-                `;
-                commentsList.appendChild(commentElement);
-            });
-        }
-
-        async function addComment() {
-            const input = document.getElementById('commentInput');
-            const text = input.value.trim();
-            
-            if (text) {
-                const photo = photos[currentPhotoIndex];
-                const newComment = {
-                    id: Date.now().toString(),
-                    author: 'Bạn',
-                    text: text,
-                    date: new Date().toISOString()
-                };
-                
-                // Initialize comments array for photo if it doesn't exist
-                if (!comments[photo.id]) {
-                    comments[photo.id] = [];
-                }
-                
-                comments[photo.id].push(newComment);
-                
-                input.value = '';
-                renderComments();
-                
-                // Save to backend
-                await saveComments();
-                
-                showSuccessMessage('Đã thêm bình luận!');
-            }
+        function viewPhoto(photoId) {
+            alert(`Xem ảnh ${photoId} - Chức năng sẽ được phát triển!`);
         }
 
         function uploadPhoto() {
-            // Simulate photo upload
-            const newPhoto = {
-                id: Date.now(),
-                url: `https://picsum.photos/400/300?random=${Date.now()}`,
-                likes: 0,
-                comments: [],
-                linkedEvents: [],
-                date: new Date()
-            };
-            
-            photos.unshift(newPhoto);
-            localStorage.setItem('loveStoryPhotos', JSON.stringify(photos));
-            renderPhotos();
-            logAction('Đã thêm ảnh mới');
+            alert('Chức năng tải ảnh lên sẽ được tích hợp!');
         }
 
-        // Tab Functions
-        function showTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-            
-            document.getElementById(tabName + 'Tab').classList.remove('hidden');
-            event.target.classList.add('active');
+        function showNotifications() {
+            alert('Thông báo - Chức năng sẽ được phát triển!');
         }
 
-        // Admin Functions
-        async function updateMetadata() {
-            await updatePhotosMetadata();
+        function showProfile() {
+            alert('Hồ sơ - Chức năng sẽ được phát triển!');
         }
 
-        function toggleAutoUpdate() {
-            autoUpdateEnabled = !autoUpdateEnabled;
-            localStorage.setItem('autoUpdateEnabled', JSON.stringify(autoUpdateEnabled));
-            logAction(`Tự động cập nhật: ${autoUpdateEnabled ? 'Bật' : 'Tắt'}`);
-            showSuccessMessage(`Tự động cập nhật đã được ${autoUpdateEnabled ? 'bật' : 'tắt'}`);
-            
-            // Restart auto update timer
-            setupAutoUpdate();
+        function showSettings() {
+            alert('Cài đặt - Chức năng sẽ được phát triển!');
         }
-
-        async function refreshData() {
-            await loadAllData();
-            showSuccessMessage('Đã làm mới dữ liệu thành công!');
-        }
-
-        function setupAutoUpdate() {
-            if (autoUpdateEnabled) {
-                const now = new Date();
-                const target = new Date();
-                target.setHours(9, 0, 0, 0);
-                
-                if (now > target) {
-                    target.setDate(target.getDate() + 1);
-                }
-                
-                const timeUntilUpdate = target.getTime() - now.getTime();
-                
-                setTimeout(() => {
-                    updateMetadata();
-                    setInterval(updateMetadata, 24 * 60 * 60 * 1000); // Daily
-                }, timeUntilUpdate);
-            }
-        }
-
-        async function logAction(action) {
-            const logEntry = {
-                timestamp: new Date().toISOString(),
-                action: action,
-                userAgent: navigator.userAgent.substring(0, 100) // Truncate for storage
-            };
-            
-            try {
-                // Try to save to backend
-                await apiCall('/logs', 'POST', logEntry);
-            } catch (error) {
-                // Fallback to localStorage
-                const logs = JSON.parse(localStorage.getItem('loveStoryLogs')) || [];
-                logs.push(logEntry);
-                // Keep only last 100 logs to prevent storage overflow
-                if (logs.length > 100) {
-                    logs.splice(0, logs.length - 100);
-                }
-                localStorage.setItem('loveStoryLogs', JSON.stringify(logs));
-            }
-        }
-
-        // Photo-Event Linking Functions
-        function linkPhotoToEvent(photoId, eventId) {
-            const photo = photos.find(p => p.id === photoId);
-            const event = events.find(e => e.id === eventId);
-            
-            if (photo && event) {
-                if (!photo.linkedEvents) {
-                    photo.linkedEvents = [];
-                }
-                
-                if (!photo.linkedEvents.includes(eventId)) {
-                    photo.linkedEvents.push(eventId);
-                    logAction(`Đã liên kết ảnh ${photoId} với sự kiện: ${event.content}`);
-                    renderPhotos();
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function unlinkPhotoFromEvent(photoId, eventId) {
-            const photo = photos.find(p => p.id === photoId);
-            
-            if (photo && photo.linkedEvents) {
-                const index = photo.linkedEvents.indexOf(eventId);
-                if (index > -1) {
-                    photo.linkedEvents.splice(index, 1);
-                    logAction(`Đã hủy liên kết ảnh ${photoId} với sự kiện ${eventId}`);
-                    renderPhotos();
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function getPhotosForEvent(eventId) {
-            return photos.filter(photo => 
-                photo.linkedEvents && photo.linkedEvents.includes(eventId)
-            );
-        }
-
-        // Status Management
-        function updateStatus(isOnline, message) {
-            const indicator = document.getElementById('statusIndicator');
-            const icon = indicator.querySelector('i');
-            const text = document.getElementById('statusText');
-            
-            if (isOnline) {
-                icon.className = 'fas fa-circle text-success me-1';
-                text.textContent = message || 'Đã kết nối';
-            } else {
-                icon.className = 'fas fa-circle text-warning me-1';
-                text.textContent = message || 'Chế độ offline';
-            }
-        }
-
-        // Monitor connection status
-        window.addEventListener('online', () => {
-            updateStatus(true, 'Đã kết nối lại');
-            // Attempt to sync any pending changes
-            loadAllData();
-        });
-
-        window.addEventListener('offline', () => {
-            updateStatus(false, 'Mất kết nối');
-        });
-
-        // Handle comment input enter key
-        document.addEventListener('keypress', function(e) {
-            if (e.target.id === 'commentInput' && e.key === 'Enter') {
-                addComment();
-            }
-        });
-
-        /*
-        SERVERLESS FUNCTION IMPLEMENTATION GUIDE:
-        
-        To complete the backend integration, you need to create serverless functions at:
-        ${API_BASE_URL}
-        
-        Required endpoints:
-        
-        1. GET /api/events - Return events.json from GitHub
-        2. PUT /api/events - Update events.json in GitHub
-        3. GET /api/photos - Return photos_metadata.json from GitHub  
-        4. PUT /api/photos - Update photos_metadata.json in GitHub
-        5. POST /api/photos/update-metadata - Fetch from Google Drive and update metadata
-        6. GET /api/comments - Return comments.json from GitHub
-        7. PUT /api/comments - Update comments.json in GitHub
-        8. POST /api/logs - Append to logs.json in GitHub
-        
-        Each function should:
-        - Use GitHub API with your Personal Access Token (stored securely)
-        - Handle CORS for your domain
-        - Include proper error handling
-        - Use SHA-based updates for GitHub file operations
-        
-        Example Vercel function structure:
-        /api/events.js:
-        export default async function handler(req, res) {
-            // Handle GET/PUT operations with GitHub API
-            // Use process.env.GITHUB_TOKEN for authentication
-        }
-        
-        Google Drive integration requires:
-        - Google Drive API v3 credentials
-        - Folder ID where photos are stored
-        - Proper OAuth2 or Service Account setup
-        */
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9881221ab11a509a',t:'MTc1OTM3NTk1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9882ad9e33b4096a',t:'MTc1OTM5MjE1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
