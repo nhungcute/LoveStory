@@ -17,7 +17,8 @@
     "name": "Gặp gỡ nhà gái",
     "contdetl": "Gặp gỡ nhà gái",
     "icon": "👰",
-    "colorClass": "bg-yellow-500"
+    "colorClass": "bg-yellow-500",
+    "image": []
   },
   {
     "note_id": "key3",
@@ -25,7 +26,8 @@
     "name": "Gặp nhà trai",
     "contdetl": "Gặp nhà trai",
     "icon": "🤵",
-    "colorClass": "bg-pink-500"
+    "colorClass": "bg-pink-500",
+    "image": []
   },
   {
     "note_id": "key4",
@@ -33,7 +35,8 @@
     "name": "Ăn hỏi",
     "contdetl": "Ăn hỏi",
     "icon": "🎊",
-    "colorClass": "bg-orange-500"
+    "colorClass": "bg-orange-500",
+    "image": []
   },
   {
     "note_id": "key5",
@@ -41,7 +44,8 @@
     "name": "First Baby",
     "contdetl": "Lần đầu biết tin bé con",
     "icon": "💍",
-    "colorClass": "bg-blue-500"
+    "colorClass": "bg-blue-500",
+    "image": []
   },
   {
     "note_id": "key6",
@@ -50,7 +54,8 @@
     "colorClass": "bg-green-500",
     "icon": "⭐",
     "URL": "https://drive.google.com/drive/u/0/folders/1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
-    "date": "2025-09-11T07:12:20.886Z"
+    "date": "2025-09-11T07:12:20.886Z",
+    "image": []
   },
   {
     "note_id": "key7",
@@ -59,7 +64,8 @@
     "colorClass": "bg-pink-500",
     "icon": "❤️",
     "URL": "https://mail.google.com/mail/u/0/#spam",
-    "date": "2025-09-11T07:20:42.199Z"
+    "date": "2025-09-11T07:20:42.199Z",
+    "image": []
   },
   {
     "note_id": "key8",
@@ -68,7 +74,8 @@
     "colorClass": "bg-purple-500",
     "icon": "🎂",
     "URL": "",
-    "date": "2025-09-12T03:19:29.821Z"
+    "date": "2025-09-12T03:19:29.821Z",
+    "image": []
   },
   {
     "note_id": "key9",
