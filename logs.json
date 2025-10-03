@@ -1,5 +1,16 @@
 [
   {
+    "datetime": "2025-10-03T03:50:30.000Z",
+    "action": "navigation",
+    "details": {
+      "action": "section_change",
+      "from_section": "Kỷ Niệm",
+      "to_section": "memories",
+      "section_title": "Quản Lý Kỷ Niệm"
+    },
+    "current_user": "Couple User"
+  },
+  {
     "datetime": "2025-10-03T03:48:31.000Z",
     "action": "app_init",
     "details": {
