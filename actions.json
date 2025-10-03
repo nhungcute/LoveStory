@@ -41,7 +41,7 @@
   {
     "note_id": "key5",
     "day": "07-09-2025",
-    "name": "First Baby",
+    "name": "Lần đầu biết tin bé con",
     "contdetl": "Lần đầu biết tin bé con",
     "icon": "💍",
     "colorClass": "bg-blue-500",
@@ -50,6 +50,7 @@
   {
     "note_id": "key6",
     "day": "09-09-2025",
+    "name": "Bé đã được 114mm, 7w2d",
     "contdetl": "Bé đã được 114mm, 7w2d",
     "colorClass": "bg-green-500",
     "icon": "⭐",
@@ -60,6 +61,7 @@
   {
     "note_id": "key7",
     "day": "26-04-2025",
+    "name": "Ngày con chào đời",
     "contdetl": "Ngày con chào đời",
     "colorClass": "bg-pink-500",
     "icon": "❤️",
@@ -70,6 +72,7 @@
   {
     "note_id": "key8",
     "day": "04-12-1999",
+    "name": "Sinh nhật vợ tui",
     "contdetl": "Sinh nhật vợ tui",
     "colorClass": "bg-purple-500",
     "icon": "🎂",
@@ -80,6 +83,7 @@
   {
     "note_id": "key9",
     "day": "28-05-2025",
+    "name": "Dạm ngõ",
     "contdetl": "Dạm ngõ",
     "colorClass": "bg-red-500",
     "icon": "✈️",
@@ -92,6 +96,7 @@
   {
     "note_id": "key10",
     "day": "14-07-2025",
+    "name": "Lễ thành hôn",
     "contdetl": "Lễ thành hôn",
     "colorClass": "bg-pink-500",
     "icon": "🎉",
