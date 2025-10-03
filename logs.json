@@ -1,5 +1,16 @@
 [
   {
+    "datetime": "03/10/2025 12:04:31",
+    "action": "Thay đổi Auto Sync",
+    "details": {
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "enabled": true,
+      "frequency": "daily",
+      "time": "00:05"
+    },
+    "current_user": "Couple User"
+  },
+  {
     "datetime": "03/10/2025 12:04:07",
     "action": "Khởi tạo ứng dụng",
     "details": {
