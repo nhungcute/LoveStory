@@ -12,11 +12,11 @@
   "PHOTOS_PER_PAGE": 50,
   "AUTO_LOAD_METADATA": "true",
   "AUTO_SYNC": {
-    "enabled": true,
+    "enabled": false,
     "frequency": "daily",
-    "time": "00:01",
+    "time": "00:16",
     "lastRun": null,
-    "nextRun": "2025-10-03T17:01:00.000Z",
-    "updatedAt": "2025-10-03T05:15:11.077Z"
+    "nextRun": null,
+    "updatedAt": "2025-10-03T05:15:14.334Z"
   }
 }
