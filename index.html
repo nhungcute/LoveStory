@@ -2082,25 +2082,6 @@
                     }
                 }
                 
-                // Kiểm tra Web Share API (chỉ hoạt động trên HTTPS và mobile)
-                if (navigator.share) {
-                    try {
-                        const shareData = {
-                            title: shareTitle,
-                            text: shareText,
-                            url: shareUrl
-                        };
-                        
-                        await navigator.share(shareData);
-                        showMessage('✅ Đã chia sẻ ảnh thành công!', 'success');
-                        return;
-                        
-                    } catch (shareError) {
-                        console.warn('⚠️ Web Share API thất bại:', shareError);
-                        // Tiếp tục với các phương pháp khác
-                    }
-                }
-                
                 // Tạo modal chia sẻ tùy chỉnh
                 createShareModal(shareUrl, shareTitle, clipboardSuccess);
                 
@@ -2798,15 +2779,15 @@
                                     <div class="flex items-center justify-center space-x-4 mb-4">
                                         <button onclick="updateModalLikes()" class="flex items-center space-x-2 bg-red-500 bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all">
                                             <i class="fas fa-heart text-red-400"></i>
-                                            <span>Tương tác</span>
+                                            <span class="whitespace-nowrap">Thích</span>
                                         </button>
                                         <button onclick="shareCurrentPhoto()" class="flex items-center space-x-2 bg-blue-500 bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all">
                                             <i class="fas fa-share text-blue-400"></i>
-                                            <span>Chia sẻ</span>
+                                            <span class="whitespace-nowrap">Chia sẻ</span>
                                         </button>
                                         <button onclick="downloadPhoto()" class="flex items-center space-x-2 bg-green-500 bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all">
                                             <i class="fas fa-download text-green-400"></i>
-                                            <span>Tải về</span>
+                                            <span class="whitespace-nowrap">Tải về</span>
                                         </button>
                                     </div>
                                     <div class="text-center text-sm text-gray-300 space-y-1">
@@ -4227,5 +4208,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'988aaa06d6560540',t:'MTc1OTQ3NTg5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'988ac17fb72925e5',t:'MTc1OTQ3Njg1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
