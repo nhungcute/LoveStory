@@ -1,5 +1,16 @@
 [
   {
+    "datetime": "03/10/2025 11:22:33",
+    "action": "Bật đồng bộ tự động",
+    "details": {
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "frequency": "daily",
+      "time": "11:21",
+      "next_run": "2025-10-04T04:21:00.000Z"
+    },
+    "current_user": "Couple User"
+  },
+  {
     "datetime": "03/10/2025 11:20:19",
     "action": "Khởi tạo ứng dụng",
     "details": {
