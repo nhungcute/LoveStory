@@ -1,5 +1,16 @@
 [
   {
+    "datetime": "2025-10-03T03:50:35.000Z",
+    "action": "navigation",
+    "details": {
+      "action": "section_change",
+      "from_section": "Timeline",
+      "to_section": "timeline",
+      "section_title": "Timeline"
+    },
+    "current_user": "Couple User"
+  },
+  {
     "datetime": "2025-10-03T03:50:33.000Z",
     "action": "navigation",
     "details": {
