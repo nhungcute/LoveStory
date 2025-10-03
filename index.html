@@ -1307,6 +1307,14 @@
             modal.classList.remove('hidden');
         }
 
+        // Share current photo in modal
+        function shareCurrentPhoto() {
+            const photo = modalPhotos[currentPhotoIndex];
+            if (photo) {
+                sharePhoto(photo.id);
+            }
+        }
+
         // Make all functions globally available immediately
         window.toggleNotifications = toggleNotifications;
         window.toggleSettings = toggleSettings;
@@ -1327,6 +1335,7 @@
         window.changePhotoPage = changePhotoPage;
         window.likePhoto = likePhoto;
         window.sharePhoto = sharePhoto;
+        window.shareCurrentPhoto = shareCurrentPhoto;
         window.openPhotoModal = openPhotoModal;
         window.closePhotoModal = closePhotoModal;
         window.previousPhoto = previousPhoto;
@@ -1658,45 +1667,7 @@
             }
         }
 
-        function generateSamplePhotosData() {
-            const samplePhotos = [];
-            const photoTitles = [
-                'Ngày đầu gặp nhau', 'Chuyến đi biển', 'Sinh nhật anh/em', 'Picnic cuối tuần',
-                'Cà phê buổi sáng', 'Xem phim cùng nhau', 'Nấu ăn tại nhà', 'Dạo phố Hà Nội',
-                'Chụp ảnh cưới', 'Du lịch Đà Lạt', 'Tết cùng gia đình', 'Valentine ngọt ngào',
-                'Kỷ niệm 100 ngày', 'Chuyến bay đầu tiên', 'Ăn tối lãng mạn', 'Cùng nhau học tập'
-            ];
-            
-            // Thêm một số Google Drive ID mẫu để test
-            const sampleGoogleDriveIds = [
-                '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms', // Google Sheets example
-                '1mGVAMTKdtMlEZ3b4bvfBboh4kGjwMeWFiHDSiGu08kM', // Sample ID
-                '1f4YoN7Vx8K9L2M3N4O5P6Q7R8S9T0U1V2W3X4Y5Z6A7B' // Sample ID
-            ];
-            
-            for (let i = 1; i <= 24; i++) {
-                const randomDate = new Date(2023, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1);
-                
-                // Một số ảnh sử dụng Google Drive ID mẫu, một số dùng Picsum
-                const useGoogleDrive = i <= 6; // 6 ảnh đầu dùng Google Drive ID
-                
-                samplePhotos.push({
-                    id: useGoogleDrive ? sampleGoogleDriveIds[i % sampleGoogleDriveIds.length] + `_${i}` : `sample_${i}`,
-                    name: photoTitles[(i - 1) % photoTitles.length] || `Ảnh kỷ niệm ${i}`,
-                    webViewLink: useGoogleDrive ? null : `https://picsum.photos/600/400?random=${i + 100}`,
-                    thumbnailLink: useGoogleDrive ? null : `https://picsum.photos/300/200?random=${i + 100}`,
-                    createdTime: randomDate.toISOString(),
-                    modifiedTime: randomDate.toISOString(),
-                    size: Math.floor(Math.random() * 5000000) + 500000, // 0.5MB - 5MB
-                    mimeType: 'image/jpeg',
-                    description: `Kỷ niệm đẹp của chúng ta - ${photoTitles[(i - 1) % photoTitles.length]}`,
-                    tags: ['kỷ niệm', 'yêu thương', Math.random() > 0.5 ? 'du lịch' : 'hẹn hò']
-                });
-            }
-            
-            console.log('📸 Tạo dữ liệu mẫu với', samplePhotos.filter(p => p.id.length > 20).length, 'ảnh Google Drive và', samplePhotos.filter(p => p.id.length <= 20).length, 'ảnh Picsum');
-            return samplePhotos;
-        }
+        // Hàm này đã bị loại bỏ - không sử dụng ảnh demo nữa
 
         // Hàm debug để kiểm tra URL
         function debugImageUrls(photoId, photoName) {
@@ -1775,35 +1746,51 @@
                 return;
             }
 
-            currentPhotos.forEach((photo) => {
+            currentPhotos.forEach((photo, index) => {
                 const likes = reactionsData[photo.id]?.count_tim || 0;
                 const commentsCount = commentsData[photo.id]?.length || 0;
                 
                 const photoItem = document.createElement('div');
                 photoItem.className = 'photo-item cursor-pointer relative group';
                 
-                // Tạo danh sách URL thumbnail cho grid
-                let galleryImageUrls = [];
+                // Tạo danh sách URL để thử tải ảnh
+                let imageUrls = [];
                 
-                // Nếu có ID Google Drive, chỉ sử dụng thumbnail URLs
                 if (photo.id && photo.id.length > 20) {
-                    galleryImageUrls = generateGoogleDriveUrls(photo.id, 'w400-h400', true);
-                } else {
-                    // Fallback URL mẫu cho ảnh không phải Google Drive
-                    galleryImageUrls.push(`https://picsum.photos/400/300?random=${photo.id.slice(-6) || Math.floor(Math.random() * 1000)}`);
+                    // Google Drive image - sử dụng nhiều URL thay thế
+                    imageUrls = generateGoogleDriveUrls(photo.id, 'w400-h400', true);
+                } else if (photo.thumbnailLink) {
+                    // Có sẵn thumbnail link
+                    imageUrls.push(photo.thumbnailLink);
+                } else if (photo.webViewLink) {
+                    // Có web view link
+                    imageUrls.push(photo.webViewLink);
+                }
+                
+                // Nếu không có URL nào, hiển thị lỗi ngay
+                if (imageUrls.length === 0) {
+                    console.warn(`⚠️ Không có URL hợp lệ cho ảnh: ${photo.name}`);
                 }
                 
                 photoItem.innerHTML = `
-                    <div class="relative overflow-hidden rounded-lg">
+                    <div class="relative overflow-hidden rounded-lg bg-gray-800">
                         <div class="relative">
                             <img id="galleryImg_${photo.id}" 
                                  alt="${photo.name}" 
                                  class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
                                  loading="lazy"
                                  decoding="async"
-                                 src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNjY3ZWVhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkxvYWRpbmc8L3RleHQ+PC9zdmc+">
-                            <div id="galleryLoader_${photo.id}" class="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 rounded-lg">
-                                <i class="fas fa-spinner fa-spin text-xl text-blue-400"></i>
+                                 style="display: none;">
+                            
+                            <div id="galleryLoader_${photo.id}" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-800 rounded-lg">
+                                <i class="fas fa-spinner fa-spin text-2xl text-blue-400 mb-2"></i>
+                                <p class="text-xs text-gray-400">Đang tải...</p>
+                            </div>
+                            
+                            <div id="galleryError_${photo.id}" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-700 rounded-lg" style="display: none;">
+                                <i class="fas fa-exclamation-triangle text-3xl text-red-500 mb-2"></i>
+                                <p class="text-xs text-gray-400 text-center px-2">${photo.name}</p>
+                                <p class="text-xs text-red-400 text-center px-2 mt-1">Không thể tải ảnh</p>
                             </div>
                         </div>
                         
@@ -1835,26 +1822,8 @@
                 `;
                 photosGrid.appendChild(photoItem);
                 
-                // Tải ảnh cho gallery item này
-                const galleryImg = document.getElementById(`galleryImg_${photo.id}`);
-                const galleryLoader = document.getElementById(`galleryLoader_${photo.id}`);
-                
-                // Debug: Log thông tin ảnh
-                if (photo.id.length > 20) {
-                    console.log(`🖼️ Đang tải ảnh Google Drive: "${photo.name}" (ID: ${photo.id})`);
-                    debugImageUrls(photo.id, photo.name);
-                }
-                
-                galleryImg.onload = function() {
-                    if (galleryLoader) galleryLoader.style.display = 'none';
-                };
-                
-                galleryImg.onerror = function() {
-                    if (galleryLoader) galleryLoader.style.display = 'none';
-                };
-                
-                // Bắt đầu tải ảnh với URL đầu tiên
-                tryLoadImage(galleryImg, galleryImageUrls, 0, photo.name);
+                // Tải ảnh với nhiều URL thay thế
+                loadImageWithMultipleUrls(photo.id, imageUrls, photo.name);
             });
         }
 
@@ -2395,7 +2364,80 @@
             return labels[type] || type;
         }
 
-        // Hàm thử tải ảnh với nhiều URL - tối ưu cho thumbnail và full size
+        // Hàm tải ảnh Google Drive với nhiều URL thay thế
+        function loadImageWithMultipleUrls(photoId, imageUrls, imageName) {
+            const imgElement = document.getElementById(`galleryImg_${photoId}`);
+            const loaderElement = document.getElementById(`galleryLoader_${photoId}`);
+            const errorElement = document.getElementById(`galleryError_${photoId}`);
+            
+            if (!imgElement || !imageUrls || imageUrls.length === 0) {
+                showImageError(photoId, imageName);
+                return;
+            }
+            
+            tryLoadImageFromUrls(imgElement, loaderElement, errorElement, imageUrls, 0, imageName);
+        }
+        
+        function tryLoadImageFromUrls(imgElement, loaderElement, errorElement, urls, currentIndex, imageName) {
+            if (currentIndex >= urls.length) {
+                // Đã thử hết tất cả URL, hiển thị lỗi
+                showImageError(imgElement.id.replace('galleryImg_', ''), imageName);
+                return;
+            }
+            
+            const currentUrl = urls[currentIndex];
+            console.log(`🔄 Thử tải ảnh "${imageName}" từ URL ${currentIndex + 1}/${urls.length}: ${currentUrl}`);
+            
+            const testImg = new Image();
+            
+            // Timeout 4 giây cho mỗi URL
+            const timeout = setTimeout(() => {
+                testImg.onload = null;
+                testImg.onerror = null;
+                console.warn(`⏰ Timeout loading "${imageName}" from: ${currentUrl}`);
+                tryLoadImageFromUrls(imgElement, loaderElement, errorElement, urls, currentIndex + 1, imageName);
+            }, 4000);
+            
+            testImg.onload = function() {
+                clearTimeout(timeout);
+                console.log(`✅ Successfully loaded "${imageName}" from: ${currentUrl}`);
+                
+                // Hiển thị ảnh thành công
+                imgElement.src = currentUrl;
+                imgElement.style.display = 'block';
+                if (loaderElement) loaderElement.style.display = 'none';
+                if (errorElement) errorElement.style.display = 'none';
+            };
+            
+            testImg.onerror = function() {
+                clearTimeout(timeout);
+                console.warn(`❌ Failed to load "${imageName}" from: ${currentUrl}`);
+                // Thử URL tiếp theo
+                tryLoadImageFromUrls(imgElement, loaderElement, errorElement, urls, currentIndex + 1, imageName);
+            };
+            
+            // Bắt đầu tải ảnh
+            testImg.src = currentUrl;
+        }
+        
+        function showImageError(photoId, imageName) {
+            const imgElement = document.getElementById(`galleryImg_${photoId}`);
+            const loaderElement = document.getElementById(`galleryLoader_${photoId}`);
+            const errorElement = document.getElementById(`galleryError_${photoId}`);
+            
+            if (imgElement) imgElement.style.display = 'none';
+            if (loaderElement) loaderElement.style.display = 'none';
+            if (errorElement) {
+                errorElement.style.display = 'flex';
+                // Cập nhật tên ảnh trong error display
+                const errorText = errorElement.querySelector('p');
+                if (errorText) errorText.textContent = imageName || 'Ảnh không tải được';
+            }
+            
+            console.error(`❌ Không thể tải ảnh "${imageName}" từ tất cả các URL`);
+        }
+
+        // Hàm thử tải ảnh với nhiều URL - tối ưu cho thumbnail và full size (giữ lại cho modal)
         function tryLoadImage(imgElement, urls, currentIndex, imageName) {
             if (currentIndex >= urls.length) {
                 // Đã thử hết tất cả URL, hiển thị ảnh placeholder
@@ -2480,135 +2522,311 @@
             const urls = [];
             
             if (isForThumbnail) {
-                // Chỉ sử dụng thumbnail URLs cho grid
+                // URLs cho thumbnail trong grid
                 urls.push(`https://drive.google.com/thumbnail?id=${fileId}&sz=w400-h400`);
+                urls.push(`https://drive.google.com/thumbnail?id=${fileId}&sz=w300-h300`);
                 urls.push(`https://lh3.googleusercontent.com/d/${fileId}=w400-h400`);
+                urls.push(`https://lh3.googleusercontent.com/d/${fileId}=w300-h300`);
+                urls.push(`https://drive.google.com/uc?export=view&id=${fileId}`);
             } else {
                 // URLs cho xem chi tiết (full size)
                 urls.push(`https://drive.google.com/thumbnail?id=${fileId}&sz=${size}`);
+                urls.push(`https://drive.google.com/thumbnail?id=${fileId}&sz=w1200-h1200`);
                 urls.push(`https://drive.google.com/uc?export=view&id=${fileId}`);
                 urls.push(`https://lh3.googleusercontent.com/d/${fileId}=${size}`);
+                urls.push(`https://lh3.googleusercontent.com/d/${fileId}=w1200-h1200`);
             }
-            
-            // Fallback với Picsum
-            urls.push(`https://picsum.photos/400/300?random=${fileId.slice(-6)}`);
             
             return urls;
         }
 
         // Photo modal functions
         function openPhotoModal(photoId) {
-            const photo = allPhotosData.find(p => p.id === photoId);
-            if (!photo) return;
-            
-            currentPhotoIndex = allPhotosData.findIndex(p => p.id === photoId);
-            modalPhotos = allPhotosData;
-            
-            // Create modal if it doesn't exist
-            let modal = document.getElementById('photoModal');
-            if (!modal) {
-                modal = document.createElement('div');
-                modal.id = 'photoModal';
-                modal.className = 'fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center';
-                modal.innerHTML = `
-                    <div class="relative max-w-4xl max-h-full p-4">
-                        <button onclick="closePhotoModal()" class="absolute top-4 right-4 text-white text-2xl z-10 bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-70">
-                            <i class="fas fa-times"></i>
-                        </button>
-                        
-                        <button onclick="previousPhoto()" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-2xl z-10 bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-70">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        
-                        <button onclick="nextPhoto()" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-2xl z-10 bg-black bg-opacity-50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-70">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        
-                        <div class="text-center">
-                            <div id="imageLoader" class="mb-4">
-                                <i class="fas fa-spinner fa-spin text-4xl text-blue-400"></i>
-                                <p class="text-white mt-2">Đang tải ảnh...</p>
+            try {
+                console.log('🖼️ Mở modal ảnh với ID:', photoId);
+                
+                const photo = allPhotosData.find(p => p.id === photoId);
+                if (!photo) {
+                    console.error('❌ Không tìm thấy ảnh với ID:', photoId);
+                    showMessage('❌ Không tìm thấy ảnh', 'error');
+                    return;
+                }
+                
+                currentPhotoIndex = allPhotosData.findIndex(p => p.id === photoId);
+                modalPhotos = [...allPhotosData]; // Clone array để tránh reference issues
+                
+                console.log('📍 Vị trí ảnh trong danh sách:', currentPhotoIndex);
+                
+                // Create modal if it doesn't exist
+                let modal = document.getElementById('photoModal');
+                if (!modal) {
+                    modal = document.createElement('div');
+                    modal.id = 'photoModal';
+                    modal.className = 'fixed inset-0 modal-dark z-50 hidden flex items-center justify-center p-4';
+                    modal.innerHTML = `
+                        <div class="modal-content-dark max-w-4xl w-full max-h-full overflow-auto">
+                            <!-- Header -->
+                            <div class="flex justify-between items-center p-4 border-b border-gray-600">
+                                <h3 id="modalTitle" class="text-xl font-bold">Ảnh kỷ niệm</h3>
+                                <button onclick="closePhotoModal()" class="text-gray-400 hover:text-white text-2xl">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
-                            <img id="modalImage" class="max-w-full max-h-96 object-contain rounded-lg" style="display: none;">
-                            <div class="mt-4 text-white">
-                                <h3 id="modalTitle" class="text-xl font-bold mb-2"></h3>
-                                <p id="modalDescription" class="text-gray-300 mb-4"></p>
-                                <div class="flex justify-center space-x-4">
-                                    <button onclick="updateModalLikes()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg">
-                                        <i class="fas fa-heart mr-2"></i><span id="modalLikes">0</span>
-                                    </button>
-                                    <button onclick="downloadPhoto()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg">
-                                        <i class="fas fa-download mr-2"></i>Tải về
-                                    </button>
+                            
+                            <!-- Content -->
+                            <div class="p-4">
+                                <!-- Image container -->
+                                <div class="text-center mb-4">
+                                    <div id="modalImageLoader" class="flex flex-col items-center justify-center py-12">
+                                        <i class="fas fa-spinner fa-spin text-4xl text-blue-400 mb-4"></i>
+                                        <p class="text-white">Đang tải ảnh...</p>
+                                    </div>
+                                    <img id="modalImage" class="max-w-full max-h-96 mx-auto rounded-lg shadow-lg" style="display: none;" alt=""
+                                         onerror="this.style.display='none'; document.getElementById('modalImageError').style.display='flex';">
+                                    <div id="modalImageError" class="flex flex-col items-center justify-center py-12" style="display: none;">
+                                        <i class="fas fa-exclamation-triangle text-4xl text-red-400 mb-4"></i>
+                                        <p class="text-red-300">Không thể tải ảnh</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Photo info grid -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- Left column - Photo details -->
+                                    <div>
+                                        <h4 class="font-semibold mb-2">Thông tin ảnh</h4>
+                                        <div class="space-y-2 text-sm">
+                                            <p><span class="text-gray-400">Tên:</span> <span id="modalPhotoName">-</span></p>
+                                            <p><span class="text-gray-400">Ngày tạo:</span> <span id="modalCreatedTime">-</span></p>
+                                            <p><span class="text-gray-400">Kích thước:</span> <span id="modalFileSize">-</span></p>
+                                            <p><span class="text-gray-400">Loại:</span> <span id="modalMimeType">-</span></p>
+                                            <p><span class="text-gray-400">Vị trí:</span> <span id="modalPhotoIndex">1</span> / <span id="modalPhotoTotal">1</span></p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Right column - Interactions -->
+                                    <div>
+                                        <h4 class="font-semibold mb-2">Tương tác</h4>
+                                        <div class="flex items-center space-x-4 mb-4">
+                                            <button onclick="updateModalLikes()" class="flex items-center space-x-2 bg-red-500 bg-opacity-20 hover:bg-opacity-30 px-3 py-2 rounded-lg transition-all">
+                                                <i class="fas fa-heart text-red-400"></i>
+                                                <span id="modalLikes">0</span>
+                                            </button>
+                                            <button onclick="shareCurrentPhoto()" class="flex items-center space-x-2 bg-blue-500 bg-opacity-20 hover:bg-opacity-30 px-3 py-2 rounded-lg transition-all">
+                                                <i class="fas fa-share text-blue-400"></i>
+                                                <span>Chia sẻ</span>
+                                            </button>
+                                            <button onclick="downloadPhoto()" class="flex items-center space-x-2 bg-green-500 bg-opacity-20 hover:bg-opacity-30 px-3 py-2 rounded-lg transition-all">
+                                                <i class="fas fa-download text-green-400"></i>
+                                                <span>Tải về</span>
+                                            </button>
+                                        </div>
+                                        <div class="text-sm text-gray-400">
+                                            <p><i class="fas fa-comment mr-2"></i><span id="modalComments">0</span> bình luận</p>
+                                            <p><i class="fas fa-heart mr-2"></i><span id="modalLikesCount">0</span> lượt thích</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            
+                            <!-- Footer -->
+                            <div class="flex justify-between items-center p-4 border-t border-gray-600">
+                                <div class="flex space-x-2">
+                                    <button onclick="previousPhoto()" class="px-4 py-2 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-all">
+                                        <i class="fas fa-chevron-left mr-2"></i>Trước
+                                    </button>
+                                    <button onclick="nextPhoto()" class="px-4 py-2 bg-white bg-opacity-10 hover:bg-opacity-20 rounded-lg transition-all">
+                                        Sau<i class="fas fa-chevron-right ml-2"></i>
+                                    </button>
+                                </div>
+                                <button onclick="closePhotoModal()" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg transition-all">
+                                    Đóng
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
+                    `;
+                    document.body.appendChild(modal);
+                }
+                
+                // Show modal
+                modal.classList.remove('hidden');
+                
+                // Update content
+                updateModalContent();
+                
+                console.log('✅ Modal ảnh đã được mở thành công');
+                
+            } catch (error) {
+                console.error('❌ Lỗi khi mở modal ảnh:', error);
+                showMessage('❌ Không thể mở ảnh: ' + error.message, 'error');
             }
-            
-            modal.style.display = 'flex';
-            updateModalContent();
-            
-            // Log mở modal ảnh - disabled
-            // addLog('Xem ảnh chi tiết', {
-            //     photo_id: photoId,
-            //     photo_name: photo.name,
-            //     photo_index: currentPhotoIndex
-            // });
         }
 
         function closePhotoModal() {
             const modal = document.getElementById('photoModal');
             if (modal) {
-                modal.style.display = 'none';
+                modal.classList.add('hidden');
+                console.log('🔒 Đã đóng modal ảnh');
             }
         }
 
         function previousPhoto() {
             if (currentPhotoIndex > 0) {
                 currentPhotoIndex--;
+                console.log('⬅️ Chuyển về ảnh trước, index:', currentPhotoIndex);
                 updateModalContent();
+            } else {
+                console.log('⬅️ Đã ở ảnh đầu tiên');
             }
         }
 
         function nextPhoto() {
             if (currentPhotoIndex < modalPhotos.length - 1) {
                 currentPhotoIndex++;
+                console.log('➡️ Chuyển sang ảnh tiếp theo, index:', currentPhotoIndex);
                 updateModalContent();
+            } else {
+                console.log('➡️ Đã ở ảnh cuối cùng');
             }
         }
 
         function updateModalContent() {
-            const photo = modalPhotos[currentPhotoIndex];
-            if (!photo) return;
-            
-            const modalImage = document.getElementById('modalImage');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalDescription = document.getElementById('modalDescription');
-            const modalLikes = document.getElementById('modalLikes');
-            const imageLoader = document.getElementById('imageLoader');
-            
-            // Update content
-            modalTitle.textContent = photo.name;
-            modalDescription.textContent = photo.description || 'Kỷ niệm đẹp của chúng ta';
-            modalLikes.textContent = reactionsData[photo.id]?.count_tim || 0;
-            
-            // Show loader, hide image
-            imageLoader.style.display = 'block';
-            modalImage.style.display = 'none';
-            
-            // Load image với full size cho modal
-            let imageUrls = [];
-            if (photo.id && photo.id.length > 20) {
-                imageUrls = generateGoogleDriveUrls(photo.id, 'w1200-h800', false);
-            } else {
-                // Fallback cho ảnh không phải Google Drive
-                imageUrls.push(`https://picsum.photos/800/600?random=${photo.id}`);
+            try {
+                const photo = modalPhotos[currentPhotoIndex];
+                if (!photo) {
+                    console.error('❌ Không tìm thấy ảnh tại index:', currentPhotoIndex);
+                    return;
+                }
+                
+                console.log('🔄 Cập nhật nội dung modal cho ảnh:', photo.name);
+                
+                // Get all modal elements
+                const modalImage = document.getElementById('modalImage');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalPhotoName = document.getElementById('modalPhotoName');
+                const modalCreatedTime = document.getElementById('modalCreatedTime');
+                const modalFileSize = document.getElementById('modalFileSize');
+                const modalMimeType = document.getElementById('modalMimeType');
+                const modalLikes = document.getElementById('modalLikes');
+                const modalLikesCount = document.getElementById('modalLikesCount');
+                const modalComments = document.getElementById('modalComments');
+                const modalImageLoader = document.getElementById('modalImageLoader');
+                const modalImageError = document.getElementById('modalImageError');
+                const modalPhotoIndex = document.getElementById('modalPhotoIndex');
+                const modalPhotoTotal = document.getElementById('modalPhotoTotal');
+                
+                if (!modalImage || !modalTitle) {
+                    console.error('❌ Không tìm thấy các element modal cần thiết');
+                    return;
+                }
+                
+                // Update basic info
+                modalTitle.textContent = photo.name || 'Ảnh kỷ niệm';
+                if (modalPhotoName) modalPhotoName.textContent = photo.name || 'Không có tên';
+                
+                // Update photo details
+                if (modalCreatedTime) {
+                    const createdDate = photo.createdTime ? new Date(photo.createdTime).toLocaleDateString('vi-VN') : 'Không rõ';
+                    modalCreatedTime.textContent = createdDate;
+                }
+                
+                if (modalFileSize) {
+                    const sizeInMB = photo.size ? (photo.size / (1024 * 1024)).toFixed(2) + ' MB' : 'Không rõ';
+                    modalFileSize.textContent = sizeInMB;
+                }
+                
+                if (modalMimeType) {
+                    modalMimeType.textContent = photo.mimeType || 'image/jpeg';
+                }
+                
+                // Update interaction counts
+                const likes = reactionsData[photo.id]?.count_tim || 0;
+                const comments = commentsData[photo.id]?.length || 0;
+                
+                if (modalLikes) modalLikes.textContent = likes;
+                if (modalLikesCount) modalLikesCount.textContent = likes;
+                if (modalComments) modalComments.textContent = comments;
+                
+                // Update pagination info
+                if (modalPhotoIndex && modalPhotoTotal) {
+                    modalPhotoIndex.textContent = currentPhotoIndex + 1;
+                    modalPhotoTotal.textContent = modalPhotos.length;
+                }
+                
+                // Reset display states
+                if (modalImageLoader) modalImageLoader.style.display = 'flex';
+                if (modalImage) modalImage.style.display = 'none';
+                if (modalImageError) modalImageError.style.display = 'none';
+                
+                // Load image với full size cho modal
+                let imageUrls = [];
+                if (photo.id && photo.id.length > 20) {
+                    imageUrls = generateGoogleDriveUrls(photo.id, 'w1200-h800', false);
+                } else if (photo.webViewLink) {
+                    imageUrls.push(photo.webViewLink);
+                } else if (photo.thumbnailLink) {
+                    imageUrls.push(photo.thumbnailLink);
+                }
+                
+                if (imageUrls.length > 0) {
+                    console.log(`🔗 Thử tải ảnh modal với ${imageUrls.length} URLs`);
+                    tryLoadModalImage(modalImage, modalImageLoader, modalImageError, imageUrls, 0, photo.name);
+                } else {
+                    // Không có URL hợp lệ
+                    console.error(`❌ Không có URL hợp lệ cho ảnh modal: ${photo.name}`);
+                    if (modalImageLoader) modalImageLoader.style.display = 'none';
+                    if (modalImageError) modalImageError.style.display = 'flex';
+                }
+                
+            } catch (error) {
+                console.error('❌ Lỗi khi cập nhật modal content:', error);
+                showMessage('❌ Lỗi hiển thị ảnh: ' + error.message, 'error');
+            }
+        }
+
+        // Hàm tải ảnh riêng cho modal
+        function tryLoadModalImage(imgElement, loaderElement, errorElement, urls, currentIndex, imageName) {
+            if (currentIndex >= urls.length) {
+                // Đã thử hết tất cả URL, hiển thị lỗi
+                console.error(`❌ Không thể tải ảnh modal "${imageName}" từ tất cả ${urls.length} URLs`);
+                if (loaderElement) loaderElement.style.display = 'none';
+                if (errorElement) errorElement.style.display = 'flex';
+                return;
             }
             
-            tryLoadImage(modalImage, imageUrls, 0, photo.name);
+            const currentUrl = urls[currentIndex];
+            console.log(`🔄 Thử tải ảnh modal "${imageName}" từ URL ${currentIndex + 1}/${urls.length}: ${currentUrl}`);
+            
+            const testImg = new Image();
+            
+            // Timeout 5 giây cho modal (dài hơn grid)
+            const timeout = setTimeout(() => {
+                testImg.onload = null;
+                testImg.onerror = null;
+                console.warn(`⏰ Timeout loading modal image "${imageName}" from: ${currentUrl}`);
+                tryLoadModalImage(imgElement, loaderElement, errorElement, urls, currentIndex + 1, imageName);
+            }, 5000);
+            
+            testImg.onload = function() {
+                clearTimeout(timeout);
+                console.log(`✅ Successfully loaded modal image "${imageName}" from: ${currentUrl}`);
+                
+                // Hiển thị ảnh thành công
+                imgElement.src = currentUrl;
+                imgElement.alt = imageName;
+                imgElement.style.display = 'block';
+                if (loaderElement) loaderElement.style.display = 'none';
+                if (errorElement) errorElement.style.display = 'none';
+            };
+            
+            testImg.onerror = function() {
+                clearTimeout(timeout);
+                console.warn(`❌ Failed to load modal image "${imageName}" from: ${currentUrl}`);
+                // Thử URL tiếp theo
+                tryLoadModalImage(imgElement, loaderElement, errorElement, urls, currentIndex + 1, imageName);
+            };
+            
+            // Bắt đầu tải ảnh
+            testImg.src = currentUrl;
         }
 
         function updateModalLikes() {
@@ -3515,14 +3733,16 @@
             
             // Arrow keys for photo navigation in modal
             const photoModal = document.getElementById('photoModal');
-            if (photoModal && photoModal.style.display === 'flex') {
+            if (photoModal && !photoModal.classList.contains('hidden')) {
                 if (event.key === 'ArrowLeft') {
+                    event.preventDefault();
                     previousPhoto();
                 } else if (event.key === 'ArrowRight') {
+                    event.preventDefault();
                     nextPhoto();
                 }
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'988a3a1336eb0540',t:'MTc1OTQ3MTMwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'988a543683260452',t:'MTc1OTQ3MjM3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
