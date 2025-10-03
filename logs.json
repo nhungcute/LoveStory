@@ -1,5 +1,17 @@
 [
   {
+    "datetime": "03/10/2025 12:07:22",
+    "action": "Khởi tạo ứng dụng",
+    "details": {
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "config_loaded": true,
+      "app_version": "1.0.0",
+      "load_time": "1584ms",
+      "auto_sync_loaded": true
+    },
+    "current_user": "Couple User"
+  },
+  {
     "datetime": "03/10/2025 12:06:52",
     "action": "Khởi tạo ứng dụng",
     "details": {
