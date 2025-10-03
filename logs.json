@@ -1,5 +1,22 @@
 [
   {
+    "datetime": "03/10/2025 10:56:39",
+    "action": "Lỗi đồng bộ thủ công",
+    "details": {
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "platform": "Win32",
+      "language": "vi-VN",
+      "screen_resolution": "1920x1080",
+      "viewport_size": "1212x1065",
+      "timezone": "Asia/Saigon",
+      "online_status": true,
+      "cookie_enabled": true,
+      "error_message": "Cannot access 'allPhotosData' before initialization",
+      "sync_type": "manual"
+    },
+    "current_user": "Couple User"
+  },
+  {
     "datetime": "03/10/2025 10:54:54",
     "action": "Khởi tạo ứng dụng",
     "details": {
