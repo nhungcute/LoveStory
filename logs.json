@@ -1,2 +1,14 @@
 [
+  {
+    "datetime": "2025-10-03T03:54:52.000Z",
+    "action": "app_init",
+    "details": {
+      "action": "application_start",
+      "config_loaded": true,
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+      "screen_resolution": "1920x1080",
+      "timezone": "Asia/Saigon"
+    },
+    "current_user": "Couple User"
+  }
 ]
