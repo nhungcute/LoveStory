@@ -14,9 +14,9 @@
   "AUTO_SYNC": {
     "enabled": true,
     "frequency": "daily",
-    "time": "12:18",
+    "time": "12:02",
     "lastRun": null,
-    "nextRun": "2025-10-03T05:18:00.000Z",
-    "updatedAt": "2025-10-03T05:17:12.373Z"
+    "nextRun": "2025-10-04T05:02:00.000Z",
+    "updatedAt": "2025-10-03T05:19:38.223Z"
   }
 }
