@@ -10,5 +10,13 @@
   "FOLDER_ID": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
   "API_KEY": "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
   "PHOTOS_PER_PAGE": 50,
-  "AUTO_LOAD_METADATA": "true"
+  "AUTO_LOAD_METADATA": "true",
+  "AUTO_SYNC": {
+    "enabled": false,
+    "frequency": "daily",
+    "time": "02:00",
+    "lastRun": null,
+    "nextRun": null,
+    "updatedAt": "2025-10-03T04:04:48.118Z"
+  }
 }
