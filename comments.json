@@ -2,6 +2,11 @@
   {
     "ID_IMG": "thumbnail22.jpg",
     "count_tim": 1,
-    "comments": []
+    "comments": [
+      {
+        "comment": "A",
+        "date_input": "2025-10-07T09:36:45.827Z"
+      }
+    ]
   }
 ]
