@@ -1,6 +1,6 @@
 [
   {
-    "ID_IMG": "thumbnail22.jpg",
+    "ID_IMG": "1FydQJrzM6yGMOaB970CqnWoJBRILRHGC",
     "count_tim": 18,
     "comments": [
       {
@@ -30,91 +30,6 @@
       {
         "comment": "123",
         "date_input": "2025-10-03T07:06:44.905Z"
-      }
-    ]
-  },
-  {
-    "ID_IMG": "MIN_9448.JPG",
-    "count_tim": 1,
-    "comments": []
-  },
-  {
-    "ID_IMG": "MIN_9453.JPG",
-    "count_tim": 1,
-    "comments": []
-  },
-  {
-    "ID_IMG": "IMG_2108.JPG",
-    "count_tim": 0,
-    "comments": [
-      {
-        "comment": "Bánh mì kẹp kem Singapore",
-        "date_input": "2025-09-17T04:05:09.016Z"
-      }
-    ]
-  },
-  {
-    "ID_IMG": "IMG_2267.JPEG",
-    "count_tim": 0,
-    "comments": [
-      {
-        "comment": "Tranh gương bờ hồ",
-        "date_input": "2025-09-17T04:05:27.063Z"
-      }
-    ]
-  },
-  {
-    "ID_IMG": "MIN_9455.JPG",
-    "count_tim": 11,
-    "comments": [
-      {
-        "comment": "🥰",
-        "date_input": "2025-09-17T04:10:14.256Z"
-      }
-    ]
-  },
-  {
-    "ID_IMG": "MIN_9456.JPG",
-    "count_tim": 3,
-    "comments": []
-  },
-  {
-    "ID_IMG": "MIN_9449.JPG",
-    "count_tim": 1,
-    "comments": []
-  },
-  {
-    "ID_IMG": "MIN_9464.JPG",
-    "count_tim": 1,
-    "comments": [
-      {
-        "comment": "Xinh đẹp😍",
-        "date_input": "2025-09-19T08:19:56.538Z"
-      }
-    ]
-  },
-  {
-    "ID_IMG": "MIN_9446.JPG",
-    "count_tim": 1,
-    "comments": []
-  },
-  {
-    "ID_IMG": "MIN_9468.JPG",
-    "count_tim": 1,
-    "comments": [
-      {
-        "comment": "Đẹp",
-        "date_input": "2025-10-03T06:35:45.178Z"
-      }
-    ]
-  },
-  {
-    "ID_IMG": "IMG_4042.JPEG",
-    "count_tim": 0,
-    "comments": [
-      {
-        "comment": "hehe",
-        "date_input": "2025-10-03T09:03:06.903Z"
       }
     ]
   }
