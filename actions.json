@@ -73,7 +73,7 @@
     "note_id": "key8",
     "day": "04-12-1999",
     "name": "Sinh nhật vợ tui",
-    "contdetl": "Sinh nhật vợ tui",
+    "contdetl": "Sinh nhật vợ tui.",
     "colorClass": "bg-purple-500",
     "icon": "🎂",
     "URL": "",
@@ -141,11 +141,5 @@
       "1j-Tya1k6UUpms9GLtCvAtSP-YbPgAbMy",
       "13qvXDb82OnTAe4kBHFOH6R_EGFGWgW4b"
     ]
-  },
-  {
-    "note_id": "1759824226943",
-    "day": "07-10-2025",
-    "name": "Hôm nay mưa gió",
-    "contdetl": "Hôm nay mưa gió vẫn đèo vợ đi làm"
   }
 ]
