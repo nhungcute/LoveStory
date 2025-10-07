@@ -938,8 +938,50 @@
                 // Load comments from GitHub
                 const commentsResponse = await fetch(`https://raw.githubusercontent.com/${config.GITHUB_USERNAME}/${config.REPO_NAME}/main/${config.COMMENTS_FILE_PATH}?t=${Date.now()}`);
                 if (commentsResponse.ok) {
-                    comments = await commentsResponse.json();
+                    const commentsData = await commentsResponse.json();
+                    console.log('Raw comments data from GitHub:', commentsData);
+                    
+                    // Convert new format to old format for compatibility
+                    comments = {};
+                    if (Array.isArray(commentsData)) {
+                        commentsData.forEach(entry => {
+                            console.log('Processing entry:', entry);
+                            // Find photo by name (exact match or partial match)
+                            let photo = photos.find(p => p.name === entry.ID_IMG);
+                            
+                            // If exact match not found, try partial match
+                            if (!photo) {
+                                photo = photos.find(p => 
+                                    p.name.toLowerCase().includes(entry.ID_IMG.toLowerCase()) ||
+                                    entry.ID_IMG.toLowerCase().includes(p.name.toLowerCase())
+                                );
+                            }
+                            
+                            // If still not found, create a mapping based on index
+                            if (!photo && photos.length > 0) {
+                                const index = commentsData.indexOf(entry);
+                                if (index < photos.length) {
+                                    photo = photos[index];
+                                    console.log(`Using index-based mapping: entry ${index} -> photo ${photo.id}`);
+                                }
+                            }
+                            
+                            if (photo) {
+                                comments[photo.id] = {
+                                    count_tim: entry.count_tim || 0,
+                                    comments: entry.comments || []
+                                };
+                                console.log(`✅ Mapped comments for photo ${photo.id} (${photo.name}) from entry (${entry.ID_IMG}):`, comments[photo.id]);
+                            } else {
+                                console.warn(`❌ Could not find photo for entry: ${entry.ID_IMG}`);
+                            }
+                        });
+                    }
                     addLog('Tải thành công dữ liệu bình luận từ GitHub', 'success');
+                    console.log('Final comments object:', comments);
+                } else {
+                    console.log('Comments file not found, using demo data');
+                    addLog('Không tìm thấy file bình luận, sử dụng dữ liệu demo', 'warning');
                 }
             } catch (error) {
                 console.log('Error loading photos/comments from GitHub:', error);
@@ -997,15 +1039,22 @@
                     photoElement.className = 'photo-item bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300';
                     photoElement.onclick = () => openPhotoModal(photo.id);
                     
+                    // Get comment data for this photo
+                    const photoComments = comments[photo.id] || {count_tim: 0, comments: []};
+                    const likeCount = photoComments.count_tim || 0;
+                    const commentCount = photoComments.comments ? photoComments.comments.length : 0;
+                    
+                    console.log(`Photo ${photo.id} (${photo.name}): ${likeCount} likes, ${commentCount} comments`);
+                    
                     photoElement.innerHTML = `
                         <div class="relative">
                             <img src="${photo.thumbnailLink}" alt="${photo.name}" class="w-full h-52 object-cover" onerror="this.src=''; this.alt='Ảnh không tải được'; this.style.display='none';">
                             <div class="absolute bottom-2 left-2 flex items-center space-x-2">
                                 <div class="bg-black bg-opacity-70 text-white px-2 py-1 rounded-full text-xs flex items-center">
-                                    <i class="fas fa-heart mr-1 text-red-400"></i>${comments[photo.id]?.count_tim || 0}
+                                    <i class="fas fa-heart mr-1 text-red-400"></i>${likeCount}
                                 </div>
                                 <div class="bg-black bg-opacity-70 text-white px-2 py-1 rounded-full text-xs flex items-center">
-                                    <i class="fas fa-comment mr-1 text-blue-400"></i>${comments[photo.id]?.comments?.length || 0}
+                                    <i class="fas fa-comment mr-1 text-blue-400"></i>${commentCount}
                                 </div>
                             </div>
                             ${photo.eventId ? `<div class="absolute top-2 right-2 text-xs text-white bg-accent-100 bg-opacity-90 px-2 py-1 rounded-full">
@@ -1028,15 +1077,20 @@
                     photoElement.className = 'bg-white rounded-lg shadow-md p-4 flex items-center space-x-4 cursor-pointer hover:shadow-lg transition-shadow';
                     photoElement.onclick = () => openPhotoModal(photo.id);
                     
+                    // Get comment data for this photo
+                    const photoComments = comments[photo.id] || {count_tim: 0, comments: []};
+                    const likeCount = photoComments.count_tim || 0;
+                    const commentCount = photoComments.comments ? photoComments.comments.length : 0;
+                    
                     photoElement.innerHTML = `
                         <div class="relative flex-shrink-0">
                             <img src="${photo.thumbnailLink}" alt="${photo.name}" class="w-20 h-20 object-cover rounded-lg" onerror="this.src=''; this.alt='Ảnh không tải được'; this.style.display='none';">
                             <div class="absolute bottom-1 left-1 flex items-center space-x-1">
                                 <div class="bg-black bg-opacity-70 text-white px-1 py-0.5 rounded text-xs flex items-center">
-                                    <i class="fas fa-heart mr-1 text-red-400"></i>${comments[photo.id]?.count_tim || 0}
+                                    <i class="fas fa-heart mr-1 text-red-400"></i>${likeCount}
                                 </div>
                                 <div class="bg-black bg-opacity-70 text-white px-1 py-0.5 rounded text-xs flex items-center">
-                                    <i class="fas fa-comment mr-1 text-blue-400"></i>${comments[photo.id]?.comments?.length || 0}
+                                    <i class="fas fa-comment mr-1 text-blue-400"></i>${commentCount}
                                 </div>
                             </div>
                         </div>
@@ -1287,15 +1341,27 @@
             commentsList.innerHTML = '';
             
             // Display existing comments
-            if (photoComments.comments && photoComments.comments.length > 0) {
-                photoComments.comments.forEach(comment => {
+            console.log('=== COMMENT DISPLAY DEBUG ===');
+            console.log('Current photo ID:', currentPhotoId);
+            console.log('Photo comments for modal:', photoComments);
+            console.log('Comments array:', photoComments.comments);
+            console.log('Comments array length:', photoComments.comments ? photoComments.comments.length : 'undefined');
+            console.log('Comments array type:', typeof photoComments.comments);
+            
+            if (photoComments.comments && Array.isArray(photoComments.comments) && photoComments.comments.length > 0) {
+                console.log('✅ Displaying', photoComments.comments.length, 'comments');
+                photoComments.comments.forEach((comment, index) => {
+                    console.log(`Processing comment ${index}:`, comment);
+                    
                     const commentElement = document.createElement('div');
                     commentElement.className = 'bg-gray-100 rounded-lg p-2 text-sm';
                     
                     // Xử lý cả format cũ và mới
-                    const commentText = comment.comment || comment.text || '';
-                    const commentDate = comment.date_input || comment.time || new Date().toISOString();
-                    const commentUser = comment.user || 'Người dùng';
+                    const commentText = comment.comment || comment.text || comment.content || 'Bình luận không có nội dung';
+                    const commentDate = comment.date_input || comment.time || comment.date || new Date().toISOString();
+                    const commentUser = comment.user || comment.author || 'Người dùng';
+                    
+                    console.log(`Comment ${index} processed:`, {commentText, commentDate, commentUser});
                     
                     commentElement.innerHTML = `
                         <div class="flex items-center justify-between mb-1">
@@ -1313,6 +1379,11 @@
                     commentsList.appendChild(commentElement);
                 });
             } else {
+                console.log('❌ No valid comments found');
+                console.log('Reason: comments =', photoComments.comments);
+                console.log('Is array?', Array.isArray(photoComments.comments));
+                console.log('Length:', photoComments.comments ? photoComments.comments.length : 'N/A');
+                
                 const noCommentsElement = document.createElement('div');
                 noCommentsElement.className = 'text-center text-gray-500 py-4';
                 noCommentsElement.innerHTML = `
@@ -1321,6 +1392,7 @@
                 `;
                 commentsList.appendChild(noCommentsElement);
             }
+            console.log('=== END COMMENT DISPLAY DEBUG ===');
             
             document.getElementById('photo-modal').classList.remove('hidden');
         }
@@ -1339,39 +1411,59 @@
             
             // Clear comment input
             document.getElementById('comment-input').value = '';
+            
+            // Tự động load lại grid để cập nhật số lượt thích và bình luận
+            loadPhotos();
         }
 
         async function likePhoto() {
-            if (!currentPhotoId) return;
-            
-            if (!comments[currentPhotoId]) {
-                comments[currentPhotoId] = {count_tim: 0, comments: []};
-            }
-            
-            // Tăng số lượt thích
-            comments[currentPhotoId].count_tim++;
-            document.getElementById('like-count').textContent = comments[currentPhotoId].count_tim;
-            
-            // Update like button visual state
-            const likeButton = document.getElementById('like-button');
-            likeButton.className = 'flex items-center space-x-2 px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors';
-            
-            // Add animation effect
-            likeButton.style.transform = 'scale(1.2)';
-            setTimeout(() => {
-                likeButton.style.transform = 'scale(1)';
-            }, 200);
-            
-            // Save to GitHub
-            const saved = await saveCommentsToGitHub();
-            if (saved) {
-                loadPhotos();
-                addLog(`Thích ảnh: ${photos.find(p => p.id === currentPhotoId).name}`, 'success');
-            } else {
-                // Rollback if save failed
-                comments[currentPhotoId].count_tim--;
+            try {
+                if (!currentPhotoId) {
+                    console.error('Không có ID ảnh hiện tại');
+                    return;
+                }
+                
+                console.log('Thích ảnh ID:', currentPhotoId);
+                
+                // Khởi tạo dữ liệu cho ảnh nếu chưa có
+                if (!comments[currentPhotoId]) {
+                    comments[currentPhotoId] = {count_tim: 0, comments: []};
+                }
+                
+                // Lưu giá trị cũ để rollback nếu cần
+                const oldCount = comments[currentPhotoId].count_tim;
+                
+                // Tăng số lượt thích
+                comments[currentPhotoId].count_tim++;
+                console.log('Số lượt thích mới:', comments[currentPhotoId].count_tim);
+                
+                // Cập nhật giao diện ngay lập tức
                 document.getElementById('like-count').textContent = comments[currentPhotoId].count_tim;
-                alert('Có lỗi khi lưu lượt thích. Vui lòng thử lại!');
+                
+                // Update like button visual state
+                const likeButton = document.getElementById('like-button');
+                likeButton.className = 'flex items-center space-x-2 px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors';
+                
+                // Add animation effect
+                likeButton.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    likeButton.style.transform = 'scale(1)';
+                }, 200);
+                
+                // Save to GitHub (không chờ kết quả để UX mượt hơn)
+                saveCommentToGitHub(currentPhotoId, null, comments[currentPhotoId].count_tim).then(saved => {
+                    if (saved) {
+                        console.log('Lưu thành công lượt thích cho ảnh ID:', currentPhotoId);
+                        addLog(`Thích ảnh ID ${currentPhotoId}: ${photos.find(p => p.id === currentPhotoId)?.name || 'Không rõ tên'}`, 'success');
+                    } else {
+                        console.error('Lỗi lưu lượt thích');
+                        addLog(`Lỗi lưu lượt thích cho ảnh ID ${currentPhotoId}`, 'error');
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Lỗi khi thích ảnh:', error);
+                alert('Có lỗi xảy ra khi thích ảnh. Vui lòng thử lại!');
             }
         }
 
@@ -1455,93 +1547,172 @@
         }
 
         async function addComment() {
-            if (!currentPhotoId) return;
-            
-            const commentInput = document.getElementById('comment-input');
-            const commentText = commentInput.value.trim();
-            
-            if (!commentText) {
-                alert('Vui lòng nhập nội dung bình luận!');
-                return;
-            }
-            
-            if (!comments[currentPhotoId]) {
-                comments[currentPhotoId] = {count_tim: 0, comments: []};
-            }
-            
-            // Tạo bình luận mới theo format yêu cầu
-            const newComment = {
-                comment: commentText,
-                date_input: new Date().toISOString()
-            };
-            
-            comments[currentPhotoId].comments.push(newComment);
-            commentInput.value = '';
-            
-            // Save to GitHub
-            const saved = await saveCommentsToGitHub();
-            if (saved) {
-                // Refresh comments display
-                openPhotoModal(currentPhotoId);
-                loadPhotos();
-                addLog(`Bình luận ảnh: ${photos.find(p => p.id === currentPhotoId).name}`, 'success');
-            } else {
-                // Remove comment if save failed
-                comments[currentPhotoId].comments.pop();
-                alert('Có lỗi khi lưu bình luận. Vui lòng thử lại!');
+            try {
+                if (!currentPhotoId) {
+                    console.error('Không có ID ảnh hiện tại');
+                    return;
+                }
+                
+                const commentInput = document.getElementById('comment-input');
+                const commentText = commentInput.value.trim();
+                
+                if (!commentText) {
+                    alert('Vui lòng nhập nội dung bình luận!');
+                    return;
+                }
+                
+                console.log('Thêm bình luận cho ảnh ID:', currentPhotoId);
+                
+                // Khởi tạo dữ liệu cho ảnh nếu chưa có
+                if (!comments[currentPhotoId]) {
+                    comments[currentPhotoId] = {count_tim: 0, comments: []};
+                }
+                
+                // Tạo bình luận mới theo format yêu cầu
+                const newComment = {
+                    comment: commentText,
+                    date_input: new Date().toISOString()
+                };
+                
+                console.log('Bình luận mới:', newComment);
+                
+                // Thêm bình luận vào mảng
+                comments[currentPhotoId].comments.push(newComment);
+                console.log('Tổng số bình luận cho ảnh ID', currentPhotoId, ':', comments[currentPhotoId].comments.length);
+                
+                // Clear input
+                commentInput.value = '';
+                
+                // Save to GitHub
+                const saved = await saveCommentToGitHub(currentPhotoId, newComment, null);
+                if (saved) {
+                    console.log('Lưu thành công bình luận cho ảnh ID:', currentPhotoId);
+                    // Refresh comments display
+                    openPhotoModal(currentPhotoId);
+                    addLog(`Bình luận ảnh ID ${currentPhotoId}: ${photos.find(p => p.id === currentPhotoId)?.name || 'Không rõ tên'}`, 'success');
+                } else {
+                    // Remove comment if save failed
+                    console.error('Lỗi lưu, xóa bình luận vừa thêm');
+                    comments[currentPhotoId].comments.pop();
+                    alert('Có lỗi khi lưu bình luận. Vui lòng thử lại!');
+                }
+            } catch (error) {
+                console.error('Lỗi khi thêm bình luận:', error);
+                alert('Có lỗi xảy ra khi thêm bình luận. Vui lòng thử lại!');
             }
         }
         
-        async function saveCommentsToGitHub() {
+        async function saveCommentToGitHub(photoId, newComment = null, newLikeCount = null) {
             try {
+                console.log('Bắt đầu lưu dữ liệu comments lên GitHub cho ảnh ID:', photoId);
+                
+                if (!config.GITHUB_USERNAME || !config.REPO_NAME || !config.PAT1 || !config.PAT2) {
+                    throw new Error('Thiếu cấu hình GitHub');
+                }
+                
                 const token = config.PAT1 + config.PAT2;
                 const url = `https://api.github.com/repos/${config.GITHUB_USERNAME}/${config.REPO_NAME}/contents/${config.COMMENTS_FILE_PATH}`;
                 
-                // Get current file SHA
+                console.log('GitHub URL:', url);
+                
+                // Read current comments file
+                let existingComments = [];
                 let sha = null;
+                
                 try {
-                    const getResponse = await fetch(url, {
+                    const response = await fetch(url, {
                         headers: {
                             'Authorization': `token ${token}`,
                             'Accept': 'application/vnd.github.v3+json'
                         }
                     });
-                    if (getResponse.ok) {
-                        const fileData = await getResponse.json();
-                        sha = fileData.sha;
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        existingComments = JSON.parse(atob(data.content));
+                        sha = data.sha;
+                        console.log('Đọc được file comments hiện tại, số lượng:', existingComments.length);
                     }
-                } catch (error) {
-                    console.log('Comments file does not exist, will create new file');
+                } catch (e) {
+                    console.log('Tạo file comments mới');
                 }
                 
-                // Prepare content with proper UTF-8 encoding
-                const jsonString = JSON.stringify(comments, null, 2);
+                // Find photo name from photos array
+                const photo = photos.find(p => p.id === photoId);
+                const photoName = photo ? photo.name : `Photo_${photoId}`;
+                
+                console.log('Tên ảnh:', photoName);
+                
+                // Find or create entry for this photo
+                let photoEntry = existingComments.find(entry => entry.ID_IMG === photoName);
+                
+                if (!photoEntry) {
+                    photoEntry = {
+                        ID_IMG: photoName,
+                        count_tim: 0,
+                        comments: []
+                    };
+                    existingComments.push(photoEntry);
+                    console.log('Tạo entry mới cho ảnh:', photoName);
+                }
+                
+                // Update like count if provided
+                if (newLikeCount !== null) {
+                    photoEntry.count_tim = newLikeCount;
+                    console.log('Cập nhật số lượt thích:', newLikeCount);
+                }
+                
+                // Add new comment if provided
+                if (newComment) {
+                    photoEntry.comments.push(newComment);
+                    console.log('Thêm bình luận mới:', newComment);
+                }
+                
+                console.log('Dữ liệu entry sau khi cập nhật:', photoEntry);
+                
+                // Save back to GitHub
+                const jsonString = JSON.stringify(existingComments, null, 2);
+                console.log('JSON string chuẩn bị lưu:', jsonString.substring(0, 200) + '...');
+                
                 const content = btoa(unescape(encodeURIComponent(jsonString)));
                 
-                // Update or create file
-                const response = await fetch(url, {
+                const payload = {
+                    message: `Cập nhật ${newComment ? 'bình luận' : 'lượt thích'} cho ${photoName} - ${new Date().toLocaleString('vi-VN')}`,
+                    content: content
+                };
+                
+                if (sha) {
+                    payload.sha = sha;
+                }
+                
+                console.log('Payload message:', payload.message);
+                
+                const saveResponse = await fetch(url, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `token ${token}`,
                         'Accept': 'application/vnd.github.v3+json',
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        message: `Update comments - ${new Date().toISOString()}`,
-                        content: content,
-                        sha: sha
-                    })
+                    body: JSON.stringify(payload)
                 });
                 
-                if (response.ok) {
-                    addLog('Lưu dữ liệu bình luận lên GitHub thành công', 'success');
-                    return true;
-                } else {
-                    throw new Error(`HTTP ${response.status}`);
+                console.log('Save response status:', saveResponse.status);
+                
+                if (!saveResponse.ok) {
+                    const errorText = await saveResponse.text();
+                    console.error('GitHub API Error:', errorText);
+                    throw new Error(`GitHub API Error ${saveResponse.status}: ${errorText}`);
                 }
+                
+                const responseData = await saveResponse.json();
+                console.log(`✅ Đã lưu ${newComment ? 'bình luận' : 'lượt thích'} vào GitHub cho ảnh: ${photoName}`);
+                addLog(`Lưu ${newComment ? 'bình luận' : 'lượt thích'} cho ảnh ${photoName} thành công`, 'success');
+                return true;
+                
             } catch (error) {
-                console.error('Error saving comments to GitHub:', error);
-                addLog(`Lỗi lưu bình luận: ${error.message}`, 'error');
+                console.error('❌ Lỗi lưu vào GitHub:', error);
+                addLog(`Lỗi lưu dữ liệu: ${error.message}`, 'error');
                 return false;
             }
         }
@@ -1615,5 +1786,5 @@
             }
         }, 60000); // Check every minute
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ac55e2c65b1fb8',t:'MTc1OTgyODk2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ac7816a146e6ae',t:'MTc1OTgzMDM2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
