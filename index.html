@@ -2,8 +2,9 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story - Ứng Dụng Quản Lý Kỷ Niệm</title>
+    <title>Love Story</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -690,8 +691,7 @@
         <!-- Timeline Section -->
         <div id="timeline-section" class="content-section">
             <div class="section-header">
-                <h2><i class="bi bi-clock-history me-2"></i>Quản Lý Timeline Sự Kiện</h2>
-                <p class="mb-0">Thêm, chỉnh sửa và quản lý các sự kiện của bạn</p>
+                <h2><i class="bi bi-clock-history me-2"></i>Timeline</h2>
             </div>
 
             <div class="loading-spinner" id="timeline-loading">
@@ -970,7 +970,8 @@
                 
                 if (response.ok) {
                     const data = await response.json();
-                    const content = atob(data.content);
+                    // Decode base64 content with proper UTF-8 handling
+                    const content = decodeURIComponent(escape(atob(data.content)));
                     return JSON.parse(content);
                 } else {
                     throw new Error(`HTTP ${response.status}`);
@@ -1000,7 +1001,8 @@
                     sha = currentData.sha;
                 }
                 
-                const content = btoa(JSON.stringify(data, null, 2));
+                // Encode content with proper UTF-8 handling
+                const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
                 const payload = {
                     message: message,
                     content: content
@@ -1078,6 +1080,13 @@
         }
 
         // Utility functions
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         function parseDate(dateStr) {
             const parts = dateStr.split('-');
             return new Date(parts[2], parts[1] - 1, parts[0]);
@@ -1213,22 +1222,29 @@
             events.forEach(event => {
                 const timelineItem = document.createElement('div');
                 timelineItem.className = 'timeline-item';
+                
+                // Safely encode text content to prevent encoding issues
+                const eventDay = escapeHtml(event.day || '');
+                const eventName = escapeHtml(event.name || '');
+                const eventDescription = escapeHtml(event.contdetl || '');
+                const eventId = event.id || Date.now();
+                
                 timelineItem.innerHTML = `
                     <div class="timeline-content">
                         <div class="event-date">
-                            <i class="bi bi-calendar-event me-1"></i>${event.day}
+                            <i class="bi bi-calendar-event me-1"></i>${eventDay}
                         </div>
-                        <div class="event-title">${event.name}</div>
-                        <div class="event-description">${event.contdetl || ''}</div>
+                        <div class="event-title">${eventName}</div>
+                        <div class="event-description">${eventDescription}</div>
                     </div>
                     <div class="timeline-actions">
-                        <button class="btn-icon" onclick="editEvent('${event.id || Date.now()}')" title="Chỉnh sửa">
+                        <button class="btn-icon" onclick="editEvent('${eventId}')" title="Chỉnh sửa">
                             <i class="bi bi-pencil"></i>
                         </button>
-                        <button class="btn-icon" onclick="viewEventPhotos('${event.id || Date.now()}')" title="Xem ảnh">
+                        <button class="btn-icon" onclick="viewEventPhotos('${eventId}')" title="Xem ảnh">
                             <i class="bi bi-images"></i>
                         </button>
-                        <button class="btn-icon danger" onclick="deleteEvent('${event.id || Date.now()}')" title="Xóa">
+                        <button class="btn-icon danger" onclick="deleteEvent('${eventId}')" title="Xóa">
                             <i class="bi bi-trash"></i>
                         </button>
                     </div>
@@ -1635,5 +1651,5 @@
             updateStats();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ab6e7522b3e6ae',t:'MTc1OTgxOTQ4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ab773171c6e6ae',t:'MTc1OTgxOTg0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
