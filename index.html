@@ -2,260 +2,85 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Love Story - Ứng Dụng Kỷ Niệm Tình Yêu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            100: '#006B68',
+                            80: '#339B98',
+                            60: '#66B5B2',
+                            50: '#80C4C1',
+                            30: '#B3D9D7'
+                        },
+                        accent: {
+                            100: '#FFC62F',
+                            80: '#FFD15C',
+                            60: '#FFDC89',
+                            50: '#FFE2A3',
+                            30: '#FFEED0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body {
             box-sizing: border-box;
-            background: linear-gradient(135deg, #006B68 0%, #FFC62F 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
         }
-
-        :root {
-            --primary-100: #006B68;
-            --primary-80: rgba(0, 107, 104, 0.8);
-            --primary-60: rgba(0, 107, 104, 0.6);
-            --primary-50: rgba(0, 107, 104, 0.5);
-            --primary-30: rgba(0, 107, 104, 0.3);
-            --accent-100: #FFC62F;
-            --accent-80: rgba(255, 198, 47, 0.8);
-            --accent-60: rgba(255, 198, 47, 0.6);
-            --accent-50: rgba(255, 198, 47, 0.5);
-            --accent-30: rgba(255, 198, 47, 0.3);
-        }
-
-        .navbar {
-            background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-brand {
-            color: var(--primary-100) !important;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-
-        .nav-link {
-            color: var(--primary-100) !important;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            margin: 0 5px;
-            padding: 8px 16px !important;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: var(--primary-100);
-            color: white !important;
-            transform: translateY(-2px);
-        }
-
-        .main-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            margin: 20px;
-            overflow: hidden;
-        }
-
-        .section-header {
-            background: linear-gradient(135deg, var(--primary-100), var(--accent-100));
-            color: white;
-            padding: 20px;
-            margin: -20px -20px 20px -20px;
-        }
-
-        .calendar-container {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--primary-100), var(--accent-100));
-            border-radius: 10px;
-            color: white;
-        }
-
-        .calendar-nav-btn {
-            background: var(--primary-30);
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-weight: bold;
+        .calendar-day {
             transition: all 0.3s ease;
         }
-
-        .calendar-nav-btn:hover {
-            background: var(--primary-50);
+        .calendar-day:hover {
             transform: scale(1.05);
         }
-
-        .calendar-grid {
+        .photo-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
         }
-
-        .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            font-weight: 500;
+        .photo-item {
+            transition: transform 0.3s ease;
         }
-
-        .calendar-day:hover {
-            background: var(--accent-100);
-            color: white;
-            transform: scale(1.1);
+        .photo-item:hover {
+            transform: scale(1.05);
         }
-
-        .calendar-day.today {
-            background: var(--primary-100);
-            color: white;
-            font-weight: bold;
+        .modal {
+            backdrop-filter: blur(10px);
         }
-
-        .calendar-day.has-event {
-            background: var(--accent-100);
-            color: var(--primary-100);
-            font-weight: bold;
-        }
-
-        .calendar-day.has-event::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            width: 6px;
-            height: 6px;
-            background: var(--primary-100);
-            border-radius: 50%;
-        }
-
-        .day-header {
-            background: var(--primary-100);
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .timeline-container {
-            max-height: 600px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-
         .timeline-item {
-            background: white;
-            border-left: 4px solid var(--primary-100);
-            margin-bottom: 20px;
-            padding: 20px;
-            border-radius: 0 15px 15px 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
             position: relative;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
         }
-
-        .timeline-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -8px;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #006B68, #FFC62F);
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 14px;
             top: 20px;
-            width: 12px;
-            height: 12px;
-            background: var(--accent-100);
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            border: 3px solid white;
+            background: #FFC62F;
+            border: 3px solid #006B68;
         }
-
-        .timeline-content {
-            flex: 1;
-        }
-
-        .timeline-actions {
-            display: flex;
-            gap: 5px;
-            margin-left: 15px;
-        }
-
-        .event-date {
-            color: var(--primary-100);
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .event-title {
-            color: #333;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin: 5px 0;
-        }
-
-        .event-description {
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .btn-primary-custom {
-            background: var(--primary-100);
-            border: none;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary-custom:hover {
-            background: var(--primary-80);
-            transform: translateY(-2px);
-        }
-
-        .btn-accent-custom {
-            background: var(--accent-100);
-            border: none;
-            color: var(--primary-100);
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-
-        .btn-accent-custom:hover {
-            background: var(--accent-80);
-            transform: translateY(-2px);
-        }
-
         .btn-icon {
             background: none;
-            border: 1px solid var(--primary-30);
-            color: var(--primary-100);
+            border: 1px solid #B3D9D7;
+            color: #006B68;
             padding: 8px;
             border-radius: 6px;
             transition: all 0.3s ease;
@@ -265,636 +90,258 @@
             align-items: center;
             justify-content: center;
         }
-
         .btn-icon:hover {
-            background: var(--primary-100);
-            color: white;
-            border-color: var(--primary-100);
+            background: #B3D9D7;
+            border-color: #006B68;
         }
-
         .btn-icon.danger:hover {
-            background: #dc3545;
-            border-color: #dc3545;
-        }
-
-        .view-toggle {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .view-btn {
-            background: #f8f9fa;
-            border: 2px solid var(--primary-100);
-            color: var(--primary-100);
-            padding: 10px 15px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .view-btn.active {
-            background: var(--primary-100);
-            color: white;
-        }
-
-        .photo-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 20px 0;
-        }
-
-        .photo-gallery.list-view {
-            grid-template-columns: 1fr;
-        }
-
-        .photo-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .photo-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .photo-card.list-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-        }
-
-        .photo-card.list-item .photo-thumbnail {
-            width: 80px;
-            height: 80px;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-
-        .photo-thumbnail {
-            width: 100%;
-            height: 150px;
-            background: linear-gradient(135deg, var(--primary-100), var(--accent-100));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2rem;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .photo-info {
-            padding: 15px;
-        }
-
-        .photo-title {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .photo-date {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        .photo-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .interaction-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .like-btn, .comment-btn {
-            background: none;
-            border: none;
-            color: #666;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .like-btn:hover {
-            color: #e74c3c;
-            background: rgba(231, 76, 60, 0.1);
-        }
-
-        .like-btn.liked {
-            color: #e74c3c;
-        }
-
-        .comment-btn:hover {
-            color: var(--primary-100);
-            background: var(--primary-30);
-        }
-
-        .modal-content {
-            border-radius: 15px;
-            border: none;
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, var(--primary-100), var(--accent-100));
-            color: white;
-            border-radius: 15px 15px 0 0;
-        }
-
-        .form-control, .form-select {
-            border-radius: 10px;
-            border: 2px solid #e9ecef;
-            padding: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary-100);
-            box-shadow: 0 0 0 0.2rem var(--primary-30);
-        }
-
-        .activity-log {
-            max-height: 300px;
-            overflow-y: auto;
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-        }
-
-        .log-item {
-            padding: 10px;
-            border-bottom: 1px solid #dee2e6;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .log-item:last-child {
-            border-bottom: none;
-        }
-
-        .log-icon {
-            color: var(--primary-100);
-            font-size: 1.2rem;
-        }
-
-        .log-time {
-            color: #666;
-            font-size: 0.8rem;
-        }
-
-        .stats-card {
-            background: linear-gradient(135deg, var(--primary-100), var(--accent-100));
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .stats-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: white;
-        }
-
-        .content-section {
-            display: none;
-            padding: 20px;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        .auto-update-status {
-            background: linear-gradient(135deg, var(--primary-100), var(--accent-100));
-            color: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .status-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #28a745;
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .add-event-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-100), var(--accent-100));
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.5rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .add-event-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .loading-spinner {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            display: none;
-        }
-
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            display: none;
-        }
-
-        .sync-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px;
-            background: var(--primary-30);
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .comments-section {
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-        }
-
-        .comment-item {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .comment-item:last-child {
-            border-bottom: none;
-        }
-
-        .comment-author {
-            font-weight: bold;
-            color: var(--primary-100);
-        }
-
-        .comment-time {
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        .pagination-custom .page-link {
-            color: var(--primary-100);
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            margin: 0 2px;
-        }
-
-        .pagination-custom .page-link:hover {
-            background: var(--primary-100);
-            border-color: var(--primary-100);
-            color: white;
-        }
-
-        .pagination-custom .page-item.active .page-link {
-            background: var(--primary-100);
-            border-color: var(--primary-100);
+            background: #fee2e2;
+            border-color: #dc2626;
+            color: #dc2626;
         }
     </style>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="bi bi-heart-fill me-2"></i>
-                Love Story
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" onclick="showSection('calendar')">
-                            <i class="bi bi-calendar3 me-1"></i>Lịch Sự Kiện
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showSection('timeline')">
-                            <i class="bi bi-clock-history me-1"></i>Timeline
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showSection('gallery')">
-                            <i class="bi bi-images me-1"></i>Thư Viện Ảnh
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showSection('admin')">
-                            <i class="bi bi-gear me-1"></i>Quản Trị
-                        </a>
-                    </li>
-                </ul>
+<body class="bg-gradient-to-br from-primary-30 to-accent-30 min-h-screen">
+    <!-- Header -->
+    <header class="bg-primary-100 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-heart text-accent-100 text-2xl"></i>
+                    <h1 class="text-2xl font-bold">Love Story</h1>
+                </div>
+                <nav class="flex space-x-2 md:space-x-6">
+                    <button onclick="showSection('calendar')" class="nav-btn hover:text-accent-100 transition-colors px-2 md:px-0">
+                        <i class="fas fa-calendar-alt md:mr-2"></i>
+                        <span class="hidden md:inline">Lịch Sự Kiện</span>
+                    </button>
+                    <button onclick="showSection('timeline')" class="nav-btn hover:text-accent-100 transition-colors px-2 md:px-0">
+                        <i class="bi bi-clock-history md:mr-2"></i>
+                        <span class="hidden md:inline">Timeline</span>
+                    </button>
+                    <button onclick="showSection('photos')" class="nav-btn hover:text-accent-100 transition-colors px-2 md:px-0">
+                        <i class="fas fa-images md:mr-2"></i>
+                        <span class="hidden md:inline">Thư Viện Ảnh</span>
+                    </button>
+                    <button onclick="showSection('admin')" class="nav-btn hover:text-accent-100 transition-colors px-2 md:px-0">
+                        <i class="fas fa-cog md:mr-2"></i>
+                        <span class="hidden md:inline">Quản Trị</span>
+                    </button>
+                </nav>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Main Container -->
-    <div class="main-container">
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
         <!-- Calendar Section -->
-        <div id="calendar-section" class="content-section active">
-            <div class="section-header">
-                <h2><i class="bi bi-calendar3 me-2"></i>Lịch Sự Kiện Trực Quan</h2>
-                <p class="mb-0">Theo dõi các ngày kỷ niệm và sự kiện quan trọng</p>
-            </div>
-            
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <button class="calendar-nav-btn" onclick="previousMonth()">
-                        <i class="bi bi-chevron-left"></i>
-                    </button>
-                    <h4 id="current-month" class="mb-0">Tháng 12, 2024</h4>
-                    <button class="calendar-nav-btn" onclick="nextMonth()">
-                        <i class="bi bi-chevron-right"></i>
-                    </button>
-                </div>
-                
-                <div class="calendar-grid">
-                    <div class="day-header">CN</div>
-                    <div class="day-header">T2</div>
-                    <div class="day-header">T3</div>
-                    <div class="day-header">T4</div>
-                    <div class="day-header">T5</div>
-                    <div class="day-header">T6</div>
-                    <div class="day-header">T7</div>
-                </div>
-                <div id="calendar-days" class="calendar-grid"></div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <div class="stats-card">
-                        <div class="stats-number" id="total-events">0</div>
-                        <div>Tổng Sự Kiện</div>
+        <section id="calendar-section" class="section">
+            <div class="bg-white rounded-lg shadow-xl p-6 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-3xl font-bold text-primary-100">
+                        <i class="fas fa-calendar mr-3"></i>Lịch Sự Kiện
+                    </h2>
+                    <div class="flex items-center space-x-4">
+                        <button onclick="previousMonth()" class="bg-primary-100 text-white px-4 py-2 rounded-lg hover:bg-primary-80 transition-colors">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span id="current-month" class="text-xl font-semibold text-primary-100"></span>
+                        <button onclick="nextMonth()" class="bg-primary-100 text-white px-4 py-2 rounded-lg hover:bg-primary-80 transition-colors">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="stats-card">
-                        <div class="stats-number" id="upcoming-events">0</div>
-                        <div>Sự Kiện Sắp Tới</div>
-                    </div>
+                <div id="calendar-grid" class="grid grid-cols-7 gap-2">
+                    <!-- Calendar will be generated here -->
                 </div>
             </div>
-        </div>
+        </section>
 
         <!-- Timeline Section -->
-        <div id="timeline-section" class="content-section">
-            <div class="section-header">
-                <h2><i class="bi bi-clock-history me-2"></i>Timeline</h2>
-            </div>
-
-            <div class="loading-spinner" id="timeline-loading">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Đang tải...</span>
+        <section id="timeline-section" class="section hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-3xl font-bold text-primary-100">
+                        <i class="fas fa-heart-pulse mr-3"></i>Timeline
+                    </h2>
+                    <button onclick="showAddEventModal()" class="bg-accent-100 text-primary-100 px-6 py-3 rounded-lg font-semibold hover:bg-accent-80 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Thêm Sự Kiện
+                    </button>
                 </div>
-                <p>Đang tải dữ liệu từ GitHub...</p>
-            </div>
-
-            <div class="error-message" id="timeline-error"></div>
-            <div class="success-message" id="timeline-success"></div>
-
-            <div class="timeline-container" id="timeline-container">
-                <!-- Timeline items will be loaded here -->
-            </div>
-        </div>
-
-        <!-- Gallery Section -->
-        <div id="gallery-section" class="content-section">
-            <div class="section-header">
-                <h2><i class="bi bi-images me-2"></i>Thư Viện Ảnh "Khoảnh Khắc"</h2>
-                <p class="mb-0">Lưu giữ và chia sẻ những kỷ niệm đẹp nhất</p>
-            </div>
-
-            <div class="sync-status">
-                <div class="status-indicator"></div>
-                <span>Đồng bộ với Google Drive: <span id="last-sync">Chưa đồng bộ</span></span>
-                <button class="btn btn-sm btn-accent-custom ms-auto" onclick="syncPhotos()">
-                    <i class="bi bi-arrow-clockwise me-1"></i>Đồng bộ ngay
-                </button>
-            </div>
-
-            <div class="view-toggle">
-                <button class="view-btn active" onclick="setViewMode('grid')">
-                    <i class="bi bi-grid-3x3-gap me-1"></i>Lưới
-                </button>
-                <button class="view-btn" onclick="setViewMode('list')">
-                    <i class="bi bi-list me-1"></i>Danh sách
-                </button>
-            </div>
-
-            <div class="loading-spinner" id="gallery-loading">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Đang tải...</span>
+                <div id="timeline-container" class="relative pl-12">
+                    <!-- Timeline events will be generated here -->
                 </div>
-                <p>Đang tải ảnh từ Google Drive...</p>
             </div>
+        </section>
 
-            <div class="photo-gallery" id="photo-gallery">
-                <!-- Photos will be loaded here -->
-            </div>
-
-            <nav class="mt-4">
-                <ul class="pagination pagination-custom justify-content-center" id="photo-pagination">
+        <!-- Photos Section -->
+        <section id="photos-section" class="section hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-3xl font-bold text-primary-100">
+                        <i class="fas fa-camera-retro mr-3"></i>Thư Viện Ảnh "Khoảnh Khắc"
+                    </h2>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex bg-gray-100 rounded-lg p-1">
+                            <button onclick="setPhotoView('grid')" id="grid-view-btn" class="px-4 py-2 rounded-md bg-primary-100 text-white">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button onclick="setPhotoView('list')" id="list-view-btn" class="px-4 py-2 rounded-md text-gray-600 hover:bg-gray-200">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                        <button onclick="syncPhotos()" class="bg-accent-100 text-primary-100 px-4 py-2 rounded-lg hover:bg-accent-80 transition-colors">
+                            <i class="fas fa-sync mr-2"></i>Đồng Bộ
+                        </button>
+                    </div>
+                </div>
+                <div id="photos-container">
+                    <!-- Photos will be loaded here -->
+                </div>
+                <div id="pagination" class="flex justify-center mt-8">
                     <!-- Pagination will be generated here -->
-                </ul>
-            </nav>
-        </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Admin Section -->
-        <div id="admin-section" class="content-section">
-            <div class="section-header">
-                <h2><i class="bi bi-gear me-2"></i>Quản Trị & Kỹ Thuật</h2>
-                <p class="mb-0">Theo dõi hoạt động và cấu hình hệ thống</p>
-            </div>
-
-            <div class="auto-update-status">
-                <h5><i class="bi bi-cloud-arrow-down me-2"></i>Trạng Thái Tự Động Cập Nhật</h5>
-                <p class="mb-2">
-                    <span class="status-indicator"></span>
-                    <span id="auto-sync-status">Đang kiểm tra...</span>
-                </p>
-                <small id="next-sync-time">Cập nhật tiếp theo: Đang tính toán...</small>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h5><i class="bi bi-list-ul me-2"></i>Nhật Ký Hoạt Động</h5>
-                    <div class="activity-log" id="activity-log">
-                        <!-- Activity logs will be loaded here -->
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <h5><i class="bi bi-bar-chart me-2"></i>Thống Kê Hệ Thống</h5>
-                    <div class="row">
-                        <div class="col-6 mb-3">
-                            <div class="stats-card">
-                                <div class="stats-number" id="total-photos">0</div>
-                                <div>Tổng Ảnh</div>
+        <section id="admin-section" class="section hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 mb-8">
+                <h2 class="text-3xl font-bold text-primary-100 mb-6">
+                    <i class="fas fa-tools mr-3"></i>Quản Trị Hệ Thống
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-primary-30 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-primary-100 mb-4">Tự Động Cập Nhật</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>Trạng thái:</span>
+                                <span id="auto-sync-status" class="font-semibold text-green-600">Đang hoạt động</span>
                             </div>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <div class="stats-card">
-                                <div class="stats-number" id="total-events-admin">0</div>
-                                <div>Sự Kiện</div>
+                            <div class="flex justify-between">
+                                <span>Lần chạy cuối:</span>
+                                <span id="last-run">06/10/2025 12:45</span>
                             </div>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <div class="stats-card">
-                                <div class="stats-number" id="total-comments">0</div>
-                                <div>Bình Luận</div>
-                            </div>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <div class="stats-card">
-                                <div class="stats-number" id="total-likes">0</div>
-                                <div>Lượt Thích</div>
+                            <div class="flex justify-between">
+                                <span>Lần chạy tiếp theo:</span>
+                                <span id="next-run">07/10/2025 12:45</span>
                             </div>
                         </div>
                     </div>
+                    <div class="bg-accent-30 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-primary-100 mb-4">Nhật Ký Hoạt Động</h3>
+                        <div id="activity-logs" class="space-y-2 max-h-40 overflow-y-auto">
+                            <!-- Logs will be displayed here -->
+                        </div>
+                        <button onclick="clearLogs()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                            <i class="fas fa-trash mr-2"></i>Xóa Nhật Ký
+                        </button>
+                    </div>
                 </div>
             </div>
+        </section>
+    </main>
+
+    <!-- Add Event Modal -->
+    <div id="add-event-modal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-primary-100">Thêm Sự Kiện Mới</h3>
+                <button onclick="closeAddEventModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="add-event-form" onsubmit="addEvent(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tên Sự Kiện</label>
+                        <input type="text" id="event-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-100 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Ngày</label>
+                        <input type="date" id="event-date" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-100 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Mô Tả</label>
+                        <textarea id="event-description" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-100 focus:border-transparent"></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-4 mt-6">
+                    <button type="button" onclick="closeAddEventModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                        Hủy
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
+                        Thêm Sự Kiện
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Add Event Button -->
-    <button class="add-event-btn" onclick="openAddEventModal()" title="Thêm sự kiện mới">
-        <i class="bi bi-plus"></i>
-    </button>
-
-    <!-- Add Event Modal -->
-    <div class="modal fade" id="addEventModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="bi bi-calendar-plus me-2"></i>Thêm Sự Kiện Mới
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+    <!-- Edit Event Modal -->
+    <div id="edit-event-modal" class="fixed inset-0 bg-black bg-opacity-50 modal hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-primary-100">Chỉnh Sửa Sự Kiện</h3>
+                <button onclick="closeEditEventModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="edit-event-form" onsubmit="updateEvent(event)">
+                <input type="hidden" id="edit-event-index">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tên Sự Kiện</label>
+                        <input type="text" id="edit-event-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-100 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Ngày</label>
+                        <input type="date" id="edit-event-date" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-100 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Mô Tả</label>
+                        <textarea id="edit-event-description" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-100 focus:border-transparent"></textarea>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form id="addEventForm" onsubmit="addEvent(event)">
-                        <div class="mb-3">
-                            <label for="eventTitle" class="form-label">Tên Sự Kiện</label>
-                            <input type="text" class="form-control" id="eventTitle" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="eventDate" class="form-label">Ngày (DD-MM-YYYY)</label>
-                            <input type="text" class="form-control" id="eventDate" placeholder="22-02-2022" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="eventDescription" class="form-label">Mô Tả</label>
-                            <textarea class="form-control" id="eventDescription" rows="3"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="submit" form="addEventForm" class="btn-primary-custom">
-                        <i class="bi bi-plus-circle me-1"></i>Thêm Sự Kiện
+                <div class="flex justify-end space-x-4 mt-6">
+                    <button type="button" onclick="closeEditEventModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                        Hủy
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
+                        Cập Nhật
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
     <!-- Photo Modal -->
-    <div class="modal fade" id="photoModal" tabindex="-1">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="photoModalTitle">Xem Ảnh Chi Tiết</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div id="photo-display" class="text-center mb-3">
-                                <img id="modal-photo-img" src="" alt="" style="max-width: 100%; max-height: 500px; border-radius: 10px;">
-                            </div>
+    <div id="photo-modal" class="fixed inset-0 bg-black bg-opacity-90 modal hidden flex items-center justify-center z-50">
+        <div class="max-w-4xl max-h-full p-4">
+            <div class="relative">
+                <button onclick="closePhotoModal()" class="absolute top-4 right-4 text-white text-2xl hover:text-accent-100 z-10">
+                    <i class="fas fa-times"></i>
+                </button>
+                <img id="modal-photo" src="" alt="" class="max-w-full max-h-screen object-contain rounded-lg">
+                <div class="bg-white rounded-lg mt-4 p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 id="photo-title" class="text-xl font-bold text-primary-100"></h3>
+                        <div class="flex items-center space-x-4">
+                            <button onclick="likePhoto()" class="flex items-center space-x-2 text-red-500 hover:text-red-600">
+                                <i class="fas fa-heart"></i>
+                                <span id="like-count">0</span>
+                            </button>
                         </div>
-                        <div class="col-md-4">
-                            <h6>Thông Tin Ảnh</h6>
-                            <p><strong>Tên:</strong> <span id="modal-photo-name"></span></p>
-                            <p><strong>Ngày:</strong> <span id="modal-photo-date"></span></p>
-                            <p><strong>Kích thước:</strong> <span id="modal-photo-size"></span></p>
-                            
-                            <div class="interaction-buttons mb-3">
-                                <button class="like-btn" id="modal-like-btn" onclick="togglePhotoLike()">
-                                    <i class="bi bi-heart"></i> <span id="modal-like-count">0</span>
-                                </button>
-                            </div>
-
-                            <h6>Bình Luận</h6>
-                            <div class="comments-section" id="modal-comments">
-                                <!-- Comments will be loaded here -->
-                            </div>
-                            
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="new-comment" placeholder="Viết bình luận...">
-                                <button class="btn-accent-custom" onclick="addComment()">
-                                    <i class="bi bi-send"></i>
-                                </button>
-                            </div>
-
-                            <div class="mt-3">
-                                <button class="btn-primary-custom w-100 mb-2" onclick="downloadPhoto()">
-                                    <i class="bi bi-download me-1"></i>Tải Xuống HD
-                                </button>
-                                <button class="btn-accent-custom w-100" onclick="sharePhoto()">
-                                    <i class="bi bi-share me-1"></i>Chia Sẻ
-                                </button>
-                            </div>
+                    </div>
+                    <div id="comments-section">
+                        <div id="comments-list" class="space-y-3 mb-4 max-h-40 overflow-y-auto">
+                            <!-- Comments will be displayed here -->
+                        </div>
+                        <div class="flex space-x-2">
+                            <input type="text" id="comment-input" placeholder="Thêm bình luận..." class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-100 focus:border-transparent">
+                            <button onclick="addComment()" class="bg-primary-100 text-white px-4 py-2 rounded-lg hover:bg-primary-80 transition-colors">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -902,22 +349,9 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Global variables
-        let currentDate = new Date();
-        let events = [];
-        let photos = [];
-        let comments = {};
-        let logs = [];
-        let config = {};
-        let currentPhoto = null;
-        let currentPage = 1;
-        let viewMode = 'grid';
-        let photosPerPage = 50;
-
-        // Default config (fallback)
-        const defaultConfig = {
+        // Configuration
+        let config = {
             "GITHUB_USERNAME": "nhungcute",
             "REPO_NAME": "LoveStory",
             "PAT1": "ghp_a8VLpoCYQByLbUIwe",
@@ -940,214 +374,112 @@
             }
         };
 
-        // GitHub API functions
+        // Demo data
+        let events = [
+            {
+                "note_id": "1",
+                "day": "14-02-2024",
+                "name": "Valentine's Day",
+                "contdetl": "Ngày Valentine đầu tiên của chúng ta"
+            },
+            {
+                "note_id": "2",
+                "day": "22-02-2022",
+                "name": "First day of love",
+                "contdetl": "First day of love"
+            },
+            {
+                "note_id": "3",
+                "day": "15-03-2024",
+                "name": "Chuyến đi Đà Lạt",
+                "contdetl": "Kỷ niệm du lịch Đà Lạt cùng nhau"
+            }
+        ];
+
+        let photos = [
+            {
+                "id": "1",
+                "name": "Valentine 2024",
+                "thumbnailLink": "https://via.placeholder.com/300x200/006B68/FFFFFF?text=Valentine+2024",
+                "webViewLink": "https://via.placeholder.com/800x600/006B68/FFFFFF?text=Valentine+2024",
+                "eventId": "valentine-2024"
+            },
+            {
+                "id": "2",
+                "name": "Đà Lạt Trip",
+                "thumbnailLink": "https://via.placeholder.com/300x200/FFC62F/000000?text=Da+Lat+Trip",
+                "webViewLink": "https://via.placeholder.com/800x600/FFC62F/000000?text=Da+Lat+Trip",
+                "eventId": "dalat-trip"
+            }
+        ];
+
+        let comments = {
+            "1": {
+                "count_tim": 15,
+                "comments": [
+                    {"user": "Nhung", "text": "Kỷ niệm đẹp quá!", "time": "2024-02-14T10:30:00Z"},
+                    {"user": "Anh", "text": "Yêu em nhiều lắm!", "time": "2024-02-14T11:00:00Z"}
+                ]
+            },
+            "2": {
+                "count_tim": 8,
+                "comments": [
+                    {"user": "Nhung", "text": "Đà Lạt thật tuyệt vời!", "time": "2024-03-15T14:20:00Z"}
+                ]
+            }
+        };
+
+        let logs = [
+            {"time": "2025-01-15T09:00:00Z", "action": "Tự động đồng bộ ảnh từ Google Drive", "status": "success"},
+            {"time": "2025-01-14T15:30:00Z", "action": "Thêm sự kiện mới: Valentine 2024", "status": "success"},
+            {"time": "2025-01-14T10:15:00Z", "action": "Cập nhật bình luận cho ảnh #1", "status": "success"}
+        ];
+
+        // Global variables
+        let currentDate = new Date();
+        let currentPhotoView = 'grid';
+        let currentPage = 1;
+        let currentPhotoId = null;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConfig();
+            showSection('calendar');
+            generateCalendar();
+            loadTimeline();
+            loadPhotos();
+            loadActivityLogs();
+        });
+
+        // Load configuration
         async function loadConfig() {
             try {
                 const response = await fetch('https://raw.githubusercontent.com/nhungcute/LoveStory/main/configApp.json');
                 if (response.ok) {
                     config = await response.json();
-                } else {
-                    throw new Error('Config not found');
+                    console.log('Config loaded successfully');
                 }
             } catch (error) {
-                console.warn('Using default config:', error);
-                config = defaultConfig;
-            }
-            photosPerPage = config.PHOTOS_PER_PAGE || 50;
-        }
-
-        async function fetchFromGitHub(filePath) {
-            const token = config.PAT1 + config.PAT2;
-            const url = `https://api.github.com/repos/${config.GITHUB_USERNAME}/${config.REPO_NAME}/contents/${filePath}`;
-            
-            try {
-                const response = await fetch(url, {
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    // Decode base64 content with proper UTF-8 handling
-                    const content = decodeURIComponent(escape(atob(data.content)));
-                    return JSON.parse(content);
-                } else {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-            } catch (error) {
-                console.error(`Error fetching ${filePath}:`, error);
-                return null;
+                console.log('Using demo config due to error:', error);
             }
         }
 
-        async function saveToGitHub(filePath, data, message) {
-            const token = config.PAT1 + config.PAT2;
-            const url = `https://api.github.com/repos/${config.GITHUB_USERNAME}/${config.REPO_NAME}/contents/${filePath}`;
-            
-            try {
-                // Get current file to get SHA
-                const currentResponse = await fetch(url, {
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                
-                let sha = null;
-                if (currentResponse.ok) {
-                    const currentData = await currentResponse.json();
-                    sha = currentData.sha;
-                }
-                
-                // Encode content with proper UTF-8 handling
-                const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-                const payload = {
-                    message: message,
-                    content: content
-                };
-                
-                if (sha) {
-                    payload.sha = sha;
-                }
-                
-                const response = await fetch(url, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
-                
-                return response.ok;
-            } catch (error) {
-                console.error(`Error saving ${filePath}:`, error);
-                return false;
-            }
-        }
-
-        // Data loading functions
-        async function loadEvents() {
-            showLoading('timeline-loading');
-            const data = await fetchFromGitHub(config.FILE_PATH);
-            hideLoading('timeline-loading');
-            
-            if (data && Array.isArray(data)) {
-                events = data.sort((a, b) => {
-                    const dateA = parseDate(a.day);
-                    const dateB = parseDate(b.day);
-                    return dateA - dateB;
-                });
-                renderTimeline();
-                generateCalendar();
-                updateStats();
-            } else {
-                showError('timeline-error', 'Không thể tải dữ liệu sự kiện');
-            }
-        }
-
-        async function loadPhotos() {
-            showLoading('gallery-loading');
-            const data = await fetchFromGitHub(config.PHOTOS_METADATA_FILE_PATH);
-            hideLoading('gallery-loading');
-            
-            if (data && Array.isArray(data)) {
-                photos = data;
-                renderPhotos();
-                updateStats();
-            } else {
-                console.warn('No photo data found');
-                photos = [];
-            }
-        }
-
-        async function loadComments() {
-            const data = await fetchFromGitHub(config.COMMENTS_FILE_PATH);
-            if (data) {
-                comments = data;
-            }
-        }
-
-        async function loadLogs() {
-            const data = await fetchFromGitHub(config.LOGS_FILE_PATH);
-            if (data && Array.isArray(data)) {
-                logs = data;
-                renderActivityLog();
-            }
-        }
-
-        // Utility functions
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function parseDate(dateStr) {
-            const parts = dateStr.split('-');
-            return new Date(parts[2], parts[1] - 1, parts[0]);
-        }
-
-        function formatDate(date) {
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}-${month}-${year}`;
-        }
-
-        function showLoading(elementId) {
-            document.getElementById(elementId).style.display = 'block';
-        }
-
-        function hideLoading(elementId) {
-            document.getElementById(elementId).style.display = 'none';
-        }
-
-        function showError(elementId, message) {
-            const element = document.getElementById(elementId);
-            element.textContent = message;
-            element.style.display = 'block';
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 5000);
-        }
-
-        function showSuccess(elementId, message) {
-            const element = document.getElementById(elementId);
-            element.textContent = message;
-            element.style.display = 'block';
-            setTimeout(() => {
-                element.style.display = 'none';
-            }, 3000);
-        }
-
-        // Navigation functions
+        // Navigation
         function showSection(sectionName) {
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(sectionName + '-section').classList.remove('hidden');
+            
+            // Update nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-accent-100');
             });
             
-            document.getElementById(sectionName + '-section').classList.add('active');
-            
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            if (sectionName === 'calendar') {
-                generateCalendar();
-            } else if (sectionName === 'timeline') {
-                loadEvents();
-            } else if (sectionName === 'gallery') {
-                loadPhotos();
-                loadComments();
-            } else if (sectionName === 'admin') {
-                loadLogs();
-                updateAutoSyncStatus();
+            // Find and highlight the active button
+            const activeBtn = document.querySelector(`button[onclick="showSection('${sectionName}')"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('text-accent-100');
             }
         }
 
@@ -1156,42 +488,54 @@
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
             
-            const monthNames = [
-                "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
-                "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
-            ];
-            document.getElementById('current-month').textContent = `${monthNames[month]}, ${year}`;
+            document.getElementById('current-month').textContent = 
+                new Intl.DateTimeFormat('vi-VN', { month: 'long', year: 'numeric' }).format(currentDate);
             
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const today = new Date();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
             
-            const calendarDays = document.getElementById('calendar-days');
-            calendarDays.innerHTML = '';
+            const calendarGrid = document.getElementById('calendar-grid');
+            calendarGrid.innerHTML = '';
             
-            for (let i = 0; i < firstDay; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.className = 'calendar-day';
-                calendarDays.appendChild(emptyDay);
-            }
+            // Day headers
+            const dayHeaders = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+            dayHeaders.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'text-center font-semibold text-primary-100 py-2';
+                dayHeader.textContent = day;
+                calendarGrid.appendChild(dayHeader);
+            });
             
-            for (let day = 1; day <= daysInMonth; day++) {
+            // Calendar days
+            for (let i = 0; i < 42; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                
                 const dayElement = document.createElement('div');
-                dayElement.className = 'calendar-day';
-                dayElement.textContent = day;
+                dayElement.className = 'calendar-day text-center p-3 rounded-lg cursor-pointer relative';
                 
-                const currentDateStr = formatDate(new Date(year, month, day));
-                
-                if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
-                    dayElement.classList.add('today');
+                if (date.getMonth() === month) {
+                    dayElement.className += ' bg-white hover:bg-primary-30';
+                    
+                    // Check for events
+                    const dateStr = formatDateToDDMMYYYY(date);
+                    const hasEvent = events.some(event => event.day === dateStr);
+                    
+                    if (hasEvent) {
+                        dayElement.className += ' bg-accent-30 border-2 border-accent-100';
+                        const eventDot = document.createElement('div');
+                        eventDot.className = 'absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full';
+                        dayElement.appendChild(eventDot);
+                    }
+                } else {
+                    dayElement.className += ' text-gray-400';
                 }
                 
-                if (events.some(event => event.day === currentDateStr)) {
-                    dayElement.classList.add('has-event');
-                }
-                
-                dayElement.onclick = () => showDayEvents(currentDateStr);
-                calendarDays.appendChild(dayElement);
+                dayElement.textContent = date.getDate();
+                dayElement.onclick = () => showDayEvents(date);
+                calendarGrid.appendChild(dayElement);
             }
         }
 
@@ -1206,450 +550,500 @@
         }
 
         function showDayEvents(date) {
-            const dayEvents = events.filter(event => event.day === date);
+            const dateStr = formatDateToDDMMYYYY(date);
+            const dayEvents = events.filter(event => event.day === dateStr);
+            
             if (dayEvents.length > 0) {
-                alert(`Sự kiện ngày ${date}:\n${dayEvents.map(e => e.name).join('\n')}`);
+                alert(`Sự kiện ngày ${dateStr}:\n${dayEvents.map(e => `• ${e.name}: ${e.contdetl}`).join('\n')}`);
             } else {
-                alert(`Không có sự kiện nào trong ngày ${date}`);
+                alert(`Không có sự kiện nào trong ngày ${dateStr}`);
             }
+        }
+
+        // GitHub API functions
+        async function saveEventsToGitHub() {
+            try {
+                const token = config.PAT1 + config.PAT2;
+                const url = `https://api.github.com/repos/${config.GITHUB_USERNAME}/${config.REPO_NAME}/contents/${config.FILE_PATH}`;
+                
+                // Get current file SHA
+                let sha = null;
+                try {
+                    const getResponse = await fetch(url, {
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    if (getResponse.ok) {
+                        const fileData = await getResponse.json();
+                        sha = fileData.sha;
+                    }
+                } catch (error) {
+                    console.log('File does not exist, will create new file');
+                }
+                
+                // Prepare content with proper UTF-8 encoding
+                const jsonString = JSON.stringify(events, null, 2);
+                const content = btoa(unescape(encodeURIComponent(jsonString)));
+                
+                // Update or create file
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Update events - ${new Date().toISOString()}`,
+                        content: content,
+                        sha: sha
+                    })
+                });
+                
+                if (response.ok) {
+                    addLog('Lưu dữ liệu sự kiện lên GitHub thành công', 'success');
+                    // Refresh all event displays
+                    refreshEventDisplays();
+                    return true;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Error saving to GitHub:', error);
+                addLog(`Lỗi lưu dữ liệu: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        // Function to refresh all event displays
+        function refreshEventDisplays() {
+            loadTimeline();
+            generateCalendar();
+            addLog('Làm mới danh sách sự kiện', 'success');
         }
 
         // Timeline functions
-        function renderTimeline() {
+        async function loadTimeline() {
             const container = document.getElementById('timeline-container');
             container.innerHTML = '';
             
-            events.forEach(event => {
-                const timelineItem = document.createElement('div');
-                timelineItem.className = 'timeline-item';
-                
-                // Safely encode text content to prevent encoding issues
-                const eventDay = escapeHtml(event.day || '');
-                const eventName = escapeHtml(event.name || '');
-                const eventDescription = escapeHtml(event.contdetl || '');
-                const eventId = event.id || Date.now();
-                
-                timelineItem.innerHTML = `
-                    <div class="timeline-content">
-                        <div class="event-date">
-                            <i class="bi bi-calendar-event me-1"></i>${eventDay}
-                        </div>
-                        <div class="event-title">${eventName}</div>
-                        <div class="event-description">${eventDescription}</div>
-                    </div>
-                    <div class="timeline-actions">
-                        <button class="btn-icon" onclick="editEvent('${eventId}')" title="Chỉnh sửa">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                        <button class="btn-icon" onclick="viewEventPhotos('${eventId}')" title="Xem ảnh">
-                            <i class="bi bi-images"></i>
-                        </button>
-                        <button class="btn-icon danger" onclick="deleteEvent('${eventId}')" title="Xóa">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
-                `;
-                container.appendChild(timelineItem);
-            });
-        }
-
-        // Photo gallery functions
-        function renderPhotos() {
-            const gallery = document.getElementById('photo-gallery');
-            gallery.innerHTML = '';
-            
-            const startIndex = (currentPage - 1) * photosPerPage;
-            const endIndex = startIndex + photosPerPage;
-            const pagePhotos = photos.slice(startIndex, endIndex);
-            
-            pagePhotos.forEach(photo => {
-                const photoCard = document.createElement('div');
-                photoCard.className = 'photo-card';
-                if (viewMode === 'list') {
-                    photoCard.classList.add('list-item');
+            try {
+                // Load events from GitHub
+                const response = await fetch(`https://raw.githubusercontent.com/${config.GITHUB_USERNAME}/${config.REPO_NAME}/main/${config.FILE_PATH}`);
+                if (response.ok) {
+                    events = await response.json();
                 }
+            } catch (error) {
+                console.log('Using demo events due to error:', error);
+            }
+            
+            // Sort events by date (DD-MM-YYYY format) in ascending order
+            const sortedEvents = [...events].sort((a, b) => {
+                const dateA = new Date(a.day.split('-').reverse().join('-'));
+                const dateB = new Date(b.day.split('-').reverse().join('-'));
+                return dateA - dateB;
+            });
+            
+            sortedEvents.forEach((event, index) => {
+                const eventElement = document.createElement('div');
+                eventElement.className = 'timeline-item mb-8 pl-8 relative';
                 
-                const photoComments = comments[photo.id] || { count_tim: 0, comments: [] };
-                
-                photoCard.innerHTML = `
-                    <div class="photo-thumbnail" style="background-image: url('${photo.thumbnailLink}')">
-                        ${!photo.thumbnailLink ? '<i class="bi bi-image"></i>' : ''}
-                    </div>
-                    <div class="photo-info">
-                        <div class="photo-title">${photo.name}</div>
-                        <div class="photo-date">${new Date(photo.createdTime).toLocaleDateString('vi-VN')}</div>
-                        <div class="photo-actions">
-                            <div class="interaction-buttons">
-                                <button class="like-btn ${photoComments.count_tim > 0 ? 'liked' : ''}" onclick="toggleLike('${photo.id}', event)">
-                                    <i class="bi bi-heart${photoComments.count_tim > 0 ? '-fill' : ''}"></i> 
-                                    <span>${photoComments.count_tim}</span>
+                eventElement.innerHTML = `
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="event-date text-accent-100 font-semibold mb-2">
+                                    <i class="fas fa-calendar-alt mr-2"></i>${event.day}
+                                </div>
+                                <div class="event-title text-xl font-bold text-primary-100 mb-2">${event.name}</div>
+                                <div class="event-description text-gray-600">${event.contdetl}</div>
+                            </div>
+                            <div class="timeline-actions flex space-x-2 ml-4">
+                                <button class="btn-icon" onclick="editEvent(${index})" title="Chỉnh sửa">
+                                    <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="comment-btn" onclick="openComments('${photo.id}', event)">
-                                    <i class="bi bi-chat"></i> 
-                                    <span>${photoComments.comments.length}</span>
+                                <button class="btn-icon" onclick="viewEventPhotos('${event.name}')" title="Xem ảnh">
+                                    <i class="bi bi-images"></i>
+                                </button>
+                                <button class="btn-icon danger" onclick="deleteEvent(${index})" title="Xóa">
+                                    <i class="bi bi-trash"></i>
                                 </button>
                             </div>
-                            <button class="btn btn-sm btn-outline-primary" onclick="downloadPhoto('${photo.id}', event)">
-                                <i class="bi bi-download"></i>
-                            </button>
                         </div>
                     </div>
                 `;
                 
-                photoCard.onclick = (e) => {
-                    if (!e.target.closest('button')) {
-                        openPhotoModal(photo);
-                    }
-                };
-                
-                gallery.appendChild(photoCard);
+                container.appendChild(eventElement);
             });
+        }
+
+        function showAddEventModal() {
+            document.getElementById('add-event-modal').classList.remove('hidden');
+        }
+
+        function closeAddEventModal() {
+            document.getElementById('add-event-modal').classList.add('hidden');
+            document.getElementById('add-event-form').reset();
+        }
+
+        async function addEvent(e) {
+            e.preventDefault();
             
-            renderPagination();
-        }
-
-        function renderPagination() {
-            const pagination = document.getElementById('photo-pagination');
-            const totalPages = Math.ceil(photos.length / photosPerPage);
+            const name = document.getElementById('event-name').value;
+            const date = document.getElementById('event-date').value;
+            const description = document.getElementById('event-description').value;
             
-            pagination.innerHTML = '';
+            // Generate unique note_id
+            const noteId = Date.now().toString();
             
-            for (let i = 1; i <= totalPages; i++) {
-                const pageItem = document.createElement('li');
-                pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                pageItem.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
-                pagination.appendChild(pageItem);
-            }
-        }
-
-        function setViewMode(mode) {
-            viewMode = mode;
-            document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderPhotos();
-        }
-
-        function changePage(page) {
-            currentPage = page;
-            renderPhotos();
-        }
-
-        // Event management functions
-        function openAddEventModal() {
-            const modal = new bootstrap.Modal(document.getElementById('addEventModal'));
-            modal.show();
-        }
-
-        async function addEvent(event) {
-            event.preventDefault();
-            
-            const title = document.getElementById('eventTitle').value;
-            const date = document.getElementById('eventDate').value;
-            const description = document.getElementById('eventDescription').value;
+            // Convert YYYY-MM-DD to DD-MM-YYYY format
+            const [year, month, day] = date.split('-');
+            const formattedDate = `${day}-${month}-${year}`;
             
             const newEvent = {
-                id: Date.now().toString(),
-                name: title,
-                day: date,
+                note_id: noteId,
+                day: formattedDate,
+                name: name,
                 contdetl: description
             };
             
             events.push(newEvent);
             
-            const success = await saveToGitHub(config.FILE_PATH, events, `Add new event: ${title}`);
-            
-            if (success) {
-                bootstrap.Modal.getInstance(document.getElementById('addEventModal')).hide();
-                document.getElementById('addEventForm').reset();
-                renderTimeline();
-                generateCalendar();
-                updateStats();
-                showSuccess('timeline-success', 'Sự kiện đã được thêm thành công!');
-                
-                // Log activity
-                await logActivity('add_event', `Thêm sự kiện mới: ${title}`);
+            // Save to GitHub
+            const saved = await saveEventsToGitHub();
+            if (saved) {
+                closeAddEventModal();
+                addLog(`Thêm sự kiện mới: ${name}`, 'success');
+                alert('Sự kiện đã được thêm và lưu thành công!');
             } else {
-                showError('timeline-error', 'Không thể lưu sự kiện. Vui lòng thử lại.');
+                // Remove from local array if save failed
+                events.pop();
+                alert('Có lỗi khi lưu sự kiện. Vui lòng thử lại!');
             }
         }
 
-        function editEvent(eventId) {
-            alert('Tính năng chỉnh sửa sự kiện sẽ được triển khai trong phiên bản tiếp theo!');
-        }
-
-        function viewEventPhotos(eventId) {
-            alert('Tính năng xem ảnh theo sự kiện sẽ được triển khai trong phiên bản tiếp theo!');
-        }
-
-        async function deleteEvent(eventId) {
-            if (confirm('Bạn có chắc chắn muốn xóa sự kiện này?')) {
-                events = events.filter(event => event.id !== eventId);
-                const success = await saveToGitHub(config.FILE_PATH, events, `Delete event: ${eventId}`);
-                
-                if (success) {
-                    renderTimeline();
-                    generateCalendar();
-                    updateStats();
-                    showSuccess('timeline-success', 'Sự kiện đã được xóa!');
-                    await logActivity('delete_event', `Xóa sự kiện: ${eventId}`);
-                } else {
-                    showError('timeline-error', 'Không thể xóa sự kiện. Vui lòng thử lại.');
-                }
-            }
-        }
-
-        // Photo modal functions
-        function openPhotoModal(photo) {
-            currentPhoto = photo;
-            const modal = new bootstrap.Modal(document.getElementById('photoModal'));
-            
-            document.getElementById('photoModalTitle').textContent = photo.name;
-            document.getElementById('modal-photo-img').src = photo.webViewLink || photo.thumbnailLink;
-            document.getElementById('modal-photo-name').textContent = photo.name;
-            document.getElementById('modal-photo-date').textContent = new Date(photo.createdTime).toLocaleDateString('vi-VN');
-            document.getElementById('modal-photo-size').textContent = formatFileSize(photo.size);
-            
-            const photoComments = comments[photo.id] || { count_tim: 0, comments: [] };
-            const likeBtn = document.getElementById('modal-like-btn');
-            const likeCount = document.getElementById('modal-like-count');
-            
-            likeBtn.className = `like-btn ${photoComments.count_tim > 0 ? 'liked' : ''}`;
-            likeBtn.querySelector('i').className = `bi bi-heart${photoComments.count_tim > 0 ? '-fill' : ''}`;
-            likeCount.textContent = photoComments.count_tim;
-            
-            renderModalComments(photoComments.comments);
-            modal.show();
-        }
-
-        function renderModalComments(commentsList) {
-            const commentsContainer = document.getElementById('modal-comments');
-            commentsContainer.innerHTML = '';
-            
-            commentsList.forEach(comment => {
-                const commentItem = document.createElement('div');
-                commentItem.className = 'comment-item';
-                commentItem.innerHTML = `
-                    <div class="comment-author">${comment.author || 'Ẩn danh'}</div>
-                    <div class="comment-content">${comment.text}</div>
-                    <div class="comment-time">${new Date(comment.time).toLocaleDateString('vi-VN')}</div>
-                `;
-                commentsContainer.appendChild(commentItem);
+        function editEvent(index) {
+            // Find the original event by matching the sorted index with original events array
+            const sortedEvents = [...events].sort((a, b) => {
+                const dateA = new Date(a.day.split('-').reverse().join('-'));
+                const dateB = new Date(b.day.split('-').reverse().join('-'));
+                return dateA - dateB;
             });
+            
+            const eventToEdit = sortedEvents[index];
+            const originalIndex = events.findIndex(e => e.note_id === eventToEdit.note_id);
+            
+            // Fill the edit form
+            document.getElementById('edit-event-index').value = originalIndex;
+            document.getElementById('edit-event-name').value = eventToEdit.name;
+            document.getElementById('edit-event-description').value = eventToEdit.contdetl;
+            
+            // Convert DD-MM-YYYY to YYYY-MM-DD for date input
+            const [day, month, year] = eventToEdit.day.split('-');
+            document.getElementById('edit-event-date').value = `${year}-${month}-${day}`;
+            
+            // Show modal
+            document.getElementById('edit-event-modal').classList.remove('hidden');
         }
 
-        async function toggleLike(photoId, event) {
-            if (event) event.stopPropagation();
-            
-            if (!comments[photoId]) {
-                comments[photoId] = { count_tim: 0, comments: [] };
-            }
-            
-            comments[photoId].count_tim = comments[photoId].count_tim > 0 ? 0 : 1;
-            
-            const success = await saveToGitHub(config.COMMENTS_FILE_PATH, comments, `Toggle like for photo: ${photoId}`);
-            
-            if (success) {
-                renderPhotos();
-                await logActivity('like_photo', `${comments[photoId].count_tim > 0 ? 'Thích' : 'Bỏ thích'} ảnh: ${photoId}`);
-            }
+        function closeEditEventModal() {
+            document.getElementById('edit-event-modal').classList.add('hidden');
+            document.getElementById('edit-event-form').reset();
         }
 
-        async function togglePhotoLike() {
-            if (!currentPhoto) return;
+        async function updateEvent(e) {
+            e.preventDefault();
             
-            if (!comments[currentPhoto.id]) {
-                comments[currentPhoto.id] = { count_tim: 0, comments: [] };
-            }
+            const index = parseInt(document.getElementById('edit-event-index').value);
+            const name = document.getElementById('edit-event-name').value;
+            const date = document.getElementById('edit-event-date').value;
+            const description = document.getElementById('edit-event-description').value;
             
-            comments[currentPhoto.id].count_tim = comments[currentPhoto.id].count_tim > 0 ? 0 : 1;
+            // Store original event for rollback
+            const originalEvent = {...events[index]};
             
-            const success = await saveToGitHub(config.COMMENTS_FILE_PATH, comments, `Toggle like for photo: ${currentPhoto.id}`);
+            // Convert YYYY-MM-DD to DD-MM-YYYY format
+            const [year, month, day] = date.split('-');
+            const formattedDate = `${day}-${month}-${year}`;
             
-            if (success) {
-                const likeBtn = document.getElementById('modal-like-btn');
-                const likeCount = document.getElementById('modal-like-count');
-                const icon = likeBtn.querySelector('i');
-                
-                if (comments[currentPhoto.id].count_tim > 0) {
-                    likeBtn.classList.add('liked');
-                    icon.className = 'bi bi-heart-fill';
-                } else {
-                    likeBtn.classList.remove('liked');
-                    icon.className = 'bi bi-heart';
-                }
-                
-                likeCount.textContent = comments[currentPhoto.id].count_tim;
-                renderPhotos();
-                await logActivity('like_photo', `${comments[currentPhoto.id].count_tim > 0 ? 'Thích' : 'Bỏ thích'} ảnh: ${currentPhoto.name}`);
-            }
-        }
-
-        async function addComment() {
-            if (!currentPhoto) return;
+            // Update event
+            events[index].name = name;
+            events[index].day = formattedDate;
+            events[index].contdetl = description;
             
-            const commentText = document.getElementById('new-comment').value.trim();
-            if (!commentText) return;
-            
-            if (!comments[currentPhoto.id]) {
-                comments[currentPhoto.id] = { count_tim: 0, comments: [] };
-            }
-            
-            const newComment = {
-                author: 'Bạn',
-                text: commentText,
-                time: new Date().toISOString()
-            };
-            
-            comments[currentPhoto.id].comments.push(newComment);
-            
-            const success = await saveToGitHub(config.COMMENTS_FILE_PATH, comments, `Add comment to photo: ${currentPhoto.id}`);
-            
-            if (success) {
-                document.getElementById('new-comment').value = '';
-                renderModalComments(comments[currentPhoto.id].comments);
-                renderPhotos();
-                await logActivity('comment_photo', `Bình luận trên ảnh: ${currentPhoto.name}`);
-            }
-        }
-
-        function openComments(photoId, event) {
-            event.stopPropagation();
-            const photo = photos.find(p => p.id === photoId);
-            if (photo) {
-                openPhotoModal(photo);
-            }
-        }
-
-        function downloadPhoto(photoId, event) {
-            if (event) event.stopPropagation();
-            const photo = photos.find(p => p.id === photoId);
-            if (photo && photo.webViewLink) {
-                window.open(photo.webViewLink, '_blank', 'noopener,noreferrer');
+            // Save to GitHub
+            const saved = await saveEventsToGitHub();
+            if (saved) {
+                closeEditEventModal();
+                addLog(`Cập nhật sự kiện: ${name}`, 'success');
+                alert('Sự kiện đã được cập nhật thành công!');
             } else {
-                alert('Không thể tải xuống ảnh này!');
+                // Rollback changes if save failed
+                events[index] = originalEvent;
+                alert('Có lỗi khi lưu thay đổi. Vui lòng thử lại!');
             }
         }
 
-        function sharePhoto() {
-            if (currentPhoto && currentPhoto.webViewLink) {
-                navigator.clipboard.writeText(currentPhoto.webViewLink).then(() => {
-                    alert('Đã sao chép link ảnh vào clipboard!');
+        async function deleteEvent(index) {
+            if (confirm('Bạn có chắc chắn muốn xóa sự kiện này?')) {
+                // Find the original event by matching the sorted index with original events array
+                const sortedEvents = [...events].sort((a, b) => {
+                    const dateA = new Date(a.day.split('-').reverse().join('-'));
+                    const dateB = new Date(b.day.split('-').reverse().join('-'));
+                    return dateA - dateB;
+                });
+                
+                const eventToDelete = sortedEvents[index];
+                const originalIndex = events.findIndex(e => e.note_id === eventToDelete.note_id);
+                const eventName = eventToDelete.name;
+                const deletedEvent = events[originalIndex];
+                
+                // Remove from array
+                events.splice(originalIndex, 1);
+                
+                // Save to GitHub
+                const saved = await saveEventsToGitHub();
+                if (saved) {
+                    addLog(`Xóa sự kiện: ${eventName}`, 'success');
+                    alert('Sự kiện đã được xóa thành công!');
+                } else {
+                    // Restore event if save failed
+                    events.splice(originalIndex, 0, deletedEvent);
+                    alert('Có lỗi khi xóa sự kiện. Vui lòng thử lại!');
+                }
+            }
+        }
+
+        function viewEventPhotos(eventName) {
+            showSection('photos');
+            alert(`Hiển thị ảnh cho sự kiện: ${eventName}`);
+        }
+
+        // Photos functions
+        function loadPhotos() {
+            const container = document.getElementById('photos-container');
+            
+            if (currentPhotoView === 'grid') {
+                container.innerHTML = '<div class="photo-grid"></div>';
+                const grid = container.querySelector('.photo-grid');
+                
+                photos.forEach(photo => {
+                    const photoElement = document.createElement('div');
+                    photoElement.className = 'photo-item bg-white rounded-lg shadow-md overflow-hidden cursor-pointer';
+                    photoElement.onclick = () => openPhotoModal(photo.id);
+                    
+                    photoElement.innerHTML = `
+                        <img src="${photo.thumbnailLink}" alt="${photo.name}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold text-primary-100 truncate">${photo.name}</h3>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-red-500">
+                                    <i class="fas fa-heart mr-1"></i>${comments[photo.id]?.count_tim || 0}
+                                </span>
+                                <span class="text-gray-500">
+                                    <i class="fas fa-comment mr-1"></i>${comments[photo.id]?.comments?.length || 0}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    grid.appendChild(photoElement);
+                });
+            } else {
+                container.innerHTML = '<div class="space-y-4"></div>';
+                const list = container.querySelector('.space-y-4');
+                
+                photos.forEach(photo => {
+                    const photoElement = document.createElement('div');
+                    photoElement.className = 'bg-white rounded-lg shadow-md p-4 flex items-center space-x-4 cursor-pointer hover:shadow-lg transition-shadow';
+                    photoElement.onclick = () => openPhotoModal(photo.id);
+                    
+                    photoElement.innerHTML = `
+                        <img src="${photo.thumbnailLink}" alt="${photo.name}" class="w-20 h-20 object-cover rounded-lg">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-primary-100">${photo.name}</h3>
+                            <div class="flex items-center space-x-4 mt-2">
+                                <span class="text-red-500">
+                                    <i class="fas fa-heart mr-1"></i>${comments[photo.id]?.count_tim || 0}
+                                </span>
+                                <span class="text-gray-500">
+                                    <i class="fas fa-comment mr-1"></i>${comments[photo.id]?.comments?.length || 0}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    list.appendChild(photoElement);
                 });
             }
         }
 
-        // Sync functions
-        async function syncPhotos() {
-            alert('Đang đồng bộ với Google Drive...');
-            // Simulate sync process
+        function setPhotoView(view) {
+            currentPhotoView = view;
+            
+            document.getElementById('grid-view-btn').className = view === 'grid' 
+                ? 'px-4 py-2 rounded-md bg-primary-100 text-white'
+                : 'px-4 py-2 rounded-md text-gray-600 hover:bg-gray-200';
+                
+            document.getElementById('list-view-btn').className = view === 'list'
+                ? 'px-4 py-2 rounded-md bg-primary-100 text-white'
+                : 'px-4 py-2 rounded-md text-gray-600 hover:bg-gray-200';
+            
+            loadPhotos();
+        }
+
+        function syncPhotos() {
+            alert('Đang đồng bộ ảnh từ Google Drive...');
+            addLog('Đồng bộ ảnh từ Google Drive', 'success');
             setTimeout(() => {
-                document.getElementById('last-sync').textContent = 'Vừa xong';
-                alert('Đồng bộ thành công!');
-                logActivity('sync_photos', 'Đồng bộ ảnh từ Google Drive');
+                alert('Đồng bộ hoàn tất!');
             }, 2000);
         }
 
+        function openPhotoModal(photoId) {
+            currentPhotoId = photoId;
+            const photo = photos.find(p => p.id === photoId);
+            const photoComments = comments[photoId] || {count_tim: 0, comments: []};
+            
+            document.getElementById('modal-photo').src = photo.webViewLink;
+            document.getElementById('photo-title').textContent = photo.name;
+            document.getElementById('like-count').textContent = photoComments.count_tim;
+            
+            const commentsList = document.getElementById('comments-list');
+            commentsList.innerHTML = '';
+            
+            photoComments.comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'bg-gray-100 rounded-lg p-3';
+                commentElement.innerHTML = `
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="font-semibold text-primary-100">${comment.user}</span>
+                        <span class="text-xs text-gray-500">${new Date(comment.time).toLocaleDateString('vi-VN')}</span>
+                    </div>
+                    <p class="text-gray-700">${comment.text}</p>
+                `;
+                commentsList.appendChild(commentElement);
+            });
+            
+            document.getElementById('photo-modal').classList.remove('hidden');
+        }
+
+        function closePhotoModal() {
+            document.getElementById('photo-modal').classList.add('hidden');
+            currentPhotoId = null;
+        }
+
+        function likePhoto() {
+            if (!currentPhotoId) return;
+            
+            if (!comments[currentPhotoId]) {
+                comments[currentPhotoId] = {count_tim: 0, comments: []};
+            }
+            
+            comments[currentPhotoId].count_tim++;
+            document.getElementById('like-count').textContent = comments[currentPhotoId].count_tim;
+            loadPhotos();
+            addLog(`Thích ảnh: ${photos.find(p => p.id === currentPhotoId).name}`, 'success');
+        }
+
+        function addComment() {
+            if (!currentPhotoId) return;
+            
+            const commentInput = document.getElementById('comment-input');
+            const commentText = commentInput.value.trim();
+            
+            if (!commentText) return;
+            
+            if (!comments[currentPhotoId]) {
+                comments[currentPhotoId] = {count_tim: 0, comments: []};
+            }
+            
+            const newComment = {
+                user: 'Bạn',
+                text: commentText,
+                time: new Date().toISOString()
+            };
+            
+            comments[currentPhotoId].comments.push(newComment);
+            commentInput.value = '';
+            
+            // Refresh comments display
+            openPhotoModal(currentPhotoId);
+            loadPhotos();
+            addLog(`Bình luận ảnh: ${photos.find(p => p.id === currentPhotoId).name}`, 'success');
+        }
+
         // Admin functions
-        function renderActivityLog() {
-            const logContainer = document.getElementById('activity-log');
-            logContainer.innerHTML = '';
+        function loadActivityLogs() {
+            const container = document.getElementById('activity-logs');
+            container.innerHTML = '';
             
-            const recentLogs = logs.slice(-10).reverse();
-            
-            recentLogs.forEach(log => {
-                const logItem = document.createElement('div');
-                logItem.className = 'log-item';
-                logItem.innerHTML = `
-                    <i class="bi bi-${getLogIcon(log.action)} log-icon"></i>
-                    <div>
-                        <div>${log.description}</div>
-                        <div class="log-time">${new Date(log.timestamp).toLocaleString('vi-VN')}</div>
+            logs.slice(-10).reverse().forEach(log => {
+                const logElement = document.createElement('div');
+                logElement.className = `text-sm p-2 rounded ${log.status === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+                logElement.innerHTML = `
+                    <div class="flex justify-between">
+                        <span>${log.action}</span>
+                        <span>${new Date(log.time).toLocaleString('vi-VN')}</span>
                     </div>
                 `;
-                logContainer.appendChild(logItem);
+                container.appendChild(logElement);
             });
         }
 
-        function getLogIcon(action) {
-            const icons = {
-                'add_event': 'plus-circle',
-                'delete_event': 'trash',
-                'like_photo': 'heart-fill',
-                'comment_photo': 'chat',
-                'sync_photos': 'cloud-download'
-            };
-            return icons[action] || 'info-circle';
-        }
-
-        async function logActivity(action, description) {
-            const logEntry = {
+        function addLog(action, status) {
+            const newLog = {
+                time: new Date().toISOString(),
                 action: action,
-                description: description,
-                timestamp: new Date().toISOString()
+                status: status
             };
-            
-            logs.push(logEntry);
-            
-            // Keep only last 100 logs
-            if (logs.length > 100) {
-                logs = logs.slice(-100);
-            }
-            
-            await saveToGitHub(config.LOGS_FILE_PATH, logs, `Log activity: ${action}`);
-            renderActivityLog();
+            logs.push(newLog);
+            loadActivityLogs();
         }
 
-        function updateAutoSyncStatus() {
-            const autoSync = config.AUTO_SYNC;
-            const statusElement = document.getElementById('auto-sync-status');
-            const nextSyncElement = document.getElementById('next-sync-time');
-            
-            if (autoSync && autoSync.enabled) {
-                statusElement.textContent = 'Hệ thống đang hoạt động bình thường';
-                const nextRun = new Date(autoSync.nextRun);
-                nextSyncElement.textContent = `Cập nhật tiếp theo: ${nextRun.toLocaleString('vi-VN')}`;
-            } else {
-                statusElement.textContent = 'Tự động cập nhật đã tắt';
-                nextSyncElement.textContent = 'Không có lịch cập nhật';
+        function clearLogs() {
+            if (confirm('Bạn có chắc chắn muốn xóa tất cả nhật ký?')) {
+                logs.length = 0;
+                loadActivityLogs();
+                addLog('Xóa tất cả nhật ký', 'success');
             }
         }
 
         // Utility functions
-        function updateStats() {
-            document.getElementById('total-events').textContent = events.length;
-            document.getElementById('total-events-admin').textContent = events.length;
-            document.getElementById('total-photos').textContent = photos.length;
-            
-            const today = new Date();
-            const upcomingEvents = events.filter(event => parseDate(event.day) > today);
-            document.getElementById('upcoming-events').textContent = upcomingEvents.length;
-            
-            let totalComments = 0;
-            let totalLikes = 0;
-            Object.values(comments).forEach(comment => {
-                totalComments += comment.comments.length;
-                totalLikes += comment.count_tim;
-            });
-            
-            document.getElementById('total-comments').textContent = totalComments;
-            document.getElementById('total-likes').textContent = totalLikes;
+        function formatDateToDDMMYYYY(date) {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
         }
 
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        function formatDateToVietnamese(dateStr) {
+            const [day, month, year] = dateStr.split('-');
+            return `${day}/${month}/${year}`;
         }
 
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', async function() {
-            await loadConfig();
-            generateCalendar();
-            await loadEvents();
-            updateStats();
-        });
+        // Auto-sync simulation
+        setInterval(() => {
+            const now = new Date();
+            const syncTime = new Date(config.AUTO_SYNC.nextRun);
+            
+            if (now >= syncTime && config.AUTO_SYNC.enabled) {
+                addLog('Tự động đồng bộ ảnh từ Google Drive', 'success');
+                
+                // Update next run time
+                const nextRun = new Date(now);
+                nextRun.setDate(nextRun.getDate() + 1);
+                nextRun.setHours(12, 45, 0, 0);
+                config.AUTO_SYNC.nextRun = nextRun.toISOString();
+                config.AUTO_SYNC.lastRun = now.toISOString();
+                
+                document.getElementById('last-run').textContent = now.toLocaleString('vi-VN');
+                document.getElementById('next-run').textContent = nextRun.toLocaleString('vi-VN');
+            }
+        }, 60000); // Check every minute
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ab773171c6e6ae',t:'MTc1OTgxOTg0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98abe23c2538e6ae',t:'MTc1OTgyNDIyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
