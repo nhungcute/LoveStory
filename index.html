@@ -43,8 +43,22 @@
         }
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.75rem;
+        }
+        
+        @media (max-width: 640px) {
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 0.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
         }
         .photo-item {
             transition: transform 0.3s ease;
@@ -61,7 +75,7 @@
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: 20px;
+            left: 16px;
             top: 0;
             bottom: 0;
             width: 2px;
@@ -69,7 +83,7 @@
         }
         .timeline-dot {
             position: absolute;
-            left: 14px;
+            left: 10px;
             top: 20px;
             width: 14px;
             height: 14px;
@@ -81,14 +95,22 @@
             background: none;
             border: 1px solid #B3D9D7;
             color: #006B68;
-            padding: 8px;
+            padding: 6px;
             border-radius: 6px;
             transition: all 0.3s ease;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        
+        @media (min-width: 768px) {
+            .btn-icon {
+                padding: 8px;
+                width: 36px;
+                height: 36px;
+            }
         }
         .btn-icon:hover {
             background: #B3D9D7;
@@ -133,7 +155,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-2 md:px-4 py-4 md:py-8">
         <!-- Calendar Section -->
         <section id="calendar-section" class="section">
             <div class="bg-white rounded-lg shadow-xl p-6 mb-8">
@@ -164,11 +186,11 @@
                     <h2 class="text-3xl font-bold text-primary-100">
                         <i class="fas fa-heart-pulse mr-3"></i>Timeline
                     </h2>
-                    <button onclick="showAddEventModal()" class="bg-accent-100 text-primary-100 px-6 py-3 rounded-lg font-semibold hover:bg-accent-80 transition-colors">
-                        <i class="fas fa-plus mr-2"></i>Thêm Sự Kiện
+                    <button onclick="showAddEventModal()" class="bg-accent-100 text-primary-100 px-3 md:px-6 py-3 rounded-lg font-semibold hover:bg-accent-80 transition-colors">
+                        <i class="fas fa-plus md:mr-2"></i><span class="hidden md:inline">Thêm Sự Kiện</span>
                     </button>
                 </div>
-                <div id="timeline-container" class="relative pl-12">
+                <div id="timeline-container" class="relative">
                     <!-- Timeline events will be generated here -->
                 </div>
             </div>
@@ -315,7 +337,7 @@
 
     <!-- Photo Modal -->
     <div id="photo-modal" class="fixed inset-0 bg-black bg-opacity-75 modal hidden flex items-center justify-center z-50">
-        <div class="bg-white rounded-xl p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-xl p-3 md:p-6 w-full max-w-2xl mx-2 md:mx-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold">Chi Tiết Ảnh</h3>
                 <button onclick="closePhotoModal()" class="text-gray-500 hover:text-gray-700 text-2xl">
@@ -334,7 +356,7 @@
                 
                 <div class="flex items-center space-x-4 mb-6">
                     <button onclick="likePhoto()" id="like-button" class="flex items-center space-x-2 px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors">
-                        <span>❤️</span>
+                        <i class="bi bi-heart-fill text-red-500"></i>
                         <span id="like-count">0</span>
                     </button>
                     <span id="comment-count" class="text-gray-600">0 bình luận</span>
@@ -736,23 +758,23 @@
                 
                 eventElement.innerHTML = `
                     <div class="timeline-dot"></div>
-                    <div class="timeline-content bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-                        <div class="flex justify-between items-start">
-                            <div class="flex-1">
-                                <div class="event-date text-accent-100 font-semibold mb-2">
+                    <div class="timeline-content bg-white rounded-lg shadow-md p-3 md:p-6 hover:shadow-lg transition-shadow">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                            <div class="flex-1 mb-3 md:mb-0">
+                                <div class="event-date text-accent-100 font-semibold mb-2 text-sm md:text-base">
                                     <i class="fas fa-calendar-alt mr-2"></i>${event.day}
                                 </div>
-                                <div class="event-title text-xl font-bold text-primary-100 mb-2">${event.name}</div>
-                                <div class="event-description text-gray-600">${event.contdetl || 'Không có mô tả'}</div>
+                                <div class="event-title text-lg md:text-xl font-bold text-primary-100 mb-2">${event.name}</div>
+                                <div class="event-description text-gray-600 text-sm md:text-base">${event.contdetl || 'Không có mô tả'}</div>
                             </div>
-                            <div class="timeline-actions flex space-x-2 ml-4">
-                                <button class="btn-icon" onclick="editEvent(${index})" title="Chỉnh sửa">
+                            <div class="timeline-actions flex space-x-1 md:space-x-2 md:ml-4 justify-end">
+                                <button class="btn-icon text-xs md:text-sm" onclick="editEvent(${index})" title="Chỉnh sửa">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn-icon" onclick="viewEventPhotos('${event.name}')" title="Xem ảnh">
+                                <button class="btn-icon text-xs md:text-sm" onclick="viewEventPhotos('${event.name}')" title="Xem ảnh">
                                     <i class="bi bi-images"></i>
                                 </button>
-                                <button class="btn-icon danger" onclick="deleteEvent(${index})" title="Xóa">
+                                <button class="btn-icon danger text-xs md:text-sm" onclick="deleteEvent(${index})" title="Xóa">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -1051,7 +1073,7 @@
                             <img src="${photo.thumbnailLink}" alt="${photo.name}" class="w-full h-52 object-cover" onerror="this.src=''; this.alt='Ảnh không tải được'; this.style.display='none';">
                             <div class="absolute bottom-2 left-2 flex items-center space-x-2">
                                 <div class="bg-black bg-opacity-70 text-white px-2 py-1 rounded-full text-xs flex items-center">
-                                    <i class="fas fa-heart mr-1 text-red-400"></i>${likeCount}
+                                    <i class="bi bi-heart-fill mr-1 text-red-500"></i>${likeCount}
                                 </div>
                                 <div class="bg-black bg-opacity-70 text-white px-2 py-1 rounded-full text-xs flex items-center">
                                     <i class="fas fa-comment mr-1 text-blue-400"></i>${commentCount}
@@ -1087,7 +1109,7 @@
                             <img src="${photo.thumbnailLink}" alt="${photo.name}" class="w-20 h-20 object-cover rounded-lg" onerror="this.src=''; this.alt='Ảnh không tải được'; this.style.display='none';">
                             <div class="absolute bottom-1 left-1 flex items-center space-x-1">
                                 <div class="bg-black bg-opacity-70 text-white px-1 py-0.5 rounded text-xs flex items-center">
-                                    <i class="fas fa-heart mr-1 text-red-400"></i>${likeCount}
+                                    <i class="bi bi-heart-fill mr-1 text-red-500"></i>${likeCount}
                                 </div>
                                 <div class="bg-black bg-opacity-70 text-white px-1 py-0.5 rounded text-xs flex items-center">
                                     <i class="fas fa-comment mr-1 text-blue-400"></i>${commentCount}
@@ -1149,16 +1171,16 @@
             
             // Pagination buttons
             const buttonsContainer = document.createElement('div');
-            buttonsContainer.className = 'flex items-center space-x-2';
+            buttonsContainer.className = 'flex items-center justify-center space-x-1 flex-wrap gap-2';
             
             // Previous button
             const prevButton = document.createElement('button');
-            prevButton.className = `px-4 py-2 rounded-lg transition-colors ${
+            prevButton.className = `px-2 md:px-4 py-2 rounded-lg transition-colors text-sm ${
                 currentPage === 1 
                     ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
                     : 'bg-primary-100 text-white hover:bg-primary-80'
             }`;
-            prevButton.innerHTML = '<i class="fas fa-chevron-left mr-2"></i>Trước';
+            prevButton.innerHTML = '<i class="fas fa-chevron-left md:mr-2"></i><span class="hidden md:inline">Trước</span>';
             prevButton.disabled = currentPage === 1;
             prevButton.onclick = () => {
                 if (currentPage > 1) {
@@ -1168,8 +1190,8 @@
             };
             buttonsContainer.appendChild(prevButton);
             
-            // Page numbers
-            const maxVisiblePages = 5;
+            // Page numbers - fewer on mobile
+            const maxVisiblePages = window.innerWidth < 640 ? 3 : 5;
             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
             
@@ -1181,7 +1203,7 @@
             // First page and ellipsis
             if (startPage > 1) {
                 const firstPageButton = document.createElement('button');
-                firstPageButton.className = 'px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors';
+                firstPageButton.className = 'px-2 md:px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm min-w-[36px]';
                 firstPageButton.textContent = '1';
                 firstPageButton.onclick = () => {
                     currentPage = 1;
@@ -1200,7 +1222,7 @@
             // Page number buttons
             for (let i = startPage; i <= endPage; i++) {
                 const pageButton = document.createElement('button');
-                pageButton.className = `px-3 py-2 rounded-lg transition-colors ${
+                pageButton.className = `px-2 md:px-3 py-2 rounded-lg transition-colors text-sm min-w-[36px] ${
                     i === currentPage 
                         ? 'bg-primary-100 text-white' 
                         : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
@@ -1223,7 +1245,7 @@
                 }
                 
                 const lastPageButton = document.createElement('button');
-                lastPageButton.className = 'px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors';
+                lastPageButton.className = 'px-2 md:px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm min-w-[36px]';
                 lastPageButton.textContent = totalPages;
                 lastPageButton.onclick = () => {
                     currentPage = totalPages;
@@ -1234,12 +1256,12 @@
             
             // Next button
             const nextButton = document.createElement('button');
-            nextButton.className = `px-4 py-2 rounded-lg transition-colors ${
+            nextButton.className = `px-2 md:px-4 py-2 rounded-lg transition-colors text-sm ${
                 currentPage === totalPages 
                     ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
                     : 'bg-primary-100 text-white hover:bg-primary-80'
             }`;
-            nextButton.innerHTML = 'Sau<i class="fas fa-chevron-right ml-2"></i>';
+            nextButton.innerHTML = '<span class="hidden md:inline">Sau</span><i class="fas fa-chevron-right md:ml-2"></i>';
             nextButton.disabled = currentPage === totalPages;
             nextButton.onclick = () => {
                 if (currentPage < totalPages) {
@@ -1364,8 +1386,7 @@
                     console.log(`Comment ${index} processed:`, {commentText, commentDate, commentUser});
                     
                     commentElement.innerHTML = `
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="font-semibold text-primary-100">${commentUser}</span>
+                        <div class="flex items-center justify-end mb-1">
                             <span class="text-xs text-gray-500">${new Date(commentDate).toLocaleDateString('vi-VN', {
                                 year: 'numeric',
                                 month: 'short',
@@ -1786,5 +1807,5 @@
             }
         }, 60000); // Check every minute
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ac7816a146e6ae',t:'MTc1OTgzMDM2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ac9863917602cc',t:'MTc1OTgzMTY4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
