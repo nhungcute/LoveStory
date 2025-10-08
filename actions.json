@@ -112,6 +112,12 @@
     ]
   },
   {
+    "note_id": "key5",
+    "name": "Lần đầu biết tin bé con",
+    "day": "07-09-2025",
+    "contdetl": "Lần đầu biết tin bé con"
+  },
+  {
     "note_id": "key6",
     "day": "09-09-2025",
     "name": "Bé con 114mm, 7w2d",
@@ -125,13 +131,5 @@
     "name": "Hôm nay mưa gió quá",
     "day": "08-10-2025",
     "contdetl": "11111111111"
-  },
-  {
-    "note_id": "key5",
-    "day": "07-09-2026",
-    "name": "Lần đầu biết tin bé con",
-    "contdetl": "Lần đầu biết tin bé con",
-    "colorClass": "bg-blue-500",
-    "image": []
   }
 ]
