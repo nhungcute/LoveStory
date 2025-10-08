@@ -37,15 +37,6 @@
     "image": []
   },
   {
-    "note_id": "key7",
-    "day": "26-04-2025",
-    "name": "Ngày dự sinh bé con",
-    "contdetl": "Ngày dự sinh bé con",
-    "colorClass": "bg-pink-500",
-    "date": "2025-09-11T07:20:42.199Z",
-    "image": []
-  },
-  {
     "note_id": "key9",
     "day": "28-05-2025",
     "name": "Dạm ngõ",
@@ -131,5 +122,11 @@
     "name": "Hôm nay mưa gió quá",
     "day": "08-10-2025",
     "contdetl": "11111111111"
+  },
+  {
+    "note_id": "key7",
+    "name": "Ngày dự sinh bé con",
+    "day": "26-04-2026",
+    "contdetl": "Ngày dự sinh bé con"
   }
 ]
