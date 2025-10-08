@@ -4,7 +4,6 @@
     "day": "22-02-2022",
     "name": "First day of love",
     "contdetl": "First day of love",
-    "icon": "â¤ï¸",
     "colorClass": "bg-red-500",
     "image": [
       "1FydQJrzM6yGMOaB970CqnWoJBRILRHGC",
@@ -14,68 +13,59 @@
   {
     "note_id": "key2",
     "day": "22-02-2025",
-    "name": "Gáº·p gá»¡ nhÃ  gÃ¡i",
-    "contdetl": "Gáº·p gá»¡ nhÃ  gÃ¡i",
-    "icon": "ð°",
+    "name": "Gặp nhà gái",
+    "contdetl": "Gặp nhà gái",
     "colorClass": "bg-yellow-500",
     "image": []
   },
   {
     "note_id": "key3",
     "day": "23-03-2025",
-    "name": "Gáº·p nhÃ  trai",
-    "contdetl": "Gáº·p nhÃ  trai",
-    "icon": "ð¤µ",
+    "name": "Gặp nhà trai",
+    "contdetl": "Gặp nhà trai",
     "colorClass": "bg-pink-500",
     "image": []
   },
   {
     "note_id": "key4",
     "day": "11-07-2025",
-    "name": "Än há»i",
-    "contdetl": "Än há»i",
-    "icon": "ð",
+    "name": "Ăn hỏi",
+    "contdetl": "Ăn hỏi",
     "colorClass": "bg-orange-500",
     "image": []
   },
   {
     "note_id": "key5",
     "day": "07-09-2026",
-    "name": "Láº§n Äáº§u biáº¿t tin bÃ© con",
-    "contdetl": "Láº§n Äáº§u biáº¿t tin bÃ© con",
-    "icon": "ð",
+    "name": "Lần đầu biết tin bé con",
+    "contdetl": "Lần đầu biết tin bé con",
     "colorClass": "bg-blue-500",
     "image": []
   },
   {
     "note_id": "key6",
     "day": "09-09-2025",
-    "name": "BÃ© ÄÃ£ ÄÆ°á»£c 114mm, 7w2d",
-    "contdetl": "BÃ© ÄÃ£ ÄÆ°á»£c 114mm, 7w2d",
+    "name": "Bé con 114mm, 7w2d",
+    "contdetl": "Bé co 114mm, 7w2d",
     "colorClass": "bg-green-500",
-    "icon": "â­",
-    "URL": "https://drive.google.com/drive/u/0/folders/1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
     "date": "2025-09-11T07:12:20.886Z",
     "image": []
   },
   {
     "note_id": "key7",
     "day": "26-04-2025",
-    "name": "NgÃ y con chÃ o Äá»i",
-    "contdetl": "NgÃ y dá»± sinh bÃ© con chÃ o Äá»i",
+    "name": "Ngày dự sinh bé con",
+    "contdetl": "Ngày dự sinh bé con",
     "colorClass": "bg-pink-500",
-    "icon": "â¤ï¸",
-    "URL": "https://mail.google.com/mail/u/0/#spam",
     "date": "2025-09-11T07:20:42.199Z",
     "image": []
   },
   {
     "note_id": "key8",
     "day": "04-12-1999",
-    "name": "Sinh nháº­t vá»£ tui",
-    "contdetl": "Sinh nháº­t vá»£ tui.",
+    "name": "Sinh nhậ­t vợ tui",
+    "contdetl": "Sinh nhậ­t vợ tui",
     "colorClass": "bg-purple-500",
-    "icon": "ð",
     "URL": "",
     "date": "2025-09-12T03:19:29.821Z",
     "image": []
@@ -83,11 +73,9 @@
   {
     "note_id": "key9",
     "day": "28-05-2025",
-    "name": "Dáº¡m ngÃµ",
-    "contdetl": "Dáº¡m ngÃµ",
+    "name": "Dạm ngõ",
+    "contdetl": "Dạm ngõ",
     "colorClass": "bg-red-500",
-    "icon": "âï¸",
-    "URL": "",
     "date": "2025-09-12T03:23:54.504Z",
     "image": [
       "14vuNABqYwZdMaQlf9GsCHi0maLleFI7Z"
@@ -96,11 +84,9 @@
   {
     "note_id": "key10",
     "day": "14-07-2025",
-    "name": "Lá» thÃ nh hÃ´n",
+    "name": "Lễ Thành Hôn",
     "contdetl": "Save The Date",
     "colorClass": "bg-pink-500",
-    "icon": "ð",
-    "URL": "",
     "date": "2025-09-12T03:24:31.066Z",
     "image": [
       "14CiR9jfWOWYI0vrn2KgTxyBoX96sGVFz",
