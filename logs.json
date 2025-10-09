@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-09T09:22:48.703Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760001768703.4443,
+    "sessionId": "session_1760001112332_3v85i5qfa"
+  },
+  {
     "timestamp": "2025-10-09T09:22:26.857Z",
     "action": "Xóa sự kiện",
     "details": "Đã xóa sự kiện: Hôm nay mưa gió 1111",
