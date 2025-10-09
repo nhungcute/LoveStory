@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-09T09:21:59.675Z",
+    "action": "Cài đặt đồng bộ",
+    "details": "Đã lưu cài đặt: Bật, daily, 09:04",
+    "id": 1760001719675.8555,
+    "sessionId": "session_1760001112332_3v85i5qfa"
+  },
+  {
+    "timestamp": "2025-10-09T09:21:59.674Z",
+    "action": "Lưu cấu hình",
+    "details": "Đã lưu cấu hình ứng dụng",
+    "id": 1760001719674.3184,
+    "sessionId": "session_1760001112332_3v85i5qfa"
+  },
+  {
     "timestamp": "2025-10-09T09:21:35.693Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
