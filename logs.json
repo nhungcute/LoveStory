@@ -1,66 +1,45 @@
 [
   {
-    "timestamp": "2025-10-09T09:47:02.302Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760003222302.8843,
-    "sessionId": "session_1760003067876_vj2n01q6g"
-  },
-  {
-    "timestamp": "2025-10-09T09:46:02.351Z",
-    "action": "Mở chọn ảnh",
-    "details": "Mở modal chọn ảnh cho sự kiện",
-    "id": 1760003162351.6792,
-    "sessionId": "session_1760003067876_vj2n01q6g"
-  },
-  {
-    "timestamp": "2025-10-09T09:45:56.158Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Xem ảnh cho sự kiện: First day of love (2 ảnh)",
-    "id": 1760003156158.4155,
-    "sessionId": "session_1760003067876_vj2n01q6g"
-  },
-  {
-    "timestamp": "2025-10-09T09:45:50.475Z",
+    "timestamp": "2025-10-09T09:47:10.557Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760003150475.2043,
-    "sessionId": "session_1760003067876_vj2n01q6g"
+    "id": 1760003230557.8982,
+    "sessionId": "session_1760002541785_cnrtxlhkg"
   },
   {
-    "timestamp": "2025-10-09T09:45:43.733Z",
+    "timestamp": "2025-10-09T09:47:02.300Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760003143733.9265,
-    "sessionId": "session_1760003067876_vj2n01q6g"
+    "id": 1760003222300.4658,
+    "sessionId": "session_1760002541785_cnrtxlhkg"
   },
   {
-    "timestamp": "2025-10-09T09:45:26.717Z",
-    "action": "Chọn ảnh sự kiện",
-    "details": "Đã chọn 2 ảnh cho sự kiện",
-    "id": 1760003126717.5544,
-    "sessionId": "session_1760003067876_vj2n01q6g"
-  },
-  {
-    "timestamp": "2025-10-09T09:45:10.249Z",
-    "action": "Mở chọn ảnh",
-    "details": "Mở modal chọn ảnh cho sự kiện",
-    "id": 1760003110249.7517,
-    "sessionId": "session_1760003067876_vj2n01q6g"
-  },
-  {
-    "timestamp": "2025-10-09T09:44:36.924Z",
+    "timestamp": "2025-10-09T09:45:50.474Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760003076924.0303,
-    "sessionId": "session_1760003067876_vj2n01q6g"
+    "id": 1760003150474.0647,
+    "sessionId": "session_1760002541785_cnrtxlhkg"
   },
   {
-    "timestamp": "2025-10-09T09:44:27.876Z",
+    "timestamp": "2025-10-09T09:45:43.731Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760003143731.743,
+    "sessionId": "session_1760002541785_cnrtxlhkg"
+  },
+  {
+    "timestamp": "2025-10-09T09:44:24.844Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760003067876.2886,
-    "sessionId": "session_1760003067876_vj2n01q6g"
+    "id": 1760003064844.6328,
+    "sessionId": "session_1760002541785_cnrtxlhkg"
+  },
+  {
+    "timestamp": "2025-10-09T09:44:19.442Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760003059442.0127,
+    "sessionId": "session_1760002541785_cnrtxlhkg"
   },
   {
     "timestamp": "2025-10-09T09:43:48.252Z",
