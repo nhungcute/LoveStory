@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-09T09:27:07.689Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760002027689.6865,
+    "sessionId": "session_1760001844985_uzxlmcnjm"
+  },
+  {
+    "timestamp": "2025-10-09T09:26:07.003Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760001967003.3,
+    "sessionId": "session_1760001844985_uzxlmcnjm"
+  },
+  {
+    "timestamp": "2025-10-09T09:26:03.542Z",
+    "action": "Sửa sự kiện",
+    "details": "Đã cập nhật sự kiện: First day of love",
+    "id": 1760001963542.6191,
+    "sessionId": "session_1760001844985_uzxlmcnjm"
+  },
+  {
+    "timestamp": "2025-10-09T09:25:57.983Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760001957983.5586,
+    "sessionId": "session_1760001844985_uzxlmcnjm"
+  },
+  {
+    "timestamp": "2025-10-09T09:25:40.697Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760001940697.987,
+    "sessionId": "session_1760001844985_uzxlmcnjm"
+  },
+  {
     "timestamp": "2025-10-09T09:24:04.985Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
