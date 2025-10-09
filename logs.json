@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-09T09:22:26.857Z",
+    "action": "Xóa sự kiện",
+    "details": "Đã xóa sự kiện: Hôm nay mưa gió 1111",
+    "id": 1760001746857.4438,
+    "sessionId": "session_1760001112332_3v85i5qfa"
+  },
+  {
     "timestamp": "2025-10-09T09:21:59.675Z",
     "action": "Cài đặt đồng bộ",
     "details": "Đã lưu cài đặt: Bật, daily, 09:04",
