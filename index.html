@@ -173,7 +173,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-8 min-h-[calc(100vh-200px)]">
         <!-- Calendar Section -->
         <section id="calendar-section" class="section active">
             <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
@@ -204,8 +204,8 @@
                     <h2 class="text-2xl font-bold text-primary-100">
                         <i class="fas fa-heart-pulse mr-2"></i>Timeline
                     </h2>
-                    <button onclick="showAddEventModal()" class="px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
-                        <i class="fas fa-plus mr-2"></i>Thêm sự kiện
+                    <button onclick="showAddEventModal()" class="p-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors" title="Thêm sự kiện">
+                        <i class="fas fa-plus"></i>
                     </button>
                 </div>
                 <div id="timeline-container" class="space-y-3">
@@ -223,7 +223,7 @@
                     <h2 class="text-2xl font-bold text-primary-100">
                         <i class="fas fa-camera-retro mr-2"></i>Khoảnh Khắc
                     </h2>
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-1">
                         <button onclick="toggleView('grid')" id="grid-btn" class="view-btn p-2 rounded-lg bg-gray-300 text-gray-600">
                             <i class="fas fa-th"></i>
                         </button>
@@ -258,13 +258,12 @@
                 <!-- Auto Update Settings -->
                 <div class="bg-gradient-to-r from-primary-10 to-accent-10 rounded-lg p-6 mb-6">
                     <div class="flex items-start space-x-4">
-                        <div class="bg-primary-100 p-3 rounded-full">
-                            <i class="fas fa-sync-alt text-white text-xl"></i>
-                        </div>
                         <div class="flex-1">
                             <h3 class="text-lg font-semibold text-primary-100 mb-2">Tự Động Cập Nhật</h3>
-                            <p class="text-gray-700 mb-4">Hệ thống sẽ tự động làm mới danh sách ảnh từ Google Drive vào 9 giờ sáng mỗi ngày.</p>
-                            <div class="flex items-center justify-between">
+                            <p class="text-gray-700 mb-4">Hệ thống sẽ tự động làm mới danh sách ảnh từ Google Drive theo lịch trình đã cài đặt.</p>
+                            
+                            <!-- Enable/Disable Toggle -->
+                            <div class="flex items-center justify-between mb-4">
                                 <div class="flex items-center space-x-3">
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input type="checkbox" id="auto-sync-toggle" class="sr-only peer" checked>
@@ -277,12 +276,32 @@
                                     Lần cuối: <span id="last-sync-time">Chưa có</span>
                                 </div>
                             </div>
-                            <div class="mt-4 flex space-x-3">
+
+                            <!-- Sync Settings -->
+                            <div id="sync-settings" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Tần suất</label>
+                                    <select id="sync-frequency" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100">
+                                        <option value="once">Một lần</option>
+                                        <option value="daily">Hằng ngày</option>
+                                        <option value="monthly">Hằng tháng</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Thời gian</label>
+                                    <input type="time" id="sync-time" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100">
+                                </div>
+                            </div>
+
+                            <div class="flex space-x-3">
                                 <button onclick="manualSync()" class="px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
                                     <i class="fas fa-sync mr-2"></i>Đồng bộ ngay
                                 </button>
                                 <button onclick="showSyncHistory()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
                                     <i class="fas fa-history mr-2"></i>Lịch sử
+                                </button>
+                                <button onclick="saveSyncSettings()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                    <i class="fas fa-save mr-2"></i>Lưu cài đặt
                                 </button>
                             </div>
                         </div>
@@ -292,9 +311,6 @@
                 <!-- Activity Logging Settings -->
                 <div class="bg-gradient-to-r from-accent-10 to-primary-10 rounded-lg p-6 mb-6">
                     <div class="flex items-start space-x-4">
-                        <div class="bg-accent-100 p-3 rounded-full">
-                            <i class="fas fa-clipboard-list text-white text-xl"></i>
-                        </div>
                         <div class="flex-1">
                             <h3 class="text-lg font-semibold text-primary-100 mb-2">Ghi Nhật Ký Hoạt Động</h3>
                             <p class="text-gray-700 mb-4">Mọi hành động quan trọng đều được ghi lại, giúp dễ dàng theo dõi và quản lý.</p>
@@ -311,15 +327,9 @@
                                     Tổng: <span id="total-logs">0</span> bản ghi
                                 </div>
                             </div>
-                            <div class="mt-4 flex space-x-3">
+                            <div class="mt-4">
                                 <button onclick="viewActivityLogs()" class="px-4 py-2 bg-accent-100 text-white rounded-lg hover:bg-accent-80 transition-colors">
                                     <i class="fas fa-eye mr-2"></i>Xem nhật ký
-                                </button>
-                                <button onclick="exportLogs()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                                    <i class="fas fa-download mr-2"></i>Xuất file
-                                </button>
-                                <button onclick="clearLogs()" class="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors">
-                                    <i class="fas fa-trash mr-2"></i>Xóa tất cả
                                 </button>
                             </div>
                         </div>
@@ -354,11 +364,35 @@
                                 <span id="storage-used">0</span> MB
                             </div>
                         </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <div class="text-sm text-gray-600 mb-1">Trạng thái kết nối</div>
+                            <div class="font-semibold" id="connection-status">
+                                <i class="fas fa-wifi mr-1"></i>Online
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4">
+                            <div class="text-sm text-gray-600 mb-1">Nhật ký chờ lưu</div>
+                            <div class="font-semibold text-orange-600">
+                                <span id="pending-logs-count">0</span> bản ghi
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary-100 text-white py-6 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-primary-30 text-sm">
+                Bản quyền thuộc về: <span class="font-medium text-white">Hà Mạnh Tín</span>
+            </p>
+            <p class="text-primary-30 text-xs mt-1">
+                © 2025 - Ứng dụng kỷ niệm
+            </p>
+        </div>
+    </footer>
 
     <!-- Photo Modal -->
     <div id="photo-modal" class="modal">
@@ -439,6 +473,21 @@
                               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100"
                               placeholder="Mô tả chi tiết về sự kiện..."></textarea>
                 </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">List ảnh</label>
+                    <div class="flex space-x-2">
+                        <input type="text" id="event-images-display" readonly 
+                               class="flex-1 px-3 py-2 border rounded-lg bg-gray-50 text-sm"
+                               placeholder="Chưa chọn ảnh nào...">
+                        <button type="button" onclick="openImageSelector()" 
+                                class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                            <i class="fas fa-images mr-2"></i>Browser
+                        </button>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1">
+                        Đã chọn: <span id="selected-images-count">0</span> ảnh
+                    </div>
+                </div>
                 <div class="flex space-x-3 pt-4">
                     <button type="submit" class="flex-1 px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
                         <i class="fas fa-save mr-2"></i>Lưu
@@ -510,6 +559,50 @@
                     
                     <div id="event-pagination" class="flex justify-center mt-8 space-x-2">
                         <!-- Event pagination will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Selector Modal -->
+    <div id="image-selector-modal" class="modal">
+        <div class="bg-white rounded-xl max-w-6xl w-full mx-2 my-2 sm:m-4 flex flex-col" style="max-height: calc(100vh - 1rem);">
+            <div class="p-3 sm:p-4 border-b flex justify-between items-center flex-shrink-0">
+                <h3 class="text-lg sm:text-xl font-bold text-primary-100">Chọn ảnh cho sự kiện</h3>
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <div class="text-sm text-gray-600">
+                        Đã chọn: <span id="modal-selected-count" class="font-semibold text-primary-100">0</span> ảnh
+                    </div>
+                    <button onclick="closeImageSelector()" class="text-gray-500 hover:text-gray-700 flex-shrink-0">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto min-h-0">
+                <div class="p-3 sm:p-4">
+                    <div class="mb-4 flex justify-between items-center">
+                        <div class="flex space-x-2">
+                            <button onclick="selectAllImages()" class="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600">
+                                <i class="fas fa-check-double mr-1"></i>Chọn tất cả
+                            </button>
+                            <button onclick="deselectAllImages()" class="px-3 py-1 bg-gray-500 text-white rounded text-sm hover:bg-gray-600">
+                                <i class="fas fa-times mr-1"></i>Bỏ chọn tất cả
+                            </button>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="closeImageSelector()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
+                                Đóng
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="image-selector-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        <!-- Images will be loaded here -->
+                    </div>
+                    
+                    <div id="image-selector-pagination" class="flex justify-center mt-8 space-x-2">
+                        <!-- Pagination will be generated here -->
                     </div>
                 </div>
             </div>
@@ -598,6 +691,7 @@
             COMMENTS_FILE_PATH: "comments.json",
             PHOTOS_METADATA_FILE_PATH: "image_data.json",
             LOGS_FILE_PATH: "logs.json",
+            CONFIG_FILE_PATH: "configApp.json",
             FOLDER_ID: "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
             API_KEY: "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
             PHOTOS_PER_PAGE: 50,
@@ -618,17 +712,31 @@
         let currentView = 'grid-2';
         let currentPhotoId = null;
         let activityLogs = [];
+        let pendingLogs = []; // Nhật ký tạm thời chưa lưu
+        let allLogs = []; // Tất cả nhật ký từ khi khởi tạo
         let currentEditingEventIndex = null;
         let currentDeletingEventIndex = null;
         let currentEventPhotos = [];
         let currentEventPhotoPage = 1;
         let currentEventView = 'grid-2';
         let currentEventIndex = null;
+        let selectedImageIds = []; // Danh sách ID ảnh đã chọn cho sự kiện
+        let currentImageSelectorPage = 1;
+        let appConfig = {
+            AUTO_SYNC_METADATA: {
+                enabled: true,
+                frequency: "daily",
+                time: "09:00"
+            }
+        };
         let settings = {
             autoSync: true,
             activityLogging: true,
             lastSyncTime: null
         };
+        let syncInterval = null;
+        let logSaveInterval = null;
+        let isOnline = navigator.onLine;
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
@@ -637,20 +745,99 @@
 
         async function initializeApp() {
             try {
+                await loadAppConfig();
                 await loadTimelineData();
                 await loadPhotosData();
                 await loadCommentsData();
+                await loadActivityLogs();
                 generateCalendar();
                 generateTimeline();
                 generatePhotos();
                 
                 // Auto sync setup
-                if (CONFIG.AUTO_SYNC_METADATA.enabled) {
+                if (appConfig.AUTO_SYNC_METADATA.enabled) {
                     setupAutoSync();
                 }
+                
+                // Setup log management
+                setupLogManagement();
+                
+                // Setup online/offline detection
+                setupOnlineOfflineDetection();
+                
             } catch (error) {
                 console.error('Lỗi khởi tạo ứng dụng:', error);
                 showError('Không thể tải dữ liệu. Vui lòng thử lại sau.');
+            }
+        }
+
+        // Config loading function
+        async function loadAppConfig() {
+            try {
+                const data = await fetchFromGitHub(CONFIG.CONFIG_FILE_PATH);
+                if (data) {
+                    appConfig = data;
+                    // Ensure AUTO_SYNC_METADATA exists with default values if missing
+                    if (!appConfig.AUTO_SYNC_METADATA) {
+                        appConfig.AUTO_SYNC_METADATA = {
+                            enabled: true,
+                            frequency: "daily",
+                            time: "09:00"
+                        };
+                    }
+                } else {
+                    // Create complete default config if file doesn't exist
+                    appConfig = {
+                        "GITHUB_USERNAME": "nhungcute",
+                        "REPO_NAME": "LoveStory",
+                        "PAT1": "ghp_a8VLpoCYQByLbUIwe",
+                        "PAT2": "d3dy4hHjEpKwr3stE6T",
+                        "FILE_PATH": "actions.json",
+                        "COMMENTS_FILE_PATH": "comments.json",
+                        "PHOTOS_METADATA_FILE_PATH": "image_data.json",
+                        "LOGS_FILE_PATH": "logs.json",
+                        "FOLDER_ID": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
+                        "API_KEY": "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
+                        "PHOTOS_PER_PAGE": 50,
+                        "AUTO_SYNC_METADATA": {
+                            "enabled": true,
+                            "frequency": "daily",
+                            "time": "09:00"
+                        }
+                    };
+                }
+            } catch (error) {
+                console.error('Lỗi tải cấu hình:', error);
+                // Use complete default config on error
+                appConfig = {
+                    "GITHUB_USERNAME": "nhungcute",
+                    "REPO_NAME": "LoveStory",
+                    "PAT1": "ghp_a8VLpoCYQByLbUIwe",
+                    "PAT2": "d3dy4hHjEpKwr3stE6T",
+                    "FILE_PATH": "actions.json",
+                    "COMMENTS_FILE_PATH": "comments.json",
+                    "PHOTOS_METADATA_FILE_PATH": "image_data.json",
+                    "LOGS_FILE_PATH": "logs.json",
+                    "FOLDER_ID": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
+                    "API_KEY": "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
+                    "PHOTOS_PER_PAGE": 50,
+                    "AUTO_SYNC_METADATA": {
+                        "enabled": true,
+                        "frequency": "daily",
+                        "time": "09:00"
+                    }
+                };
+            }
+        }
+
+        async function saveAppConfig() {
+            try {
+                await saveToGitHub(CONFIG.CONFIG_FILE_PATH, appConfig, 'Cập nhật cấu hình ứng dụng');
+                logActivity('Lưu cấu hình', 'Đã lưu cấu hình ứng dụng');
+            } catch (error) {
+                console.error('Lỗi lưu cấu hình:', error);
+                logActivity('Lỗi lưu cấu hình', error.message);
+                throw error;
             }
         }
 
@@ -747,6 +934,34 @@
             if (data) {
                 // Đảm bảo commentsData là array để sử dụng find()
                 commentsData = Array.isArray(data) ? data : [];
+            }
+        }
+
+        async function loadActivityLogs() {
+            try {
+                const data = await fetchFromGitHub(CONFIG.LOGS_FILE_PATH);
+                if (data && Array.isArray(data)) {
+                    activityLogs = data;
+                    allLogs = [...data]; // Copy toàn bộ logs từ server
+                } else {
+                    activityLogs = [];
+                    allLogs = [];
+                }
+                
+                // Load pending logs from localStorage
+                const savedPendingLogs = localStorage.getItem('loveStoryPendingLogs');
+                if (savedPendingLogs) {
+                    pendingLogs = JSON.parse(savedPendingLogs);
+                    // Merge pending logs vào allLogs để hiển thị
+                    allLogs = [...allLogs, ...pendingLogs];
+                }
+                
+                logActivity('Khởi tạo ứng dụng', 'Ứng dụng Love Story đã được khởi tạo thành công');
+            } catch (error) {
+                console.error('Lỗi tải nhật ký hoạt động:', error);
+                activityLogs = [];
+                allLogs = [];
+                pendingLogs = [];
             }
         }
 
@@ -970,6 +1185,10 @@
             document.getElementById('event-name').value = '';
             document.getElementById('event-description').value = '';
             
+            // Reset selected images
+            selectedImageIds = [];
+            updateImageDisplay();
+            
             if (selectedDate) {
                 // Format date for text input (DD/MM/YYYY)
                 const day = String(selectedDate.getDate()).padStart(2, '0');
@@ -1007,8 +1226,10 @@
                 
                 // Tính số ngày từ hôm nay
                 const today = new Date();
+                today.setHours(0, 0, 0, 0); // Reset time to start of day
+                eventDate.setHours(0, 0, 0, 0); // Reset time to start of day
                 const diffTime = today - eventDate;
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
                 let timeAgo = '';
                 let timeAgoDetailed = '';
                 
@@ -1113,9 +1334,8 @@
                 return;
             }
             
-            const startIndex = (currentPhotoPage - 1) * CONFIG.PHOTOS_PER_PAGE;
-            const endIndex = startIndex + CONFIG.PHOTOS_PER_PAGE;
-            const pagePhotos = photosData.slice(startIndex, endIndex);
+            // Load all photos without pagination
+            const allPhotos = photosData;
             
             container.innerHTML = '';
             if (currentView === 'grid') {
@@ -1126,7 +1346,35 @@
                 container.className = 'space-y-4';
             }
             
-            pagePhotos.forEach((photo, index) => {
+            // Show loading indicator for large datasets
+            if (allPhotos.length > 100) {
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'col-span-full text-center py-8';
+                loadingDiv.innerHTML = `
+                    <i class="fas fa-spinner fa-spin text-primary-100 text-2xl mb-2"></i>
+                    <p class="text-gray-600">Đang tải ${allPhotos.length} ảnh...</p>
+                `;
+                container.appendChild(loadingDiv);
+                
+                // Use setTimeout to allow UI to update
+                setTimeout(() => {
+                    container.innerHTML = '';
+                    renderAllPhotos(allPhotos, container);
+                }, 100);
+            } else {
+                renderAllPhotos(allPhotos, container);
+            }
+            
+            // Hide pagination since we're showing all photos
+            document.getElementById('pagination').innerHTML = `
+                <div class="text-center text-sm text-gray-600">
+                    Hiển thị tất cả ${allPhotos.length} ảnh
+                </div>
+            `;
+        }
+
+        function renderAllPhotos(photos, container) {
+            photos.forEach((photo, index) => {
                 const photoElement = document.createElement('div');
                 
                 if (currentView === 'grid' || currentView === 'grid-2') {
@@ -1218,8 +1466,6 @@
                 photoElement.onclick = () => openPhotoModal(photo, photoElement);
                 container.appendChild(photoElement);
             });
-            
-            generatePagination();
         }
 
         function generatePagination() {
@@ -1606,6 +1852,11 @@
             document.getElementById('event-date').value = `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
             
             document.getElementById('event-description').value = event.contdetl || '';
+            
+            // Load existing images
+            selectedImageIds = event.image ? [...event.image] : [];
+            updateImageDisplay();
+            
             document.getElementById('event-modal').classList.add('active');
         }
 
@@ -1912,7 +2163,8 @@
                     note_id: currentEditingEventIndex !== null ? timelineData[currentEditingEventIndex].note_id : Date.now(),
                     name: name,
                     day: formattedDate,
-                    contdetl: description
+                    contdetl: description,
+                    image: selectedImageIds.length > 0 ? [...selectedImageIds] : []
                 };
                 
                 try {
@@ -1958,10 +2210,77 @@
             });
         });
 
+        // Google Drive API functions
+        async function syncPhotosFromGoogleDrive() {
+            try {
+                logActivity('Đồng bộ Google Drive', 'Bắt đầu tải danh sách ảnh từ Google Drive');
+                
+                const url = `https://www.googleapis.com/drive/v3/files?q='${CONFIG.FOLDER_ID}'+in+parents+and+mimeType+contains+'image/'&fields=files(id,name,webViewLink,thumbnailLink,createdTime,modifiedTime,size,mimeType,description)&key=${CONFIG.API_KEY}`;
+                
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Google Drive API error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const photos = data.files.map(file => ({
+                    id: file.id,
+                    name: file.name,
+                    webViewLink: file.webViewLink,
+                    thumbnailLink: file.thumbnailLink,
+                    createdTime: file.createdTime,
+                    modifiedTime: file.modifiedTime,
+                    size: file.size ? parseInt(file.size) : 0,
+                    mimeType: file.mimeType,
+                    description: file.description || `Ảnh kỷ niệm - ${file.name}`,
+                    source: "google-drive",
+                    folderId: CONFIG.FOLDER_ID,
+                    loadedAt: new Date().toISOString()
+                }));
+                
+                // Save to GitHub
+                await saveToGitHub(CONFIG.PHOTOS_METADATA_FILE_PATH, photos, `Đồng bộ ${photos.length} ảnh từ Google Drive`);
+                
+                // Update local data
+                photosData = photos;
+                
+                logActivity('Đồng bộ Google Drive', `Đã đồng bộ ${photos.length} ảnh thành công`);
+                return photos;
+                
+            } catch (error) {
+                logActivity('Lỗi đồng bộ Google Drive', error.message);
+                throw error;
+            }
+        }
+
         // Auto sync function
         function setupAutoSync() {
+            // Clear existing interval
+            if (syncInterval) {
+                clearInterval(syncInterval);
+                clearTimeout(syncInterval);
+            }
+            
+            if (!appConfig.AUTO_SYNC_METADATA.enabled) {
+                return;
+            }
+            
+            const frequency = appConfig.AUTO_SYNC_METADATA.frequency;
+            const time = appConfig.AUTO_SYNC_METADATA.time;
+            
+            if (frequency === 'once') {
+                // Run once at specified time today or tomorrow
+                scheduleOnceSync(time);
+            } else if (frequency === 'daily') {
+                scheduleDailySync(time);
+            } else if (frequency === 'monthly') {
+                scheduleMonthlySync(time);
+            }
+        }
+
+        function scheduleOnceSync(time) {
             const now = new Date();
-            const [hours, minutes] = CONFIG.AUTO_SYNC_METADATA.time.split(':');
+            const [hours, minutes] = time.split(':');
             const syncTime = new Date();
             syncTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
             
@@ -1971,20 +2290,58 @@
             
             const timeUntilSync = syncTime.getTime() - now.getTime();
             
-            setTimeout(() => {
+            syncInterval = setTimeout(() => {
                 autoSyncData();
-                setInterval(autoSyncData, 24 * 60 * 60 * 1000); // Daily
+            }, timeUntilSync);
+        }
+
+        function scheduleDailySync(time) {
+            const now = new Date();
+            const [hours, minutes] = time.split(':');
+            const syncTime = new Date();
+            syncTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+            
+            if (syncTime <= now) {
+                syncTime.setDate(syncTime.getDate() + 1);
+            }
+            
+            const timeUntilSync = syncTime.getTime() - now.getTime();
+            
+            syncInterval = setTimeout(() => {
+                autoSyncData();
+                syncInterval = setInterval(autoSyncData, 24 * 60 * 60 * 1000); // Daily
+            }, timeUntilSync);
+        }
+
+        function scheduleMonthlySync(time) {
+            const now = new Date();
+            const [hours, minutes] = time.split(':');
+            const syncTime = new Date();
+            syncTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+            
+            // Set to first day of next month
+            syncTime.setMonth(syncTime.getMonth() + 1, 1);
+            
+            if (syncTime <= now) {
+                syncTime.setMonth(syncTime.getMonth() + 1, 1);
+            }
+            
+            const timeUntilSync = syncTime.getTime() - now.getTime();
+            
+            syncInterval = setTimeout(() => {
+                autoSyncData();
+                syncInterval = setInterval(autoSyncData, 30 * 24 * 60 * 60 * 1000); // Monthly (approximate)
             }, timeUntilSync);
         }
 
         async function autoSyncData() {
-            if (!settings.autoSync) return;
+            if (!appConfig.AUTO_SYNC_METADATA.enabled) return;
             
             console.log('Đang đồng bộ dữ liệu tự động...');
             logActivity('Đồng bộ tự động', 'Bắt đầu đồng bộ dữ liệu theo lịch trình');
             
             try {
-                await loadPhotosData();
+                await syncPhotosFromGoogleDrive();
                 generatePhotos();
                 
                 settings.lastSyncTime = new Date().toISOString();
@@ -1998,6 +2355,270 @@
                 console.error('Lỗi đồng bộ dữ liệu:', error);
             }
         }
+
+        // Image selector functions
+        function openImageSelector() {
+            if (photosData.length === 0) {
+                showNotification('Chưa có ảnh nào để chọn', 'warning');
+                return;
+            }
+            
+            currentImageSelectorPage = 1;
+            generateImageSelectorGrid();
+            document.getElementById('image-selector-modal').classList.add('active');
+            
+            logActivity('Mở chọn ảnh', 'Mở modal chọn ảnh cho sự kiện');
+        }
+
+        function closeImageSelector() {
+            updateImageDisplay();
+            document.getElementById('image-selector-modal').classList.remove('active');
+            
+            logActivity('Chọn ảnh sự kiện', `Đã chọn ${selectedImageIds.length} ảnh cho sự kiện`);
+            if (selectedImageIds.length > 0) {
+                showNotification(`Đã chọn ${selectedImageIds.length} ảnh`, 'success');
+            }
+        }
+
+        function generateImageSelectorGrid() {
+            const container = document.getElementById('image-selector-grid');
+            
+            // Tính toán phân trang dựa trên PHOTOS_PER_PAGE
+            const startIndex = (currentImageSelectorPage - 1) * CONFIG.PHOTOS_PER_PAGE;
+            const endIndex = startIndex + CONFIG.PHOTOS_PER_PAGE;
+            const pagePhotos = photosData.slice(startIndex, endIndex);
+            
+            container.innerHTML = '';
+            
+            // Hiển thị thông tin phân trang
+            const totalPhotos = photosData.length;
+            const totalPages = Math.ceil(totalPhotos / CONFIG.PHOTOS_PER_PAGE);
+            
+            console.log(`Hiển thị ảnh ${startIndex + 1}-${Math.min(endIndex, totalPhotos)} / ${totalPhotos} (Trang ${currentImageSelectorPage}/${totalPages})`);
+            
+            if (pagePhotos.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center text-gray-500 py-8">Không có ảnh nào để hiển thị</div>';
+                return;
+            }
+            
+            pagePhotos.forEach(photo => {
+                const isSelected = selectedImageIds.includes(photo.id);
+                const photoElement = document.createElement('div');
+                photoElement.className = `relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all ${
+                    isSelected ? 'border-primary-100 bg-primary-10' : 'border-gray-200 hover:border-gray-300'
+                }`;
+                
+                const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w300-h300`;
+                const fallbackUrl = `https://lh3.googleusercontent.com/d/${photo.id}=w300-h300`;
+                
+                photoElement.innerHTML = `
+                    <img src="${thumbnailUrl}" alt="${photo.name}" class="w-full h-32 object-cover" 
+                         onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                    <div class="absolute top-2 right-2">
+                        <div class="w-6 h-6 rounded-full border-2 ${
+                            isSelected 
+                                ? 'bg-primary-100 border-primary-100' 
+                                : 'bg-white border-gray-300'
+                        } flex items-center justify-center">
+                            ${isSelected ? '<i class="fas fa-check text-white text-xs"></i>' : ''}
+                        </div>
+                    </div>
+                    <div class="p-2 bg-white">
+                        <div class="text-xs text-gray-600 truncate" title="${photo.name}">${photo.name}</div>
+                    </div>
+                `;
+                
+                photoElement.onclick = () => toggleImageSelection(photo.id);
+                container.appendChild(photoElement);
+            });
+            
+            generateImageSelectorPagination();
+            updateImageSelectorCount();
+        }
+
+        function generateImageSelectorPagination() {
+            const totalPhotos = photosData.length;
+            const totalPages = Math.ceil(totalPhotos / CONFIG.PHOTOS_PER_PAGE);
+            const pagination = document.getElementById('image-selector-pagination');
+            
+            pagination.innerHTML = '';
+            
+            // Hiển thị thông tin tổng quan
+            const startIndex = (currentImageSelectorPage - 1) * CONFIG.PHOTOS_PER_PAGE + 1;
+            const endIndex = Math.min(currentImageSelectorPage * CONFIG.PHOTOS_PER_PAGE, totalPhotos);
+            
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'text-center text-sm text-gray-600 mb-4';
+            infoDiv.innerHTML = `
+                Hiển thị ${startIndex}-${endIndex} trong tổng số ${totalPhotos} ảnh 
+                (${CONFIG.PHOTOS_PER_PAGE} ảnh/trang)
+            `;
+            pagination.appendChild(infoDiv);
+            
+            if (totalPages <= 1) return;
+            
+            const paginationControls = document.createElement('div');
+            paginationControls.className = 'flex justify-center space-x-2';
+            
+            // Previous button
+            if (currentImageSelectorPage > 1) {
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80 transition-colors';
+                prevBtn.innerHTML = '<i class="fas fa-chevron-left mr-1"></i>Trước';
+                prevBtn.onclick = () => changeImageSelectorPage(currentImageSelectorPage - 1);
+                paginationControls.appendChild(prevBtn);
+            }
+            
+            // First page
+            if (currentImageSelectorPage > 3) {
+                const firstBtn = document.createElement('button');
+                firstBtn.className = 'px-3 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors';
+                firstBtn.textContent = '1';
+                firstBtn.onclick = () => changeImageSelectorPage(1);
+                paginationControls.appendChild(firstBtn);
+                
+                if (currentImageSelectorPage > 4) {
+                    const dots = document.createElement('span');
+                    dots.className = 'px-2 py-2 text-gray-500';
+                    dots.textContent = '...';
+                    paginationControls.appendChild(dots);
+                }
+            }
+            
+            // Page numbers around current page
+            const startPage = Math.max(1, currentImageSelectorPage - 2);
+            const endPage = Math.min(totalPages, currentImageSelectorPage + 2);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `px-3 py-2 rounded-lg transition-colors ${
+                    i === currentImageSelectorPage 
+                        ? 'bg-primary-100 text-white font-semibold' 
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`;
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => changeImageSelectorPage(i);
+                paginationControls.appendChild(pageBtn);
+            }
+            
+            // Last page
+            if (currentImageSelectorPage < totalPages - 2) {
+                if (currentImageSelectorPage < totalPages - 3) {
+                    const dots = document.createElement('span');
+                    dots.className = 'px-2 py-2 text-gray-500';
+                    dots.textContent = '...';
+                    paginationControls.appendChild(dots);
+                }
+                
+                const lastBtn = document.createElement('button');
+                lastBtn.className = 'px-3 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors';
+                lastBtn.textContent = totalPages;
+                lastBtn.onclick = () => changeImageSelectorPage(totalPages);
+                paginationControls.appendChild(lastBtn);
+            }
+            
+            // Next button
+            if (currentImageSelectorPage < totalPages) {
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80 transition-colors';
+                nextBtn.innerHTML = 'Sau<i class="fas fa-chevron-right ml-1"></i>';
+                nextBtn.onclick = () => changeImageSelectorPage(currentImageSelectorPage + 1);
+                paginationControls.appendChild(nextBtn);
+            }
+            
+            pagination.appendChild(paginationControls);
+        }
+
+        function changeImageSelectorPage(page) {
+            currentImageSelectorPage = page;
+            generateImageSelectorGrid();
+        }
+
+        function toggleImageSelection(imageId) {
+            const index = selectedImageIds.indexOf(imageId);
+            if (index > -1) {
+                selectedImageIds.splice(index, 1);
+            } else {
+                selectedImageIds.push(imageId);
+            }
+            
+            generateImageSelectorGrid();
+            updateImageDisplay();
+        }
+
+        function selectAllImages() {
+            // Chọn tất cả ảnh trên trang hiện tại
+            const startIndex = (currentImageSelectorPage - 1) * CONFIG.PHOTOS_PER_PAGE;
+            const endIndex = startIndex + CONFIG.PHOTOS_PER_PAGE;
+            const pagePhotos = photosData.slice(startIndex, endIndex);
+            
+            let addedCount = 0;
+            pagePhotos.forEach(photo => {
+                if (!selectedImageIds.includes(photo.id)) {
+                    selectedImageIds.push(photo.id);
+                    addedCount++;
+                }
+            });
+            
+            generateImageSelectorGrid();
+            updateImageDisplay();
+            
+            if (addedCount > 0) {
+                showNotification(`Đã chọn thêm ${addedCount} ảnh trên trang này`, 'success');
+                logActivity('Chọn ảnh', `Chọn tất cả ${addedCount} ảnh trên trang ${currentImageSelectorPage}`);
+            } else {
+                showNotification('Tất cả ảnh trên trang này đã được chọn', 'info');
+            }
+        }
+
+        function deselectAllImages() {
+            // Bỏ chọn tất cả ảnh trên trang hiện tại
+            const startIndex = (currentImageSelectorPage - 1) * CONFIG.PHOTOS_PER_PAGE;
+            const endIndex = startIndex + CONFIG.PHOTOS_PER_PAGE;
+            const pagePhotos = photosData.slice(startIndex, endIndex);
+            
+            let removedCount = 0;
+            pagePhotos.forEach(photo => {
+                const index = selectedImageIds.indexOf(photo.id);
+                if (index > -1) {
+                    selectedImageIds.splice(index, 1);
+                    removedCount++;
+                }
+            });
+            
+            generateImageSelectorGrid();
+            updateImageDisplay();
+            
+            if (removedCount > 0) {
+                showNotification(`Đã bỏ chọn ${removedCount} ảnh trên trang này`, 'success');
+                logActivity('Bỏ chọn ảnh', `Bỏ chọn tất cả ${removedCount} ảnh trên trang ${currentImageSelectorPage}`);
+            } else {
+                showNotification('Không có ảnh nào được chọn trên trang này', 'info');
+            }
+        }
+
+        function updateImageSelectorCount() {
+            document.getElementById('modal-selected-count').textContent = selectedImageIds.length;
+        }
+
+        function updateImageDisplay() {
+            const displayInput = document.getElementById('event-images-display');
+            const countSpan = document.getElementById('selected-images-count');
+            
+            countSpan.textContent = selectedImageIds.length;
+            
+            if (selectedImageIds.length === 0) {
+                displayInput.value = '';
+                displayInput.placeholder = 'Chưa chọn ảnh nào...';
+            } else if (selectedImageIds.length === 1) {
+                const photo = photosData.find(p => p.id === selectedImageIds[0]);
+                displayInput.value = photo ? photo.name : selectedImageIds[0];
+            } else {
+                displayInput.value = `${selectedImageIds.length} ảnh đã được chọn`;
+            }
+        }
+
+
 
         // Close modal when clicking outside
         document.getElementById('photo-modal').addEventListener('click', function(e) {
@@ -2027,6 +2648,12 @@
         document.getElementById('event-photos-modal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeEventPhotosModal();
+            }
+        });
+
+        document.getElementById('image-selector-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageSelector();
             }
         });
 
@@ -2079,23 +2706,66 @@
                 timestamp: new Date().toISOString(),
                 action: action,
                 details: details,
-                id: Date.now()
+                id: Date.now() + Math.random(), // Đảm bảo unique ID
+                sessionId: getSessionId()
             };
             
-            activityLogs.unshift(logEntry);
+            // Thêm vào pending logs (vùng tạm)
+            pendingLogs.unshift(logEntry);
             
-            // Giới hạn số lượng log (giữ 1000 bản ghi gần nhất)
-            if (activityLogs.length > 1000) {
-                activityLogs = activityLogs.slice(0, 1000);
+            // Thêm vào allLogs để hiển thị ngay lập tức
+            allLogs.unshift(logEntry);
+            
+            // Giới hạn số lượng log trong allLogs (giữ 2000 bản ghi gần nhất)
+            if (allLogs.length > 2000) {
+                allLogs = allLogs.slice(0, 2000);
             }
             
+            // Lưu pending logs vào localStorage
+            savePendingLogs();
+            
             updateLogCount();
+        }
+
+        function getSessionId() {
+            let sessionId = sessionStorage.getItem('loveStorySessionId');
+            if (!sessionId) {
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                sessionStorage.setItem('loveStorySessionId', sessionId);
+            }
+            return sessionId;
+        }
+
+        function savePendingLogs() {
+            try {
+                localStorage.setItem('loveStoryPendingLogs', JSON.stringify(pendingLogs));
+            } catch (error) {
+                console.error('Lỗi lưu pending logs:', error);
+            }
         }
 
         function updateLogCount() {
             const totalLogsElement = document.getElementById('total-logs');
             if (totalLogsElement) {
-                totalLogsElement.textContent = activityLogs.length;
+                totalLogsElement.textContent = allLogs.length;
+            }
+            
+            const pendingLogsElement = document.getElementById('pending-logs-count');
+            if (pendingLogsElement) {
+                pendingLogsElement.textContent = pendingLogs.length;
+            }
+        }
+
+        function updateConnectionStatus() {
+            const statusElement = document.getElementById('connection-status');
+            if (statusElement) {
+                if (isOnline) {
+                    statusElement.innerHTML = '<i class="fas fa-wifi mr-1 text-green-500"></i>Online';
+                    statusElement.className = 'font-semibold text-green-600';
+                } else {
+                    statusElement.innerHTML = '<i class="fas fa-wifi-slash mr-1 text-red-500"></i>Offline';
+                    statusElement.className = 'font-semibold text-red-600';
+                }
             }
         }
 
@@ -2114,13 +2784,14 @@
             button.disabled = true;
             
             try {
-                await loadPhotosData();
+                await syncPhotosFromGoogleDrive();
                 generatePhotos();
                 
                 settings.lastSyncTime = new Date().toISOString();
                 updateLastSyncTime();
+                saveSettings();
                 
-                logActivity('Đồng bộ thủ công', 'Đồng bộ dữ liệu ảnh thành công');
+                logActivity('Đồng bộ thủ công', 'Đồng bộ dữ liệu ảnh thành công từ Google Drive');
                 
                 showNotification('Đồng bộ thành công!', 'success');
             } catch (error) {
@@ -2159,20 +2830,41 @@
         }
 
         function viewActivityLogs() {
-            if (activityLogs.length === 0) {
+            if (allLogs.length === 0) {
                 showNotification('Chưa có nhật ký hoạt động', 'info');
                 return;
             }
             
-            let logsHtml = '<div class="space-y-2 max-h-96 overflow-y-auto">';
-            activityLogs.slice(0, 50).forEach(log => {
+            let logsHtml = `
+                <div class="mb-4 p-3 bg-blue-50 rounded-lg">
+                    <div class="flex items-center justify-between text-sm">
+                        <div>
+                            <span class="font-medium">Tổng số bản ghi:</span> ${allLogs.length}
+                        </div>
+                        <div>
+                            <span class="font-medium">Chưa lưu:</span> 
+                            <span class="px-2 py-1 bg-orange-100 text-orange-800 rounded">${pendingLogs.length}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-2 max-h-96 overflow-y-auto">
+            `;
+            
+            allLogs.slice(0, 100).forEach(log => {
+                const isPending = pendingLogs.some(p => p.id === log.id);
+                const statusClass = isPending ? 'border-l-4 border-orange-400 bg-orange-50' : 'bg-gray-50';
+                const statusIcon = isPending ? '<i class="fas fa-clock text-orange-500 mr-1"></i>' : '<i class="fas fa-check text-green-500 mr-1"></i>';
+                
                 logsHtml += `
-                    <div class="bg-gray-50 p-3 rounded">
+                    <div class="${statusClass} p-3 rounded">
                         <div class="flex justify-between items-start">
-                            <div class="font-medium">${log.action}</div>
+                            <div class="font-medium flex items-center">
+                                ${statusIcon}${log.action}
+                            </div>
                             <div class="text-xs text-gray-500">${new Date(log.timestamp).toLocaleString('vi-VN')}</div>
                         </div>
                         ${log.details ? `<div class="text-sm text-gray-600 mt-1">${log.details}</div>` : ''}
+                        ${log.sessionId ? `<div class="text-xs text-gray-400 mt-1">Session: ${log.sessionId}</div>` : ''}
                     </div>
                 `;
             });
@@ -2182,12 +2874,19 @@
         }
 
         function exportLogs() {
-            if (activityLogs.length === 0) {
+            if (allLogs.length === 0) {
                 showNotification('Không có dữ liệu để xuất', 'warning');
                 return;
             }
             
-            const dataStr = JSON.stringify(activityLogs, null, 2);
+            const exportData = {
+                exportTime: new Date().toISOString(),
+                totalLogs: allLogs.length,
+                pendingLogs: pendingLogs.length,
+                logs: allLogs
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
             const dataBlob = new Blob([dataStr], {type: 'application/json'});
             
             const link = document.createElement('a');
@@ -2195,15 +2894,28 @@
             link.download = `love-story-logs-${new Date().toISOString().split('T')[0]}.json`;
             link.click();
             
-            logActivity('Xuất nhật ký', 'Xuất file nhật ký thành công');
+            logActivity('Xuất nhật ký', `Xuất file nhật ký thành công (${allLogs.length} bản ghi)`);
             showNotification('Đã xuất file nhật ký!', 'success');
         }
 
         function clearLogs() {
-            if (confirm('Bạn có chắc chắn muốn xóa tất cả nhật ký hoạt động?')) {
-                const count = activityLogs.length;
+            if (confirm('Bạn có chắc chắn muốn xóa tất cả nhật ký hoạt động? Hành động này không thể hoàn tác.')) {
+                const count = allLogs.length;
+                
+                // Clear all logs
                 activityLogs = [];
+                allLogs = [];
+                pendingLogs = [];
+                
+                // Clear localStorage
+                localStorage.removeItem('loveStoryPendingLogs');
+                
+                // Update UI
                 updateLogCount();
+                
+                // Log this action (sẽ tạo log mới)
+                logActivity('Xóa tất cả nhật ký', `Đã xóa ${count} bản ghi nhật ký`);
+                
                 showNotification(`Đã xóa ${count} bản ghi nhật ký`, 'success');
             }
         }
@@ -2258,6 +2970,69 @@
             });
         }
 
+        // Sync settings functions
+        async function saveSyncSettings() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang lưu...';
+            button.disabled = true;
+            
+            try {
+                const enabled = document.getElementById('auto-sync-toggle').checked;
+                const frequency = document.getElementById('sync-frequency').value;
+                const time = document.getElementById('sync-time').value;
+                
+                if (!time) {
+                    showNotification('Vui lòng chọn thời gian đồng bộ!', 'warning');
+                    return;
+                }
+                
+                // Update config
+                appConfig.AUTO_SYNC_METADATA = {
+                    enabled: enabled,
+                    frequency: frequency,
+                    time: time
+                };
+                
+                // Save to GitHub
+                await saveAppConfig();
+                
+                // Restart auto sync with new settings
+                setupAutoSync();
+                
+                logActivity('Cài đặt đồng bộ', `Đã lưu cài đặt: ${enabled ? 'Bật' : 'Tắt'}, ${frequency}, ${time}`);
+                showNotification('Đã lưu cài đặt thành công!', 'success');
+                
+            } catch (error) {
+                console.error('Lỗi lưu cài đặt:', error);
+                logActivity('Lỗi lưu cài đặt', error.message);
+                showNotification('Lỗi khi lưu cài đặt!', 'error');
+            } finally {
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+        }
+
+        function updateSyncSettingsUI() {
+            // Update toggle
+            document.getElementById('auto-sync-toggle').checked = appConfig.AUTO_SYNC_METADATA.enabled;
+            
+            // Update frequency
+            document.getElementById('sync-frequency').value = appConfig.AUTO_SYNC_METADATA.frequency;
+            
+            // Update time
+            document.getElementById('sync-time').value = appConfig.AUTO_SYNC_METADATA.time;
+            
+            // Show/hide settings based on enabled state
+            const syncSettings = document.getElementById('sync-settings');
+            if (appConfig.AUTO_SYNC_METADATA.enabled) {
+                syncSettings.classList.remove('opacity-50', 'pointer-events-none');
+            } else {
+                syncSettings.classList.add('opacity-50', 'pointer-events-none');
+            }
+        }
+
         // Initialize settings on load
         document.addEventListener('DOMContentLoaded', function() {
             // Load saved settings from localStorage
@@ -2266,32 +3041,42 @@
                 settings = { ...settings, ...JSON.parse(savedSettings) };
             }
             
-            // Load saved logs from localStorage
-            const savedLogs = localStorage.getItem('loveStoryLogs');
-            if (savedLogs) {
-                activityLogs = JSON.parse(savedLogs);
-            }
-            
             // Update UI
             updateLogCount();
             updateLastSyncTime();
+            updateConnectionStatus();
             
-            // Set toggle states
-            document.getElementById('auto-sync-toggle').checked = settings.autoSync;
+            // Wait for config to load then update sync settings UI
+            setTimeout(() => {
+                updateSyncSettingsUI();
+            }, 1000);
+            
+            // Set activity logging toggle
             document.getElementById('activity-log-toggle').checked = settings.activityLogging;
             
             // Add event listeners for toggles
             document.getElementById('auto-sync-toggle').addEventListener('change', function() {
-                settings.autoSync = this.checked;
-                saveSettings();
-                logActivity('Cài đặt', `${this.checked ? 'Bật' : 'Tắt'} tự động đồng bộ`);
+                const syncSettings = document.getElementById('sync-settings');
+                if (this.checked) {
+                    syncSettings.classList.remove('opacity-50', 'pointer-events-none');
+                } else {
+                    syncSettings.classList.add('opacity-50', 'pointer-events-none');
+                }
             });
             
             document.getElementById('activity-log-toggle').addEventListener('change', function() {
+                const wasEnabled = settings.activityLogging;
                 settings.activityLogging = this.checked;
                 saveSettings();
-                if (this.checked) {
+                
+                if (this.checked && !wasEnabled) {
+                    // Start log management when enabled
+                    setupLogManagement();
                     logActivity('Cài đặt', 'Bật ghi nhật ký hoạt động');
+                } else if (!this.checked && wasEnabled) {
+                    // Stop log management when disabled
+                    stopLogSaveInterval();
+                    logActivity('Cài đặt', 'Tắt ghi nhật ký hoạt động');
                 }
             });
         });
@@ -2304,8 +3089,162 @@
             localStorage.setItem('loveStoryLogs', JSON.stringify(activityLogs));
         }
 
-        // Save logs periodically
-        setInterval(saveLogs, 30000); // Save every 30 seconds
+        // Log management functions
+        function setupLogManagement() {
+            // Bắt đầu interval lưu logs mỗi 10 giây khi online
+            if (isOnline && settings.activityLogging) {
+                startLogSaveInterval();
+            }
+        }
+
+        function startLogSaveInterval() {
+            // Clear existing interval
+            if (logSaveInterval) {
+                clearInterval(logSaveInterval);
+            }
+            
+            // Start new interval - save logs every 10 seconds
+            logSaveInterval = setInterval(async () => {
+                if (isOnline && pendingLogs.length > 0) {
+                    await savePendingLogsToServer();
+                }
+            }, 10000); // 10 seconds
+        }
+
+        function stopLogSaveInterval() {
+            if (logSaveInterval) {
+                clearInterval(logSaveInterval);
+                logSaveInterval = null;
+            }
+        }
+
+        async function savePendingLogsToServer() {
+            if (pendingLogs.length === 0) return;
+            
+            try {
+                // Merge pending logs với existing logs
+                const mergedLogs = [...pendingLogs, ...activityLogs];
+                
+                // Sort by timestamp (newest first)
+                mergedLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                
+                // Limit to 1000 most recent logs
+                const finalLogs = mergedLogs.slice(0, 1000);
+                
+                // Save to GitHub
+                await saveToGitHub(CONFIG.LOGS_FILE_PATH, finalLogs, `Cập nhật nhật ký hoạt động (${pendingLogs.length} bản ghi mới)`);
+                
+                // Update activityLogs
+                activityLogs = finalLogs;
+                
+                // Clear pending logs
+                const savedCount = pendingLogs.length;
+                pendingLogs = [];
+                localStorage.removeItem('loveStoryPendingLogs');
+                
+                // Update UI
+                updateLogCount();
+                
+                console.log(`Đã lưu ${savedCount} bản ghi nhật ký lên server`);
+                
+            } catch (error) {
+                console.error('Lỗi lưu nhật ký lên server:', error);
+                // Không xóa pending logs nếu lưu thất bại
+            }
+        }
+
+        function setupOnlineOfflineDetection() {
+            // Listen for online/offline events
+            window.addEventListener('online', handleOnline);
+            window.addEventListener('offline', handleOffline);
+            
+            // Listen for page unload (when user closes tab/browser)
+            window.addEventListener('beforeunload', handleBeforeUnload);
+            
+            // Listen for visibility change (when user switches tabs)
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+        }
+
+        function handleOnline() {
+            isOnline = true;
+            console.log('Đã kết nối internet');
+            updateConnectionStatus();
+            logActivity('Kết nối mạng', 'Đã kết nối lại internet');
+            
+            // Start log save interval
+            if (settings.activityLogging) {
+                startLogSaveInterval();
+            }
+            
+            // Save pending logs immediately
+            if (pendingLogs.length > 0) {
+                savePendingLogsToServer();
+            }
+            
+            showNotification('Đã kết nối lại internet', 'success');
+        }
+
+        function handleOffline() {
+            isOnline = false;
+            console.log('Mất kết nối internet');
+            updateConnectionStatus();
+            logActivity('Mất kết nối mạng', 'Đã mất kết nối internet, nhật ký sẽ được lưu tạm thời');
+            
+            // Stop log save interval
+            stopLogSaveInterval();
+            
+            // Save pending logs immediately before going offline
+            if (pendingLogs.length > 0) {
+                savePendingLogsToServer().catch(error => {
+                    console.log('Không thể lưu logs trước khi offline:', error);
+                });
+            }
+            
+            showNotification('Mất kết nối internet - Nhật ký sẽ được lưu tạm thời', 'warning');
+        }
+
+        function handleBeforeUnload() {
+            // Save pending logs when user is about to leave
+            if (pendingLogs.length > 0 && isOnline) {
+                // Use sendBeacon for reliable delivery
+                const data = JSON.stringify({
+                    action: 'saveLogs',
+                    logs: pendingLogs,
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Try to save using fetch with keepalive
+                fetch(`https://api.github.com/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.REPO_NAME}/contents/${CONFIG.LOGS_FILE_PATH}`, {
+                    method: 'PUT',
+                    keepalive: true,
+                    headers: {
+                        'Authorization': `token ${CONFIG.PAT1 + CONFIG.PAT2}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `Lưu nhật ký khi đóng ứng dụng (${pendingLogs.length} bản ghi)`,
+                        content: btoa(unescape(encodeURIComponent(JSON.stringify([...pendingLogs, ...activityLogs], null, 2))))
+                    })
+                }).catch(error => {
+                    console.log('Không thể lưu logs khi đóng ứng dụng:', error);
+                });
+            }
+            
+            logActivity('Đóng ứng dụng', 'Người dùng đã đóng ứng dụng');
+        }
+
+        function handleVisibilityChange() {
+            if (document.hidden) {
+                logActivity('Chuyển tab', 'Người dùng đã chuyển sang tab khác');
+            } else {
+                logActivity('Quay lại tab', 'Người dùng đã quay lại ứng dụng');
+            }
+        }
+
+        // Save logs periodically to localStorage
+        setInterval(() => {
+            savePendingLogs();
+        }, 5000); // Save to localStorage every 5 seconds
 
         // Timeline toggle functions
         function toggleTimeDisplay(element, shortTime, detailedTime) {
@@ -2325,5 +3264,5 @@
             }
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98bc0f2683840988',t:'MTc1OTk5MzgzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98bcf74276ccddc3',t:'MTc2MDAwMzM0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
