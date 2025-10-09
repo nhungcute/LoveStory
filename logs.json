@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-09T09:45:10.249Z",
+    "action": "Mở chọn ảnh",
+    "details": "Mở modal chọn ảnh cho sự kiện",
+    "id": 1760003110249.7517,
+    "sessionId": "session_1760003067876_vj2n01q6g"
+  },
+  {
     "timestamp": "2025-10-09T09:44:36.924Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
