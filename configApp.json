@@ -13,6 +13,6 @@
   "AUTO_SYNC_METADATA": {
     "enabled": true,
     "frequency": "daily",
-    "time": "10:00"
+    "time": "11:00"
   }
 }
