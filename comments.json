@@ -23,7 +23,7 @@
   },
   {
     "ID_IMG": "MIN_9455.JPG",
-    "count_tim": 3,
+    "count_tim": 4,
     "comments": [
       {
         "comment": "Xinh",
@@ -40,6 +40,10 @@
       {
         "comment": "Xinh3",
         "date_input": "2025-10-07T09:44:13.603Z"
+      },
+      {
+        "comment": "Xinh quá",
+        "date_input": "2025-10-09T08:38:32.303Z"
       }
     ]
   },
