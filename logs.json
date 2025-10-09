@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-09T09:46:02.351Z",
+    "action": "Mở chọn ảnh",
+    "details": "Mở modal chọn ảnh cho sự kiện",
+    "id": 1760003162351.6792,
+    "sessionId": "session_1760003067876_vj2n01q6g"
+  },
+  {
     "timestamp": "2025-10-09T09:45:56.158Z",
     "action": "Xem ảnh sự kiện",
     "details": "Xem ảnh cho sự kiện: First day of love (2 ảnh)",
