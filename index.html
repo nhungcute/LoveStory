@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story</title>
+    <title>Love Story - Ứng Dụng Kỷ Niệm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
@@ -360,7 +360,7 @@
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <div class="flex-1 overflow-y-auto">
+            <div class="flex-1 overflow-y-auto min-h-0">
                 <div class="p-3 sm:p-4">
                     <img id="modal-image" class="w-full rounded-lg mb-4" alt="">
                     <div class="flex flex-wrap items-center gap-2 sm:gap-4 mb-4">
@@ -386,10 +386,10 @@
                             <i class="fas fa-comments mr-2"></i>
                             Bình luận
                         </h4>
-                        <div id="comments-container" class="space-y-3 mb-4 max-h-60 overflow-y-auto">
+                        <div id="comments-container" class="space-y-3 mb-4 max-h-40 sm:max-h-60 overflow-y-auto border rounded-lg p-2 bg-gray-50">
                             <!-- Comments will be loaded here -->
                         </div>
-                        <div class="flex space-x-2">
+                        <div class="flex space-x-2 sticky bottom-0 bg-white pt-2">
                             <input type="text" id="comment-input" placeholder="Thêm bình luận..." 
                                    class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100 text-sm">
                             <button onclick="addComment()" class="px-3 sm:px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 flex-shrink-0">
@@ -1939,5 +1939,5 @@
             }
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ba59863602ddc3',t:'MTc1OTk3NTkxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ba6f151263ddc3',t:'MTc1OTk3Njc5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
