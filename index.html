@@ -108,6 +108,15 @@
             justify-content: center;
         }
         
+        /* Photo modal should appear above event photos modal */
+        #photo-modal {
+            z-index: 1100;
+        }
+        
+        #event-photos-modal {
+            z-index: 1050;
+        }
+        
         .loading {
             animation: spin 1s linear infinite;
         }
@@ -168,15 +177,15 @@
         <!-- Calendar Section -->
         <section id="calendar-section" class="section active">
             <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-primary-100">
-                        <i class="fas fa-calendar-heart mr-2"></i>Lịch Kỷ Niệm
-                    </h2>
+                <div class="flex items-center justify-center mb-6">
                     <div class="flex items-center space-x-4">
                         <button onclick="previousMonth()" class="p-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        <span id="current-month" class="text-lg font-semibold text-primary-100"></span>
+                        <div class="text-center">
+                            <div id="current-month" class="text-lg font-semibold text-primary-100 mb-2 cursor-pointer" onclick="toggleDateInput()"></div>
+                            <input type="date" id="date-picker" class="hidden px-3 py-1 border rounded-lg text-sm" onchange="goToDate(this.value)" onblur="hideDateInput()">
+                        </div>
                         <button onclick="nextMonth()" class="p-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80">
                             <i class="fas fa-chevron-right"></i>
                         </button>
@@ -470,6 +479,42 @@
         </div>
     </div>
 
+    <!-- Event Photos Modal -->
+    <div id="event-photos-modal" class="modal">
+        <div class="bg-white rounded-xl max-w-6xl w-full mx-2 my-2 sm:m-4 flex flex-col" style="max-height: calc(100vh - 1rem);">
+            <div class="p-3 sm:p-4 border-b flex justify-between items-center flex-shrink-0">
+                <h3 id="event-photos-title" class="text-lg sm:text-xl font-bold text-primary-100 truncate mr-4">Ảnh sự kiện</h3>
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <button onclick="toggleEventView('grid')" id="event-grid-btn" class="event-view-btn p-2 rounded-lg bg-gray-300 text-gray-600">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button onclick="toggleEventView('grid-2')" id="event-grid-2-btn" class="event-view-btn p-2 rounded-lg bg-primary-100 text-white">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button onclick="toggleEventView('list')" id="event-list-btn" class="event-view-btn p-2 rounded-lg bg-gray-300 text-gray-600">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                    <button onclick="closeEventPhotosModal()" class="text-gray-500 hover:text-gray-700 flex-shrink-0">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto min-h-0">
+                <div class="p-3 sm:p-4">
+                    <div id="event-photos-container" class="grid grid-cols-2 gap-4">
+                        <!-- Event photos will be loaded here -->
+                    </div>
+                    
+                    <div id="event-pagination" class="flex justify-center mt-8 space-x-2">
+                        <!-- Event pagination will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Share Modal -->
     <div id="share-modal" class="modal">
         <div class="bg-white rounded-xl max-w-md w-full m-4">
@@ -574,6 +619,10 @@
         let activityLogs = [];
         let currentEditingEventIndex = null;
         let currentDeletingEventIndex = null;
+        let currentEventPhotos = [];
+        let currentEventPhotoPage = 1;
+        let currentEventView = 'grid-2';
+        let currentEventIndex = null;
         let settings = {
             autoSync: true,
             activityLogging: true,
@@ -813,8 +862,14 @@
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
             
+            // Format theo yêu cầu: "Ngày 1, Tháng 5, Năm 2025"
+            const monthNames = [
+                'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+                'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+            ];
+            
             document.getElementById('current-month').textContent = 
-                currentDate.toLocaleDateString('vi-VN', { month: 'long', year: 'numeric' });
+                `Ngày 1, ${monthNames[month]}, Năm ${year}`;
             
             const firstDay = new Date(year, month, 1);
             const lastDay = new Date(year, month + 1, 0);
@@ -828,7 +883,7 @@
             const dayHeaders = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
             dayHeaders.forEach(day => {
                 const dayHeader = document.createElement('div');
-                dayHeader.className = 'text-center font-semibold text-primary-100 py-2';
+                dayHeader.className = 'text-center font-semibold text-primary-100 py-2 border-2 border-primary-100 bg-primary-10 rounded-lg mb-2';
                 dayHeader.textContent = day;
                 calendarGrid.appendChild(dayHeader);
             });
@@ -854,6 +909,13 @@
                     dayElement.textContent = date.getDate();
                 }
                 
+                // Add click event to open add event modal with selected date
+                dayElement.addEventListener('click', () => {
+                    if (date.getMonth() === month) { // Only for current month days
+                        openAddEventModal(date);
+                    }
+                });
+                
                 calendarGrid.appendChild(dayElement);
             }
         }
@@ -866,6 +928,58 @@
         function nextMonth() {
             currentDate.setMonth(currentDate.getMonth() + 1);
             generateCalendar();
+        }
+
+        function toggleDateInput() {
+            const monthDisplay = document.getElementById('current-month');
+            const datePicker = document.getElementById('date-picker');
+            
+            monthDisplay.classList.add('hidden');
+            datePicker.classList.remove('hidden');
+            
+            // Set current date as default value
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+            datePicker.value = `${year}-${month}-01`;
+            datePicker.focus();
+        }
+
+        function hideDateInput() {
+            const monthDisplay = document.getElementById('current-month');
+            const datePicker = document.getElementById('date-picker');
+            
+            setTimeout(() => {
+                monthDisplay.classList.remove('hidden');
+                datePicker.classList.add('hidden');
+            }, 200);
+        }
+
+        function goToDate(dateValue) {
+            if (dateValue) {
+                const selectedDate = new Date(dateValue);
+                currentDate = selectedDate;
+                generateCalendar();
+            }
+            hideDateInput();
+        }
+
+        function openAddEventModal(selectedDate = null) {
+            currentEditingEventIndex = null;
+            document.getElementById('event-modal-title').textContent = 'Thêm sự kiện mới';
+            document.getElementById('event-name').value = '';
+            document.getElementById('event-description').value = '';
+            
+            if (selectedDate) {
+                // Format date for input[type="date"] (YYYY-MM-DD)
+                const year = selectedDate.getFullYear();
+                const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+                const day = String(selectedDate.getDate()).padStart(2, '0');
+                document.getElementById('event-date').value = `${year}-${month}-${day}`;
+            } else {
+                document.getElementById('event-date').value = '';
+            }
+            
+            document.getElementById('event-modal').classList.add('active');
         }
 
         // Timeline functions
@@ -1476,12 +1590,7 @@
 
         // Event handlers
         function showAddEventModal() {
-            currentEditingEventIndex = null;
-            document.getElementById('event-modal-title').textContent = 'Thêm sự kiện mới';
-            document.getElementById('event-name').value = '';
-            document.getElementById('event-date').value = '';
-            document.getElementById('event-description').value = '';
-            document.getElementById('event-modal').classList.add('active');
+            openAddEventModal();
         }
 
         function editEvent(index) {
@@ -1500,7 +1609,38 @@
         }
 
         function viewEventPhotos(index) {
-            showSection('photos');
+            currentEventIndex = index;
+            const event = timelineData[index];
+            
+            // Lấy danh sách ID ảnh từ sự kiện
+            const imageIds = event.image || [];
+            
+            if (imageIds.length === 0) {
+                showNotification('Sự kiện này chưa có ảnh nào', 'info');
+                return;
+            }
+            
+            // Tìm ảnh tương ứng từ photosData
+            currentEventPhotos = photosData.filter(photo => imageIds.includes(photo.id));
+            
+            if (currentEventPhotos.length === 0) {
+                showNotification('Không tìm thấy ảnh cho sự kiện này', 'warning');
+                return;
+            }
+            
+            // Reset pagination
+            currentEventPhotoPage = 1;
+            
+            // Set modal title
+            document.getElementById('event-photos-title').textContent = `Ảnh sự kiện: ${event.name || 'Không có tên'}`;
+            
+            // Generate photos
+            generateEventPhotos();
+            
+            // Show modal
+            document.getElementById('event-photos-modal').classList.add('active');
+            
+            logActivity('Xem ảnh sự kiện', `Xem ảnh cho sự kiện: ${event.name || 'Không có tên'} (${currentEventPhotos.length} ảnh)`);
         }
 
         function deleteEvent(index) {
@@ -1508,6 +1648,196 @@
             const event = timelineData[index];
             document.getElementById('delete-event-name').textContent = event.name || 'Sự kiện không có tên';
             document.getElementById('delete-modal').classList.add('active');
+        }
+
+        function closeEventPhotosModal() {
+            document.getElementById('event-photos-modal').classList.remove('active');
+            currentEventPhotos = [];
+            currentEventPhotoPage = 1;
+            currentEventIndex = null;
+        }
+
+        function generateEventPhotos() {
+            const container = document.getElementById('event-photos-container');
+            
+            if (currentEventPhotos.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-500 col-span-full">Không có ảnh nào</p>';
+                return;
+            }
+            
+            const startIndex = (currentEventPhotoPage - 1) * CONFIG.PHOTOS_PER_PAGE;
+            const endIndex = startIndex + CONFIG.PHOTOS_PER_PAGE;
+            const pagePhotos = currentEventPhotos.slice(startIndex, endIndex);
+            
+            container.innerHTML = '';
+            if (currentEventView === 'grid') {
+                container.className = 'photo-grid';
+            } else if (currentEventView === 'grid-2') {
+                container.className = 'grid grid-cols-2 gap-4';
+            } else {
+                container.className = 'space-y-4';
+            }
+            
+            pagePhotos.forEach((photo, index) => {
+                const photoElement = document.createElement('div');
+                
+                if (currentEventView === 'grid' || currentEventView === 'grid-2') {
+                    // Tạo URL ảnh từ Google Drive với nhiều phương án dự phòng
+                    const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w400-h400`;
+                    const directUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
+                    const fallbackUrl = `https://lh3.googleusercontent.com/d/${photo.id}=w400-h400`;
+                    
+                    photoElement.className = 'photo-item bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative';
+                    photoElement.innerHTML = `
+                        <img src="${thumbnailUrl}" alt="${photo.name}" class="w-full h-48 object-cover" 
+                             onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                        <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded-lg text-xs flex items-center space-x-2">
+                            <span class="flex items-center">
+                                <i class="fas fa-heart text-red-400 mr-1"></i>
+                                ${getPhotoLikes(photo.name)}
+                            </span>
+                            <span class="flex items-center">
+                                <i class="fas fa-comment text-blue-400 mr-1"></i>
+                                ${getPhotoCommentsCount(photo.name)}
+                            </span>
+                        </div>
+                    `;
+                    
+                    // Store direct URL for modal
+                    photoElement.dataset.directUrl = directUrl;
+                } else {
+                    // Tạo URL ảnh từ Google Drive cho list view
+                    const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w400-h400`;
+                    const directUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
+                    const fallbackUrl = `https://lh3.googleusercontent.com/d/${photo.id}=w400-h400`;
+                    
+                    // Format file size
+                    const formatFileSize = (bytes) => {
+                        if (!bytes) return 'N/A';
+                        const sizes = ['B', 'KB', 'MB', 'GB'];
+                        const i = Math.floor(Math.log(bytes) / Math.log(1024));
+                        return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+                    };
+                    
+                    // Format date
+                    const formatPhotoDate = (dateStr) => {
+                        if (!dateStr) return 'N/A';
+                        try {
+                            const date = new Date(dateStr);
+                            return date.toLocaleDateString('vi-VN') + ' ' + date.toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+                        } catch {
+                            return 'N/A';
+                        }
+                    };
+                    
+                    photoElement.className = 'photo-item bg-white rounded-lg shadow-md p-4 flex items-start space-x-4 cursor-pointer hover:shadow-lg transition-shadow';
+                    photoElement.innerHTML = `
+                        <img src="${thumbnailUrl}" alt="${photo.name}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" 
+                             onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-primary-100 mb-2 truncate">${photo.name}</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600 mb-3">
+                                <div class="flex items-center">
+                                    <i class="fas fa-hdd text-gray-400 mr-2 w-4"></i>
+                                    <span>${formatFileSize(photo.size)}</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-calendar text-gray-400 mr-2 w-4"></i>
+                                    <span>${formatPhotoDate(photo.createdTime)}</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4 text-sm">
+                                <span class="flex items-center text-red-500">
+                                    <i class="fas fa-heart mr-1"></i> 
+                                    ${getPhotoLikes(photo.name)}
+                                </span>
+                                <span class="flex items-center text-primary-100">
+                                    <i class="fas fa-comment mr-1"></i> 
+                                    ${getPhotoCommentsCount(photo.name)}
+                                </span>
+                                <span class="flex items-center text-gray-500">
+                                    <i class="fas fa-eye mr-1"></i> 
+                                    Xem chi tiết
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Store direct URL for modal
+                    photoElement.dataset.directUrl = directUrl;
+                }
+                
+                photoElement.onclick = () => openPhotoModal(photo, photoElement);
+                container.appendChild(photoElement);
+            });
+            
+            generateEventPagination();
+        }
+
+        function generateEventPagination() {
+            const totalPages = Math.ceil(currentEventPhotos.length / CONFIG.PHOTOS_PER_PAGE);
+            const pagination = document.getElementById('event-pagination');
+            
+            pagination.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+            
+            // Previous button
+            if (currentEventPhotoPage > 1) {
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80';
+                prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                prevBtn.onclick = () => changeEventPage(currentEventPhotoPage - 1);
+                pagination.appendChild(prevBtn);
+            }
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentEventPhotoPage - 2 && i <= currentEventPhotoPage + 2)) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.className = `px-3 py-2 rounded-lg ${
+                        i === currentEventPhotoPage 
+                            ? 'bg-primary-100 text-white' 
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`;
+                    pageBtn.textContent = i;
+                    pageBtn.onclick = () => changeEventPage(i);
+                    pagination.appendChild(pageBtn);
+                } else if (i === currentEventPhotoPage - 3 || i === currentEventPhotoPage + 3) {
+                    const dots = document.createElement('span');
+                    dots.className = 'px-2 py-2 text-gray-500';
+                    dots.textContent = '...';
+                    pagination.appendChild(dots);
+                }
+            }
+            
+            // Next button
+            if (currentEventPhotoPage < totalPages) {
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80';
+                nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                nextBtn.onclick = () => changeEventPage(currentEventPhotoPage + 1);
+                pagination.appendChild(nextBtn);
+            }
+        }
+
+        function changeEventPage(page) {
+            currentEventPhotoPage = page;
+            generateEventPhotos();
+        }
+
+        function toggleEventView(view) {
+            currentEventView = view;
+            
+            document.querySelectorAll('.event-view-btn').forEach(btn => {
+                btn.classList.remove('bg-primary-100', 'text-white');
+                btn.classList.add('bg-gray-300', 'text-gray-600');
+            });
+            
+            document.getElementById(`event-${view}-btn`).classList.remove('bg-gray-300', 'text-gray-600');
+            document.getElementById(`event-${view}-btn`).classList.add('bg-primary-100', 'text-white');
+            
+            generateEventPhotos();
         }
 
         function closeEventModal() {
@@ -1675,6 +2005,12 @@
         document.getElementById('share-modal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeShareModal();
+            }
+        });
+
+        document.getElementById('event-photos-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEventPhotosModal();
             }
         });
 
@@ -1939,5 +2275,5 @@
             }
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ba79791434ddc3',t:'MTc1OTk3NzIyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98bb2e1c0179ddc3',t:'MTc1OTk4NDYxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
