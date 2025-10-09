@@ -429,8 +429,9 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Ngày</label>
-                    <input type="date" id="event-date" required 
-                           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100 text-center">
+                    <input type="text" id="event-date" required 
+                           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100 text-center"
+                           placeholder="DD/MM/YYYY" maxlength="10">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Mô tả</label>
@@ -485,7 +486,7 @@
             <div class="p-3 sm:p-4 border-b flex justify-between items-center flex-shrink-0">
                 <h3 id="event-photos-title" class="text-lg sm:text-xl font-bold text-primary-100 truncate mr-4">Ảnh sự kiện</h3>
                 <div class="flex items-center space-x-2 sm:space-x-4">
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-1">
                         <button onclick="toggleEventView('grid')" id="event-grid-btn" class="event-view-btn p-2 rounded-lg bg-gray-300 text-gray-600">
                             <i class="fas fa-th"></i>
                         </button>
@@ -862,14 +863,14 @@
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
             
-            // Format theo yêu cầu: "Ngày 1, Tháng 5, Năm 2025"
+            // Format theo yêu cầu: "Tháng 10, 2025"
             const monthNames = [
                 'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
                 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
             ];
             
             document.getElementById('current-month').textContent = 
-                `Ngày 1, ${monthNames[month]}, Năm ${year}`;
+                `${monthNames[month]}, ${year}`;
             
             const firstDay = new Date(year, month, 1);
             const lastDay = new Date(year, month + 1, 0);
@@ -970,11 +971,11 @@
             document.getElementById('event-description').value = '';
             
             if (selectedDate) {
-                // Format date for input[type="date"] (YYYY-MM-DD)
-                const year = selectedDate.getFullYear();
-                const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+                // Format date for text input (DD/MM/YYYY)
                 const day = String(selectedDate.getDate()).padStart(2, '0');
-                document.getElementById('event-date').value = `${year}-${month}-${day}`;
+                const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+                const year = selectedDate.getFullYear();
+                document.getElementById('event-date').value = `${day}/${month}/${year}`;
             } else {
                 document.getElementById('event-date').value = '';
             }
@@ -1600,9 +1601,9 @@
             document.getElementById('event-modal-title').textContent = 'Chỉnh sửa sự kiện';
             document.getElementById('event-name').value = event.name || '';
             
-            // Convert date format from DD-MM-YYYY to YYYY-MM-DD for input[type="date"]
+            // Convert date format from DD-MM-YYYY to DD/MM/YYYY for text input
             const [day, month, year] = event.day.split('-');
-            document.getElementById('event-date').value = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+            document.getElementById('event-date').value = `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
             
             document.getElementById('event-description').value = event.contdetl || '';
             document.getElementById('event-modal').classList.add('active');
@@ -1888,9 +1889,24 @@
                     return;
                 }
                 
-                // Convert date format from YYYY-MM-DD to DD-MM-YYYY
-                const [year, month, day] = date.split('-');
-                const formattedDate = `${day}-${month}-${year}`;
+                // Validate date format DD/MM/YYYY
+                const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+                if (!dateRegex.test(date)) {
+                    showNotification('Vui lòng nhập ngày đúng định dạng DD/MM/YYYY!', 'warning');
+                    return;
+                }
+                
+                const [inputDay, inputMonth, inputYear] = date.split('/');
+                const dateObj = new Date(inputYear, inputMonth - 1, inputDay);
+                
+                if (dateObj.getDate() != inputDay || dateObj.getMonth() != inputMonth - 1 || dateObj.getFullYear() != inputYear) {
+                    showNotification('Ngày không hợp lệ! Vui lòng kiểm tra lại.', 'warning');
+                    return;
+                }
+                
+                // Convert date format from DD/MM/YYYY to DD-MM-YYYY
+                const [day, month, year] = date.split('/');
+                const formattedDate = `${day.padStart(2, '0')}-${month.padStart(2, '0')}-${year}`;
                 
                 const eventData = {
                     note_id: currentEditingEventIndex !== null ? timelineData[currentEditingEventIndex].note_id : Date.now(),
@@ -2019,6 +2035,40 @@
             if (e.key === 'Enter') {
                 addComment();
             }
+        });
+
+        // Format date input as DD/MM/YYYY
+        document.addEventListener('DOMContentLoaded', function() {
+            const eventDateInput = document.getElementById('event-date');
+            
+            eventDateInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2);
+                }
+                if (value.length >= 5) {
+                    value = value.substring(0, 5) + '/' + value.substring(5, 9);
+                }
+                
+                e.target.value = value;
+            });
+            
+            eventDateInput.addEventListener('keydown', function(e) {
+                // Allow backspace, delete, tab, escape, enter
+                if ([8, 9, 27, 13, 46].indexOf(e.keyCode) !== -1 ||
+                    // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                    (e.keyCode === 65 && e.ctrlKey === true) ||
+                    (e.keyCode === 67 && e.ctrlKey === true) ||
+                    (e.keyCode === 86 && e.ctrlKey === true) ||
+                    (e.keyCode === 88 && e.ctrlKey === true)) {
+                    return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
         });
 
         // Settings functions
@@ -2275,5 +2325,5 @@
             }
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98bbf22827613ee9',t:'MTc1OTk5MjY0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98bc0f2683840988',t:'MTc1OTk5MzgzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
