@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-09T09:48:58.109Z",
+    "action": "Chọn ảnh sự kiện",
+    "details": "Đã chọn 38 ảnh cho sự kiện",
+    "id": 1760003338109.8433,
+    "sessionId": "session_1760003309326_up3880n3u"
+  },
+  {
     "timestamp": "2025-10-09T09:48:39.335Z",
     "action": "Mở chọn ảnh",
     "details": "Mở modal chọn ảnh cho sự kiện",
