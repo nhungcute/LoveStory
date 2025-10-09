@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-09T09:49:02.422Z",
+    "action": "Sửa sự kiện",
+    "details": "Đã cập nhật sự kiện: Lễ Thành Hôn",
+    "id": 1760003342422.8323,
+    "sessionId": "session_1760003309326_up3880n3u"
+  },
+  {
     "timestamp": "2025-10-09T09:48:58.109Z",
     "action": "Chọn ảnh sự kiện",
     "details": "Đã chọn 38 ảnh cho sự kiện",
