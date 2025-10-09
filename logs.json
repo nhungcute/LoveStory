@@ -1,31 +1,52 @@
 [
   {
-    "timestamp": "2025-10-09T09:49:02.422Z",
-    "action": "Sửa sự kiện",
-    "details": "Đã cập nhật sự kiện: Lễ Thành Hôn",
-    "id": 1760003342422.8323,
-    "sessionId": "session_1760003309326_up3880n3u"
+    "timestamp": "2025-10-09T09:50:14.050Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760003414050.4465,
+    "sessionId": "session_1760003067876_vj2n01q6g"
   },
   {
-    "timestamp": "2025-10-09T09:48:58.109Z",
-    "action": "Chọn ảnh sự kiện",
-    "details": "Đã chọn 38 ảnh cho sự kiện",
-    "id": 1760003338109.8433,
-    "sessionId": "session_1760003309326_up3880n3u"
+    "timestamp": "2025-10-09T09:50:13.073Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760003413073.978,
+    "sessionId": "session_1760003067876_vj2n01q6g"
   },
   {
-    "timestamp": "2025-10-09T09:48:39.335Z",
-    "action": "Mở chọn ảnh",
-    "details": "Mở modal chọn ảnh cho sự kiện",
-    "id": 1760003319335.9607,
-    "sessionId": "session_1760003309326_up3880n3u"
+    "timestamp": "2025-10-09T09:50:12.995Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760003412995.2869,
+    "sessionId": "session_1760003067876_vj2n01q6g"
   },
   {
-    "timestamp": "2025-10-09T09:48:29.326Z",
+    "timestamp": "2025-10-09T09:50:12.816Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760003412816.9402,
+    "sessionId": "session_1760003067876_vj2n01q6g"
+  },
+  {
+    "timestamp": "2025-10-09T09:50:09.753Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760003409753.2004,
+    "sessionId": "session_1760003067876_vj2n01q6g"
+  },
+  {
+    "timestamp": "2025-10-09T09:48:26.608Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760003309326.7622,
-    "sessionId": "session_1760003309326_up3880n3u"
+    "id": 1760003306608.437,
+    "sessionId": "session_1760003067876_vj2n01q6g"
+  },
+  {
+    "timestamp": "2025-10-09T09:48:22.052Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760003302052.4355,
+    "sessionId": "session_1760003067876_vj2n01q6g"
   },
   {
     "timestamp": "2025-10-09T09:47:25.888Z",
