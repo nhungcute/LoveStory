@@ -1,22 +1,7 @@
 {
-  "GITHUB_USERNAME": "nhungcute",
-  "REPO_NAME": "LoveStory",
-  "PAT1": "ghp_a8VLpoCYQByLbUIwe",
-  "PAT2": "d3dy4hHjEpKwr3stE6T",
-  "FILE_PATH": "actions.json",
-  "COMMENTS_FILE_PATH": "comments.json",
-  "PHOTOS_METADATA_FILE_PATH": "image_data.json",
-  "LOGS_FILE_PATH": "logs.json",
-  "FOLDER_ID": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
-  "API_KEY": "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
-  "PHOTOS_PER_PAGE": 50,
-  "AUTO_LOAD_METADATA": "true",
-  "AUTO_SYNC": {
+  "AUTO_SYNC_METADATA": {
     "enabled": true,
     "frequency": "daily",
-    "time": "12:45",
-    "lastRun": "2025-10-07T05:45:01.346Z",
-    "nextRun": "2025-10-08T05:45:00.000Z",
-    "updatedAt": "2025-10-07T05:45:02.995Z"
+    "time": "10:00"
   }
 }
