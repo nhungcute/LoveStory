@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-10T07:35:54.822Z",
+    "action": "Chọn ảnh",
+    "details": "Chọn 48 ảnh trên trang 1",
+    "id": 1760081754822.2,
+    "sessionId": "session_1760081689126_ps1pm434o"
+  },
+  {
+    "timestamp": "2025-10-10T07:35:50.917Z",
+    "action": "Mở chọn ảnh",
+    "details": "Mở modal chọn ảnh cho sự kiện",
+    "id": 1760081750917.719,
+    "sessionId": "session_1760081689126_ps1pm434o"
+  },
+  {
     "timestamp": "2025-10-10T07:35:26.152Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
