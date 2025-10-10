@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-10T07:48:17.807Z",
+    "action": "Thêm bình luận",
+    "details": "Đã bình luận cho ảnh: MIN_9224.JPG: \"Xinh quá\"",
+    "id": 1760082497807.247,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
     "timestamp": "2025-10-10T07:48:12.983Z",
     "action": "Thích ảnh",
     "details": "Đã thích ảnh: MIN_9224.JPG (1 lượt thích)",
