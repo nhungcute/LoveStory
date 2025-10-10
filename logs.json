@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-10T07:46:09.947Z",
+    "action": "Thích ảnh",
+    "details": "Đã thích ảnh: MIN_9227.JPG (1 lượt thích)",
+    "id": 1760082369947.1292,
+    "sessionId": "session_1760082326057_cpkvdtj2w"
+  },
+  {
     "timestamp": "2025-10-10T07:45:52.766Z",
     "action": "Thêm bình luận",
     "details": "Đã bình luận cho ảnh: MIN_9229.JPG: \"Xinh\"",
