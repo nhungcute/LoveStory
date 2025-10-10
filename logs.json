@@ -1,31 +1,38 @@
 [
   {
-    "timestamp": "2025-10-10T07:49:08.469Z",
+    "timestamp": "2025-10-10T07:49:08.470Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760082548469.8047,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082548470.1394,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
-    "timestamp": "2025-10-10T07:49:06.572Z",
+    "timestamp": "2025-10-10T07:49:06.574Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760082546572.1575,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082546574.1943,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
-    "timestamp": "2025-10-10T07:47:41.595Z",
+    "timestamp": "2025-10-10T07:48:17.807Z",
+    "action": "Thêm bình luận",
+    "details": "Đã bình luận cho ảnh: MIN_9224.JPG: \"Xinh quá\"",
+    "id": 1760082497807.247,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:48:12.983Z",
+    "action": "Thích ảnh",
+    "details": "Đã thích ảnh: MIN_9224.JPG (1 lượt thích)",
+    "id": 1760082492983.8596,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:47:43.060Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760082461595.2341,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
-  },
-  {
-    "timestamp": "2025-10-10T07:47:36.562Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760082456563.112,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082463060.8203,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
     "timestamp": "2025-10-10T07:46:09.947Z",
