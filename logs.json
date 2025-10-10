@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-10T07:40:03.179Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Trang 1: Đã tải 710 ảnh (Tổng: 710)",
+    "id": 1760082003179.2173,
+    "sessionId": "session_1760081956021_98iusl9xh"
+  },
+  {
+    "timestamp": "2025-10-10T07:40:00.876Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Đang tải trang 1...",
+    "id": 1760082000876.3804,
+    "sessionId": "session_1760081956021_98iusl9xh"
+  },
+  {
+    "timestamp": "2025-10-10T07:40:00.875Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Bắt đầu tải danh sách ảnh từ Google Drive",
+    "id": 1760082000876.3584,
+    "sessionId": "session_1760081956021_98iusl9xh"
+  },
+  {
     "timestamp": "2025-10-10T07:39:29.296Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
