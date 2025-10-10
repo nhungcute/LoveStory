@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-10T07:53:22.412Z",
+    "action": "Mở chọn ảnh",
+    "details": "Mở modal chọn ảnh cho sự kiện",
+    "id": 1760082802412.4082,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:53:16.140Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Xem ảnh cho sự kiện: Lễ Thành Hôn (38 ảnh)",
+    "id": 1760082796140.969,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
     "timestamp": "2025-10-10T07:52:38.589Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
