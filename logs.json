@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-10T07:39:13.211Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760081953211.9075,
+    "sessionId": "session_1760081821547_2tv218fvd"
+  },
+  {
     "timestamp": "2025-10-10T07:38:50.524Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
