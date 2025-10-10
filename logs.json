@@ -1,73 +1,129 @@
 [
   {
-    "timestamp": "2025-10-10T07:59:04.753Z",
+    "timestamp": "2025-10-10T07:59:04.757Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760083144753.1523,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760083144757.947,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
-    "timestamp": "2025-10-10T07:54:31.111Z",
+    "timestamp": "2025-10-10T07:54:31.113Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760082871111.587,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082871113.1077,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
-    "timestamp": "2025-10-10T07:54:26.747Z",
+    "timestamp": "2025-10-10T07:54:26.748Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760082866747.597,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082866748.061,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
-    "timestamp": "2025-10-10T07:54:21.460Z",
+    "timestamp": "2025-10-10T07:54:21.462Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760082861460.4526,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082861462.1287,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
-    "timestamp": "2025-10-10T07:52:38.587Z",
+    "timestamp": "2025-10-10T07:53:49.939Z",
+    "action": "Sửa sự kiện",
+    "details": "Đã cập nhật sự kiện: Lễ Thành Hôn",
+    "id": 1760082829939.797,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:53:48.747Z",
+    "action": "Chọn ảnh sự kiện",
+    "details": "Đã chọn 188 ảnh cho sự kiện",
+    "id": 1760082828747.0051,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:53:47.880Z",
+    "action": "Chọn ảnh",
+    "details": "Chọn 50 ảnh trên trang 3",
+    "id": 1760082827880.1123,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:53:37.455Z",
+    "action": "Chọn ảnh",
+    "details": "Chọn 50 ảnh trên trang 2",
+    "id": 1760082817455.2197,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:53:30.590Z",
+    "action": "Chọn ảnh",
+    "details": "Chọn 50 ảnh trên trang 1",
+    "id": 1760082810590.661,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:53:22.412Z",
+    "action": "Mở chọn ảnh",
+    "details": "Mở modal chọn ảnh cho sự kiện",
+    "id": 1760082802412.4082,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:53:16.140Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Xem ảnh cho sự kiện: Lễ Thành Hôn (38 ảnh)",
+    "id": 1760082796140.969,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:52:38.589Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760082758587.141,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082758589.8108,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
-    "timestamp": "2025-10-10T07:50:49.368Z",
+    "timestamp": "2025-10-10T07:50:49.370Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760082649368.0452,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082649370.8892,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
-    "timestamp": "2025-10-10T07:49:08.469Z",
+    "timestamp": "2025-10-10T07:49:08.470Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760082548469.8047,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082548470.1394,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
-    "timestamp": "2025-10-10T07:49:06.572Z",
+    "timestamp": "2025-10-10T07:49:06.574Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760082546572.1575,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082546574.1943,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
-    "timestamp": "2025-10-10T07:47:41.595Z",
+    "timestamp": "2025-10-10T07:48:17.807Z",
+    "action": "Thêm bình luận",
+    "details": "Đã bình luận cho ảnh: MIN_9224.JPG: \"Xinh quá\"",
+    "id": 1760082497807.247,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:48:12.983Z",
+    "action": "Thích ảnh",
+    "details": "Đã thích ảnh: MIN_9224.JPG (1 lượt thích)",
+    "id": 1760082492983.8596,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:47:43.060Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760082461595.2341,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
-  },
-  {
-    "timestamp": "2025-10-10T07:47:36.562Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760082456563.112,
-    "sessionId": "session_1760082326057_cpkvdtj2w"
+    "id": 1760082463060.8203,
+    "sessionId": "session_1760082463060_vsdrqo661"
   },
   {
     "timestamp": "2025-10-10T07:46:09.947Z",
