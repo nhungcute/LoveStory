@@ -1,59 +1,66 @@
 [
   {
-    "timestamp": "2025-10-10T09:36:59.812Z",
+    "timestamp": "2025-10-10T09:36:59.813Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760089019812.6978,
-    "sessionId": "session_1760082463060_vsdrqo661"
+    "id": 1760089019813.4397,
+    "sessionId": "session_1760088812611_jski1eg92"
   },
   {
-    "timestamp": "2025-10-10T09:36:58.256Z",
+    "timestamp": "2025-10-10T09:36:57.864Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760089018256.4468,
-    "sessionId": "session_1760082463060_vsdrqo661"
+    "id": 1760089017864.4727,
+    "sessionId": "session_1760088812611_jski1eg92"
   },
   {
-    "timestamp": "2025-10-10T09:36:58.129Z",
+    "timestamp": "2025-10-10T09:36:52.077Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760089018129.901,
-    "sessionId": "session_1760082463060_vsdrqo661"
+    "id": 1760089012077.7896,
+    "sessionId": "session_1760088812611_jski1eg92"
   },
   {
-    "timestamp": "2025-10-10T09:36:57.862Z",
+    "timestamp": "2025-10-10T09:36:51.796Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760089017862.746,
-    "sessionId": "session_1760082463060_vsdrqo661"
+    "id": 1760089011796.2104,
+    "sessionId": "session_1760088812611_jski1eg92"
   },
   {
-    "timestamp": "2025-10-10T09:36:51.794Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760089011794.1455,
-    "sessionId": "session_1760082463060_vsdrqo661"
-  },
-  {
-    "timestamp": "2025-10-10T09:35:07.203Z",
+    "timestamp": "2025-10-10T09:35:07.205Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760088907203.2632,
-    "sessionId": "session_1760082463060_vsdrqo661"
+    "id": 1760088907205.3196,
+    "sessionId": "session_1760088812611_jski1eg92"
   },
   {
-    "timestamp": "2025-10-10T09:33:36.100Z",
+    "timestamp": "2025-10-10T09:34:44.638Z",
+    "action": "Lỗi đăng nhập Google Drive",
+    "details": "",
+    "id": 1760088884638.316,
+    "sessionId": "session_1760088812611_jski1eg92"
+  },
+  {
+    "timestamp": "2025-10-10T09:34:02.549Z",
+    "action": "Lỗi đăng nhập Google Drive",
+    "details": "",
+    "id": 1760088842549.2893,
+    "sessionId": "session_1760088812611_jski1eg92"
+  },
+  {
+    "timestamp": "2025-10-10T09:33:37.585Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760088816100.873,
-    "sessionId": "session_1760082463060_vsdrqo661"
+    "id": 1760088817585.3748,
+    "sessionId": "session_1760088812611_jski1eg92"
   },
   {
-    "timestamp": "2025-10-10T09:33:30.976Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760088810976.0564,
-    "sessionId": "session_1760082463060_vsdrqo661"
+    "timestamp": "2025-10-10T09:33:33.407Z",
+    "action": "Google API",
+    "details": "Đã khởi tạo Google API thành công",
+    "id": 1760088813407.92,
+    "sessionId": "session_1760088812611_jski1eg92"
   },
   {
     "timestamp": "2025-10-10T09:29:32.464Z",
