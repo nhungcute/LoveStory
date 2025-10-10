@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-10T07:44:24.219Z",
+    "action": "Lỗi thích ảnh",
+    "details": "Cannot set properties of null (setting 'textContent')",
+    "id": 1760082264219.8914,
+    "sessionId": "session_1760082215107_kqsf5n0yq"
+  },
+  {
+    "timestamp": "2025-10-10T07:44:21.485Z",
+    "action": "Thêm bình luận",
+    "details": "Đã bình luận cho ảnh: IMG_4729.PNG: \"Xinh quá\"",
+    "id": 1760082261485.1765,
+    "sessionId": "session_1760082215107_kqsf5n0yq"
+  },
+  {
     "timestamp": "2025-10-10T07:43:52.939Z",
     "action": "Lỗi thích ảnh",
     "details": "Cannot set properties of null (setting 'textContent')",
