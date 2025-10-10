@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-10T07:43:52.939Z",
+    "action": "Lỗi thích ảnh",
+    "details": "Cannot set properties of null (setting 'textContent')",
+    "id": 1760082232939.8022,
+    "sessionId": "session_1760082215107_kqsf5n0yq"
+  },
+  {
     "timestamp": "2025-10-10T07:43:35.106Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
