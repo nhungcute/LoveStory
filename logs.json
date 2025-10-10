@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-10T07:41:00.188Z",
+    "action": "Lỗi thích ảnh",
+    "details": "Cannot set properties of null (setting 'textContent')",
+    "id": 1760082060188.2808,
+    "sessionId": "session_1760081956021_98iusl9xh"
+  },
+  {
     "timestamp": "2025-10-10T07:40:03.179Z",
     "action": "Đồng bộ Google Drive",
     "details": "Trang 1: Đã tải 710 ảnh (Tổng: 710)",
