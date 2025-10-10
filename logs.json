@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-10T09:35:07.205Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760088907205.3196,
+    "sessionId": "session_1760088812611_jski1eg92"
+  },
+  {
     "timestamp": "2025-10-10T09:34:44.638Z",
     "action": "Lỗi đăng nhập Google Drive",
     "details": "",
