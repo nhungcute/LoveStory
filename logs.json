@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-10T07:53:49.939Z",
+    "action": "Sửa sự kiện",
+    "details": "Đã cập nhật sự kiện: Lễ Thành Hôn",
+    "id": 1760082829939.797,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:53:48.747Z",
+    "action": "Chọn ảnh sự kiện",
+    "details": "Đã chọn 188 ảnh cho sự kiện",
+    "id": 1760082828747.0051,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
+    "timestamp": "2025-10-10T07:53:47.880Z",
+    "action": "Chọn ảnh",
+    "details": "Chọn 50 ảnh trên trang 3",
+    "id": 1760082827880.1123,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
     "timestamp": "2025-10-10T07:53:37.455Z",
     "action": "Chọn ảnh",
     "details": "Chọn 50 ảnh trên trang 2",
