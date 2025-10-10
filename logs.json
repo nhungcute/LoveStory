@@ -1,38 +1,38 @@
 [
   {
-    "timestamp": "2025-10-10T07:31:34.594Z",
+    "timestamp": "2025-10-10T07:31:41.438Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760081494594.7136,
-    "sessionId": "session_1760081426776_jh6jc1zzo"
+    "id": 1760081501438.1902,
+    "sessionId": "session_1760003444894_4m545j8fe"
   },
   {
-    "timestamp": "2025-10-10T07:31:10.702Z",
-    "action": "Mở chọn ảnh",
-    "details": "Mở modal chọn ảnh cho sự kiện",
-    "id": 1760081470702.5632,
-    "sessionId": "session_1760081426776_jh6jc1zzo"
-  },
-  {
-    "timestamp": "2025-10-10T07:31:07.539Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Xem ảnh cho sự kiện: First day of love (2 ảnh)",
-    "id": 1760081467539.3489,
-    "sessionId": "session_1760081426776_jh6jc1zzo"
-  },
-  {
-    "timestamp": "2025-10-10T07:30:54.501Z",
+    "timestamp": "2025-10-10T07:31:41.185Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760081454501.9548,
-    "sessionId": "session_1760081426776_jh6jc1zzo"
+    "id": 1760081501185.6443,
+    "sessionId": "session_1760003444894_4m545j8fe"
   },
   {
-    "timestamp": "2025-10-10T07:30:26.776Z",
+    "timestamp": "2025-10-10T07:31:34.592Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760081494592.429,
+    "sessionId": "session_1760003444894_4m545j8fe"
+  },
+  {
+    "timestamp": "2025-10-10T07:30:54.498Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760081454498.6912,
+    "sessionId": "session_1760003444894_4m545j8fe"
+  },
+  {
+    "timestamp": "2025-10-10T07:30:22.869Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760081426776.5217,
-    "sessionId": "session_1760081426776_jh6jc1zzo"
+    "id": 1760081422869.0183,
+    "sessionId": "session_1760003444894_4m545j8fe"
   },
   {
     "timestamp": "2025-10-10T07:30:08.975Z",
