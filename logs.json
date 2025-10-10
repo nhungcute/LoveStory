@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-10T07:53:37.455Z",
+    "action": "Chọn ảnh",
+    "details": "Chọn 50 ảnh trên trang 2",
+    "id": 1760082817455.2197,
+    "sessionId": "session_1760082463060_vsdrqo661"
+  },
+  {
     "timestamp": "2025-10-10T07:53:30.590Z",
     "action": "Chọn ảnh",
     "details": "Chọn 50 ảnh trên trang 1",
