@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-10T07:43:06.972Z",
+    "action": "Lỗi thích ảnh",
+    "details": "Cannot set properties of null (setting 'textContent')",
+    "id": 1760082186972.4202,
+    "sessionId": "session_1760081956021_98iusl9xh"
+  },
+  {
     "timestamp": "2025-10-10T07:42:02.095Z",
     "action": "Thêm bình luận",
     "details": "Đã bình luận cho ảnh: IMG_1661.JPG: \"Xinh\"",
