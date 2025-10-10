@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-10T07:31:34.594Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760081494594.7136,
+    "sessionId": "session_1760081426776_jh6jc1zzo"
+  },
+  {
     "timestamp": "2025-10-10T07:31:10.702Z",
     "action": "Mở chọn ảnh",
     "details": "Mở modal chọn ảnh cho sự kiện",
