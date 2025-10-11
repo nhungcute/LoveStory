@@ -1,38 +1,31 @@
 [
   {
-    "timestamp": "2025-10-11T01:09:17.544Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760144957544.37,
-    "sessionId": "session_1760144951712_51hmzavwb"
+    "timestamp": "2025-10-11T02:04:03.856Z",
+    "action": "Đồng bộ tự động",
+    "details": "Đồng bộ dữ liệu thành công",
+    "id": 1760148243856.416,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-11T01:09:11.786Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760144951786.1106,
-    "sessionId": "session_1760144951712_51hmzavwb"
+    "timestamp": "2025-10-11T02:04:03.844Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Đã đồng bộ 100 ảnh thành công",
+    "id": 1760148243844.2131,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-11T01:09:11.712Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760144951712.2625,
-    "sessionId": "session_1760144951712_51hmzavwb"
+    "timestamp": "2025-10-11T02:04:00.342Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Bắt đầu tải danh sách ảnh từ Google Drive",
+    "id": 1760148240342.379,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-11T00:27:20.695Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760142440695.9705,
-    "sessionId": "session_1760142440701_3p676oi2t"
-  },
-  {
-    "timestamp": "2025-10-10T10:23:48.937Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760091828937.7026,
-    "sessionId": "session_1760091828937_5b2gjr3ha"
+    "timestamp": "2025-10-11T02:04:00.342Z",
+    "action": "Đồng bộ tự động",
+    "details": "Bắt đầu đồng bộ dữ liệu theo lịch trình",
+    "id": 1760148240342.0989,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
     "timestamp": "2025-10-10T10:22:02.196Z",
