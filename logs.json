@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-11T00:28:47.788Z",
+    "action": "Lỗi thích ảnh",
+    "details": "null is not an object (evaluating 'document.getElementById('like-count').textContent = photoData.count_tim')",
+    "id": 1760142527788.2285,
+    "sessionId": "session_1760142482797_uijya0dwc"
+  },
+  {
     "timestamp": "2025-10-11T00:28:02.796Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
