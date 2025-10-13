@@ -1,45 +1,73 @@
 [
   {
-    "timestamp": "2025-10-13T08:27:06.948Z",
+    "timestamp": "2025-10-13T08:27:06.949Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760344026948.5525,
-    "sessionId": "session_1760343767314_px1vlayg4"
+    "id": 1760344026949.3262,
+    "sessionId": "session_1760343898223_wcu59ifmm"
   },
   {
-    "timestamp": "2025-10-13T08:26:01.426Z",
+    "timestamp": "2025-10-13T08:26:47.992Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Lãng mạn",
+    "id": 1760344007992.0618,
+    "sessionId": "session_1760343898223_wcu59ifmm"
+  },
+  {
+    "timestamp": "2025-10-13T08:26:47.207Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Ban đêm",
+    "id": 1760344007207.449,
+    "sessionId": "session_1760343898223_wcu59ifmm"
+  },
+  {
+    "timestamp": "2025-10-13T08:26:46.192Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Mùa xuân",
+    "id": 1760344006192.4712,
+    "sessionId": "session_1760343898223_wcu59ifmm"
+  },
+  {
+    "timestamp": "2025-10-13T08:26:38.631Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Mặc định",
+    "id": 1760343998631.5918,
+    "sessionId": "session_1760343898223_wcu59ifmm"
+  },
+  {
+    "timestamp": "2025-10-13T08:26:01.428Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760343961426.0232,
-    "sessionId": "session_1760343767314_px1vlayg4"
+    "id": 1760343961428.8677,
+    "sessionId": "session_1760343898223_wcu59ifmm"
   },
   {
-    "timestamp": "2025-10-13T08:24:58.434Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760343898434.3687,
-    "sessionId": "session_1760343767314_px1vlayg4"
-  },
-  {
-    "timestamp": "2025-10-13T08:24:58.430Z",
-    "action": "Tạo user ẩn danh",
-    "details": "Đã tạo user ẩn danh: Cáo Nâu",
-    "id": 1760343898430.9229,
-    "sessionId": "session_1760343767314_px1vlayg4"
-  },
-  {
-    "timestamp": "2025-10-13T08:24:58.427Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760343898427.5732,
-    "sessionId": "session_1760343767314_px1vlayg4"
-  },
-  {
-    "timestamp": "2025-10-13T08:24:54.274Z",
+    "timestamp": "2025-10-13T08:25:10.402Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760343894274.1653,
-    "sessionId": "session_1760343767314_px1vlayg4"
+    "id": 1760343910402.3335,
+    "sessionId": "session_1760343898223_wcu59ifmm"
+  },
+  {
+    "timestamp": "2025-10-13T08:25:02.951Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343902951.156,
+    "sessionId": "session_1760343898223_wcu59ifmm"
+  },
+  {
+    "timestamp": "2025-10-13T08:25:02.946Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343902946.1555,
+    "sessionId": "session_1760343898223_wcu59ifmm"
+  },
+  {
+    "timestamp": "2025-10-13T08:24:58.222Z",
+    "action": "Tạo user ẩn danh",
+    "details": "Đã tạo user ẩn danh: Chim Trắng",
+    "id": 1760343898222.6396,
+    "sessionId": "session_1760343898223_wcu59ifmm"
   },
   {
     "timestamp": "2025-10-13T08:24:17.226Z",
