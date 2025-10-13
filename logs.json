@@ -1,17 +1,45 @@
 [
   {
-    "timestamp": "2025-10-13T05:52:28.066Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760334748066.764,
-    "sessionId": "session_1760330444768_h8g4738vi"
+    "timestamp": "2025-10-13T05:52:30.675Z",
+    "action": "Preload ảnh",
+    "details": "Đã preload trang 2",
+    "id": 1760334750675.134,
+    "sessionId": "session_1760334580255_ldfezujbl"
   },
   {
-    "timestamp": "2025-10-13T05:52:23.701Z",
+    "timestamp": "2025-10-13T05:52:28.663Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng đã được khởi tạo thành công với lazy loading",
+    "id": 1760334748663.6145,
+    "sessionId": "session_1760334580255_ldfezujbl"
+  },
+  {
+    "timestamp": "2025-10-13T05:52:28.663Z",
+    "action": "Tải bình luận metadata",
+    "details": "Đã tải metadata cho 8 ảnh",
+    "id": 1760334748663.8933,
+    "sessionId": "session_1760334580255_ldfezujbl"
+  },
+  {
+    "timestamp": "2025-10-13T05:52:27.735Z",
+    "action": "Tải ảnh phân trang",
+    "details": "Đã tải metadata 710 ảnh, hiển thị trang 1",
+    "id": 1760334747735.9177,
+    "sessionId": "session_1760334580255_ldfezujbl"
+  },
+  {
+    "timestamp": "2025-10-13T05:52:27.246Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760334747246.532,
+    "sessionId": "session_1760334580255_ldfezujbl"
+  },
+  {
+    "timestamp": "2025-10-13T05:52:23.695Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760334743701.9849,
-    "sessionId": "session_1760330444768_h8g4738vi"
+    "id": 1760334743696.9631,
+    "sessionId": "session_1760334580255_ldfezujbl"
   },
   {
     "timestamp": "2025-10-13T05:50:51.932Z",
