@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T10:13:14.032Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760350394032.2742,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
     "timestamp": "2025-10-13T09:55:03.857Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
