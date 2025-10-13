@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T06:39:06.605Z",
+    "action": "Xem chi tiết sự kiện",
+    "details": "Xem chi tiết sự kiện ID: key7",
+    "id": 1760337546605.1045,
+    "sessionId": "session_1760337458711_04d5cgtmk"
+  },
+  {
     "timestamp": "2025-10-13T06:37:54.177Z",
     "action": "Làm mới widget",
     "details": "Đã làm mới widget \"Ngày Này Năm Xưa\"",
