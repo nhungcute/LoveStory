@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T08:48:27.636Z",
+    "action": "Lưu hồ sơ",
+    "details": "Đã lưu hồ sơ: Gấu Cam (tintin)",
+    "id": 1760345307636.839,
+    "sessionId": "session_1760345219558_8zg3ulmp6"
+  },
+  {
     "timestamp": "2025-10-13T08:48:06.643Z",
     "action": "Mở hồ sơ",
     "details": "Mở modal hồ sơ cá nhân",
