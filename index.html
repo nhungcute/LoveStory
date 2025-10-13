@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story</title>
+    <title>Love Story - Ứng Dụng Kỷ Niệm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -118,6 +118,11 @@
             z-index: 1050;
         }
         
+        /* Share modal should appear above photo modal */
+        #share-modal {
+            z-index: 1200;
+        }
+        
         .loading {
             animation: spin 1s linear infinite;
         }
@@ -152,9 +157,9 @@
                     <span>Love Story</span>
                 </h1>
                 <nav class="flex space-x-2 md:space-x-6">
-                    <button onclick="showSection('calendar')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80 active" title="Lịch">
-                        <i class="fas fa-calendar-alt text-xl md:text-2xl md:mr-2"></i>
-                        <span class="hidden md:inline">Lịch</span>
+                    <button onclick="showSection('widget')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80 active" title="Trang Chủ">
+                        <i class="fas fa-home text-xl md:text-2xl md:mr-2"></i>
+                        <span class="hidden md:inline">Trang Chủ</span>
                     </button>
                     <button onclick="showSection('timeline')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80" title="Timeline">
                         <i class="fas fa-heart-pulse text-xl md:text-2xl md:mr-2"></i>
@@ -175,25 +180,84 @@
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8 min-h-[calc(100vh-200px)]">
-        <!-- Calendar Section -->
-        <section id="calendar-section" class="section active">
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-                <div class="flex items-center justify-center mb-6">
-                    <div class="flex items-center space-x-4">
-                        <button onclick="previousMonth()" class="p-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <div class="text-center">
-                            <div id="current-month" class="text-lg font-semibold text-primary-100 mb-2 cursor-pointer" onclick="toggleDateInput()"></div>
-                            <input type="date" id="date-picker" class="hidden px-3 py-1 border rounded-lg text-sm" onchange="goToDate(this.value)" onblur="hideDateInput()">
-                        </div>
-                        <button onclick="nextMonth()" class="p-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
+        <!-- Widget Section -->
+        <section id="widget-section" class="section active">
+            <!-- Ngày Này Năm Xưa Widget -->
+            <div class="bg-gradient-to-br from-primary-10 to-accent-10 rounded-xl shadow-lg p-6 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-primary-100 flex items-center">
+                        <i class="fas fa-history mr-3 text-accent-100"></i>
+                        Ngày Này Năm Xưa
+                    </h2>
+                    <button onclick="refreshMemoryWidget()" class="p-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors" title="Làm mới">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <div id="memory-widget" class="bg-white rounded-lg p-6 shadow-sm">
+                    <div class="flex justify-center">
+                        <i class="fas fa-spinner loading text-primary-100 text-2xl"></i>
                     </div>
                 </div>
-                <div id="calendar-grid" class="grid grid-cols-7 gap-2">
-                    <!-- Calendar will be generated here -->
+            </div>
+
+            <!-- Đếm Ngược Sự Kiện Đặc Biệt -->
+            <div class="bg-gradient-to-br from-accent-10 to-primary-10 rounded-xl shadow-lg p-6 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-primary-100 flex items-center">
+                        <i class="fas fa-clock mr-3 text-accent-100"></i>
+                        Đếm Ngược Sự Kiện
+                    </h2>
+                    <button onclick="refreshCountdownWidget()" class="p-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors" title="Làm mới">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <div id="countdown-widget" class="space-y-4">
+                    <div class="flex justify-center">
+                        <i class="fas fa-spinner loading text-primary-100 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thống Kê Tổng Quan -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-primary-100 mb-2" id="total-memories">0</div>
+                    <div class="text-gray-600">Kỷ Niệm</div>
+                    <div class="mt-2">
+                        <i class="fas fa-heart text-red-400 text-2xl"></i>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-accent-100 mb-2" id="total-photos">0</div>
+                    <div class="text-gray-600">Hình Ảnh</div>
+                    <div class="mt-2">
+                        <i class="fas fa-camera text-blue-400 text-2xl"></i>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-green-500 mb-2" id="days-together">0</div>
+                    <div class="text-gray-600">Ngày Bên Nhau</div>
+                    <div class="mt-2">
+                        <i class="fas fa-calendar-heart text-green-400 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kỷ Niệm Gần Đây -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-primary-100 flex items-center">
+                        <i class="fas fa-star mr-2 text-accent-100"></i>
+                        Kỷ Niệm Gần Đây
+                    </h3>
+                    <button onclick="showSection('timeline')" class="text-primary-100 hover:text-primary-80 text-sm">
+                        Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+                <div id="recent-memories" class="space-y-3">
+                    <div class="flex justify-center">
+                        <i class="fas fa-spinner loading text-primary-100 text-2xl"></i>
+                    </div>
                 </div>
             </div>
         </section>
@@ -399,16 +463,21 @@
 
     <!-- Photo Modal -->
     <div id="photo-modal" class="modal">
-        <div class="bg-white rounded-xl max-w-4xl w-full mx-2 my-2 sm:m-4 flex flex-col" style="max-height: calc(100vh - 1rem);">
+        <div class="bg-white w-screen h-screen sm:h-auto sm:max-h-[calc(100vh-2rem)] sm:w-full sm:rounded-xl sm:max-w-4xl flex flex-col">
+            
             <div class="p-3 sm:p-4 border-b flex justify-between items-center flex-shrink-0">
                 <h3 id="modal-title" class="text-lg sm:text-xl font-bold text-primary-100 truncate mr-4"></h3>
                 <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 flex-shrink-0">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
+
             <div class="flex-1 overflow-y-auto min-h-0">
+                
+                <img id="modal-image" class="w-full bg-gray-100 sm:w-[85%] sm:mx-auto sm:mt-4 sm:rounded-lg" alt="Loading image...">
+
                 <div class="p-3 sm:p-4">
-                    <img id="modal-image" class="w-[85%] mx-auto rounded-lg mb-4" alt="">
+                    
                     <div class="flex flex-wrap items-center gap-2 sm:gap-4 mb-4">
                         <button onclick="likePhoto()" id="like-btn" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors text-sm">
                             <i class="fas fa-heart"></i>
@@ -427,6 +496,7 @@
                             <span class="hidden sm:inline">Tải về</span>
                         </button>
                     </div>
+
                     <div id="comments-section" class="border-t pt-4 hidden">
                         <h4 class="font-semibold text-primary-100 mb-3 flex items-center">
                             <i class="fas fa-comments mr-2"></i>
@@ -703,7 +773,7 @@
             CONFIG_FILE_PATH: "configApp.json",
             FOLDER_ID: "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
             API_KEY: "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
-            PHOTOS_PER_PAGE: 50,
+            PHOTOS_PER_PAGE: 20,
             AUTO_LOAD_METADATA: "true",
             AUTO_SYNC_METADATA: {
                 enabled: true,
@@ -717,6 +787,7 @@
         let timelineData = [];
         let photosData = [];
         let commentsData = {};
+        let commentsMap = {}; // Map để tra cứu nhanh comments theo ID_IMG
         let currentPhotoPage = 1;
         let currentView = 'grid-2';
         let currentPhotoId = null;
@@ -746,6 +817,8 @@
         let syncInterval = null;
         let logSaveInterval = null;
         let isOnline = navigator.onLine;
+        
+
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
@@ -759,20 +832,19 @@
                 await loadPhotosData();
                 await loadCommentsData();
                 await loadActivityLogs();
-                generateCalendar();
+                
+                generateWidgets();
                 generateTimeline();
                 generatePhotos();
                 
-                // Auto sync setup
                 if (appConfig.AUTO_SYNC_METADATA.enabled) {
                     setupAutoSync();
                 }
                 
-                // Setup log management
                 setupLogManagement();
-                
-                // Setup online/offline detection
                 setupOnlineOfflineDetection();
+                
+                logActivity('Khởi tạo ứng dụng', 'Ứng dụng Love Story đã được khởi tạo thành công');
                 
             } catch (error) {
                 console.error('Lỗi khởi tạo ứng dụng:', error);
@@ -901,15 +973,12 @@
             }
         }
 
-        // Hàm đọc metadata ảnh từ GitHub
         async function loadPhotosMetadataFromGitHub() {
             try {
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 giây timeout
-                
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
                 const token = CONFIG.PAT1 + CONFIG.PAT2;
                 const url = `https://api.github.com/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.REPO_NAME}/contents/${CONFIG.PHOTOS_METADATA_FILE_PATH}`;
-                
                 const response = await fetch(url, {
                     headers: {
                         'Authorization': `token ${token}`,
@@ -917,9 +986,7 @@
                     },
                     signal: controller.signal
                 });
-                
                 clearTimeout(timeoutId);
-                
                 if (!response.ok) {
                     if (response.status === 404) {
                         console.log('File metadata chưa tồn tại');
@@ -927,7 +994,6 @@
                     }
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                
                 const data = await response.json();
                 const content = atob(data.content);
                 const decoded = decodeURIComponent(escape(content));
@@ -938,11 +1004,21 @@
             }
         }
 
+
+
+
+
         async function loadCommentsData() {
             const data = await fetchFromGitHub(CONFIG.COMMENTS_FILE_PATH);
             if (data) {
                 // Đảm bảo commentsData là array để sử dụng find()
                 commentsData = Array.isArray(data) ? data : [];
+                
+                // Tối ưu hóa: Tạo Map để tra cứu nhanh O(1)
+                commentsMap = commentsData.reduce((map, item) => {
+                    map[item.ID_IMG] = item;
+                    return map;
+                }, {});
             }
         }
 
@@ -1027,20 +1103,17 @@
             return new Date(year, month - 1, day);
         }
 
-        // Helper functions for photo data
+        // Helper functions for photo data - Tối ưu hóa O(1)
         function getPhotoLikes(photoName) {
-            const photoData = commentsData.find(item => item.ID_IMG === photoName);
-            return photoData?.count_tim || 0;
+            return commentsMap[photoName]?.count_tim || 0;
         }
 
         function getPhotoCommentsCount(photoName) {
-            const photoData = commentsData.find(item => item.ID_IMG === photoName);
-            return photoData?.comments?.length || 0;
+            return commentsMap[photoName]?.comments?.length || 0;
         }
 
         function getPhotoComments(photoName) {
-            const photoData = commentsData.find(item => item.ID_IMG === photoName);
-            return photoData?.comments || [];
+            return commentsMap[photoName]?.comments || [];
         }
 
         function formatDate(date) {
@@ -1062,6 +1135,10 @@
             }, 5000);
         }
 
+
+
+
+
         // Navigation functions
         function showSection(sectionName) {
             // Hide all sections
@@ -1079,113 +1156,362 @@
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('bg-primary-80');
             });
-            event.target.closest('.nav-btn').classList.add('bg-primary-80');
+            
+            // Find and highlight the correct nav button
+            const navButton = document.querySelector(`[onclick="showSection('${sectionName}')"]`);
+            if (navButton) {
+                navButton.classList.add('bg-primary-80');
+            }
         }
 
-        // Calendar functions
-        function generateCalendar() {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
+        // Widget functions
+        function generateWidgets() {
+            generateMemoryWidget();
+            generateCountdownWidget();
+            generateStatsWidget();
+            generateRecentMemories();
+        }
+
+        function generateMemoryWidget() {
+            const container = document.getElementById('memory-widget');
             
-            // Format theo yêu cầu: "Tháng 10, 2025"
-            const monthNames = [
-                'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
-                'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
-            ];
+            if (timelineData.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-calendar-times text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Chưa có kỷ niệm nào để hiển thị</p>
+                        <p class="text-gray-400 text-sm mt-2">Hãy thêm những khoảnh khắc đẹp!</p>
+                    </div>
+                `;
+                return;
+            }
             
-            document.getElementById('current-month').textContent = 
-                `${monthNames[month]}, ${year}`;
+            // Tìm sự kiện cùng ngày tháng nhưng khác năm
+            const today = new Date();
+            const todayDayMonth = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}`;
             
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const startDate = new Date(firstDay);
-            startDate.setDate(startDate.getDate() - firstDay.getDay());
-            
-            const calendarGrid = document.getElementById('calendar-grid');
-            calendarGrid.innerHTML = '';
-            
-            // Day headers
-            const dayHeaders = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
-            dayHeaders.forEach(day => {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'text-center font-semibold text-primary-100 py-2 border-2 border-primary-100 bg-primary-10 rounded-lg mb-2';
-                dayHeader.textContent = day;
-                calendarGrid.appendChild(dayHeader);
+            const memoryEvents = timelineData.filter(event => {
+                const eventDayMonth = event.day.substring(0, 5); // Lấy DD-MM
+                return eventDayMonth === todayDayMonth;
             });
             
-            // Calendar days
-            for (let i = 0; i < 42; i++) {
-                const date = new Date(startDate);
-                date.setDate(startDate.getDate() + i);
+            if (memoryEvents.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-calendar-day text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Không có kỷ niệm nào vào ngày này</p>
+                        <p class="text-gray-400 text-sm mt-2">Hôm nay là ngày ${today.getDate()}/${today.getMonth() + 1}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Chọn ngẫu nhiên một sự kiện
+            const randomEvent = memoryEvents[Math.floor(Math.random() * memoryEvents.length)];
+            const eventDate = parseDate(randomEvent.day);
+            const yearsAgo = today.getFullYear() - eventDate.getFullYear();
+            
+            // Chọn ngẫu nhiên một ảnh từ sự kiện hoặc từ tất cả ảnh
+            let randomPhoto = null;
+            if (randomEvent.image && randomEvent.image.length > 0) {
+                const eventPhotos = photosData.filter(photo => randomEvent.image.includes(photo.id));
+                if (eventPhotos.length > 0) {
+                    randomPhoto = eventPhotos[Math.floor(Math.random() * eventPhotos.length)];
+                }
+            }
+            
+            if (!randomPhoto && photosData.length > 0) {
+                randomPhoto = photosData[Math.floor(Math.random() * photosData.length)];
+            }
+            
+            let photoHtml = '';
+            if (randomPhoto) {
+                const thumbnailUrl = `https://drive.google.com/thumbnail?id=${randomPhoto.id}&sz=w400-h400`;
+                const fallbackUrl = `https://lh3.googleusercontent.com/d/${randomPhoto.id}=w400-h400`;
+                photoHtml = `
+                    <div class="mb-4">
+                        <img src="${thumbnailUrl}" alt="${randomPhoto.name}" 
+                             class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                             onclick="openPhotoModal(photosData.find(p => p.id === '${randomPhoto.id}'), this)"
+                             onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = `
+                <div class="text-center">
+                    <div class="mb-4">
+                        <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary-100 to-accent-100 text-white rounded-full text-sm font-medium mb-3">
+                            <i class="fas fa-calendar-alt mr-2"></i>
+                            ${formatDate(eventDate)} - ${yearsAgo} năm trước
+                        </div>
+                    </div>
+                    ${photoHtml}
+                    <h3 class="text-xl font-bold text-primary-100 mb-3">${randomEvent.name || 'Kỷ niệm đặc biệt'}</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        ${randomEvent.contdetl || 'Một kỷ niệm đẹp đã diễn ra vào ngày này...'}
+                    </p>
+                    <div class="mt-4 flex items-center justify-center space-x-4 text-sm text-gray-500">
+                        <span class="flex items-center">
+                            <i class="fas fa-heart text-red-400 mr-1"></i>
+                            ${yearsAgo} năm kỷ niệm
+                        </span>
+                        ${randomPhoto ? `
+                            <span class="flex items-center">
+                                <i class="fas fa-camera text-blue-400 mr-1"></i>
+                                ${randomPhoto.name}
+                            </span>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateCountdownWidget() {
+            const container = document.getElementById('countdown-widget');
+            
+            if (timelineData.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-clock text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Chưa có sự kiện nào để đếm ngược</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            // Tìm các sự kiện sắp tới (trong vòng 1 năm)
+            const upcomingEvents = timelineData.filter(event => {
+                const eventDate = parseDate(event.day);
+                const thisYear = new Date(today.getFullYear(), eventDate.getMonth(), eventDate.getDate());
+                const nextYear = new Date(today.getFullYear() + 1, eventDate.getMonth(), eventDate.getDate());
                 
-                const dayElement = document.createElement('div');
-                dayElement.className = `calendar-day text-center p-3 rounded-lg cursor-pointer ${
-                    date.getMonth() === month ? 'text-primary-100 hover:bg-primary-10' : 'text-gray-400'
-                }`;
+                const daysToThisYear = Math.ceil((thisYear - today) / (1000 * 60 * 60 * 24));
+                const daysToNextYear = Math.ceil((nextYear - today) / (1000 * 60 * 60 * 24));
                 
-                // Check for events on this date
-                const dateString = formatDate(date).split('/').reverse().join('-');
-                const hasEvent = timelineData.some(event => event.day === dateString);
+                return (daysToThisYear > 0 && daysToThisYear <= 365) || (daysToNextYear > 0 && daysToNextYear <= 365);
+            }).map(event => {
+                const eventDate = parseDate(event.day);
+                const thisYear = new Date(today.getFullYear(), eventDate.getMonth(), eventDate.getDate());
+                const nextYear = new Date(today.getFullYear() + 1, eventDate.getMonth(), eventDate.getDate());
                 
-                if (hasEvent) {
-                    dayElement.classList.add('bg-accent-30', 'font-bold');
-                    dayElement.innerHTML = `${date.getDate()}<br><i class="fas fa-heart text-accent-100 text-xs"></i>`;
+                const daysToThisYear = Math.ceil((thisYear - today) / (1000 * 60 * 60 * 24));
+                const daysToNextYear = Math.ceil((nextYear - today) / (1000 * 60 * 60 * 24));
+                
+                let targetDate, daysLeft;
+                if (daysToThisYear > 0 && daysToThisYear <= 365) {
+                    targetDate = thisYear;
+                    daysLeft = daysToThisYear;
                 } else {
-                    dayElement.textContent = date.getDate();
+                    targetDate = nextYear;
+                    daysLeft = daysToNextYear;
                 }
                 
-                // Add click event to open add event modal with selected date
-                dayElement.addEventListener('click', () => {
-                    if (date.getMonth() === month) { // Only for current month days
-                        openAddEventModal(date);
+                return {
+                    ...event,
+                    targetDate,
+                    daysLeft,
+                    originalDate: eventDate
+                };
+            }).sort((a, b) => a.daysLeft - b.daysLeft);
+            
+            if (upcomingEvents.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-calendar-check text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Không có sự kiện nào sắp tới</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Hiển thị tối đa 3 sự kiện gần nhất
+            const eventsToShow = upcomingEvents.slice(0, 3);
+            
+            let countdownHtml = '';
+            eventsToShow.forEach(event => {
+                const yearsAgo = today.getFullYear() - event.originalDate.getFullYear();
+                const anniversary = yearsAgo > 0 ? ` (Kỷ niệm ${yearsAgo + 1} năm)` : '';
+                
+                let timeText = '';
+                let colorClass = '';
+                let iconClass = '';
+                
+                if (event.daysLeft === 0) {
+                    timeText = 'Hôm nay!';
+                    colorClass = 'bg-red-500';
+                    iconClass = 'fas fa-star';
+                } else if (event.daysLeft === 1) {
+                    timeText = 'Ngày mai';
+                    colorClass = 'bg-orange-500';
+                    iconClass = 'fas fa-exclamation';
+                } else if (event.daysLeft <= 7) {
+                    timeText = `${event.daysLeft} ngày nữa`;
+                    colorClass = 'bg-yellow-500';
+                    iconClass = 'fas fa-clock';
+                } else if (event.daysLeft <= 30) {
+                    timeText = `${event.daysLeft} ngày nữa`;
+                    colorClass = 'bg-blue-500';
+                    iconClass = 'fas fa-calendar';
+                } else {
+                    const weeks = Math.floor(event.daysLeft / 7);
+                    const months = Math.floor(event.daysLeft / 30);
+                    if (months > 0) {
+                        timeText = `${months} tháng ${event.daysLeft % 30} ngày nữa`;
+                    } else {
+                        timeText = `${weeks} tuần ${event.daysLeft % 7} ngày nữa`;
                     }
+                    colorClass = 'bg-green-500';
+                    iconClass = 'fas fa-calendar-alt';
+                }
+                
+                countdownHtml += `
+                    <div class="bg-white rounded-lg p-4 shadow-sm border-l-4 border-primary-100">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-primary-100 mb-1">${event.name || 'Sự kiện đặc biệt'}${anniversary}</h4>
+                                <p class="text-sm text-gray-600 mb-2">${formatDate(event.targetDate)}</p>
+                                ${event.contdetl ? `<p class="text-xs text-gray-500">${event.contdetl}</p>` : ''}
+                            </div>
+                            <div class="text-right">
+                                <div class="${colorClass} text-white px-3 py-2 rounded-lg text-sm font-bold flex items-center">
+                                    <i class="${iconClass} mr-2"></i>
+                                    ${timeText}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = countdownHtml;
+        }
+
+        function generateStatsWidget() {
+            // Cập nhật thống kê tổng quan
+            document.getElementById('total-memories').textContent = timelineData.length;
+            document.getElementById('total-photos').textContent = photosData.length;
+            
+            // Tính số ngày bên nhau (từ sự kiện đầu tiên đến hôm nay)
+            if (timelineData.length > 0) {
+                const firstEvent = timelineData.reduce((earliest, event) => {
+                    const eventDate = parseDate(event.day);
+                    const earliestDate = parseDate(earliest.day);
+                    return eventDate < earliestDate ? event : earliest;
                 });
                 
-                calendarGrid.appendChild(dayElement);
+                const firstDate = parseDate(firstEvent.day);
+                const today = new Date();
+                const daysTogether = Math.floor((today - firstDate) / (1000 * 60 * 60 * 24));
+                
+                document.getElementById('days-together').textContent = daysTogether > 0 ? daysTogether : 0;
+            } else {
+                document.getElementById('days-together').textContent = 0;
             }
         }
 
-        function previousMonth() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            generateCalendar();
-        }
-
-        function nextMonth() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            generateCalendar();
-        }
-
-        function toggleDateInput() {
-            const monthDisplay = document.getElementById('current-month');
-            const datePicker = document.getElementById('date-picker');
+        function generateRecentMemories() {
+            const container = document.getElementById('recent-memories');
             
-            monthDisplay.classList.add('hidden');
-            datePicker.classList.remove('hidden');
+            if (timelineData.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-heart-broken text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">Chưa có kỷ niệm nào</p>
+                    </div>
+                `;
+                return;
+            }
             
-            // Set current date as default value
-            const year = currentDate.getFullYear();
-            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-            datePicker.value = `${year}-${month}-01`;
-            datePicker.focus();
+            // Lấy 5 kỷ niệm gần đây nhất
+            const recentEvents = timelineData.slice(-5).reverse();
+            
+            let recentHtml = '';
+            recentEvents.forEach(event => {
+                const eventDate = parseDate(event.day);
+                const today = new Date();
+                const diffTime = today - eventDate;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                let timeAgo = '';
+                if (diffDays === 0) {
+                    timeAgo = 'Hôm nay';
+                } else if (diffDays === 1) {
+                    timeAgo = 'Hôm qua';
+                } else if (diffDays < 30) {
+                    timeAgo = `${diffDays} ngày trước`;
+                } else if (diffDays < 365) {
+                    const months = Math.floor(diffDays / 30);
+                    timeAgo = `${months} tháng trước`;
+                } else {
+                    const years = Math.floor(diffDays / 365);
+                    timeAgo = `${years} năm trước`;
+                }
+                
+                recentHtml += `
+                    <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onclick="showEventDetails('${event.note_id}')">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-gradient-to-br from-primary-100 to-accent-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-heart text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-primary-100 truncate">${event.name || 'Kỷ niệm đặc biệt'}</h4>
+                            <p class="text-sm text-gray-600">${formatDate(eventDate)} • ${timeAgo}</p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = recentHtml;
         }
 
-        function hideDateInput() {
-            const monthDisplay = document.getElementById('current-month');
-            const datePicker = document.getElementById('date-picker');
+        function refreshMemoryWidget() {
+            const button = event.target;
+            const originalIcon = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            button.disabled = true;
             
             setTimeout(() => {
-                monthDisplay.classList.remove('hidden');
-                datePicker.classList.add('hidden');
-            }, 200);
+                generateMemoryWidget();
+                button.innerHTML = originalIcon;
+                button.disabled = false;
+                
+                logActivity('Làm mới widget', 'Đã làm mới widget "Ngày Này Năm Xưa"');
+                showNotification('Đã làm mới kỷ niệm!', 'success');
+            }, 500);
         }
 
-        function goToDate(dateValue) {
-            if (dateValue) {
-                const selectedDate = new Date(dateValue);
-                currentDate = selectedDate;
-                generateCalendar();
-            }
-            hideDateInput();
+        function refreshCountdownWidget() {
+            const button = event.target;
+            const originalIcon = button.innerHTML;
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                generateCountdownWidget();
+                button.innerHTML = originalIcon;
+                button.disabled = false;
+                
+                logActivity('Làm mới widget', 'Đã làm mới widget "Đếm Ngược Sự Kiện"');
+                showNotification('Đã cập nhật đếm ngược!', 'success');
+            }, 500);
+        }
+
+        function showEventDetails(eventId) {
+            // Chuyển đến trang timeline và highlight sự kiện
+            showSection('timeline');
+            
+            // Scroll to event (có thể implement sau)
+            logActivity('Xem chi tiết sự kiện', `Xem chi tiết sự kiện ID: ${eventId}`);
         }
 
         function openAddEventModal(selectedDate = null) {
@@ -1226,12 +1552,11 @@
                 return;
             }
             
-            container.innerHTML = '';
+            // Tối ưu hóa: Tạo chuỗi HTML hoàn chỉnh trước khi cập nhật DOM
+            let timelineHtml = '';
             
             timelineData.forEach((event, index) => {
                 const eventDate = parseDate(event.day);
-                const timelineItem = document.createElement('div');
-                timelineItem.className = 'timeline-item bg-white border-l-4 border-accent-100 shadow-md hover:shadow-lg transition-all duration-300 p-6 rounded-r-lg';
                 
                 // Tính số ngày từ hôm nay
                 const today = new Date();
@@ -1266,72 +1591,75 @@
                     timeAgoDetailed = `Còn ${Math.abs(diffDays)} ngày nữa`;
                 }
                 
-                timelineItem.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div class="flex-1">
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="bg-gradient-to-r from-primary-100 to-accent-100 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                    ${formatDate(eventDate)}
+                // Cộng chuỗi HTML thay vì tạo DOM element
+                timelineHtml += `
+                    <div class="timeline-item bg-white border-l-4 border-accent-100 shadow-md hover:shadow-lg transition-all duration-300 p-6 rounded-r-lg">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="bg-gradient-to-r from-primary-100 to-accent-100 text-white px-3 py-1 rounded-full text-sm font-medium">
+                                        ${formatDate(eventDate)}
+                                    </div>
+                                    <div class="timeline-actions flex space-x-1 md:space-x-2">
+                                        <button class="btn-icon-small" onclick="editEvent(${index})" title="Chỉnh sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn-icon-small" onclick="viewEventPhotos(${index})" title="Xem ảnh">
+                                            <i class="fas fa-images"></i>
+                                        </button>
+                                        <button class="btn-icon-small" onclick="deleteEvent(${index})" title="Xóa">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="timeline-actions flex space-x-1 md:space-x-2">
-                                    <button class="btn-icon-small" onclick="editEvent(${index})" title="Chỉnh sửa">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn-icon-small" onclick="viewEventPhotos(${index})" title="Xem ảnh">
-                                        <i class="fas fa-images"></i>
-                                    </button>
-                                    <button class="btn-icon-small" onclick="deleteEvent(${index})" title="Xóa">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full cursor-pointer hover:bg-gray-200 transition-colors mb-3 inline-block" 
+                                      onclick="toggleTimeDisplay(this, '${timeAgo}', '${timeAgoDetailed}')" 
+                                      title="Nhấn để xem chi tiết">
+                                    ${timeAgo}
+                                </span>
+                                <h3 class="text-lg font-bold text-primary-100 mb-3 leading-tight cursor-pointer hover:text-primary-80 transition-colors" 
+                                    onclick="toggleDescription(this)">${event.name || 'Không có tiêu đề'}</h3>
+                                <div class="text-gray-700 leading-relaxed hidden description-content">
+                                    ${event.contdetl ? 
+                                        `<p class="mb-2 text-sm">${event.contdetl}</p>` : 
+                                        '<p class="text-gray-400 italic text-sm">Không có mô tả chi tiết</p>'
+                                    }
                                 </div>
-                            </div>
-                            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full cursor-pointer hover:bg-gray-200 transition-colors mb-3 inline-block" 
-                                  onclick="toggleTimeDisplay(this, '${timeAgo}', '${timeAgoDetailed}')" 
-                                  title="Nhấn để xem chi tiết">
-                                ${timeAgo}
-                            </span>
-                            <h3 class="text-lg font-bold text-primary-100 mb-3 leading-tight cursor-pointer hover:text-primary-80 transition-colors" 
-                                onclick="toggleDescription(this)">${event.name || 'Không có tiêu đề'}</h3>
-                            <div class="text-gray-700 leading-relaxed hidden description-content">
-                                ${event.contdetl ? 
-                                    `<p class="mb-2 text-sm">${event.contdetl}</p>` : 
-                                    '<p class="text-gray-400 italic text-sm">Không có mô tả chi tiết</p>'
-                                }
                             </div>
                         </div>
                     </div>
                 `;
-                
-                container.appendChild(timelineItem);
             });
             
-            // Thêm thống kê tổng quan
-            const statsDiv = document.createElement('div');
-            statsDiv.className = 'mt-8 bg-gradient-to-r from-primary-10 to-accent-10 rounded-xl p-6';
-            statsDiv.innerHTML = `
-                <div class="text-center">
-                    <h4 class="text-lg font-semibold text-primary-100 mb-4">
-                        <i class="fas fa-chart-line mr-2"></i>Thống Kê Kỷ Niệm
-                    </h4>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-white rounded-lg p-4 shadow-sm">
-                            <div class="text-2xl font-bold text-primary-100">${timelineData.length}</div>
-                            <div class="text-sm text-gray-600">Tổng kỷ niệm</div>
-                        </div>
-                        <div class="bg-white rounded-lg p-4 shadow-sm">
-                            <div class="text-2xl font-bold text-accent-100">${new Date().getFullYear()}</div>
-                            <div class="text-sm text-gray-600">Năm hiện tại</div>
-                        </div>
-                        <div class="bg-white rounded-lg p-4 shadow-sm">
-                            <div class="text-2xl font-bold text-red-400">
-                                <i class="fas fa-heart"></i>
+            // Thêm thống kê tổng quan vào chuỗi HTML
+            timelineHtml += `
+                <div class="mt-8 bg-gradient-to-r from-primary-10 to-accent-10 rounded-xl p-6">
+                    <div class="text-center">
+                        <h4 class="text-lg font-semibold text-primary-100 mb-4">
+                            <i class="fas fa-chart-line mr-2"></i>Thống Kê Kỷ Niệm
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="text-2xl font-bold text-primary-100">${timelineData.length}</div>
+                                <div class="text-sm text-gray-600">Tổng kỷ niệm</div>
                             </div>
-                            <div class="text-sm text-gray-600">Tình yêu vĩnh cửu</div>
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="text-2xl font-bold text-accent-100">${new Date().getFullYear()}</div>
+                                <div class="text-sm text-gray-600">Năm hiện tại</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="text-2xl font-bold text-red-400">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="text-sm text-gray-600">Tình yêu vĩnh cửu</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             `;
-            container.appendChild(statsDiv);
+            
+            // Chỉ cập nhật DOM một lần duy nhất
+            container.innerHTML = timelineHtml;
         }
 
         // Photos functions
@@ -1343,11 +1671,6 @@
                 return;
             }
             
-            // Use pagination
-            const startIndex = (currentPhotoPage - 1) * CONFIG.PHOTOS_PER_PAGE;
-            const endIndex = startIndex + CONFIG.PHOTOS_PER_PAGE;
-            const pagePhotos = photosData.slice(startIndex, endIndex);
-            
             container.innerHTML = '';
             if (currentView === 'grid') {
                 container.className = 'photo-grid';
@@ -1357,38 +1680,44 @@
                 container.className = 'space-y-4';
             }
             
+            const startIndex = (currentPhotoPage - 1) * CONFIG.PHOTOS_PER_PAGE;
+            const endIndex = startIndex + CONFIG.PHOTOS_PER_PAGE;
+            const pagePhotos = photosData.slice(startIndex, endIndex);
+            
             renderAllPhotos(pagePhotos, container);
             generatePagination();
         }
 
         function renderAllPhotos(photos, container) {
+            // Tối ưu hóa: Tạo chuỗi HTML hoàn chỉnh trước khi cập nhật DOM
+            let photosHtml = '';
+            
             photos.forEach((photo, index) => {
-                const photoElement = document.createElement('div');
-                
                 if (currentView === 'grid' || currentView === 'grid-2') {
                     // Tạo URL ảnh từ Google Drive với nhiều phương án dự phòng
                     const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w400-h400`;
                     const directUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
                     const fallbackUrl = `https://lh3.googleusercontent.com/d/${photo.id}=w400-h400`;
                     
-                    photoElement.className = 'photo-item bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative';
-                    photoElement.innerHTML = `
-                        <img src="${thumbnailUrl}" alt="${photo.name}" class="w-full h-48 object-cover" 
-                             onerror="this.src='${fallbackUrl}'; this.onerror=null;">
-                        <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded-lg text-xs flex items-center space-x-2">
-                            <span class="flex items-center">
-                                <i class="fas fa-heart text-red-400 mr-1"></i>
-                                ${getPhotoLikes(photo.name)}
-                            </span>
-                            <span class="flex items-center">
-                                <i class="fas fa-comment text-blue-400 mr-1"></i>
-                                ${getPhotoCommentsCount(photo.name)}
-                            </span>
+                    // Cộng chuỗi HTML thay vì tạo DOM element
+                    photosHtml += `
+                        <div class="photo-item bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" 
+                             data-direct-url="${directUrl}" 
+                             onclick="openPhotoModal(photosData.find(p => p.id === '${photo.id}'), this)">
+                            <img src="${thumbnailUrl}" alt="${photo.name}" class="w-full h-48 object-cover" 
+                                 onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                            <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded-lg text-xs flex items-center space-x-2">
+                                <span class="flex items-center">
+                                    <i class="fas fa-heart text-red-400 mr-1"></i>
+                                    ${getPhotoLikes(photo.name)}
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-comment text-blue-400 mr-1"></i>
+                                    ${getPhotoCommentsCount(photo.name)}
+                                </span>
+                            </div>
                         </div>
                     `;
-                    
-                    // Store direct URL for modal
-                    photoElement.dataset.directUrl = directUrl;
                 } else {
                     // Tạo URL ảnh từ Google Drive cho list view
                     const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w400-h400`;
@@ -1414,46 +1743,47 @@
                         }
                     };
                     
-                    photoElement.className = 'photo-item bg-white rounded-lg shadow-md p-4 flex items-start space-x-4 cursor-pointer hover:shadow-lg transition-shadow';
-                    photoElement.innerHTML = `
-                        <img src="${thumbnailUrl}" alt="${photo.name}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" 
-                             onerror="this.src='${fallbackUrl}'; this.onerror=null;">
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-semibold text-primary-100 mb-2 truncate">${photo.name}</h4>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600 mb-3">
-                                <div class="flex items-center">
-                                    <i class="fas fa-hdd text-gray-400 mr-2 w-4"></i>
-                                    <span>${formatFileSize(photo.size)}</span>
+                    // Cộng chuỗi HTML cho list view
+                    photosHtml += `
+                        <div class="photo-item bg-white rounded-lg shadow-md p-4 flex items-start space-x-4 cursor-pointer hover:shadow-lg transition-shadow" 
+                             data-direct-url="${directUrl}" 
+                             onclick="openPhotoModal(photosData.find(p => p.id === '${photo.id}'), this)">
+                            <img src="${thumbnailUrl}" alt="${photo.name}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" 
+                                 onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-semibold text-primary-100 mb-2 truncate">${photo.name}</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600 mb-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-hdd text-gray-400 mr-2 w-4"></i>
+                                        <span>${formatFileSize(photo.size)}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-calendar text-gray-400 mr-2 w-4"></i>
+                                        <span>${formatPhotoDate(photo.createdTime)}</span>
+                                    </div>
                                 </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-calendar text-gray-400 mr-2 w-4"></i>
-                                    <span>${formatPhotoDate(photo.createdTime)}</span>
+                                <div class="flex items-center space-x-4 text-sm">
+                                    <span class="flex items-center text-red-500">
+                                        <i class="fas fa-heart mr-1"></i> 
+                                        ${getPhotoLikes(photo.name)}
+                                    </span>
+                                    <span class="flex items-center text-primary-100">
+                                        <i class="fas fa-comment mr-1"></i> 
+                                        ${getPhotoCommentsCount(photo.name)}
+                                    </span>
+                                    <span class="flex items-center text-gray-500">
+                                        <i class="fas fa-eye mr-1"></i> 
+                                        Xem chi tiết
+                                    </span>
                                 </div>
-                            </div>
-                            <div class="flex items-center space-x-4 text-sm">
-                                <span class="flex items-center text-red-500">
-                                    <i class="fas fa-heart mr-1"></i> 
-                                    ${getPhotoLikes(photo.name)}
-                                </span>
-                                <span class="flex items-center text-primary-100">
-                                    <i class="fas fa-comment mr-1"></i> 
-                                    ${getPhotoCommentsCount(photo.name)}
-                                </span>
-                                <span class="flex items-center text-gray-500">
-                                    <i class="fas fa-eye mr-1"></i> 
-                                    Xem chi tiết
-                                </span>
                             </div>
                         </div>
                     `;
-                    
-                    // Store direct URL for modal
-                    photoElement.dataset.directUrl = directUrl;
                 }
-                
-                photoElement.onclick = () => openPhotoModal(photo, photoElement);
-                container.appendChild(photoElement);
             });
+            
+            // Chỉ cập nhật DOM một lần duy nhất
+            container.innerHTML = photosHtml;
         }
 
         function generatePagination() {
@@ -1501,11 +1831,15 @@
                 nextBtn.onclick = () => changePage(currentPhotoPage + 1);
                 pagination.appendChild(nextBtn);
             }
+            
+
         }
 
         function changePage(page) {
             currentPhotoPage = page;
             generatePhotos();
+            
+
         }
 
         function toggleView(view) {
@@ -1615,7 +1949,7 @@
             if (!currentPhotoId) return;
             
             try {
-                let photoData = commentsData.find(item => item.ID_IMG === currentPhotoId);
+                let photoData = commentsMap[currentPhotoId];
                 
                 if (!photoData) {
                     photoData = {
@@ -1624,6 +1958,8 @@
                         comments: []
                     };
                     commentsData.push(photoData);
+                    // Cập nhật Map
+                    commentsMap[currentPhotoId] = photoData;
                 }
                 
                 photoData.count_tim++;
@@ -1663,7 +1999,7 @@
             }
             
             try {
-                let photoData = commentsData.find(item => item.ID_IMG === currentPhotoId);
+                let photoData = commentsMap[currentPhotoId];
                 
                 if (!photoData) {
                     photoData = {
@@ -1672,6 +2008,8 @@
                         comments: []
                     };
                     commentsData.push(photoData);
+                    // Cập nhật Map
+                    commentsMap[currentPhotoId] = photoData;
                 }
                 
                 const newComment = {
@@ -1790,14 +2128,65 @@
             const qrContainer = document.getElementById('qr-code');
             const qrCodeContainer = document.getElementById('qr-code-container');
             
-            // Simple QR code generation using Google Charts API
-            const qrSize = 150;
-            const qrUrl = `https://chart.googleapis.com/chart?chs=${qrSize}x${qrSize}&cht=qr&chl=${encodeURIComponent(url)}`;
+            if (!url) {
+                showNotification('Không có link để tạo QR code!', 'warning');
+                return;
+            }
             
-            qrContainer.innerHTML = `<img src="${qrUrl}" alt="QR Code" class="border rounded-lg">`;
-            qrCodeContainer.classList.remove('hidden');
-            
-            logActivity('Tạo mã QR', `Tạo mã QR cho ảnh: ${currentPhotoId}`);
+            try {
+                // Sử dụng QR Server API - dịch vụ miễn phí và ổn định
+                const qrSize = 200;
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${encodeURIComponent(url)}&format=png&margin=10`;
+                
+                // Tạo img element với error handling
+                const qrImg = document.createElement('img');
+                qrImg.src = qrUrl;
+                qrImg.alt = 'QR Code';
+                qrImg.className = 'border rounded-lg shadow-sm mx-auto';
+                qrImg.style.maxWidth = '200px';
+                qrImg.style.height = 'auto';
+                
+                // Xử lý lỗi nếu không tải được QR code
+                qrImg.onerror = function() {
+                    // Fallback: Sử dụng dịch vụ khác
+                    const fallbackUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(url)}&choe=UTF-8`;
+                    this.src = fallbackUrl;
+                    
+                    // Nếu fallback cũng lỗi
+                    this.onerror = function() {
+                        qrContainer.innerHTML = `
+                            <div class="text-center p-4 bg-gray-100 rounded-lg">
+                                <i class="fas fa-exclamation-triangle text-yellow-500 text-2xl mb-2"></i>
+                                <p class="text-sm text-gray-600">Không thể tạo mã QR</p>
+                                <p class="text-xs text-gray-500 mt-1">Vui lòng thử lại sau</p>
+                            </div>
+                        `;
+                    };
+                };
+                
+                qrImg.onload = function() {
+                    logActivity('Tạo mã QR', `Tạo mã QR thành công cho ảnh: ${currentPhotoId}`);
+                };
+                
+                qrContainer.innerHTML = '';
+                qrContainer.appendChild(qrImg);
+                qrCodeContainer.classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('Lỗi tạo QR code:', error);
+                logActivity('Lỗi tạo QR', `Lỗi tạo mã QR: ${error.message}`);
+                
+                qrContainer.innerHTML = `
+                    <div class="text-center p-4 bg-red-50 rounded-lg">
+                        <i class="fas fa-times-circle text-red-500 text-2xl mb-2"></i>
+                        <p class="text-sm text-red-600">Lỗi tạo mã QR</p>
+                        <p class="text-xs text-red-500 mt-1">${error.message}</p>
+                    </div>
+                `;
+                qrCodeContainer.classList.remove('hidden');
+                
+                showNotification('Lỗi tạo mã QR!', 'error');
+            }
         }
 
         function downloadPhoto() {
@@ -1897,7 +2286,7 @@
             const endIndex = startIndex + CONFIG.PHOTOS_PER_PAGE;
             const pagePhotos = currentEventPhotos.slice(startIndex, endIndex);
             
-            container.innerHTML = '';
+            // Set container class
             if (currentEventView === 'grid') {
                 container.className = 'photo-grid';
             } else if (currentEventView === 'grid-2') {
@@ -1906,33 +2295,35 @@
                 container.className = 'space-y-4';
             }
             
+            // Tối ưu hóa: Tạo chuỗi HTML hoàn chỉnh trước khi cập nhật DOM
+            let eventPhotosHtml = '';
+            
             pagePhotos.forEach((photo, index) => {
-                const photoElement = document.createElement('div');
-                
                 if (currentEventView === 'grid' || currentEventView === 'grid-2') {
                     // Tạo URL ảnh từ Google Drive với nhiều phương án dự phòng
                     const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w400-h400`;
                     const directUrl = `https://drive.google.com/uc?export=view&id=${photo.id}`;
                     const fallbackUrl = `https://lh3.googleusercontent.com/d/${photo.id}=w400-h400`;
                     
-                    photoElement.className = 'photo-item bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative';
-                    photoElement.innerHTML = `
-                        <img src="${thumbnailUrl}" alt="${photo.name}" class="w-full h-48 object-cover" 
-                             onerror="this.src='${fallbackUrl}'; this.onerror=null;">
-                        <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded-lg text-xs flex items-center space-x-2">
-                            <span class="flex items-center">
-                                <i class="fas fa-heart text-red-400 mr-1"></i>
-                                ${getPhotoLikes(photo.name)}
-                            </span>
-                            <span class="flex items-center">
-                                <i class="fas fa-comment text-blue-400 mr-1"></i>
-                                ${getPhotoCommentsCount(photo.name)}
-                            </span>
+                    // Cộng chuỗi HTML thay vì tạo DOM element
+                    eventPhotosHtml += `
+                        <div class="photo-item bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" 
+                             data-direct-url="${directUrl}" 
+                             onclick="openPhotoModal(currentEventPhotos.find(p => p.id === '${photo.id}'), this)">
+                            <img src="${thumbnailUrl}" alt="${photo.name}" class="w-full h-48 object-cover" 
+                                 onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                            <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded-lg text-xs flex items-center space-x-2">
+                                <span class="flex items-center">
+                                    <i class="fas fa-heart text-red-400 mr-1"></i>
+                                    ${getPhotoLikes(photo.name)}
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-comment text-blue-400 mr-1"></i>
+                                    ${getPhotoCommentsCount(photo.name)}
+                                </span>
+                            </div>
                         </div>
                     `;
-                    
-                    // Store direct URL for modal
-                    photoElement.dataset.directUrl = directUrl;
                 } else {
                     // Tạo URL ảnh từ Google Drive cho list view
                     const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w400-h400`;
@@ -1958,46 +2349,47 @@
                         }
                     };
                     
-                    photoElement.className = 'photo-item bg-white rounded-lg shadow-md p-4 flex items-start space-x-4 cursor-pointer hover:shadow-lg transition-shadow';
-                    photoElement.innerHTML = `
-                        <img src="${thumbnailUrl}" alt="${photo.name}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" 
-                             onerror="this.src='${fallbackUrl}'; this.onerror=null;">
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-semibold text-primary-100 mb-2 truncate">${photo.name}</h4>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600 mb-3">
-                                <div class="flex items-center">
-                                    <i class="fas fa-hdd text-gray-400 mr-2 w-4"></i>
-                                    <span>${formatFileSize(photo.size)}</span>
+                    // Cộng chuỗi HTML cho list view
+                    eventPhotosHtml += `
+                        <div class="photo-item bg-white rounded-lg shadow-md p-4 flex items-start space-x-4 cursor-pointer hover:shadow-lg transition-shadow" 
+                             data-direct-url="${directUrl}" 
+                             onclick="openPhotoModal(currentEventPhotos.find(p => p.id === '${photo.id}'), this)">
+                            <img src="${thumbnailUrl}" alt="${photo.name}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" 
+                                 onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-semibold text-primary-100 mb-2 truncate">${photo.name}</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600 mb-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-hdd text-gray-400 mr-2 w-4"></i>
+                                        <span>${formatFileSize(photo.size)}</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-calendar text-gray-400 mr-2 w-4"></i>
+                                        <span>${formatPhotoDate(photo.createdTime)}</span>
+                                    </div>
                                 </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-calendar text-gray-400 mr-2 w-4"></i>
-                                    <span>${formatPhotoDate(photo.createdTime)}</span>
+                                <div class="flex items-center space-x-4 text-sm">
+                                    <span class="flex items-center text-red-500">
+                                        <i class="fas fa-heart mr-1"></i> 
+                                        ${getPhotoLikes(photo.name)}
+                                    </span>
+                                    <span class="flex items-center text-primary-100">
+                                        <i class="fas fa-comment mr-1"></i> 
+                                        ${getPhotoCommentsCount(photo.name)}
+                                    </span>
+                                    <span class="flex items-center text-gray-500">
+                                        <i class="fas fa-eye mr-1"></i> 
+                                        Xem chi tiết
+                                    </span>
                                 </div>
-                            </div>
-                            <div class="flex items-center space-x-4 text-sm">
-                                <span class="flex items-center text-red-500">
-                                    <i class="fas fa-heart mr-1"></i> 
-                                    ${getPhotoLikes(photo.name)}
-                                </span>
-                                <span class="flex items-center text-primary-100">
-                                    <i class="fas fa-comment mr-1"></i> 
-                                    ${getPhotoCommentsCount(photo.name)}
-                                </span>
-                                <span class="flex items-center text-gray-500">
-                                    <i class="fas fa-eye mr-1"></i> 
-                                    Xem chi tiết
-                                </span>
                             </div>
                         </div>
                     `;
-                    
-                    // Store direct URL for modal
-                    photoElement.dataset.directUrl = directUrl;
                 }
-                
-                photoElement.onclick = () => openPhotoModal(photo, photoElement);
-                container.appendChild(photoElement);
             });
+            
+            // Chỉ cập nhật DOM một lần duy nhất
+            container.innerHTML = eventPhotosHtml;
             
             generateEventPagination();
         }
@@ -2090,7 +2482,7 @@
                 
                 // Update UI
                 generateTimeline();
-                generateCalendar();
+                generateWidgets();
                 closeDeleteModal();
                 
                 logActivity('Xóa sự kiện', `Đã xóa sự kiện: ${deletedEvent.name || 'Không có tên'}`);
@@ -2170,7 +2562,7 @@
                     
                     // Update UI
                     generateTimeline();
-                    generateCalendar();
+                    generateWidgets();
                     closeEventModal();
                     
                     const successMessage = currentEditingEventIndex !== null 
@@ -2400,7 +2792,6 @@
                 return;
             }
             
-            // Use pagination
             const startIndex = (currentImageSelectorPage - 1) * CONFIG.PHOTOS_PER_PAGE;
             const endIndex = startIndex + CONFIG.PHOTOS_PER_PAGE;
             const pagePhotos = photosData.slice(startIndex, endIndex);
@@ -2412,36 +2803,39 @@
         }
 
         function renderAllImageSelectorPhotos(photos, container) {
+            // Tối ưu hóa: Tạo chuỗi HTML hoàn chỉnh trước khi cập nhật DOM
+            let selectorPhotosHtml = '';
+            
             photos.forEach(photo => {
                 const isSelected = selectedImageIds.includes(photo.id);
-                const photoElement = document.createElement('div');
-                photoElement.className = `relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all ${
-                    isSelected ? 'border-primary-100 bg-primary-10' : 'border-gray-200 hover:border-gray-300'
-                }`;
-                
                 const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w300-h300`;
                 const fallbackUrl = `https://lh3.googleusercontent.com/d/${photo.id}=w300-h300`;
                 
-                photoElement.innerHTML = `
-                    <img src="${thumbnailUrl}" alt="${photo.name}" class="w-full h-32 object-cover" 
-                         onerror="this.src='${fallbackUrl}'; this.onerror=null;">
-                    <div class="absolute top-2 right-2">
-                        <div class="w-6 h-6 rounded-full border-2 ${
-                            isSelected 
-                                ? 'bg-primary-100 border-primary-100' 
-                                : 'bg-white border-gray-300'
-                        } flex items-center justify-center">
-                            ${isSelected ? '<i class="fas fa-check text-white text-xs"></i>' : ''}
+                // Cộng chuỗi HTML thay vì tạo DOM element
+                selectorPhotosHtml += `
+                    <div class="relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all ${
+                        isSelected ? 'border-primary-100 bg-primary-10' : 'border-gray-200 hover:border-gray-300'
+                    }" onclick="toggleImageSelection('${photo.id}')">
+                        <img src="${thumbnailUrl}" alt="${photo.name}" class="w-full h-32 object-cover" 
+                             onerror="this.src='${fallbackUrl}'; this.onerror=null;">
+                        <div class="absolute top-2 right-2">
+                            <div class="w-6 h-6 rounded-full border-2 ${
+                                isSelected 
+                                    ? 'bg-primary-100 border-primary-100' 
+                                    : 'bg-white border-gray-300'
+                            } flex items-center justify-center">
+                                ${isSelected ? '<i class="fas fa-check text-white text-xs"></i>' : ''}
+                            </div>
+                        </div>
+                        <div class="p-2 bg-white">
+                            <div class="text-xs text-gray-600 truncate" title="${photo.name}">${photo.name}</div>
                         </div>
                     </div>
-                    <div class="p-2 bg-white">
-                        <div class="text-xs text-gray-600 truncate" title="${photo.name}">${photo.name}</div>
-                    </div>
                 `;
-                
-                photoElement.onclick = () => toggleImageSelection(photo.id);
-                container.appendChild(photoElement);
             });
+            
+            // Chỉ cập nhật DOM một lần duy nhất
+            container.innerHTML = selectorPhotosHtml;
         }
 
         function generateImageSelectorPagination() {
@@ -2450,8 +2844,6 @@
             const pagination = document.getElementById('image-selector-pagination');
             
             pagination.innerHTML = '';
-            
-
             
             if (totalPages <= 1) return;
             
@@ -2596,8 +2988,8 @@
         }
 
         function selectAllPagesImages() {
-            // Chọn tất cả ảnh trên tất cả các trang
             let addedCount = 0;
+            
             photosData.forEach(photo => {
                 if (!selectedImageIds.includes(photo.id)) {
                     selectedImageIds.push(photo.id);
@@ -3352,5 +3744,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98dc14a805963ee9',t:'MTc2MDMyOTYwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98dcd20533943ee9',t:'MTc2MDMzNzM2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
