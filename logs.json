@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T04:34:04.381Z",
+    "action": "Tạo mã QR",
+    "details": "Tạo mã QR cho ảnh: null",
+    "id": 1760330044381.114,
+    "sessionId": "session_1760329877766_74nv1m97s"
+  },
+  {
     "timestamp": "2025-10-13T04:33:59.023Z",
     "action": "Mở modal chia sẻ",
     "details": "Mở modal chia sẻ cho ảnh: MIN_9222.JPG",
