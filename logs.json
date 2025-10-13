@@ -1,416 +1,59 @@
 [
   {
-    "timestamp": "2025-10-13T04:22:15.704Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760329335704.1694,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T04:15:17.738Z",
+    "timestamp": "2025-10-13T04:22:17.769Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760328917738.3792,
-    "sessionId": "session_1760325668937_k215cxia9"
+    "id": 1760329337769.702,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T04:06:55.562Z",
+    "timestamp": "2025-10-13T04:22:11.576Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760328415562.4875,
-    "sessionId": "session_1760325668937_k215cxia9"
+    "id": 1760329331576.9302,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T04:06:55.474Z",
+    "timestamp": "2025-10-13T03:23:30.615Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760328415474.8237,
-    "sessionId": "session_1760325668937_k215cxia9"
+    "id": 1760325810615.2983,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T04:06:55.353Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760328415353.8625,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T04:06:52.408Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760328412408.989,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T04:05:07.286Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760328307286.8816,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T04:05:07.212Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760328307213.3284,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T04:05:06.880Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760328306880.0005,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T04:04:28.190Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760328268190.0964,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T04:04:24.668Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760328264668.561,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:59:16.773Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760327956773.1726,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:59:16.295Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760327956295.6487,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:58:36.018Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760327916018.0227,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:58:34.260Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760327914260.1143,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:58:34.142Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760327914142.2712,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:58:33.803Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760327913803.2654,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:58:30.259Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760327910259.6716,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:57:28.102Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760327848102.1436,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:55:37.386Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760327737386.6646,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:49:26.309Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760327366309.4292,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:48:48.353Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760327328353.8936,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:48:47.535Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760327327535.1484,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:46:35.531Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760327195531.4841,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:45:51.363Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760327151363.718,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:45:22.990Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760327122990.2952,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:45:10.390Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760327110390.9438,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:40:52.364Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326852364.2559,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:37:47.058Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760326667058.749,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:37:46.406Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326666406.3425,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:36:58.120Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326618120.325,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:34:38.566Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760326478566.9377,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:34:36.543Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326476543.6392,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:32:18.668Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326338668.2415,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:32:18.568Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760326338568.5864,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:32:17.903Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326337903.8682,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:29:44.974Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760326184974.7358,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:29:42.753Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326182753.5747,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:29:25.812Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760326165812.2817,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:29:25.536Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326165536.3496,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:29:07.640Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326147640.762,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:29:03.973Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326143973.1763,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:27:21.164Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760326041164.178,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:27:11.819Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326031819.1714,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:27:08.243Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326028243.8582,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:27:03.880Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760326023880.919,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:27:01.583Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326021583.6826,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:26:59.145Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760326019145.0571,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:26:38.775Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760325998775.3843,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:26:38.669Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760325998669.4702,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:26:38.007Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760325998007.167,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:24:36.815Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760325876815.249,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:24:35.472Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760325875472.1323,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:24:32.647Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760325872647.3782,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:24:29.748Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760325869748.8076,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:23:45.591Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760325825591.9578,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:22:36.599Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760325756599.3508,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:22:33.018Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760325753018.514,
-    "sessionId": "session_1760325668937_k215cxia9"
-  },
-  {
-    "timestamp": "2025-10-13T03:21:08.937Z",
+    "timestamp": "2025-10-13T03:23:11.172Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760325668937.7769,
-    "sessionId": "session_1760325668937_k215cxia9"
+    "id": 1760325791172.5645,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T03:23:08.407Z",
+    "action": "Lỗi Google Client",
+    "details": "",
+    "id": 1760325788407.0542,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T03:23:08.407Z",
+    "action": "Lỗi Google Auth",
+    "details": "",
+    "id": 1760325788407.968,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T03:23:07.667Z",
+    "action": "Google API",
+    "details": "Đã khởi tạo Google API thành công",
+    "id": 1760325787667.0261,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T03:23:04.759Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760325784759.29,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
     "timestamp": "2025-10-13T03:19:45.503Z",
