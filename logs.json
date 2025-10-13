@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T10:17:38.190Z",
+    "action": "Tải hồ sơ",
+    "details": "Đã tải hồ sơ cho tên đăng nhập: 8maxcs",
+    "id": 1760350658190.1199,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
     "timestamp": "2025-10-13T10:17:31.331Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
