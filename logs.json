@@ -1,17 +1,24 @@
 [
   {
-    "timestamp": "2025-10-13T04:39:04.251Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760330344251.232,
-    "sessionId": "session_1760329705008_5t3s1p0qm"
+    "timestamp": "2025-10-13T04:39:15.216Z",
+    "action": "Tạo mã QR",
+    "details": "Tạo mã QR cho ảnh: thumbnail22.jpg",
+    "id": 1760330355216.0027,
+    "sessionId": "session_1760330346882_buszrlanz"
   },
   {
-    "timestamp": "2025-10-13T04:39:00.369Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760330340369.8474,
-    "sessionId": "session_1760329705008_5t3s1p0qm"
+    "timestamp": "2025-10-13T04:39:12.032Z",
+    "action": "Mở modal chia sẻ",
+    "details": "Mở modal chia sẻ cho ảnh: thumbnail22.jpg",
+    "id": 1760330352032.2126,
+    "sessionId": "session_1760330346882_buszrlanz"
+  },
+  {
+    "timestamp": "2025-10-13T04:39:06.882Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760330346882.6746,
+    "sessionId": "session_1760330346882_buszrlanz"
   },
   {
     "timestamp": "2025-10-13T04:37:57.272Z",
