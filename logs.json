@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T08:57:34.588Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760345854588.9436,
+    "sessionId": "session_1760345807854_cqyf9dk0w"
+  },
+  {
     "timestamp": "2025-10-13T08:56:48.761Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
