@@ -1,87 +1,24 @@
 [
   {
-    "timestamp": "2025-10-13T08:53:30.073Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760345610073.3635,
-    "sessionId": "session_1760344903682_io656b903"
-  },
-  {
-    "timestamp": "2025-10-13T08:53:24.682Z",
+    "timestamp": "2025-10-13T08:47:01.835Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760345604682.3633,
-    "sessionId": "session_1760344903682_io656b903"
+    "id": 1760345221835.2407,
+    "sessionId": "session_1760345220077_nks4hqo6i"
   },
   {
-    "timestamp": "2025-10-13T08:53:24.677Z",
+    "timestamp": "2025-10-13T08:47:01.248Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760345604677.353,
-    "sessionId": "session_1760344903682_io656b903"
+    "id": 1760345221248.644,
+    "sessionId": "session_1760345220077_nks4hqo6i"
   },
   {
-    "timestamp": "2025-10-13T08:53:23.873Z",
+    "timestamp": "2025-10-13T08:47:00.075Z",
     "action": "Tạo user ẩn danh",
-    "details": "Đã tạo user ẩn danh: Cáo Nâu",
-    "id": 1760345603873.3215,
-    "sessionId": "session_1760344903682_io656b903"
-  },
-  {
-    "timestamp": "2025-10-13T08:50:24.526Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760345424526.8462,
-    "sessionId": "session_1760345219558_8zg3ulmp6"
-  },
-  {
-    "timestamp": "2025-10-13T08:48:37.949Z",
-    "action": "Lưu hồ sơ",
-    "details": "Đã lưu hồ sơ: Gấu Cam (tintin)",
-    "id": 1760345317949.8538,
-    "sessionId": "session_1760345219558_8zg3ulmp6"
-  },
-  {
-    "timestamp": "2025-10-13T08:48:27.636Z",
-    "action": "Lưu hồ sơ",
-    "details": "Đã lưu hồ sơ: Gấu Cam (tintin)",
-    "id": 1760345307636.839,
-    "sessionId": "session_1760345219558_8zg3ulmp6"
-  },
-  {
-    "timestamp": "2025-10-13T08:48:06.643Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760345286643.9165,
-    "sessionId": "session_1760345219558_8zg3ulmp6"
-  },
-  {
-    "timestamp": "2025-10-13T08:47:28.053Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Xem ảnh cho sự kiện: Lễ Thành Hôn (188 ảnh)",
-    "id": 1760345248053.9812,
-    "sessionId": "session_1760345219558_8zg3ulmp6"
-  },
-  {
-    "timestamp": "2025-10-13T08:47:00.813Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760345220813.4182,
-    "sessionId": "session_1760345219558_8zg3ulmp6"
-  },
-  {
-    "timestamp": "2025-10-13T08:47:00.657Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760345220657.9043,
-    "sessionId": "session_1760345219558_8zg3ulmp6"
-  },
-  {
-    "timestamp": "2025-10-13T08:46:59.558Z",
-    "action": "Tạo user ẩn danh",
-    "details": "Đã tạo user ẩn danh: Gấu Cam",
-    "id": 1760345219558.0945,
-    "sessionId": "session_1760345219558_8zg3ulmp6"
+    "details": "Đã tạo user ẩn danh: Chó Trắng",
+    "id": 1760345220075.3887,
+    "sessionId": "session_1760345220077_nks4hqo6i"
   },
   {
     "timestamp": "2025-10-13T08:44:01.946Z",
