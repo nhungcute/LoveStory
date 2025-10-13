@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T08:43:48.568Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760345028568.194,
+    "sessionId": "session_1760344903682_io656b903"
+  },
+  {
     "timestamp": "2025-10-13T08:43:44.811Z",
     "action": "Lưu hồ sơ",
     "details": "Đã lưu hồ sơ: Hà Tín (user1)",
