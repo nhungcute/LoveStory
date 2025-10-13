@@ -1,101 +1,38 @@
 [
   {
-    "timestamp": "2025-10-13T10:25:42.623Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760351142623.8022,
-    "sessionId": "session_1760350763277_018pcg2n2"
-  },
-  {
-    "timestamp": "2025-10-13T10:25:31.577Z",
-    "action": "Lưu hồ sơ",
-    "details": "Đã tạo mới hồ sơ thành công! - Hà Mạnh Tín (tintin) - Tổng: 4 profiles",
-    "id": 1760351131577.5918,
-    "sessionId": "session_1760350763277_018pcg2n2"
-  },
-  {
-    "timestamp": "2025-10-13T10:25:14.928Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760351114928.374,
-    "sessionId": "session_1760350763277_018pcg2n2"
-  },
-  {
-    "timestamp": "2025-10-13T10:25:12.298Z",
-    "action": "Tải hồ sơ",
-    "details": "Đã tải hồ sơ cho tên đăng nhập: 8maxcs",
-    "id": 1760351112298.6094,
-    "sessionId": "session_1760350763277_018pcg2n2"
-  },
-  {
-    "timestamp": "2025-10-13T10:25:10.399Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760351110399.5369,
-    "sessionId": "session_1760350763277_018pcg2n2"
-  },
-  {
-    "timestamp": "2025-10-13T10:25:02.604Z",
+    "timestamp": "2025-10-13T10:27:50.235Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760351102604.5073,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760351270235.9995,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:23:47.257Z",
+    "timestamp": "2025-10-13T10:23:47.255Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760351027257.7817,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760351027255.7856,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:23:41.415Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760351021415.3347,
-    "sessionId": "session_1760350763277_018pcg2n2"
-  },
-  {
-    "timestamp": "2025-10-13T10:23:22.316Z",
+    "timestamp": "2025-10-13T10:23:45.223Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760351002316.7097,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760351025223.0344,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:22:45.100Z",
+    "timestamp": "2025-10-13T10:22:44.909Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760350965100.7488,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760350964909.2122,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:22:18.322Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760350938322.9028,
-    "sessionId": "session_1760350763277_018pcg2n2"
-  },
-  {
-    "timestamp": "2025-10-13T10:22:18.089Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760350938089.5266,
-    "sessionId": "session_1760350763277_018pcg2n2"
-  },
-  {
-    "timestamp": "2025-10-13T10:22:17.386Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760350937386.1567,
-    "sessionId": "session_1760350763277_018pcg2n2"
-  },
-  {
-    "timestamp": "2025-10-13T10:22:17.311Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động",
-    "id": 1760350937311.1387,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "timestamp": "2025-10-13T10:22:44.713Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760350964713.472,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
     "timestamp": "2025-10-13T10:21:36.553Z",
