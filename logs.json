@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-13T08:26:47.992Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Lãng mạn",
+    "id": 1760344007992.0618,
+    "sessionId": "session_1760343898223_wcu59ifmm"
+  },
+  {
+    "timestamp": "2025-10-13T08:26:47.207Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Ban đêm",
+    "id": 1760344007207.449,
+    "sessionId": "session_1760343898223_wcu59ifmm"
+  },
+  {
+    "timestamp": "2025-10-13T08:26:46.192Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Mùa xuân",
+    "id": 1760344006192.4712,
+    "sessionId": "session_1760343898223_wcu59ifmm"
+  },
+  {
     "timestamp": "2025-10-13T08:26:38.631Z",
     "action": "Đổi giao diện",
     "details": "Đã chuyển sang giao diện: Mặc định",
