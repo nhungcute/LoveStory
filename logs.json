@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T10:29:18.365Z",
+    "action": "Tải hồ sơ",
+    "details": "Đã tải hồ sơ cho tên đăng nhập: tintin",
+    "id": 1760351358365.7358,
+    "sessionId": "session_1760351289184_roqom39lv"
+  },
+  {
     "timestamp": "2025-10-13T10:29:08.754Z",
     "action": "Xử lý avatar",
     "details": "Tối ưu hóa ảnh: 674KB → 24KB (giảm 96%)",
