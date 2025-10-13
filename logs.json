@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-13T09:21:17.601Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760347277601.4436,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T09:21:16.003Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760347276004.9097,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
     "timestamp": "2025-10-13T09:21:06.829Z",
     "action": "Lưu hồ sơ",
     "details": "Đã tạo mới hồ sơ: Gà Xanh dương (gxanhdngfdsf)",
