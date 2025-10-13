@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T09:18:47.777Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760347127777.297,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
     "timestamp": "2025-10-13T09:18:42.733Z",
     "action": "Tạo user ẩn danh",
     "details": "Đã tạo user ẩn danh: Gà Xanh dương",
