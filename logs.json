@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T10:31:09.667Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760351469667.3442,
+    "sessionId": "session_1760351289184_roqom39lv"
+  },
+  {
     "timestamp": "2025-10-13T10:30:56.913Z",
     "action": "Xử lý avatar",
     "details": "Tối ưu hóa ảnh: 674KB → 24KB (giảm 96%)",
