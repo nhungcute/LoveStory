@@ -1,0 +1,18 @@
+{
+  "user1": {
+    "name": "Hoàng Nam",
+    "avatarUrl": "https://example.com/path/to/nam_avatar.jpg"
+  },
+  "user2": {
+    "name": "Mai Linh",
+    "avatarUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
+  },
+  "user3": {
+    "name": "Bảo An",
+    "avatarUrl": "https://example.com/path/to/an_avatar.jpg"
+  },
+  "user4": {
+    "name": "Minh Khôi",
+    "avatarUrl": "https://example.com/path/to/khoi_avatar.jpg"
+  }
+}
