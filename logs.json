@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-13T05:52:28.066Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760334748066.764,
+    "sessionId": "session_1760330444768_h8g4738vi"
+  },
+  {
+    "timestamp": "2025-10-13T05:52:23.701Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760334743701.9849,
+    "sessionId": "session_1760330444768_h8g4738vi"
+  },
+  {
     "timestamp": "2025-10-13T05:50:51.932Z",
     "action": "Chuyển trang ảnh",
     "details": "Chuyển đến trang 34",
