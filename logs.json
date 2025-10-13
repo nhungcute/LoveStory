@@ -1,52 +1,52 @@
 [
   {
-    "timestamp": "2025-10-13T06:21:52.452Z",
+    "timestamp": "2025-10-13T06:21:52.450Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760336512452.6392,
-    "sessionId": "session_1760336393169_bnee61335"
+    "id": 1760336512450.179,
+    "sessionId": "session_1760336145519_5l3vykdsf"
   },
   {
-    "timestamp": "2025-10-13T06:20:58.033Z",
+    "timestamp": "2025-10-13T06:20:58.031Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760336458033.815,
-    "sessionId": "session_1760336393169_bnee61335"
+    "id": 1760336458031.71,
+    "sessionId": "session_1760336145519_5l3vykdsf"
   },
   {
-    "timestamp": "2025-10-13T06:20:32.791Z",
+    "timestamp": "2025-10-13T06:20:32.789Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760336432791.549,
-    "sessionId": "session_1760336393169_bnee61335"
+    "id": 1760336432789.3809,
+    "sessionId": "session_1760336145519_5l3vykdsf"
   },
   {
-    "timestamp": "2025-10-13T06:20:32.678Z",
+    "timestamp": "2025-10-13T06:20:32.677Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760336432678.5588,
-    "sessionId": "session_1760336393169_bnee61335"
+    "id": 1760336432677.6975,
+    "sessionId": "session_1760336145519_5l3vykdsf"
   },
   {
-    "timestamp": "2025-10-13T06:20:32.495Z",
+    "timestamp": "2025-10-13T06:20:32.493Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760336432495.9272,
-    "sessionId": "session_1760336393169_bnee61335"
+    "id": 1760336432493.2222,
+    "sessionId": "session_1760336145519_5l3vykdsf"
   },
   {
-    "timestamp": "2025-10-13T06:19:53.175Z",
+    "timestamp": "2025-10-13T06:19:50.748Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760336393175.5273,
-    "sessionId": "session_1760336393169_bnee61335"
+    "id": 1760336390748.8513,
+    "sessionId": "session_1760336145519_5l3vykdsf"
   },
   {
-    "timestamp": "2025-10-13T06:19:53.169Z",
+    "timestamp": "2025-10-13T06:19:50.741Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760336393169.1191,
-    "sessionId": "session_1760336393169_bnee61335"
+    "id": 1760336390741.4834,
+    "sessionId": "session_1760336145519_5l3vykdsf"
   },
   {
     "timestamp": "2025-10-13T06:19:09.484Z",
