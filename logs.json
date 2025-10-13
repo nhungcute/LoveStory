@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T06:16:29.441Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760336189441.4768,
+    "sessionId": "session_1760336145519_5l3vykdsf"
+  },
+  {
     "timestamp": "2025-10-13T06:16:18.286Z",
     "action": "Tạo mã QR",
     "details": "Tạo mã QR thành công cho ảnh: thumbnail22.jpg",
