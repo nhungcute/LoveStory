@@ -1,10 +1,31 @@
 [
   {
-    "timestamp": "2025-10-13T04:32:50.149Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760329970149.2227,
-    "sessionId": "session_1760329970154_zehkfl52j"
+    "timestamp": "2025-10-13T04:33:17.837Z",
+    "action": "Mở modal chia sẻ",
+    "details": "Mở modal chia sẻ cho ảnh: MIN_9229.JPG",
+    "id": 1760329997837.4526,
+    "sessionId": "session_1760329877766_74nv1m97s"
+  },
+  {
+    "timestamp": "2025-10-13T04:33:16.106Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760329996106.759,
+    "sessionId": "session_1760329877766_74nv1m97s"
+  },
+  {
+    "timestamp": "2025-10-13T04:32:49.501Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760329969501.8804,
+    "sessionId": "session_1760329877766_74nv1m97s"
+  },
+  {
+    "timestamp": "2025-10-13T04:32:48.709Z",
+    "action": "Mở file Drive",
+    "details": "Đã mở file Google Drive để tải ảnh: MIN_9229.JPG",
+    "id": 1760329968709.1091,
+    "sessionId": "session_1760329877766_74nv1m97s"
   },
   {
     "timestamp": "2025-10-13T04:31:19.814Z",
