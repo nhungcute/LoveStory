@@ -1,45 +1,31 @@
 [
   {
-    "timestamp": "2025-10-13T09:35:13.882Z",
+    "timestamp": "2025-10-13T09:47:15.454Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760348113882.4797,
-    "sessionId": "session_1760347377537_rkfff0avj"
+    "id": 1760348835454.3955,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T09:35:07.668Z",
-    "action": "Lưu hồ sơ",
-    "details": "Đã cập nhật hồ sơ: Hà Tín (8maxcs) - Tổng profiles: 3",
-    "id": 1760348107668.7285,
-    "sessionId": "session_1760347377537_rkfff0avj"
+    "timestamp": "2025-10-13T09:47:13.351Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760348833351.9387,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T09:35:02.721Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760348102721.498,
-    "sessionId": "session_1760347377537_rkfff0avj"
+    "timestamp": "2025-10-13T09:35:13.879Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760348113879.1938,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T09:35:00.426Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760348100426.3655,
-    "sessionId": "session_1760347377537_rkfff0avj"
-  },
-  {
-    "timestamp": "2025-10-13T09:35:00.406Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760348100406.3315,
-    "sessionId": "session_1760347377537_rkfff0avj"
-  },
-  {
-    "timestamp": "2025-10-13T09:34:59.832Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động",
-    "id": 1760348099832.6309,
-    "sessionId": "session_1760347377537_rkfff0avj"
+    "timestamp": "2025-10-13T09:35:10.335Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760348110335.447,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
     "timestamp": "2025-10-13T09:34:53.232Z",
