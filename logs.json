@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-13T03:15:55.013Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760325355013.6377,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T03:15:52.624Z",
+    "action": "Lỗi Google Client",
+    "details": "",
+    "id": 1760325352624.0698,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T03:15:52.623Z",
+    "action": "Lỗi Google Auth",
+    "details": "",
+    "id": 1760325352623.5112,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T03:15:52.070Z",
+    "action": "Google API",
+    "details": "Đã khởi tạo Google API thành công",
+    "id": 1760325352070.682,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
     "timestamp": "2025-10-13T03:14:53.602Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
