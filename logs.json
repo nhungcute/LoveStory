@@ -1,24 +1,52 @@
 [
   {
-    "timestamp": "2025-10-13T04:42:49.471Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760330569471.9932,
-    "sessionId": "session_1760330346882_buszrlanz"
-  },
-  {
-    "timestamp": "2025-10-13T04:41:30.576Z",
+    "timestamp": "2025-10-13T04:42:54.405Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760330490576.4521,
-    "sessionId": "session_1760330346882_buszrlanz"
+    "id": 1760330574405.3804,
+    "sessionId": "session_1760330444768_h8g4738vi"
   },
   {
-    "timestamp": "2025-10-13T04:40:43.109Z",
+    "timestamp": "2025-10-13T04:42:49.472Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760330569472.2139,
+    "sessionId": "session_1760330444768_h8g4738vi"
+  },
+  {
+    "timestamp": "2025-10-13T04:42:49.439Z",
+    "action": "Mở file Drive",
+    "details": "Đã mở file Google Drive để tải ảnh: thumbnail22.jpg",
+    "id": 1760330569439.9543,
+    "sessionId": "session_1760330444768_h8g4738vi"
+  },
+  {
+    "timestamp": "2025-10-13T04:42:22.685Z",
+    "action": "Tạo mã QR",
+    "details": "Tạo mã QR thành công cho ảnh: thumbnail22.jpg",
+    "id": 1760330542685.5356,
+    "sessionId": "session_1760330444768_h8g4738vi"
+  },
+  {
+    "timestamp": "2025-10-13T04:42:20.159Z",
+    "action": "Mở modal chia sẻ",
+    "details": "Mở modal chia sẻ cho ảnh: thumbnail22.jpg",
+    "id": 1760330540159.6145,
+    "sessionId": "session_1760330444768_h8g4738vi"
+  },
+  {
+    "timestamp": "2025-10-13T04:41:30.578Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760330490578.5518,
+    "sessionId": "session_1760330444768_h8g4738vi"
+  },
+  {
+    "timestamp": "2025-10-13T04:40:44.768Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760330443109.795,
-    "sessionId": "session_1760330346882_buszrlanz"
+    "id": 1760330444768.3958,
+    "sessionId": "session_1760330444768_h8g4738vi"
   },
   {
     "timestamp": "2025-10-13T04:40:21.892Z",
