@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-13T04:34:29.828Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760330069828.5845,
+    "sessionId": "session_1760329877766_74nv1m97s"
+  },
+  {
+    "timestamp": "2025-10-13T04:34:24.881Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760330064881.3286,
+    "sessionId": "session_1760329877766_74nv1m97s"
+  },
+  {
     "timestamp": "2025-10-13T04:34:04.381Z",
     "action": "Tạo mã QR",
     "details": "Tạo mã QR cho ảnh: null",
