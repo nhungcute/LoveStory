@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-13T10:45:53.758Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760352353758.9685,
+    "sessionId": "session_1760352352195_2nh6w0mqk"
+  },
+  {
+    "timestamp": "2025-10-13T10:45:53.163Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760352353163.396,
+    "sessionId": "session_1760352352195_2nh6w0mqk"
+  },
+  {
+    "timestamp": "2025-10-13T10:45:52.195Z",
+    "action": "Đăng nhập tự động",
+    "details": "Người dùng Gấu Cam đã đăng nhập tự động từ profiles",
+    "id": 1760352352195.5583,
+    "sessionId": "session_1760352352195_2nh6w0mqk"
+  },
+  {
     "timestamp": "2025-10-13T10:45:24.784Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
