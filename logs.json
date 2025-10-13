@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T10:17:52.039Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760350672039.257,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
     "timestamp": "2025-10-13T10:17:38.190Z",
     "action": "Tải hồ sơ",
     "details": "Đã tải hồ sơ cho tên đăng nhập: 8maxcs",
