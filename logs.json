@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-13T09:25:08.573Z",
+    "action": "Lưu hồ sơ",
+    "details": "Đã cập nhật hồ sơ: Hà Tín (8maxcs) - Tổng profiles: 3",
+    "id": 1760347508573.739,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T09:25:03.673Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760347503673.4033,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
     "timestamp": "2025-10-13T09:24:26.221Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
