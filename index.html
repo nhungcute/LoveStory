@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story - Ứng Dụng Kỷ Niệm</title>
+    <title>Love Story</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -36,6 +36,207 @@
     <style>
         body {
             box-sizing: border-box;
+        }
+        
+        /* CSS Variables cho Theme System */
+        :root {
+            --primary-100: #006B68;
+            --primary-80: #339B98;
+            --primary-60: #66B3B0;
+            --primary-50: #80C4C1;
+            --primary-30: #B3DCDA;
+            --primary-10: #E6F5F4;
+            --accent-100: #FFC62F;
+            --accent-80: #FFD15C;
+            --accent-60: #FFDC89;
+            --accent-50: #FFE4A3;
+            --accent-30: #FFEDC9;
+            --accent-10: #FFF8E6;
+        }
+        
+        /* Theme Classes */
+        html.theme-default {
+            --primary-100: #006B68;
+            --primary-80: #339B98;
+            --accent-100: #FFC62F;
+            --accent-80: #FFD15C;
+            --bg-gradient: linear-gradient(135deg, #E6F5F4 0%, #FFF8E6 100%);
+        }
+        
+        html.theme-spring {
+            --primary-100: #2D5016;
+            --primary-80: #4A7C23;
+            --accent-100: #8BC34A;
+            --accent-80: #9CCC65;
+            --bg-gradient: linear-gradient(135deg, #E8F5E8 0%, #F1F8E9 100%);
+        }
+        
+        html.theme-summer {
+            --primary-100: #FF6B35;
+            --primary-80: #FF8A65;
+            --accent-100: #F7931E;
+            --accent-80: #FFB74D;
+            --bg-gradient: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+        }
+        
+        html.theme-night {
+            --primary-100: #1A237E;
+            --primary-80: #3949AB;
+            --accent-100: #3F51B5;
+            --accent-80: #5C6BC0;
+            --bg-gradient: linear-gradient(135deg, #E8EAF6 0%, #C5CAE9 100%);
+        }
+        
+        html.theme-romantic {
+            --primary-100: #AD1457;
+            --primary-80: #C2185B;
+            --accent-100: #E91E63;
+            --accent-80: #EC407A;
+            --bg-gradient: linear-gradient(135deg, #FCE4EC 0%, #F8BBD9 100%);
+        }
+        
+        /* Dynamic Color Classes */
+        .bg-primary-100 { background-color: var(--primary-100) !important; }
+        .text-primary-100 { color: var(--primary-100) !important; }
+        .border-primary-100 { border-color: var(--primary-100) !important; }
+        .border-l-primary-100 { border-left-color: var(--primary-100) !important; }
+        .bg-accent-100 { background-color: var(--accent-100) !important; }
+        .text-accent-100 { color: var(--accent-100) !important; }
+        .border-accent-100 { border-color: var(--accent-100) !important; }
+        .border-l-accent-100 { border-left-color: var(--accent-100) !important; }
+        .hover\:bg-primary-80:hover { background-color: var(--primary-80) !important; }
+        .hover\:text-primary-80:hover { color: var(--primary-80) !important; }
+        .hover\:bg-accent-80:hover { background-color: var(--accent-80) !important; }
+        .bg-primary-10 { background-color: var(--primary-100)1A !important; }
+        .bg-accent-10 { background-color: var(--accent-100)1A !important; }
+        .text-primary-30 { color: var(--primary-100)4D !important; }
+        
+        /* Apply gradient background */
+        body {
+            background: var(--bg-gradient, linear-gradient(135deg, #E6F5F4 0%, #FFF8E6 100%));
+        }
+        
+        /* Skeleton Loading Styles */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .skeleton-widget {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skeleton-header {
+            height: 24px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            width: 60%;
+        }
+        
+        .skeleton-line {
+            height: 16px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .skeleton-line.short { width: 75%; }
+        .skeleton-line.medium { width: 85%; }
+        .skeleton-line.long { width: 95%; }
+        
+        .skeleton-image {
+            height: 200px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skeleton-timeline-item {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 16px;
+            border-left: 4px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skeleton-photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .skeleton-photo-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skeleton-photo-item .skeleton-image {
+            height: 192px;
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+        
+        .skeleton-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .skeleton-stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skeleton-stat-number {
+            height: 36px;
+            width: 60px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 6px;
+            margin: 0 auto 12px;
+        }
+        
+        .skeleton-stat-label {
+            height: 16px;
+            width: 80px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 4px;
+            margin: 0 auto;
         }
         
         .calendar-day {
@@ -145,6 +346,36 @@
             align-items: center;
             justify-content: center;
         }
+        
+        /* Đảm bảo layout ổn định ngay từ đầu */
+        .section {
+            min-height: 200px;
+        }
+        
+        .section.hidden {
+            display: none !important;
+        }
+        
+        .section.active {
+            display: block !important;
+        }
+        
+        /* Loading state styles */
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #006B68;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
     </style>
 </head>
 <body class="h-full bg-gradient-to-br from-primary-10 to-accent-10 font-sans">
@@ -156,24 +387,36 @@
                     <i class="fas fa-heart text-accent-100 mr-2"></i>
                     <span>Love Story</span>
                 </h1>
-                <nav class="flex space-x-2 md:space-x-6">
-                    <button onclick="showSection('widget')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80 active" title="Trang Chủ">
-                        <i class="fas fa-home text-xl md:text-2xl md:mr-2"></i>
-                        <span class="hidden md:inline">Trang Chủ</span>
+                
+                <div class="flex items-center space-x-4">
+                    <nav class="flex space-x-2 md:space-x-6">
+                        <button onclick="showSection('widget')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80 active" title="Trang Chủ">
+                            <i class="fas fa-home text-xl md:text-2xl md:mr-2"></i>
+                            <span class="hidden md:inline">Trang Chủ</span>
+                        </button>
+                        <button onclick="showSection('timeline')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80" title="Timeline">
+                            <i class="fas fa-heart-pulse text-xl md:text-2xl md:mr-2"></i>
+                            <span class="hidden md:inline">Timeline</span>
+                        </button>
+                        <button onclick="showSection('photos')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80" title="Khoảnh Khắc">
+                            <i class="fas fa-images text-xl md:text-2xl md:mr-2"></i>
+                            <span class="hidden md:inline">Khoảnh Khắc</span>
+                        </button>
+                        <button onclick="showSection('settings')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80" title="Cài Đặt">
+                            <i class="fas fa-cog text-xl md:text-2xl md:mr-2"></i>
+                            <span class="hidden md:inline">Cài Đặt</span>
+                        </button>
+                    </nav>
+                    
+                    <!-- Profile Button -->
+                    <button onclick="openProfileModal()" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-primary-80 transition-colors" title="Hồ sơ cá nhân">
+                        <div class="w-8 h-8 rounded-full overflow-hidden bg-accent-100 flex items-center justify-center">
+                            <img id="header-avatar" src="" alt="" class="w-full h-full object-cover hidden">
+                            <i id="header-avatar-icon" class="fas fa-user text-white"></i>
+                        </div>
+                        <span id="header-username" class="hidden md:inline text-sm font-medium">Ẩn danh</span>
                     </button>
-                    <button onclick="showSection('timeline')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80" title="Timeline">
-                        <i class="fas fa-heart-pulse text-xl md:text-2xl md:mr-2"></i>
-                        <span class="hidden md:inline">Timeline</span>
-                    </button>
-                    <button onclick="showSection('photos')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80" title="Khoảnh Khắc">
-                        <i class="fas fa-images text-xl md:text-2xl md:mr-2"></i>
-                        <span class="hidden md:inline">Khoảnh Khắc</span>
-                    </button>
-                    <button onclick="showSection('settings')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80" title="Cài Đặt">
-                        <i class="fas fa-cog text-xl md:text-2xl md:mr-2"></i>
-                        <span class="hidden md:inline">Cài Đặt</span>
-                    </button>
-                </nav>
+                </div>
             </div>
         </div>
     </header>
@@ -194,8 +437,12 @@
                     </button>
                 </div>
                 <div id="memory-widget" class="bg-white rounded-lg p-6 shadow-sm">
-                    <div class="flex justify-center">
-                        <i class="fas fa-spinner loading text-primary-100 text-2xl"></i>
+                    <div class="skeleton-widget">
+                        <div class="skeleton-header"></div>
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton-line long"></div>
+                        <div class="skeleton-line medium"></div>
+                        <div class="skeleton-line short"></div>
                     </div>
                 </div>
             </div>
@@ -212,34 +459,34 @@
                     </button>
                 </div>
                 <div id="countdown-widget" class="space-y-4">
-                    <div class="flex justify-center">
-                        <i class="fas fa-spinner loading text-primary-100 text-2xl"></i>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line medium"></div>
+                        <div class="skeleton-line short"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line long"></div>
+                        <div class="skeleton-line medium"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line short"></div>
+                        <div class="skeleton-line medium"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Thống Kê Tổng Quan -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
-                    <div class="text-3xl font-bold text-primary-100 mb-2" id="total-memories">0</div>
-                    <div class="text-gray-600">Kỷ Niệm</div>
-                    <div class="mt-2">
-                        <i class="fas fa-heart text-red-400 text-2xl"></i>
-                    </div>
+            <div id="stats-widget" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="skeleton-stat-card">
+                    <div class="skeleton-stat-number"></div>
+                    <div class="skeleton-stat-label"></div>
                 </div>
-                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
-                    <div class="text-3xl font-bold text-accent-100 mb-2" id="total-photos">0</div>
-                    <div class="text-gray-600">Hình Ảnh</div>
-                    <div class="mt-2">
-                        <i class="fas fa-camera text-blue-400 text-2xl"></i>
-                    </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton-stat-number"></div>
+                    <div class="skeleton-stat-label"></div>
                 </div>
-                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
-                    <div class="text-3xl font-bold text-green-500 mb-2" id="days-together">0</div>
-                    <div class="text-gray-600">Ngày Bên Nhau</div>
-                    <div class="mt-2">
-                        <i class="fas fa-calendar-heart text-green-400 text-2xl"></i>
-                    </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton-stat-number"></div>
+                    <div class="skeleton-stat-label"></div>
                 </div>
             </div>
 
@@ -255,8 +502,32 @@
                     </button>
                 </div>
                 <div id="recent-memories" class="space-y-3">
-                    <div class="flex justify-center">
-                        <i class="fas fa-spinner loading text-primary-100 text-2xl"></i>
+                    <div class="skeleton-card">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gray-200 rounded-full skeleton"></div>
+                            <div class="flex-1">
+                                <div class="skeleton-line medium"></div>
+                                <div class="skeleton-line short"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gray-200 rounded-full skeleton"></div>
+                            <div class="flex-1">
+                                <div class="skeleton-line long"></div>
+                                <div class="skeleton-line medium"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gray-200 rounded-full skeleton"></div>
+                            <div class="flex-1">
+                                <div class="skeleton-line short"></div>
+                                <div class="skeleton-line medium"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -274,8 +545,22 @@
                     </button>
                 </div>
                 <div id="timeline-container" class="space-y-3">
-                    <div class="flex justify-center">
-                        <i class="fas fa-spinner loading text-primary-100 text-2xl"></i>
+                    <div class="skeleton-timeline-item">
+                        <div class="skeleton-header"></div>
+                        <div class="skeleton-line long"></div>
+                        <div class="skeleton-line medium"></div>
+                        <div class="skeleton-line short"></div>
+                    </div>
+                    <div class="skeleton-timeline-item">
+                        <div class="skeleton-header"></div>
+                        <div class="skeleton-line medium"></div>
+                        <div class="skeleton-line long"></div>
+                    </div>
+                    <div class="skeleton-timeline-item">
+                        <div class="skeleton-header"></div>
+                        <div class="skeleton-line short"></div>
+                        <div class="skeleton-line medium"></div>
+                        <div class="skeleton-line long"></div>
                     </div>
                 </div>
             </div>
@@ -301,9 +586,24 @@
                     </div>
                 </div>
                 
-                <div id="photos-container" class="photo-grid">
-                    <div class="flex justify-center col-span-full">
-                        <i class="fas fa-spinner loading text-primary-100 text-2xl"></i>
+                <div id="photos-container" class="skeleton-photo-grid">
+                    <div class="skeleton-photo-item">
+                        <div class="skeleton-image"></div>
+                    </div>
+                    <div class="skeleton-photo-item">
+                        <div class="skeleton-image"></div>
+                    </div>
+                    <div class="skeleton-photo-item">
+                        <div class="skeleton-image"></div>
+                    </div>
+                    <div class="skeleton-photo-item">
+                        <div class="skeleton-image"></div>
+                    </div>
+                    <div class="skeleton-photo-item">
+                        <div class="skeleton-image"></div>
+                    </div>
+                    <div class="skeleton-photo-item">
+                        <div class="skeleton-image"></div>
                     </div>
                 </div>
                 
@@ -320,11 +620,31 @@
                     <i class="fas fa-cog mr-2"></i>Cài Đặt Hệ Thống
                 </h2>
                 
+                <!-- Theme Settings -->
+                <div class="bg-gradient-to-r from-accent-10 to-primary-10 rounded-lg p-6 mb-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-semibold text-primary-100 mb-2">
+                                <i class="fas fa-palette mr-2"></i>Giao Diện
+                            </h3>
+                            <p class="text-gray-700 mb-4">Tùy chỉnh màu sắc và phong cách hiển thị của ứng dụng theo sở thích cá nhân.</p>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                <div id="theme-options-settings" class="contents">
+                                    <!-- Theme options will be generated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Auto Update Settings -->
                 <div class="bg-gradient-to-r from-primary-10 to-accent-10 rounded-lg p-6 mb-6">
                     <div class="flex items-start space-x-4">
                         <div class="flex-1">
-                            <h3 class="text-lg font-semibold text-primary-100 mb-2">Tự Động Cập Nhật</h3>
+                            <h3 class="text-lg font-semibold text-primary-100 mb-2">
+                                <i class="fas fa-sync-alt mr-2"></i>Tự Động Cập Nhật
+                            </h3>
                             <p class="text-gray-700 mb-4">Hệ thống sẽ tự động làm mới danh sách ảnh từ Google Drive theo lịch trình đã cài đặt.</p>
                             
                             <!-- Enable/Disable Toggle -->
@@ -377,7 +697,9 @@
                 <div class="bg-gradient-to-r from-accent-10 to-primary-10 rounded-lg p-6 mb-6">
                     <div class="flex items-start space-x-4">
                         <div class="flex-1">
-                            <h3 class="text-lg font-semibold text-primary-100 mb-2">Ghi Nhật Ký Hoạt Động</h3>
+                            <h3 class="text-lg font-semibold text-primary-100 mb-2">
+                                <i class="fas fa-clipboard-list mr-2"></i>Ghi Nhật Ký Hoạt Động
+                            </h3>
                             <p class="text-gray-700 mb-4">Mọi hành động quan trọng đều được ghi lại, giúp dễ dàng theo dõi và quản lý.</p>
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-3">
@@ -759,6 +1081,89 @@
         </div>
     </div>
 
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="modal">
+        <div class="bg-white rounded-xl max-w-md w-full m-4">
+            <div class="p-4 border-b flex justify-between items-center">
+                <h3 class="text-xl font-bold text-primary-100">
+                    <i class="fas fa-user-circle mr-2"></i>Hồ Sơ Cá Nhân
+                </h3>
+                <button onclick="closeProfileModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="profile-form" class="p-4 space-y-4">
+                <!-- Avatar Section -->
+                <div class="text-center">
+                    <div class="relative inline-block">
+                        <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-200 mx-auto mb-4 border-4 border-primary-100">
+                            <img id="profile-avatar-preview" src="" alt="" class="w-full h-full object-cover hidden">
+                            <div id="profile-avatar-placeholder" class="w-full h-full flex items-center justify-center">
+                                <i class="fas fa-user text-4xl text-gray-400"></i>
+                            </div>
+                        </div>
+                        <button type="button" onclick="selectAvatar()" class="absolute bottom-0 right-0 bg-primary-100 text-white rounded-full p-2 hover:bg-primary-80 transition-colors">
+                            <i class="fas fa-camera text-sm"></i>
+                        </button>
+                    </div>
+                    <input type="file" id="avatar-input" accept="image/*" class="hidden" onchange="handleAvatarChange(event)">
+                </div>
+
+                <!-- Username Section -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tên đăng nhập</label>
+                    <input type="text" id="profile-username" required 
+                           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100"
+                           placeholder="Nhập tên đăng nhập..." onchange="checkExistingUser(this.value)">
+                    <div id="username-status" class="mt-1 text-sm hidden"></div>
+                </div>
+
+                <!-- Full Name Section -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Họ và tên</label>
+                    <input type="text" id="profile-fullname" required 
+                           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100"
+                           placeholder="Nhập họ và tên đầy đủ...">
+                </div>
+
+                <!-- Device Info (Read-only) -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Thông tin thiết bị</label>
+                    <div class="bg-gray-50 rounded-lg p-3 text-sm text-gray-600">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <i class="fas fa-desktop text-primary-100"></i>
+                            <span id="device-info">Đang tải...</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-globe text-primary-100"></i>
+                            <span id="browser-info">Đang tải...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex space-x-3 pt-4">
+                    <button type="submit" id="save-profile-btn" class="flex-1 px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
+                        <i class="fas fa-save mr-2"></i>Lưu hồ sơ
+                    </button>
+                    <button type="button" onclick="logoutUser()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Đăng xuất
+                    </button>
+                </div>
+
+                <!-- Current User Info -->
+                <div id="current-user-info" class="mt-4 pt-4 border-t bg-blue-50 rounded-lg p-3 hidden">
+                    <div class="text-sm font-medium text-blue-800 mb-2">Thông tin hiện tại:</div>
+                    <div class="text-sm text-blue-600 space-y-1">
+                        <div>Đăng nhập lần cuối: <span id="last-login-time">-</span></div>
+                        <div>Tổng bình luận: <span id="user-comments-count">0</span></div>
+                        <div>Tổng lượt thích: <span id="user-likes-count">0</span></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Configuration
         const CONFIG = {
@@ -771,6 +1176,7 @@
             PHOTOS_METADATA_FILE_PATH: "image_data.json",
             LOGS_FILE_PATH: "logs.json",
             CONFIG_FILE_PATH: "configApp.json",
+            PROFILES_FILE_PATH: "profiles.json",
             FOLDER_ID: "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
             API_KEY: "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
             PHOTOS_PER_PAGE: 20,
@@ -818,38 +1224,133 @@
         let logSaveInterval = null;
         let isOnline = navigator.onLine;
         
+        // User & Theme variables
+        let currentUser = null;
+        let profilesData = [];
+        let currentTheme = 'default';
+        let availableThemes = {
+            default: {
+                name: 'Mặc định',
+                className: 'theme-default'
+            },
+            spring: {
+                name: 'Mùa xuân',
+                className: 'theme-spring'
+            },
+            summer: {
+                name: 'Mùa hè',
+                className: 'theme-summer'
+            },
+            night: {
+                name: 'Ban đêm',
+                className: 'theme-night'
+            },
+            romantic: {
+                name: 'Lãng mạn',
+                className: 'theme-romantic'
+            }
+        };
+        
 
 
-        // Initialize app
+        // Initialize app - Khởi tạo ngay khi DOM sẵn sàng
         document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
+            // Khởi tạo giao diện NGAY LẬP TỨC
+            initializeThemeImmediate();
+            
+            // Sau đó khởi tạo ứng dụng
+            setTimeout(() => {
+                initializeApp();
+            }, 50);
         });
+
+        // Khởi tạo theme ngay lập tức để tránh lỗi hiển thị
+        function initializeThemeImmediate() {
+            try {
+                // Áp dụng theme mặc định ngay lập tức bằng cách thêm class
+                document.documentElement.className = 'theme-default';
+                
+                console.log('✅ Đã khởi tạo giao diện ngay lập tức với CSS Variables');
+                
+            } catch (error) {
+                console.error('❌ Lỗi khởi tạo giao diện ngay lập tức:', error);
+                // Fallback: đảm bảo ít nhất có class mặc định
+                document.documentElement.className = 'theme-default';
+            }
+        }
 
         async function initializeApp() {
             try {
-                await loadAppConfig();
-                await loadTimelineData();
-                await loadPhotosData();
-                await loadCommentsData();
-                await loadActivityLogs();
+                console.log('🚀 Bắt đầu khởi tạo ứng dụng...');
                 
+                // 1. Khởi tạo theme đầy đủ
+                console.log('🎨 Khởi tạo theme...');
+                initializeTheme();
+                generateThemeOptions();
+                
+                // 2. Load cấu hình
+                console.log('⚙️ Tải cấu hình...');
+                await loadAppConfig();
+                
+                // 3. Load dữ liệu người dùng
+                console.log('👤 Tải dữ liệu người dùng...');
+                await loadProfilesData();
+                initializeUser();
+                updateDeviceInfo();
+                
+                // 4. Load dữ liệu ứng dụng
+                console.log('📊 Tải dữ liệu ứng dụng...');
+                await Promise.all([
+                    loadTimelineData(),
+                    loadPhotosData(),
+                    loadCommentsData(),
+                    loadActivityLogs()
+                ]);
+                
+                // 5. Tạo giao diện
+                console.log('🖼️ Tạo giao diện...');
                 generateWidgets();
                 generateTimeline();
                 generatePhotos();
                 
-                if (appConfig.AUTO_SYNC_METADATA.enabled) {
+                // 6. Khởi tạo các tính năng nâng cao
+                console.log('🔧 Khởi tạo tính năng nâng cao...');
+                if (appConfig.AUTO_SYNC_METADATA && appConfig.AUTO_SYNC_METADATA.enabled) {
                     setupAutoSync();
                 }
                 
                 setupLogManagement();
                 setupOnlineOfflineDetection();
                 
+                // 7. Log hoàn thành
                 logActivity('Khởi tạo ứng dụng', 'Ứng dụng Love Story đã được khởi tạo thành công');
+                console.log('✅ Khởi tạo ứng dụng hoàn tất!');
+                
+                // 8. Ẩn loading nếu có
+                hideLoadingState();
                 
             } catch (error) {
-                console.error('Lỗi khởi tạo ứng dụng:', error);
-                showError('Không thể tải dữ liệu. Vui lòng thử lại sau.');
+                console.error('❌ Lỗi khởi tạo ứng dụng:', error);
+                
+                // Đảm bảo giao diện vẫn hoạt động dù có lỗi
+                try {
+                    initializeTheme();
+                    generateThemeOptions();
+                    generateWidgets();
+                } catch (themeError) {
+                    console.error('❌ Lỗi khởi tạo giao diện fallback:', themeError);
+                }
+                
+                showError('Không thể tải đầy đủ dữ liệu. Một số tính năng có thể không hoạt động.');
+                hideLoadingState();
             }
+        }
+
+        function hideLoadingState() {
+            // Ẩn tất cả loading spinners
+            document.querySelectorAll('.loading').forEach(spinner => {
+                spinner.style.display = 'none';
+            });
         }
 
         // Config loading function
@@ -1391,11 +1892,10 @@
         }
 
         function generateStatsWidget() {
-            // Cập nhật thống kê tổng quan
-            document.getElementById('total-memories').textContent = timelineData.length;
-            document.getElementById('total-photos').textContent = photosData.length;
+            const container = document.getElementById('stats-widget');
             
             // Tính số ngày bên nhau (từ sự kiện đầu tiên đến hôm nay)
+            let daysTogether = 0;
             if (timelineData.length > 0) {
                 const firstEvent = timelineData.reduce((earliest, event) => {
                     const eventDate = parseDate(event.day);
@@ -1405,12 +1905,34 @@
                 
                 const firstDate = parseDate(firstEvent.day);
                 const today = new Date();
-                const daysTogether = Math.floor((today - firstDate) / (1000 * 60 * 60 * 24));
-                
-                document.getElementById('days-together').textContent = daysTogether > 0 ? daysTogether : 0;
-            } else {
-                document.getElementById('days-together').textContent = 0;
+                daysTogether = Math.floor((today - firstDate) / (1000 * 60 * 60 * 24));
+                daysTogether = daysTogether > 0 ? daysTogether : 0;
             }
+            
+            // Thay thế skeleton bằng nội dung thật
+            container.innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-primary-100 mb-2">${timelineData.length}</div>
+                    <div class="text-gray-600">Kỷ Niệm</div>
+                    <div class="mt-2">
+                        <i class="fas fa-heart text-red-400 text-2xl"></i>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-accent-100 mb-2">${photosData.length}</div>
+                    <div class="text-gray-600">Hình Ảnh</div>
+                    <div class="mt-2">
+                        <i class="fas fa-camera text-blue-400 text-2xl"></i>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-green-500 mb-2">${daysTogether}</div>
+                    <div class="text-gray-600">Ngày Bên Nhau</div>
+                    <div class="mt-2">
+                        <i class="fas fa-calendar-heart text-green-400 text-2xl"></i>
+                    </div>
+                </div>
+            `;
         }
 
         function generateRecentMemories() {
@@ -1933,10 +2455,22 @@
                 const commentElement = document.createElement('div');
                 commentElement.className = 'bg-gray-50 rounded-lg p-3';
                 const commentDate = new Date(comment.date_input).toLocaleString('vi-VN');
+                
+                // Get user info for comment
+                const userName = comment.userName || 'Ẩn danh';
+                const userAvatar = comment.userAvatar;
+                
+                let avatarHtml = '';
+                if (userAvatar) {
+                    avatarHtml = `<img src="${userAvatar}" alt="${userName}" class="w-6 h-6 rounded-full object-cover">`;
+                } else {
+                    avatarHtml = `<i class="fas fa-user-circle text-primary-100 text-xl"></i>`;
+                }
+                
                 commentElement.innerHTML = `
                     <div class="flex items-center space-x-2 mb-1">
-                        <i class="fas fa-user-circle text-primary-100"></i>
-                        <span class="font-semibold text-sm">Ẩn danh</span>
+                        ${avatarHtml}
+                        <span class="font-semibold text-sm">${userName}</span>
                         <span class="text-xs text-gray-500">${commentDate}</span>
                     </div>
                     <p class="text-gray-700">${comment.comment}</p>
@@ -1955,14 +2489,65 @@
                     photoData = {
                         ID_IMG: currentPhotoId,
                         count_tim: 0,
-                        comments: []
+                        comments: [],
+                        likes: []
                     };
                     commentsData.push(photoData);
                     // Cập nhật Map
                     commentsMap[currentPhotoId] = photoData;
                 }
                 
-                photoData.count_tim++;
+                // Initialize likes array if not exists
+                if (!photoData.likes) {
+                    photoData.likes = [];
+                }
+                
+                const userId = currentUser ? currentUser.username : 'anonymous';
+                const userLikeIndex = photoData.likes.findIndex(like => like.userId === userId);
+                
+                if (userLikeIndex === -1) {
+                    // User hasn't liked yet, add like
+                    photoData.count_tim++;
+                    photoData.likes.push({
+                        userId: userId,
+                        userName: currentUser ? currentUser.fullName : 'Ẩn danh',
+                        timestamp: new Date().toISOString()
+                    });
+                    
+                    // Update user like count
+                    if (currentUser && !currentUser.isAnonymous) {
+                        currentUser.likesCount = (currentUser.likesCount || 0) + 1;
+                        localStorage.setItem('loveStoryCurrentUser', JSON.stringify(currentUser));
+                        
+                        // Update profile in profilesData
+                        const profileIndex = profilesData.findIndex(p => p.username === currentUser.username);
+                        if (profileIndex !== -1) {
+                            profilesData[profileIndex].likesCount = currentUser.likesCount;
+                        }
+                    }
+                    
+                    showNotification('Đã thích ảnh!', 'success');
+                    logActivity('Thích ảnh', `${currentUser.fullName} đã thích ảnh: ${currentPhotoId} (${photoData.count_tim} lượt thích)`);
+                } else {
+                    // User already liked, remove like
+                    photoData.count_tim--;
+                    photoData.likes.splice(userLikeIndex, 1);
+                    
+                    // Update user like count
+                    if (currentUser && !currentUser.isAnonymous) {
+                        currentUser.likesCount = Math.max(0, (currentUser.likesCount || 0) - 1);
+                        localStorage.setItem('loveStoryCurrentUser', JSON.stringify(currentUser));
+                        
+                        // Update profile in profilesData
+                        const profileIndex = profilesData.findIndex(p => p.username === currentUser.username);
+                        if (profileIndex !== -1) {
+                            profilesData[profileIndex].likesCount = currentUser.likesCount;
+                        }
+                    }
+                    
+                    showNotification('Đã bỏ thích ảnh!', 'info');
+                    logActivity('Bỏ thích ảnh', `${currentUser.fullName} đã bỏ thích ảnh: ${currentPhotoId} (${photoData.count_tim} lượt thích)`);
+                }
                 
                 // Update UI immediately
                 const likeCountElement = document.getElementById('like-count');
@@ -1970,15 +2555,23 @@
                     likeCountElement.textContent = photoData.count_tim;
                 }
                 
+                // Update like button appearance
+                const likeBtn = document.getElementById('like-btn');
+                if (userLikeIndex === -1) {
+                    // Just liked
+                    likeBtn.classList.remove('bg-red-500', 'hover:bg-red-600');
+                    likeBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                } else {
+                    // Just unliked
+                    likeBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                    likeBtn.classList.add('bg-red-500', 'hover:bg-red-600');
+                }
+                
                 // Update the photo grid
                 generatePhotos();
                 
                 // Save to GitHub in background
-                saveToGitHub(CONFIG.COMMENTS_FILE_PATH, commentsData, `Thích ảnh: ${currentPhotoId}`);
-                
-                // Log activity
-                logActivity('Thích ảnh', `Đã thích ảnh: ${currentPhotoId} (${photoData.count_tim} lượt thích)`);
-                showNotification('Đã thích ảnh!', 'success');
+                saveToGitHub(CONFIG.COMMENTS_FILE_PATH, commentsData, `Cập nhật lượt thích ảnh: ${currentPhotoId}`);
                 
             } catch (error) {
                 console.error('Lỗi khi thích ảnh:', error);
@@ -2014,10 +2607,25 @@
                 
                 const newComment = {
                     comment: commentText,
-                    date_input: new Date().toISOString()
+                    date_input: new Date().toISOString(),
+                    userName: currentUser ? currentUser.fullName : 'Ẩn danh',
+                    userAvatar: currentUser ? currentUser.avatar : null,
+                    userId: currentUser ? currentUser.username : null
                 };
                 
                 photoData.comments.push(newComment);
+                
+                // Update user comment count
+                if (currentUser && !currentUser.isAnonymous) {
+                    currentUser.commentsCount = (currentUser.commentsCount || 0) + 1;
+                    localStorage.setItem('loveStoryCurrentUser', JSON.stringify(currentUser));
+                    
+                    // Update profile in profilesData
+                    const profileIndex = profilesData.findIndex(p => p.username === currentUser.username);
+                    if (profileIndex !== -1) {
+                        profilesData[profileIndex].commentsCount = currentUser.commentsCount;
+                    }
+                }
                 
                 // Clear input and update UI immediately
                 input.value = '';
@@ -2032,7 +2640,7 @@
                 saveToGitHub(CONFIG.COMMENTS_FILE_PATH, commentsData, `Thêm bình luận cho ảnh: ${currentPhotoId}`);
                 
                 // Log activity
-                logActivity('Thêm bình luận', `Đã bình luận cho ảnh: ${currentPhotoId}: "${commentText}"`);
+                logActivity('Thêm bình luận', `${currentUser.fullName} đã bình luận cho ảnh: ${currentPhotoId}: "${commentText}"`);
                 showNotification('Đã thêm bình luận!', 'success');
                 
             } catch (error) {
@@ -2576,6 +3184,9 @@
                     showNotification('Lỗi khi lưu sự kiện!', 'error');
                 }
             });
+
+            // Handle profile form submission
+            document.getElementById('profile-form').addEventListener('submit', saveProfile);
         });
 
         // Google Drive API functions
@@ -3047,6 +3658,497 @@
 
 
 
+        // User Management Functions
+        async function loadProfilesData() {
+            try {
+                const data = await fetchFromGitHub(CONFIG.PROFILES_FILE_PATH);
+                if (data) {
+                    // Convert object format to array format for compatibility
+                    if (Array.isArray(data)) {
+                        profilesData = data;
+                    } else {
+                        // Convert from object format {user1: {name, avatarUrl}} to array format
+                        profilesData = Object.keys(data).map(userId => ({
+                            deviceId: userId, // Use userId as deviceId for existing users
+                            username: userId,
+                            fullName: data[userId].name,
+                            avatar: data[userId].avatarUrl,
+                            isAnonymous: false,
+                            createdAt: new Date().toISOString(),
+                            lastLoginAt: new Date().toISOString(),
+                            commentsCount: 0,
+                            likesCount: 0
+                        }));
+                    }
+                } else {
+                    profilesData = [];
+                }
+            } catch (error) {
+                console.error('Lỗi tải profiles:', error);
+                profilesData = [];
+            }
+        }
+
+        function generateDeviceFingerprint() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = '14px Arial';
+            ctx.fillText('Device fingerprint', 2, 2);
+            
+            const fingerprint = [
+                navigator.userAgent,
+                navigator.language,
+                screen.width + 'x' + screen.height,
+                new Date().getTimezoneOffset(),
+                canvas.toDataURL()
+            ].join('|');
+            
+            // Simple hash function
+            let hash = 0;
+            for (let i = 0; i < fingerprint.length; i++) {
+                const char = fingerprint.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return Math.abs(hash).toString(36);
+        }
+
+        function generateAnonymousName() {
+            const animals = ['Chó', 'Mèo', 'Gấu', 'Thỏ', 'Cáo', 'Sói', 'Hổ', 'Sư tử', 'Voi', 'Ngựa', 'Bò', 'Heo', 'Gà', 'Vịt', 'Cá', 'Chim'];
+            const colors = ['Đỏ', 'Xanh', 'Vàng', 'Tím', 'Hồng', 'Cam', 'Nâu', 'Xám', 'Đen', 'Trắng', 'Bạc', 'Vàng kim', 'Xanh lá', 'Xanh dương'];
+            
+            const animal = animals[Math.floor(Math.random() * animals.length)];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            return `${animal} ${color}`;
+        }
+
+        function initializeUser() {
+            const deviceId = generateDeviceFingerprint();
+            const savedUser = localStorage.getItem('loveStoryCurrentUser');
+            
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    // Verify user still exists in profiles
+                    const existingProfile = profilesData.find(p => 
+                        (p.deviceId === deviceId && p.username === currentUser.username) ||
+                        p.deviceId === currentUser.username ||
+                        p.username === currentUser.username
+                    );
+                    if (existingProfile) {
+                        currentUser = existingProfile;
+                        currentUser.lastLoginAt = new Date().toISOString();
+                        localStorage.setItem('loveStoryCurrentUser', JSON.stringify(currentUser));
+                        updateHeaderProfile();
+                        logActivity('Đăng nhập tự động', `Người dùng ${currentUser.fullName} đã đăng nhập tự động`);
+                    } else {
+                        // User not found, create anonymous
+                        createAnonymousUser(deviceId);
+                    }
+                } catch (error) {
+                    console.error('Lỗi parse user data:', error);
+                    createAnonymousUser(deviceId);
+                }
+            } else {
+                // Check if there's an existing profile for this device
+                const existingProfile = profilesData.find(p => p.deviceId === deviceId);
+                if (existingProfile) {
+                    currentUser = existingProfile;
+                    currentUser.lastLoginAt = new Date().toISOString();
+                    localStorage.setItem('loveStoryCurrentUser', JSON.stringify(currentUser));
+                    updateHeaderProfile();
+                    logActivity('Đăng nhập tự động', `Người dùng ${currentUser.fullName} đã đăng nhập tự động từ profiles`);
+                } else {
+                    createAnonymousUser(deviceId);
+                }
+            }
+        }
+
+        function createAnonymousUser(deviceId) {
+            const anonymousName = generateAnonymousName();
+            currentUser = {
+                deviceId: deviceId,
+                username: anonymousName.toLowerCase().replace(/\s+/g, ''),
+                fullName: anonymousName,
+                avatar: null,
+                isAnonymous: true,
+                createdAt: new Date().toISOString(),
+                lastLoginAt: new Date().toISOString(),
+                commentsCount: 0,
+                likesCount: 0
+            };
+            
+            localStorage.setItem('loveStoryCurrentUser', JSON.stringify(currentUser));
+            updateHeaderProfile();
+            
+            logActivity('Tạo user ẩn danh', `Đã tạo user ẩn danh: ${currentUser.fullName}`);
+        }
+
+        function updateHeaderProfile() {
+            const headerUsername = document.getElementById('header-username');
+            const headerAvatar = document.getElementById('header-avatar');
+            const headerAvatarIcon = document.getElementById('header-avatar-icon');
+            
+            if (currentUser) {
+                headerUsername.textContent = currentUser.fullName;
+                
+                if (currentUser.avatar) {
+                    headerAvatar.src = currentUser.avatar;
+                    headerAvatar.classList.remove('hidden');
+                    headerAvatarIcon.classList.add('hidden');
+                } else {
+                    headerAvatar.classList.add('hidden');
+                    headerAvatarIcon.classList.remove('hidden');
+                }
+            }
+        }
+
+        function openProfileModal() {
+            if (currentUser) {
+                document.getElementById('profile-username').value = currentUser.username || '';
+                document.getElementById('profile-fullname').value = currentUser.fullName || '';
+                
+                if (currentUser.avatar) {
+                    document.getElementById('profile-avatar-preview').src = currentUser.avatar;
+                    document.getElementById('profile-avatar-preview').classList.remove('hidden');
+                    document.getElementById('profile-avatar-placeholder').classList.add('hidden');
+                } else {
+                    document.getElementById('profile-avatar-preview').classList.add('hidden');
+                    document.getElementById('profile-avatar-placeholder').classList.remove('hidden');
+                }
+                
+                // Show current user info if not anonymous
+                if (!currentUser.isAnonymous) {
+                    document.getElementById('current-user-info').classList.remove('hidden');
+                    document.getElementById('last-login-time').textContent = new Date(currentUser.lastLoginAt).toLocaleString('vi-VN');
+                    document.getElementById('user-comments-count').textContent = currentUser.commentsCount || 0;
+                    document.getElementById('user-likes-count').textContent = currentUser.likesCount || 0;
+                } else {
+                    document.getElementById('current-user-info').classList.add('hidden');
+                }
+            }
+            
+            document.getElementById('profile-modal').classList.add('active');
+            logActivity('Mở hồ sơ', 'Mở modal hồ sơ cá nhân');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.remove('active');
+            document.getElementById('username-status').classList.add('hidden');
+        }
+
+        function selectAvatar() {
+            document.getElementById('avatar-input').click();
+        }
+
+        function handleAvatarChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Check file size (max 2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    showNotification('Kích thước ảnh quá lớn! Vui lòng chọn ảnh nhỏ hơn 2MB.', 'warning');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const avatarPreview = document.getElementById('profile-avatar-preview');
+                    const avatarPlaceholder = document.getElementById('profile-avatar-placeholder');
+                    
+                    avatarPreview.src = e.target.result;
+                    avatarPreview.classList.remove('hidden');
+                    avatarPlaceholder.classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function checkExistingUser(username) {
+            const statusDiv = document.getElementById('username-status');
+            
+            if (!username.trim()) {
+                statusDiv.classList.add('hidden');
+                return;
+            }
+            
+            const deviceId = generateDeviceFingerprint();
+            const existingProfile = profilesData.find(p => 
+                p.username === username.toLowerCase().trim() || 
+                p.deviceId === username.toLowerCase().trim()
+            );
+            
+            if (existingProfile) {
+                if (existingProfile.deviceId === deviceId || existingProfile.deviceId === username.toLowerCase().trim()) {
+                    // Same device or matching user ID, load existing profile
+                    statusDiv.innerHTML = '<i class="fas fa-check text-green-500 mr-1"></i>Tìm thấy hồ sơ của bạn';
+                    statusDiv.className = 'mt-1 text-sm text-green-600';
+                    statusDiv.classList.remove('hidden');
+                    
+                    // Auto-fill form
+                    document.getElementById('profile-fullname').value = existingProfile.fullName;
+                    if (existingProfile.avatar) {
+                        document.getElementById('profile-avatar-preview').src = existingProfile.avatar;
+                        document.getElementById('profile-avatar-preview').classList.remove('hidden');
+                        document.getElementById('profile-avatar-placeholder').classList.add('hidden');
+                    }
+                } else {
+                    // Different device, username taken
+                    statusDiv.innerHTML = '<i class="fas fa-times text-red-500 mr-1"></i>Tên đăng nhập đã được sử dụng';
+                    statusDiv.className = 'mt-1 text-sm text-red-600';
+                    statusDiv.classList.remove('hidden');
+                }
+            } else {
+                // New username
+                statusDiv.innerHTML = '<i class="fas fa-info text-blue-500 mr-1"></i>Tên đăng nhập khả dụng';
+                statusDiv.className = 'mt-1 text-sm text-blue-600';
+                statusDiv.classList.remove('hidden');
+            }
+        }
+
+        function updateDeviceInfo() {
+            const deviceInfo = document.getElementById('device-info');
+            const browserInfo = document.getElementById('browser-info');
+            
+            // Get device type
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const deviceType = isMobile ? 'Di động' : 'Máy tính';
+            const platform = navigator.platform || 'Không xác định';
+            
+            deviceInfo.textContent = `${deviceType} (${platform})`;
+            
+            // Get browser info
+            const userAgent = navigator.userAgent;
+            let browserName = 'Không xác định';
+            
+            if (userAgent.includes('Chrome')) browserName = 'Chrome';
+            else if (userAgent.includes('Firefox')) browserName = 'Firefox';
+            else if (userAgent.includes('Safari')) browserName = 'Safari';
+            else if (userAgent.includes('Edge')) browserName = 'Edge';
+            else if (userAgent.includes('Opera')) browserName = 'Opera';
+            
+            browserInfo.textContent = `${browserName} (${navigator.language})`;
+        }
+
+        async function saveProfile(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('profile-username').value.trim().toLowerCase();
+            const fullName = document.getElementById('profile-fullname').value.trim();
+            const avatarPreview = document.getElementById('profile-avatar-preview');
+            const avatar = avatarPreview.classList.contains('hidden') ? null : avatarPreview.src;
+            
+            if (!username || !fullName) {
+                showNotification('Vui lòng nhập đầy đủ thông tin!', 'warning');
+                return;
+            }
+            
+            const deviceId = generateDeviceFingerprint();
+            const existingProfileIndex = profilesData.findIndex(p => 
+                p.username === username || p.deviceId === username
+            );
+            
+            // Check if username is taken by another device
+            if (existingProfileIndex !== -1 && 
+                profilesData[existingProfileIndex].deviceId !== deviceId && 
+                profilesData[existingProfileIndex].deviceId !== username) {
+                showNotification('Tên đăng nhập đã được sử dụng bởi thiết bị khác!', 'error');
+                return;
+            }
+            
+            const profileData = {
+                deviceId: deviceId,
+                username: username,
+                fullName: fullName,
+                avatar: avatar,
+                isAnonymous: false,
+                createdAt: currentUser?.createdAt || new Date().toISOString(),
+                lastLoginAt: new Date().toISOString(),
+                commentsCount: currentUser?.commentsCount || 0,
+                likesCount: currentUser?.likesCount || 0
+            };
+            
+            try {
+                const button = document.getElementById('save-profile-btn');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang lưu...';
+                button.disabled = true;
+                
+                if (existingProfileIndex !== -1) {
+                    // Update existing profile
+                    profilesData[existingProfileIndex] = profileData;
+                } else {
+                    // Add new profile
+                    profilesData.push(profileData);
+                }
+                
+                // Convert to object format for saving to match existing structure
+                const profilesObject = {};
+                profilesData.forEach((profile, index) => {
+                    const key = profile.deviceId || `user${index + 1}`;
+                    profilesObject[key] = {
+                        name: profile.fullName,
+                        avatarUrl: profile.avatar || null
+                    };
+                });
+                
+                // Save to GitHub in object format
+                await saveToGitHub(CONFIG.PROFILES_FILE_PATH, profilesObject, `Cập nhật hồ sơ: ${fullName}`);
+                
+                // Update current user
+                currentUser = profileData;
+                localStorage.setItem('loveStoryCurrentUser', JSON.stringify(currentUser));
+                
+                // Update UI
+                updateHeaderProfile();
+                closeProfileModal();
+                
+                logActivity('Lưu hồ sơ', `Đã lưu hồ sơ: ${fullName} (${username})`);
+                showNotification('Đã lưu hồ sơ thành công!', 'success');
+                
+            } catch (error) {
+                console.error('Lỗi lưu hồ sơ:', error);
+                logActivity('Lỗi lưu hồ sơ', error.message);
+                showNotification('Lỗi khi lưu hồ sơ!', 'error');
+            } finally {
+                const button = document.getElementById('save-profile-btn');
+                button.innerHTML = '<i class="fas fa-save mr-2"></i>Lưu hồ sơ';
+                button.disabled = false;
+            }
+        }
+
+        function logoutUser() {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất? Bạn sẽ trở thành người dùng ẩn danh.')) {
+                logActivity('Đăng xuất', `Người dùng ${currentUser.fullName} đã đăng xuất`);
+                
+                localStorage.removeItem('loveStoryCurrentUser');
+                const deviceId = generateDeviceFingerprint();
+                createAnonymousUser(deviceId);
+                closeProfileModal();
+                
+                showNotification('Đã đăng xuất thành công!', 'success');
+            }
+        }
+
+        // Theme Management Functions
+        function initializeTheme() {
+            try {
+                // Đảm bảo luôn có theme mặc định
+                currentTheme = 'default';
+                
+                // Thử load theme đã lưu
+                try {
+                    const savedTheme = localStorage.getItem('loveStoryTheme');
+                    if (savedTheme && availableThemes[savedTheme]) {
+                        currentTheme = savedTheme;
+                    }
+                } catch (error) {
+                    console.warn('Không thể load theme đã lưu, sử dụng theme mặc định');
+                }
+                
+                // Áp dụng theme ngay lập tức
+                applyTheme(currentTheme);
+                
+                console.log(`✅ Đã khởi tạo theme: ${currentTheme}`);
+                
+            } catch (error) {
+                console.error('❌ Lỗi khởi tạo theme:', error);
+                
+                // Fallback cuối cùng
+                try {
+                    document.documentElement.className = 'theme-default';
+                    currentTheme = 'default';
+                } catch (fallbackError) {
+                    console.error('❌ Lỗi fallback theme:', fallbackError);
+                }
+            }
+        }
+
+        function generateThemeOptions() {
+            const container = document.getElementById('theme-options-settings');
+            container.innerHTML = '';
+            
+            Object.keys(availableThemes).forEach(themeKey => {
+                const theme = availableThemes[themeKey];
+                const previewColors = getThemePreviewColors(themeKey);
+                
+                const option = document.createElement('div');
+                option.className = `relative cursor-pointer rounded-lg border-2 transition-all p-4 ${
+                    currentTheme === themeKey 
+                        ? 'border-primary-100 bg-primary-10 shadow-md' 
+                        : 'border-gray-200 hover:border-gray-300 bg-white hover:shadow-sm'
+                }`;
+                
+                option.innerHTML = `
+                    <div class="text-center">
+                        <div class="flex justify-center space-x-1 mb-3">
+                            <div class="w-6 h-6 rounded-full border-2 border-white shadow-sm" style="background-color: ${previewColors.primary}"></div>
+                            <div class="w-6 h-6 rounded-full border-2 border-white shadow-sm" style="background-color: ${previewColors.accent}"></div>
+                        </div>
+                        <div class="font-medium text-sm ${currentTheme === themeKey ? 'text-primary-100' : 'text-gray-700'}">${theme.name}</div>
+                        ${currentTheme === themeKey ? '<div class="absolute top-2 right-2"><i class="fas fa-check-circle text-primary-100"></i></div>' : ''}
+                    </div>
+                `;
+                
+                option.onclick = () => changeTheme(themeKey);
+                container.appendChild(option);
+            });
+        }
+        
+        function getThemePreviewColors(themeKey) {
+            const colorMap = {
+                default: { primary: '#006B68', accent: '#FFC62F' },
+                spring: { primary: '#2D5016', accent: '#8BC34A' },
+                summer: { primary: '#FF6B35', accent: '#F7931E' },
+                night: { primary: '#1A237E', accent: '#3F51B5' },
+                romantic: { primary: '#AD1457', accent: '#E91E63' }
+            };
+            return colorMap[themeKey] || colorMap.default;
+        }
+
+
+
+        function changeTheme(themeKey) {
+            if (availableThemes[themeKey]) {
+                currentTheme = themeKey;
+                applyTheme(themeKey);
+                localStorage.setItem('loveStoryTheme', themeKey);
+                generateThemeOptions();
+                document.getElementById('theme-selector').classList.add('hidden');
+                
+                logActivity('Đổi giao diện', `Đã chuyển sang giao diện: ${availableThemes[themeKey].name}`);
+                showNotification(`Đã áp dụng giao diện ${availableThemes[themeKey].name}!`, 'success');
+            }
+        }
+
+        function applyTheme(themeKey) {
+            const theme = availableThemes[themeKey];
+            
+            // Fallback an toàn về theme mặc định
+            if (!theme) {
+                console.warn(`Theme '${themeKey}' không tồn tại, sử dụng theme mặc định`);
+                themeKey = 'default';
+            }
+            
+            try {
+                // Xóa tất cả theme classes cũ
+                document.documentElement.className = document.documentElement.className
+                    .replace(/theme-\w+/g, '').trim();
+                
+                // Áp dụng theme class mới
+                const themeClass = availableThemes[themeKey]?.className || 'theme-default';
+                document.documentElement.classList.add(themeClass);
+                
+                console.log(`✅ Đã áp dụng theme: ${availableThemes[themeKey]?.name || 'Mặc định'} (${themeClass})`);
+                
+            } catch (error) {
+                console.error('❌ Lỗi khi áp dụng theme:', error);
+                // Fallback cuối cùng
+                document.documentElement.className = 'theme-default';
+            }
+        }
+
         // Close modal when clicking outside
         document.getElementById('photo-modal').addEventListener('click', function(e) {
             if (e.target === this) {
@@ -3081,6 +4183,12 @@
         document.getElementById('image-selector-modal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeImageSelector();
+            }
+        });
+
+        document.getElementById('profile-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeProfileModal();
             }
         });
 
@@ -3744,5 +4852,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98dcd20533943ee9',t:'MTc2MDMzNzM2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98dd87d6624d3ee9',t:'MTc2MDM0NDgxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
