@@ -3,88 +3,36 @@
     "ID_IMG": "thumbnail22.jpg",
     "count_tim": 4,
     "comments": [
-      {
-        "comment": "A",
-        "date_input": "2025-10-07T09:36:45.827Z"
-      },
-      {
-        "comment": "B",
-        "date_input": "2025-10-07T09:37:30.979Z"
-      },
-      {
-        "comment": "C",
-        "date_input": "2025-10-07T09:37:36.971Z"
-      },
-      {
-        "comment": "D",
-        "date_input": "2025-10-09T01:39:53.281Z"
-      }
     ]
   },
   {
     "ID_IMG": "MIN_9455.JPG",
     "count_tim": 4,
     "comments": [
-      {
-        "comment": "Xinh",
-        "date_input": "2025-10-07T09:43:24.243Z"
-      },
-      {
-        "comment": "Xinh11",
-        "date_input": "2025-10-07T09:43:49.514Z"
-      },
-      {
-        "comment": "<3",
-        "date_input": "2025-10-07T09:44:01.330Z"
-      },
-      {
-        "comment": "Xinh3",
-        "date_input": "2025-10-07T09:44:13.603Z"
-      },
-      {
-        "comment": "Xinh quá",
-        "date_input": "2025-10-09T08:38:32.303Z"
-      }
     ]
   },
   {
     "ID_IMG": "MIN_9456.JPG",
     "count_tim": 8,
     "comments": [
-      {
-        "comment": "Xinh <3",
-        "date_input": "2025-10-07T09:49:14.979Z"
-      }
     ]
   },
   {
     "ID_IMG": "IMG_1661.JPG",
     "count_tim": 0,
     "comments": [
-      {
-        "comment": "Xinh",
-        "date_input": "2025-10-10T07:42:00.715Z"
-      }
     ]
   },
   {
     "ID_IMG": "IMG_4729.PNG",
     "count_tim": 1,
     "comments": [
-      {
-        "comment": "Xinh quá",
-        "date_input": "2025-10-10T07:44:20.082Z"
-      }
     ]
   },
   {
     "ID_IMG": "MIN_9229.JPG",
     "count_tim": 2,
     "comments": [
-      {
-        "comment": "Xinh",
-        "date_input": "2025-10-10T07:45:51.546Z"
-      }
     ]
   },
   {
@@ -96,10 +44,6 @@
     "ID_IMG": "MIN_9224.JPG",
     "count_tim": 1,
     "comments": [
-      {
-        "comment": "Xinh quá",
-        "date_input": "2025-10-10T07:48:17.802Z"
-      }
     ]
   }
 ]
