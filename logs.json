@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-13T08:20:33.074Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Mùa xuân",
+    "id": 1760343633074.243,
+    "sessionId": "session_1760343576464_qus6ketk9"
+  },
+  {
+    "timestamp": "2025-10-13T08:20:26.596Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Mặc định",
+    "id": 1760343626596.77,
+    "sessionId": "session_1760343576464_qus6ketk9"
+  },
+  {
     "timestamp": "2025-10-13T08:19:36.477Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
