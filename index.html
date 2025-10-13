@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story - Ứng Dụng Kỷ Niệm</title>
+    <title>Love Story</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -444,8 +444,8 @@
             <div class="bg-gradient-to-br from-accent-10 to-primary-10 rounded-xl shadow-lg p-6 mb-8">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-2xl font-bold text-primary-100 flex items-center">
-                        <i class="fas fa-clock mr-3 text-accent-100"></i>
-                        Đếm Ngược Sự Kiện
+                        <i class="fas fa-calendar-alt mr-3 text-accent-100"></i>
+                        Sự Kiện
                     </h2>
                 </div>
                 <div id="countdown-widget" class="space-y-4">
@@ -480,47 +480,7 @@
                 </div>
             </div>
 
-            <!-- Kỷ Niệm Gần Đây -->
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-xl font-bold text-primary-100 flex items-center">
-                        <i class="fas fa-star mr-2 text-accent-100"></i>
-                        Kỷ Niệm Gần Đây
-                    </h3>
-                    <button onclick="showSection('timeline')" class="text-primary-100 hover:text-primary-80 text-sm">
-                        Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
-                    </button>
-                </div>
-                <div id="recent-memories" class="space-y-3">
-                    <div class="skeleton-card">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-gray-200 rounded-full skeleton"></div>
-                            <div class="flex-1">
-                                <div class="skeleton-line medium"></div>
-                                <div class="skeleton-line short"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skeleton-card">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-gray-200 rounded-full skeleton"></div>
-                            <div class="flex-1">
-                                <div class="skeleton-line long"></div>
-                                <div class="skeleton-line medium"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skeleton-card">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-gray-200 rounded-full skeleton"></div>
-                            <div class="flex-1">
-                                <div class="skeleton-line short"></div>
-                                <div class="skeleton-line medium"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </section>
 
         <!-- Timeline Section -->
@@ -1663,7 +1623,6 @@
             generateMemoryWidget();
             generateCountdownWidget();
             generateStatsWidget();
-            generateRecentMemories();
         }
 
         function generateMemoryWidget() {
@@ -1822,8 +1781,8 @@
                 return;
             }
             
-            // Hiển thị tối đa 3 sự kiện gần nhất
-            const eventsToShow = upcomingEvents.slice(0, 3);
+            // Hiển thị tối đa 2 sự kiện gần nhất
+            const eventsToShow = upcomingEvents.slice(0, 2);
             
             let countdownHtml = '';
             eventsToShow.forEach(event => {
@@ -1928,64 +1887,7 @@
             `;
         }
 
-        function generateRecentMemories() {
-            const container = document.getElementById('recent-memories');
-            
-            if (timelineData.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-8">
-                        <i class="fas fa-heart-broken text-4xl text-gray-300 mb-4"></i>
-                        <p class="text-gray-500">Chưa có kỷ niệm nào</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Lấy 5 kỷ niệm gần đây nhất
-            const recentEvents = timelineData.slice(-5).reverse();
-            
-            let recentHtml = '';
-            recentEvents.forEach(event => {
-                const eventDate = parseDate(event.day);
-                const today = new Date();
-                const diffTime = today - eventDate;
-                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-                
-                let timeAgo = '';
-                if (diffDays === 0) {
-                    timeAgo = 'Hôm nay';
-                } else if (diffDays === 1) {
-                    timeAgo = 'Hôm qua';
-                } else if (diffDays < 30) {
-                    timeAgo = `${diffDays} ngày trước`;
-                } else if (diffDays < 365) {
-                    const months = Math.floor(diffDays / 30);
-                    timeAgo = `${months} tháng trước`;
-                } else {
-                    const years = Math.floor(diffDays / 365);
-                    timeAgo = `${years} năm trước`;
-                }
-                
-                recentHtml += `
-                    <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onclick="showEventDetails('${event.note_id}')">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-gradient-to-br from-primary-100 to-accent-100 rounded-full flex items-center justify-center">
-                                <i class="fas fa-heart text-white"></i>
-                            </div>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-semibold text-primary-100 truncate">${event.name || 'Kỷ niệm đặc biệt'}</h4>
-                            <p class="text-sm text-gray-600">${formatDate(eventDate)} • ${timeAgo}</p>
-                        </div>
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-chevron-right text-gray-400"></i>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            container.innerHTML = recentHtml;
-        }
+
 
         function refreshMemoryWidget() {
             const button = event.target;
@@ -3849,23 +3751,155 @@
         function handleAvatarChange(event) {
             const file = event.target.files[0];
             if (file) {
-                // Check file size (max 2MB)
-                if (file.size > 2 * 1024 * 1024) {
-                    showNotification('Kích thước ảnh quá lớn! Vui lòng chọn ảnh nhỏ hơn 2MB.', 'warning');
+                // Check if it's an image
+                if (!file.type.startsWith('image/')) {
+                    showNotification('Vui lòng chọn file ảnh hợp lệ!', 'warning');
                     return;
                 }
                 
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const avatarPreview = document.getElementById('profile-avatar-preview');
-                    const avatarPlaceholder = document.getElementById('profile-avatar-placeholder');
-                    
-                    avatarPreview.src = e.target.result;
+                // Show loading state
+                const avatarPreview = document.getElementById('profile-avatar-preview');
+                const avatarPlaceholder = document.getElementById('profile-avatar-placeholder');
+                
+                avatarPlaceholder.innerHTML = '<i class="fas fa-spinner fa-spin text-2xl text-gray-400"></i>';
+                
+                // Process image (resize if needed)
+                processAvatarImage(file).then(processedImageData => {
+                    avatarPreview.src = processedImageData;
                     avatarPreview.classList.remove('hidden');
                     avatarPlaceholder.classList.add('hidden');
-                };
-                reader.readAsDataURL(file);
+                    
+                    // Calculate and show final size
+                    const finalSize = Math.round((processedImageData.length * 0.75) / 1024); // Approximate KB
+                    showNotification(`Ảnh đã được tối ưu hóa (${finalSize}KB)`, 'success');
+                    
+                }).catch(error => {
+                    console.error('Lỗi xử lý ảnh:', error);
+                    showNotification('Lỗi khi xử lý ảnh! Vui lòng thử lại.', 'error');
+                    
+                    // Reset placeholder
+                    avatarPlaceholder.innerHTML = '<i class="fas fa-user text-4xl text-gray-400"></i>';
+                });
             }
+        }
+
+        async function processAvatarImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    const img = new Image();
+                    
+                    img.onload = function() {
+                        try {
+                            // Create canvas for resizing
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            
+                            // Calculate optimal size (max 400x400, maintain aspect ratio)
+                            const maxSize = 400;
+                            let { width, height } = calculateOptimalSize(img.width, img.height, maxSize);
+                            
+                            // Set canvas size
+                            canvas.width = width;
+                            canvas.height = height;
+                            
+                            // Enable image smoothing for better quality
+                            ctx.imageSmoothingEnabled = true;
+                            ctx.imageSmoothingQuality = 'high';
+                            
+                            // Draw resized image
+                            ctx.drawImage(img, 0, 0, width, height);
+                            
+                            // Convert to optimized format
+                            let quality = 0.8; // Start with 80% quality
+                            let imageData = canvas.toDataURL('image/jpeg', quality);
+                            
+                            // If still too large (>500KB), reduce quality further
+                            const maxSizeBytes = 500 * 1024; // 500KB
+                            let iterations = 0;
+                            const maxIterations = 5;
+                            
+                            while (imageData.length > maxSizeBytes && quality > 0.3 && iterations < maxIterations) {
+                                quality -= 0.1;
+                                imageData = canvas.toDataURL('image/jpeg', quality);
+                                iterations++;
+                            }
+                            
+                            // If still too large, resize further
+                            if (imageData.length > maxSizeBytes && width > 200) {
+                                const scaleFactor = 0.8;
+                                width = Math.floor(width * scaleFactor);
+                                height = Math.floor(height * scaleFactor);
+                                
+                                canvas.width = width;
+                                canvas.height = height;
+                                ctx.drawImage(img, 0, 0, width, height);
+                                imageData = canvas.toDataURL('image/jpeg', 0.7);
+                            }
+                            
+                            // Log compression results
+                            const originalSize = Math.round(file.size / 1024);
+                            const finalSize = Math.round((imageData.length * 0.75) / 1024);
+                            const compressionRatio = Math.round((1 - finalSize / originalSize) * 100);
+                            
+                            console.log(`📸 Avatar processed: ${originalSize}KB → ${finalSize}KB (${compressionRatio}% compression)`);
+                            logActivity('Xử lý avatar', `Tối ưu hóa ảnh: ${originalSize}KB → ${finalSize}KB (giảm ${compressionRatio}%)`);
+                            
+                            resolve(imageData);
+                            
+                        } catch (error) {
+                            reject(error);
+                        }
+                    };
+                    
+                    img.onerror = function() {
+                        reject(new Error('Không thể tải ảnh'));
+                    };
+                    
+                    img.src = e.target.result;
+                };
+                
+                reader.onerror = function() {
+                    reject(new Error('Không thể đọc file'));
+                };
+                
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function calculateOptimalSize(originalWidth, originalHeight, maxSize) {
+            let width = originalWidth;
+            let height = originalHeight;
+            
+            // If image is larger than maxSize, scale it down
+            if (width > maxSize || height > maxSize) {
+                const aspectRatio = width / height;
+                
+                if (width > height) {
+                    width = maxSize;
+                    height = Math.round(maxSize / aspectRatio);
+                } else {
+                    height = maxSize;
+                    width = Math.round(maxSize * aspectRatio);
+                }
+            }
+            
+            // Ensure minimum size (at least 100x100)
+            const minSize = 100;
+            if (width < minSize && height < minSize) {
+                const aspectRatio = width / height;
+                
+                if (width > height) {
+                    width = minSize;
+                    height = Math.round(minSize / aspectRatio);
+                } else {
+                    height = minSize;
+                    width = Math.round(minSize * aspectRatio);
+                }
+            }
+            
+            return { width, height };
         }
 
         function validateAndCheckUsername(username) {
@@ -3981,21 +4015,6 @@
             }
             
             const deviceId = generateDeviceFingerprint();
-            const existingProfileIndex = profilesData.findIndex(p => 
-                p.username.toLowerCase() === username.toLowerCase()
-            );
-            
-            const profileData = {
-                deviceId: deviceId,
-                username: username,
-                fullName: fullName,
-                avatar: avatar,
-                isAnonymous: false,
-                createdAt: currentUser?.createdAt || new Date().toISOString(),
-                lastLoginAt: new Date().toISOString(),
-                commentsCount: currentUser?.commentsCount || 0,
-                likesCount: currentUser?.likesCount || 0
-            };
             
             try {
                 const button = document.getElementById('save-profile-btn');
@@ -4003,51 +4022,95 @@
                 button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang lưu...';
                 button.disabled = true;
                 
+                console.log('🔄 Bắt đầu lưu hồ sơ...');
+                
+                // Tải lại dữ liệu profiles mới nhất từ GitHub trước khi lưu
+                console.log('📥 Đang tải dữ liệu profiles mới nhất từ GitHub...');
+                await loadProfilesData();
+                
+                console.log('📊 Dữ liệu profiles hiện tại:', profilesData);
+                
+                // Tìm profile hiện tại theo username
+                const existingProfileIndex = profilesData.findIndex(p => 
+                    p.username && p.username.toLowerCase() === username.toLowerCase()
+                );
+                
+                console.log('🔍 Tìm kiếm profile:', { username, existingProfileIndex });
+                
+                const profileData = {
+                    deviceId: deviceId,
+                    username: username,
+                    fullName: fullName,
+                    avatar: avatar,
+                    isAnonymous: false,
+                    createdAt: currentUser?.createdAt || new Date().toISOString(),
+                    lastLoginAt: new Date().toISOString(),
+                    commentsCount: currentUser?.commentsCount || 0,
+                    likesCount: currentUser?.likesCount || 0
+                };
+                
                 if (existingProfileIndex !== -1) {
-                    // Update existing profile
+                    // Cập nhật profile hiện có - giữ nguyên thống kê
+                    const existingProfile = profilesData[existingProfileIndex];
                     profilesData[existingProfileIndex] = {
-                        ...profilesData[existingProfileIndex],
-                        fullName: fullName,
-                        avatar: avatar,
-                        lastLoginAt: new Date().toISOString(),
-                        commentsCount: profilesData[existingProfileIndex].commentsCount || 0,
-                        likesCount: profilesData[existingProfileIndex].likesCount || 0
+                        ...profileData,
+                        // Giữ nguyên các thống kê và thời gian tạo từ profile cũ
+                        commentsCount: existingProfile.commentsCount || 0,
+                        likesCount: existingProfile.likesCount || 0,
+                        createdAt: existingProfile.createdAt || profileData.createdAt
                     };
+                    console.log('✏️ Cập nhật profile hiện có:', username, profilesData[existingProfileIndex]);
                 } else {
-                    // Add new profile
+                    // Thêm profile mới vào mảng
                     profilesData.push(profileData);
+                    console.log('➕ Thêm profile mới:', username, profileData);
                 }
                 
-                // Convert to new array format for saving
+                // Chuyển đổi sang định dạng mảng chuẩn để lưu vào GitHub
                 const profilesArray = profilesData.map(profile => ({
                     username: profile.username,
                     name: profile.fullName,
-                    avatarUrl: profile.avatar,
+                    avatarUrl: profile.avatar || null,
                     createdAt: profile.createdAt,
                     lastLoginAt: profile.lastLoginAt,
                     commentsCount: profile.commentsCount || 0,
                     likesCount: profile.likesCount || 0
                 }));
                 
-                // Save to GitHub in new array format
-                await saveToGitHub(CONFIG.PROFILES_FILE_PATH, profilesArray, `Cập nhật hồ sơ: ${fullName} (${username})`);
+                console.log('💾 Chuẩn bị lưu vào GitHub - Định dạng mảng:', profilesArray);
+                console.log('📝 Số lượng profiles:', profilesArray.length);
                 
-                // Update current user
+                // Lưu vào GitHub với định dạng mảng chuẩn
+                const commitMessage = `Cập nhật hồ sơ: ${fullName} (${username}) - ${existingProfileIndex !== -1 ? 'Sửa' : 'Thêm mới'}`;
+                console.log('🚀 Đang gửi lên GitHub với message:', commitMessage);
+                
+                const saveResult = await saveToGitHub(CONFIG.PROFILES_FILE_PATH, profilesArray, commitMessage);
+                
+                console.log('✅ Kết quả lưu GitHub:', saveResult);
+                
+                // Cập nhật currentUser
                 currentUser = profileData;
                 localStorage.setItem('loveStoryCurrentUser', JSON.stringify(currentUser));
                 
-                // Update UI
+                // Cập nhật giao diện
                 updateHeaderProfile();
                 closeProfileModal();
                 
                 const actionText = existingProfileIndex !== -1 ? 'cập nhật' : 'tạo mới';
-                logActivity('Lưu hồ sơ', `Đã ${actionText} hồ sơ: ${fullName} (${username})`);
-                showNotification(`Đã ${actionText} hồ sơ thành công!`, 'success');
+                const successMessage = `Đã ${actionText} hồ sơ thành công!`;
+                
+                logActivity('Lưu hồ sơ', `${successMessage} - ${fullName} (${username}) - Tổng: ${profilesArray.length} profiles`);
+                showNotification(successMessage, 'success');
+                
+                console.log('🎉 Hoàn thành lưu hồ sơ thành công!');
                 
             } catch (error) {
-                console.error('Lỗi lưu hồ sơ:', error);
-                logActivity('Lỗi lưu hồ sơ', error.message);
-                showNotification('Lỗi khi lưu hồ sơ!', 'error');
+                console.error('❌ Lỗi chi tiết khi lưu hồ sơ:', error);
+                console.error('❌ Stack trace:', error.stack);
+                
+                const errorMessage = error.message || 'Lỗi không xác định';
+                logActivity('Lỗi lưu hồ sơ', `${errorMessage} - Username: ${username}`);
+                showNotification(`Lỗi khi lưu hồ sơ: ${errorMessage}`, 'error');
             } finally {
                 const button = document.getElementById('save-profile-btn');
                 button.innerHTML = '<i class="fas fa-save mr-2"></i>Lưu hồ sơ';
@@ -4900,5 +4963,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ddace2e42809bc',t:'MTc2MDM0NjMyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98de347a000cddc3',t:'MTc2MDM1MTg4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
