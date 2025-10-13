@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-13T04:40:43.109Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760330443109.795,
+    "sessionId": "session_1760330346882_buszrlanz"
+  },
+  {
+    "timestamp": "2025-10-13T04:40:21.892Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760330421892.468,
+    "sessionId": "session_1760330346882_buszrlanz"
+  },
+  {
     "timestamp": "2025-10-13T04:39:43.955Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
@@ -35,27 +49,6 @@
     "sessionId": "session_1760330346882_buszrlanz"
   },
   {
-    "timestamp": "2025-10-13T04:38:12.319Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760330292319.8223,
-    "sessionId": "session_1760330292320_ng7zigr8u"
-  },
-  {
-    "timestamp": "2025-10-13T04:38:07.063Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760330287063.758,
-    "sessionId": "session_1760329877766_74nv1m97s"
-  },
-  {
-    "timestamp": "2025-10-13T04:38:06.715Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760330286715.1125,
-    "sessionId": "session_1760329877766_74nv1m97s"
-  },
-  {
     "timestamp": "2025-10-13T04:37:57.272Z",
     "action": "Mở modal chia sẻ",
     "details": "Mở modal chia sẻ cho ảnh: MIN_9228.JPG",
@@ -68,13 +61,6 @@
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
     "id": 1760330263096.367,
     "sessionId": "session_1760329705008_5t3s1p0qm"
-  },
-  {
-    "timestamp": "2025-10-13T04:35:00.521Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760330100521.5984,
-    "sessionId": "session_1760329877766_74nv1m97s"
   },
   {
     "timestamp": "2025-10-13T04:32:50.149Z",
