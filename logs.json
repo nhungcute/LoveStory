@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-13T09:18:42.733Z",
+    "action": "Tạo user ẩn danh",
+    "details": "Đã tạo user ẩn danh: Gà Xanh dương",
+    "id": 1760347122733.4111,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T09:18:42.729Z",
+    "action": "Đăng xuất",
+    "details": "Người dùng Hà Tín đã đăng xuất",
+    "id": 1760347122729.9314,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T09:18:38.225Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760347118225.516,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T09:18:36.803Z",
+    "action": "Tải hồ sơ",
+    "details": "Đã tải hồ sơ cho tên đăng nhập: 8maxcs",
+    "id": 1760347116803.88,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T09:18:34.618Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760347114618.2122,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
     "timestamp": "2025-10-13T09:15:40.616Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
