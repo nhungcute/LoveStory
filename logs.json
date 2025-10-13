@@ -1,31 +1,45 @@
 [
   {
-    "timestamp": "2025-10-13T08:36:26.338Z",
+    "timestamp": "2025-10-13T08:36:40.019Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760344600019.7432,
+    "sessionId": "session_1760344420065_kinnh4d79"
+  },
+  {
+    "timestamp": "2025-10-13T08:36:34.069Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Mùa xuân",
+    "id": 1760344594069.978,
+    "sessionId": "session_1760344420065_kinnh4d79"
+  },
+  {
+    "timestamp": "2025-10-13T08:36:26.340Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760344586338.5205,
-    "sessionId": "session_1760344073245_41olpwxxf"
+    "id": 1760344586340.292,
+    "sessionId": "session_1760344420065_kinnh4d79"
   },
   {
-    "timestamp": "2025-10-13T08:33:38.548Z",
+    "timestamp": "2025-10-13T08:33:41.812Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760344418548.6018,
-    "sessionId": "session_1760344073245_41olpwxxf"
+    "id": 1760344421812.141,
+    "sessionId": "session_1760344420065_kinnh4d79"
   },
   {
-    "timestamp": "2025-10-13T08:33:38.366Z",
+    "timestamp": "2025-10-13T08:33:41.807Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760344418366.4663,
-    "sessionId": "session_1760344073245_41olpwxxf"
+    "id": 1760344421807.1846,
+    "sessionId": "session_1760344420065_kinnh4d79"
   },
   {
-    "timestamp": "2025-10-13T08:33:37.633Z",
+    "timestamp": "2025-10-13T08:33:40.064Z",
     "action": "Tạo user ẩn danh",
-    "details": "Đã tạo user ẩn danh: Mèo Hồng",
-    "id": 1760344417633.1523,
-    "sessionId": "session_1760344073245_41olpwxxf"
+    "details": "Đã tạo user ẩn danh: Thỏ Trắng",
+    "id": 1760344420064.9084,
+    "sessionId": "session_1760344420065_kinnh4d79"
   },
   {
     "timestamp": "2025-10-13T08:32:09.726Z",
