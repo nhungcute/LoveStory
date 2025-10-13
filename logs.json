@@ -1,5 +1,82 @@
 [
   {
+    "timestamp": "2025-10-13T08:14:04.564Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343244564.812,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
+    "timestamp": "2025-10-13T08:14:04.559Z",
+    "action": "Tạo user ẩn danh",
+    "details": "Đã tạo user ẩn danh: Bò Hồng",
+    "id": 1760343244559.6167,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
+    "timestamp": "2025-10-13T08:14:04.556Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343244556.1057,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
+    "timestamp": "2025-10-13T08:14:00.129Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760343240129.1536,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
+    "timestamp": "2025-10-13T08:13:51.540Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343231540.2327,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
+    "timestamp": "2025-10-13T08:13:51.536Z",
+    "action": "Tạo user ẩn danh",
+    "details": "Đã tạo user ẩn danh: Heo Nâu",
+    "id": 1760343231536.906,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
+    "timestamp": "2025-10-13T08:13:51.532Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343231532.27,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
+    "timestamp": "2025-10-13T08:13:48.333Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760343228333.2292,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
+    "timestamp": "2025-10-13T08:13:40.211Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343220211.965,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
+    "timestamp": "2025-10-13T08:13:40.204Z",
+    "action": "Tạo user ẩn danh",
+    "details": "Đã tạo user ẩn danh: Hổ Vàng",
+    "id": 1760343220204.4878,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
+    "timestamp": "2025-10-13T08:13:40.197Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343220197.965,
+    "sessionId": "session_1760343220197_1u5udxphh"
+  },
+  {
     "timestamp": "2025-10-13T07:00:54.066Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
