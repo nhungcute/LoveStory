@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T08:48:06.643Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760345286643.9165,
+    "sessionId": "session_1760345219558_8zg3ulmp6"
+  },
+  {
     "timestamp": "2025-10-13T08:47:28.053Z",
     "action": "Xem ảnh sự kiện",
     "details": "Xem ảnh cho sự kiện: Lễ Thành Hôn (188 ảnh)",
