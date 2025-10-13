@@ -1,94 +1,59 @@
 [
   {
-    "timestamp": "2025-10-13T10:31:48.823Z",
+    "timestamp": "2025-10-13T10:31:48.818Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760351508823.5107,
-    "sessionId": "session_1760351289184_roqom39lv"
+    "id": 1760351508818.2048,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:31:48.590Z",
+    "timestamp": "2025-10-13T10:31:48.582Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760351508590.4763,
-    "sessionId": "session_1760351289184_roqom39lv"
+    "id": 1760351508582.6738,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:31:09.667Z",
+    "timestamp": "2025-10-13T10:31:09.663Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760351469667.3442,
-    "sessionId": "session_1760351289184_roqom39lv"
+    "id": 1760351469663.6145,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:30:56.913Z",
-    "action": "Xử lý avatar",
-    "details": "Tối ưu hóa ảnh: 674KB → 24KB (giảm 96%)",
-    "id": 1760351456913.445,
-    "sessionId": "session_1760351289184_roqom39lv"
-  },
-  {
-    "timestamp": "2025-10-13T10:30:49.993Z",
-    "action": "Xử lý avatar",
-    "details": "Tối ưu hóa ảnh: 1873KB → 9KB (giảm 100%)",
-    "id": 1760351449993.9307,
-    "sessionId": "session_1760351289184_roqom39lv"
-  },
-  {
-    "timestamp": "2025-10-13T10:30:19.116Z",
+    "timestamp": "2025-10-13T10:31:08.833Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760351419116.0823,
-    "sessionId": "session_1760351289184_roqom39lv"
+    "id": 1760351468833.3872,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:30:08.949Z",
+    "timestamp": "2025-10-13T10:31:08.726Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760351408949.0457,
-    "sessionId": "session_1760351289184_roqom39lv"
+    "id": 1760351468726.9546,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:29:18.365Z",
-    "action": "Tải hồ sơ",
-    "details": "Đã tải hồ sơ cho tên đăng nhập: tintin",
-    "id": 1760351358365.7358,
-    "sessionId": "session_1760351289184_roqom39lv"
+    "timestamp": "2025-10-13T10:31:05.683Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760351465683.056,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:29:08.754Z",
-    "action": "Xử lý avatar",
-    "details": "Tối ưu hóa ảnh: 674KB → 24KB (giảm 96%)",
-    "id": 1760351348754.9329,
-    "sessionId": "session_1760351289184_roqom39lv"
+    "timestamp": "2025-10-13T10:30:08.943Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760351408943.4636,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:28:42.263Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760351322263.0884,
-    "sessionId": "session_1760351289184_roqom39lv"
-  },
-  {
-    "timestamp": "2025-10-13T10:28:10.470Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760351290470.0977,
-    "sessionId": "session_1760351289184_roqom39lv"
-  },
-  {
-    "timestamp": "2025-10-13T10:28:09.994Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760351289994.9014,
-    "sessionId": "session_1760351289184_roqom39lv"
-  },
-  {
-    "timestamp": "2025-10-13T10:28:09.184Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
-    "id": 1760351289184.0562,
-    "sessionId": "session_1760351289184_roqom39lv"
+    "timestamp": "2025-10-13T10:30:05.622Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760351405622.3752,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
     "timestamp": "2025-10-13T10:27:50.235Z",
