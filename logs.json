@@ -1,31 +1,31 @@
 [
   {
-    "timestamp": "2025-10-13T08:36:26.340Z",
+    "timestamp": "2025-10-13T08:36:26.338Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760344586340.292,
-    "sessionId": "session_1760344420065_kinnh4d79"
+    "id": 1760344586338.5205,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
-    "timestamp": "2025-10-13T08:33:41.812Z",
+    "timestamp": "2025-10-13T08:33:38.548Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760344421812.141,
-    "sessionId": "session_1760344420065_kinnh4d79"
+    "id": 1760344418548.6018,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
-    "timestamp": "2025-10-13T08:33:41.807Z",
+    "timestamp": "2025-10-13T08:33:38.366Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760344421807.1846,
-    "sessionId": "session_1760344420065_kinnh4d79"
+    "id": 1760344418366.4663,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
-    "timestamp": "2025-10-13T08:33:40.064Z",
+    "timestamp": "2025-10-13T08:33:37.633Z",
     "action": "Tạo user ẩn danh",
-    "details": "Đã tạo user ẩn danh: Thỏ Trắng",
-    "id": 1760344420064.9084,
-    "sessionId": "session_1760344420065_kinnh4d79"
+    "details": "Đã tạo user ẩn danh: Mèo Hồng",
+    "id": 1760344417633.1523,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
     "timestamp": "2025-10-13T08:32:09.726Z",
