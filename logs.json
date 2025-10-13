@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-13T10:25:14.928Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760351114928.374,
+    "sessionId": "session_1760350763277_018pcg2n2"
+  },
+  {
+    "timestamp": "2025-10-13T10:25:12.298Z",
+    "action": "Tải hồ sơ",
+    "details": "Đã tải hồ sơ cho tên đăng nhập: 8maxcs",
+    "id": 1760351112298.6094,
+    "sessionId": "session_1760350763277_018pcg2n2"
+  },
+  {
+    "timestamp": "2025-10-13T10:25:10.399Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760351110399.5369,
+    "sessionId": "session_1760350763277_018pcg2n2"
+  },
+  {
     "timestamp": "2025-10-13T10:25:02.604Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
