@@ -1,5 +1,54 @@
 [
   {
+    "timestamp": "2025-10-13T08:22:56.196Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343776196.8774,
+    "sessionId": "session_1760343767314_px1vlayg4"
+  },
+  {
+    "timestamp": "2025-10-13T08:22:56.192Z",
+    "action": "Tạo user ẩn danh",
+    "details": "Đã tạo user ẩn danh: Cá Đỏ",
+    "id": 1760343776192.7808,
+    "sessionId": "session_1760343767314_px1vlayg4"
+  },
+  {
+    "timestamp": "2025-10-13T08:22:56.189Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343776189.494,
+    "sessionId": "session_1760343767314_px1vlayg4"
+  },
+  {
+    "timestamp": "2025-10-13T08:22:51.488Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760343771488.6626,
+    "sessionId": "session_1760343767314_px1vlayg4"
+  },
+  {
+    "timestamp": "2025-10-13T08:22:47.323Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343767323.3381,
+    "sessionId": "session_1760343767314_px1vlayg4"
+  },
+  {
+    "timestamp": "2025-10-13T08:22:47.318Z",
+    "action": "Tạo user ẩn danh",
+    "details": "Đã tạo user ẩn danh: Chim Cam",
+    "id": 1760343767318.538,
+    "sessionId": "session_1760343767314_px1vlayg4"
+  },
+  {
+    "timestamp": "2025-10-13T08:22:47.314Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343767314.4658,
+    "sessionId": "session_1760343767314_px1vlayg4"
+  },
+  {
     "timestamp": "2025-10-13T08:20:44.887Z",
     "action": "Đổi giao diện",
     "details": "Đã chuyển sang giao diện: Lãng mạn",
