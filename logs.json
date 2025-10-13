@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-13T08:19:36.477Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343576477.3264,
+    "sessionId": "session_1760343576464_qus6ketk9"
+  },
+  {
+    "timestamp": "2025-10-13T08:19:36.471Z",
+    "action": "Tạo user ẩn danh",
+    "details": "Đã tạo user ẩn danh: Vịt Vàng",
+    "id": 1760343576471.0422,
+    "sessionId": "session_1760343576464_qus6ketk9"
+  },
+  {
+    "timestamp": "2025-10-13T08:19:36.463Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760343576463.226,
+    "sessionId": "session_1760343576464_qus6ketk9"
+  },
+  {
     "timestamp": "2025-10-13T08:14:04.564Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
