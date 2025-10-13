@@ -1,38 +1,59 @@
 [
   {
-    "timestamp": "2025-10-13T08:29:33.427Z",
+    "timestamp": "2025-10-13T08:29:33.429Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760344173427.1448,
-    "sessionId": "session_1760343898223_wcu59ifmm"
+    "id": 1760344173429.2964,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
-    "timestamp": "2025-10-13T08:29:02.233Z",
+    "timestamp": "2025-10-13T08:29:13.982Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Ban đêm",
+    "id": 1760344153982.1729,
+    "sessionId": "session_1760344073245_41olpwxxf"
+  },
+  {
+    "timestamp": "2025-10-13T08:29:13.477Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Mùa xuân",
+    "id": 1760344153477.6582,
+    "sessionId": "session_1760344073245_41olpwxxf"
+  },
+  {
+    "timestamp": "2025-10-13T08:29:12.061Z",
+    "action": "Đổi giao diện",
+    "details": "Đã chuyển sang giao diện: Mặc định",
+    "id": 1760344152061.5024,
+    "sessionId": "session_1760344073245_41olpwxxf"
+  },
+  {
+    "timestamp": "2025-10-13T08:29:02.235Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760344142233.746,
-    "sessionId": "session_1760343898223_wcu59ifmm"
+    "id": 1760344142235.4727,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
-    "timestamp": "2025-10-13T08:27:53.953Z",
+    "timestamp": "2025-10-13T08:27:54.520Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760344073953.3145,
-    "sessionId": "session_1760343898223_wcu59ifmm"
+    "id": 1760344074520.7495,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
-    "timestamp": "2025-10-13T08:27:53.947Z",
+    "timestamp": "2025-10-13T08:27:54.059Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760344073947.5815,
-    "sessionId": "session_1760343898223_wcu59ifmm"
+    "id": 1760344074059.1113,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
-    "timestamp": "2025-10-13T08:27:51.826Z",
+    "timestamp": "2025-10-13T08:27:53.245Z",
     "action": "Tạo user ẩn danh",
-    "details": "Đã tạo user ẩn danh: Gà Nâu",
-    "id": 1760344071826.0405,
-    "sessionId": "session_1760343898223_wcu59ifmm"
+    "details": "Đã tạo user ẩn danh: Vịt Đỏ",
+    "id": 1760344073245.7554,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
     "timestamp": "2025-10-13T08:27:06.949Z",
