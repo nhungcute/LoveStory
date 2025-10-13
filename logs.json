@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-13T10:45:24.784Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760352324784.2803,
+    "sessionId": "session_1760352212861_brwkfoel5"
+  },
+  {
+    "timestamp": "2025-10-13T10:45:24.677Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760352324677.169,
+    "sessionId": "session_1760352212861_brwkfoel5"
+  },
+  {
+    "timestamp": "2025-10-13T10:45:15.138Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760352315138.481,
+    "sessionId": "session_1760352212861_brwkfoel5"
+  },
+  {
+    "timestamp": "2025-10-13T10:45:15.131Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760352315131.4902,
+    "sessionId": "session_1760352212861_brwkfoel5"
+  },
+  {
+    "timestamp": "2025-10-13T10:45:14.013Z",
+    "action": "Đăng nhập tự động",
+    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
+    "id": 1760352314013.2668,
+    "sessionId": "session_1760352212861_brwkfoel5"
+  },
+  {
     "timestamp": "2025-10-13T10:44:16.125Z",
     "action": "Thêm bình luận",
     "details": "Hà Mạnh Tín đã bình luận cho ảnh: thumbnail22.jpg: \"Xinh quá😍\"",
