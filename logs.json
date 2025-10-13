@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-13T08:33:38.548Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760344418548.6018,
+    "sessionId": "session_1760344073245_41olpwxxf"
+  },
+  {
+    "timestamp": "2025-10-13T08:33:38.366Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760344418366.4663,
+    "sessionId": "session_1760344073245_41olpwxxf"
+  },
+  {
+    "timestamp": "2025-10-13T08:33:37.633Z",
+    "action": "Tạo user ẩn danh",
+    "details": "Đã tạo user ẩn danh: Mèo Hồng",
+    "id": 1760344417633.1523,
+    "sessionId": "session_1760344073245_41olpwxxf"
+  },
+  {
     "timestamp": "2025-10-13T08:32:09.726Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
