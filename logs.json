@@ -1,24 +1,24 @@
 [
   {
-    "timestamp": "2025-10-13T08:27:53.953Z",
+    "timestamp": "2025-10-13T08:27:54.520Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760344073953.3145,
-    "sessionId": "session_1760343898223_wcu59ifmm"
+    "id": 1760344074520.7495,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
-    "timestamp": "2025-10-13T08:27:53.947Z",
+    "timestamp": "2025-10-13T08:27:54.059Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760344073947.5815,
-    "sessionId": "session_1760343898223_wcu59ifmm"
+    "id": 1760344074059.1113,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
-    "timestamp": "2025-10-13T08:27:51.826Z",
+    "timestamp": "2025-10-13T08:27:53.245Z",
     "action": "Tạo user ẩn danh",
-    "details": "Đã tạo user ẩn danh: Gà Nâu",
-    "id": 1760344071826.0405,
-    "sessionId": "session_1760343898223_wcu59ifmm"
+    "details": "Đã tạo user ẩn danh: Vịt Đỏ",
+    "id": 1760344073245.7554,
+    "sessionId": "session_1760344073245_41olpwxxf"
   },
   {
     "timestamp": "2025-10-13T08:27:06.949Z",
