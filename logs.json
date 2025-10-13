@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T05:43:07.981Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760334187981.6375,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
     "timestamp": "2025-10-13T05:42:39.498Z",
     "action": "Đồng bộ Google Drive",
     "details": "Trang 1: Đã tải 710 ảnh (Tổng: 710)",
