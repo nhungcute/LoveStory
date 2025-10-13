@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-13T10:17:12.485Z",
+    "action": "Lưu hồ sơ",
+    "details": "Đã cập nhật hồ sơ: Hà Tín (8maxcs) - Tổng profiles: 3",
+    "id": 1760350632485.8518,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T10:17:08.112Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760350628112.4128,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T10:17:04.788Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760350624788.9065,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T10:17:04.781Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760350624781.6765,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T10:17:04.127Z",
+    "action": "Đăng nhập tự động",
+    "details": "Người dùng Hà Tín đã đăng nhập tự động",
+    "id": 1760350624127.6943,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
     "timestamp": "2025-10-13T10:16:59.487Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
