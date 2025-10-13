@@ -1,10 +1,29 @@
-{
-  "8maxcs": {
+[
+  {
+    "username": "8maxcs",
     "name": "Hà Tín",
-    "avatarUrl": null
+    "avatarUrl": null,
+    "createdAt": "2025-10-13T09:15:39.062Z",
+    "lastLoginAt": "2025-10-13T09:15:39.068Z",
+    "commentsCount": 0,
+    "likesCount": 0
   },
-  "hec8h7": {
+  {
+    "username": "hec8h7",
     "name": "Gấu Cam",
-    "avatarUrl": null
+    "avatarUrl": null,
+    "createdAt": "2025-10-13T09:15:39.062Z",
+    "lastLoginAt": "2025-10-13T09:15:39.062Z",
+    "commentsCount": 0,
+    "likesCount": 0
+  },
+  {
+    "username": "gxanhdngfdsf",
+    "name": "Gà Xanh dương",
+    "avatarUrl": null,
+    "createdAt": "2025-10-13T09:18:42.733Z",
+    "lastLoginAt": "2025-10-13T09:21:05.332Z",
+    "commentsCount": 0,
+    "likesCount": 0
   }
-}
+]
