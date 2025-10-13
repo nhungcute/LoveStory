@@ -1,80 +1,87 @@
 [
   {
-    "timestamp": "2025-10-13T10:21:30.551Z",
+    "timestamp": "2025-10-13T10:21:36.553Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760350890551.4607,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760350896553.01,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:20:50.632Z",
+    "timestamp": "2025-10-13T10:21:34.752Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760350850632.433,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760350894752.3386,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:20:50.564Z",
+    "timestamp": "2025-10-13T10:21:30.541Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760350850564.4167,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760350890541.3572,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:20:49.277Z",
+    "timestamp": "2025-10-13T10:20:50.558Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760350850558.319,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T10:20:49.274Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760350849277.4524,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760350849274.3247,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:20:42.192Z",
+    "timestamp": "2025-10-13T10:20:46.671Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760350842192.8762,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760350846671.5208,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:19:54.967Z",
+    "timestamp": "2025-10-13T10:20:45.860Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760350794967.3271,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760350845860.7144,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:19:41.312Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760350781312.7144,
-    "sessionId": "session_1760350763277_018pcg2n2"
-  },
-  {
-    "timestamp": "2025-10-13T10:19:34.336Z",
+    "timestamp": "2025-10-13T10:20:42.183Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760350774336.444,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "id": 1760350842183.3047,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:19:24.570Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760350764570.6885,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "timestamp": "2025-10-13T10:19:54.964Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760350794964.3757,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:19:24.549Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760350764549.8315,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "timestamp": "2025-10-13T10:19:50.751Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760350790751.2922,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
-    "timestamp": "2025-10-13T10:19:23.276Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
-    "id": 1760350763276.745,
-    "sessionId": "session_1760350763277_018pcg2n2"
+    "timestamp": "2025-10-13T10:19:34.348Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760350774348.1353,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-13T10:19:27.033Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760350767033.801,
+    "sessionId": "session_1760089695685_ty2yj6br1"
   },
   {
     "timestamp": "2025-10-13T10:18:24.479Z",
