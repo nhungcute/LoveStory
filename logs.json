@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T04:33:46.890Z",
+    "action": "Thích ảnh",
+    "details": "Đã thích ảnh: MIN_9229.JPG (2 lượt thích)",
+    "id": 1760330026890.9827,
+    "sessionId": "session_1760329877766_74nv1m97s"
+  },
+  {
     "timestamp": "2025-10-13T04:33:29.240Z",
     "action": "Mở modal chia sẻ",
     "details": "Mở modal chia sẻ cho ảnh: MIN_9229.JPG",
