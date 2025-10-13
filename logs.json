@@ -1,17 +1,66 @@
 [
   {
-    "timestamp": "2025-10-13T09:25:10.478Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760347510478.6694,
-    "sessionId": "session_1760089695685_ty2yj6br1"
+    "timestamp": "2025-10-13T09:25:14.280Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760347514280.2124,
+    "sessionId": "session_1760347377537_rkfff0avj"
   },
   {
-    "timestamp": "2025-10-13T09:24:25.750Z",
+    "timestamp": "2025-10-13T09:25:08.573Z",
+    "action": "Lưu hồ sơ",
+    "details": "Đã cập nhật hồ sơ: Hà Tín (8maxcs) - Tổng profiles: 3",
+    "id": 1760347508573.739,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T09:25:03.673Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760347503673.4033,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T09:24:26.221Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760347465750.5037,
-    "sessionId": "session_1760089695685_ty2yj6br1"
+    "id": 1760347466221.9087,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T09:24:26.104Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760347466104.9617,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T09:24:25.756Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760347465756.1626,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T09:22:58.951Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760347378951.696,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T09:22:58.566Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760347378566.9119,
+    "sessionId": "session_1760347377537_rkfff0avj"
+  },
+  {
+    "timestamp": "2025-10-13T09:22:57.537Z",
+    "action": "Đăng nhập tự động",
+    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
+    "id": 1760347377537.633,
+    "sessionId": "session_1760347377537_rkfff0avj"
   },
   {
     "timestamp": "2025-10-13T09:22:44.960Z",
