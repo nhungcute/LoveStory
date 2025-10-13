@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-13T05:50:51.932Z",
+    "action": "Chuyển trang ảnh",
+    "details": "Chuyển đến trang 34",
+    "id": 1760334651932.0454,
+    "sessionId": "session_1760334580255_ldfezujbl"
+  },
+  {
+    "timestamp": "2025-10-13T05:50:48.882Z",
+    "action": "Chuyển trang ảnh",
+    "details": "Chuyển đến trang 35",
+    "id": 1760334648882.1677,
+    "sessionId": "session_1760334580255_ldfezujbl"
+  },
+  {
+    "timestamp": "2025-10-13T05:50:45.241Z",
+    "action": "Chuyển trang ảnh",
+    "details": "Chuyển đến trang 36",
+    "id": 1760334645241.9841,
+    "sessionId": "session_1760334580255_ldfezujbl"
+  },
+  {
     "timestamp": "2025-10-13T05:49:44.229Z",
     "action": "Preload ảnh",
     "details": "Đã preload trang 2",
