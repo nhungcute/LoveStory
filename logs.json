@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T10:29:08.754Z",
+    "action": "Xử lý avatar",
+    "details": "Tối ưu hóa ảnh: 674KB → 24KB (giảm 96%)",
+    "id": 1760351348754.9329,
+    "sessionId": "session_1760351289184_roqom39lv"
+  },
+  {
     "timestamp": "2025-10-13T10:28:42.263Z",
     "action": "Mở hồ sơ",
     "details": "Mở modal hồ sơ cá nhân",
