@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story</title>
+    <title>Love Story - Ứng Dụng Kỷ Niệm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -383,18 +383,14 @@
     <header class="bg-primary-100 text-white shadow-lg">
         <div class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
-                <h1 class="text-xl md:text-2xl font-bold flex items-center">
+                <h1 class="text-xl md:text-2xl font-bold flex items-center cursor-pointer hover:opacity-80 transition-opacity" onclick="showSection('widget')" title="Về trang chủ">
                     <i class="fas fa-heart text-accent-100 mr-2"></i>
                     <span>Love Story</span>
                 </h1>
                 
                 <div class="flex items-center space-x-4">
                     <nav class="flex space-x-2 md:space-x-6">
-                        <button onclick="showSection('widget')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80 active" title="Trang Chủ">
-                            <i class="fas fa-home text-xl md:text-2xl md:mr-2"></i>
-                            <span class="hidden md:inline">Trang Chủ</span>
-                        </button>
-                        <button onclick="showSection('timeline')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80" title="Timeline">
+                        <button onclick="showSection('timeline')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80 active" title="Timeline">
                             <i class="fas fa-heart-pulse text-xl md:text-2xl md:mr-2"></i>
                             <span class="hidden md:inline">Timeline</span>
                         </button>
@@ -432,9 +428,6 @@
                         <i class="fas fa-history mr-3 text-accent-100"></i>
                         Ngày Này Năm Xưa
                     </h2>
-                    <button onclick="refreshMemoryWidget()" class="p-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors" title="Làm mới">
-                        <i class="fas fa-sync-alt"></i>
-                    </button>
                 </div>
                 <div id="memory-widget" class="bg-white rounded-lg p-6 shadow-sm">
                     <div class="skeleton-widget">
@@ -454,9 +447,6 @@
                         <i class="fas fa-clock mr-3 text-accent-100"></i>
                         Đếm Ngược Sự Kiện
                     </h2>
-                    <button onclick="refreshCountdownWidget()" class="p-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors" title="Làm mới">
-                        <i class="fas fa-sync-alt"></i>
-                    </button>
                 </div>
                 <div id="countdown-widget" class="space-y-4">
                     <div class="skeleton-card">
@@ -1114,8 +1104,9 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">Tên đăng nhập</label>
                     <input type="text" id="profile-username" required 
                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100"
-                           placeholder="Nhập tên đăng nhập..." onchange="checkExistingUser(this.value)">
+                           placeholder="Nhập tên đăng nhập..." oninput="validateAndCheckUsername(this.value)" onblur="loadUserProfile(this.value)">
                     <div id="username-status" class="mt-1 text-sm hidden"></div>
+                    <div class="text-xs text-gray-500 mt-1">Chỉ được sử dụng chữ cái không dấu, số và dấu gạch dưới</div>
                 </div>
 
                 <!-- Full Name Section -->
@@ -1655,13 +1646,15 @@
             
             // Update navigation buttons
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-primary-80');
+                btn.classList.remove('bg-primary-80', 'active');
             });
             
-            // Find and highlight the correct nav button
-            const navButton = document.querySelector(`[onclick="showSection('${sectionName}')"]`);
-            if (navButton) {
-                navButton.classList.add('bg-primary-80');
+            // Find and highlight the correct nav button (only for non-widget sections)
+            if (sectionName !== 'widget') {
+                const navButton = document.querySelector(`[onclick="showSection('${sectionName}')"]`);
+                if (navButton) {
+                    navButton.classList.add('bg-primary-80', 'active');
+                }
             }
         }
 
@@ -3663,13 +3656,23 @@
             try {
                 const data = await fetchFromGitHub(CONFIG.PROFILES_FILE_PATH);
                 if (data) {
-                    // Convert object format to array format for compatibility
+                    // Expect array format: [{username, name, avatarUrl}, ...]
                     if (Array.isArray(data)) {
-                        profilesData = data;
+                        profilesData = data.map(profile => ({
+                            deviceId: profile.username, // Use username as deviceId
+                            username: profile.username,
+                            fullName: profile.name,
+                            avatar: profile.avatarUrl,
+                            isAnonymous: false,
+                            createdAt: profile.createdAt || new Date().toISOString(),
+                            lastLoginAt: profile.lastLoginAt || new Date().toISOString(),
+                            commentsCount: profile.commentsCount || 0,
+                            likesCount: profile.likesCount || 0
+                        }));
                     } else {
-                        // Convert from object format {user1: {name, avatarUrl}} to array format
+                        // Convert from old object format to new array format
                         profilesData = Object.keys(data).map(userId => ({
-                            deviceId: userId, // Use userId as deviceId for existing users
+                            deviceId: userId,
                             username: userId,
                             fullName: data[userId].name,
                             avatar: data[userId].avatarUrl,
@@ -3865,45 +3868,71 @@
             }
         }
 
-        async function checkExistingUser(username) {
+        function validateAndCheckUsername(username) {
             const statusDiv = document.getElementById('username-status');
+            const usernameInput = document.getElementById('profile-username');
             
             if (!username.trim()) {
                 statusDiv.classList.add('hidden');
                 return;
             }
             
-            const deviceId = generateDeviceFingerprint();
+            // Validate username format: only letters, numbers, underscore
+            const validUsernameRegex = /^[a-zA-Z0-9_]+$/;
+            
+            if (!validUsernameRegex.test(username)) {
+                // Remove invalid characters
+                const cleanUsername = username.replace(/[^a-zA-Z0-9_]/g, '');
+                usernameInput.value = cleanUsername;
+                
+                statusDiv.innerHTML = '<i class="fas fa-exclamation-triangle text-orange-500 mr-1"></i>Chỉ được sử dụng chữ cái không dấu, số và dấu gạch dưới';
+                statusDiv.className = 'mt-1 text-sm text-orange-600';
+                statusDiv.classList.remove('hidden');
+                return;
+            }
+            
+            // Check if username exists
             const existingProfile = profilesData.find(p => 
-                p.username === username.toLowerCase().trim() || 
-                p.deviceId === username.toLowerCase().trim()
+                p.username.toLowerCase() === username.toLowerCase()
             );
             
             if (existingProfile) {
-                if (existingProfile.deviceId === deviceId || existingProfile.deviceId === username.toLowerCase().trim()) {
-                    // Same device or matching user ID, load existing profile
-                    statusDiv.innerHTML = '<i class="fas fa-check text-green-500 mr-1"></i>Tìm thấy hồ sơ của bạn';
-                    statusDiv.className = 'mt-1 text-sm text-green-600';
-                    statusDiv.classList.remove('hidden');
-                    
-                    // Auto-fill form
-                    document.getElementById('profile-fullname').value = existingProfile.fullName;
-                    if (existingProfile.avatar) {
-                        document.getElementById('profile-avatar-preview').src = existingProfile.avatar;
-                        document.getElementById('profile-avatar-preview').classList.remove('hidden');
-                        document.getElementById('profile-avatar-placeholder').classList.add('hidden');
-                    }
-                } else {
-                    // Different device, username taken
-                    statusDiv.innerHTML = '<i class="fas fa-times text-red-500 mr-1"></i>Tên đăng nhập đã được sử dụng';
-                    statusDiv.className = 'mt-1 text-sm text-red-600';
-                    statusDiv.classList.remove('hidden');
-                }
+                statusDiv.innerHTML = '<i class="fas fa-check text-green-500 mr-1"></i>Tìm thấy hồ sơ người dùng';
+                statusDiv.className = 'mt-1 text-sm text-green-600';
+                statusDiv.classList.remove('hidden');
             } else {
-                // New username
-                statusDiv.innerHTML = '<i class="fas fa-info text-blue-500 mr-1"></i>Tên đăng nhập khả dụng';
+                statusDiv.innerHTML = '<i class="fas fa-info text-blue-500 mr-1"></i>Tên đăng nhập mới';
                 statusDiv.className = 'mt-1 text-sm text-blue-600';
                 statusDiv.classList.remove('hidden');
+            }
+        }
+
+        function loadUserProfile(username) {
+            if (!username.trim()) return;
+            
+            const existingProfile = profilesData.find(p => 
+                p.username.toLowerCase() === username.toLowerCase()
+            );
+            
+            if (existingProfile) {
+                // Auto-fill form with existing profile data
+                document.getElementById('profile-fullname').value = existingProfile.fullName || '';
+                
+                if (existingProfile.avatar) {
+                    document.getElementById('profile-avatar-preview').src = existingProfile.avatar;
+                    document.getElementById('profile-avatar-preview').classList.remove('hidden');
+                    document.getElementById('profile-avatar-placeholder').classList.add('hidden');
+                } else {
+                    document.getElementById('profile-avatar-preview').classList.add('hidden');
+                    document.getElementById('profile-avatar-placeholder').classList.remove('hidden');
+                }
+                
+                logActivity('Tải hồ sơ', `Đã tải hồ sơ cho tên đăng nhập: ${username}`);
+            } else {
+                // Clear form for new user
+                document.getElementById('profile-fullname').value = '';
+                document.getElementById('profile-avatar-preview').classList.add('hidden');
+                document.getElementById('profile-avatar-placeholder').classList.remove('hidden');
             }
         }
 
@@ -3934,7 +3963,7 @@
         async function saveProfile(event) {
             event.preventDefault();
             
-            const username = document.getElementById('profile-username').value.trim().toLowerCase();
+            const username = document.getElementById('profile-username').value.trim();
             const fullName = document.getElementById('profile-fullname').value.trim();
             const avatarPreview = document.getElementById('profile-avatar-preview');
             const avatar = avatarPreview.classList.contains('hidden') ? null : avatarPreview.src;
@@ -3944,18 +3973,17 @@
                 return;
             }
             
-            const deviceId = generateDeviceFingerprint();
-            const existingProfileIndex = profilesData.findIndex(p => 
-                p.username === username || p.deviceId === username
-            );
-            
-            // Check if username is taken by another device
-            if (existingProfileIndex !== -1 && 
-                profilesData[existingProfileIndex].deviceId !== deviceId && 
-                profilesData[existingProfileIndex].deviceId !== username) {
-                showNotification('Tên đăng nhập đã được sử dụng bởi thiết bị khác!', 'error');
+            // Validate username format
+            const validUsernameRegex = /^[a-zA-Z0-9_]+$/;
+            if (!validUsernameRegex.test(username)) {
+                showNotification('Tên đăng nhập chỉ được chứa chữ cái không dấu, số và dấu gạch dưới!', 'warning');
                 return;
             }
+            
+            const deviceId = generateDeviceFingerprint();
+            const existingProfileIndex = profilesData.findIndex(p => 
+                p.username.toLowerCase() === username.toLowerCase()
+            );
             
             const profileData = {
                 deviceId: deviceId,
@@ -3977,24 +4005,32 @@
                 
                 if (existingProfileIndex !== -1) {
                     // Update existing profile
-                    profilesData[existingProfileIndex] = profileData;
+                    profilesData[existingProfileIndex] = {
+                        ...profilesData[existingProfileIndex],
+                        fullName: fullName,
+                        avatar: avatar,
+                        lastLoginAt: new Date().toISOString(),
+                        commentsCount: profilesData[existingProfileIndex].commentsCount || 0,
+                        likesCount: profilesData[existingProfileIndex].likesCount || 0
+                    };
                 } else {
                     // Add new profile
                     profilesData.push(profileData);
                 }
                 
-                // Convert to object format for saving to match existing structure
-                const profilesObject = {};
-                profilesData.forEach((profile, index) => {
-                    const key = profile.deviceId || `user${index + 1}`;
-                    profilesObject[key] = {
-                        name: profile.fullName,
-                        avatarUrl: profile.avatar || null
-                    };
-                });
+                // Convert to new array format for saving
+                const profilesArray = profilesData.map(profile => ({
+                    username: profile.username,
+                    name: profile.fullName,
+                    avatarUrl: profile.avatar,
+                    createdAt: profile.createdAt,
+                    lastLoginAt: profile.lastLoginAt,
+                    commentsCount: profile.commentsCount || 0,
+                    likesCount: profile.likesCount || 0
+                }));
                 
-                // Save to GitHub in object format
-                await saveToGitHub(CONFIG.PROFILES_FILE_PATH, profilesObject, `Cập nhật hồ sơ: ${fullName}`);
+                // Save to GitHub in new array format
+                await saveToGitHub(CONFIG.PROFILES_FILE_PATH, profilesArray, `Cập nhật hồ sơ: ${fullName} (${username})`);
                 
                 // Update current user
                 currentUser = profileData;
@@ -4004,8 +4040,9 @@
                 updateHeaderProfile();
                 closeProfileModal();
                 
-                logActivity('Lưu hồ sơ', `Đã lưu hồ sơ: ${fullName} (${username})`);
-                showNotification('Đã lưu hồ sơ thành công!', 'success');
+                const actionText = existingProfileIndex !== -1 ? 'cập nhật' : 'tạo mới';
+                logActivity('Lưu hồ sơ', `Đã ${actionText} hồ sơ: ${fullName} (${username})`);
+                showNotification(`Đã ${actionText} hồ sơ thành công!`, 'success');
                 
             } catch (error) {
                 console.error('Lỗi lưu hồ sơ:', error);
@@ -4021,6 +4058,17 @@
         function logoutUser() {
             if (confirm('Bạn có chắc chắn muốn đăng xuất? Bạn sẽ trở thành người dùng ẩn danh.')) {
                 logActivity('Đăng xuất', `Người dùng ${currentUser.fullName} đã đăng xuất`);
+                
+                // Reset form fields
+                document.getElementById('profile-username').value = '';
+                document.getElementById('profile-fullname').value = '';
+                document.getElementById('profile-avatar-preview').classList.add('hidden');
+                document.getElementById('profile-avatar-placeholder').classList.remove('hidden');
+                document.getElementById('username-status').classList.add('hidden');
+                document.getElementById('current-user-info').classList.add('hidden');
+                
+                // Clear avatar input
+                document.getElementById('avatar-input').value = '';
                 
                 localStorage.removeItem('loveStoryCurrentUser');
                 const deviceId = generateDeviceFingerprint();
@@ -4852,5 +4900,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98dd87d6624d3ee9',t:'MTc2MDM0NDgxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ddace2e42809bc',t:'MTc2MDM0NjMyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
