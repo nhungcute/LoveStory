@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-13T05:53:26.990Z",
+    "action": "Chọn ảnh sự kiện",
+    "details": "Đã chọn 0 ảnh cho sự kiện",
+    "id": 1760334806990.1938,
+    "sessionId": "session_1760334580255_ldfezujbl"
+  },
+  {
     "timestamp": "2025-10-13T05:53:15.513Z",
     "action": "Preload ảnh",
     "details": "Đã preload trang 2",
