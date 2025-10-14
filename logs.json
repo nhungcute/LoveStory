@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-14T04:23:56.776Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760415836776.517,
+    "sessionId": "session_1760415253154_lqlsc1kjk"
+  },
+  {
+    "timestamp": "2025-10-14T04:23:56.673Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760415836673.924,
+    "sessionId": "session_1760415253154_lqlsc1kjk"
+  },
+  {
+    "timestamp": "2025-10-14T04:23:56.471Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760415836471.6948,
+    "sessionId": "session_1760415253154_lqlsc1kjk"
+  },
+  {
     "timestamp": "2025-10-14T04:23:20.861Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
