@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T08:47:14.314Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760431634315.2607,
+    "sessionId": "session_1760431521238_t6jga1gr9"
+  },
+  {
     "timestamp": "2025-10-14T08:46:38.131Z",
     "action": "Mở tìm kiếm",
     "details": "Mở modal tìm kiếm thông minh",
