@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story - Ứng Dụng Kỷ Niệm</title>
+    <title>Love Story</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -740,19 +740,23 @@
     <div id="photo-modal" class="modal">
         <div class="bg-white w-screen h-screen sm:h-auto sm:max-h-[calc(100vh-2rem)] sm:w-full sm:rounded-xl sm:max-w-4xl flex flex-col">
             
-            <div class="p-3 sm:p-4 border-b flex justify-between items-center flex-shrink-0">
+            <!-- Header - Always visible -->
+            <div class="p-3 sm:p-4 border-b flex justify-between items-center flex-shrink-0 bg-white relative z-10">
                 <h3 id="modal-title" class="text-lg sm:text-xl font-bold text-primary-100 truncate mr-4"></h3>
-                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 flex-shrink-0">
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 flex-shrink-0 p-2 hover:bg-gray-100 rounded-full transition-colors">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto min-h-0">
-                
-                <img id="modal-image" class="w-full bg-gray-100 sm:w-[85%] sm:mx-auto sm:mt-4 sm:rounded-lg" alt="Loading image...">
+            <!-- Scrollable Content Area -->
+            <div class="flex-1 overflow-y-auto min-h-0 bg-white">
+                <!-- Image -->
+                <div class="flex justify-center bg-gray-50">
+                    <img id="modal-image" class="w-full max-w-full sm:max-w-[85%] bg-gray-100 sm:mt-4 sm:rounded-lg" alt="Loading image...">
+                </div>
 
+                <!-- Action Buttons -->
                 <div class="p-3 sm:p-4">
-                    
                     <div class="flex flex-wrap items-center gap-2 sm:gap-4 mb-4">
                         <button onclick="likePhoto()" id="like-btn" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors text-sm">
                             <i class="fas fa-heart"></i>
@@ -772,21 +776,33 @@
                         </button>
                     </div>
 
-                    <div id="comments-section" class="border-t pt-4 hidden">
-                        <h4 class="font-semibold text-primary-100 mb-3 flex items-center">
-                            <i class="fas fa-comments mr-2"></i>
-                            Bình luận
-                        </h4>
-                        <div id="comments-container" class="space-y-1 mb-4 max-h-40 sm:max-h-60 overflow-y-auto border rounded-lg p-2 bg-gray-50">
-                            <!-- Comments will be loaded here -->
+                    <!-- Comments List Section -->
+                    <div id="comments-list-section" class="hidden">
+                        <div class="border-t pt-4">
+                            <h4 class="font-semibold text-primary-100 mb-3 flex items-center">
+                                <i class="fas fa-comments mr-2"></i>
+                                Bình luận
+                            </h4>
+                            <div id="comments-container" class="space-y-3 mb-4">
+                                <!-- Comments will be loaded here -->
+                            </div>
                         </div>
-                        <div class="flex space-x-2 sticky bottom-0 bg-white pt-2">
-                            <input type="text" id="comment-input" placeholder="Thêm bình luận..." 
-                                   class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100 text-sm">
-                            <button onclick="addComment()" class="px-3 sm:px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 flex-shrink-0">
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </div>
+                    </div>
+                </div>
+
+                <!-- Spacer to ensure content doesn't get hidden behind comment input -->
+                <div id="comment-spacer" class="hidden h-20"></div>
+            </div>
+
+            <!-- Comment Input - Fixed at bottom when active -->
+            <div id="comment-input-wrapper" class="hidden flex-shrink-0 bg-white border-t shadow-lg">
+                <div class="p-3 sm:p-4">
+                    <div class="flex space-x-2">
+                        <input type="text" id="comment-input" placeholder="Thêm bình luận..." 
+                               class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100 text-sm">
+                        <button onclick="addComment()" class="px-3 sm:px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 flex-shrink-0 transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1080,21 +1096,6 @@
                            placeholder="Nhập họ và tên đầy đủ...">
                 </div>
 
-                <!-- Device Info (Read-only) -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Thông tin thiết bị</label>
-                    <div class="bg-gray-50 rounded-lg p-3 text-sm text-gray-600">
-                        <div class="flex items-center space-x-2 mb-1">
-                            <i class="fas fa-desktop text-primary-100"></i>
-                            <span id="device-info">Đang tải...</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fas fa-globe text-primary-100"></i>
-                            <span id="browser-info">Đang tải...</span>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Action Buttons -->
                 <div class="flex space-x-3 pt-4">
                     <button type="submit" id="save-profile-btn" class="flex-1 px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
@@ -1105,13 +1106,29 @@
                     </button>
                 </div>
 
-                <!-- Current User Info -->
-                <div id="current-user-info" class="mt-4 pt-4 border-t bg-blue-50 rounded-lg p-3 hidden">
-                    <div class="text-sm font-medium text-blue-800 mb-2">Thông tin hiện tại:</div>
-                    <div class="text-sm text-blue-600 space-y-1">
-                        <div>Đăng nhập lần cuối: <span id="last-login-time">-</span></div>
-                        <div>Tổng bình luận: <span id="user-comments-count">0</span></div>
-                        <div>Tổng lượt thích: <span id="user-likes-count">0</span></div>
+                <!-- Current User Info & Device Info - 2 columns -->
+                <div class="mt-4 pt-4 border-t grid grid-cols-2 gap-4">
+                    <!-- Current User Info -->
+                    <div id="current-user-info" class="bg-blue-50 rounded-lg p-3 hidden">
+                        <div class="text-sm font-medium text-blue-800 mb-2">Thông tin hiện tại:</div>
+                        <div class="text-sm text-blue-600 space-y-1">
+                            <div>Đăng nhập lần cuối: <span id="last-login-time">-</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Device Info -->
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <div class="text-sm font-medium text-gray-700 mb-2">Thông tin thiết bị:</div>
+                        <div class="text-sm text-gray-600 space-y-1">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-desktop text-primary-100"></i>
+                                <span id="device-info">Đang tải...</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-globe text-primary-100"></i>
+                                <span id="browser-info">Đang tải...</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -2296,7 +2313,9 @@
             document.getElementById('comment-count').textContent = commentCount;
             
             // Ẩn phần bình luận mặc định
-            document.getElementById('comments-section').classList.add('hidden');
+            document.getElementById('comments-list-section').classList.add('hidden');
+            document.getElementById('comment-input-wrapper').classList.add('hidden');
+            document.getElementById('comment-spacer').classList.add('hidden');
             
             loadComments(photo.name);
             
@@ -2309,22 +2328,48 @@
         }
 
         function toggleComments() {
-            const commentsSection = document.getElementById('comments-section');
+            const commentsListSection = document.getElementById('comments-list-section');
+            const commentInputWrapper = document.getElementById('comment-input-wrapper');
+            const commentSpacer = document.getElementById('comment-spacer');
             const commentBtn = document.getElementById('comment-btn');
+            const commentInput = document.getElementById('comment-input');
             
-            if (commentsSection.classList.contains('hidden')) {
-                commentsSection.classList.remove('hidden');
+            if (commentsListSection.classList.contains('hidden')) {
+                // Show comments
+                commentsListSection.classList.remove('hidden');
+                commentInputWrapper.classList.remove('hidden');
+                commentSpacer.classList.remove('hidden');
+                
+                // Update button style
                 commentBtn.classList.add('bg-primary-80');
                 commentBtn.classList.remove('bg-primary-100');
                 
-                // Scroll to comments section on mobile
+                // Focus on input after a short delay to ensure it's visible
                 setTimeout(() => {
-                    commentsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 100);
+                    commentInput.focus();
+                    
+                    // On mobile, scroll to show the comment input
+                    if (window.innerWidth < 640) {
+                        commentInputWrapper.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'end' 
+                        });
+                    }
+                }, 150);
+                
             } else {
-                commentsSection.classList.add('hidden');
+                // Hide comments
+                commentsListSection.classList.add('hidden');
+                commentInputWrapper.classList.add('hidden');
+                commentSpacer.classList.add('hidden');
+                
+                // Update button style
                 commentBtn.classList.remove('bg-primary-80');
                 commentBtn.classList.add('bg-primary-100');
+                
+                // Clear input and blur
+                commentInput.value = '';
+                commentInput.blur();
             }
         }
 
@@ -2335,13 +2380,13 @@
             container.innerHTML = '';
             
             if (comments.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 text-center">Chưa có bình luận nào</p>';
+                container.innerHTML = '<div class="text-center py-8"><i class="fas fa-comments text-gray-300 text-3xl mb-2"></i><p class="text-gray-500">Chưa có bình luận nào</p><p class="text-gray-400 text-sm">Hãy là người đầu tiên bình luận!</p></div>';
                 return;
             }
             
             comments.forEach(comment => {
                 const commentElement = document.createElement('div');
-                commentElement.className = 'bg-gray-50 rounded-lg p-3';
+                commentElement.className = 'bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors';
                 const commentDate = new Date(comment.date_input).toLocaleString('vi-VN');
                 
                 // Get user info for comment
@@ -2350,18 +2395,22 @@
                 
                 let avatarHtml = '';
                 if (userAvatar) {
-                    avatarHtml = `<img src="${userAvatar}" alt="${userName}" class="w-6 h-6 rounded-full object-cover">`;
+                    avatarHtml = `<img src="${userAvatar}" alt="${userName}" class="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm">`;
                 } else {
-                    avatarHtml = `<i class="fas fa-user-circle text-primary-100 text-xl"></i>`;
+                    avatarHtml = `<div class="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center"><i class="fas fa-user text-white text-sm"></i></div>`;
                 }
                 
                 commentElement.innerHTML = `
-                    <div class="flex items-center space-x-2 mb-1">
+                    <div class="flex items-start space-x-3">
                         ${avatarHtml}
-                        <span class="font-semibold text-sm">${userName}</span>
-                        <span class="text-xs text-gray-500">${commentDate}</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <span class="font-semibold text-sm text-primary-100">${userName}</span>
+                                <span class="text-xs text-gray-500">${commentDate}</span>
+                            </div>
+                            <p class="text-gray-700 text-sm leading-relaxed">${comment.comment}</p>
+                        </div>
                     </div>
-                    <p class="text-gray-700">${comment.comment}</p>
                 `;
                 container.appendChild(commentElement);
             });
@@ -3721,8 +3770,6 @@
                 if (!currentUser.isAnonymous) {
                     document.getElementById('current-user-info').classList.remove('hidden');
                     document.getElementById('last-login-time').textContent = new Date(currentUser.lastLoginAt).toLocaleString('vi-VN');
-                    document.getElementById('user-comments-count').textContent = currentUser.commentsCount || 0;
-                    document.getElementById('user-likes-count').textContent = currentUser.likesCount || 0;
                 } else {
                     document.getElementById('current-user-info').classList.add('hidden');
                 }
@@ -5060,5 +5107,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e4867962a9109b',t:'MTc2MDQxODE1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e565f7b43a04dc',t:'MTc2MDQyNzMwOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
