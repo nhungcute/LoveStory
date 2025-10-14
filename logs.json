@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-14T09:09:40.735Z",
+    "action": "Tìm kiếm",
+    "details": "stats: \"có bao nhiêu sự kiện\" - 2 kết quả",
+    "id": 1760432980735.1912,
+    "sessionId": "session_1760432869773_7rzn1q4wx"
+  },
+  {
+    "timestamp": "2025-10-14T09:09:39.640Z",
+    "action": "Tìm kiếm",
+    "details": "stats: \"có bao nhiêu sự kiện\" - 2 kết quả",
+    "id": 1760432979640.2454,
+    "sessionId": "session_1760432869773_7rzn1q4wx"
+  },
+  {
+    "timestamp": "2025-10-14T09:09:37.965Z",
+    "action": "Tìm kiếm",
+    "details": "stats: \"kỷ niệm đặc biệt\" - 0 kết quả",
+    "id": 1760432977965.2266,
+    "sessionId": "session_1760432869773_7rzn1q4wx"
+  },
+  {
+    "timestamp": "2025-10-14T09:09:36.298Z",
+    "action": "Tìm kiếm",
+    "details": "stats: \"kỷ niệm đặc biệt\" - 0 kết quả",
+    "id": 1760432976298.153,
+    "sessionId": "session_1760432869773_7rzn1q4wx"
+  },
+  {
     "timestamp": "2025-10-14T09:09:00.847Z",
     "action": "Tìm kiếm",
     "details": "basic: \"1+1 bằng mấy\" - 0 kết quả",
