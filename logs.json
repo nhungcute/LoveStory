@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T09:23:29.583Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"sự kiện năm 2024\" - 0 kết quả",
+    "id": 1760433809583.9133,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:23:13.200Z",
     "action": "Mở tìm kiếm",
     "details": "Mở modal tìm kiếm thông minh",
