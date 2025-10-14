@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-14T09:26:50.005Z",
+    "action": "Xem sự kiện từ tìm kiếm",
+    "details": "Xem sự kiện: Bé con 11w",
+    "id": 1760434010005.7954,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:26:44.704Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"lần dau\" - 2 kết quả",
+    "id": 1760434004704.1316,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:26:29.903Z",
     "action": "Tìm kiếm",
     "details": "basic: \"xinh\" - 0 kết quả",
