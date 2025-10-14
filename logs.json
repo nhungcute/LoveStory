@@ -1,5 +1,82 @@
 [
   {
+    "timestamp": "2025-10-14T09:25:51.374Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433951374.6582,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:25:51.167Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433951167.3718,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:25:50.991Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433950991.3445,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:25:50.784Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433950784.4553,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:25:50.575Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433950575.892,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:25:50.374Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433950374.681,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:25:50.166Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433950166.7795,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:25:49.943Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433949943.4185,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:25:49.454Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433949454.6494,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:25:48.351Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433948351.6458,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:25:46.846Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"nhat\" - 0 kết quả",
+    "id": 1760433946846.4072,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:25:15.069Z",
     "action": "Chuyển chế độ tìm kiếm",
     "details": "Chuyển sang chế độ: basic",
