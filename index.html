@@ -574,7 +574,7 @@
         <!-- Settings Section -->
         <section id="settings-section" class="section hidden">
             <div class="bg-white rounded-xl shadow-lg p-6">
-                <h2 class="text-2xl font-bold text-primary-100 mb-6">
+                <h2 class="text-xl font-bold text-primary-100 mb-6">
                     <i class="fas fa-cog mr-2"></i>Cài Đặt Hệ Thống
                 </h2>
                 
@@ -582,12 +582,11 @@
                 <div class="bg-gradient-to-r from-accent-10 to-primary-10 rounded-lg p-6 mb-6">
                     <div class="flex items-start space-x-4">
                         <div class="flex-1">
-                            <h3 class="text-lg font-semibold text-primary-100 mb-2">
+                            <h3 class="text-base font-semibold text-primary-100 mb-6 text-center">
                                 <i class="fas fa-palette mr-2"></i>Giao Diện
                             </h3>
-                            <p class="text-gray-700 mb-4">Tùy chỉnh màu sắc và phong cách hiển thị của ứng dụng theo sở thích cá nhân.</p>
                             
-                            <div class="grid grid-cols-3 gap-3">
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                 <div id="theme-options-settings" class="contents">
                                     <!-- Theme options will be generated here -->
                                 </div>
@@ -600,10 +599,10 @@
                 <div class="bg-gradient-to-r from-primary-10 to-accent-10 rounded-lg p-6 mb-6">
                     <div class="flex items-start space-x-4">
                         <div class="flex-1">
-                            <h3 class="text-lg font-semibold text-primary-100 mb-2">
+                            <h3 class="text-base font-semibold text-primary-100 mb-6 text-center">
                                 <i class="fas fa-sync-alt mr-2"></i>Tự Động Cập Nhật
                             </h3>
-                            <p class="text-gray-700 mb-4">Hệ thống sẽ tự động làm mới danh sách ảnh từ Google Drive theo lịch trình đã cài đặt.</p>
+                            <p class="text-gray-700 mb-4">Tự động cập nhật danh sách ảnh từ Google Drive về file Metadata.</p>
                             
                             <!-- Enable/Disable Toggle -->
                             <div class="flex items-center justify-between mb-4">
@@ -612,7 +611,7 @@
                                         <input type="checkbox" id="auto-sync-toggle" class="sr-only peer" checked>
                                         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-100"></div>
                                     </label>
-                                    <span class="text-sm font-medium text-gray-700">Bật tự động cập nhật</span>
+                                    <span class="text-sm font-medium text-gray-700">Bật/Tắt</span>
                                 </div>
                                 <div class="text-sm text-gray-500">
                                     <i class="fas fa-clock mr-1"></i>
@@ -621,7 +620,7 @@
                             </div>
 
                             <!-- Sync Settings -->
-                            <div id="sync-settings" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div id="sync-settings" class="grid grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Tần suất</label>
                                     <select id="sync-frequency" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100">
@@ -636,15 +635,15 @@
                                 </div>
                             </div>
 
-                            <div class="flex space-x-3">
+                            <div class="flex justify-center space-x-3">
                                 <button onclick="manualSync()" class="px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
-                                    <i class="fas fa-sync mr-2"></i>Đồng bộ ngay
+                                    <i class="fas fa-sync mr-2"></i>Thủ công
                                 </button>
                                 <button onclick="showSyncHistory()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
                                     <i class="fas fa-history mr-2"></i>Lịch sử
                                 </button>
                                 <button onclick="saveSyncSettings()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                                    <i class="fas fa-save mr-2"></i>Lưu cài đặt
+                                    <i class="fas fa-save mr-2"></i>Lưu
                                 </button>
                             </div>
                         </div>
@@ -655,24 +654,23 @@
                 <div class="bg-gradient-to-r from-accent-10 to-primary-10 rounded-lg p-6 mb-6">
                     <div class="flex items-start space-x-4">
                         <div class="flex-1">
-                            <h3 class="text-lg font-semibold text-primary-100 mb-2">
-                                <i class="fas fa-clipboard-list mr-2"></i>Ghi Nhật Ký Hoạt Động
+                            <h3 class="text-base font-semibold text-primary-100 mb-6 text-center">
+                                <i class="fas fa-clipboard-list mr-2"></i>Nhật ký hoạt động
                             </h3>
-                            <p class="text-gray-700 mb-4">Mọi hành động quan trọng đều được ghi lại, giúp dễ dàng theo dõi và quản lý.</p>
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-3">
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input type="checkbox" id="activity-log-toggle" class="sr-only peer" checked>
                                         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-accent-30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent-100"></div>
                                     </label>
-                                    <span class="text-sm font-medium text-gray-700">Bật ghi nhật ký</span>
+                                    <span class="text-sm font-medium text-gray-700">Bật/Tắt</span>
                                 </div>
                                 <div class="text-sm text-gray-500">
                                     <i class="fas fa-database mr-1"></i>
                                     Tổng: <span id="total-logs">0</span> bản ghi
                                 </div>
                             </div>
-                            <div class="mt-4">
+                            <div class="mt-4 text-center">
                                 <button onclick="viewActivityLogs()" class="px-4 py-2 bg-accent-100 text-white rounded-lg hover:bg-accent-80 transition-colors">
                                     <i class="fas fa-eye mr-2"></i>Xem nhật ký
                                 </button>
@@ -685,41 +683,41 @@
 
                 <!-- System Information -->
                 <div class="bg-gray-50 rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-primary-100 mb-4">
+                    <h3 class="text-lg font-semibold text-primary-100 mb-4 text-center">
                         <i class="fas fa-info-circle mr-2"></i>Thông Tin Hệ Thống
                     </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="bg-white rounded-lg p-4">
-                            <div class="text-sm text-gray-600 mb-1">Phiên bản</div>
-                            <div class="font-semibold text-primary-100">Love Story v2.0</div>
+                    <div class="grid grid-cols-2 gap-3 max-w-4xl mx-auto">
+                        <div class="bg-white rounded-lg p-3 text-center">
+                            <div class="text-xs text-gray-600 mb-1">Phiên bản</div>
+                            <div class="font-semibold text-primary-100 text-sm">Love Story v2.0</div>
                         </div>
-                        <div class="bg-white rounded-lg p-4">
-                            <div class="text-sm text-gray-600 mb-1">Kết nối GitHub</div>
-                            <div class="font-semibold text-green-600">
+                        <div class="bg-white rounded-lg p-3 text-center">
+                            <div class="text-xs text-gray-600 mb-1">Kết nối GitHub</div>
+                            <div class="font-semibold text-green-600 text-sm">
                                 <i class="fas fa-check-circle mr-1"></i>Hoạt động
                             </div>
                         </div>
-                        <div class="bg-white rounded-lg p-4">
-                            <div class="text-sm text-gray-600 mb-1">Kết nối Google Drive</div>
-                            <div class="font-semibold text-green-600">
+                        <div class="bg-white rounded-lg p-3 text-center">
+                            <div class="text-xs text-gray-600 mb-1">Kết nối Google Drive</div>
+                            <div class="font-semibold text-green-600 text-sm">
                                 <i class="fas fa-check-circle mr-1"></i>Hoạt động
                             </div>
                         </div>
-                        <div class="bg-white rounded-lg p-4">
-                            <div class="text-sm text-gray-600 mb-1">Dung lượng sử dụng</div>
-                            <div class="font-semibold text-primary-100">
+                        <div class="bg-white rounded-lg p-3 text-center">
+                            <div class="text-xs text-gray-600 mb-1">Dung lượng sử dụng</div>
+                            <div class="font-semibold text-primary-100 text-sm">
                                 <span id="storage-used">0</span> MB
                             </div>
                         </div>
-                        <div class="bg-white rounded-lg p-4">
-                            <div class="text-sm text-gray-600 mb-1">Trạng thái kết nối</div>
-                            <div class="font-semibold" id="connection-status">
+                        <div class="bg-white rounded-lg p-3 text-center">
+                            <div class="text-xs text-gray-600 mb-1">Trạng thái kết nối</div>
+                            <div class="font-semibold text-sm" id="connection-status">
                                 <i class="fas fa-wifi mr-1"></i>Online
                             </div>
                         </div>
-                        <div class="bg-white rounded-lg p-4">
-                            <div class="text-sm text-gray-600 mb-1">Nhật ký chờ lưu</div>
-                            <div class="font-semibold text-orange-600">
+                        <div class="bg-white rounded-lg p-3 text-center">
+                            <div class="text-xs text-gray-600 mb-1">Nhật ký chờ lưu</div>
+                            <div class="font-semibold text-orange-600 text-sm">
                                 <span id="pending-logs-count">0</span> bản ghi
                             </div>
                         </div>
@@ -4192,8 +4190,8 @@
                 option.innerHTML = `
                     <div class="text-center">
                         <div class="flex justify-center space-x-1 mb-3">
-                            <div class="w-6 h-6 rounded-full border-2 border-white shadow-sm" style="background-color: ${previewColors.primary}"></div>
-                            <div class="w-6 h-6 rounded-full border-2 border-white shadow-sm" style="background-color: ${previewColors.accent}"></div>
+                            <div class="w-5 h-5 rounded-full border-2 border-white shadow-sm" style="background-color: ${previewColors.primary}"></div>
+                            <div class="w-5 h-5 rounded-full border-2 border-white shadow-sm" style="background-color: ${previewColors.accent}"></div>
                         </div>
                         <div class="font-medium text-sm ${currentTheme === themeKey ? 'text-primary-100' : 'text-gray-700'}">${theme.name}</div>
                         ${currentTheme === themeKey ? '<div class="absolute top-2 right-2"><i class="fas fa-check-circle text-primary-100"></i></div>' : ''}
@@ -4962,5 +4960,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e3aa60f13404dc',t:'MTc2MDQwOTEzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e453fca3a2b472',t:'MTc2MDQxNjA4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
