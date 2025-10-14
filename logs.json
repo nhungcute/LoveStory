@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-14T09:28:46.717Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: ai",
+    "id": 1760434126717.338,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:28:42.663Z",
+    "action": "Mở tìm kiếm",
+    "details": "Mở modal tìm kiếm thông minh",
+    "id": 1760434122663.4624,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:28:42.663Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: basic",
+    "id": 1760434122663.897,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:28:30.733Z",
     "action": "Xem ảnh sự kiện",
     "details": "Xem ảnh cho sự kiện: First day of love (2 ảnh)",
