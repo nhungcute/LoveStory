@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T09:34:31.138Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"kỷ niệm gần nhất\" - 711 kết quả",
+    "id": 1760434471138.538,
+    "sessionId": "session_1760434368027_y4r5qfi72"
+  },
+  {
     "timestamp": "2025-10-14T09:34:18.325Z",
     "action": "Mở tìm kiếm",
     "details": "Mở modal tìm kiếm thông minh",
