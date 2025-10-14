@@ -67,5 +67,17 @@
     "ID_IMG": "MIN_9224.JPG",
     "count_tim": 1,
     "comments": []
+  },
+  {
+    "ID_IMG": "IMG_2062.JPG",
+    "count_tim": 1,
+    "comments": [],
+    "likes": [
+      {
+        "userId": "tintin",
+        "userName": "Hà Mạnh Tín",
+        "timestamp": "2025-10-14T08:28:47.798Z"
+      }
+    ]
   }
 ]
