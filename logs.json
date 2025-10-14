@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-14T08:46:38.131Z",
+    "action": "Mở tìm kiếm",
+    "details": "Mở modal tìm kiếm thông minh",
+    "id": 1760431598131.3564,
+    "sessionId": "session_1760431521238_t6jga1gr9"
+  },
+  {
+    "timestamp": "2025-10-14T08:46:38.131Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: basic",
+    "id": 1760431598131.9636,
+    "sessionId": "session_1760431521238_t6jga1gr9"
+  },
+  {
     "timestamp": "2025-10-14T08:46:03.290Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
