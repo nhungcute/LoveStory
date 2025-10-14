@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-14T07:39:59.542Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760427599542.372,
+    "sessionId": "session_1760427401982_hq94uhv81"
+  },
+  {
+    "timestamp": "2025-10-14T07:39:59.538Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760427599538.2893,
+    "sessionId": "session_1760427401982_hq94uhv81"
+  },
+  {
+    "timestamp": "2025-10-14T07:39:58.372Z",
+    "action": "Đăng nhập tự động",
+    "details": "Người dùng Hà Tín đã đăng nhập tự động",
+    "id": 1760427598372.6768,
+    "sessionId": "session_1760427401982_hq94uhv81"
+  },
+  {
     "timestamp": "2025-10-14T07:39:35.099Z",
     "action": "Thêm bình luận",
     "details": "Hà Tín đã bình luận cho ảnh: thumbnail22.jpg: \"Xinh\"",
