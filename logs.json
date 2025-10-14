@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-14T09:24:00.342Z",
+    "action": "Tìm kiếm",
+    "details": "stats: \"sự kiện năm 2026\" - 4 kết quả",
+    "id": 1760433840342.5679,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:23:58.389Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: stats",
+    "id": 1760433838389.4746,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:23:49.639Z",
     "action": "Tìm kiếm",
     "details": "basic: \"sự kiện năm 2026\" - 1 kết quả",
