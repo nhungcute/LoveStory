@@ -1,31 +1,24 @@
 [
   {
-    "timestamp": "2025-10-14T07:45:41.317Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760427941317.9922,
-    "sessionId": "session_1760427662185_wo11iln1u"
-  },
-  {
-    "timestamp": "2025-10-14T07:41:03.282Z",
+    "timestamp": "2025-10-14T07:42:01.164Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760427663282.2703,
-    "sessionId": "session_1760427662185_wo11iln1u"
+    "id": 1760427721164.8982,
+    "sessionId": "session_1760427662559_mi1chy3b9"
   },
   {
-    "timestamp": "2025-10-14T07:41:03.262Z",
+    "timestamp": "2025-10-14T07:41:04.515Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760427663262.6387,
-    "sessionId": "session_1760427662185_wo11iln1u"
+    "id": 1760427664515.238,
+    "sessionId": "session_1760427662559_mi1chy3b9"
   },
   {
-    "timestamp": "2025-10-14T07:41:02.185Z",
+    "timestamp": "2025-10-14T07:41:02.558Z",
     "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
-    "id": 1760427662185.1501,
-    "sessionId": "session_1760427662186_e5m8m38n0"
+    "details": "Người dùng Gấu Cam đã đăng nhập tự động từ profiles",
+    "id": 1760427662558.0615,
+    "sessionId": "session_1760427662559_mi1chy3b9"
   },
   {
     "timestamp": "2025-10-14T07:39:59.542Z",
