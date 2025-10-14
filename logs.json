@@ -7,6 +7,27 @@
     "sessionId": "session_1760428697844_vfdgmpkfm"
   },
   {
+    "timestamp": "2025-10-14T08:02:57.351Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760428977351.429,
+    "sessionId": "session_1760428966783_g3rcusoil"
+  },
+  {
+    "timestamp": "2025-10-14T08:02:57.342Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760428977342.9673,
+    "sessionId": "session_1760428966783_g3rcusoil"
+  },
+  {
+    "timestamp": "2025-10-14T08:02:57.338Z",
+    "action": "Đăng nhập tự động",
+    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
+    "id": 1760428977338.4885,
+    "sessionId": "session_1760428966783_g3rcusoil"
+  },
+  {
     "timestamp": "2025-10-14T08:01:21.844Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
