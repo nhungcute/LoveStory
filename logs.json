@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-14T09:24:19.014Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"có bao nhiêu sự kiện\" - 0 kết quả",
+    "id": 1760433859014.664,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:24:17.431Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"có bao nhiêu sự kiện\" - 0 kết quả",
+    "id": 1760433857431.245,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:24:14.823Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"có bao nhiêu sự kiện\" - 0 kết quả",
+    "id": 1760433854823.668,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:24:11.213Z",
     "action": "Chuyển chế độ tìm kiếm",
     "details": "Chuyển sang chế độ: basic",
