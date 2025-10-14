@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T09:25:15.069Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: basic",
+    "id": 1760433915069.735,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:25:11.184Z",
     "action": "Tìm kiếm",
     "details": "stats: \"ảnh nhiều bình luận nhất\" - 0 kết quả",
