@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-14T08:03:15.714Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Trang 1: Đã tải 710 ảnh (Tổng: 710)",
+    "id": 1760428995714.025,
+    "sessionId": "session_1760428966783_g3rcusoil"
+  },
+  {
+    "timestamp": "2025-10-14T08:03:13.245Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Đang tải trang 1...",
+    "id": 1760428993245.0205,
+    "sessionId": "session_1760428966783_g3rcusoil"
+  },
+  {
+    "timestamp": "2025-10-14T08:03:13.245Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Bắt đầu tải danh sách ảnh từ Google Drive",
+    "id": 1760428993245.7988,
+    "sessionId": "session_1760428966783_g3rcusoil"
+  },
+  {
     "timestamp": "2025-10-14T08:03:08.303Z",
     "action": "Thích ảnh",
     "details": "Hà Tín đã thích ảnh: MIN_9229.JPG (3 lượt thích)",
