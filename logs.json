@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T05:06:53.240Z",
+    "action": "Sửa sự kiện",
+    "details": "Đã cập nhật sự kiện: Bé con 114mm, 7w2d",
+    "id": 1760418413240.762,
+    "sessionId": "session_1760418364766_wea5lfzpq"
+  },
+  {
     "timestamp": "2025-10-14T05:06:14.676Z",
     "action": "Chọn ảnh sự kiện",
     "details": "Đã chọn 0 ảnh cho sự kiện",
