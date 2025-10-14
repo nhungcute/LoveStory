@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T08:03:08.303Z",
+    "action": "Thích ảnh",
+    "details": "Hà Tín đã thích ảnh: MIN_9229.JPG (3 lượt thích)",
+    "id": 1760428988303.2336,
+    "sessionId": "session_1760428697844_vfdgmpkfm"
+  },
+  {
     "timestamp": "2025-10-14T08:01:21.844Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
