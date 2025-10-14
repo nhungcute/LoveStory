@@ -1,66 +1,10 @@
 [
   {
-    "timestamp": "2025-10-14T05:30:37.182Z",
+    "timestamp": "2025-10-14T05:11:28.980Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760419837182.5151,
-    "sessionId": "session_1760418751374_zdtmuocno"
-  },
-  {
-    "timestamp": "2025-10-14T05:12:35.188Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760418755188.379,
-    "sessionId": "session_1760418751374_zdtmuocno"
-  },
-  {
-    "timestamp": "2025-10-14T05:12:32.756Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760418752756.671,
-    "sessionId": "session_1760418751374_zdtmuocno"
-  },
-  {
-    "timestamp": "2025-10-14T05:12:32.748Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760418752748.8713,
-    "sessionId": "session_1760418751374_zdtmuocno"
-  },
-  {
-    "timestamp": "2025-10-14T05:12:31.374Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
-    "id": 1760418751374.352,
-    "sessionId": "session_1760418751374_zdtmuocno"
-  },
-  {
-    "timestamp": "2025-10-14T05:10:44.877Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760418644877.2917,
-    "sessionId": "session_1760418247341_8px9phz2o"
-  },
-  {
-    "timestamp": "2025-10-14T05:10:44.212Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760418644212.3992,
-    "sessionId": "session_1760418247341_8px9phz2o"
-  },
-  {
-    "timestamp": "2025-10-14T05:10:43.649Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760418643649.854,
-    "sessionId": "session_1760418247341_8px9phz2o"
-  },
-  {
-    "timestamp": "2025-10-14T05:10:42.931Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động",
-    "id": 1760418642931.9038,
-    "sessionId": "session_1760418247341_8px9phz2o"
+    "id": 1760418688980.5356,
+    "sessionId": "session_1760418364766_wea5lfzpq"
   },
   {
     "timestamp": "2025-10-14T05:07:52.040Z",
