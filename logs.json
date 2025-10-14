@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T09:42:25.061Z",
+    "action": "Lỗi tìm kiếm",
+    "details": "Lỗi AI: Không thể kết nối với AI. Vui lòng thử lại sau.",
+    "id": 1760434945061.7734,
+    "sessionId": "session_1760434901855_z8wg20etu"
+  },
+  {
     "timestamp": "2025-10-14T09:42:09.117Z",
     "action": "Lỗi tìm kiếm",
     "details": "Lỗi AI: Không thể kết nối với AI. Vui lòng thử lại sau.",
