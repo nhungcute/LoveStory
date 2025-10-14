@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-14T08:49:01.961Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"có bao nhiêu sự kiện\" - 0 kết quả",
+    "id": 1760431741961.0457,
+    "sessionId": "session_1760431675395_0cdbmvwsy"
+  },
+  {
+    "timestamp": "2025-10-14T08:49:00.129Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"có bao nhiêu sự kiện\" - 0 kết quả",
+    "id": 1760431740129.824,
+    "sessionId": "session_1760431675395_0cdbmvwsy"
+  },
+  {
     "timestamp": "2025-10-14T08:48:53.502Z",
     "action": "Tìm kiếm",
     "details": "basic: \"kỷ niệm gần nhất\" - 710 kết quả",
