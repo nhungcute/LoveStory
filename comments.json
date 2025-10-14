@@ -48,13 +48,18 @@
   },
   {
     "ID_IMG": "MIN_9229.JPG",
-    "count_tim": 3,
+    "count_tim": 4,
     "comments": [],
     "likes": [
       {
         "userId": "8maxcs",
         "userName": "Hà Tín",
         "timestamp": "2025-10-14T08:03:08.303Z"
+      },
+      {
+        "userId": "tintin",
+        "userName": "Hà Mạnh Tín",
+        "timestamp": "2025-10-14T08:32:22.321Z"
       }
     ]
   },
