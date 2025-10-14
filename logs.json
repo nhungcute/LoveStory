@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T08:28:47.798Z",
+    "action": "Thích ảnh",
+    "details": "Hà Mạnh Tín đã thích ảnh: IMG_2062.JPG (1 lượt thích)",
+    "id": 1760430527798.248,
+    "sessionId": "session_1760430460323_12qredxo0"
+  },
+  {
     "timestamp": "2025-10-14T08:27:41.398Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
