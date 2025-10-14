@@ -6,6 +6,7 @@
     <title>Love Story - Ứng Dụng Kỷ Niệm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -398,6 +399,10 @@
                 
                 <div class="flex items-center space-x-4">
                     <nav class="flex space-x-2 md:space-x-6">
+                        <button onclick="showSearchModal()" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80" title="Tìm kiếm thông minh">
+                            <i class="fas fa-robot text-xl md:text-2xl md:mr-2"></i>
+                            <span class="hidden md:inline">Tìm kiếm</span>
+                        </button>
                         <button onclick="showSection('timeline')" class="nav-btn px-2 md:px-4 py-2 rounded-lg transition-colors hover:bg-primary-80 active" title="Timeline">
                             <i class="fas fa-heart-pulse text-xl md:text-2xl md:mr-2"></i>
                             <span class="hidden md:inline">Timeline</span>
@@ -498,9 +503,11 @@
                     <h2 class="text-xl font-bold text-primary-100">
                         <i class="fas fa-heart-pulse mr-2"></i>Timeline
                     </h2>
-                    <button onclick="showAddEventModal()" class="p-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors" title="Thêm sự kiện">
-                        <i class="fas fa-plus"></i>
-                    </button>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="showAddEventModal()" class="p-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors" title="Thêm sự kiện">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
                 <div id="timeline-container" class="space-y-3">
                     <div class="skeleton-timeline-item">
@@ -1039,6 +1046,68 @@
         </div>
     </div>
 
+    <!-- Search Modal -->
+    <div id="search-modal" class="modal">
+        <div class="bg-white rounded-xl max-w-4xl w-full mx-2 my-2 sm:m-4 flex flex-col" style="max-height: calc(100vh - 1rem);">
+            <div class="p-4 border-b flex justify-between items-center flex-shrink-0">
+                <h3 class="text-xl font-bold text-primary-100">
+                    <i class="fas fa-search mr-2"></i>Tìm Kiếm Thông Minh
+                </h3>
+                <button onclick="closeSearchModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Search Input -->
+            <div class="p-4 border-b bg-gray-50 flex-shrink-0">
+                <div class="flex space-x-2">
+                    <input type="text" id="search-input" placeholder="Tìm kiếm sự kiện, hỏi AI về kỷ niệm của bạn..." 
+                           class="flex-1 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100 text-sm">
+                    <button onclick="performSearch()" id="search-btn" class="px-6 py-3 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
+                        <i class="fas fa-search mr-2"></i>Tìm kiếm
+                    </button>
+                </div>
+                
+                <!-- Search Options -->
+                <div class="mt-3 flex flex-wrap gap-2">
+                    <button onclick="setSearchMode('basic')" id="basic-search-btn" class="search-mode-btn px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm hover:bg-blue-200 transition-colors">
+                        <i class="fas fa-search mr-1"></i>Tìm kiếm cơ bản
+                    </button>
+                    <button onclick="setSearchMode('ai')" id="ai-search-btn" class="search-mode-btn px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm hover:bg-purple-200 transition-colors">
+                        <i class="fas fa-robot mr-1"></i>Hỏi AI
+                    </button>
+                    <button onclick="setSearchMode('stats')" id="stats-search-btn" class="search-mode-btn px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm hover:bg-green-200 transition-colors">
+                        <i class="fas fa-chart-bar mr-1"></i>Thống kê
+                    </button>
+                </div>
+                
+                <!-- Quick Search Suggestions -->
+                <div class="mt-3">
+                    <div class="text-sm text-gray-600 mb-2">Gợi ý tìm kiếm:</div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="quickSearch('kỷ niệm gần nhất')" class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs hover:bg-gray-200">Kỷ niệm gần nhất</button>
+                        <button onclick="quickSearch('có bao nhiêu sự kiện')" class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs hover:bg-gray-200">Số lượng sự kiện</button>
+                        <button onclick="quickSearch('sự kiện năm 2024')" class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs hover:bg-gray-200">Sự kiện năm 2024</button>
+                        <button onclick="quickSearch('kỷ niệm đặc biệt')" class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs hover:bg-gray-200">Kỷ niệm đặc biệt</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search Results -->
+            <div class="flex-1 overflow-y-auto min-h-0">
+                <div class="p-4">
+                    <div id="search-results" class="space-y-4">
+                        <div class="text-center py-12 text-gray-500">
+                            <i class="fas fa-search text-4xl mb-4"></i>
+                            <p class="text-lg">Nhập từ khóa để tìm kiếm</p>
+                            <p class="text-sm mt-2">Bạn có thể tìm kiếm sự kiện, hỏi AI về kỷ niệm, hoặc xem thống kê</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Profile Modal -->
     <div id="profile-modal" class="modal">
         <div class="bg-white rounded-xl max-w-md w-full m-4">
@@ -1190,6 +1259,8 @@
         let currentUser = null;
         let profilesData = [];
         let currentTheme = 'default';
+        let currentSearchMode = 'basic'; // 'basic', 'ai', 'stats'
+        let searchHistory = [];
         let availableThemes = {
             default: {
                 name: 'Mặc định',
@@ -4295,6 +4366,567 @@
             }
         }
 
+        // Search Functions
+        function showSearchModal() {
+            document.getElementById('search-modal').classList.add('active');
+            document.getElementById('search-input').focus();
+            setSearchMode('basic'); // Default to basic search
+            
+            logActivity('Mở tìm kiếm', 'Mở modal tìm kiếm thông minh');
+        }
+
+        function closeSearchModal() {
+            document.getElementById('search-modal').classList.remove('active');
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-results').innerHTML = `
+                <div class="text-center py-12 text-gray-500">
+                    <i class="fas fa-search text-4xl mb-4"></i>
+                    <p class="text-lg">Nhập từ khóa để tìm kiếm</p>
+                    <p class="text-sm mt-2">Bạn có thể tìm kiếm sự kiện, hỏi AI về kỷ niệm, hoặc xem thống kê</p>
+                </div>
+            `;
+        }
+
+        function setSearchMode(mode) {
+            currentSearchMode = mode;
+            
+            // Update button styles
+            document.querySelectorAll('.search-mode-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-500', 'text-white', 'bg-purple-500', 'bg-green-500');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            
+            const activeBtn = document.getElementById(`${mode}-search-btn`);
+            activeBtn.classList.remove('bg-gray-100', 'text-gray-700');
+            
+            if (mode === 'basic') {
+                activeBtn.classList.add('bg-blue-500', 'text-white');
+                document.getElementById('search-input').placeholder = 'Tìm kiếm sự kiện theo tên, mô tả, ngày...';
+            } else if (mode === 'ai') {
+                activeBtn.classList.add('bg-purple-500', 'text-white');
+                document.getElementById('search-input').placeholder = 'Hỏi AI: "Kỷ niệm nào ở Đà Lạt?", "Sự kiện gần nhất là gì?"...';
+            } else if (mode === 'stats') {
+                activeBtn.classList.add('bg-green-500', 'text-white');
+                document.getElementById('search-input').placeholder = 'Thống kê: "số lượng sự kiện", "sự kiện theo năm"...';
+            }
+            
+            logActivity('Chuyển chế độ tìm kiếm', `Chuyển sang chế độ: ${mode}`);
+        }
+
+        function quickSearch(query) {
+            document.getElementById('search-input').value = query;
+            performSearch();
+        }
+
+        async function performSearch() {
+            const query = document.getElementById('search-input').value.trim();
+            if (!query) {
+                showNotification('Vui lòng nhập từ khóa tìm kiếm!', 'warning');
+                return;
+            }
+
+            const searchBtn = document.getElementById('search-btn');
+            const originalText = searchBtn.innerHTML;
+            searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang tìm...';
+            searchBtn.disabled = true;
+
+            try {
+                let results = [];
+                
+                if (currentSearchMode === 'basic') {
+                    results = await performBasicSearch(query);
+                } else if (currentSearchMode === 'ai') {
+                    results = await performAISearch(query);
+                } else if (currentSearchMode === 'stats') {
+                    results = await performStatsSearch(query);
+                }
+                
+                displaySearchResults(results, query);
+                
+                // Add to search history
+                searchHistory.unshift({
+                    query: query,
+                    mode: currentSearchMode,
+                    timestamp: new Date().toISOString(),
+                    resultCount: Array.isArray(results) ? results.length : 1
+                });
+                
+                // Keep only last 20 searches
+                if (searchHistory.length > 20) {
+                    searchHistory = searchHistory.slice(0, 20);
+                }
+                
+                logActivity('Tìm kiếm', `${currentSearchMode}: "${query}" - ${Array.isArray(results) ? results.length : 1} kết quả`);
+                
+            } catch (error) {
+                console.error('Lỗi tìm kiếm:', error);
+                logActivity('Lỗi tìm kiếm', error.message);
+                
+                document.getElementById('search-results').innerHTML = `
+                    <div class="text-center py-8 text-red-500">
+                        <i class="fas fa-exclamation-triangle text-4xl mb-4"></i>
+                        <p class="text-lg">Lỗi khi tìm kiếm</p>
+                        <p class="text-sm mt-2">${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                searchBtn.innerHTML = originalText;
+                searchBtn.disabled = false;
+            }
+        }
+
+        async function performBasicSearch(query) {
+            const results = [];
+            const searchTerms = query.toLowerCase().split(' ');
+            
+            // Search in timeline events
+            timelineData.forEach((event, index) => {
+                let score = 0;
+                const eventText = `${event.name || ''} ${event.contdetl || ''} ${event.day || ''}`.toLowerCase();
+                
+                searchTerms.forEach(term => {
+                    if (eventText.includes(term)) {
+                        score += eventText.split(term).length - 1;
+                    }
+                });
+                
+                if (score > 0) {
+                    results.push({
+                        type: 'event',
+                        data: event,
+                        index: index,
+                        score: score,
+                        matchText: highlightMatches(eventText, searchTerms)
+                    });
+                }
+            });
+            
+            // Search in photos
+            photosData.forEach((photo, index) => {
+                let score = 0;
+                const photoText = `${photo.name || ''} ${photo.description || ''}`.toLowerCase();
+                
+                searchTerms.forEach(term => {
+                    if (photoText.includes(term)) {
+                        score += photoText.split(term).length - 1;
+                    }
+                });
+                
+                if (score > 0) {
+                    results.push({
+                        type: 'photo',
+                        data: photo,
+                        index: index,
+                        score: score,
+                        matchText: highlightMatches(photoText, searchTerms)
+                    });
+                }
+            });
+            
+            // Sort by relevance score
+            results.sort((a, b) => b.score - a.score);
+            
+            return results;
+        }
+
+        async function performAISearch(query) {
+            try {
+                // Prepare context data for AI
+                const contextData = {
+                    events: timelineData.map(event => ({
+                        name: event.name,
+                        date: event.day,
+                        description: event.contdetl,
+                        hasImages: event.image && event.image.length > 0
+                    })),
+                    photos: photosData.map(photo => ({
+                        name: photo.name,
+                        createdTime: photo.createdTime,
+                        description: photo.description
+                    })),
+                    stats: {
+                        totalEvents: timelineData.length,
+                        totalPhotos: photosData.length,
+                        dateRange: getDateRange()
+                    }
+                };
+                
+                const response = await callGeminiApi(query, contextData);
+                
+                return [{
+                    type: 'ai_response',
+                    data: {
+                        query: query,
+                        response: response,
+                        timestamp: new Date().toISOString()
+                    }
+                }];
+                
+            } catch (error) {
+                throw new Error(`Lỗi AI: ${error.message}`);
+            }
+        }
+
+        async function performStatsSearch(query) {
+            const stats = [];
+            const queryLower = query.toLowerCase();
+            
+            // Basic statistics
+            if (queryLower.includes('số lượng') || queryLower.includes('bao nhiêu')) {
+                stats.push({
+                    type: 'stat',
+                    title: 'Tổng số sự kiện',
+                    value: timelineData.length,
+                    icon: 'fas fa-calendar-alt',
+                    color: 'text-blue-600'
+                });
+                
+                stats.push({
+                    type: 'stat',
+                    title: 'Tổng số ảnh',
+                    value: photosData.length,
+                    icon: 'fas fa-images',
+                    color: 'text-green-600'
+                });
+            }
+            
+            // Events by year
+            if (queryLower.includes('năm') || queryLower.includes('year')) {
+                const eventsByYear = {};
+                timelineData.forEach(event => {
+                    const year = event.day.split('-')[2];
+                    eventsByYear[year] = (eventsByYear[year] || 0) + 1;
+                });
+                
+                Object.keys(eventsByYear).sort().forEach(year => {
+                    stats.push({
+                        type: 'stat',
+                        title: `Sự kiện năm ${year}`,
+                        value: eventsByYear[year],
+                        icon: 'fas fa-calendar-year',
+                        color: 'text-purple-600'
+                    });
+                });
+            }
+            
+            // Events by month
+            if (queryLower.includes('tháng') || queryLower.includes('month')) {
+                const eventsByMonth = {};
+                const monthNames = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+                                  'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+                
+                timelineData.forEach(event => {
+                    const month = parseInt(event.day.split('-')[1]) - 1;
+                    const monthName = monthNames[month];
+                    eventsByMonth[monthName] = (eventsByMonth[monthName] || 0) + 1;
+                });
+                
+                Object.keys(eventsByMonth).forEach(month => {
+                    stats.push({
+                        type: 'stat',
+                        title: `Sự kiện ${month}`,
+                        value: eventsByMonth[month],
+                        icon: 'fas fa-calendar-month',
+                        color: 'text-orange-600'
+                    });
+                });
+            }
+            
+            // Recent events
+            if (queryLower.includes('gần nhất') || queryLower.includes('recent')) {
+                const sortedEvents = [...timelineData].sort((a, b) => {
+                    const dateA = parseDate(a.day);
+                    const dateB = parseDate(b.day);
+                    return dateB - dateA;
+                });
+                
+                stats.push({
+                    type: 'recent_events',
+                    title: 'Sự kiện gần nhất',
+                    data: sortedEvents.slice(0, 5),
+                    icon: 'fas fa-clock',
+                    color: 'text-red-600'
+                });
+            }
+            
+            return stats;
+        }
+
+        async function callGeminiApi(userMessage, contextData) {
+            const apiKey = "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0"; // Gemini API key
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+
+            // Create context string from data
+            const eventsContext = contextData.events.map(event => 
+                `Sự kiện: ${event.name}, Ngày: ${event.date}, Mô tả: ${event.description || 'Không có mô tả'}`
+            ).join('\n');
+
+            const photosContext = contextData.photos.slice(0, 20).map(photo => 
+                `Ảnh: ${photo.name}, Ngày tạo: ${photo.createdTime || 'Không rõ'}`
+            ).join('\n');
+
+            const statsContext = `Thống kê: ${contextData.stats.totalEvents} sự kiện, ${contextData.stats.totalPhotos} ảnh`;
+
+            const prompt = `Bạn là trợ lý AI cho ứng dụng Love Story - một ứng dụng lưu trữ kỷ niệm tình yêu.
+
+Dữ liệu sự kiện:
+${eventsContext}
+
+Dữ liệu ảnh (một phần):
+${photosContext}
+
+${statsContext}
+
+Hãy trả lời câu hỏi của người dùng một cách thân thiện, chi tiết và hữu ích. Nếu câu hỏi liên quan đến dữ liệu cụ thể, hãy phân tích và đưa ra thông tin chính xác. Trả lời bằng tiếng Việt.
+
+Câu hỏi: "${userMessage}"`;
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: prompt }]
+                }]
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    return data.candidates[0].content.parts[0].text;
+                } else {
+                    throw new Error('Không nhận được phản hồi từ AI');
+                }
+            } catch (error) {
+                console.error('Lỗi gọi Gemini API:', error);
+                throw new Error('Không thể kết nối với AI. Vui lòng thử lại sau.');
+            }
+        }
+
+        function displaySearchResults(results, query) {
+            const container = document.getElementById('search-results');
+            
+            if (!results || results.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-search-minus text-4xl mb-4"></i>
+                        <p class="text-lg">Không tìm thấy kết quả</p>
+                        <p class="text-sm mt-2">Thử tìm kiếm với từ khóa khác</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let resultsHtml = `
+                <div class="mb-4 p-3 bg-blue-50 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-blue-700">
+                            <i class="fas fa-search mr-2"></i>
+                            Tìm thấy <strong>${results.length}</strong> kết quả cho "<strong>${query}</strong>"
+                        </div>
+                        <div class="text-xs text-blue-600">
+                            Chế độ: ${currentSearchMode === 'basic' ? 'Cơ bản' : currentSearchMode === 'ai' ? 'AI' : 'Thống kê'}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            results.forEach((result, index) => {
+                if (result.type === 'event') {
+                    resultsHtml += renderEventResult(result, index);
+                } else if (result.type === 'photo') {
+                    resultsHtml += renderPhotoResult(result, index);
+                } else if (result.type === 'ai_response') {
+                    resultsHtml += renderAIResult(result);
+                } else if (result.type === 'stat') {
+                    resultsHtml += renderStatResult(result);
+                } else if (result.type === 'recent_events') {
+                    resultsHtml += renderRecentEventsResult(result);
+                }
+            });
+            
+            container.innerHTML = resultsHtml;
+        }
+
+        function renderEventResult(result, index) {
+            const event = result.data;
+            const eventDate = parseDate(event.day);
+            const imageCount = event.image ? event.image.length : 0;
+            
+            return `
+                <div class="bg-white border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onclick="viewEventFromSearch(${result.index})">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <i class="fas fa-calendar-alt text-primary-100"></i>
+                                <span class="text-sm font-medium text-primary-100">${formatDate(eventDate)}</span>
+                                ${imageCount > 0 ? `<span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">${imageCount} ảnh</span>` : ''}
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-2">${event.name || 'Không có tiêu đề'}</h4>
+                            <p class="text-sm text-gray-600 line-clamp-2">${event.contdetl || 'Không có mô tả'}</p>
+                        </div>
+                        <div class="ml-4">
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPhotoResult(result, index) {
+            const photo = result.data;
+            const thumbnailUrl = `https://drive.google.com/thumbnail?id=${photo.id}&sz=w200-h200`;
+            
+            return `
+                <div class="bg-white border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onclick="openPhotoModalById('${photo.id}')">
+                    <div class="flex items-start space-x-4">
+                        <img src="${thumbnailUrl}" alt="${photo.name}" class="w-16 h-16 object-cover rounded-lg flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <i class="fas fa-image text-green-600"></i>
+                                <span class="text-sm font-medium text-green-600">Ảnh</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-1">${photo.name}</h4>
+                            <p class="text-sm text-gray-600">${photo.description || 'Không có mô tả'}</p>
+                            <div class="text-xs text-gray-500 mt-2">
+                                ${photo.createdTime ? new Date(photo.createdTime).toLocaleDateString('vi-VN') : 'Không rõ ngày'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAIResult(result) {
+            return `
+                <div class="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-6">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-robot text-purple-600 text-xl"></i>
+                        <h4 class="font-semibold text-purple-800">Phản hồi từ AI</h4>
+                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                            ${new Date(result.data.timestamp).toLocaleTimeString('vi-VN')}
+                        </span>
+                    </div>
+                    <div class="prose prose-sm max-w-none">
+                        <div class="text-gray-800 leading-relaxed whitespace-pre-wrap">${result.data.response}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderStatResult(result) {
+            return `
+                <div class="bg-white border rounded-lg p-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="flex-shrink-0">
+                            <i class="${result.icon} ${result.color} text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900">${result.title}</h4>
+                            <div class="text-2xl font-bold ${result.color} mt-1">${result.value}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRecentEventsResult(result) {
+            let eventsHtml = '';
+            result.data.forEach(event => {
+                const eventDate = parseDate(event.day);
+                eventsHtml += `
+                    <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                        <div class="flex-1">
+                            <div class="font-medium text-gray-900">${event.name || 'Không có tiêu đề'}</div>
+                            <div class="text-sm text-gray-600">${formatDate(eventDate)}</div>
+                        </div>
+                        <button onclick="viewEventFromSearch(${timelineData.indexOf(event)})" class="text-primary-100 hover:text-primary-80">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            return `
+                <div class="bg-white border rounded-lg p-4">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="${result.icon} ${result.color} text-xl"></i>
+                        <h4 class="font-semibold text-gray-900">${result.title}</h4>
+                    </div>
+                    <div class="space-y-2">
+                        ${eventsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function viewEventFromSearch(eventIndex) {
+            closeSearchModal();
+            showSection('timeline');
+            
+            // Scroll to event (simple implementation)
+            setTimeout(() => {
+                const timelineItems = document.querySelectorAll('.timeline-item');
+                if (timelineItems[eventIndex]) {
+                    timelineItems[eventIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    timelineItems[eventIndex].classList.add('bg-yellow-100');
+                    setTimeout(() => {
+                        timelineItems[eventIndex].classList.remove('bg-yellow-100');
+                    }, 3000);
+                }
+            }, 500);
+            
+            logActivity('Xem sự kiện từ tìm kiếm', `Xem sự kiện: ${timelineData[eventIndex]?.name || 'Không có tên'}`);
+        }
+
+        function highlightMatches(text, searchTerms) {
+            let highlighted = text;
+            searchTerms.forEach(term => {
+                const regex = new RegExp(`(${term})`, 'gi');
+                highlighted = highlighted.replace(regex, '<mark>$1</mark>');
+            });
+            return highlighted;
+        }
+
+        function getDateRange() {
+            if (timelineData.length === 0) return 'Không có dữ liệu';
+            
+            const dates = timelineData.map(event => parseDate(event.day)).sort((a, b) => a - b);
+            const earliest = dates[0];
+            const latest = dates[dates.length - 1];
+            
+            return `${formatDate(earliest)} - ${formatDate(latest)}`;
+        }
+
+        // Add event listener for search input
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('search-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSearchModal();
+            }
+        });
+
         // Close modal when clicking outside
         document.getElementById('photo-modal').addEventListener('click', function(e) {
             if (e.target === this) {
@@ -5101,5 +5733,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e5a0fc8147096c',t:'MTc2MDQyOTcyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e5ddb3c45208e5',t:'MTc2MDQzMjIxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
