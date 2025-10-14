@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-14T09:28:20.884Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"sự kiện năm 2024\" - 0 kết quả",
+    "id": 1760434100884.369,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:28:19.830Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"sự kiện năm 2024\" - 0 kết quả",
+    "id": 1760434099830.853,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:28:17.863Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"có bao nhiêu sự kiện\" - 0 kết quả",
+    "id": 1760434097863.8704,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:28:16.735Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"có bao nhiêu sự kiện\" - 0 kết quả",
+    "id": 1760434096735.8562,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:26:58.559Z",
     "action": "Mở tìm kiếm",
     "details": "Mở modal tìm kiếm thông minh",
