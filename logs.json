@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-14T08:09:40.346Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760429380346.973,
+    "sessionId": "session_1760429379086_kvl719qd3"
+  },
+  {
+    "timestamp": "2025-10-14T08:09:40.343Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760429380343.4705,
+    "sessionId": "session_1760429379086_kvl719qd3"
+  },
+  {
+    "timestamp": "2025-10-14T08:09:39.086Z",
+    "action": "Đăng nhập tự động",
+    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
+    "id": 1760429379086.6345,
+    "sessionId": "session_1760429379086_kvl719qd3"
+  },
+  {
     "timestamp": "2025-10-14T08:09:24.010Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
