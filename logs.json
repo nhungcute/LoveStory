@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-14T09:56:10.550Z",
+    "action": "Mở tìm kiếm",
+    "details": "Mở modal tìm kiếm thông minh",
+    "id": 1760435770550.3015,
+    "sessionId": "session_1760432987364_tohsvrntk"
+  },
+  {
+    "timestamp": "2025-10-14T09:56:10.550Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: basic",
+    "id": 1760435770550.1846,
+    "sessionId": "session_1760432987364_tohsvrntk"
+  },
+  {
     "timestamp": "2025-10-14T09:11:46.316Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
