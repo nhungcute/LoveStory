@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Story</title>
+    <title>Love Story - Ứng Dụng Kỷ Niệm</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -738,69 +738,58 @@
 
     <!-- Photo Modal -->
     <div id="photo-modal" class="modal">
-        <div class="bg-white w-screen h-screen sm:h-auto sm:max-h-[calc(100vh-2rem)] sm:w-full sm:rounded-xl sm:max-w-4xl flex flex-col">
-            
-            <!-- Header - Always visible -->
-            <div class="p-3 sm:p-4 border-b flex justify-between items-center flex-shrink-0 bg-white relative z-10">
-                <h3 id="modal-title" class="text-lg sm:text-xl font-bold text-primary-100 truncate mr-4"></h3>
-                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 flex-shrink-0 p-2 hover:bg-gray-100 rounded-full transition-colors">
+        <div class="bg-white rounded-xl max-w-md w-full m-4">
+            <div class="p-4 border-b flex justify-between items-center">
+                <h3 id="modal-title" class="text-xl font-bold text-primary-100"></h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-
-            <!-- Scrollable Content Area -->
-            <div class="flex-1 overflow-y-auto min-h-0 bg-white">
-                <!-- Image -->
-                <div class="flex justify-center bg-gray-50">
-                    <img id="modal-image" class="w-full max-w-full sm:max-w-[85%] bg-gray-100 sm:mt-4 sm:rounded-lg" alt="Loading image...">
+            <div class="p-4">
+                <!-- Image Area -->
+                <div class="mb-4">
+                    <img id="modal-image" class="w-full h-64 object-cover rounded-lg shadow-lg" alt="Loading image...">
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="p-3 sm:p-4">
-                    <div class="flex flex-wrap items-center gap-2 sm:gap-4 mb-4">
-                        <button onclick="likePhoto()" id="like-btn" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors text-sm">
-                            <i class="fas fa-heart"></i>
-                            <span id="like-count">0</span>
-                        </button>
-                        <button onclick="toggleComments()" id="comment-btn" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80 transition-colors text-sm">
-                            <i class="fas fa-comment"></i>
-                            <span id="comment-count">0</span>
-                        </button>
-                        <button onclick="sharePhoto()" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors text-sm">
-                            <i class="fas fa-share-alt"></i>
-                            <span class="hidden sm:inline">Chia sẻ</span>
-                        </button>
-                        <button onclick="downloadPhoto()" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-colors text-sm">
-                            <i class="fas fa-download"></i>
-                            <span class="hidden sm:inline">Tải về</span>
-                        </button>
-                    </div>
+                <div class="flex flex-wrap items-center gap-2 mb-4">
+                    <button onclick="likePhoto()" id="like-btn" class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors text-sm">
+                        <i class="fas fa-heart"></i>
+                        <span id="like-count">0</span>
+                    </button>
+                    <button onclick="toggleComments()" id="comment-btn" class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80 transition-colors text-sm">
+                        <i class="fas fa-comment"></i>
+                        <span id="comment-count">0</span>
+                    </button>
+                    <button onclick="sharePhoto()" class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors text-sm">
+                        <i class="fas fa-share-alt"></i>
+                        <span class="hidden sm:inline">Chia sẻ</span>
+                    </button>
+                    <button onclick="downloadPhoto()" class="flex items-center space-x-2 px-3 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-colors text-sm">
+                        <i class="fas fa-download"></i>
+                        <span class="hidden sm:inline">Tải về</span>
+                    </button>
+                </div>
 
-                    <!-- Comments List Section -->
-                    <div id="comments-list-section" class="hidden">
-                        <div class="border-t pt-4">
-                            <h4 class="font-semibold text-primary-100 mb-3 flex items-center">
-                                <i class="fas fa-comments mr-2"></i>
-                                Bình luận
-                            </h4>
-                            <div id="comments-container" class="space-y-3 mb-4">
-                                <!-- Comments will be loaded here -->
-                            </div>
+                <!-- Comments Section -->
+                <div id="comments-list-section" class="hidden">
+                    <div class="border-t pt-4">
+                        <h4 class="font-semibold text-primary-100 mb-3 flex items-center">
+                            <i class="fas fa-comments mr-2"></i>
+                            Bình luận
+                        </h4>
+                        <div id="comments-container" class="space-y-3 mb-4 max-h-40 overflow-y-auto">
+                            <!-- Comments will be loaded here -->
                         </div>
                     </div>
                 </div>
 
-                <!-- Spacer to ensure content doesn't get hidden behind comment input -->
-                <div id="comment-spacer" class="hidden h-20"></div>
-            </div>
-
-            <!-- Comment Input - Fixed at bottom when active -->
-            <div id="comment-input-wrapper" class="hidden flex-shrink-0 bg-white border-t shadow-lg">
-                <div class="p-3 sm:p-4">
+                <!-- Comment Input -->
+                <div id="comment-input-wrapper" class="hidden border-t pt-4">
                     <div class="flex space-x-2">
                         <input type="text" id="comment-input" placeholder="Thêm bình luận..." 
                                class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100 text-sm">
-                        <button onclick="addComment()" class="px-3 sm:px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 flex-shrink-0 transition-colors">
+                        <button onclick="addComment()" class="px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
@@ -1061,7 +1050,8 @@
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <form id="profile-form" class="p-4 space-y-4">
+            <div class="p-4">
+                <form id="profile-form" class="p-4 space-y-4">
                 <!-- Avatar Section -->
                 <div class="text-center">
                     <div class="relative inline-block">
@@ -1131,7 +1121,8 @@
                         </div>
                     </div>
                 </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -1709,7 +1700,8 @@
                     <div class="mb-4">
                         <img src="${thumbnailUrl}" alt="${randomPhoto.name}" 
                              class="w-full h-48 object-cover rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-                             onclick="openPhotoModal(photosData.find(p => p.id === '${randomPhoto.id}'), this)"
+                             data-direct-url="https://drive.google.com/uc?export=view&id=${randomPhoto.id}"
+                             onclick="openPhotoModalById('${randomPhoto.id}', this)"
                              onerror="this.src='${fallbackUrl}'; this.onerror=null;">
                     </div>
                 `;
@@ -2130,7 +2122,8 @@
                     photosHtml += `
                         <div class="photo-item bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" 
                              data-direct-url="${directUrl}" 
-                             onclick="openPhotoModal(photosData.find(p => p.id === '${photo.id}'), this)">
+                             data-photo-id="${photo.id}"
+                             onclick="openPhotoModalById('${photo.id}', this)">
                             <img src="${thumbnailUrl}" alt="${photo.name}" class="w-full h-48 object-cover" 
                                  onerror="this.src='${fallbackUrl}'; this.onerror=null;">
                             <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded-lg text-xs flex items-center space-x-2">
@@ -2174,7 +2167,8 @@
                     photosHtml += `
                         <div class="photo-item bg-white rounded-lg shadow-md p-4 flex items-start space-x-4 cursor-pointer hover:shadow-lg transition-shadow" 
                              data-direct-url="${directUrl}" 
-                             onclick="openPhotoModal(photosData.find(p => p.id === '${photo.id}'), this)">
+                             data-photo-id="${photo.id}"
+                             onclick="openPhotoModalById('${photo.id}', this)">
                             <img src="${thumbnailUrl}" alt="${photo.name}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" 
                                  onerror="this.src='${fallbackUrl}'; this.onerror=null;">
                             <div class="flex-1 min-w-0">
@@ -2315,11 +2309,20 @@
             // Ẩn phần bình luận mặc định
             document.getElementById('comments-list-section').classList.add('hidden');
             document.getElementById('comment-input-wrapper').classList.add('hidden');
-            document.getElementById('comment-spacer').classList.add('hidden');
             
             loadComments(photo.name);
             
             document.getElementById('photo-modal').classList.add('active');
+        }
+
+        function openPhotoModalById(photoId, element = null) {
+            const photo = photosData.find(p => p.id === photoId);
+            if (photo) {
+                openPhotoModal(photo, element);
+            } else {
+                console.error('Không tìm thấy ảnh với ID:', photoId);
+                showNotification('Không tìm thấy ảnh!', 'error');
+            }
         }
 
         function closeModal() {
@@ -2330,7 +2333,6 @@
         function toggleComments() {
             const commentsListSection = document.getElementById('comments-list-section');
             const commentInputWrapper = document.getElementById('comment-input-wrapper');
-            const commentSpacer = document.getElementById('comment-spacer');
             const commentBtn = document.getElementById('comment-btn');
             const commentInput = document.getElementById('comment-input');
             
@@ -2338,7 +2340,6 @@
                 // Show comments
                 commentsListSection.classList.remove('hidden');
                 commentInputWrapper.classList.remove('hidden');
-                commentSpacer.classList.remove('hidden');
                 
                 // Update button style
                 commentBtn.classList.add('bg-primary-80');
@@ -2347,21 +2348,12 @@
                 // Focus on input after a short delay to ensure it's visible
                 setTimeout(() => {
                     commentInput.focus();
-                    
-                    // On mobile, scroll to show the comment input
-                    if (window.innerWidth < 640) {
-                        commentInputWrapper.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'end' 
-                        });
-                    }
                 }, 150);
                 
             } else {
                 // Hide comments
                 commentsListSection.classList.add('hidden');
                 commentInputWrapper.classList.add('hidden');
-                commentSpacer.classList.add('hidden');
                 
                 // Update button style
                 commentBtn.classList.remove('bg-primary-80');
@@ -2854,7 +2846,8 @@
                     eventPhotosHtml += `
                         <div class="photo-item bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative" 
                              data-direct-url="${directUrl}" 
-                             onclick="openPhotoModal(currentEventPhotos.find(p => p.id === '${photo.id}'), this)">
+                             data-photo-id="${photo.id}"
+                             onclick="openPhotoModalById('${photo.id}', this)">
                             <img src="${thumbnailUrl}" alt="${photo.name}" class="w-full h-48 object-cover" 
                                  onerror="this.src='${fallbackUrl}'; this.onerror=null;">
                             <div class="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded-lg text-xs flex items-center space-x-2">
@@ -2898,7 +2891,8 @@
                     eventPhotosHtml += `
                         <div class="photo-item bg-white rounded-lg shadow-md p-4 flex items-start space-x-4 cursor-pointer hover:shadow-lg transition-shadow" 
                              data-direct-url="${directUrl}" 
-                             onclick="openPhotoModal(currentEventPhotos.find(p => p.id === '${photo.id}'), this)">
+                             data-photo-id="${photo.id}"
+                             onclick="openPhotoModalById('${photo.id}', this)">
                             <img src="${thumbnailUrl}" alt="${photo.name}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" 
                                  onerror="this.src='${fallbackUrl}'; this.onerror=null;">
                             <div class="flex-1 min-w-0">
@@ -5107,5 +5101,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e565f7b43a04dc',t:'MTc2MDQyNzMwOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e5a0fc8147096c',t:'MTc2MDQyOTcyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
