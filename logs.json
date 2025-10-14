@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T05:05:18.388Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760418318388.9316,
+    "sessionId": "session_1760418247341_8px9phz2o"
+  },
+  {
     "timestamp": "2025-10-14T05:04:54.284Z",
     "action": "Xem ảnh sự kiện",
     "details": "Xem ảnh cho sự kiện: First day of love (2 ảnh)",
