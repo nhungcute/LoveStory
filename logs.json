@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-14T09:28:30.733Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Xem ảnh cho sự kiện: First day of love (2 ảnh)",
+    "id": 1760434110733.447,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:28:28.469Z",
+    "action": "Xem sự kiện từ tìm kiếm",
+    "details": "Xem sự kiện: First day of love",
+    "id": 1760434108469.307,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:28:25.295Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"sự kiện năm 2022\" - 1 kết quả",
+    "id": 1760434105295.9941,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:28:20.884Z",
     "action": "Tìm kiếm",
     "details": "basic: \"sự kiện năm 2024\" - 0 kết quả",
