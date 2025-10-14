@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T05:07:33.464Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760418453464.8071,
+    "sessionId": "session_1760418364766_wea5lfzpq"
+  },
+  {
     "timestamp": "2025-10-14T05:06:53.240Z",
     "action": "Sửa sự kiện",
     "details": "Đã cập nhật sự kiện: Bé con 114mm, 7w2d",
