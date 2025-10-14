@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-14T05:06:14.676Z",
+    "action": "Chọn ảnh sự kiện",
+    "details": "Đã chọn 0 ảnh cho sự kiện",
+    "id": 1760418374676.2166,
+    "sessionId": "session_1760418247341_8px9phz2o"
+  },
+  {
+    "timestamp": "2025-10-14T05:06:09.359Z",
+    "action": "Mở chọn ảnh",
+    "details": "Mở modal chọn ảnh cho sự kiện",
+    "id": 1760418369359.4329,
+    "sessionId": "session_1760418247341_8px9phz2o"
+  },
+  {
     "timestamp": "2025-10-14T05:05:18.388Z",
     "action": "Mở hồ sơ",
     "details": "Mở modal hồ sơ cá nhân",
