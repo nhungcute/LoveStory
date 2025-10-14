@@ -1,5 +1,54 @@
 [
   {
+    "timestamp": "2025-10-14T10:22:16.030Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760437336030.891,
+    "sessionId": "session_1760437334723_d0frl310b"
+  },
+  {
+    "timestamp": "2025-10-14T10:22:16.026Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760437336026.1768,
+    "sessionId": "session_1760437334723_d0frl310b"
+  },
+  {
+    "timestamp": "2025-10-14T10:22:15.643Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760437335643.5212,
+    "sessionId": "session_1760437334724_bg3dg17bk"
+  },
+  {
+    "timestamp": "2025-10-14T10:22:15.595Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760437335595.2224,
+    "sessionId": "session_1760437334724_bg3dg17bk"
+  },
+  {
+    "timestamp": "2025-10-14T10:22:15.447Z",
+    "action": "Mở tìm kiếm",
+    "details": "Mở modal tìm kiếm thông minh",
+    "id": 1760437335447.5098,
+    "sessionId": "session_1760437334723_d0frl310b"
+  },
+  {
+    "timestamp": "2025-10-14T10:22:15.447Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: basic",
+    "id": 1760437335447.5962,
+    "sessionId": "session_1760437334723_d0frl310b"
+  },
+  {
+    "timestamp": "2025-10-14T10:22:14.723Z",
+    "action": "Đăng nhập tự động",
+    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
+    "id": 1760437334723.915,
+    "sessionId": "session_1760437334723_d0frl310b"
+  },
+  {
     "timestamp": "2025-10-14T09:56:10.550Z",
     "action": "Mở tìm kiếm",
     "details": "Mở modal tìm kiếm thông minh",
