@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-14T09:34:40.614Z",
+    "action": "Mở tìm kiếm",
+    "details": "Mở modal tìm kiếm thông minh",
+    "id": 1760434480614.0205,
+    "sessionId": "session_1760434368027_y4r5qfi72"
+  },
+  {
+    "timestamp": "2025-10-14T09:34:40.613Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: basic",
+    "id": 1760434480613.3425,
+    "sessionId": "session_1760434368027_y4r5qfi72"
+  },
+  {
     "timestamp": "2025-10-14T09:34:31.138Z",
     "action": "Tìm kiếm",
     "details": "basic: \"kỷ niệm gần nhất\" - 711 kết quả",
