@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-14T09:32:28.423Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"lần gần nhất đồng bộ dữ liệu\" - 2 kết quả",
+    "id": 1760434348423.6528,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:32:27.445Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: basic",
+    "id": 1760434347445.7808,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:32:23.992Z",
+    "action": "Lỗi tìm kiếm",
+    "details": "Lỗi AI: Không thể kết nối với AI. Vui lòng thử lại sau.",
+    "id": 1760434343992.664,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:31:43.149Z",
     "action": "Quay lại tab",
     "details": "Người dùng đã quay lại ứng dụng",
