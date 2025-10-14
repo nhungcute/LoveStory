@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-14T09:09:00.847Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"1+1 bằng mấy\" - 0 kết quả",
+    "id": 1760432940847.4954,
+    "sessionId": "session_1760432869773_7rzn1q4wx"
+  },
+  {
+    "timestamp": "2025-10-14T09:08:41.794Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"Sinh nhật\" - 2 kết quả",
+    "id": 1760432921794.6091,
+    "sessionId": "session_1760432869773_7rzn1q4wx"
+  },
+  {
     "timestamp": "2025-10-14T09:08:19.103Z",
     "action": "Mở tìm kiếm",
     "details": "Mở modal tìm kiếm thông minh",
