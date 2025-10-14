@@ -1,38 +1,10 @@
 [
   {
-    "timestamp": "2025-10-14T00:17:08.467Z",
-    "action": "Thêm bình luận",
-    "details": "Cáo Cam đã bình luận cho ảnh: thumbnail22.jpg: \"Xinh đẹp\"",
-    "id": 1760401028467.8875,
-    "sessionId": "session_1760400923202_p73h5px53"
-  },
-  {
-    "timestamp": "2025-10-14T00:16:35.776Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760400995776.3916,
-    "sessionId": "session_1760400923202_p73h5px53"
-  },
-  {
-    "timestamp": "2025-10-14T00:15:24.882Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760400924882.1497,
-    "sessionId": "session_1760400923202_p73h5px53"
-  },
-  {
-    "timestamp": "2025-10-14T00:15:24.381Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760400924381.8606,
-    "sessionId": "session_1760400923202_p73h5px53"
-  },
-  {
-    "timestamp": "2025-10-14T00:15:23.189Z",
-    "action": "Tạo user ẩn danh",
-    "details": "Đã tạo user ẩn danh: Cáo Cam",
-    "id": 1760400923189.5857,
-    "sessionId": "session_1760400923202_p73h5px53"
+    "timestamp": "2025-10-14T00:14:59.413Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760400899413.8848,
+    "sessionId": "session_1760400837762_dep1h4s6t"
   },
   {
     "timestamp": "2025-10-14T00:14:36.681Z",
