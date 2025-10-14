@@ -1,89 +1,5 @@
 [
   {
-    "timestamp": "2025-10-14T08:28:47.798Z",
-    "action": "Thích ảnh",
-    "details": "Hà Mạnh Tín đã thích ảnh: IMG_2062.JPG (1 lượt thích)",
-    "id": 1760430527798.248,
-    "sessionId": "session_1760430460323_12qredxo0"
-  },
-  {
-    "timestamp": "2025-10-14T08:27:41.398Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760430461398.7178,
-    "sessionId": "session_1760430460323_12qredxo0"
-  },
-  {
-    "timestamp": "2025-10-14T08:27:41.393Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760430461393.974,
-    "sessionId": "session_1760430460323_12qredxo0"
-  },
-  {
-    "timestamp": "2025-10-14T08:27:40.322Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
-    "id": 1760430460322.998,
-    "sessionId": "session_1760430460323_12qredxo0"
-  },
-  {
-    "timestamp": "2025-10-14T08:05:43.049Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760429143049.6104,
-    "sessionId": "session_1760428966783_g3rcusoil"
-  },
-  {
-    "timestamp": "2025-10-14T08:03:33.683Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760429013683.5293,
-    "sessionId": "session_1760428966783_g3rcusoil"
-  },
-  {
-    "timestamp": "2025-10-14T08:03:28.909Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429008909.8584,
-    "sessionId": "session_1760428966783_g3rcusoil"
-  },
-  {
-    "timestamp": "2025-10-14T08:03:28.363Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429008363.9749,
-    "sessionId": "session_1760428966783_g3rcusoil"
-  },
-  {
-    "timestamp": "2025-10-14T08:03:27.645Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
-    "id": 1760429007645.6753,
-    "sessionId": "session_1760428966783_g3rcusoil"
-  },
-  {
-    "timestamp": "2025-10-14T08:03:15.714Z",
-    "action": "Đồng bộ Google Drive",
-    "details": "Trang 1: Đã tải 710 ảnh (Tổng: 710)",
-    "id": 1760428995714.025,
-    "sessionId": "session_1760428966783_g3rcusoil"
-  },
-  {
-    "timestamp": "2025-10-14T08:03:13.245Z",
-    "action": "Đồng bộ Google Drive",
-    "details": "Đang tải trang 1...",
-    "id": 1760428993245.0205,
-    "sessionId": "session_1760428966783_g3rcusoil"
-  },
-  {
-    "timestamp": "2025-10-14T08:03:13.245Z",
-    "action": "Đồng bộ Google Drive",
-    "details": "Bắt đầu tải danh sách ảnh từ Google Drive",
-    "id": 1760428993245.7988,
-    "sessionId": "session_1760428966783_g3rcusoil"
-  },
-  {
     "timestamp": "2025-10-14T08:03:08.303Z",
     "action": "Thích ảnh",
     "details": "Hà Tín đã thích ảnh: MIN_9229.JPG (3 lượt thích)",
@@ -91,25 +7,25 @@
     "sessionId": "session_1760428697844_vfdgmpkfm"
   },
   {
-    "timestamp": "2025-10-14T08:02:57.351Z",
+    "timestamp": "2025-10-14T08:02:48.630Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760428977351.429,
-    "sessionId": "session_1760428966783_g3rcusoil"
+    "id": 1760428968630.3486,
+    "sessionId": "session_1760428967569_gf9bjue0v"
   },
   {
-    "timestamp": "2025-10-14T08:02:57.342Z",
+    "timestamp": "2025-10-14T08:02:48.585Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760428977342.9673,
-    "sessionId": "session_1760428966783_g3rcusoil"
+    "id": 1760428968585.2534,
+    "sessionId": "session_1760428967569_gf9bjue0v"
   },
   {
-    "timestamp": "2025-10-14T08:02:57.338Z",
+    "timestamp": "2025-10-14T08:02:47.569Z",
     "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
-    "id": 1760428977338.4885,
-    "sessionId": "session_1760428966783_g3rcusoil"
+    "details": "Người dùng Gấu Cam đã đăng nhập tự động từ profiles",
+    "id": 1760428967569.0552,
+    "sessionId": "session_1760428967569_gf9bjue0v"
   },
   {
     "timestamp": "2025-10-14T08:01:21.844Z",
