@@ -432,7 +432,7 @@
             <!-- Ngày Này Năm Xưa Widget -->
             <div class="bg-gradient-to-br from-primary-10 to-accent-10 rounded-xl shadow-lg p-6 mb-8">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-primary-100 flex items-center">
+                    <h2 class="text-xl font-bold text-primary-100 flex items-center">
                         <i class="fas fa-history mr-3 text-accent-100"></i>
                         Ngày Này Năm Xưa
                     </h2>
@@ -451,7 +451,7 @@
             <!-- Đếm Ngược Sự Kiện Đặc Biệt -->
             <div class="bg-gradient-to-br from-accent-10 to-primary-10 rounded-xl shadow-lg p-6 mb-8">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-primary-100 flex items-center">
+                    <h2 class="text-xl font-bold text-primary-100 flex items-center">
                         <i class="fas fa-calendar-alt mr-3 text-accent-100"></i>
                         Sự Kiện
                     </h2>
@@ -495,7 +495,7 @@
         <section id="timeline-section" class="section hidden">
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-primary-100">
+                    <h2 class="text-xl font-bold text-primary-100">
                         <i class="fas fa-heart-pulse mr-2"></i>Timeline
                     </h2>
                     <button onclick="showAddEventModal()" class="p-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors" title="Thêm sự kiện">
@@ -528,18 +528,18 @@
         <section id="photos-section" class="section hidden">
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-primary-100">
+                    <h2 class="text-xl font-bold text-primary-100">
                         <i class="fas fa-camera-retro mr-2"></i>Khoảnh Khắc
                     </h2>
                     <div class="flex items-center space-x-1">
                         <button onclick="toggleView('grid')" id="grid-btn" class="view-btn p-2 rounded-lg bg-gray-300 text-gray-600">
-                            <i class="fas fa-th"></i>
+                            <i class="fas fa-th text-sm"></i>
                         </button>
                         <button onclick="toggleView('grid-2')" id="grid-2-btn" class="view-btn p-2 rounded-lg bg-primary-100 text-white">
-                            <i class="fas fa-th-large"></i>
+                            <i class="fas fa-th-large text-sm"></i>
                         </button>
                         <button onclick="toggleView('list')" id="list-btn" class="view-btn p-2 rounded-lg bg-gray-300 text-gray-600">
-                            <i class="fas fa-list"></i>
+                            <i class="fas fa-list text-sm"></i>
                         </button>
                     </div>
                 </div>
@@ -631,16 +631,13 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Thời gian</label>
-                                    <input type="time" id="sync-time" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100">
+                                    <input type="text" id="sync-time" placeholder="__:__" maxlength="5" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-100 text-center font-mono">
                                 </div>
                             </div>
 
                             <div class="flex justify-center space-x-3">
                                 <button onclick="manualSync()" class="px-4 py-2 bg-primary-100 text-white rounded-lg hover:bg-primary-80 transition-colors">
                                     <i class="fas fa-sync mr-2"></i>Thủ công
-                                </button>
-                                <button onclick="showSyncHistory()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                                    <i class="fas fa-history mr-2"></i>Lịch sử
                                 </button>
                                 <button onclick="saveSyncSettings()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                                     <i class="fas fa-save mr-2"></i>Lưu
@@ -2006,10 +2003,10 @@
                 
                 // Cộng chuỗi HTML thay vì tạo DOM element
                 timelineHtml += `
-                    <div class="timeline-item bg-white border-l-4 border-accent-100 shadow-md hover:shadow-lg transition-all duration-300 p-6 rounded-r-lg">
+                    <div class="timeline-item bg-white border-l-4 border-accent-100 shadow-md hover:shadow-lg transition-all duration-300 p-4 rounded-r-lg">
                         <div class="flex justify-between items-start">
                             <div class="flex-1">
-                                <div class="flex items-center justify-between mb-3">
+                                <div class="flex items-center justify-between mb-2">
                                     <div class="bg-gradient-to-r from-primary-100 to-accent-100 text-white px-3 py-1 rounded-full text-sm font-medium">
                                         ${formatDate(eventDate)}
                                     </div>
@@ -2025,17 +2022,17 @@
                                         </button>
                                     </div>
                                 </div>
-                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full cursor-pointer hover:bg-gray-200 transition-colors mb-3 inline-block" 
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full cursor-pointer hover:bg-gray-200 transition-colors mb-2 inline-block" 
                                       onclick="toggleTimeDisplay(this, '${timeAgo}', '${timeAgoDetailed}')" 
                                       title="Nhấn để xem chi tiết">
                                     ${timeAgo}
                                 </span>
-                                <h3 class="text-lg font-bold text-primary-100 mb-3 leading-tight cursor-pointer hover:text-primary-80 transition-colors" 
+                                <h3 class="text-base font-bold text-primary-100 mb-2 leading-tight cursor-pointer hover:text-primary-80 transition-colors" 
                                     onclick="toggleDescription(this)">${event.name || 'Không có tiêu đề'}</h3>
                                 <div class="text-gray-700 leading-relaxed hidden description-content">
                                     ${event.contdetl ? 
-                                        `<p class="mb-2 text-sm">${event.contdetl}</p>` : 
-                                        '<p class="text-gray-400 italic text-sm">Không có mô tả chi tiết</p>'
+                                        `<p class="mb-1 text-xs">${event.contdetl}</p>` : 
+                                        '<p class="text-gray-400 italic text-xs">Không có mô tả chi tiết</p>'
                                     }
                                 </div>
                             </div>
@@ -2210,8 +2207,8 @@
             // Previous button
             if (currentPhotoPage > 1) {
                 const prevBtn = document.createElement('button');
-                prevBtn.className = 'px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80';
-                prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                prevBtn.className = 'px-2 py-1 rounded-lg bg-primary-100 text-white hover:bg-primary-80 text-sm';
+                prevBtn.innerHTML = '<i class="fas fa-chevron-left text-xs"></i>';
                 prevBtn.onclick = () => changePage(currentPhotoPage - 1);
                 pagination.appendChild(prevBtn);
             }
@@ -2220,7 +2217,7 @@
             for (let i = 1; i <= totalPages; i++) {
                 if (i === 1 || i === totalPages || (i >= currentPhotoPage - 2 && i <= currentPhotoPage + 2)) {
                     const pageBtn = document.createElement('button');
-                    pageBtn.className = `px-3 py-2 rounded-lg ${
+                    pageBtn.className = `px-2 py-1 rounded-lg text-sm ${
                         i === currentPhotoPage 
                             ? 'bg-primary-100 text-white' 
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -2230,7 +2227,7 @@
                     pagination.appendChild(pageBtn);
                 } else if (i === currentPhotoPage - 3 || i === currentPhotoPage + 3) {
                     const dots = document.createElement('span');
-                    dots.className = 'px-2 py-2 text-gray-500';
+                    dots.className = 'px-1 py-1 text-gray-500 text-sm';
                     dots.textContent = '...';
                     pagination.appendChild(dots);
                 }
@@ -2239,8 +2236,8 @@
             // Next button
             if (currentPhotoPage < totalPages) {
                 const nextBtn = document.createElement('button');
-                nextBtn.className = 'px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80';
-                nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                nextBtn.className = 'px-2 py-1 rounded-lg bg-primary-100 text-white hover:bg-primary-80 text-sm';
+                nextBtn.innerHTML = '<i class="fas fa-chevron-right text-xs"></i>';
                 nextBtn.onclick = () => changePage(currentPhotoPage + 1);
                 pagination.appendChild(nextBtn);
             }
@@ -2904,8 +2901,8 @@
             // Previous button
             if (currentEventPhotoPage > 1) {
                 const prevBtn = document.createElement('button');
-                prevBtn.className = 'px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80';
-                prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                prevBtn.className = 'px-2 py-1 rounded-lg bg-primary-100 text-white hover:bg-primary-80 text-sm';
+                prevBtn.innerHTML = '<i class="fas fa-chevron-left text-xs"></i>';
                 prevBtn.onclick = () => changeEventPage(currentEventPhotoPage - 1);
                 pagination.appendChild(prevBtn);
             }
@@ -2914,7 +2911,7 @@
             for (let i = 1; i <= totalPages; i++) {
                 if (i === 1 || i === totalPages || (i >= currentEventPhotoPage - 2 && i <= currentEventPhotoPage + 2)) {
                     const pageBtn = document.createElement('button');
-                    pageBtn.className = `px-3 py-2 rounded-lg ${
+                    pageBtn.className = `px-2 py-1 rounded-lg text-sm ${
                         i === currentEventPhotoPage 
                             ? 'bg-primary-100 text-white' 
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -2924,7 +2921,7 @@
                     pagination.appendChild(pageBtn);
                 } else if (i === currentEventPhotoPage - 3 || i === currentEventPhotoPage + 3) {
                     const dots = document.createElement('span');
-                    dots.className = 'px-2 py-2 text-gray-500';
+                    dots.className = 'px-1 py-1 text-gray-500 text-sm';
                     dots.textContent = '...';
                     pagination.appendChild(dots);
                 }
@@ -2933,8 +2930,8 @@
             // Next button
             if (currentEventPhotoPage < totalPages) {
                 const nextBtn = document.createElement('button');
-                nextBtn.className = 'px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80';
-                nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                nextBtn.className = 'px-2 py-1 rounded-lg bg-primary-100 text-white hover:bg-primary-80 text-sm';
+                nextBtn.innerHTML = '<i class="fas fa-chevron-right text-xs"></i>';
                 nextBtn.onclick = () => changeEventPage(currentEventPhotoPage + 1);
                 pagination.appendChild(nextBtn);
             }
@@ -3355,8 +3352,8 @@
             // Previous button
             if (currentImageSelectorPage > 1) {
                 const prevBtn = document.createElement('button');
-                prevBtn.className = 'px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80 transition-colors';
-                prevBtn.innerHTML = '<i class="fas fa-chevron-left mr-1"></i>Trước';
+                prevBtn.className = 'px-2 py-1 rounded-lg bg-primary-100 text-white hover:bg-primary-80 transition-colors text-sm';
+                prevBtn.innerHTML = '<i class="fas fa-chevron-left mr-1 text-xs"></i>Trước';
                 prevBtn.onclick = () => changeImageSelectorPage(currentImageSelectorPage - 1);
                 paginationControls.appendChild(prevBtn);
             }
@@ -3364,14 +3361,14 @@
             // First page
             if (currentImageSelectorPage > 3) {
                 const firstBtn = document.createElement('button');
-                firstBtn.className = 'px-3 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors';
+                firstBtn.className = 'px-2 py-1 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors text-sm';
                 firstBtn.textContent = '1';
                 firstBtn.onclick = () => changeImageSelectorPage(1);
                 paginationControls.appendChild(firstBtn);
                 
                 if (currentImageSelectorPage > 4) {
                     const dots = document.createElement('span');
-                    dots.className = 'px-2 py-2 text-gray-500';
+                    dots.className = 'px-1 py-1 text-gray-500 text-sm';
                     dots.textContent = '...';
                     paginationControls.appendChild(dots);
                 }
@@ -3383,7 +3380,7 @@
             
             for (let i = startPage; i <= endPage; i++) {
                 const pageBtn = document.createElement('button');
-                pageBtn.className = `px-3 py-2 rounded-lg transition-colors ${
+                pageBtn.className = `px-2 py-1 rounded-lg transition-colors text-sm ${
                     i === currentImageSelectorPage 
                         ? 'bg-primary-100 text-white font-semibold' 
                         : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -3397,13 +3394,13 @@
             if (currentImageSelectorPage < totalPages - 2) {
                 if (currentImageSelectorPage < totalPages - 3) {
                     const dots = document.createElement('span');
-                    dots.className = 'px-2 py-2 text-gray-500';
+                    dots.className = 'px-1 py-1 text-gray-500 text-sm';
                     dots.textContent = '...';
                     paginationControls.appendChild(dots);
                 }
                 
                 const lastBtn = document.createElement('button');
-                lastBtn.className = 'px-3 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors';
+                lastBtn.className = 'px-2 py-1 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors text-sm';
                 lastBtn.textContent = totalPages;
                 lastBtn.onclick = () => changeImageSelectorPage(totalPages);
                 paginationControls.appendChild(lastBtn);
@@ -3412,8 +3409,8 @@
             // Next button
             if (currentImageSelectorPage < totalPages) {
                 const nextBtn = document.createElement('button');
-                nextBtn.className = 'px-3 py-2 rounded-lg bg-primary-100 text-white hover:bg-primary-80 transition-colors';
-                nextBtn.innerHTML = 'Sau<i class="fas fa-chevron-right ml-1"></i>';
+                nextBtn.className = 'px-2 py-1 rounded-lg bg-primary-100 text-white hover:bg-primary-80 transition-colors text-sm';
+                nextBtn.innerHTML = 'Sau<i class="fas fa-chevron-right ml-1 text-xs"></i>';
                 nextBtn.onclick = () => changeImageSelectorPage(currentImageSelectorPage + 1);
                 paginationControls.appendChild(nextBtn);
             }
@@ -4447,30 +4444,7 @@
             }
         }
 
-        function showSyncHistory() {
-            const syncLogs = activityLogs.filter(log => 
-                log.action.includes('đồng bộ') || log.action.includes('Đồng bộ')
-            );
-            
-            if (syncLogs.length === 0) {
-                showNotification('Chưa có lịch sử đồng bộ', 'info');
-                return;
-            }
-            
-            let historyHtml = '<div class="space-y-2">';
-            syncLogs.slice(0, 10).forEach(log => {
-                historyHtml += `
-                    <div class="bg-gray-50 p-3 rounded">
-                        <div class="font-medium">${log.action}</div>
-                        <div class="text-sm text-gray-600">${new Date(log.timestamp).toLocaleString('vi-VN')}</div>
-                        ${log.details ? `<div class="text-sm text-gray-500">${log.details}</div>` : ''}
-                    </div>
-                `;
-            });
-            historyHtml += '</div>';
-            
-            showModal('Lịch Sử Đồng Bộ', historyHtml);
-        }
+
 
         function viewActivityLogs() {
             if (allLogs.length === 0) {
@@ -4478,31 +4452,114 @@
                 return;
             }
             
-            let logsHtml = `
-                <div class="mb-4 p-3 bg-blue-50 rounded-lg">
-                    <div class="flex items-center justify-between text-sm">
-                        <div>
-                            <span class="font-medium">Tổng số bản ghi:</span> ${allLogs.length}
+            // Tạo modal với filter
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-xl max-w-4xl max-h-[90vh] overflow-hidden m-4 w-full flex flex-col">
+                    <div class="p-4 border-b flex justify-between items-center flex-shrink-0">
+                        <h3 class="text-xl font-bold text-primary-100">Nhật Ký Hoạt Động</h3>
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Filter Section -->
+                    <div class="p-4 border-b bg-gray-50 flex-shrink-0">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-2">
+                                <label class="text-sm font-medium text-gray-700">Lọc theo:</label>
+                                <select id="log-filter" class="px-3 py-1 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-100">
+                                    <option value="all">Tất cả</option>
+                                    <option value="sync">Lịch sử đồng bộ</option>
+                                </select>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                <span class="font-medium">Tổng:</span> <span id="total-count">${allLogs.length}</span> |
+                                <span class="font-medium">Hiển thị:</span> <span id="filtered-count">${allLogs.length}</span> |
+                                <span class="font-medium">Chưa lưu:</span> 
+                                <span class="px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs">${pendingLogs.length}</span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="font-medium">Chưa lưu:</span> 
-                            <span class="px-2 py-1 bg-orange-100 text-orange-800 rounded">${pendingLogs.length}</span>
+                    </div>
+                    
+                    <!-- Logs Content -->
+                    <div class="flex-1 overflow-y-auto min-h-0">
+                        <div class="p-4">
+                            <div id="logs-container" class="space-y-2">
+                                <!-- Logs will be populated here -->
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="space-y-2 max-h-96 overflow-y-auto">
             `;
             
-            allLogs.slice(0, 100).forEach(log => {
+            document.body.appendChild(modal);
+            
+            // Add event listener for filter
+            const filterSelect = modal.querySelector('#log-filter');
+            filterSelect.addEventListener('change', function() {
+                updateLogsDisplay(modal, this.value);
+            });
+            
+            // Initial display
+            updateLogsDisplay(modal, 'all');
+            
+            // Close modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+        
+        function updateLogsDisplay(modal, filterType) {
+            const logsContainer = modal.querySelector('#logs-container');
+            const filteredCountElement = modal.querySelector('#filtered-count');
+            
+            let filteredLogs = allLogs;
+            
+            if (filterType === 'sync') {
+                filteredLogs = allLogs.filter(log => 
+                    log.action.toLowerCase().includes('đồng bộ') || 
+                    log.action.toLowerCase().includes('sync') ||
+                    log.details.toLowerCase().includes('đồng bộ') ||
+                    log.details.toLowerCase().includes('google drive')
+                );
+            }
+            
+            // Update filtered count
+            filteredCountElement.textContent = filteredLogs.length;
+            
+            if (filteredLogs.length === 0) {
+                logsContainer.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-inbox text-4xl mb-4"></i>
+                        <p>Không có nhật ký nào phù hợp với bộ lọc</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let logsHtml = '';
+            filteredLogs.slice(0, 200).forEach(log => {
                 const isPending = pendingLogs.some(p => p.id === log.id);
                 const statusClass = isPending ? 'border-l-4 border-orange-400 bg-orange-50' : 'bg-gray-50';
                 const statusIcon = isPending ? '<i class="fas fa-clock text-orange-500 mr-1"></i>' : '<i class="fas fa-check text-green-500 mr-1"></i>';
                 
+                // Highlight sync-related logs
+                const isSyncLog = log.action.toLowerCase().includes('đồng bộ') || 
+                                 log.action.toLowerCase().includes('sync') ||
+                                 log.details.toLowerCase().includes('đồng bộ');
+                const syncClass = isSyncLog ? 'border-l-4 border-blue-400' : '';
+                
                 logsHtml += `
-                    <div class="${statusClass} p-3 rounded">
+                    <div class="${statusClass} ${syncClass} p-3 rounded">
                         <div class="flex justify-between items-start">
                             <div class="font-medium flex items-center">
-                                ${statusIcon}${log.action}
+                                ${statusIcon}
+                                ${isSyncLog ? '<i class="fas fa-sync text-blue-500 mr-1"></i>' : ''}
+                                ${log.action}
                             </div>
                             <div class="text-xs text-gray-500">${new Date(log.timestamp).toLocaleString('vi-VN')}</div>
                         </div>
@@ -4511,9 +4568,8 @@
                     </div>
                 `;
             });
-            logsHtml += '</div>';
             
-            showModal('Nhật Ký Hoạt Động', logsHtml);
+            logsContainer.innerHTML = logsHtml;
         }
 
         function exportLogs() {
@@ -4722,6 +4778,50 @@
                     logActivity('Cài đặt', 'Tắt ghi nhật ký hoạt động');
                 }
             });
+            
+            // Add time input formatting
+            const syncTimeInput = document.getElementById('sync-time');
+            if (syncTimeInput) {
+                syncTimeInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                    
+                    if (value.length >= 2) {
+                        value = value.substring(0, 2) + ':' + value.substring(2, 4);
+                    }
+                    
+                    e.target.value = value;
+                });
+                
+                syncTimeInput.addEventListener('keydown', function(e) {
+                    // Allow backspace, delete, tab, escape, enter, arrow keys
+                    if ([8, 9, 27, 13, 46, 37, 38, 39, 40].indexOf(e.keyCode) !== -1 ||
+                        // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                        (e.keyCode === 65 && e.ctrlKey === true) ||
+                        (e.keyCode === 67 && e.ctrlKey === true) ||
+                        (e.keyCode === 86 && e.ctrlKey === true) ||
+                        (e.keyCode === 88 && e.ctrlKey === true)) {
+                        return;
+                    }
+                    // Ensure that it is a number and stop the keypress
+                    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                        e.preventDefault();
+                    }
+                });
+                
+                syncTimeInput.addEventListener('blur', function(e) {
+                    const value = e.target.value;
+                    if (value && value.length === 5) {
+                        const [hours, minutes] = value.split(':');
+                        const h = parseInt(hours);
+                        const m = parseInt(minutes);
+                        
+                        if (h < 0 || h > 23 || m < 0 || m > 59) {
+                            showNotification('Thời gian không hợp lệ! Vui lòng nhập từ 00:00 đến 23:59', 'warning');
+                            e.target.focus();
+                        }
+                    }
+                });
+            }
         });
 
         function saveSettings() {
@@ -4960,5 +5060,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e453fca3a2b472',t:'MTc2MDQxNjA4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98e4867962a9109b',t:'MTc2MDQxODE1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
