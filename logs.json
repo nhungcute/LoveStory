@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T09:42:41.699Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760434961699.8315,
+    "sessionId": "session_1760434901855_z8wg20etu"
+  },
+  {
     "timestamp": "2025-10-14T09:42:25.061Z",
     "action": "Lỗi tìm kiếm",
     "details": "Lỗi AI: Không thể kết nối với AI. Vui lòng thử lại sau.",
