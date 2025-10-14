@@ -1,24 +1,45 @@
 [
   {
-    "timestamp": "2025-10-14T09:03:39.450Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760432619450.552,
-    "sessionId": "session_1760432617228_r2nbfmvtz"
+    "timestamp": "2025-10-14T09:04:01.944Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"chào đời\" - 0 kết quả",
+    "id": 1760432641944.823,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
   },
   {
-    "timestamp": "2025-10-14T09:03:39.017Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760432619017.2998,
-    "sessionId": "session_1760432617228_r2nbfmvtz"
+    "timestamp": "2025-10-14T09:03:59.691Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"chào đời\" - 0 kết quả",
+    "id": 1760432639691.5132,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
   },
   {
-    "timestamp": "2025-10-14T09:03:37.228Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
-    "id": 1760432617228.5837,
-    "sessionId": "session_1760432617228_r2nbfmvtz"
+    "timestamp": "2025-10-14T09:03:44.680Z",
+    "action": "Mở tìm kiếm",
+    "details": "Mở modal tìm kiếm thông minh",
+    "id": 1760432624680.7869,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:03:44.680Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: basic",
+    "id": 1760432624680.0789,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:03:35.197Z",
+    "action": "Quay lại tab",
+    "details": "Người dùng đã quay lại ứng dụng",
+    "id": 1760432615198.8477,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:03:33.037Z",
+    "action": "Chuyển tab",
+    "details": "Người dùng đã chuyển sang tab khác",
+    "id": 1760432613037.5435,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
   },
   {
     "timestamp": "2025-10-14T09:03:21.566Z",
