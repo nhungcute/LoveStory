@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T09:26:04.455Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"sinh nhat\" - 2 kết quả",
+    "id": 1760433964455.7559,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:25:59.607Z",
     "action": "Tìm kiếm",
     "details": "basic: \"nhat\" - 0 kết quả",
