@@ -28,6 +28,20 @@
     "sessionId": "session_1760429820239_sfxpb1u0p"
   },
   {
+    "timestamp": "2025-10-14T08:32:22.330Z",
+    "action": "Thích ảnh",
+    "details": "Hà Mạnh Tín đã thích ảnh: MIN_9229.JPG (4 lượt thích)",
+    "id": 1760430742330.2878,
+    "sessionId": "session_1760430695573_l2ck3to1q"
+  },
+  {
+    "timestamp": "2025-10-14T08:32:18.487Z",
+    "action": "Mở modal chia sẻ",
+    "details": "Mở modal chia sẻ cho ảnh: MIN_9229.JPG",
+    "id": 1760430738487.1792,
+    "sessionId": "session_1760430695573_l2ck3to1q"
+  },
+  {
     "timestamp": "2025-10-14T08:32:15.141Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
