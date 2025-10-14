@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T09:24:11.213Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: basic",
+    "id": 1760433851213.011,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:24:00.342Z",
     "action": "Tìm kiếm",
     "details": "stats: \"sự kiện năm 2026\" - 4 kết quả",
