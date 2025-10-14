@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T09:35:36.638Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: ai",
+    "id": 1760434536638.903,
+    "sessionId": "session_1760434368027_y4r5qfi72"
+  },
+  {
     "timestamp": "2025-10-14T09:35:30.503Z",
     "action": "Tìm kiếm",
     "details": "basic: \"có bao nhiêu\" - 2 kết quả",
