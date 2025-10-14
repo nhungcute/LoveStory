@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T09:34:56.241Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"du sinh\" - 2 kết quả",
+    "id": 1760434496241.757,
+    "sessionId": "session_1760434368027_y4r5qfi72"
+  },
+  {
     "timestamp": "2025-10-14T09:34:40.614Z",
     "action": "Mở tìm kiếm",
     "details": "Mở modal tìm kiếm thông minh",
