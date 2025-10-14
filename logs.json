@@ -1,227 +1,59 @@
 [
   {
-    "timestamp": "2025-10-14T08:22:21.947Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760430141947.329,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:22:17.332Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760430137332.2202,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:22:16.734Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động",
-    "id": 1760430136734.1711,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:18:52.469Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429932469.9568,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:18:52.465Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429932465.338,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:18:46.584Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động",
-    "id": 1760429926584.011,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:18:00.426Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760429880426.0479,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:17:57.350Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760429877350.384,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:17:21.879Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760429841879.9465,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:17:02.377Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429822377.9807,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:17:02.370Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429822370.0413,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:17:00.239Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
-    "id": 1760429820239.2498,
-    "sessionId": "session_1760429820239_sfxpb1u0p"
-  },
-  {
-    "timestamp": "2025-10-14T08:15:54.854Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760429754854.683,
-    "sessionId": "session_1760429602810_331ymwjju"
-  },
-  {
-    "timestamp": "2025-10-14T08:14:47.455Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760429687455.8787,
-    "sessionId": "session_1760429602810_331ymwjju"
-  },
-  {
-    "timestamp": "2025-10-14T08:14:14.201Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760429654201.687,
-    "sessionId": "session_1760429602810_331ymwjju"
-  },
-  {
-    "timestamp": "2025-10-14T08:13:24.880Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429604880.4568,
-    "sessionId": "session_1760429602810_331ymwjju"
-  },
-  {
-    "timestamp": "2025-10-14T08:13:24.876Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429604876.2805,
-    "sessionId": "session_1760429602810_331ymwjju"
-  },
-  {
-    "timestamp": "2025-10-14T08:13:22.810Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
-    "id": 1760429602810.5623,
-    "sessionId": "session_1760429602810_331ymwjju"
-  },
-  {
-    "timestamp": "2025-10-14T08:12:53.710Z",
+    "timestamp": "2025-10-14T08:05:43.049Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760429573710.8606,
-    "sessionId": "session_1760429379086_kvl719qd3"
+    "id": 1760429143049.6104,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
-    "timestamp": "2025-10-14T08:10:18.374Z",
+    "timestamp": "2025-10-14T08:03:33.683Z",
     "action": "Mở hồ sơ",
     "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760429418374.6736,
-    "sessionId": "session_1760429379086_kvl719qd3"
+    "id": 1760429013683.5293,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
-    "timestamp": "2025-10-14T08:10:03.562Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760429403562.5852,
-    "sessionId": "session_1760429379086_kvl719qd3"
-  },
-  {
-    "timestamp": "2025-10-14T08:09:58.580Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760429398580.7427,
-    "sessionId": "session_1760429379086_kvl719qd3"
-  },
-  {
-    "timestamp": "2025-10-14T08:09:40.346Z",
+    "timestamp": "2025-10-14T08:03:28.909Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429380346.973,
-    "sessionId": "session_1760429379086_kvl719qd3"
+    "id": 1760429008909.8584,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
-    "timestamp": "2025-10-14T08:09:40.343Z",
+    "timestamp": "2025-10-14T08:03:28.363Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429380343.4705,
-    "sessionId": "session_1760429379086_kvl719qd3"
+    "id": 1760429008363.9749,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
-    "timestamp": "2025-10-14T08:09:39.086Z",
+    "timestamp": "2025-10-14T08:03:27.645Z",
     "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
-    "id": 1760429379086.6345,
-    "sessionId": "session_1760429379086_kvl719qd3"
+    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
+    "id": 1760429007645.6753,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
-    "timestamp": "2025-10-14T08:09:24.010Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760429364010.518,
-    "sessionId": "session_1760429281549_3pbaq2riv"
+    "timestamp": "2025-10-14T08:03:15.714Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Trang 1: Đã tải 710 ảnh (Tổng: 710)",
+    "id": 1760428995714.025,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
-    "timestamp": "2025-10-14T08:08:22.571Z",
-    "action": "Quay lại tab",
-    "details": "Người dùng đã quay lại ứng dụng",
-    "id": 1760429302571.658,
-    "sessionId": "session_1760429281549_3pbaq2riv"
+    "timestamp": "2025-10-14T08:03:13.245Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Đang tải trang 1...",
+    "id": 1760428993245.0205,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
-    "timestamp": "2025-10-14T08:08:20.993Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760429300993.4016,
-    "sessionId": "session_1760429281549_3pbaq2riv"
-  },
-  {
-    "timestamp": "2025-10-14T08:08:20.808Z",
-    "action": "Chuyển tab",
-    "details": "Người dùng đã chuyển sang tab khác",
-    "id": 1760429300808.8105,
-    "sessionId": "session_1760429281549_3pbaq2riv"
-  },
-  {
-    "timestamp": "2025-10-14T08:08:02.983Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429282983.6624,
-    "sessionId": "session_1760429281549_3pbaq2riv"
-  },
-  {
-    "timestamp": "2025-10-14T08:08:02.979Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760429282979.5552,
-    "sessionId": "session_1760429281549_3pbaq2riv"
-  },
-  {
-    "timestamp": "2025-10-14T08:08:01.540Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
-    "id": 1760429281540.8662,
-    "sessionId": "session_1760429281549_3pbaq2riv"
+    "timestamp": "2025-10-14T08:03:13.245Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Bắt đầu tải danh sách ảnh từ Google Drive",
+    "id": 1760428993245.7988,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
     "timestamp": "2025-10-14T08:03:08.303Z",
@@ -231,25 +63,25 @@
     "sessionId": "session_1760428697844_vfdgmpkfm"
   },
   {
-    "timestamp": "2025-10-14T08:02:48.630Z",
+    "timestamp": "2025-10-14T08:02:57.351Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760428968630.3486,
-    "sessionId": "session_1760428967569_gf9bjue0v"
+    "id": 1760428977351.429,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
-    "timestamp": "2025-10-14T08:02:48.585Z",
+    "timestamp": "2025-10-14T08:02:57.342Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760428968585.2534,
-    "sessionId": "session_1760428967569_gf9bjue0v"
+    "id": 1760428977342.9673,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
-    "timestamp": "2025-10-14T08:02:47.569Z",
+    "timestamp": "2025-10-14T08:02:57.338Z",
     "action": "Đăng nhập tự động",
-    "details": "Người dùng Gấu Cam đã đăng nhập tự động từ profiles",
-    "id": 1760428967569.0552,
-    "sessionId": "session_1760428967569_gf9bjue0v"
+    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
+    "id": 1760428977338.4885,
+    "sessionId": "session_1760428966783_g3rcusoil"
   },
   {
     "timestamp": "2025-10-14T08:01:21.844Z",
