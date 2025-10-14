@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-14T08:08:02.983Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760429282983.6624,
+    "sessionId": "session_1760429281549_3pbaq2riv"
+  },
+  {
+    "timestamp": "2025-10-14T08:08:02.979Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760429282979.5552,
+    "sessionId": "session_1760429281549_3pbaq2riv"
+  },
+  {
+    "timestamp": "2025-10-14T08:08:01.540Z",
+    "action": "Đăng nhập tự động",
+    "details": "Người dùng Hà Tín đã đăng nhập tự động từ profiles",
+    "id": 1760429281540.8662,
+    "sessionId": "session_1760429281549_3pbaq2riv"
+  },
+  {
     "timestamp": "2025-10-14T08:03:08.303Z",
     "action": "Thích ảnh",
     "details": "Hà Tín đã thích ảnh: MIN_9229.JPG (3 lượt thích)",
