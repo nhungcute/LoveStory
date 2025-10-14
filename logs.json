@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-14T00:15:24.882Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760400924882.1497,
+    "sessionId": "session_1760400923202_p73h5px53"
+  },
+  {
+    "timestamp": "2025-10-14T00:15:24.381Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760400924381.8606,
+    "sessionId": "session_1760400923202_p73h5px53"
+  },
+  {
+    "timestamp": "2025-10-14T00:15:23.189Z",
+    "action": "Tạo user ẩn danh",
+    "details": "Đã tạo user ẩn danh: Cáo Cam",
+    "id": 1760400923189.5857,
+    "sessionId": "session_1760400923202_p73h5px53"
+  },
+  {
     "timestamp": "2025-10-14T00:14:36.681Z",
     "action": "Mở hồ sơ",
     "details": "Mở modal hồ sơ cá nhân",
