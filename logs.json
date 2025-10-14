@@ -1,5 +1,54 @@
 [
   {
+    "timestamp": "2025-10-14T09:26:29.903Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"xinh\" - 0 kết quả",
+    "id": 1760433989903.0303,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:26:29.678Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"xinh\" - 0 kết quả",
+    "id": 1760433989678.0818,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:26:29.463Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"xinh\" - 0 kết quả",
+    "id": 1760433989463.6968,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:26:28.527Z",
+    "action": "Tìm kiếm",
+    "details": "basic: \"xinh\" - 0 kết quả",
+    "id": 1760433988527.6785,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:26:27.645Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: basic",
+    "id": 1760433987645.8748,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:26:26.444Z",
+    "action": "Chuyển chế độ tìm kiếm",
+    "details": "Chuyển sang chế độ: ai",
+    "id": 1760433986444.698,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
+    "timestamp": "2025-10-14T09:26:24.934Z",
+    "action": "Tìm kiếm",
+    "details": "stats: \"xinh\" - 0 kết quả",
+    "id": 1760433984934.1716,
+    "sessionId": "session_1760432305387_9wmh4zdbz"
+  },
+  {
     "timestamp": "2025-10-14T09:26:21.256Z",
     "action": "Tìm kiếm",
     "details": "basic: \"xinh\" - 0 kết quả",
