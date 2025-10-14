@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-14T08:03:33.683Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760429013683.5293,
+    "sessionId": "session_1760428966783_g3rcusoil"
+  },
+  {
+    "timestamp": "2025-10-14T08:03:28.909Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760429008909.8584,
+    "sessionId": "session_1760428966783_g3rcusoil"
+  },
+  {
+    "timestamp": "2025-10-14T08:03:28.363Z",
+    "action": "Khởi tạo ứng dụng",
+    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
+    "id": 1760429008363.9749,
+    "sessionId": "session_1760428966783_g3rcusoil"
+  },
+  {
+    "timestamp": "2025-10-14T08:03:27.645Z",
+    "action": "Đăng nhập tự động",
+    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
+    "id": 1760429007645.6753,
+    "sessionId": "session_1760428966783_g3rcusoil"
+  },
+  {
     "timestamp": "2025-10-14T08:03:15.714Z",
     "action": "Đồng bộ Google Drive",
     "details": "Trang 1: Đã tải 710 ảnh (Tổng: 710)",
