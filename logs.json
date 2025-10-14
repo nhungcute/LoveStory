@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-14T05:07:40.688Z",
+    "action": "Mở hồ sơ",
+    "details": "Mở modal hồ sơ cá nhân",
+    "id": 1760418460688.9285,
+    "sessionId": "session_1760418364766_wea5lfzpq"
+  },
+  {
     "timestamp": "2025-10-14T05:07:33.464Z",
     "action": "Mở hồ sơ",
     "details": "Mở modal hồ sơ cá nhân",
