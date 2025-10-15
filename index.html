@@ -277,27 +277,7 @@
             opacity: 1 !important;
             transform: translateX(0);
         }
-
-        @media (max-width: 640px) {
-            #headerMenuIcons {
-                position: fixed !important;
-                top: 60px !important; /* Điều chỉnh nếu chiều cao header thay đổi */
-                left: 0 !important;
-                right: 0 !important;
-                background-color: var(--accent-color);
-                border-top: 1px solid var(--border-color);
-                padding: 1rem;
-                justify-content: center;
-                box-shadow: 0 4px 6px var(--shadow-color);
-                z-index: 100;
-                
-                /* ▼▼▼ SỬA LỖI CĂN CHỈNH ▼▼▼ */
-                transform: none !important; /* Luôn vô hiệu hóa transform trên di động */
-                transition: opacity 0.3s ease; /* Dùng hiệu ứng mờ đơn giản, an toàn hơn */
-            }
-            
-            /* Không cần khối #headerMenuIcons.show riêng ở đây nữa */
-        }
+ 
     </style>
 </head>
 <body class="h-full bg-custom text-custom font-sans flex flex-col">
