@@ -9,6 +9,14 @@
     <style>
         body {
             box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        }
+        
+        * {
+            font-feature-settings: "kern" 1;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         :root {
@@ -273,7 +281,7 @@
         @media (max-width: 640px) {
             #headerMenuIcons {
                 position: fixed !important;
-                top: 60px !important;
+                top: 60px !important; /* Điều chỉnh nếu chiều cao header thay đổi */
                 left: 0 !important;
                 right: 0 !important;
                 background-color: var(--accent-color);
@@ -282,12 +290,13 @@
                 justify-content: center;
                 box-shadow: 0 4px 6px var(--shadow-color);
                 z-index: 100;
+                
+                /* ▼▼▼ SỬA LỖI CĂN CHỈNH ▼▼▼ */
+                transform: none !important; /* Luôn vô hiệu hóa transform trên di động */
+                transition: opacity 0.3s ease; /* Dùng hiệu ứng mờ đơn giản, an toàn hơn */
             }
             
-            #headerMenuIcons.show {
-                opacity: 1 !important;
-                transform: none !important;
-            }
+            /* Không cần khối #headerMenuIcons.show riêng ở đây nữa */
         }
     </style>
 </head>
@@ -884,68 +893,341 @@
         let selectedImages = [];
         let isOnline = navigator.onLine;
         let pendingLogs = 0;
+        let currentUser = null;
+        let currentPage = 1;
 
-        // Sample data
-        const sampleEvents = [
-            {
-                id: 1,
-                name: "Ngày đầu gặp nhau",
-                date: "2022-02-22",
-                description: "Ngày đặc biệt khi chúng ta gặp nhau lần đầu tiên tại quán cà phê nhỏ.",
-                images: ["https://picsum.photos/400/300?random=1"]
-            },
-            {
-                id: 2,
-                name: "Lần đầu nắm tay",
-                date: "2022-03-15",
-                description: "Khoảnh khắc ngọt ngào đầu tiên khi anh nắm tay em.",
-                images: ["https://picsum.photos/400/300?random=2"]
-            },
-            {
-                id: 3,
-                name: "Sinh nhật em",
-                date: "2022-06-20",
-                description: "Sinh nhật đầu tiên anh được tổ chức cho em.",
-                images: ["https://picsum.photos/400/300?random=3", "https://picsum.photos/400/300?random=4"]
+        // Configuration
+        const config = {
+            "GITHUB_USERNAME": "nhungcute",
+            "REPO_NAME": "LoveStory",
+            "PAT1": "ghp_a8VLpoCYQByLbUIwe",
+            "PAT2": "d3dy4hHjEpKwr3stE6T",
+            "FILE_PATH": "actions.json",
+            "COMMENTS_FILE_PATH": "comments.json",
+            "PHOTOS_METADATA_FILE_PATH": "image_data.json",
+            "LOGS_FILE_PATH": "logs.json",
+            "FOLDER_ID": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
+            "API_KEY": "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
+            "AI_API_KEY": "AIzaSyD3nBr8PA1eTGGr30JYd0jDhzCLemlXpNI",
+            "PROFILES_FILE_PATH": "profiles.json",
+            "PHOTOS_PER_PAGE": 50,
+            "AUTO_SYNC_METADATA": {
+                "enabled": true,
+                "frequency": "daily",
+                "time": "09:04"
             }
-        ];
+        };
 
-        const samplePhotos = Array.from({length: 50}, (_, i) => ({
-            id: i + 1,
-            url: `https://picsum.photos/400/300?random=${i + 10}`,
-            title: `Kỷ niệm ${i + 1}`,
-            date: new Date(2022, 0, 1 + i * 7).toISOString().split('T')[0]
-        }));
+        // Data storage
+        let eventsData = [];
+        let photosData = [];
+        let commentsData = [];
+        let profilesData = [];
+        let logsData = [];
+
+        // GitHub API helper
+        class GitHubAPI {
+            constructor() {
+                this.baseURL = 'https://api.github.com';
+                this.token = config.PAT1 + config.PAT2;
+            }
+
+            async getFile(filePath) {
+                try {
+                    const response = await fetch(`${this.baseURL}/repos/${config.GITHUB_USERNAME}/${config.REPO_NAME}/contents/${filePath}`, {
+                        headers: {
+                            'Authorization': `token ${this.token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        return JSON.parse(atob(data.content));
+                    }
+                    return [];
+                } catch (error) {
+                    console.error(`Error loading ${filePath}:`, error);
+                    return [];
+                }
+            }
+
+            async updateFile(filePath, content, message) {
+                try {
+                    // Get current file to get SHA
+                    const currentFile = await fetch(`${this.baseURL}/repos/${config.GITHUB_USERNAME}/${config.REPO_NAME}/contents/${filePath}`, {
+                        headers: {
+                            'Authorization': `token ${this.token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+
+                    let sha = null;
+                    if (currentFile.ok) {
+                        const fileData = await currentFile.json();
+                        sha = fileData.sha;
+                    }
+
+                    const response = await fetch(`${this.baseURL}/repos/${config.GITHUB_USERNAME}/${config.REPO_NAME}/contents/${filePath}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${this.token}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            content: btoa(JSON.stringify(content, null, 2)),
+                            sha: sha
+                        })
+                    });
+
+                    return response.ok;
+                } catch (error) {
+                    console.error(`Error updating ${filePath}:`, error);
+                    return false;
+                }
+            }
+        }
+
+        // Google Drive API helper
+        class GoogleDriveAPI {
+            constructor() {
+                this.apiKey = config.API_KEY;
+                this.folderId = config.FOLDER_ID;
+            }
+
+            async getPhotosMetadata() {
+                try {
+                    const response = await fetch(`https://www.googleapis.com/drive/v3/files?q='${this.folderId}'+in+parents&key=${this.apiKey}&fields=files(id,name,createdTime,size,webViewLink,thumbnailLink,mimeType)`);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        return data.files.filter(file => file.mimeType.startsWith('image/'));
+                    }
+                    return [];
+                } catch (error) {
+                    console.error('Error loading photos metadata:', error);
+                    return [];
+                }
+            }
+
+            getImageUrl(fileId, type = 'view') {
+                const urls = {
+                    view: `https://drive.google.com/uc?export=view&id=${fileId}`,
+                    thumbnail: `https://drive.google.com/thumbnail?id=${fileId}&sz=w400-h300-c`,
+                    direct: `https://lh3.googleusercontent.com/d/${fileId}=w400-h300-c`,
+                    fallback: `https://drive.google.com/file/d/${fileId}/view`
+                };
+                return urls[type] || urls.view;
+            }
+        }
+
+        // Google AI helper
+        class GoogleAI {
+            constructor() {
+                this.apiKey = config.AI_API_KEY;
+                this.baseURL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+            }
+
+            async generateResponse(prompt) {
+                try {
+                    const response = await fetch(`${this.baseURL}?key=${this.apiKey}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: `Bạn là trợ lý AI cho ứng dụng Love Story. Hãy trả lời câu hỏi sau một cách thân thiện và hữu ích: ${prompt}`
+                                }]
+                            }]
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        return data.candidates[0].content.parts[0].text;
+                    }
+                    return "Xin lỗi, tôi không thể trả lời câu hỏi này lúc này.";
+                } catch (error) {
+                    console.error('Error with AI response:', error);
+                    return "Có lỗi xảy ra khi kết nối với AI.";
+                }
+            }
+        }
+
+        // Initialize API instances
+        const githubAPI = new GitHubAPI();
+        const driveAPI = new GoogleDriveAPI();
+        const googleAI = new GoogleAI();
+
+        // Data loading functions
+        async function loadAllData() {
+            try {
+                showLoadingState();
+                
+                // Load all data files
+                const [events, photos, comments, profiles, logs] = await Promise.all([
+                    githubAPI.getFile(config.FILE_PATH),
+                    githubAPI.getFile(config.PHOTOS_METADATA_FILE_PATH),
+                    githubAPI.getFile(config.COMMENTS_FILE_PATH),
+                    githubAPI.getFile(config.PROFILES_FILE_PATH),
+                    githubAPI.getFile(config.LOGS_FILE_PATH)
+                ]);
+
+                eventsData = events || [];
+                photosData = photos || [];
+                commentsData = comments || [];
+                profilesData = profiles || [];
+                logsData = logs || [];
+
+                // Load current user
+                loadCurrentUser();
+                
+                hideLoadingState();
+                return true;
+            } catch (error) {
+                console.error('Error loading data:', error);
+                hideLoadingState();
+                return false;
+            }
+        }
+
+        async function syncPhotosMetadata() {
+            if (!config.AUTO_SYNC_METADATA.enabled) return;
+            
+            try {
+                const drivePhotos = await driveAPI.getPhotosMetadata();
+                
+                // Merge with existing data
+                const existingIds = photosData.map(p => p.id);
+                const newPhotos = drivePhotos.filter(p => !existingIds.includes(p.id));
+                
+                if (newPhotos.length > 0) {
+                    photosData = [...photosData, ...newPhotos];
+                    await githubAPI.updateFile(config.PHOTOS_METADATA_FILE_PATH, photosData, `Auto sync: Added ${newPhotos.length} new photos`);
+                    
+                    addLog('Đồng bộ ảnh', `Đã đồng bộ ${newPhotos.length} ảnh mới từ Google Drive`);
+                    showNotification(`Đã đồng bộ ${newPhotos.length} ảnh mới!`, 'success');
+                }
+            } catch (error) {
+                console.error('Error syncing photos:', error);
+                addLog('Lỗi đồng bộ', 'Không thể đồng bộ ảnh từ Google Drive');
+            }
+        }
+
+        function loadCurrentUser() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateUserProfile();
+            } else {
+                // Create default user if none exists
+                currentUser = {
+                    username: 'hamanhtinlovely',
+                    name: 'Hà Mạnh Tín',
+                    avatarUrl: 'https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&background=006B68&color=fff',
+                    createdAt: new Date().toISOString(),
+                    lastLoginAt: new Date().toISOString()
+                };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+        }
+
+        function updateUserProfile() {
+            if (currentUser) {
+                document.querySelector('img[alt="Avatar"]').src = currentUser.avatarUrl;
+                document.querySelector('.hidden.md\\:block').textContent = currentUser.name;
+            }
+        }
+
+        function showLoadingState() {
+            // Show skeleton loading for all sections
+            document.querySelectorAll('.skeleton').forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+
+        function hideLoadingState() {
+            // Hide skeleton loading
+            document.querySelectorAll('.skeleton').forEach(el => {
+                el.style.display = 'none';
+            });
+        }
 
         // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-            updateStats();
-            loadTodayMemories();
-            loadUpcomingEvents();
-            loadTimeline();
-            loadPhotos();
+        document.addEventListener('DOMContentLoaded', async function() {
+            await initializeApp();
             
             // Check online status
             window.addEventListener('online', () => {
                 isOnline = true;
                 updateOnlineStatus();
+                syncPhotosMetadata();
             });
             
             window.addEventListener('offline', () => {
                 isOnline = false;
                 updateOnlineStatus();
             });
+
+            // ▼▼▼ THÊM ĐOẠN NÀY ĐỂ SỬA LỖI TREO MENU ▼▼▼
+            // Tự động đóng menu khi người dùng cuộn trang
+            document.addEventListener('scroll', function() {
+                const menuIcons = document.getElementById('headerMenuIcons');
+                // Chỉ đóng nếu menu đang được hiển thị
+                if (menuIcons.classList.contains('show')) {
+                    closeHeaderMenu();
+                }
+            });
+
+            // Auto sync check
+            if (config.AUTO_SYNC_METADATA.enabled) {
+                checkAutoSync();
+                setInterval(checkAutoSync, 60000); // Check every minute
+            }
         });
 
-        function initializeApp() {
+        async function initializeApp() {
             // Load saved theme
             const savedTheme = localStorage.getItem('loveStoryTheme') || 'default';
             document.getElementById('themeSelect').value = savedTheme;
             changeTheme();
             
+            // Load all data
+            const dataLoaded = await loadAllData();
+            
+            if (dataLoaded) {
+                updateStats();
+                loadTodayMemories();
+                loadUpcomingEvents();
+                loadTimeline();
+                loadPhotos();
+                updateOnlineStatus();
+                updateTotalLogs();
+            }
+            
             // Set active navigation
             updateNavigation('home');
+        }
+
+        function checkAutoSync() {
+            if (!config.AUTO_SYNC_METADATA.enabled) return;
+            
+            const now = new Date();
+            const syncTime = config.AUTO_SYNC_METADATA.time.split(':');
+            const targetTime = new Date();
+            targetTime.setHours(parseInt(syncTime[0]), parseInt(syncTime[1]), 0, 0);
+            
+            const lastSync = localStorage.getItem('lastAutoSync');
+            const today = now.toDateString();
+            
+            if ((!lastSync || lastSync !== today) && now >= targetTime) {
+                syncPhotosMetadata();
+                localStorage.setItem('lastAutoSync', today);
+            }
         }
 
         // Navigation functions
@@ -1049,37 +1331,61 @@
 
         // Stats functions
         function updateStats() {
-            const startDate = new Date('2022-02-22');
+            // Calculate days together from first event
+            let startDate = new Date('2022-02-22'); // Default start date
+            if (eventsData.length > 0) {
+                const sortedEvents = eventsData.sort((a, b) => new Date(convertDateFormat(a.day)) - new Date(convertDateFormat(b.day)));
+                startDate = new Date(convertDateFormat(sortedEvents[0].day));
+            }
+            
             const today = new Date();
             const daysTogether = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
             
             document.getElementById('daysTogether').textContent = daysTogether.toLocaleString();
-            document.getElementById('totalMemories').textContent = sampleEvents.length.toLocaleString();
-            document.getElementById('totalPhotos').textContent = samplePhotos.length.toLocaleString();
+            document.getElementById('totalMemories').textContent = eventsData.length.toLocaleString();
+            document.getElementById('totalPhotos').textContent = photosData.length.toLocaleString();
+        }
+
+        function convertDateFormat(dateStr) {
+            // Convert DD-MM-YYYY to YYYY-MM-DD
+            const parts = dateStr.split('-');
+            return `${parts[2]}-${parts[1]}-${parts[0]}`;
         }
 
         function loadTodayMemories() {
             const container = document.getElementById('todayMemories');
             const today = new Date();
-            const todayStr = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            const todayStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}`;
             
-            const todayMemories = sampleEvents.filter(event => {
-                const eventDate = new Date(event.date);
-                const eventStr = `${String(eventDate.getMonth() + 1).padStart(2, '0')}-${String(eventDate.getDate()).padStart(2, '0')}`;
+            const todayMemories = eventsData.filter(event => {
+                const eventDateParts = event.day.split('-');
+                const eventStr = `${eventDateParts[0]}-${eventDateParts[1]}`;
                 return eventStr === todayStr;
             });
 
             if (todayMemories.length > 0) {
                 const memory = todayMemories[0];
-                const yearsAgo = today.getFullYear() - new Date(memory.date).getFullYear();
+                const eventDate = new Date(convertDateFormat(memory.day));
+                const yearsAgo = today.getFullYear() - eventDate.getFullYear();
+                
+                let imageHtml = '';
+                if (memory.image && memory.image.length > 0) {
+                    const imageId = memory.image[0];
+                    const imageUrl = driveAPI.getImageUrl(imageId, 'thumbnail');
+                    imageHtml = `<img src="${imageUrl}" alt="" class="w-20 h-20 rounded-lg object-cover" onerror="this.src=''; this.style.display='none';">`;
+                }
+                
+                // Safely escape HTML content
+                const safeName = escapeHtml(memory.name || '');
+                const safeDescription = escapeHtml(memory.contdetl || 'Không có mô tả');
                 
                 container.innerHTML = `
                     <div class="flex items-start space-x-4">
-                        <img src="${memory.images[0]}" alt="" class="w-20 h-20 rounded-lg object-cover">
+                        ${imageHtml}
                         <div class="flex-1">
-                            <h4 class="text-lg font-bold text-primary mb-1">${memory.name}</h4>
-                            <p class="text-secondary font-medium mb-2">${yearsAgo} năm trước - ${formatDate(memory.date)}</p>
-                            <p class="text-gray-700">${memory.description}</p>
+                            <h4 class="text-lg font-bold text-primary mb-1">${safeName}</h4>
+                            <p class="text-secondary font-medium mb-2">${yearsAgo} năm trước - ${formatDateFromDDMMYYYY(memory.day)}</p>
+                            <p class="text-gray-700 whitespace-pre-wrap">${safeDescription}</p>
                         </div>
                     </div>
                 `;
@@ -1091,6 +1397,16 @@
                     </div>
                 `;
             }
+        }
+
+        function formatDateFromDDMMYYYY(dateStr) {
+            const parts = dateStr.split('-');
+            const date = new Date(parts[2], parts[1] - 1, parts[0]);
+            return date.toLocaleDateString('vi-VN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
         }
 
         function loadUpcomingEvents() {
@@ -1117,43 +1433,76 @@
         function loadTimeline() {
             const container = document.getElementById('timelineContainer');
             
-            const timelineHTML = sampleEvents.map(event => `
-                <div class="timeline-item">
-                    <div class="love-card rounded-lg p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 class="text-lg font-bold text-primary mb-1">${event.name}</h3>
-                                <p class="text-secondary font-medium">${formatDate(event.date)}</p>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button onclick="editEvent(${event.id})" class="love-button text-sm">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button onclick="viewEventPhotos(${event.id})" class="love-button text-sm">
-                                    <i class="fas fa-images"></i>
-                                </button>
-                                <button onclick="deleteEvent(${event.id})" class="love-button secondary text-sm">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <p class="text-gray-700 mb-4">${event.description}</p>
-                        ${event.images.length > 0 ? `
-                            <div class="flex space-x-2">
-                                ${event.images.slice(0, 3).map(img => `
-                                    <img src="${img}" alt="" class="w-16 h-16 rounded object-cover cursor-pointer" 
-                                         onclick="viewPhoto('${img}')">
-                                `).join('')}
-                                ${event.images.length > 3 ? `
-                                    <div class="w-16 h-16 rounded bg-gray-200 flex items-center justify-center text-sm font-medium">
-                                        +${event.images.length - 3}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        ` : ''}
+            if (eventsData.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <i class="fas fa-clock text-6xl mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Chưa có kỷ niệm nào</h3>
+                        <p class="mb-4">Hãy thêm kỷ niệm đầu tiên của bạn!</p>
+                        <button onclick="openModal('eventModal')" class="love-button">
+                            <i class="fas fa-plus mr-2"></i>Thêm Kỷ Niệm Đầu Tiên
+                        </button>
                     </div>
-                </div>
-            `).join('');
+                `;
+                return;
+            }
+            
+            // Sort events by date (newest first)
+            const sortedEvents = [...eventsData].sort((a, b) => 
+                new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day))
+            );
+            
+            const timelineHTML = sortedEvents.map(event => {
+                let imagesHTML = '';
+                if (event.image && event.image.length > 0) {
+                    const displayImages = event.image.slice(0, 3);
+                    imagesHTML = `
+                        <div class="flex space-x-2 mt-4">
+                            ${displayImages.map(imageId => {
+                                const imageUrl = driveAPI.getImageUrl(imageId, 'thumbnail');
+                                return `<img src="${imageUrl}" alt="" class="w-16 h-16 rounded object-cover cursor-pointer" 
+                                           onclick="viewPhoto('${driveAPI.getImageUrl(imageId, 'view')}')"
+                                           onerror="this.src=''; this.style.display='none';">`;
+                            }).join('')}
+                            ${event.image.length > 3 ? `
+                                <div class="w-16 h-16 rounded bg-gray-200 flex items-center justify-center text-sm font-medium">
+                                    +${event.image.length - 3}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+                
+                // Safely escape HTML content to prevent font issues
+                const safeName = escapeHtml(event.name || '');
+                const safeDescription = escapeHtml(event.contdetl || 'Không có mô tả');
+                
+                return `
+                    <div class="timeline-item">
+                        <div class="love-card rounded-lg p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-lg font-bold text-primary mb-1">${safeName}</h3>
+                                    <p class="text-secondary font-medium">${formatDateFromDDMMYYYY(event.day)}</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="editEvent('${event.note_id}')" class="love-button text-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button onclick="viewEventPhotos('${event.note_id}')" class="love-button text-sm">
+                                        <i class="fas fa-images"></i>
+                                    </button>
+                                    <button onclick="deleteEvent('${event.note_id}')" class="love-button secondary text-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 whitespace-pre-wrap">${safeDescription}</p>
+                            ${imagesHTML}
+                        </div>
+                    </div>
+                `;
+            }).join('');
             
             container.innerHTML = timelineHTML;
         }
@@ -1161,32 +1510,116 @@
         // Photo functions
         function loadPhotos(page = 1) {
             const container = document.getElementById('photosContainer');
-            const photosPerPage = 24;
+            const photosPerPage = config.PHOTOS_PER_PAGE;
+            currentPage = page;
+            
+            if (photosData.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500 col-span-full">
+                        <i class="fas fa-images text-6xl mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Chưa có ảnh nào</h3>
+                        <p class="mb-4">Ảnh sẽ được đồng bộ tự động từ Google Drive</p>
+                        <button onclick="syncPhotosMetadata()" class="love-button">
+                            <i class="fas fa-sync mr-2"></i>Đồng Bộ Ngay
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort photos by creation time (newest first)
+            const sortedPhotos = [...photosData].sort((a, b) => 
+                new Date(b.createdTime) - new Date(a.createdTime)
+            );
+            
             const startIndex = (page - 1) * photosPerPage;
             const endIndex = startIndex + photosPerPage;
-            const pagePhotos = samplePhotos.slice(startIndex, endIndex);
+            const pagePhotos = sortedPhotos.slice(startIndex, endIndex);
             
             if (currentPhotoView === 'list') {
                 container.className = 'list-view';
-                container.innerHTML = pagePhotos.map(photo => `
-                    <div class="photo-item" onclick="viewPhoto('${photo.url}')">
-                        <img src="${photo.url}" alt="${photo.title}">
-                        <div class="flex-1">
-                            <h4 class="font-medium text-primary">${photo.title}</h4>
-                            <p class="text-sm text-gray-600">${formatDate(photo.date)}</p>
+                container.innerHTML = pagePhotos.map(photo => {
+                    const imageUrl = driveAPI.getImageUrl(photo.id, 'thumbnail');
+                    const fullImageUrl = driveAPI.getImageUrl(photo.id, 'view');
+                    const photoComments = commentsData.find(c => c.ID_IMG === photo.name);
+                    const likesCount = photoComments ? photoComments.count_tim : 0;
+                    const commentsCount = photoComments ? photoComments.comments.length : 0;
+                    
+                    return `
+                        <div class="photo-item" onclick="viewPhotoWithDetails('${photo.id}', '${photo.name}')">
+                            <img src="${imageUrl}" alt="${photo.name}" onerror="this.src=''; this.style.display='none';">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-primary">${photo.name}</h4>
+                                <p class="text-sm text-gray-600">${formatDate(photo.createdTime)}</p>
+                                <div class="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                                    <span><i class="fas fa-heart mr-1"></i>${likesCount}</span>
+                                    <span><i class="fas fa-comment mr-1"></i>${commentsCount}</span>
+                                    <span><i class="fas fa-file mr-1"></i>${formatFileSize(photo.size)}</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             } else {
                 container.className = `photo-grid ${currentPhotoView}`;
-                container.innerHTML = pagePhotos.map(photo => `
-                    <div class="photo-item" onclick="viewPhoto('${photo.url}')">
-                        <img src="${photo.url}" alt="${photo.title}">
-                    </div>
-                `).join('');
+                container.innerHTML = pagePhotos.map(photo => {
+                    const imageUrl = driveAPI.getImageUrl(photo.id, 'thumbnail');
+                    return `
+                        <div class="photo-item" onclick="viewPhotoWithDetails('${photo.id}', '${photo.name}')" title="${photo.name}">
+                            <img src="${imageUrl}" alt="${photo.name}" onerror="this.src=''; this.style.display='none';">
+                        </div>
+                    `;
+                }).join('');
             }
             
-            loadPhotosPagination(page, Math.ceil(samplePhotos.length / photosPerPage));
+            loadPhotosPagination(page, Math.ceil(sortedPhotos.length / photosPerPage));
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function viewPhotoWithDetails(photoId, photoName) {
+            const fullImageUrl = driveAPI.getImageUrl(photoId, 'view');
+            document.getElementById('modalPhoto').src = fullImageUrl;
+            
+            // Load comments for this photo
+            loadPhotoComments(photoName);
+            
+            openModal('photoModal');
+        }
+
+        function loadPhotoComments(photoName) {
+            const photoComments = commentsData.find(c => c.ID_IMG === photoName);
+            const commentsContainer = document.querySelector('#photoModal .space-y-2');
+            
+            if (photoComments && photoComments.comments.length > 0) {
+                commentsContainer.innerHTML = photoComments.comments.map(comment => {
+                    // Safely escape HTML content to prevent font issues
+                    const safeUserName = escapeHtml(comment.userName || 'Ẩn danh');
+                    const safeComment = escapeHtml(comment.comment || '');
+                    const safeAvatar = comment.userAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeUserName)}&background=006B68&color=fff`;
+                    
+                    return `
+                        <div class="text-sm border-b border-gray-200 pb-2">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <img src="${safeAvatar}" 
+                                     alt="" class="w-6 h-6 rounded-full"
+                                     onerror="this.src='https://ui-avatars.com/api/?name=User&background=006B68&color=fff';">
+                                <strong class="font-medium">${safeUserName}</strong>
+                                <span class="text-xs text-gray-500">${formatDate(comment.date_input)}</span>
+                            </div>
+                            <p class="whitespace-pre-wrap ml-8">${safeComment}</p>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                commentsContainer.innerHTML = '<div class="text-sm text-gray-500">Chưa có bình luận nào</div>';
+            }
         }
 
         function loadPhotosPagination(currentPage, totalPages) {
@@ -1225,23 +1658,60 @@
         }
 
         // Event functions
-        function saveEvent(e) {
+        async function saveEvent(e) {
             e.preventDefault();
             
             const name = document.getElementById('eventName').value;
             const date = document.getElementById('eventDate').value;
             const description = document.getElementById('eventDescription').value;
             
-            // Simulate saving
-            addLog('Thêm sự kiện mới', `Đã thêm sự kiện "${name}"`);
+            // Convert date format from YYYY-MM-DD to DD-MM-YYYY
+            const dateParts = date.split('-');
+            const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+            
+            // Create new event
+            const newEvent = {
+                note_id: Date.now().toString(),
+                name: name,
+                day: formattedDate,
+                contdetl: description,
+                image: selectedImages
+            };
+            
+            try {
+                // Add to local data
+                eventsData.push(newEvent);
+                
+                // Save to GitHub
+                const success = await githubAPI.updateFile(
+                    config.FILE_PATH, 
+                    eventsData, 
+                    `Thêm sự kiện mới: ${name}`
+                );
+                
+                if (success) {
+                    addLog('Thêm sự kiện mới', `Đã thêm sự kiện "${name}"`);
+                    showNotification('Đã lưu sự kiện thành công!', 'success');
+                    
+                    // Refresh timeline and stats
+                    loadTimeline();
+                    updateStats();
+                    loadTodayMemories();
+                } else {
+                    // Remove from local data if save failed
+                    eventsData.pop();
+                    showNotification('Lỗi khi lưu sự kiện!', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving event:', error);
+                eventsData.pop();
+                showNotification('Lỗi khi lưu sự kiện!', 'error');
+            }
             
             closeModal('eventModal');
             document.getElementById('eventForm').reset();
             document.getElementById('selectedImagesCount').textContent = '0';
             selectedImages = [];
-            
-            // Show success message
-            showNotification('Đã lưu sự kiện thành công!', 'success');
         }
 
         function editEvent(id) {
@@ -1290,7 +1760,7 @@
             }
         }
 
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             if (!message) return;
@@ -1307,18 +1777,44 @@
             `;
             
             input.value = '';
+            container.scrollTop = container.scrollHeight;
             
-            // Simulate AI response
-            setTimeout(() => {
-                const responses = [
-                    "Tôi có thể giúp bạn tìm kiếm kỷ niệm hoặc thống kê. Bạn muốn tìm gì?",
-                    "Dựa trên dữ liệu, bạn có " + sampleEvents.length + " kỷ niệm đã lưu.",
-                    "Tôi thấy bạn có nhiều kỷ niệm đẹp! Có muốn tôi tạo báo cáo thống kê không?",
-                    "Bạn có thể hỏi tôi về: thống kê, tìm kiếm sự kiện, hoặc gợi ý kỷ niệm mới."
-                ];
+            // Show typing indicator
+            const typingId = 'typing-' + Date.now();
+            container.innerHTML += `
+                <div class="mb-4" id="${typingId}">
+                    <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-robot text-primary mr-2"></i>
+                            <strong class="text-primary">AI Assistant</strong>
+                        </div>
+                        <div class="flex space-x-1">
+                            <div class="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                            <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.scrollTop = container.scrollHeight;
+            
+            try {
+                // Create context for AI
+                const context = `
+                Dữ liệu hiện tại:
+                - Số kỷ niệm: ${eventsData.length}
+                - Số ảnh: ${photosData.length}
+                - Kỷ niệm gần nhất: ${eventsData.length > 0 ? eventsData[0].name : 'Chưa có'}
                 
-                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                Câu hỏi: ${message}
+                `;
                 
+                const aiResponse = await googleAI.generateResponse(context);
+                
+                // Remove typing indicator
+                document.getElementById(typingId).remove();
+                
+                // Add AI response
                 container.innerHTML += `
                     <div class="mb-4">
                         <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
@@ -1326,13 +1822,28 @@
                                 <i class="fas fa-robot text-primary mr-2"></i>
                                 <strong class="text-primary">AI Assistant</strong>
                             </div>
-                            ${randomResponse}
+                            ${aiResponse}
                         </div>
                     </div>
                 `;
                 
-                container.scrollTop = container.scrollHeight;
-            }, 1000);
+            } catch (error) {
+                // Remove typing indicator
+                document.getElementById(typingId).remove();
+                
+                // Add error response
+                container.innerHTML += `
+                    <div class="mb-4">
+                        <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
+                            <div class="flex items-center mb-1">
+                                <i class="fas fa-robot text-primary mr-2"></i>
+                                <strong class="text-primary">AI Assistant</strong>
+                            </div>
+                            Xin lỗi, tôi không thể trả lời lúc này. Hãy thử lại sau!
+                        </div>
+                    </div>
+                `;
+            }
             
             container.scrollTop = container.scrollHeight;
         }
@@ -1379,30 +1890,59 @@
             });
         }
 
-        function addLog(action, description) {
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function addLog(action, description) {
             if (!document.getElementById('enableLogs').checked) return;
             
-            const logs = JSON.parse(localStorage.getItem('activityLogs') || '[]');
-            logs.unshift({
-                id: Date.now(),
-                action,
-                description,
-                timestamp: new Date().toISOString()
-            });
+            const newLog = {
+                id: Date.now().toString(),
+                timestamp: new Date().toISOString(),
+                action: action,
+                details: description,
+                sessionId: getSessionId()
+            };
+            
+            // Add to local data
+            logsData.unshift(newLog);
             
             // Keep only last 1000 logs
-            if (logs.length > 1000) {
-                logs.splice(1000);
+            if (logsData.length > 1000) {
+                logsData.splice(1000);
             }
             
             if (isOnline) {
-                localStorage.setItem('activityLogs', JSON.stringify(logs));
+                try {
+                    await githubAPI.updateFile(
+                        config.LOGS_FILE_PATH, 
+                        logsData, 
+                        `Log: ${action}`
+                    );
+                } catch (error) {
+                    console.error('Error saving log:', error);
+                    pendingLogs++;
+                    updatePendingLogs();
+                }
             } else {
                 pendingLogs++;
                 updatePendingLogs();
             }
             
             updateTotalLogs();
+        }
+
+        function getSessionId() {
+            let sessionId = sessionStorage.getItem('sessionId');
+            if (!sessionId) {
+                sessionId = Date.now().toString();
+                sessionStorage.setItem('sessionId', sessionId);
+            }
+            return sessionId;
         }
 
         function updateOnlineStatus() {
@@ -1419,8 +1959,7 @@
         }
 
         function updateTotalLogs() {
-            const logs = JSON.parse(localStorage.getItem('activityLogs') || '[]');
-            document.getElementById('totalLogs').textContent = logs.length.toLocaleString();
+            document.getElementById('totalLogs').textContent = logsData.length.toLocaleString();
         }
 
         function updatePendingLogs() {
@@ -1453,17 +1992,26 @@
         }
 
         // Initialize image selector
-        document.addEventListener('DOMContentLoaded', function() {
+        function loadImageSelector() {
             const imageSelector = document.getElementById('imageSelector');
-            if (imageSelector) {
-                imageSelector.innerHTML = samplePhotos.slice(0, 24).map(photo => `
+            if (imageSelector && photosData.length > 0) {
+                imageSelector.innerHTML = photosData.slice(0, 24).map(photo => `
                     <div class="photo-item aspect-square rounded overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary" 
-                         onclick="toggleImageSelection(${photo.id}, this)">
-                        <img src="${photo.url}" alt="" class="w-full h-full object-cover">
+                         onclick="toggleImageSelection('${photo.id}', this)">
+                        <img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-full h-full object-cover"
+                             onerror="this.src=''; this.style.display='none';">
                     </div>
                 `).join('');
             }
-        });
+        }
+
+        // Load image selector when modal opens
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+            if (modalId === 'imageSelectorModal') {
+                loadImageSelector();
+            }
+        }
 
         function toggleImageSelection(id, element) {
             if (selectedImages.includes(id)) {
@@ -1500,5 +2048,5 @@
             document.querySelector('[data-view="grid-3"]').classList.add('bg-primary', 'text-white');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98edd8fda0d81fca',t:'MTc2MDUxNTkwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ede92781d0dd36',t:'MTc2MDUxNjU2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
