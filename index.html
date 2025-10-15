@@ -331,9 +331,7 @@
                                 <i class="fas fa-images text-white text-sm"></i>
                             </button>
                             
-                            <button onclick="openSearchFromMenu()" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" title="Tìm Kiếm">
-                                <i class="fas fa-search text-white text-sm"></i>
-                            </button>
+
                             
                             <button onclick="selectMenuItem('settings')" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" data-section="settings" title="Cài Đặt">
                                 <i class="fas fa-cog text-white text-sm"></i>
@@ -943,7 +941,23 @@
                     
                     if (response.ok) {
                         const data = await response.json();
-                        return JSON.parse(atob(data.content));
+                        
+                        // ▼▼▼ PHẦN SỬA LỖI FONT ▼▼▼
+                        // 1. Giải mã Base64 ra chuỗi nhị phân
+                        const binaryString = atob(data.content);
+                        
+                        // 2. Chuyển chuỗi nhị phân thành một mảng các byte
+                        const bytes = new Uint8Array(binaryString.length);
+                        for (let i = 0; i < binaryString.length; i++) {
+                            bytes[i] = binaryString.charCodeAt(i);
+                        }
+                        
+                        // 3. Dùng TextDecoder để giải mã mảng byte theo chuẩn UTF-8
+                        const decodedString = new TextDecoder('utf-8').decode(bytes);
+                        
+                        // 4. Phân tích chuỗi JSON đã được giải mã đúng
+                        return JSON.parse(decodedString);
+                        // ▲▲▲ KẾT THÚC PHẦN SỬA ▲▲▲
                     }
                     return [];
                 } catch (error) {
@@ -1290,10 +1304,7 @@
             closeHeaderMenu();
         }
 
-        function openSearchFromMenu() {
-            openModal('searchModal');
-            closeHeaderMenu();
-        }
+
 
         function updateNavigation(activeSection) {
             // Update header menu navigation
@@ -2048,5 +2059,5 @@
             document.querySelector('[data-view="grid-3"]').classList.add('bg-primary', 'text-white');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ede92781d0dd36',t:'MTc2MDUxNjU2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98edf2a986c6047c',t:'MTc2MDUxNjk1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
