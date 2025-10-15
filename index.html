@@ -17,8 +17,8 @@
             --accent-color: #FFFFFF;
             --text-color: #1F2937;
             --bg-color: #F9FAFB;
-            --gradient-start: #667eea;
-            --gradient-end: #764ba2;
+            --border-color: #E5E7EB;
+            --shadow-color: rgba(0, 107, 104, 0.1);
         }
 
         .theme-spring {
@@ -27,8 +27,8 @@
             --accent-color: #ECFDF5;
             --text-color: #065F46;
             --bg-color: #F0FDF4;
-            --gradient-start: #84fab0;
-            --gradient-end: #8fd3f4;
+            --border-color: #D1FAE5;
+            --shadow-color: rgba(16, 185, 129, 0.1);
         }
 
         .theme-summer {
@@ -37,28 +37,28 @@
             --accent-color: #FEF3C7;
             --text-color: #92400E;
             --bg-color: #FFFBEB;
-            --gradient-start: #fa709a;
-            --gradient-end: #fee140;
+            --border-color: #FDE68A;
+            --shadow-color: rgba(245, 158, 11, 0.1);
         }
 
         .theme-night {
-            --primary-color: #1E293B;
-            --secondary-color: #7C3AED;
-            --accent-color: #0F172A;
-            --text-color: #E2E8F0;
-            --bg-color: #020617;
-            --gradient-start: #2c3e50;
-            --gradient-end: #4a6741;
+            --primary-color: #6366F1;
+            --secondary-color: #8B5CF6;
+            --accent-color: #1F2937;
+            --text-color: #F9FAFB;
+            --bg-color: #111827;
+            --border-color: #374151;
+            --shadow-color: rgba(99, 102, 241, 0.2);
         }
 
         .theme-romantic {
             --primary-color: #EC4899;
-            --secondary-color: #F472B6;
+            --secondary-color: #F97316;
             --accent-color: #FDF2F8;
-            --text-color: #831843;
-            --bg-color: #FCE7F3;
-            --gradient-start: #ff9a9e;
-            --gradient-end: #fecfef;
+            --text-color: #BE185D;
+            --bg-color: #FEF7FF;
+            --border-color: #FBCFE8;
+            --shadow-color: rgba(236, 72, 153, 0.1);
         }
 
         .bg-primary { background-color: var(--primary-color); }
@@ -68,101 +68,86 @@
         .text-secondary { color: var(--secondary-color); }
         .text-custom { color: var(--text-color); }
         .bg-custom { background-color: var(--bg-color); }
-        .border-primary { border-color: var(--primary-color); }
+        .border-custom { border-color: var(--border-color); }
 
-        .bg-gradient {
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-        }
-
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .card-hover {
+        .love-card {
+            background-color: var(--accent-color);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px var(--shadow-color);
             transition: all 0.3s ease;
         }
 
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        .love-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--shadow-color);
         }
 
-        .floating-nav {
+        .love-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .love-button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .love-button.secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .love-input {
+            border: 2px solid var(--border-color);
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .love-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--shadow-color);
+        }
+
+        .modal {
             position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 40;
-        }
-
-        .nav-item {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-item:hover {
-            transform: scale(1.1);
-        }
-
-        .nav-item.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .nav-item::before {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 70px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            white-space: nowrap;
+            z-index: 1000;
             opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
 
-        .nav-item:hover::before {
+        .modal.show {
             opacity: 1;
+            visibility: visible;
         }
 
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 280px;
-            background: linear-gradient(180deg, var(--gradient-start), var(--gradient-end));
-            transform: translateX(-100%);
+        .modal-content {
+            background-color: var(--accent-color);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
             transition: transform 0.3s ease;
-            z-index: 50;
         }
 
-        .sidebar.open {
-            transform: translateX(0);
-        }
-
-        .content-area {
-            margin-left: 0;
-            transition: margin-left 0.3s ease;
-            min-height: 100vh;
-            padding-top: 2rem;
-        }
-
-        .content-area.sidebar-open {
-            margin-left: 280px;
+        .modal.show .modal-content {
+            transform: scale(1);
         }
 
         .skeleton {
@@ -176,344 +161,345 @@
             100% { background-position: -200% 0; }
         }
 
-        .heart-beat {
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .slide-in {
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(0); }
-        }
-
-        .modal-backdrop {
-            backdrop-filter: blur(8px);
-        }
-
-        .grid-photos {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .grid-1 { grid-template-columns: 1fr; }
-        .grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .grid-3 { grid-template-columns: repeat(3, 1fr); }
-        .grid-4 { grid-template-columns: repeat(4, 1fr); }
-        .grid-5 { grid-template-columns: repeat(5, 1fr); }
-        .grid-6 { grid-template-columns: repeat(6, 1fr); }
+        .grid-view-1 { grid-template-columns: 1fr; }
+        .grid-view-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-view-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-view-4 { grid-template-columns: repeat(4, 1fr); }
+        .grid-view-5 { grid-template-columns: repeat(5, 1fr); }
+        .grid-view-6 { grid-template-columns: repeat(6, 1fr); }
 
         @media (max-width: 768px) {
-            .grid-4, .grid-5, .grid-6 { grid-template-columns: repeat(2, 1fr); }
-            .grid-3 { grid-template-columns: repeat(2, 1fr); }
-            .sidebar { width: 100%; }
-            .content-area.sidebar-open { margin-left: 0; }
-        }
-
-        .photo-item {
-            aspect-ratio: 1;
-            overflow: hidden;
-            border-radius: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .photo-item:hover {
-            transform: scale(1.05) rotate(2deg);
-        }
-
-        .photo-item::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, transparent 60%, rgba(255,255,255,0.3));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .photo-item:hover::after {
-            opacity: 1;
+            .grid-view-3 { grid-template-columns: repeat(2, 1fr); }
+            .grid-view-4 { grid-template-columns: repeat(2, 1fr); }
+            .grid-view-5 { grid-template-columns: repeat(2, 1fr); }
+            .grid-view-6 { grid-template-columns: repeat(2, 1fr); }
+            
+            .mobile-hide-title { display: none; }
         }
 
         .timeline-item {
             position: relative;
-            padding-left: 3rem;
+            padding-left: 2rem;
+            border-left: 2px solid var(--primary-color);
             margin-bottom: 2rem;
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: 1rem;
+            left: -6px;
             top: 0;
-            bottom: -2rem;
-            width: 3px;
-            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
-            border-radius: 2px;
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: 0.5rem;
-            top: 1.5rem;
-            width: 1rem;
-            height: 1rem;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            background: var(--secondary-color);
-            border: 3px solid white;
-            box-shadow: 0 0 0 3px var(--primary-color);
+            background-color: var(--primary-color);
         }
 
-        .stats-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
+        .photo-grid {
+            display: grid;
+            gap: 1rem;
+            padding: 1rem;
         }
 
-        .floating-action {
+        .photo-item {
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .list-view .photo-item {
+            aspect-ratio: auto;
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--accent-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .list-view .photo-item img {
+            width: 80px;
+            height: 80px;
+            border-radius: 0.5rem;
+            margin-right: 1rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-online { background-color: #10B981; }
+        .status-offline { background-color: #EF4444; }
+
+        .footer {
+            margin-top: auto;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--accent-color);
+        }
+
+        /* Floating Navigation Bar */
+        .floating-nav {
             position: fixed;
-            bottom: 6rem;
-            right: 2rem;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            z-index: 30;
-        }
-
-        .floating-action:hover {
-            transform: scale(1.1);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-
-        .hero-section {
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            min-height: 60vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            background: var(--accent-color);
+            border-radius: 3rem;
+            padding: 0.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
         }
 
-        .hero-section::before {
+        .floating-nav.collapsed {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            padding: 0;
+        }
+
+        .floating-nav.expanded {
+            padding: 0.75rem 1.5rem;
+        }
+
+        .floating-nav:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35);
+        }
+
+        .floating-nav-container {
+            display: flex;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .floating-nav.collapsed .floating-nav-container {
+            width: 60px;
+            justify-content: center;
+        }
+
+        .floating-nav.expanded .floating-nav-container {
+            gap: 0.5rem;
+        }
+
+        .floating-nav-item {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .floating-nav.collapsed .floating-nav-item:not(.home-btn) {
+            opacity: 0;
+            transform: scale(0);
+            width: 0;
+            margin: 0;
+        }
+
+        .floating-nav.expanded .floating-nav-item {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .floating-nav-item::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hearts" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><text x="10" y="15" text-anchor="middle" fill="rgba(255,255,255,0.1)" font-size="12">♥</text></pattern></defs><rect width="100" height="100" fill="url(%23hearts)"/></svg>');
-            animation: float 20s ease-in-out infinite;
+            border-radius: 50%;
+            background: var(--primary-color);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+        .floating-nav-item:hover::before {
+            opacity: 0.1;
+            transform: scale(1);
+        }
+
+        .floating-nav-item.active::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .floating-nav-item i {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .floating-nav-item:hover i {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .floating-nav-item.active i {
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Floating nav tooltip */
+        .floating-nav-item::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-0.5rem);
+            background: var(--text-color);
+            color: var(--accent-color);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .floating-nav-item:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-0.75rem);
+        }
+
+        /* Hide floating nav on mobile when keyboard is open */
+        @media (max-height: 500px) {
+            .floating-nav {
+                display: none;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .floating-nav {
+                bottom: 1rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .floating-nav-item {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .floating-nav-item i {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
-<body class="h-full bg-custom text-custom font-sans">
-    <!-- Sidebar -->
-    <div id="sidebar" class="sidebar glass-effect">
-        <div class="p-6">
-            <!-- Logo -->
-            <div class="flex items-center space-x-3 mb-8">
-                <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                    <i class="fas fa-heart text-2xl heart-beat text-white"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold text-white">Love Story</h1>
-                    <p class="text-sm text-white text-opacity-70">Ứng dụng kỷ niệm</p>
-                </div>
-            </div>
-
-            <!-- Profile -->
-            <div class="bg-white bg-opacity-10 rounded-xl p-4 mb-6">
+<body class="h-full bg-custom text-custom font-sans flex flex-col">
+    <!-- Header -->
+    <header class="bg-accent border-b border-custom shadow-sm">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
                 <div class="flex items-center space-x-3">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='24' fill='%23FFC62F'/%3E%3Ctext x='24' y='30' text-anchor='middle' fill='white' font-size='18' font-weight='bold'%3EH%3C/text%3E%3C/svg%3E" alt="Avatar" class="w-12 h-12 rounded-full">
+                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                        <i class="fas fa-heart text-white text-lg"></i>
+                    </div>
                     <div>
-                        <h3 class="font-medium text-white">Hà Mạnh Tín</h3>
-                        <p class="text-sm text-white text-opacity-70">Quản trị viên</p>
+                        <h1 class="text-xl font-bold text-primary">Love Story</h1>
+                        <p class="text-xs text-gray-500 mobile-hide-title">Ứng dụng kỷ niệm</p>
                     </div>
+                </div>
+
+                <!-- User Profile -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="openModal('profileModal')" class="flex items-center space-x-2 love-card rounded-full px-3 py-2">
+                        <img src="https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&background=006B68&color=fff" 
+                             alt="Avatar" class="w-8 h-8 rounded-full">
+                        <span class="hidden md:block font-medium">Hà Mạnh Tín</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Navigation -->
-            <nav class="space-y-2">
-                <button onclick="showSection('home')" class="nav-sidebar-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-white hover:bg-white hover:bg-opacity-10 transition-colors">
-                    <i class="fas fa-home text-lg"></i>
-                    <span>Trang Chủ</span>
-                </button>
-                <button onclick="showSection('chat')" class="nav-sidebar-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-white hover:bg-white hover:bg-opacity-10 transition-colors">
-                    <i class="fas fa-robot text-lg"></i>
-                    <span>Chat AI</span>
-                </button>
-                <button onclick="showSection('timeline')" class="nav-sidebar-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-white hover:bg-white hover:bg-opacity-10 transition-colors">
-                    <i class="fas fa-clock text-lg"></i>
-                    <span>Timeline</span>
-                </button>
-                <button onclick="showSection('photos')" class="nav-sidebar-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-white hover:bg-white hover:bg-opacity-10 transition-colors">
-                    <i class="fas fa-images text-lg"></i>
-                    <span>Khoảnh Khắc</span>
-                </button>
-                <button onclick="showSection('settings')" class="nav-sidebar-btn w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-white hover:bg-white hover:bg-opacity-10 transition-colors">
-                    <i class="fas fa-cog text-lg"></i>
-                    <span>Cài Đặt</span>
-                </button>
-            </nav>
 
-            <!-- Quick Stats -->
-            <div class="mt-8 bg-white bg-opacity-10 rounded-xl p-4">
-                <h4 class="text-white font-medium mb-3">Thống Kê Nhanh</h4>
-                <div class="space-y-2 text-sm">
-                    <div class="flex justify-between text-white text-opacity-80">
-                        <span>Ngày bên nhau:</span>
-                        <span id="sidebarDays" class="font-medium">0</span>
-                    </div>
-                    <div class="flex justify-between text-white text-opacity-80">
-                        <span>Kỷ niệm:</span>
-                        <span id="sidebarMemories" class="font-medium">0</span>
-                    </div>
-                    <div class="flex justify-between text-white text-opacity-80">
-                        <span>Hình ảnh:</span>
-                        <span id="sidebarPhotos" class="font-medium">0</span>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
+    </header>
 
     <!-- Main Content -->
-    <div id="contentArea" class="content-area">
-        <!-- Top Bar -->
-        <div class="fixed top-0 left-0 right-0 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg border-b border-gray-200 z-30">
-            <div class="flex items-center justify-between px-6 py-4">
-                <button onclick="toggleSidebar()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-                <div class="flex items-center space-x-4">
-                    <button onclick="openSearchModal()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <i class="fas fa-search text-xl"></i>
-                    </button>
-                    <button onclick="openProfileModal()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <i class="fas fa-user text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
+    <main class="flex-1 container mx-auto px-4 py-6">
         <!-- Home Section -->
-        <div id="homeSection" class="section pt-20">
-            <!-- Hero Section -->
-            <div class="hero-section rounded-3xl mx-6 mb-8 relative overflow-hidden">
-                <div class="relative z-10 text-center text-white p-8">
-                    <div class="mb-6">
-                        <i class="fas fa-heart text-6xl heart-beat mb-4"></i>
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4">Love Story</h1>
-                        <p class="text-xl md:text-2xl opacity-90">Kỷ niệm tình yêu của chúng ta</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                        <div class="stats-card rounded-2xl p-6 text-center">
-                            <div class="text-3xl font-bold mb-2" id="herodays">0</div>
-                            <div class="text-sm opacity-80">Ngày bên nhau</div>
-                        </div>
-                        <div class="stats-card rounded-2xl p-6 text-center">
-                            <div class="text-3xl font-bold mb-2" id="heroMemories">0</div>
-                            <div class="text-sm opacity-80">Kỷ niệm</div>
-                        </div>
-                        <div class="stats-card rounded-2xl p-6 text-center">
-                            <div class="text-3xl font-bold mb-2" id="heroPhotos">0</div>
-                            <div class="text-sm opacity-80">Hình ảnh</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Grid -->
-            <div class="px-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div id="homeSection" class="section">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Ngày Này Năm Xưa -->
                 <div class="lg:col-span-2">
-                    <div class="bg-white rounded-3xl shadow-lg p-8 card-hover">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient rounded-2xl flex items-center justify-center mr-4">
-                                <i class="fas fa-calendar-day text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <h2 class="text-2xl font-bold text-gray-800">Ngày Này Năm Xưa</h2>
-                                <p class="text-gray-600">Những kỷ niệm đáng nhớ</p>
-                            </div>
+                    <div class="love-card rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-calendar-day text-primary text-2xl mr-3"></i>
+                            <h2 class="text-xl font-bold text-primary">Ngày Này Năm Xưa</h2>
                         </div>
-                        <div id="todayMemories" class="space-y-6">
-                            <!-- Skeleton Loading -->
-                            <div class="skeleton h-32 rounded-2xl"></div>
+                        <div id="todayMemories">
+                            <div class="skeleton h-32 rounded mb-4"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sidebar Content -->
-                <div class="space-y-8">
-                    <!-- Sự Kiện Sắp Tới -->
-                    <div class="bg-white rounded-3xl shadow-lg p-6 card-hover">
-                        <div class="flex items-center mb-4">
-                            <div class="w-10 h-10 bg-gradient rounded-xl flex items-center justify-center mr-3">
-                                <i class="fas fa-hourglass-half text-white"></i>
+                <!-- Thống Kê & Đếm Ngược -->
+                <div class="space-y-6">
+                    <!-- Thống Kê Tổng Quan -->
+                    <div class="love-card rounded-lg p-6">
+                        <h3 class="text-lg font-bold text-primary mb-4">
+                            <i class="fas fa-chart-bar mr-2"></i>Thống Kê Tổng Quan
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>Ngày bên nhau:</span>
+                                <span class="font-bold text-primary" id="daysTogether">0</span>
                             </div>
-                            <h3 class="text-lg font-bold text-gray-800">Sắp Tới</h3>
-                        </div>
-                        <div id="upcomingEvents" class="space-y-4">
-                            <div class="skeleton h-16 rounded-xl"></div>
+                            <div class="flex justify-between">
+                                <span>Kỷ niệm:</span>
+                                <span class="font-bold text-secondary" id="totalMemories">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Hình ảnh:</span>
+                                <span class="font-bold text-primary" id="totalPhotos">0</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Hoạt Động Gần Đây -->
-                    <div class="bg-white rounded-3xl shadow-lg p-6 card-hover">
-                        <div class="flex items-center mb-4">
-                            <div class="w-10 h-10 bg-gradient rounded-xl flex items-center justify-center mr-3">
-                                <i class="fas fa-clock text-white"></i>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-800">Hoạt Động</h3>
-                        </div>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
-                                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-plus text-blue-600 text-xs"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="font-medium">Thêm ảnh mới</p>
-                                    <p class="text-gray-500 text-xs">2 giờ trước</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
-                                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-heart text-green-600 text-xs"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="font-medium">Tạo kỷ niệm mới</p>
-                                    <p class="text-gray-500 text-xs">1 ngày trước</p>
-                                </div>
-                            </div>
+                    <!-- Đếm Ngược Sự Kiện -->
+                    <div class="love-card rounded-lg p-6">
+                        <h3 class="text-lg font-bold text-primary mb-4">
+                            <i class="fas fa-clock mr-2"></i>Sự Kiện Sắp Tới
+                        </h3>
+                        <div id="upcomingEvents">
+                            <div class="skeleton h-20 rounded"></div>
                         </div>
                     </div>
                 </div>
@@ -521,33 +507,24 @@
         </div>
 
         <!-- Chat AI Section -->
-        <div id="chatSection" class="section hidden pt-20">
-            <div class="px-6">
-                <div class="bg-white rounded-3xl shadow-lg overflow-hidden" style="height: 70vh;">
-                    <div class="bg-gradient p-6 text-white">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center">
-                                <i class="fas fa-robot text-2xl"></i>
-                            </div>
-                            <div>
-                                <h2 class="text-2xl font-bold">AI Assistant</h2>
-                                <p class="opacity-90">Trợ lý thông minh cho Love Story</p>
-                            </div>
+        <div id="chatSection" class="section hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="love-card rounded-lg overflow-hidden">
+                    <div class="bg-primary text-white p-4">
+                        <h2 class="text-xl font-bold">
+                            <i class="fas fa-robot mr-2"></i>Chat AI - Trợ Lý Kỷ Niệm
+                        </h2>
+                    </div>
+                    <div class="h-96 overflow-y-auto p-4" id="chatMessages">
+                        <div class="text-center text-gray-500 py-8">
+                            Bắt đầu cuộc trò chuyện với AI...
                         </div>
                     </div>
-                    <div class="flex-1 p-6 overflow-y-auto" id="chatMessages" style="height: calc(70vh - 200px);">
-                        <div class="text-center text-gray-500 mt-8">
-                            <div class="w-16 h-16 bg-gradient rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                <i class="fas fa-heart text-white text-2xl"></i>
-                            </div>
-                            <p class="text-lg font-medium mb-2">Xin chào! Tôi là AI Assistant</p>
-                            <p>Tôi có thể giúp bạn tìm kiếm kỷ niệm, thống kê hoặc trả lời câu hỏi về Love Story.</p>
-                        </div>
-                    </div>
-                    <div class="p-6 border-t bg-gray-50">
+                    <div class="border-t border-custom p-4">
                         <div class="flex space-x-3">
-                            <input type="text" id="chatInput" placeholder="Hỏi AI về kỷ niệm của bạn..." class="flex-1 border-0 bg-white rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <button onclick="sendChatMessage()" class="bg-gradient text-white px-6 py-3 rounded-2xl hover:opacity-90 transition-opacity">
+                            <input type="text" id="chatInput" placeholder="Hỏi AI về kỷ niệm, tìm kiếm sự kiện..." 
+                                   class="love-input flex-1" onkeypress="handleChatKeyPress(event)">
+                            <button onclick="sendChatMessage()" class="love-button">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
@@ -557,366 +534,471 @@
         </div>
 
         <!-- Timeline Section -->
-        <div id="timelineSection" class="section hidden pt-20">
-            <div class="px-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 space-y-4 sm:space-y-0">
-                    <div>
-                        <h2 class="text-3xl font-bold text-gray-800">Timeline Kỷ Niệm</h2>
-                        <p class="text-gray-600 mt-1">Dòng thời gian tình yêu của chúng ta</p>
-                    </div>
-                    <button onclick="openEventModal()" class="bg-gradient text-white px-6 py-3 rounded-2xl hover:opacity-90 transition-opacity shadow-lg">
-                        <i class="fas fa-plus mr-2"></i>Thêm Sự Kiện
-                    </button>
-                </div>
-                <div class="bg-white rounded-3xl shadow-lg p-8">
-                    <div id="timelineList" class="space-y-8">
-                        <!-- Timeline items will be loaded here -->
-                        <div class="skeleton h-32 rounded-2xl"></div>
-                        <div class="skeleton h-32 rounded-2xl"></div>
-                    </div>
-                </div>
+        <div id="timelineSection" class="section hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-primary">
+                    <i class="fas fa-clock mr-2"></i>Timeline Kỷ Niệm
+                </h2>
+                <button onclick="openModal('eventModal')" class="love-button">
+                    <i class="fas fa-plus mr-2"></i>Thêm Sự Kiện
+                </button>
+            </div>
+            <div id="timelineContainer">
+                <div class="skeleton h-40 rounded mb-4"></div>
+                <div class="skeleton h-40 rounded mb-4"></div>
+                <div class="skeleton h-40 rounded"></div>
             </div>
         </div>
 
         <!-- Photos Section -->
-        <div id="photosSection" class="section hidden pt-20">
-            <div class="px-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 space-y-4 sm:space-y-0">
-                    <div>
-                        <h2 class="text-3xl font-bold text-gray-800">Thư Viện Ảnh</h2>
-                        <p class="text-gray-600 mt-1">Những khoảnh khắc đẹp nhất</p>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <span class="text-sm text-gray-600">Hiển thị:</span>
-                        <select id="photoViewMode" onchange="changePhotoView()" class="border-0 bg-white rounded-xl px-4 py-2 text-sm shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="grid-3">Lưới 3</option>
-                            <option value="grid-2">Lưới 2</option>
-                            <option value="grid-4">Lưới 4</option>
-                            <option value="grid-5">Lưới 5</option>
-                            <option value="grid-6">Lưới 6</option>
-                            <option value="list">Danh sách</option>
-                        </select>
+        <div id="photosSection" class="section hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 space-y-4 md:space-y-0">
+                <h2 class="text-2xl font-bold text-primary">
+                    <i class="fas fa-camera mr-2"></i>Khoảnh Khắc
+                </h2>
+                <div class="flex items-center space-x-3">
+                    <div class="flex items-center space-x-1 bg-accent border border-custom rounded-lg p-1">
+                        <button onclick="changePhotoView('grid-1')" class="view-btn p-2 rounded" data-view="grid-1">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button onclick="changePhotoView('grid-2')" class="view-btn p-2 rounded" data-view="grid-2">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button onclick="changePhotoView('grid-3')" class="view-btn p-2 rounded" data-view="grid-3">
+                            <i class="fas fa-grip-horizontal"></i>
+                        </button>
+                        <button onclick="changePhotoView('grid-4')" class="view-btn p-2 rounded" data-view="grid-4">
+                            <i class="fas fa-grip-vertical"></i>
+                        </button>
+                        <button onclick="changePhotoView('grid-5')" class="view-btn p-2 rounded" data-view="grid-5">
+                            <i class="fas fa-border-all"></i>
+                        </button>
+                        <button onclick="changePhotoView('grid-6')" class="view-btn p-2 rounded" data-view="grid-6">
+                            <i class="fas fa-border-none"></i>
+                        </button>
+                        <button onclick="changePhotoView('list')" class="view-btn p-2 rounded" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-3xl shadow-lg p-8">
-                    <div id="photosGrid" class="grid-photos grid-3">
-                        <!-- Photos will be loaded here -->
-                    </div>
-                    <div id="photosPagination" class="mt-8 flex justify-center">
-                        <!-- Pagination will be loaded here -->
-                    </div>
-                </div>
+            </div>
+            <div id="photosContainer" class="photo-grid grid-view-3">
+                <!-- Photos will be loaded here -->
+            </div>
+            <div id="photosPagination" class="mt-6 flex justify-center">
+                <!-- Pagination will be loaded here -->
             </div>
         </div>
 
         <!-- Settings Section -->
-        <div id="settingsSection" class="section hidden pt-20">
-            <div class="px-6">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-gray-800">Cài Đặt</h2>
-                    <p class="text-gray-600 mt-1">Tùy chỉnh ứng dụng theo ý thích</p>
+        <div id="settingsSection" class="section hidden">
+            <h2 class="text-2xl font-bold text-primary mb-6">
+                <i class="fas fa-cog mr-2"></i>Cài Đặt
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Giao Diện -->
+                <div class="love-card rounded-lg p-6">
+                    <h3 class="text-lg font-bold text-primary mb-4">
+                        <i class="fas fa-palette mr-2"></i>Giao Diện
+                    </h3>
+                    <div class="space-y-4">
+                        <label class="block">
+                            <span class="text-sm font-medium mb-2 block">Chọn Theme:</span>
+                            <select id="themeSelect" onchange="changeTheme()" class="love-input w-full">
+                                <option value="default">Mặc định (Xanh - Vàng)</option>
+                                <option value="spring">Mùa Xuân (Xanh lá)</option>
+                                <option value="summer">Mùa Hè (Vàng - Đỏ)</option>
+                                <option value="night">Ban Đêm (Tím - Xanh)</option>
+                                <option value="romantic">Lãng Mạn (Hồng - Cam)</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Giao Diện -->
-                    <div class="bg-white rounded-3xl shadow-lg p-8 card-hover">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient rounded-2xl flex items-center justify-center mr-4">
-                                <i class="fas fa-palette text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-800">Giao Diện</h3>
-                                <p class="text-gray-600">Thay đổi theme và màu sắc</p>
-                            </div>
-                        </div>
-                        <div class="space-y-4">
+
+                <!-- Tự Động Cập Nhật -->
+                <div class="love-card rounded-lg p-6">
+                    <h3 class="text-lg font-bold text-primary mb-4">
+                        <i class="fas fa-sync mr-2"></i>Tự Động Cập Nhật
+                    </h3>
+                    <div class="space-y-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="autoSync" class="mr-3" checked>
+                            <span>Đồng bộ metadata ảnh từ Google Drive</span>
+                        </label>
+                        <div class="grid grid-cols-2 gap-4">
                             <label class="block">
-                                <span class="text-sm font-medium text-gray-700 mb-2 block">Chọn Theme:</span>
-                                <select id="themeSelect" onchange="changeTheme()" class="w-full border-0 bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option value="default">🎨 Mặc định</option>
-                                    <option value="spring">🌸 Mùa xuân</option>
-                                    <option value="summer">☀️ Mùa hè</option>
-                                    <option value="night">🌙 Ban đêm</option>
-                                    <option value="romantic">💕 Lãng mạn</option>
+                                <span class="text-sm font-medium mb-2 block">Tần suất:</span>
+                                <select class="love-input w-full">
+                                    <option>Hàng ngày</option>
+                                    <option>Hàng tuần</option>
+                                    <option>Hàng tháng</option>
                                 </select>
                             </label>
-                        </div>
-                    </div>
-
-                    <!-- Tự Động Cập Nhật -->
-                    <div class="bg-white rounded-3xl shadow-lg p-8 card-hover">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient rounded-2xl flex items-center justify-center mr-4">
-                                <i class="fas fa-sync text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-800">Tự Động Cập Nhật</h3>
-                                <p class="text-gray-600">Đồng bộ dữ liệu</p>
-                            </div>
-                        </div>
-                        <div class="space-y-4">
-                            <label class="flex items-center p-3 bg-gray-50 rounded-xl">
-                                <input type="checkbox" id="autoSync" class="mr-3 w-5 h-5 text-blue-600 rounded">
-                                <span class="font-medium">Đồng bộ tự động từ Google Drive</span>
-                            </label>
                             <label class="block">
-                                <span class="text-sm font-medium text-gray-700 mb-2 block">Tần suất:</span>
-                                <select class="w-full border-0 bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option>⏰ Mỗi giờ</option>
-                                    <option>📅 Mỗi ngày</option>
-                                    <option>📆 Mỗi tuần</option>
-                                </select>
+                                <span class="text-sm font-medium mb-2 block">Thời gian:</span>
+                                <input type="time" class="love-input w-full" value="02:00">
                             </label>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Nhật ký hoạt động -->
-                    <div class="bg-white rounded-3xl shadow-lg p-8 card-hover">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient rounded-2xl flex items-center justify-center mr-4">
-                                <i class="fas fa-history text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-800">Nhật Ký Hoạt Động</h3>
-                                <p class="text-gray-600">Theo dõi hoạt động</p>
-                            </div>
+                <!-- Nhật ký hoạt động -->
+                <div class="love-card rounded-lg p-6">
+                    <h3 class="text-lg font-bold text-primary mb-4">
+                        <i class="fas fa-file-alt mr-2"></i>Nhật Ký Hoạt Động
+                    </h3>
+                    <div class="space-y-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="enableLogs" class="mr-3" checked>
+                            <span>Bật ghi nhật ký hoạt động</span>
+                        </label>
+                        <div class="flex justify-between text-sm">
+                            <span>Tổng số bản ghi:</span>
+                            <span class="font-bold" id="totalLogs">1,247</span>
                         </div>
-                        <div class="space-y-4">
-                            <label class="flex items-center p-3 bg-gray-50 rounded-xl">
-                                <input type="checkbox" id="enableLogs" checked class="mr-3 w-5 h-5 text-blue-600 rounded">
-                                <span class="font-medium">Bật ghi nhật ký</span>
-                            </label>
-                            <div class="bg-blue-50 p-4 rounded-xl">
-                                <p class="text-sm text-blue-800 mb-2">📊 Tổng số bản ghi: <span class="font-bold">1,247</span></p>
-                                <button onclick="openLogsModal()" class="text-blue-600 hover:text-blue-800 font-medium text-sm">Xem chi tiết →</button>
-                            </div>
-                        </div>
+                        <button onclick="openModal('logsModal')" class="love-button w-full">
+                            <i class="fas fa-eye mr-2"></i>Xem Chi Tiết Nhật Ký
+                        </button>
                     </div>
+                </div>
 
-                    <!-- Thông Tin Hệ Thống -->
-                    <div class="bg-white rounded-3xl shadow-lg p-8 card-hover">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient rounded-2xl flex items-center justify-center mr-4">
-                                <i class="fas fa-info-circle text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-800">Thông Tin Hệ Thống</h3>
-                                <p class="text-gray-600">Trạng thái và thông số</p>
-                            </div>
+                <!-- Thông Tin Hệ Thống -->
+                <div class="love-card rounded-lg p-6">
+                    <h3 class="text-lg font-bold text-primary mb-4">
+                        <i class="fas fa-info-circle mr-2"></i>Thông Tin Hệ Thống
+                    </h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span>Phiên bản:</span>
+                            <span class="font-bold">v2.1.0</span>
                         </div>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
-                                <span class="text-gray-600">🔖 Phiên bản:</span>
-                                <span class="font-bold text-gray-800">v2.1.0</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-green-50 rounded-xl">
-                                <span class="text-gray-600">📂 GitHub:</span>
-                                <span class="text-green-600 font-medium">✓ Kết nối</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-green-50 rounded-xl">
-                                <span class="text-gray-600">☁️ Google Drive:</span>
-                                <span class="text-green-600 font-medium">✓ Kết nối</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-blue-50 rounded-xl">
-                                <span class="text-gray-600">💾 Dung lượng:</span>
-                                <span class="font-medium text-blue-800">2.3GB / 15GB</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-green-50 rounded-xl">
-                                <span class="text-gray-600">🌐 Trạng thái:</span>
-                                <span id="onlineStatus" class="text-green-600 font-medium">✓ Online</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-xl">
-                                <span class="text-gray-600">📝 Nhật ký chờ:</span>
-                                <span class="font-medium text-gray-800">0</span>
-                            </div>
+                        <div class="flex justify-between">
+                            <span>GitHub:</span>
+                            <span class="flex items-center">
+                                <span class="status-indicator status-online"></span>
+                                <span class="font-bold text-green-600">Kết nối</span>
+                            </span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Google Drive:</span>
+                            <span class="flex items-center">
+                                <span class="status-indicator status-online"></span>
+                                <span class="font-bold text-green-600">Kết nối</span>
+                            </span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Dung lượng sử dụng:</span>
+                            <span class="font-bold">2.4 GB / 15 GB</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Trạng thái:</span>
+                            <span class="flex items-center">
+                                <span class="status-indicator status-online"></span>
+                                <span class="font-bold text-green-600" id="onlineStatus">Online</span>
+                            </span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Nhật ký chờ lưu:</span>
+                            <span class="font-bold" id="pendingLogs">0</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </main>
 
-        <!-- Floating Action Button -->
-        <button onclick="openEventModal()" class="floating-action">
-            <i class="fas fa-plus text-xl"></i>
-        </button>
-
-        <!-- Floating Navigation -->
-        <div class="floating-nav">
-            <div class="bg-white rounded-full shadow-2xl p-2 flex space-x-2">
-                <button onclick="showSection('home')" class="nav-item bg-primary text-white" data-tooltip="Trang Chủ">
-                    <i class="fas fa-home"></i>
-                </button>
-                <button onclick="showSection('chat')" class="nav-item bg-gray-100 text-gray-600 hover:bg-gray-200" data-tooltip="Chat AI">
-                    <i class="fas fa-robot"></i>
-                </button>
-                <button onclick="showSection('timeline')" class="nav-item bg-gray-100 text-gray-600 hover:bg-gray-200" data-tooltip="Timeline">
-                    <i class="fas fa-clock"></i>
-                </button>
-                <button onclick="showSection('photos')" class="nav-item bg-gray-100 text-gray-600 hover:bg-gray-200" data-tooltip="Ảnh">
-                    <i class="fas fa-images"></i>
-                </button>
-                <button onclick="showSection('settings')" class="nav-item bg-gray-100 text-gray-600 hover:bg-gray-200" data-tooltip="Cài Đặt">
-                    <i class="fas fa-cog"></i>
-                </button>
-            </div>
+    <!-- Floating Navigation Bar -->
+    <nav class="floating-nav collapsed" id="floatingNav">
+        <div class="floating-nav-container">
+            <button onclick="toggleFloatingNav()" class="floating-nav-item home-btn active" data-tooltip="Trang Chủ" id="floatingHome">
+                <i class="fas fa-home"></i>
+            </button>
+            <button onclick="showSection('chat')" class="floating-nav-item" data-tooltip="Chat AI" id="floatingChat">
+                <i class="fas fa-robot"></i>
+            </button>
+            <button onclick="showSection('timeline')" class="floating-nav-item" data-tooltip="Timeline" id="floatingTimeline">
+                <i class="fas fa-clock"></i>
+            </button>
+            <button onclick="showSection('photos')" class="floating-nav-item" data-tooltip="Khoảnh Khắc" id="floatingPhotos">
+                <i class="fas fa-images"></i>
+            </button>
+            <button onclick="openModal('searchModal')" class="floating-nav-item" data-tooltip="Tìm Kiếm" id="floatingSearch">
+                <i class="fas fa-search"></i>
+            </button>
+            <button onclick="showSection('settings')" class="floating-nav-item" data-tooltip="Cài Đặt" id="floatingSettings">
+                <i class="fas fa-cog"></i>
+            </button>
         </div>
-    </div>
+    </nav>
 
-        <!-- Footer -->
-        <footer class="bg-gray-100 border-t mt-auto">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm text-gray-600">
-                <p>Bản quyền thuộc về: Hà Mạnh Tín</p>
-                <p>© 2025 - Ứng dụng kỷ niệm</p>
-            </div>
-        </footer>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="text-center text-sm text-gray-600">
+            <p class="font-medium">Bản quyền thuộc về: Hà Mạnh Tín</p>
+            <p>© 2025 - Ứng dụng kỷ niệm</p>
+        </div>
+    </footer>
 
     <!-- Modals -->
-    <!-- Photo Modal -->
-    <div id="photoModal" class="fixed inset-0 bg-black bg-opacity-75 modal-backdrop hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg max-w-4xl max-h-full overflow-auto">
-            <div class="p-4 border-b flex justify-between items-center">
-                <h3 class="text-lg font-bold">Xem Ảnh</h3>
-                <button onclick="closePhotoModal()" class="text-gray-500 hover:text-gray-700">
+    <!-- Search Modal -->
+    <div id="searchModal" class="modal">
+        <div class="modal-content w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-primary">
+                    <i class="fas fa-search mr-2"></i>Tìm Kiếm & AI
+                </h3>
+                <button onclick="closeModal('searchModal')" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <div class="p-4">
-                <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
-                    <div class="flex-1">
-                        <img id="modalPhoto" src="" alt="" class="w-full h-auto rounded-lg">
+            <div class="space-y-4">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm sự kiện, hỏi AI..." class="love-input w-full">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <button class="love-button text-sm" onclick="quickSearch('sinh nhật')">Sinh nhật</button>
+                    <button class="love-button text-sm" onclick="quickSearch('du lịch')">Du lịch</button>
+                    <button class="love-button text-sm" onclick="quickSearch('kỷ niệm')">Kỷ niệm</button>
+                    <button class="love-button text-sm" onclick="quickSearch('thống kê')">Thống kê</button>
+                </div>
+                <div id="searchResults" class="max-h-60 overflow-y-auto">
+                    <!-- Search results will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-primary">
+                    <i class="fas fa-user mr-2"></i>Hồ Sơ Cá Nhân
+                </h3>
+                <button onclick="closeModal('profileModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="text-center mb-6">
+                <img src="https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&background=006B68&color=fff&size=100" 
+                     alt="Avatar" class="w-20 h-20 rounded-full mx-auto mb-3">
+                <button class="love-button text-sm">Đổi Avatar</button>
+            </div>
+            <div class="space-y-4">
+                <label class="block">
+                    <span class="text-sm font-medium mb-2 block">Họ tên:</span>
+                    <input type="text" value="Hà Mạnh Tín" class="love-input w-full">
+                </label>
+                <label class="block">
+                    <span class="text-sm font-medium mb-2 block">Tên đăng nhập:</span>
+                    <input type="text" value="hamanhtinlovely" class="love-input w-full">
+                </label>
+                <div class="love-card rounded p-3">
+                    <h4 class="font-medium mb-2">Thông tin thiết bị:</h4>
+                    <div class="text-sm space-y-1">
+                        <p>IP: 192.168.1.100</p>
+                        <p>Trình duyệt: Chrome 120.0</p>
+                        <p>Hệ điều hành: Windows 11</p>
                     </div>
-                    <div class="lg:w-80 space-y-4">
-                        <div class="flex space-x-2">
-                            <button onclick="likePhoto()" class="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">
-                                <i class="fas fa-heart mr-2"></i>Thích
-                            </button>
-                            <button onclick="openShareModal()" class="flex-1 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
-                                <i class="fas fa-share mr-2"></i>Chia sẻ
-                            </button>
-                        </div>
-                        <div>
-                            <h4 class="font-bold mb-2">Bình luận</h4>
-                            <div id="photoComments" class="space-y-2 max-h-40 overflow-y-auto">
-                                <!-- Comments will be loaded here -->
-                            </div>
-                            <div class="mt-2">
-                                <input type="text" id="commentInput" placeholder="Thêm bình luận..." class="w-full border rounded px-3 py-2 text-sm">
-                                <button onclick="addComment()" class="mt-2 w-full bg-primary text-white py-2 rounded hover:opacity-90">
-                                    Gửi
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="flex space-x-3">
+                    <button class="love-button flex-1">Lưu Thay Đổi</button>
+                    <button class="love-button secondary">Đăng Xuất</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Event Modal -->
-    <div id="eventModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg max-w-md w-full">
-            <div class="p-4 border-b flex justify-between items-center">
-                <h3 class="text-lg font-bold" id="eventModalTitle">Thêm Sự Kiện</h3>
-                <button onclick="closeEventModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
+    <div id="eventModal" class="modal">
+        <div class="modal-content w-full max-w-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-primary">
+                    <i class="fas fa-plus mr-2"></i>Thêm Sự Kiện Mới
+                </h3>
+                <button onclick="closeModal('eventModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <form onsubmit="saveEvent(event)" class="p-4 space-y-4">
-                <input type="hidden" id="eventId">
-                <div>
-                    <label class="block text-sm font-medium mb-1">Tên sự kiện:</label>
-                    <input type="text" id="eventName" required class="w-full border rounded-lg px-3 py-2">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Ngày:</label>
-                    <input type="date" id="eventDate" required class="w-full border rounded-lg px-3 py-2">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Mô tả:</label>
-                    <textarea id="eventDescription" rows="3" class="w-full border rounded-lg px-3 py-2"></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Ảnh:</label>
-                    <button type="button" onclick="openImageSelector()" class="w-full border-2 border-dashed border-gray-300 rounded-lg py-4 text-center hover:border-primary">
-                        <i class="fas fa-images text-2xl text-gray-400 mb-2"></i>
-                        <p class="text-sm text-gray-600">Chọn ảnh từ thư viện</p>
-                    </button>
-                    <div id="selectedImages" class="mt-2 grid grid-cols-4 gap-2"></div>
-                </div>
-                <div class="flex space-x-2">
-                    <button type="button" onclick="closeEventModal()" class="flex-1 border border-gray-300 py-2 rounded-lg hover:bg-gray-50">
-                        Hủy
-                    </button>
-                    <button type="submit" class="flex-1 bg-primary text-white py-2 rounded-lg hover:opacity-90">
-                        Lưu
-                    </button>
+            <form id="eventForm" onsubmit="saveEvent(event)">
+                <div class="space-y-4">
+                    <label class="block">
+                        <span class="text-sm font-medium mb-2 block">Tên sự kiện:</span>
+                        <input type="text" id="eventName" required class="love-input w-full" placeholder="Ví dụ: Sinh nhật lần thứ 25">
+                    </label>
+                    <label class="block">
+                        <span class="text-sm font-medium mb-2 block">Ngày:</span>
+                        <input type="date" id="eventDate" required class="love-input w-full">
+                    </label>
+                    <label class="block">
+                        <span class="text-sm font-medium mb-2 block">Mô tả:</span>
+                        <textarea id="eventDescription" rows="3" class="love-input w-full" placeholder="Mô tả chi tiết về sự kiện..."></textarea>
+                    </label>
+                    <div>
+                        <span class="text-sm font-medium mb-2 block">Ảnh:</span>
+                        <button type="button" onclick="openModal('imageSelectorModal')" class="love-button w-full">
+                            <i class="fas fa-images mr-2"></i>Chọn Ảnh (<span id="selectedImagesCount">0</span>)
+                        </button>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button type="submit" class="love-button flex-1">Lưu Sự Kiện</button>
+                        <button type="button" onclick="closeModal('eventModal')" class="love-button secondary">Hủy</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Profile Modal -->
-    <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg max-w-md w-full">
-            <div class="p-4 border-b flex justify-between items-center">
-                <h3 class="text-lg font-bold">Hồ Sơ Cá Nhân</h3>
-                <button onclick="closeProfileModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
+    <!-- Photo Modal -->
+    <div id="photoModal" class="modal">
+        <div class="modal-content w-full max-w-4xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-primary">
+                    <i class="fas fa-image mr-2"></i>Xem Ảnh
+                </h3>
+                <button onclick="closeModal('photoModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <div class="p-4 space-y-4">
-                <div class="text-center">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='40' fill='%23FFC62F'/%3E%3Ctext x='40' y='50' text-anchor='middle' fill='white' font-size='32' font-weight='bold'%3EH%3C/text%3E%3C/svg%3E" alt="Avatar" class="w-20 h-20 rounded-full mx-auto mb-2">
-                    <button class="text-primary hover:underline text-sm">Đổi avatar</button>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Họ tên:</label>
-                    <input type="text" value="Hà Mạnh Tín" class="w-full border rounded-lg px-3 py-2">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Tên đăng nhập:</label>
-                    <input type="text" value="hamanhtin" class="w-full border rounded-lg px-3 py-2">
-                </div>
-                <div class="text-sm text-gray-600">
-                    <p><strong>Thiết bị:</strong> Chrome 120.0 trên Windows 11</p>
-                    <p><strong>Đăng nhập lần cuối:</strong> 15/01/2025 14:30</p>
+            <div class="text-center mb-4">
+                <img id="modalPhoto" src="" alt="" class="max-w-full max-h-96 mx-auto rounded-lg">
+            </div>
+            <div class="flex justify-center space-x-3 mb-4">
+                <button class="love-button">
+                    <i class="fas fa-heart mr-2"></i>Thích
+                </button>
+                <button onclick="openModal('shareModal')" class="love-button">
+                    <i class="fas fa-share mr-2"></i>Chia Sẻ
+                </button>
+                <button class="love-button">
+                    <i class="fas fa-download mr-2"></i>Tải Về
+                </button>
+            </div>
+            <div class="love-card rounded p-4">
+                <h4 class="font-medium mb-3">Bình luận:</h4>
+                <div class="space-y-2 mb-4 max-h-32 overflow-y-auto">
+                    <div class="text-sm">
+                        <strong>Bạn:</strong> Ảnh đẹp quá! 😍
+                    </div>
                 </div>
                 <div class="flex space-x-2">
-                    <button onclick="closeProfileModal()" class="flex-1 border border-gray-300 py-2 rounded-lg hover:bg-gray-50">
-                        Đóng
-                    </button>
-                    <button class="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">
-                        Đăng xuất
-                    </button>
+                    <input type="text" placeholder="Thêm bình luận..." class="love-input flex-1">
+                    <button class="love-button">Gửi</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Search Modal -->
-    <div id="searchModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg max-w-2xl w-full max-h-96 overflow-hidden">
-            <div class="p-4 border-b">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-search text-gray-400"></i>
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm sự kiện, ảnh hoặc hỏi AI..." class="flex-1 outline-none text-lg">
-                    <button onclick="closeSearchModal()" class="text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-times"></i>
+    <!-- Share Modal -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-primary">
+                    <i class="fas fa-share mr-2"></i>Chia Sẻ
+                </h3>
+                <button onclick="closeModal('shareModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div class="love-card rounded p-3">
+                    <label class="text-sm font-medium mb-2 block">Link chia sẻ:</label>
+                    <div class="flex space-x-2">
+                        <input type="text" value="https://lovestory.app/photo/123" readonly class="love-input flex-1 text-sm">
+                        <button onclick="copyToClipboard()" class="love-button">Copy</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="love-button">
+                        <i class="fab fa-facebook mr-2"></i>Facebook
+                    </button>
+                    <button class="love-button">
+                        <i class="fab fa-instagram mr-2"></i>Instagram
+                    </button>
+                    <button class="love-button">
+                        <i class="fab fa-twitter mr-2"></i>Twitter
+                    </button>
+                    <button onclick="generateQR()" class="love-button">
+                        <i class="fas fa-qrcode mr-2"></i>Tạo QR
                     </button>
                 </div>
+                <div id="qrCode" class="text-center hidden">
+                    <div class="w-32 h-32 bg-gray-200 mx-auto rounded flex items-center justify-center">
+                        <i class="fas fa-qrcode text-4xl text-gray-500"></i>
+                    </div>
+                </div>
             </div>
-            <div class="p-4 overflow-y-auto max-h-80">
-                <div class="space-y-2">
-                    <p class="text-sm text-gray-600 mb-3">Gợi ý nhanh:</p>
-                    <button class="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-sm">
-                        Tìm ảnh chụp tháng 12/2024
-                    </button>
-                    <button class="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-sm">
-                        Sự kiện sinh nhật
-                    </button>
-                    <button class="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-sm">
-                        Thống kê năm 2024
-                    </button>
+        </div>
+    </div>
+
+    <!-- Image Selector Modal -->
+    <div id="imageSelectorModal" class="modal">
+        <div class="modal-content w-full max-w-4xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-primary">
+                    <i class="fas fa-images mr-2"></i>Chọn Ảnh
+                </h3>
+                <button onclick="closeModal('imageSelectorModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex space-x-2">
+                    <button onclick="selectAllImages()" class="love-button text-sm">Chọn Tất Cả</button>
+                    <button onclick="deselectAllImages()" class="love-button secondary text-sm">Bỏ Chọn</button>
+                </div>
+                <span class="text-sm text-gray-600">Đã chọn: <span id="selectedCount">0</span></span>
+            </div>
+            <div class="grid grid-cols-4 md:grid-cols-6 gap-3 max-h-96 overflow-y-auto mb-4" id="imageSelector">
+                <!-- Images will be loaded here -->
+            </div>
+            <div class="flex justify-between items-center">
+                <div class="flex space-x-2">
+                    <button class="love-button text-sm">← Trước</button>
+                    <span class="text-sm text-gray-600">Trang 1 / 10</span>
+                    <button class="love-button text-sm">Sau →</button>
+                </div>
+                <button onclick="confirmImageSelection()" class="love-button">Xác Nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logs Modal -->
+    <div id="logsModal" class="modal">
+        <div class="modal-content w-full max-w-3xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-primary">
+                    <i class="fas fa-file-alt mr-2"></i>Nhật Ký Hoạt Động
+                </h3>
+                <button onclick="closeModal('logsModal')" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-3 max-h-96 overflow-y-auto">
+                <div class="love-card rounded p-3 text-sm">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <strong>Thêm sự kiện mới</strong>
+                            <p class="text-gray-600">Đã thêm sự kiện "Sinh nhật lần thứ 25"</p>
+                        </div>
+                        <span class="text-xs text-gray-500">2 phút trước</span>
+                    </div>
+                </div>
+                <div class="love-card rounded p-3 text-sm">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <strong>Đồng bộ ảnh</strong>
+                            <p class="text-gray-600">Đã đồng bộ 15 ảnh mới từ Google Drive</p>
+                        </div>
+                        <span class="text-xs text-gray-500">1 giờ trước</span>
+                    </div>
+                </div>
+                <div class="love-card rounded p-3 text-sm">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <strong>Thay đổi theme</strong>
+                            <p class="text-gray-600">Đã chuyển sang theme "Mùa xuân"</p>
+                        </div>
+                        <span class="text-xs text-gray-500">3 giờ trước</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -925,11 +1007,10 @@
     <script>
         // Global variables
         let currentSection = 'home';
-        let currentPhotoPage = 1;
-        let photosPerPage = 12;
         let currentPhotoView = 'grid-3';
-        let selectedEventImages = [];
-        let currentEditingEvent = null;
+        let selectedImages = [];
+        let isOnline = navigator.onLine;
+        let pendingLogs = 0;
 
         // Sample data
         const sampleEvents = [
@@ -937,68 +1018,62 @@
                 id: 1,
                 name: "Ngày đầu gặp nhau",
                 date: "2022-02-22",
-                description: "Ngày đặc biệt khi chúng ta bắt đầu câu chuyện tình yêu",
-                images: [1, 2]
+                description: "Ngày đặc biệt khi chúng ta gặp nhau lần đầu tiên tại quán cà phê nhỏ.",
+                images: ["https://picsum.photos/400/300?random=1"]
             },
             {
                 id: 2,
-                name: "Sinh nhật lần đầu cùng nhau",
-                date: "2022-08-15",
-                description: "Sinh nhật đầu tiên được tổ chức cùng nhau",
-                images: [3, 4, 5]
+                name: "Lần đầu nắm tay",
+                date: "2022-03-15",
+                description: "Khoảnh khắc ngọt ngào đầu tiên khi anh nắm tay em.",
+                images: ["https://picsum.photos/400/300?random=2"]
             },
             {
                 id: 3,
-                name: "Kỷ niệm 1 năm",
-                date: "2023-02-22",
-                description: "Tròn 1 năm bên nhau, nhiều kỷ niệm đẹp",
-                images: [6, 7]
-            },
-            {
-                id: 4,
-                name: "Chuyến du lịch Đà Lạt",
-                date: "2023-12-24",
-                description: "Chuyến du lịch lãng mạn tại thành phố ngàn hoa",
-                images: [8, 9, 10]
-            },
-            {
-                id: 5,
-                name: "Tết Nguyên Đán 2024",
-                date: "2024-02-10",
-                description: "Tết đầu tiên được về nhà nhau",
-                images: [11, 12]
+                name: "Sinh nhật em",
+                date: "2022-06-20",
+                description: "Sinh nhật đầu tiên anh được tổ chức cho em.",
+                images: ["https://picsum.photos/400/300?random=3", "https://picsum.photos/400/300?random=4"]
             }
         ];
 
         const samplePhotos = Array.from({length: 50}, (_, i) => ({
             id: i + 1,
-            url: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Crect width='300' height='300' fill='%23${Math.floor(Math.random()*16777215).toString(16)}'/%3E%3Ctext x='150' y='150' text-anchor='middle' fill='white' font-size='24' font-weight='bold'%3EẢnh ${i + 1}%3C/text%3E%3C/svg%3E`,
-            title: `Ảnh kỷ niệm ${i + 1}`,
-            date: new Date(2022, 0, 1 + i * 7).toISOString().split('T')[0],
-            likes: Math.floor(Math.random() * 50),
-            comments: []
+            url: `https://picsum.photos/400/300?random=${i + 10}`,
+            title: `Kỷ niệm ${i + 1}`,
+            date: new Date(2022, 0, 1 + i * 7).toISOString().split('T')[0]
         }));
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
-            loadHomeData();
-            updateOnlineStatus();
+            initializeApp();
+            updateStats();
+            loadTodayMemories();
+            loadUpcomingEvents();
+            loadTimeline();
+            loadPhotos();
             
-            // Set up keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.key === 'k') {
-                    e.preventDefault();
-                    openSearchModal();
-                }
+            // Check online status
+            window.addEventListener('online', () => {
+                isOnline = true;
+                updateOnlineStatus();
             });
-
-            // Set up chat input
-            document.getElementById('chatInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendChatMessage();
-                }
+            
+            window.addEventListener('offline', () => {
+                isOnline = false;
+                updateOnlineStatus();
             });
         });
+
+        function initializeApp() {
+            // Load saved theme
+            const savedTheme = localStorage.getItem('loveStoryTheme') || 'default';
+            document.getElementById('themeSelect').value = savedTheme;
+            changeTheme();
+            
+            // Set active navigation
+            updateNavigation('home');
+        }
 
         // Navigation functions
         function showSection(section) {
@@ -1008,712 +1083,59 @@
             // Show selected section
             document.getElementById(section + 'Section').classList.remove('hidden');
             
-            // Update floating navigation
-            document.querySelectorAll('.nav-item').forEach(btn => {
-                btn.classList.remove('bg-primary', 'text-white');
-                btn.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
-            });
-            
-            // Update sidebar navigation
-            document.querySelectorAll('.nav-sidebar-btn').forEach(btn => {
-                btn.classList.remove('bg-white', 'bg-opacity-20');
-            });
-            
-            // Highlight active nav item
-            const activeNavItem = document.querySelector(`[onclick="showSection('${section}')"]`);
-            if (activeNavItem) {
-                if (activeNavItem.classList.contains('nav-item')) {
-                    activeNavItem.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
-                    activeNavItem.classList.add('bg-primary', 'text-white');
-                } else if (activeNavItem.classList.contains('nav-sidebar-btn')) {
-                    activeNavItem.classList.add('bg-white', 'bg-opacity-20');
-                }
-            }
+            // Update navigation
+            updateNavigation(section);
             
             currentSection = section;
             
-            // Load section data
-            switch(section) {
-                case 'timeline':
-                    loadTimelineData();
-                    break;
-                case 'photos':
-                    loadPhotosData();
-                    break;
-                case 'chat':
-                    // Chat is already initialized
-                    break;
-            }
-            
-            // Close sidebar on mobile
-            if (window.innerWidth < 768) {
-                closeSidebar();
+            // Collapse floating nav after selection
+            collapseFloatingNav();
+        }
+
+        function toggleFloatingNav() {
+            const nav = document.getElementById('floatingNav');
+            if (nav.classList.contains('collapsed')) {
+                expandFloatingNav();
+            } else {
+                if (currentSection === 'home') {
+                    collapseFloatingNav();
+                } else {
+                    showSection('home');
+                }
             }
         }
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const contentArea = document.getElementById('contentArea');
-            
-            sidebar.classList.toggle('open');
-            if (window.innerWidth >= 768) {
-                contentArea.classList.toggle('sidebar-open');
-            }
+        function expandFloatingNav() {
+            const nav = document.getElementById('floatingNav');
+            nav.classList.remove('collapsed');
+            nav.classList.add('expanded');
         }
 
-        function closeSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const contentArea = document.getElementById('contentArea');
-            
-            sidebar.classList.remove('open');
-            contentArea.classList.remove('sidebar-open');
+        function collapseFloatingNav() {
+            const nav = document.getElementById('floatingNav');
+            nav.classList.remove('expanded');
+            nav.classList.add('collapsed');
         }
 
-        // Home section functions
-        function loadHomeData() {
-            setTimeout(() => {
-                loadTodayMemories();
-                loadUpcomingEvents();
-                loadStatistics();
-            }, 1000);
-        }
-
-        function loadTodayMemories() {
-            const today = new Date();
-            const todayStr = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-            
-            const memories = sampleEvents.filter(event => {
-                const eventDate = new Date(event.date);
-                const eventStr = `${String(eventDate.getMonth() + 1).padStart(2, '0')}-${String(eventDate.getDate()).padStart(2, '0')}`;
-                return eventStr === todayStr && eventDate.getFullYear() < today.getFullYear();
+        function updateNavigation(activeSection) {
+            // Update floating navigation
+            document.querySelectorAll('.floating-nav-item').forEach(item => {
+                item.classList.remove('active');
             });
-
-            const container = document.getElementById('todayMemories');
             
-            if (memories.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-calendar-times text-4xl mb-4"></i>
-                        <p>Không có kỷ niệm nào trong ngày hôm nay</p>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = memories.map(memory => `
-                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 hover:shadow-lg transition-all duration-300 fade-in card-hover">
-                        <div class="flex items-start space-x-4">
-                            <div class="relative">
-                                <img src="${samplePhotos[memory.images[0] - 1].url}" alt="" class="w-20 h-20 rounded-2xl object-cover shadow-md">
-                                <div class="absolute -top-2 -right-2 w-8 h-8 bg-gradient rounded-full flex items-center justify-center">
-                                    <i class="fas fa-heart text-white text-sm"></i>
-                                </div>
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="text-xl font-bold text-gray-800 mb-2">${memory.name}</h4>
-                                <div class="flex items-center space-x-2 mb-3">
-                                    <div class="bg-white bg-opacity-70 rounded-full px-3 py-1">
-                                        <span class="text-sm font-medium text-gray-700">${formatDate(memory.date)}</span>
-                                    </div>
-                                    <div class="bg-yellow-100 rounded-full px-3 py-1">
-                                        <span class="text-sm font-medium text-yellow-800">${getYearsAgo(memory.date)} năm trước</span>
-                                    </div>
-                                </div>
-                                <p class="text-gray-700 leading-relaxed">${memory.description}</p>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function loadUpcomingEvents() {
-            const today = new Date();
-            const upcoming = [
-                { name: "Kỷ niệm 3 năm", date: "2025-02-22", days: Math.ceil((new Date("2025-02-22") - today) / (1000 * 60 * 60 * 24)) },
-                { name: "Sinh nhật", date: "2025-08-15", days: Math.ceil((new Date("2025-08-15") - today) / (1000 * 60 * 60 * 24)) }
-            ].filter(event => event.days > 0);
-
-            const container = document.getElementById('upcomingEvents');
-            
-            if (upcoming.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-4 text-gray-500">
-                        <p class="text-sm">Không có sự kiện sắp tới</p>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = upcoming.map(event => `
-                    <div class="bg-gradient-to-r from-pink-50 to-red-50 rounded-xl p-4 fade-in border-l-4 border-pink-400">
-                        <div class="flex justify-between items-center">
-                            <div class="flex-1">
-                                <h5 class="font-bold text-gray-800 mb-1">${event.name}</h5>
-                                <div class="flex items-center space-x-2">
-                                    <i class="fas fa-calendar text-pink-500 text-sm"></i>
-                                    <span class="text-sm text-gray-600">${formatDate(event.date)}</span>
-                                </div>
-                            </div>
-                            <div class="text-center ml-4">
-                                <div class="w-12 h-12 bg-gradient rounded-xl flex items-center justify-center mb-1">
-                                    <span class="text-lg font-bold text-white">${event.days}</span>
-                                </div>
-                                <div class="text-xs text-gray-600 font-medium">ngày</div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function loadStatistics() {
-            const startDate = new Date('2022-02-22');
-            const today = new Date();
-            const daysTogether = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
-            
-            // Update hero stats
-            document.getElementById('herodays').textContent = daysTogether.toLocaleString();
-            document.getElementById('heroMemories').textContent = sampleEvents.length;
-            document.getElementById('heroPhotos').textContent = samplePhotos.length;
-            
-            // Update sidebar stats
-            document.getElementById('sidebarDays').textContent = daysTogether.toLocaleString();
-            document.getElementById('sidebarMemories').textContent = sampleEvents.length;
-            document.getElementById('sidebarPhotos').textContent = samplePhotos.length;
-        }
-
-        // Timeline functions
-        function loadTimelineData() {
-            const container = document.getElementById('timelineList');
-            
-            setTimeout(() => {
-                const sortedEvents = [...sampleEvents].sort((a, b) => new Date(b.date) - new Date(a.date));
-                
-                container.innerHTML = sortedEvents.map(event => `
-                    <div class="timeline-item fade-in">
-                        <div class="bg-gray-50 rounded-lg p-4">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <h4 class="font-bold text-primary">${event.name}</h4>
-                                    <p class="text-sm text-gray-600">${formatDate(event.date)}</p>
-                                </div>
-                                <div class="flex space-x-2">
-                                    <button onclick="editEvent(${event.id})" class="text-blue-500 hover:text-blue-700">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button onclick="viewEventPhotos(${event.id})" class="text-green-500 hover:text-green-700">
-                                        <i class="fas fa-images"></i>
-                                    </button>
-                                    <button onclick="deleteEvent(${event.id})" class="text-red-500 hover:text-red-700">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <p class="text-sm mb-3">${event.description}</p>
-                            <div class="flex space-x-2">
-                                ${event.images.slice(0, 3).map(imgId => `
-                                    <img src="${samplePhotos[imgId - 1].url}" alt="" class="w-12 h-12 rounded object-cover">
-                                `).join('')}
-                                ${event.images.length > 3 ? `<div class="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-xs">+${event.images.length - 3}</div>` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            }, 500);
-        }
-
-        // Photos functions
-        function loadPhotosData() {
-            const container = document.getElementById('photosGrid');
-            const pagination = document.getElementById('photosPagination');
-            
-            const startIndex = (currentPhotoPage - 1) * photosPerPage;
-            const endIndex = startIndex + photosPerPage;
-            const pagePhotos = samplePhotos.slice(startIndex, endIndex);
-            
-            // Update grid class
-            container.className = `grid-photos ${currentPhotoView}`;
-            
-            if (currentPhotoView === 'list') {
-                container.innerHTML = pagePhotos.map(photo => `
-                    <div class="flex items-center space-x-4 p-4 border rounded-lg hover:shadow-md transition-shadow cursor-pointer fade-in" onclick="openPhotoModal(${photo.id})">
-                        <img src="${photo.url}" alt="${photo.title}" class="w-16 h-16 rounded object-cover">
-                        <div class="flex-1">
-                            <h4 class="font-medium">${photo.title}</h4>
-                            <p class="text-sm text-gray-600">${formatDate(photo.date)}</p>
-                            <p class="text-sm text-gray-500">
-                                <i class="fas fa-heart text-red-500 mr-1"></i>${photo.likes} lượt thích
-                            </p>
-                        </div>
-                    </div>
-                `).join('');
-            } else {
-                container.innerHTML = pagePhotos.map(photo => `
-                    <div class="photo-item fade-in" onclick="openPhotoModal(${photo.id})">
-                        <img src="${photo.url}" alt="${photo.title}" class="w-full h-full object-cover">
-                    </div>
-                `).join('');
-            }
-            
-            // Update pagination
-            const totalPages = Math.ceil(samplePhotos.length / photosPerPage);
-            pagination.innerHTML = `
-                <div class="flex items-center space-x-2">
-                    <button onclick="changePage(${currentPhotoPage - 1})" ${currentPhotoPage === 1 ? 'disabled' : ''} 
-                            class="px-3 py-1 border rounded ${currentPhotoPage === 1 ? 'text-gray-400' : 'hover:bg-gray-50'}">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <span class="text-sm">Trang ${currentPhotoPage} / ${totalPages}</span>
-                    <button onclick="changePage(${currentPhotoPage + 1})" ${currentPhotoPage === totalPages ? 'disabled' : ''} 
-                            class="px-3 py-1 border rounded ${currentPhotoPage === totalPages ? 'text-gray-400' : 'hover:bg-gray-50'}">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            `;
-        }
-
-        function changePhotoView() {
-            currentPhotoView = document.getElementById('photoViewMode').value;
-            loadPhotosData();
-        }
-
-        function changePage(page) {
-            const totalPages = Math.ceil(samplePhotos.length / photosPerPage);
-            if (page >= 1 && page <= totalPages) {
-                currentPhotoPage = page;
-                loadPhotosData();
+            const floatingActiveItem = document.getElementById(`floating${activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}`);
+            if (floatingActiveItem) {
+                floatingActiveItem.classList.add('active');
             }
         }
 
         // Modal functions
-        function openPhotoModal(photoId) {
-            const photo = samplePhotos.find(p => p.id === photoId);
-            if (!photo) return;
-            
-            document.getElementById('modalPhoto').src = photo.url;
-            document.getElementById('modalPhoto').alt = photo.title;
-            
-            // Load comments
-            const commentsContainer = document.getElementById('photoComments');
-            commentsContainer.innerHTML = photo.comments.length === 0 ? 
-                '<p class="text-gray-500 text-sm">Chưa có bình luận nào</p>' :
-                photo.comments.map(comment => `
-                    <div class="text-sm">
-                        <strong>${comment.author}:</strong> ${comment.text}
-                    </div>
-                `).join('');
-            
-            document.getElementById('photoModal').classList.remove('hidden');
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
         }
 
-        function closePhotoModal() {
-            document.getElementById('photoModal').classList.add('hidden');
-        }
-
-        function openEventModal(eventId = null) {
-            currentEditingEvent = eventId;
-            selectedEventImages = [];
-            
-            if (eventId) {
-                const event = sampleEvents.find(e => e.id === eventId);
-                if (event) {
-                    document.getElementById('eventModalTitle').textContent = 'Sửa Sự Kiện';
-                    document.getElementById('eventId').value = event.id;
-                    document.getElementById('eventName').value = event.name;
-                    document.getElementById('eventDate').value = event.date;
-                    document.getElementById('eventDescription').value = event.description;
-                    selectedEventImages = [...event.images];
-                    updateSelectedImages();
-                }
-            } else {
-                document.getElementById('eventModalTitle').textContent = 'Thêm Sự Kiện';
-                document.getElementById('eventId').value = '';
-                document.getElementById('eventName').value = '';
-                document.getElementById('eventDate').value = '';
-                document.getElementById('eventDescription').value = '';
-                updateSelectedImages();
-            }
-            
-            document.getElementById('eventModal').classList.remove('hidden');
-        }
-
-        function closeEventModal() {
-            document.getElementById('eventModal').classList.add('hidden');
-        }
-
-        function openProfileModal() {
-            document.getElementById('profileModal').classList.remove('hidden');
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profileModal').classList.add('hidden');
-        }
-
-        function openSearchModal() {
-            document.getElementById('searchModal').classList.remove('hidden');
-            document.getElementById('searchInput').focus();
-        }
-
-        function closeSearchModal() {
-            document.getElementById('searchModal').classList.add('hidden');
-        }
-
-        function openLogsModal() {
-            // Create a simple logs modal inline
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 modal-backdrop z-50 flex items-center justify-center p-4';
-            modal.innerHTML = `
-                <div class="bg-white rounded-lg max-w-2xl w-full max-h-96 overflow-hidden">
-                    <div class="p-4 border-b flex justify-between items-center">
-                        <h3 class="text-lg font-bold">Nhật Ký Hoạt Động</h3>
-                        <button onclick="this.closest('.modal-backdrop').remove()" class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="p-4 overflow-y-auto max-h-80">
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between py-2 border-b">
-                                <span>Thêm ảnh mới</span>
-                                <span class="text-gray-500">15/01/2025 14:30</span>
-                            </div>
-                            <div class="flex justify-between py-2 border-b">
-                                <span>Tạo sự kiện "Tết 2025"</span>
-                                <span class="text-gray-500">10/01/2025 09:15</span>
-                            </div>
-                            <div class="flex justify-between py-2 border-b">
-                                <span>Đồng bộ từ Google Drive</span>
-                                <span class="text-gray-500">08/01/2025 12:00</span>
-                            </div>
-                            <div class="flex justify-between py-2 border-b">
-                                <span>Thay đổi theme</span>
-                                <span class="text-gray-500">05/01/2025 16:45</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        }
-
-        // Event functions
-        function saveEvent(e) {
-            e.preventDefault();
-            
-            const eventData = {
-                id: document.getElementById('eventId').value || Date.now(),
-                name: document.getElementById('eventName').value,
-                date: document.getElementById('eventDate').value,
-                description: document.getElementById('eventDescription').value,
-                images: selectedEventImages
-            };
-            
-            if (currentEditingEvent) {
-                const index = sampleEvents.findIndex(e => e.id == currentEditingEvent);
-                if (index !== -1) {
-                    sampleEvents[index] = eventData;
-                }
-            } else {
-                sampleEvents.push(eventData);
-            }
-            
-            closeEventModal();
-            if (currentSection === 'timeline') {
-                loadTimelineData();
-            }
-            loadHomeData(); // Refresh home data
-        }
-
-        function editEvent(eventId) {
-            openEventModal(eventId);
-        }
-
-        function deleteEvent(eventId) {
-            // Create inline confirmation
-            const confirmation = document.createElement('div');
-            confirmation.className = 'fixed inset-0 bg-black bg-opacity-50 modal-backdrop z-50 flex items-center justify-center p-4';
-            confirmation.innerHTML = `
-                <div class="bg-white rounded-lg max-w-sm w-full p-6">
-                    <h3 class="text-lg font-bold mb-4">Xác nhận xóa</h3>
-                    <p class="text-gray-600 mb-6">Bạn có chắc chắn muốn xóa sự kiện này không?</p>
-                    <div class="flex space-x-2">
-                        <button onclick="this.closest('.modal-backdrop').remove()" class="flex-1 border border-gray-300 py-2 rounded-lg hover:bg-gray-50">
-                            Hủy
-                        </button>
-                        <button onclick="confirmDeleteEvent(${eventId}); this.closest('.modal-backdrop').remove()" class="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">
-                            Xóa
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(confirmation);
-        }
-
-        function confirmDeleteEvent(eventId) {
-            const index = sampleEvents.findIndex(e => e.id == eventId);
-            if (index !== -1) {
-                sampleEvents.splice(index, 1);
-                loadTimelineData();
-                loadHomeData();
-            }
-        }
-
-        function viewEventPhotos(eventId) {
-            const event = sampleEvents.find(e => e.id === eventId);
-            if (!event) return;
-            
-            // Create event photos modal
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-75 modal-backdrop z-50 flex items-center justify-center p-4';
-            modal.innerHTML = `
-                <div class="bg-white rounded-lg max-w-4xl w-full max-h-full overflow-auto">
-                    <div class="p-4 border-b flex justify-between items-center">
-                        <h3 class="text-lg font-bold">Ảnh của "${event.name}"</h3>
-                        <button onclick="this.closest('.modal-backdrop').remove()" class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-times text-xl"></i>
-                        </button>
-                    </div>
-                    <div class="p-4">
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            ${event.images.map(imgId => `
-                                <div class="photo-item cursor-pointer" onclick="openPhotoModal(${imgId})">
-                                    <img src="${samplePhotos[imgId - 1].url}" alt="" class="w-full h-full object-cover rounded-lg">
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        }
-
-        function openImageSelector() {
-            // Create image selector modal
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 modal-backdrop z-50 flex items-center justify-center p-4';
-            modal.innerHTML = `
-                <div class="bg-white rounded-lg max-w-4xl w-full max-h-full overflow-hidden">
-                    <div class="p-4 border-b flex justify-between items-center">
-                        <h3 class="text-lg font-bold">Chọn Ảnh</h3>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="selectAllImages()" class="text-sm text-primary hover:underline">Chọn tất cả</button>
-                            <button onclick="deselectAllImages()" class="text-sm text-primary hover:underline">Bỏ chọn</button>
-                            <button onclick="this.closest('.modal-backdrop').remove()" class="text-gray-500 hover:text-gray-700">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-4 overflow-y-auto max-h-96">
-                        <div class="grid grid-cols-4 md:grid-cols-6 gap-2" id="imageSelectorGrid">
-                            ${samplePhotos.slice(0, 24).map(photo => `
-                                <div class="relative cursor-pointer image-selector-item" data-id="${photo.id}" onclick="toggleImageSelection(${photo.id})">
-                                    <img src="${photo.url}" alt="" class="w-full aspect-square object-cover rounded">
-                                    <div class="absolute top-1 right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow">
-                                        <i class="fas fa-check text-primary text-sm hidden"></i>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                    <div class="p-4 border-t flex justify-between">
-                        <span class="text-sm text-gray-600">Đã chọn: <span id="selectedCount">0</span> ảnh</span>
-                        <button onclick="confirmImageSelection(); this.closest('.modal-backdrop').remove()" class="bg-primary text-white px-4 py-2 rounded-lg hover:opacity-90">
-                            Xác nhận
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            
-            // Update selection state
-            updateImageSelectorState();
-        }
-
-        function toggleImageSelection(imageId) {
-            const index = selectedEventImages.indexOf(imageId);
-            if (index === -1) {
-                selectedEventImages.push(imageId);
-            } else {
-                selectedEventImages.splice(index, 1);
-            }
-            updateImageSelectorState();
-        }
-
-        function selectAllImages() {
-            selectedEventImages = samplePhotos.slice(0, 24).map(p => p.id);
-            updateImageSelectorState();
-        }
-
-        function deselectAllImages() {
-            selectedEventImages = [];
-            updateImageSelectorState();
-        }
-
-        function updateImageSelectorState() {
-            const items = document.querySelectorAll('.image-selector-item');
-            items.forEach(item => {
-                const id = parseInt(item.dataset.id);
-                const checkbox = item.querySelector('i');
-                if (selectedEventImages.includes(id)) {
-                    checkbox.classList.remove('hidden');
-                    item.classList.add('ring-2', 'ring-primary');
-                } else {
-                    checkbox.classList.add('hidden');
-                    item.classList.remove('ring-2', 'ring-primary');
-                }
-            });
-            
-            const countElement = document.getElementById('selectedCount');
-            if (countElement) {
-                countElement.textContent = selectedEventImages.length;
-            }
-        }
-
-        function confirmImageSelection() {
-            updateSelectedImages();
-        }
-
-        function updateSelectedImages() {
-            const container = document.getElementById('selectedImages');
-            container.innerHTML = selectedEventImages.map(imgId => `
-                <div class="relative">
-                    <img src="${samplePhotos[imgId - 1].url}" alt="" class="w-full aspect-square object-cover rounded">
-                    <button onclick="removeSelectedImage(${imgId})" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full text-xs">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function removeSelectedImage(imageId) {
-            const index = selectedEventImages.indexOf(imageId);
-            if (index !== -1) {
-                selectedEventImages.splice(index, 1);
-                updateSelectedImages();
-            }
-        }
-
-        // Photo interaction functions
-        function likePhoto() {
-            // Simple like animation
-            const button = event.target.closest('button');
-            button.innerHTML = '<i class="fas fa-heart mr-2"></i>Đã thích';
-            button.classList.remove('bg-red-500', 'hover:bg-red-600');
-            button.classList.add('bg-red-600');
-        }
-
-        function addComment() {
-            const input = document.getElementById('commentInput');
-            const comment = input.value.trim();
-            if (!comment) return;
-            
-            const commentsContainer = document.getElementById('photoComments');
-            const newComment = document.createElement('div');
-            newComment.className = 'text-sm fade-in';
-            newComment.innerHTML = `<strong>Bạn:</strong> ${comment}`;
-            
-            if (commentsContainer.querySelector('.text-gray-500')) {
-                commentsContainer.innerHTML = '';
-            }
-            
-            commentsContainer.appendChild(newComment);
-            input.value = '';
-        }
-
-        function openShareModal() {
-            // Create share modal
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 modal-backdrop z-50 flex items-center justify-center p-4';
-            modal.innerHTML = `
-                <div class="bg-white rounded-lg max-w-md w-full">
-                    <div class="p-4 border-b flex justify-between items-center">
-                        <h3 class="text-lg font-bold">Chia Sẻ Ảnh</h3>
-                        <button onclick="this.closest('.modal-backdrop').remove()" class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="p-4 space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Link chia sẻ:</label>
-                            <div class="flex">
-                                <input type="text" value="https://lovestory.app/photo/123" readonly class="flex-1 border rounded-l-lg px-3 py-2 bg-gray-50">
-                                <button onclick="copyToClipboard('https://lovestory.app/photo/123')" class="bg-primary text-white px-3 rounded-r-lg hover:opacity-90">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2">Chia sẻ qua:</label>
-                            <div class="grid grid-cols-4 gap-2">
-                                <button class="p-3 border rounded-lg hover:bg-gray-50 text-center">
-                                    <i class="fab fa-facebook text-blue-600 text-xl mb-1"></i>
-                                    <div class="text-xs">Facebook</div>
-                                </button>
-                                <button class="p-3 border rounded-lg hover:bg-gray-50 text-center">
-                                    <i class="fab fa-twitter text-blue-400 text-xl mb-1"></i>
-                                    <div class="text-xs">Twitter</div>
-                                </button>
-                                <button class="p-3 border rounded-lg hover:bg-gray-50 text-center">
-                                    <i class="fab fa-instagram text-pink-600 text-xl mb-1"></i>
-                                    <div class="text-xs">Instagram</div>
-                                </button>
-                                <button onclick="generateQR()" class="p-3 border rounded-lg hover:bg-gray-50 text-center">
-                                    <i class="fas fa-qrcode text-gray-600 text-xl mb-1"></i>
-                                    <div class="text-xs">QR Code</div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        }
-
-        // Chat functions
-        function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            if (!message) return;
-            
-            const container = document.getElementById('chatMessages');
-            
-            // Add user message
-            const userMsg = document.createElement('div');
-            userMsg.className = 'mb-4 fade-in';
-            userMsg.innerHTML = `
-                <div class="flex justify-end">
-                    <div class="bg-primary text-white rounded-lg px-4 py-2 max-w-xs">
-                        ${message}
-                    </div>
-                </div>
-            `;
-            container.appendChild(userMsg);
-            
-            // Add AI response
-            setTimeout(() => {
-                const aiMsg = document.createElement('div');
-                aiMsg.className = 'mb-4 fade-in';
-                aiMsg.innerHTML = `
-                    <div class="flex">
-                        <div class="bg-gray-100 rounded-lg px-4 py-2 max-w-xs">
-                            ${getAIResponse(message)}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(aiMsg);
-                container.scrollTop = container.scrollHeight;
-            }, 1000);
-            
-            input.value = '';
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function getAIResponse(message) {
-            const responses = {
-                'thống kê': `Hiện tại bạn có ${sampleEvents.length} kỷ niệm và ${samplePhotos.length} hình ảnh. Số ngày bên nhau: ${Math.floor((new Date() - new Date('2022-02-22')) / (1000 * 60 * 60 * 24))} ngày.`,
-                'ảnh': `Tôi tìm thấy ${samplePhotos.length} ảnh trong thư viện của bạn. Ảnh mới nhất được thêm vào hôm nay.`,
-                'sự kiện': `Bạn có ${sampleEvents.length} sự kiện đã lưu. Sự kiện gần nhất là "${sampleEvents[sampleEvents.length - 1].name}".`,
-                'default': 'Tôi có thể giúp bạn tìm kiếm kỷ niệm, xem thống kê hoặc trả lời câu hỏi về Love Story. Hãy thử hỏi về "thống kê", "ảnh" hoặc "sự kiện"!'
-            };
-            
-            const key = Object.keys(responses).find(k => message.toLowerCase().includes(k));
-            return responses[key] || responses.default;
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
         }
 
         // Theme functions
@@ -1724,65 +1146,461 @@
             if (theme !== 'default') {
                 document.body.classList.add(`theme-${theme}`);
             }
+            
+            localStorage.setItem('loveStoryTheme', theme);
+            addLog('Thay đổi theme', `Đã chuyển sang theme "${document.getElementById('themeSelect').selectedOptions[0].text}"`);
+        }
+
+        // Stats functions
+        function updateStats() {
+            const startDate = new Date('2022-02-22');
+            const today = new Date();
+            const daysTogether = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('daysTogether').textContent = daysTogether.toLocaleString();
+            document.getElementById('totalMemories').textContent = sampleEvents.length.toLocaleString();
+            document.getElementById('totalPhotos').textContent = samplePhotos.length.toLocaleString();
+        }
+
+        function loadTodayMemories() {
+            const container = document.getElementById('todayMemories');
+            const today = new Date();
+            const todayStr = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            
+            const todayMemories = sampleEvents.filter(event => {
+                const eventDate = new Date(event.date);
+                const eventStr = `${String(eventDate.getMonth() + 1).padStart(2, '0')}-${String(eventDate.getDate()).padStart(2, '0')}`;
+                return eventStr === todayStr;
+            });
+
+            if (todayMemories.length > 0) {
+                const memory = todayMemories[0];
+                const yearsAgo = today.getFullYear() - new Date(memory.date).getFullYear();
+                
+                container.innerHTML = `
+                    <div class="flex items-start space-x-4">
+                        <img src="${memory.images[0]}" alt="" class="w-20 h-20 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <h4 class="text-lg font-bold text-primary mb-1">${memory.name}</h4>
+                            <p class="text-secondary font-medium mb-2">${yearsAgo} năm trước - ${formatDate(memory.date)}</p>
+                            <p class="text-gray-700">${memory.description}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-calendar-day text-4xl mb-3"></i>
+                        <p>Không có kỷ niệm nào vào ngày hôm nay</p>
+                    </div>
+                `;
+            }
+        }
+
+        function loadUpcomingEvents() {
+            const container = document.getElementById('upcomingEvents');
+            
+            // Sample upcoming event
+            const birthday = new Date('2025-06-20');
+            const today = new Date();
+            const daysUntil = Math.ceil((birthday - today) / (1000 * 60 * 60 * 24));
+            
+            container.innerHTML = `
+                <div class="love-card rounded p-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-primary mb-1">${daysUntil}</div>
+                        <div class="text-sm text-gray-600 mb-2">ngày nữa</div>
+                        <h4 class="font-bold text-primary">Sinh nhật em</h4>
+                        <p class="text-xs text-gray-500">20/06/2025</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Timeline functions
+        function loadTimeline() {
+            const container = document.getElementById('timelineContainer');
+            
+            const timelineHTML = sampleEvents.map(event => `
+                <div class="timeline-item">
+                    <div class="love-card rounded-lg p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-primary mb-1">${event.name}</h3>
+                                <p class="text-secondary font-medium">${formatDate(event.date)}</p>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button onclick="editEvent(${event.id})" class="love-button text-sm">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="viewEventPhotos(${event.id})" class="love-button text-sm">
+                                    <i class="fas fa-images"></i>
+                                </button>
+                                <button onclick="deleteEvent(${event.id})" class="love-button secondary text-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 mb-4">${event.description}</p>
+                        ${event.images.length > 0 ? `
+                            <div class="flex space-x-2">
+                                ${event.images.slice(0, 3).map(img => `
+                                    <img src="${img}" alt="" class="w-16 h-16 rounded object-cover cursor-pointer" 
+                                         onclick="viewPhoto('${img}')">
+                                `).join('')}
+                                ${event.images.length > 3 ? `
+                                    <div class="w-16 h-16 rounded bg-gray-200 flex items-center justify-center text-sm font-medium">
+                                        +${event.images.length - 3}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = timelineHTML;
+        }
+
+        // Photo functions
+        function loadPhotos(page = 1) {
+            const container = document.getElementById('photosContainer');
+            const photosPerPage = 24;
+            const startIndex = (page - 1) * photosPerPage;
+            const endIndex = startIndex + photosPerPage;
+            const pagePhotos = samplePhotos.slice(startIndex, endIndex);
+            
+            if (currentPhotoView === 'list') {
+                container.className = 'list-view';
+                container.innerHTML = pagePhotos.map(photo => `
+                    <div class="photo-item" onclick="viewPhoto('${photo.url}')">
+                        <img src="${photo.url}" alt="${photo.title}">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-primary">${photo.title}</h4>
+                            <p class="text-sm text-gray-600">${formatDate(photo.date)}</p>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                container.className = `photo-grid ${currentPhotoView}`;
+                container.innerHTML = pagePhotos.map(photo => `
+                    <div class="photo-item" onclick="viewPhoto('${photo.url}')">
+                        <img src="${photo.url}" alt="${photo.title}">
+                    </div>
+                `).join('');
+            }
+            
+            loadPhotosPagination(page, Math.ceil(samplePhotos.length / photosPerPage));
+        }
+
+        function loadPhotosPagination(currentPage, totalPages) {
+            const container = document.getElementById('photosPagination');
+            
+            let paginationHTML = '';
+            
+            if (currentPage > 1) {
+                paginationHTML += `<button onclick="loadPhotos(${currentPage - 1})" class="love-button mr-2">← Trước</button>`;
+            }
+            
+            paginationHTML += `<span class="mx-4 text-gray-600">Trang ${currentPage} / ${totalPages}</span>`;
+            
+            if (currentPage < totalPages) {
+                paginationHTML += `<button onclick="loadPhotos(${currentPage + 1})" class="love-button ml-2">Sau →</button>`;
+            }
+            
+            container.innerHTML = paginationHTML;
+        }
+
+        function changePhotoView(view) {
+            currentPhotoView = view;
+            
+            // Update active view button
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white');
+            });
+            document.querySelector(`[data-view="${view}"]`).classList.add('bg-primary', 'text-white');
+            
+            loadPhotos();
+        }
+
+        function viewPhoto(url) {
+            document.getElementById('modalPhoto').src = url;
+            openModal('photoModal');
+        }
+
+        // Event functions
+        function saveEvent(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('eventName').value;
+            const date = document.getElementById('eventDate').value;
+            const description = document.getElementById('eventDescription').value;
+            
+            // Simulate saving
+            addLog('Thêm sự kiện mới', `Đã thêm sự kiện "${name}"`);
+            
+            closeModal('eventModal');
+            document.getElementById('eventForm').reset();
+            document.getElementById('selectedImagesCount').textContent = '0';
+            selectedImages = [];
+            
+            // Show success message
+            showNotification('Đã lưu sự kiện thành công!', 'success');
+        }
+
+        function editEvent(id) {
+            // Implementation for editing event
+            console.log('Edit event:', id);
+        }
+
+        function deleteEvent(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa sự kiện này?')) {
+                addLog('Xóa sự kiện', `Đã xóa sự kiện ID: ${id}`);
+                showNotification('Đã xóa sự kiện!', 'success');
+            }
+        }
+
+        function viewEventPhotos(id) {
+            // Implementation for viewing event photos
+            console.log('View event photos:', id);
+        }
+
+        // Image selector functions
+        function selectAllImages() {
+            document.querySelectorAll('#imageSelector .photo-item').forEach(item => {
+                item.classList.add('ring-4', 'ring-primary');
+            });
+            selectedImages = samplePhotos.slice(0, 24).map(p => p.id);
+            document.getElementById('selectedCount').textContent = selectedImages.length;
+        }
+
+        function deselectAllImages() {
+            document.querySelectorAll('#imageSelector .photo-item').forEach(item => {
+                item.classList.remove('ring-4', 'ring-primary');
+            });
+            selectedImages = [];
+            document.getElementById('selectedCount').textContent = '0';
+        }
+
+        function confirmImageSelection() {
+            document.getElementById('selectedImagesCount').textContent = selectedImages.length;
+            closeModal('imageSelectorModal');
+        }
+
+        // Chat functions
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            const container = document.getElementById('chatMessages');
+            
+            // Add user message
+            container.innerHTML += `
+                <div class="mb-4 text-right">
+                    <div class="inline-block bg-primary text-white rounded-lg px-4 py-2 max-w-xs">
+                        ${message}
+                    </div>
+                </div>
+            `;
+            
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = [
+                    "Tôi có thể giúp bạn tìm kiếm kỷ niệm hoặc thống kê. Bạn muốn tìm gì?",
+                    "Dựa trên dữ liệu, bạn có " + sampleEvents.length + " kỷ niệm đã lưu.",
+                    "Tôi thấy bạn có nhiều kỷ niệm đẹp! Có muốn tôi tạo báo cáo thống kê không?",
+                    "Bạn có thể hỏi tôi về: thống kê, tìm kiếm sự kiện, hoặc gợi ý kỷ niệm mới."
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                
+                container.innerHTML += `
+                    <div class="mb-4">
+                        <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
+                            <div class="flex items-center mb-1">
+                                <i class="fas fa-robot text-primary mr-2"></i>
+                                <strong class="text-primary">AI Assistant</strong>
+                            </div>
+                            ${randomResponse}
+                        </div>
+                    </div>
+                `;
+                
+                container.scrollTop = container.scrollHeight;
+            }, 1000);
+            
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Search functions
+        function quickSearch(query) {
+            document.getElementById('searchInput').value = query;
+            performSearch(query);
+        }
+
+        function performSearch(query) {
+            const results = document.getElementById('searchResults');
+            
+            // Simulate search results
+            const matchingEvents = sampleEvents.filter(event => 
+                event.name.toLowerCase().includes(query.toLowerCase()) ||
+                event.description.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            if (matchingEvents.length > 0) {
+                results.innerHTML = matchingEvents.map(event => `
+                    <div class="love-card rounded p-3 mb-2 cursor-pointer hover:shadow-md">
+                        <h4 class="font-medium text-primary">${event.name}</h4>
+                        <p class="text-sm text-gray-600">${formatDate(event.date)}</p>
+                    </div>
+                `).join('');
+            } else {
+                results.innerHTML = `
+                    <div class="text-center py-4 text-gray-500">
+                        <i class="fas fa-search text-2xl mb-2"></i>
+                        <p>Không tìm thấy kết quả nào</p>
+                    </div>
+                `;
+            }
         }
 
         // Utility functions
         function formatDate(dateString) {
             const date = new Date(dateString);
-            return date.toLocaleDateString('vi-VN');
+            return date.toLocaleDateString('vi-VN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
         }
 
-        function getYearsAgo(dateString) {
-            const date = new Date(dateString);
-            const today = new Date();
-            return today.getFullYear() - date.getFullYear();
+        function addLog(action, description) {
+            if (!document.getElementById('enableLogs').checked) return;
+            
+            const logs = JSON.parse(localStorage.getItem('activityLogs') || '[]');
+            logs.unshift({
+                id: Date.now(),
+                action,
+                description,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Keep only last 1000 logs
+            if (logs.length > 1000) {
+                logs.splice(1000);
+            }
+            
+            if (isOnline) {
+                localStorage.setItem('activityLogs', JSON.stringify(logs));
+            } else {
+                pendingLogs++;
+                updatePendingLogs();
+            }
+            
+            updateTotalLogs();
         }
 
         function updateOnlineStatus() {
             const statusElement = document.getElementById('onlineStatus');
-            if (navigator.onLine) {
-                statusElement.innerHTML = '✓ Online';
-                statusElement.className = 'text-green-600';
+            if (isOnline) {
+                statusElement.textContent = 'Online';
+                statusElement.className = 'font-bold text-green-600';
+                statusElement.previousElementSibling.className = 'status-indicator status-online';
             } else {
-                statusElement.innerHTML = '✗ Offline';
-                statusElement.className = 'text-red-600';
+                statusElement.textContent = 'Offline';
+                statusElement.className = 'font-bold text-red-600';
+                statusElement.previousElementSibling.className = 'status-indicator status-offline';
             }
         }
 
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                // Show success message
-                const button = event.target.closest('button');
-                const originalContent = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-check"></i>';
-                setTimeout(() => {
-                    button.innerHTML = originalContent;
-                }, 1000);
-            });
+        function updateTotalLogs() {
+            const logs = JSON.parse(localStorage.getItem('activityLogs') || '[]');
+            document.getElementById('totalLogs').textContent = logs.length.toLocaleString();
+        }
+
+        function updatePendingLogs() {
+            document.getElementById('pendingLogs').textContent = pendingLogs;
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white z-50 ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText('https://lovestory.app/photo/123');
+            showNotification('Đã copy link!', 'success');
         }
 
         function generateQR() {
-            // Simple QR code placeholder
-            const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 modal-backdrop z-50 flex items-center justify-center p-4';
-            modal.innerHTML = `
-                <div class="bg-white rounded-lg p-6 text-center">
-                    <h3 class="text-lg font-bold mb-4">Mã QR</h3>
-                    <div class="w-48 h-48 bg-gray-200 mx-auto mb-4 flex items-center justify-center">
-                        <i class="fas fa-qrcode text-6xl text-gray-400"></i>
-                    </div>
-                    <p class="text-sm text-gray-600 mb-4">Quét mã QR để xem ảnh</p>
-                    <button onclick="this.closest('.modal-backdrop').remove()" class="bg-primary text-white px-4 py-2 rounded-lg">
-                        Đóng
-                    </button>
-                </div>
-            `;
-            document.body.appendChild(modal);
+            document.getElementById('qrCode').classList.remove('hidden');
+            showNotification('Đã tạo mã QR!', 'success');
         }
 
-        // Event listeners
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
+        // Initialize image selector
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageSelector = document.getElementById('imageSelector');
+            if (imageSelector) {
+                imageSelector.innerHTML = samplePhotos.slice(0, 24).map(photo => `
+                    <div class="photo-item aspect-square rounded overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary" 
+                         onclick="toggleImageSelection(${photo.id}, this)">
+                        <img src="${photo.url}" alt="" class="w-full h-full object-cover">
+                    </div>
+                `).join('');
+            }
+        });
+
+        function toggleImageSelection(id, element) {
+            if (selectedImages.includes(id)) {
+                selectedImages = selectedImages.filter(i => i !== id);
+                element.classList.remove('ring-4', 'ring-primary');
+            } else {
+                selectedImages.push(id);
+                element.classList.add('ring-4', 'ring-primary');
+            }
+            document.getElementById('selectedCount').textContent = selectedImages.length;
+        }
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+            }
+        });
+
+        // Collapse floating nav when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('floatingNav');
+            const isClickInsideNav = nav.contains(event.target);
+            
+            if (!isClickInsideNav && nav.classList.contains('expanded')) {
+                collapseFloatingNav();
+            }
+        });
+
+        // Initialize view button
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('[data-view="grid-3"]').classList.add('bg-primary', 'text-white');
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ed438e56f01fca',t:'MTc2MDUwOTc4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ed87fad6c20721',t:'MTc2MDUxMjU4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
