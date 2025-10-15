@@ -1,52 +1,24 @@
 [
   {
-    "timestamp": "2025-10-15T01:37:15.450Z",
+    "timestamp": "2025-10-15T01:36:10.668Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760492235450.1492,
-    "sessionId": "session_1760492168212_zyz3t3v92"
+    "id": 1760492170668.0806,
+    "sessionId": "session_1760492168418_kz4gwlbj9"
   },
   {
-    "timestamp": "2025-10-15T01:37:15.446Z",
+    "timestamp": "2025-10-15T01:36:09.416Z",
     "action": "Khởi tạo ứng dụng",
     "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760492235446.1252,
-    "sessionId": "session_1760492168212_zyz3t3v92"
+    "id": 1760492169416.1921,
+    "sessionId": "session_1760492168418_kz4gwlbj9"
   },
   {
-    "timestamp": "2025-10-15T01:37:14.803Z",
+    "timestamp": "2025-10-15T01:36:08.418Z",
     "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
-    "id": 1760492234803.388,
-    "sessionId": "session_1760492168212_zyz3t3v92"
-  },
-  {
-    "timestamp": "2025-10-15T01:36:30.389Z",
-    "action": "Mở hồ sơ",
-    "details": "Mở modal hồ sơ cá nhân",
-    "id": 1760492190389.7688,
-    "sessionId": "session_1760492168212_zyz3t3v92"
-  },
-  {
-    "timestamp": "2025-10-15T01:36:09.422Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760492169422.995,
-    "sessionId": "session_1760492168212_zyz3t3v92"
-  },
-  {
-    "timestamp": "2025-10-15T01:36:09.000Z",
-    "action": "Khởi tạo ứng dụng",
-    "details": "Ứng dụng Love Story đã được khởi tạo thành công",
-    "id": 1760492169000.4724,
-    "sessionId": "session_1760492168212_zyz3t3v92"
-  },
-  {
-    "timestamp": "2025-10-15T01:36:08.212Z",
-    "action": "Đăng nhập tự động",
-    "details": "Người dùng Hà Mạnh Tín đã đăng nhập tự động",
-    "id": 1760492168212.6028,
-    "sessionId": "session_1760492168212_zyz3t3v92"
+    "details": "Người dùng Gấu Cam đã đăng nhập tự động từ profiles",
+    "id": 1760492168418.3274,
+    "sessionId": "session_1760492168418_kz4gwlbj9"
   },
   {
     "timestamp": "2025-10-14T10:22:16.030Z",
