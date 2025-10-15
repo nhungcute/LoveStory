@@ -256,168 +256,32 @@
             background-color: var(--accent-color);
         }
 
-        /* Floating Navigation Bar */
-        .floating-nav {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 999;
-            background: var(--accent-color);
-            border-radius: 3rem;
-            padding: 0.75rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+        /* Header Menu Styles */
+        .menu-icon.active {
+            background-color: var(--primary-color) !important;
         }
 
-        .floating-nav.collapsed {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            padding: 0;
+        .menu-icon:not(.active) {
+            background-color: #6B7280;
         }
 
-        .floating-nav.expanded {
-            padding: 0.75rem 1.5rem;
+        #headerMenuIcons.show {
+            opacity: 1 !important;
+            transform: translateX(0);
         }
 
-        .floating-nav:hover {
-            transform: translateX(-50%) translateY(-2px);
-            box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35);
-        }
-
-        .floating-nav-container {
-            display: flex;
-            align-items: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .floating-nav.collapsed .floating-nav-container {
-            width: 60px;
-            justify-content: center;
-        }
-
-        .floating-nav.expanded .floating-nav-container {
-            gap: 0.5rem;
-        }
-
-        .floating-nav-item {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .floating-nav.collapsed .floating-nav-item:not(.home-btn) {
-            opacity: 0;
-            transform: scale(0);
-            width: 0;
-            margin: 0;
-        }
-
-        .floating-nav.expanded .floating-nav-item {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .floating-nav-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            background: var(--primary-color);
-            opacity: 0;
-            transform: scale(0);
-            transition: all 0.3s ease;
-        }
-
-        .floating-nav-item:hover::before {
-            opacity: 0.1;
-            transform: scale(1);
-        }
-
-        .floating-nav-item.active::before {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .floating-nav-item i {
-            font-size: 1.25rem;
-            color: var(--text-color);
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        .floating-nav-item:hover i {
-            color: var(--primary-color);
-            transform: scale(1.1);
-        }
-
-        .floating-nav-item.active i {
-            color: white;
-            transform: scale(1.1);
-        }
-
-        /* Floating nav tooltip */
-        .floating-nav-item::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(-0.5rem);
-            background: var(--text-color);
-            color: var(--accent-color);
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-
-        .floating-nav-item:hover::after {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(-0.75rem);
-        }
-
-        /* Hide floating nav on mobile when keyboard is open */
-        @media (max-height: 500px) {
-            .floating-nav {
-                display: none;
-            }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 480px) {
-            .floating-nav {
-                bottom: 1rem;
-                padding: 0.5rem 1rem;
-            }
-            
-            .floating-nav-item {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .floating-nav-item i {
-                font-size: 1rem;
+        @media (max-width: 640px) {
+            #headerMenuIcons {
+                position: fixed !important;
+                top: 60px !important;
+                left: 0 !important;
+                right: 0 !important;
+                background-color: var(--accent-color);
+                border-top: 1px solid var(--border-color);
+                padding: 1rem;
+                justify-content: center;
+                box-shadow: 0 4px 6px var(--shadow-color);
+                z-index: 100;
             }
         }
     </style>
@@ -427,14 +291,40 @@
     <header class="bg-accent border-b border-custom shadow-sm">
         <div class="container mx-auto px-4 py-3">
             <div class="flex items-center justify-between">
-                <!-- Logo -->
+                <!-- Logo & Navigation -->
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                        <i class="fas fa-heart text-white text-lg"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold text-primary">Love Story</h1>
-                        <p class="text-xs text-gray-500 mobile-hide-title">Ứng dụng kỷ niệm</p>
+                    <button onclick="toggleHeaderMenu()" class="w-10 h-10 bg-primary rounded-full flex items-center justify-center transition-all duration-300" id="headerMenuBtn">
+                        <i class="fas fa-heart text-white text-lg" id="headerMenuIcon"></i>
+                    </button>
+                    
+                    <!-- Wrapper cho title và menu icons -->
+                    <div class="relative">
+                        <div id="headerTitle" class="absolute top-0 left-0 flex items-center h-10 transition-all duration-300">
+                            <h1 class="text-xl font-bold text-primary">Love Story</h1>
+                        </div>
+                        
+                        <!-- Horizontal Menu Icons -->
+                        <div id="headerMenuIcons" class="absolute top-0 left-0 flex items-center space-x-1 h-10 opacity-0 transform translate-x-0 transition-all duration-500 hidden">
+                            <button onclick="selectMenuItem('chat')" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" data-section="chat" title="Chat AI">
+                                <i class="fas fa-robot text-white text-sm"></i>
+                            </button>
+                            
+                            <button onclick="selectMenuItem('timeline')" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" data-section="timeline" title="Timeline">
+                                <i class="fas fa-clock text-white text-sm"></i>
+                            </button>
+                            
+                            <button onclick="selectMenuItem('photos')" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" data-section="photos" title="Khoảnh Khắc">
+                                <i class="fas fa-images text-white text-sm"></i>
+                            </button>
+                            
+                            <button onclick="openSearchFromMenu()" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" title="Tìm Kiếm">
+                                <i class="fas fa-search text-white text-sm"></i>
+                            </button>
+                            
+                            <button onclick="selectMenuItem('settings')" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" data-section="settings" title="Cài Đặt">
+                                <i class="fas fa-cog text-white text-sm"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -707,29 +597,7 @@
         </div>
     </main>
 
-    <!-- Floating Navigation Bar -->
-    <nav class="floating-nav collapsed" id="floatingNav">
-        <div class="floating-nav-container">
-            <button onclick="toggleFloatingNav()" class="floating-nav-item home-btn active" data-tooltip="Trang Chủ" id="floatingHome">
-                <i class="fas fa-home"></i>
-            </button>
-            <button onclick="showSection('chat')" class="floating-nav-item" data-tooltip="Chat AI" id="floatingChat">
-                <i class="fas fa-robot"></i>
-            </button>
-            <button onclick="showSection('timeline')" class="floating-nav-item" data-tooltip="Timeline" id="floatingTimeline">
-                <i class="fas fa-clock"></i>
-            </button>
-            <button onclick="showSection('photos')" class="floating-nav-item" data-tooltip="Khoảnh Khắc" id="floatingPhotos">
-                <i class="fas fa-images"></i>
-            </button>
-            <button onclick="openModal('searchModal')" class="floating-nav-item" data-tooltip="Tìm Kiếm" id="floatingSearch">
-                <i class="fas fa-search"></i>
-            </button>
-            <button onclick="showSection('settings')" class="floating-nav-item" data-tooltip="Cài Đặt" id="floatingSettings">
-                <i class="fas fa-cog"></i>
-            </button>
-        </div>
-    </nav>
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -1087,45 +955,68 @@
             updateNavigation(section);
             
             currentSection = section;
-            
-            // Collapse floating nav after selection
-            collapseFloatingNav();
         }
 
-        function toggleFloatingNav() {
-            const nav = document.getElementById('floatingNav');
-            if (nav.classList.contains('collapsed')) {
-                expandFloatingNav();
+        function toggleHeaderMenu() {
+            const menuIcons = document.getElementById('headerMenuIcons');
+            
+            if (menuIcons.classList.contains('show')) {
+                // Nếu menu đang hiện, về trang chủ và ẩn menu
+                showSection('home');
+                closeHeaderMenu();
             } else {
-                if (currentSection === 'home') {
-                    collapseFloatingNav();
-                } else {
-                    showSection('home');
-                }
+                // Nếu menu đang ẩn, hiện menu
+                openHeaderMenu();
             }
         }
 
-        function expandFloatingNav() {
-            const nav = document.getElementById('floatingNav');
-            nav.classList.remove('collapsed');
-            nav.classList.add('expanded');
+        function openHeaderMenu() {
+            const menuIcons = document.getElementById('headerMenuIcons');
+            const title = document.getElementById('headerTitle');
+            
+            menuIcons.classList.remove('hidden');
+            menuIcons.classList.add('show');
+            title.style.opacity = '0';
+            title.style.transform = 'translateX(-20px)';
+            
+            setTimeout(() => {
+                menuIcons.style.opacity = '1';
+            }, 50);
         }
 
-        function collapseFloatingNav() {
-            const nav = document.getElementById('floatingNav');
-            nav.classList.remove('expanded');
-            nav.classList.add('collapsed');
+        function closeHeaderMenu() {
+            const menuIcons = document.getElementById('headerMenuIcons');
+            const title = document.getElementById('headerTitle');
+            
+            menuIcons.classList.remove('show');
+            menuIcons.style.opacity = '0';
+            title.style.opacity = '1';
+            title.style.transform = 'translateX(0)';
+            
+            setTimeout(() => {
+                menuIcons.classList.add('hidden');
+            }, 300);
+        }
+
+        function selectMenuItem(section) {
+            showSection(section);
+            closeHeaderMenu();
+        }
+
+        function openSearchFromMenu() {
+            openModal('searchModal');
+            closeHeaderMenu();
         }
 
         function updateNavigation(activeSection) {
-            // Update floating navigation
-            document.querySelectorAll('.floating-nav-item').forEach(item => {
+            // Update header menu navigation
+            document.querySelectorAll('.menu-icon').forEach(item => {
                 item.classList.remove('active');
             });
             
-            const floatingActiveItem = document.getElementById(`floating${activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}`);
-            if (floatingActiveItem) {
-                floatingActiveItem.classList.add('active');
+            const activeItem = document.querySelector(`[data-section="${activeSection}"]`);
+            if (activeItem) {
+                activeItem.classList.add('active');
             }
         }
 
@@ -1587,13 +1478,15 @@
             }
         });
 
-        // Collapse floating nav when clicking outside
+        // Close header menu when clicking outside
         document.addEventListener('click', function(event) {
-            const nav = document.getElementById('floatingNav');
-            const isClickInsideNav = nav.contains(event.target);
+            const menuIcons = document.getElementById('headerMenuIcons');
+            const menuBtn = document.getElementById('headerMenuBtn');
+            const isClickInsideMenu = menuIcons.contains(event.target);
+            const isClickOnMenuBtn = menuBtn.contains(event.target);
             
-            if (!isClickInsideNav && nav.classList.contains('expanded')) {
-                collapseFloatingNav();
+            if (!isClickInsideMenu && !isClickOnMenuBtn && menuIcons.classList.contains('show')) {
+                closeHeaderMenu();
             }
         });
 
@@ -1602,5 +1495,5 @@
             document.querySelector('[data-view="grid-3"]').classList.add('bg-primary', 'text-white');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ed87fad6c20721',t:'MTc2MDUxMjU4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98edc50f60d40504',t:'MTc2MDUxNTA5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
