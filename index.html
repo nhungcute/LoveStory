@@ -177,12 +177,15 @@
         .grid-view-6 { grid-template-columns: repeat(6, 1fr); }
 
         @media (max-width: 768px) {
+            .mobile-hide-title { display: none; }
             .grid-view-3 { grid-template-columns: repeat(2, 1fr); }
             .grid-view-4 { grid-template-columns: repeat(2, 1fr); }
             .grid-view-5 { grid-template-columns: repeat(2, 1fr); }
             .grid-view-6 { grid-template-columns: repeat(2, 1fr); }
-            
-            .mobile-hide-title { display: none; }
+        }
+
+        @media (min-width: 769px) {
+            .grid-view-2 { grid-template-columns: repeat(2, 1fr); }
         }
 
         .timeline-item {
@@ -394,7 +397,7 @@
             <div class="max-w-4xl mx-auto">
                 <div class="love-card rounded-lg overflow-hidden">
                     <div class="bg-primary text-white p-4">
-                        <h2 class="text-xl font-bold">
+                        <h2 class="text-lg font-bold">
                             <i class="fas fa-robot mr-2"></i>Chat AI - Trợ Lý Kỷ Niệm
                         </h2>
                     </div>
@@ -419,7 +422,7 @@
         <!-- Timeline Section -->
         <div id="timelineSection" class="section hidden">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-primary">
+                <h2 class="text-xl font-bold text-primary">
                     <i class="fas fa-clock mr-2"></i>Timeline Kỷ Niệm
                 </h2>
                 <button onclick="openModal('eventModal')" class="love-button">
@@ -436,36 +439,17 @@
         <!-- Photos Section -->
         <div id="photosSection" class="section hidden">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 space-y-4 md:space-y-0">
-                <h2 class="text-2xl font-bold text-primary">
+                <h2 class="text-xl font-bold text-primary">
                     <i class="fas fa-camera mr-2"></i>Khoảnh Khắc
                 </h2>
                 <div class="flex items-center space-x-3">
-                    <div class="flex items-center space-x-1 bg-accent border border-custom rounded-lg p-1">
-                        <button onclick="changePhotoView('grid-1')" class="view-btn p-2 rounded" data-view="grid-1">
-                            <i class="fas fa-th-large"></i>
-                        </button>
-                        <button onclick="changePhotoView('grid-2')" class="view-btn p-2 rounded" data-view="grid-2">
-                            <i class="fas fa-th"></i>
-                        </button>
-                        <button onclick="changePhotoView('grid-3')" class="view-btn p-2 rounded" data-view="grid-3">
-                            <i class="fas fa-grip-horizontal"></i>
-                        </button>
-                        <button onclick="changePhotoView('grid-4')" class="view-btn p-2 rounded" data-view="grid-4">
-                            <i class="fas fa-grip-vertical"></i>
-                        </button>
-                        <button onclick="changePhotoView('grid-5')" class="view-btn p-2 rounded" data-view="grid-5">
-                            <i class="fas fa-border-all"></i>
-                        </button>
-                        <button onclick="changePhotoView('grid-6')" class="view-btn p-2 rounded" data-view="grid-6">
-                            <i class="fas fa-border-none"></i>
-                        </button>
-                        <button onclick="changePhotoView('list')" class="view-btn p-2 rounded" data-view="list">
-                            <i class="fas fa-list"></i>
-                        </button>
-                    </div>
+                    <button onclick="cyclePhotoView()" class="love-button flex items-center space-x-2" id="viewToggleBtn">
+                        <i class="fas fa-th" id="viewToggleIcon"></i>
+                        <span id="viewToggleText">2x2</span>
+                    </button>
                 </div>
             </div>
-            <div id="photosContainer" class="photo-grid grid-view-3">
+            <div id="photosContainer" class="photo-grid grid-view-2">
                 <!-- Photos will be loaded here -->
             </div>
             <div id="photosPagination" class="mt-6 flex justify-center">
@@ -475,7 +459,7 @@
 
         <!-- Settings Section -->
         <div id="settingsSection" class="section hidden">
-            <h2 class="text-2xl font-bold text-primary mb-6">
+            <h2 class="text-xl font-bold text-primary mb-6">
                 <i class="fas fa-cog mr-2"></i>Cài Đặt
             </h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -868,7 +852,10 @@
     <script>
         // Global variables
         let currentSection = 'home';
-        let currentPhotoView = 'grid-3';
+        // ▼▼▼ Đã sửa lại chu kỳ xem và chỉ số mặc định ▼▼▼
+        let photoViewCycle = ['grid-2', 'grid-3', 'grid-4', 'grid-1', 'list'];
+        let currentViewIndex = 0; // Bắt đầu với grid-2 (chế độ mặc định)
+        let currentPhotoView = photoViewCycle[currentViewIndex];
         let selectedImages = [];
         let isOnline = navigator.onLine;
         let pendingLogs = 0;
@@ -1183,6 +1170,9 @@
                 checkAutoSync();
                 setInterval(checkAutoSync, 60000); // Check every minute
             }
+
+            // Update view button on window resize
+            window.addEventListener('resize', updateViewToggleButton);
         });
 
         async function initializeApp() {
@@ -1190,6 +1180,9 @@
             const savedTheme = localStorage.getItem('loveStoryTheme') || 'default';
             document.getElementById('themeSelect').value = savedTheme;
             changeTheme();
+            
+            // Initialize view toggle button
+            updateViewToggleButton();
             
             // Load all data
             const dataLoaded = await loadAllData();
@@ -1553,7 +1546,19 @@
                     `;
                 }).join('');
             } else {
-                container.className = `photo-grid ${currentPhotoView}`;
+                // Map view names to CSS classes
+                const viewClassMap = {
+                    'grid-1': 'grid-view-1',
+                    'grid-2': 'grid-view-2', 
+                    'grid-3': 'grid-view-3',
+                    'grid-4': 'grid-view-4',
+                    'grid-5': 'grid-view-5',
+                    'grid-6': 'grid-view-6'
+                };
+                
+                const cssClass = viewClassMap[currentPhotoView] || 'grid-view-2';
+                container.className = `photo-grid ${cssClass}`;
+                
                 container.innerHTML = pagePhotos.map(photo => {
                     const imageUrl = driveAPI.getImageUrl(photo.id, 'thumbnail');
                     return `
@@ -1632,16 +1637,35 @@
             container.innerHTML = paginationHTML;
         }
 
-        function changePhotoView(view) {
-            currentPhotoView = view;
+        function cyclePhotoView() {
+            // Move to next view in cycle
+            currentViewIndex = (currentViewIndex + 1) % photoViewCycle.length;
+            currentPhotoView = photoViewCycle[currentViewIndex];
             
-            // Update active view button
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.classList.remove('bg-primary', 'text-white');
-            });
-            document.querySelector(`[data-view="${view}"]`).classList.add('bg-primary', 'text-white');
+            // Update button text and icon
+            updateViewToggleButton();
             
-            loadPhotos();
+            // Reload photos with new view
+            loadPhotos(currentPage);
+        }
+
+        function updateViewToggleButton() {
+            const icon = document.getElementById('viewToggleIcon');
+            const text = document.getElementById('viewToggleText');
+            
+            const viewConfig = {
+                'grid-1': { icon: 'fas fa-square', text: '1x1' },
+                'grid-2': { icon: 'fas fa-th-large', text: '2x2' },
+                'grid-3': { icon: 'fas fa-th', text: window.innerWidth <= 768 ? '2x2' : '3x3' },
+                'grid-4': { icon: 'fas fa-grip-horizontal', text: window.innerWidth <= 768 ? '2x2' : '4x4' },
+                'grid-5': { icon: 'fas fa-grip-vertical', text: window.innerWidth <= 768 ? '2x2' : '5x5' },
+                'grid-6': { icon: 'fas fa-border-all', text: window.innerWidth <= 768 ? '2x2' : '6x6' },
+                'list': { icon: 'fas fa-list', text: 'Danh sách' }
+            };
+            
+            const config = viewConfig[currentPhotoView];
+            icon.className = config.icon;
+            text.textContent = config.text;
         }
 
         function viewPhoto(url) {
@@ -2035,10 +2059,7 @@
             }
         });
 
-        // Initialize view button
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('[data-view="grid-3"]').classList.add('bg-primary', 'text-white');
-        });
+
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ee168c03c21fca',t:'MTc2MDUxODQyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ee645c71351fca',t:'MTc2MDUyMTYxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
