@@ -4,22 +4,31 @@
     "tim": [
       {
         "userName": "tintin"
-	},
-	{
+      },
+      {
         "userName": "tin8"
-	}
-	],
+      }
+    ],
     "comments": [
       {
         "comment": "Xinh quá😍",
         "date_input": "2025-10-13T10:44:16.102Z",
         "userName": "tintin"
-	},
-	{
+      },
+      {
         "comment": "Xinh",
         "date_input": "2025-10-13T10:44:16.102Z",
         "userName": "tin8"
-	}
-	]
-	}
-	]
+      }
+    ]
+  },
+  {
+    "ID_IMG": "DSC00425.JPG",
+    "tim": [
+      {
+        "userName": "hamanhtinlovely"
+      }
+    ],
+    "comments": []
+  }
+]
