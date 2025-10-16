@@ -1,49 +1,7 @@
 [
   {
-    "id": "1760587492602",
-    "timestamp": "2025-10-16T04:04:52.602Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
-    "sessionId": "1760587421057"
-  },
-  {
-    "id": "1760587439128",
-    "timestamp": "2025-10-16T04:03:59.128Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"bay hàn\"",
-    "sessionId": "1760587421057"
-  },
-  {
-    "id": "1760587407656",
-    "timestamp": "2025-10-16T04:03:27.656Z",
-    "action": "Xóa sự kiện",
-    "details": "Đã xóa sự kiện \"đi hàn\"",
-    "sessionId": "1760587272677"
-  },
-  {
-    "id": "1760587379208",
-    "timestamp": "2025-10-16T04:02:59.208Z",
-    "action": "Cập nhật sự kiện",
-    "details": "Đã cập nhật sự kiện \"bay hàn\" với 1 ảnh",
-    "sessionId": "1760587272677"
-  },
-  {
-    "id": "1760587337429",
-    "timestamp": "2025-10-16T04:02:17.429Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"bay hàn\"",
-    "sessionId": "1760587272677"
-  },
-  {
-    "id": "1760587312623",
-    "timestamp": "2025-10-16T04:01:52.623Z",
-    "action": "Thêm sự kiện mới",
-    "details": "Đã thêm sự kiện \"bay hàn\" với 51 ảnh",
-    "sessionId": "1760587272677"
-  },
-  {
-    "id": "1760587272676",
-    "timestamp": "2025-10-16T04:01:12.676Z",
+    "id": "1760587645803",
+    "timestamp": "2025-10-16T04:07:25.803Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Mặc định (Xanh - Vàng)\"",
     "sessionId": "1760587272677"
