@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760600026131",
+    "timestamp": "2025-10-16T07:33:46.131Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "sessionId": "1760599760565"
+  },
+  {
     "id": "1760600018349",
     "timestamp": "2025-10-16T07:33:38.349Z",
     "action": "Mở modal",
