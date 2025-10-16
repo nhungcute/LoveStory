@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760600335042",
+    "timestamp": "2025-10-16T07:38:55.042Z",
+    "action": "Lưu cấu hình",
+    "details": "Đã lưu cấu hình ứng dụng",
+    "sessionId": "1760600182514"
+  },
+  {
     "id": "1760600333765",
     "timestamp": "2025-10-16T07:38:53.765Z",
     "action": "Cài đặt tự động đồng bộ",
