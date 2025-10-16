@@ -1612,16 +1612,38 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
 
         function loadUpcomingEvents() {
             const container = document.getElementById('upcomingEventsContainer');
-            // Ví dụ về sự kiện sắp tới. Trong tương lai, bạn có thể lấy dữ liệu này từ eventsData
-            const birthday = new Date('2025-06-20');
-            const eventName = 'Sinh nhật em';
-            const eventDateStr = '20/06/2025';
-
             const today = new Date();
-            today.setHours(0, 0, 0, 0); // Chuẩn hóa về đầu ngày để đếm chính xác
+            today.setHours(0, 0, 0, 0); // Chuẩn hóa về đầu ngày để đếm cho chính xác
 
-            // Nếu sự kiện đã qua thì hiển thị thông báo
-            if (birthday < today) {
+            // Tìm tất cả các sự kiện có thể xảy ra trong tương lai
+            const futureEvents = eventsData.map(event => {
+                const parts = event.day.split('-'); // Tách chuỗi dd-mm-yyyy
+                const day = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1; // Tháng trong JS bắt đầu từ 0
+
+                // Lấy ngày sự kiện trong năm nay
+                let nextEventDate = new Date(today.getFullYear(), month, day);
+
+                // Nếu ngày sự kiện của năm nay đã trôi qua, thì tính cho năm sau
+                if (nextEventDate < today) {
+                    nextEventDate.setFullYear(today.getFullYear() + 1);
+                }
+
+                return {
+                    name: event.name,
+                    date: nextEventDate,
+                    // Tính số ngày chênh lệch để so sánh
+                    diff: Math.ceil((nextEventDate - today) / (1000 * 60 * 60 * 24))
+                };
+            })
+            // Sắp xếp để tìm ra sự kiện có số ngày chênh lệch nhỏ nhất (gần nhất)
+            .sort((a, b) => a.diff - b.diff);
+
+            // Lấy sự kiện gần nhất
+            const nextEvent = futureEvents.length > 0 ? futureEvents[0] : null;
+
+            // Nếu không có sự kiện nào hoặc không có dữ liệu
+            if (!nextEvent) {
                 container.innerHTML = `
                     <div>
                         <p class="text-sm text-gray-500">Sự Kiện Sắp Tới</p>
@@ -1631,15 +1653,13 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 return;
             }
 
-            const daysUntil = Math.ceil((birthday - today) / (1000 * 60 * 60 * 24));
-
-            // Cập nhật nội dung vào div
+            // Hiển thị thông tin sự kiện gần nhất
             container.innerHTML = `
                 <div class="flex items-baseline space-x-2">
-                    <p class="text-2xl font-bold text-primary">${daysUntil}</p>
+                    <p class="text-2xl font-bold text-primary">${nextEvent.diff}</p>
                     <p class="text-sm font-medium text-gray-600">ngày nữa</p>
                 </div>
-                <p class="text-sm text-gray-500">${eventName}</p>
+                <p class="text-sm text-gray-500">${escapeHtml(nextEvent.name)}</p>
             `;
         }
 
