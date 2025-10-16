@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760588795784",
+    "timestamp": "2025-10-16T04:26:35.784Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"bay hàn\"",
+    "sessionId": "1760588768390"
+  },
+  {
     "id": "1760588792386",
     "timestamp": "2025-10-16T04:26:32.386Z",
     "action": "Xem ảnh sự kiện",
