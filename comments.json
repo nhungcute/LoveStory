@@ -24,7 +24,11 @@
   },
   {
     "ID_IMG": "DSC00425.JPG",
-    "tim": [],
+    "tim": [
+      {
+        "userName": "hamanhtinlovely"
+      }
+    ],
     "comments": [
       {
         "comment": "Ahihi",
