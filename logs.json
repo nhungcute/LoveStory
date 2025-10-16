@@ -1,9 +1,58 @@
 [
   {
-    "id": "1760598049826",
-    "timestamp": "2025-10-16T07:00:49.826Z",
+    "id": "1760598070371",
+    "timestamp": "2025-10-16T07:01:10.371Z",
+    "action": "Tải ảnh",
+    "details": "Đã mở trang tải ảnh \"DSC00424.JPG\"",
+    "sessionId": "1760598049827"
+  },
+  {
+    "id": "1760597935905",
+    "timestamp": "2025-10-16T06:58:55.905Z",
+    "action": "Tải ảnh",
+    "details": "Đã tải ảnh \"DSC00425.JPG\"",
+    "sessionId": "1760597773983"
+  },
+  {
+    "id": "1760597921651",
+    "timestamp": "2025-10-16T06:58:41.651Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"DSC00425.JPG\"",
+    "sessionId": "1760597773983"
+  },
+  {
+    "id": "1760597917647",
+    "timestamp": "2025-10-16T06:58:37.647Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã bỏ thích ảnh \"DSC00425.JPG\"",
+    "sessionId": "1760597773983"
+  },
+  {
+    "id": "1760597912743",
+    "timestamp": "2025-10-16T06:58:32.743Z",
+    "action": "Bình luận ảnh",
+    "details": "Đã bình luận vào ảnh \"DSC00425.JPG\"",
+    "sessionId": "1760597773983"
+  },
+  {
+    "id": "1760597899013",
+    "timestamp": "2025-10-16T06:58:19.013Z",
+    "action": "Bình luận ảnh",
+    "details": "Đã bình luận vào ảnh \"DSC00425.JPG\"",
+    "sessionId": "1760597773983"
+  },
+  {
+    "id": "1760597848300",
+    "timestamp": "2025-10-16T06:57:28.300Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"DSC00425.JPG\"",
+    "sessionId": "1760597773983"
+  },
+  {
+    "id": "1760597636668",
+    "timestamp": "2025-10-16T06:53:56.668Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Mặc định (Xanh - Vàng)\"",
-    "sessionId": "1760598049827"
+    "sessionId": "1760597351710"
   }
 ]
