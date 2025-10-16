@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-16T08:22:54.601Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1760602949904",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T08:22:49.454Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
+    "username": "1760602949904",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T08:22:48.267Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1760602949904",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T08:22:32.973Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
