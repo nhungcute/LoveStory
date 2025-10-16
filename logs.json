@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-16T13:23:01.215Z",
+    "action": "Phân trang ảnh",
+    "details": "Chuyển từ trang 3 sang trang 4",
+    "username": "1760620433639",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T13:22:52.624Z",
+    "action": "Phân trang ảnh",
+    "details": "Chuyển từ trang 2 sang trang 3",
+    "username": "1760620433639",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T13:22:50.553Z",
+    "action": "Phân trang ảnh",
+    "details": "Chuyển từ trang 1 sang trang 2",
+    "username": "1760620433639",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T13:22:33.732Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
