@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760598456456",
+    "timestamp": "2025-10-16T07:07:36.456Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Xuân\"",
+    "sessionId": "1760598456457"
+  },
+  {
     "id": "1760598390141",
     "timestamp": "2025-10-16T07:06:30.141Z",
     "action": "Cài đặt giao diện",
