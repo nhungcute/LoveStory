@@ -1,93 +1,16 @@
 [
   {
-    "timestamp": "2025-10-16T13:23:14.246Z",
-    "action": "Phân trang ảnh",
-    "details": "Chuyển từ trang 5 sang trang 6",
-    "username": "1760620433639",
+    "timestamp": "2025-10-16T13:22:47.311Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 890",
+    "username": "1760620432255",
     "saved": true
   },
   {
-    "timestamp": "2025-10-16T13:23:03.686Z",
-    "action": "Phân trang ảnh",
-    "details": "Chuyển từ trang 4 sang trang 5",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:23:01.215Z",
-    "action": "Phân trang ảnh",
-    "details": "Chuyển từ trang 3 sang trang 4",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:22:52.624Z",
-    "action": "Phân trang ảnh",
-    "details": "Chuyển từ trang 2 sang trang 3",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:22:50.553Z",
-    "action": "Phân trang ảnh",
-    "details": "Chuyển từ trang 1 sang trang 2",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:22:33.732Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:22:27.833Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:22:11.050Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:22:05.715Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:14:41.116Z",
-    "action": "Thêm sự kiện mới",
-    "details": "Đã thêm sự kiện \"Xuất ngoại Hàn Quốc\" với 0 ảnh",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:14:41.116Z",
-    "action": "Thêm sự kiện mới",
-    "details": "Đã thêm sự kiện \"Xuất ngoại Hàn Quốc\" với 0 ảnh",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:13:56.517Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Thêm sự kiện mới\"",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:13:53.638Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1760620433639",
+    "timestamp": "2025-10-16T13:13:52.255Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily",
+    "username": "1760620432255",
     "saved": true
   },
   {
