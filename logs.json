@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-16T13:22:11.050Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1760620433639",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T13:22:05.715Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1760620433639",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T13:14:41.116Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện \"Xuất ngoại Hàn Quốc\" với 0 ảnh",
