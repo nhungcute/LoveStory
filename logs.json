@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760597917647",
+    "timestamp": "2025-10-16T06:58:37.647Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã bỏ thích ảnh \"DSC00425.JPG\"",
+    "sessionId": "1760597773983"
+  },
+  {
     "id": "1760597912743",
     "timestamp": "2025-10-16T06:58:32.743Z",
     "action": "Bình luận ảnh",
