@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760587407656",
+    "timestamp": "2025-10-16T04:03:27.656Z",
+    "action": "Xóa sự kiện",
+    "details": "Đã xóa sự kiện \"đi hàn\"",
+    "sessionId": "1760587272677"
+  },
+  {
     "id": "1760587379208",
     "timestamp": "2025-10-16T04:02:59.208Z",
     "action": "Cập nhật sự kiện",
