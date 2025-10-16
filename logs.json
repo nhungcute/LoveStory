@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-16T12:18:20.099Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Lãng Mạn\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T12:18:17.647Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Ban Đêm\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T12:18:15.005Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Xuân\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T12:18:13.312Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T12:18:11.500Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T09:02:49.242Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
