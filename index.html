@@ -681,7 +681,7 @@
 
     <!-- Photo Modal -->
     <div id="photoModal" class="modal">
-        <div class="modal-content w-full max-w-4xl">
+        <div class="modal-content w-full max-w-4xl" style="padding: 1rem;">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold text-primary">
                     <i class="fas fa-image mr-2"></i>Xem Ảnh
@@ -694,17 +694,17 @@
                 <img id="modalPhoto" src="" alt="" class="max-w-full max-h-96 mx-auto rounded-lg">
             </div>
             <div class="flex justify-center space-x-3 mb-4">
-                <button class="love-button">
+                <button class="love-button" style="transform: scale(0.95);">
                     <i class="fas fa-heart mr-2"></i>Thích
                 </button>
-                <button onclick="openModal('shareModal')" class="love-button">
+                <button onclick="openModal('shareModal')" class="love-button" style="transform: scale(0.95);">
                     <i class="fas fa-share mr-2"></i>Chia Sẻ
                 </button>
-                <button class="love-button">
+                <button class="love-button" style="transform: scale(0.95);">
                     <i class="fas fa-download mr-2"></i>Tải Về
                 </button>
             </div>
-            <div class="love-card rounded p-4">
+            <div class="love-card rounded" style="padding: 0.5rem;">
                 <h4 class="font-medium mb-3">Bình luận:</h4>
                 <div class="space-y-2 mb-4 max-h-32 overflow-y-auto">
                     <div class="text-sm">
@@ -713,7 +713,7 @@
                 </div>
                 <div class="flex space-x-2">
                     <input type="text" placeholder="Thêm bình luận..." class="love-input flex-1">
-                    <button class="love-button">Gửi</button>
+                    <button class="love-button"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
@@ -1447,6 +1447,26 @@
             return dateStr.replace(/-/g, '/');
         }
 
+        function formatDateToDDMMYYHHMMSS(dateString) {
+            if (!dateString) return '';
+            
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return dateString;
+                
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = String(date.getFullYear()).slice(-2);
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                const seconds = String(date.getSeconds()).padStart(2, '0');
+                
+                return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+            } catch (error) {
+                return dateString;
+            }
+        }
+
         function loadUpcomingEvents() {
             const container = document.getElementById('upcomingEvents');
             
@@ -1456,7 +1476,7 @@
             const daysUntil = Math.ceil((birthday - today) / (1000 * 60 * 60 * 24));
             
             container.innerHTML = `
-                <div class="love-card rounded p-4">
+                <div class="love-card rounded" style="padding: 0.5rem;">
                     <div class="text-center">
                         <div class="text-2xl font-bold text-primary mb-1">${daysUntil}</div>
                         <div class="text-sm text-gray-600 mb-2">ngày nữa</div>
@@ -1665,16 +1685,22 @@
                     // Safely escape HTML content to prevent font issues
                     const safeUserName = escapeHtml(comment.userName || 'Ẩn danh');
                     const safeComment = escapeHtml(comment.comment || '');
-                    const safeAvatar = comment.userAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(safeUserName)}&background=006B68&color=fff`;
+                    
+                    // Map avatar by username from profiles data
+                    let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(safeUserName)}&background=006B68&color=fff`;
+                    const userProfile = profilesData.find(p => p.username === comment.userName);
+                    if (userProfile && userProfile.avatarUrl) {
+                        avatarUrl = userProfile.avatarUrl;
+                    }
                     
                     return `
                         <div class="text-sm border-b border-gray-200 pb-2">
                             <div class="flex items-center space-x-2 mb-1">
-                                <img src="${safeAvatar}" 
+                                <img src="${avatarUrl}" 
                                      alt="" class="w-6 h-6 rounded-full"
                                      onerror="this.src='https://ui-avatars.com/api/?name=User&background=006B68&color=fff';">
                                 <strong class="font-medium">${safeUserName}</strong>
-                                <span class="text-xs text-gray-500">${formatDate(comment.date_input)}</span>
+                                <span class="text-xs text-gray-500">${formatDateToDDMMYYHHMMSS(comment.date_input)}</span>
                             </div>
                             <p class="whitespace-pre-wrap ml-8">${safeComment}</p>
                         </div>
@@ -2513,5 +2539,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f4e3c8e4a620de',t:'MTc2MDU4OTc0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f4fe8a80a4f995',t:'MTc2MDU5MDg0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
