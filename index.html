@@ -411,7 +411,10 @@
 space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="selectMenuItem('chat')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="chat" title="Chat AI"> <i class="fas fa-robot text-white text-sm"></i> </button> <button onclick="selectMenuItem('timeline')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="timeline" title="Timeline"> <i class="fas fa-clock text-white text-sm"></i> </button> <button onclick="selectMenuItem('photos')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="photos" title="Khoảnh Khắc"> <i class="fas fa-images text-white text-sm"></i> </button> <button onclick="selectMenuItem('settings')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="settings" title="Cài Đặt"> <i class="fas fa-cog text-white text-sm"></i> </button>
      </div>
      <div class="flex items-center justify-end 
-space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w-10 h-10 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center" id="rightMenuBtn"> <i class="fas fa-bars text-lg"></i> </button> <button onclick="openModal('profileModal')" class="flex items-center space-x-2 love-card rounded-full p-1"> <img src="https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&background=006B68&color=fff" alt="Avatar" class="w-8 h-8 rounded-full"> <span class="hidden md:block font-medium pr-3">Hà Mạnh Tín</span> </button>
+space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w-10 h-10 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center" id="rightMenuBtn"> <i class="fas fa-bars text-lg"></i> </button> <button onclick="openModal('profileModal')" class="flex items-center space-x-2 love-card rounded-full p-1"> 
+    <img src="https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&background=006B68&color=fff" alt="Avatar" class="w-8 h-8 rounded-full"> 
+    <span id="userNameDisplay" class="hidden md:block font-medium pr-3">Hà Mạnh Tín</span> 
+    </button>
      </div>
     </div>
    </div>
@@ -473,12 +476,10 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
     <div class="max-w-4xl mx-auto">
      <div class="love-card rounded-lg overflow-hidden">
       <div class="bg-primary text-white p-4">
-       <h2 class="text-lg font-bold"><i class="fas fa-robot mr-2"></i>Chat AI - Trợ Lý Kỷ Niệm</h2>
+       <h2 class="text-lg font-bold"><i class="fas fa-robot mr-2"></i>Chat AI</h2>
       </div>
       <div class="h-96 overflow-y-auto p-4" id="chatMessages">
-       <div class="text-center text-gray-500 py-8">
-        Bắt đầu cuộc trò chuyện với AI...
-       </div>
+      
       </div>
       <div class="border-t border-custom p-4">
        <div class="flex space-x-3"><input type="text" id="chatInput" placeholder="Hỏi AI về kỷ niệm, tìm kiếm sự kiện..." class="love-input flex-1" onkeypress="handleChatKeyPress(event)"> <button onclick="sendChatMessage()" class="love-button"> <i class="fas fa-paper-plane"></i> </button>
@@ -1132,8 +1133,10 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
 
         function updateUserProfile() {
             if (currentUser) {
+                // Giữ nguyên việc cập nhật avatar
                 document.querySelector('img[alt="Avatar"]').src = currentUser.avatarUrl;
-                document.querySelector('.hidden.md\\:block').textContent = currentUser.name;
+                // Sử dụng ID mới để chỉ cập nhật tên người dùng
+                document.getElementById('userNameDisplay').textContent = currentUser.name;
             }
         }
 
