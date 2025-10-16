@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-16T12:21:39.848Z",
+    "action": "Bình luận ảnh",
+    "details": "Đã bình luận vào ảnh \"DSC00026.JPG\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T12:21:22.582Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
