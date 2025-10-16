@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760599956263",
+    "timestamp": "2025-10-16T07:32:36.263Z",
+    "action": "Lưu cấu hình",
+    "details": "Đã lưu cấu hình ứng dụng",
+    "sessionId": "1760599760565"
+  },
+  {
     "id": "1760599921500",
     "timestamp": "2025-10-16T07:32:01.500Z",
     "action": "Thay đổi theme",
