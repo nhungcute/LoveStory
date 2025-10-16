@@ -1,5 +1,19 @@
 [
   {
+    "id": "1760598390141",
+    "timestamp": "2025-10-16T07:06:30.141Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã bật nút menu hamburger",
+    "sessionId": "1760598049827"
+  },
+  {
+    "id": "1760598389572",
+    "timestamp": "2025-10-16T07:06:29.572Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã ẩn nút menu hamburger",
+    "sessionId": "1760598049827"
+  },
+  {
     "id": "1760598388604",
     "timestamp": "2025-10-16T07:06:28.604Z",
     "action": "Cài đặt giao diện",
