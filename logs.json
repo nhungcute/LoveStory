@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-16T12:20:07.320Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"DSC00290.JPG\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T12:20:04.049Z",
+    "action": "Bình luận ảnh",
+    "details": "Đã bình luận vào ảnh \"DSC00290.JPG\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T12:19:48.771Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
