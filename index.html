@@ -904,19 +904,19 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                     let pageNumber = 1;
                     
                     do {
-                        // Construct query to get all media files (images and videos)
+                        // Xây dựng URL truy vấn để lấy tất cả media (ảnh và video)
+                        // pageSize=1000 để yêu cầu tối đa 1000 file mỗi lần gọi
                         let url = `https://www.googleapis.com/drive/v3/files?q='${this.folderId}'+in+parents+and+(mimeType+contains+'image/'+or+mimeType+contains+'video/')&key=${this.apiKey}&fields=files(id,name,createdTime,modifiedTime,size,webViewLink,thumbnailLink,mimeType,parents,webContentLink),nextPageToken&pageSize=1000`;
                         
+                        // Nếu có token của trang tiếp theo, thêm nó vào URL
                         if (nextPageToken) {
                             url += `&pageToken=${nextPageToken}`;
                         }
                         
                         const response = await fetch(url);
-                        
                         if (response.ok) {
                             const data = await response.json();
-                            
-                            // Transform files to our format
+                            // Chuyển đổi định dạng file cho phù hợp với ứng dụng
                             const transformedFiles = data.files.map((file, index) => ({
                                 id: file.id,
                                 name: file.name,
@@ -936,25 +936,24 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                                 parents: file.parents || [this.folderId]
                             }));
                             
+                            // Nối các file của trang này vào danh sách tổng
                             allFiles = allFiles.concat(transformedFiles);
+                            // Lấy token cho trang kế tiếp
                             nextPageToken = data.nextPageToken;
                             pageNumber++;
                             
-                            // Log progress
                             console.log(`Đã tải trang ${pageNumber - 1}: ${transformedFiles.length} files (Tổng: ${allFiles.length})`);
-                            
                         } else {
-                            console.error('Error response from Google Drive API:', response.status, response.statusText);
-                            break;
+                            console.error('Lỗi khi gọi Google Drive API:', response.status, response.statusText);
+                            break; // Dừng lại nếu có lỗi
                         }
                         
-                    } while (nextPageToken);
+                    } while (nextPageToken); // Lặp lại nếu vẫn còn trang tiếp theo
                     
-                    console.log(`Hoàn thành đồng bộ: ${allFiles.length} files từ ${pageNumber - 1} trang`);
+                    console.log(`Hoàn thành đồng bộ: ${allFiles.length} files từ ${pageNumber - 1} trang.`);
                     return allFiles;
-                    
                 } catch (error) {
-                    console.error('Error loading media files:', error);
+                    console.error('Lỗi khi tải media files:', error);
                     return [];
                 }
             }
