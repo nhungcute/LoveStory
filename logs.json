@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-16T09:01:56.539Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Trang chủ\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T09:01:52.194Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"1+1 = mấy\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T09:01:46.922Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Chat AI\"",
