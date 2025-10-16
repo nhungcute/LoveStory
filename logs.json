@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-16T07:59:44.947Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
+    "username": "1760601581609",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T07:59:41.608Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily",
+    "username": "1760601581609",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T07:51:06.939Z",
     "action": "Mở modal",
     "details": "Đã mở \"Nhật ký hoạt động\"",
