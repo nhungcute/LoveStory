@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-16T12:19:18.187Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T12:18:51.107Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
