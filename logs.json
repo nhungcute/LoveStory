@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-16T08:59:33.619Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T08:59:27.883Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T08:55:24.778Z",
     "action": "Phân trang ảnh",
     "details": "Chuyển từ trang 1 sang trang 2",
