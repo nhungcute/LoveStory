@@ -276,11 +276,6 @@
             background-color: #6B7280;
         }
 
-        #headerMenuIcons.show {
-            opacity: 1 !important;
-            transform: translateX(0);
-        }
-
 
     </style>
 </head>
@@ -288,53 +283,39 @@
     <!-- Header -->
     <header class="bg-accent border-b border-custom shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3">
-            <div class="flex items-center justify-between">
-                <!-- Logo & Navigation -->
+            <div class="flex items-center justify-between h-10">
                 <div class="flex items-center space-x-3">
-                    <button onclick="toggleHeaderMenu()" class="w-10 h-10 bg-primary rounded-full flex items-center justify-center transition-all duration-300" id="headerMenuBtn">
-                        <i class="fas fa-heart text-white text-lg" id="headerMenuIcon"></i>
+                    <button onclick="toggleHeaderMenu()" class="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center transition-all duration-300" id="headerMenuBtn">
+                        <i class="fas fa-heart text-white text-lg"></i>
                     </button>
-                    
-                    <!-- Wrapper cho title và menu icons -->
-                    <div class="relative h-10">
-                        <div id="headerTitle" class="absolute top-0 left-0 flex items-center h-10 transition-all duration-300">
-                            <h1 class="text-xl font-bold text-primary whitespace-nowrap">Love Story</h1>
-                        </div>
-                        
-                        <!-- Horizontal Menu Icons -->
-                        <div id="headerMenuIcons" class="absolute top-0 left-0 flex items-center space-x-1 h-10 opacity-0 transform translate-x-0 transition-all duration-500 hidden">
-                            <button onclick="selectMenuItem('chat')" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" data-section="chat" title="Chat AI">
-                                <i class="fas fa-robot text-white text-sm"></i>
-                            </button>
-                            
-                            <button onclick="selectMenuItem('timeline')" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" data-section="timeline" title="Timeline">
-                                <i class="fas fa-clock text-white text-sm"></i>
-                            </button>
-                            
-                            <button onclick="selectMenuItem('photos')" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" data-section="photos" title="Khoảnh Khắc">
-                                <i class="fas fa-images text-white text-sm"></i>
-                            </button>
-                            
-
-                            
-                            <button onclick="selectMenuItem('settings')" class="menu-icon w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary transition-all duration-200" data-section="settings" title="Cài Đặt">
-                                <i class="fas fa-cog text-white text-sm"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <h1 id="headerTitle" class="text-xl font-bold text-primary whitespace-nowrap transition-all duration-300 hidden md:block">
+                        Love Story
+                    </h1>
                 </div>
-
-                <!-- User Profile -->
-                <div class="flex items-center space-x-3">
-                    <button onclick="openModal('profileModal')" class="flex items-center space-x-2 love-card rounded-full px-3 py-2">
-                        <img src="https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&background=006B68&color=fff" 
-                             alt="Avatar" class="w-8 h-8 rounded-full">
-                        <span class="hidden md:block font-medium">Hà Mạnh Tín</span>
+                <div id="headerMenuIcons" class="flex-1 flex items-center justify-center space-x-1 transition-opacity duration-300 opacity-0 hidden">
+                    <button onclick="selectMenuItem('chat')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="chat" title="Chat AI">
+                        <i class="fas fa-robot text-white text-sm"></i>
+                    </button>
+                    <button onclick="selectMenuItem('timeline')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="timeline" title="Timeline">
+                        <i class="fas fa-clock text-white text-sm"></i>
+                    </button>
+                    <button onclick="selectMenuItem('photos')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="photos" title="Khoảnh Khắc">
+                        <i class="fas fa-images text-white text-sm"></i>
+                    </button>
+                    <button onclick="selectMenuItem('settings')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="settings" title="Cài Đặt">
+                        <i class="fas fa-cog text-white text-sm"></i>
+                    </button>
+                </div>
+                <div class="flex items-center justify-end space-x-3">
+                    <button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w-10 h-10 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center" id="rightMenuBtn">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                    <button onclick="openModal('profileModal')" class="flex items-center space-x-2 love-card rounded-full p-1">
+                        <img src="https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&background=006B68&color=fff" alt="Avatar" class="w-8 h-8 rounded-full">
+                        <span class="hidden md:block font-medium pr-3">Hà Mạnh Tín</span>
                     </button>
                 </div>
             </div>
-
-
         </div>
     </header>
 
@@ -423,10 +404,10 @@
         <div id="timelineSection" class="section hidden">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold text-primary">
-                    <i class="fas fa-clock mr-2"></i>Timeline Kỷ Niệm
+                    <i class="fas fa-clock mr-2"></i>Sự Kiện
                 </h2>
-                <button onclick="openModal('eventModal')" class="love-button">
-                    <i class="fas fa-plus mr-2"></i>Thêm Sự Kiện
+                <button onclick="openModal('eventModal')" class="love-button w-10 h-10 rounded-full flex items-center justify-center p-0">
+                    <i class="fas fa-plus"></i>
                 </button>
             </div>
             <div id="timelineContainer">
@@ -438,13 +419,13 @@
 
         <!-- Photos Section -->
         <div id="photosSection" class="section hidden">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 space-y-4 md:space-y-0">
+            <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold text-primary">
                     <i class="fas fa-camera mr-2"></i>Khoảnh Khắc
                 </h2>
                 <div class="flex items-center space-x-3">
-                    <button onclick="cyclePhotoView()" class="love-button flex items-center space-x-2" id="viewToggleBtn">
-                        <i class="fas fa-th" id="viewToggleIcon"></i>
+                    <button onclick="cyclePhotoView()" class="love-button flex items-center space-x-1 text-sm px-3 py-2" id="viewToggleBtn" style="transform: scale(0.85);">
+                        <i class="fas fa-th text-sm" id="viewToggleIcon"></i>
                         <span id="viewToggleText">2x2</span>
                     </button>
                 </div>
@@ -479,6 +460,11 @@
                                 <option value="romantic">Lãng Mạn (Hồng - Cam)</option>
                             </select>
                         </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" id="showHamburgerMenu" class="mr-3" checked onchange="toggleHamburgerMenu()">
+                            <span>Hiển thị nút menu hamburger (di động)</span>
+                        </label>
+                        <p class="text-xs text-gray-500 ml-6">Ẩn nút hamburger để có giao diện gọn gàng hơn trên điện thoại</p>
                     </div>
                 </div>
 
@@ -671,7 +657,7 @@
                     </label>
                     <label class="block">
                         <span class="text-sm font-medium mb-2 block">Ngày:</span>
-                        <input type="date" id="eventDate" required class="love-input w-full">
+                        <input type="text" id="eventDate" required class="love-input w-full" placeholder="dd-mm-yyyy" pattern="\d{2}-\d{2}-\d{4}" maxlength="10" oninput="formatDateInput(this)">
                     </label>
                     <label class="block">
                         <span class="text-sm font-medium mb-2 block">Mô tả:</span>
@@ -680,8 +666,9 @@
                     <div>
                         <span class="text-sm font-medium mb-2 block">Ảnh:</span>
                         <button type="button" onclick="openModal('imageSelectorModal')" class="love-button w-full">
-                            <i class="fas fa-images mr-2"></i>Chọn Ảnh (<span id="selectedImagesCount">0</span>)
+                            <i class="fas fa-images mr-2"></i>Chọn Ảnh
                         </button>
+                        <p class="text-xs text-gray-500 mt-1">Đã chọn: <span id="selectedImagesCount">0</span> ảnh</p>
                     </div>
                     <div class="flex space-x-3">
                         <button type="submit" class="love-button flex-1">Lưu Sự Kiện</button>
@@ -861,6 +848,7 @@
         let pendingLogs = 0;
         let currentUser = null;
         let currentPage = 1;
+        let editingEventId = null;
 
         // Configuration
         const config = {
@@ -950,6 +938,13 @@
                         sha = fileData.sha;
                     }
 
+                    // ▼▼▼ SỬA LỖI MÃ HÓA UTF-8 ▼▼▼
+                    // Chuyển đổi chuỗi JSON thành UTF-8 bytes trước khi mã hóa Base64
+                    const jsonString = JSON.stringify(content, null, 2);
+                    const utf8Bytes = new TextEncoder().encode(jsonString);
+                    const base64String = btoa(String.fromCharCode(...utf8Bytes));
+                    // ▲▲▲ KẾT THÚC SỬA LỖI ▲▲▲
+
                     const response = await fetch(`${this.baseURL}/repos/${config.GITHUB_USERNAME}/${config.REPO_NAME}/contents/${filePath}`, {
                         method: 'PUT',
                         headers: {
@@ -959,7 +954,7 @@
                         },
                         body: JSON.stringify({
                             message: message,
-                            content: btoa(JSON.stringify(content, null, 2)),
+                            content: base64String,
                             sha: sha
                         })
                     });
@@ -1181,6 +1176,16 @@
             document.getElementById('themeSelect').value = savedTheme;
             changeTheme();
             
+            // Load hamburger menu setting
+            const showHamburger = localStorage.getItem('showHamburgerMenu');
+            if (showHamburger === 'false') {
+                document.getElementById('showHamburgerMenu').checked = false;
+                document.getElementById('rightMenuBtn').style.display = 'none';
+            } else {
+                document.getElementById('showHamburgerMenu').checked = true;
+                document.getElementById('rightMenuBtn').style.display = 'flex';
+            }
+            
             // Initialize view toggle button
             updateViewToggleButton();
             
@@ -1232,16 +1237,14 @@
             currentSection = section;
         }
 
+        // ▼▼▼ THAY THẾ CÁC HÀM JAVASCRIPT CŨ ▼▼▼
         function toggleHeaderMenu() {
             const menuIcons = document.getElementById('headerMenuIcons');
-            
-            if (menuIcons.classList.contains('show')) {
-                // Nếu menu đang hiện, về trang chủ và ẩn menu
-                showSection('home');
-                closeHeaderMenu();
-            } else {
-                // Nếu menu đang ẩn, hiện menu
+            // Kiểm tra xem menu có đang ẩn không bằng class 'hidden'
+            if (menuIcons.classList.contains('hidden')) {
                 openHeaderMenu();
+            } else {
+                closeHeaderMenu();
             }
         }
 
@@ -1249,33 +1252,40 @@
             const menuIcons = document.getElementById('headerMenuIcons');
             const title = document.getElementById('headerTitle');
             
-            menuIcons.classList.remove('hidden');
-            menuIcons.classList.add('show');
-            title.style.opacity = '0';
-            title.style.transform = 'translateX(-20px)';
+            // 1. Ẩn Title trên di động
+            title.classList.add('md:hidden');
             
-            setTimeout(() => {
-                menuIcons.style.opacity = '1';
-            }, 50);
+            // 2. Hiện Menu
+            menuIcons.classList.remove('hidden');
+            setTimeout(() => { // Dùng setTimeout để trình duyệt kịp render và tạo hiệu ứng fade-in
+                menuIcons.classList.remove('opacity-0');
+            }, 10);
         }
 
         function closeHeaderMenu() {
             const menuIcons = document.getElementById('headerMenuIcons');
             const title = document.getElementById('headerTitle');
             
-            menuIcons.classList.remove('show');
-            menuIcons.style.opacity = '0';
-            title.style.opacity = '1';
-            title.style.transform = 'translateX(0)';
+            // 1. Làm mờ Menu đi
+            menuIcons.classList.add('opacity-0');
             
+            // 2. Sau khi hiệu ứng mờ kết thúc (300ms), ẩn hoàn toàn Menu và hiện lại Title
             setTimeout(() => {
                 menuIcons.classList.add('hidden');
+                title.classList.remove('md:hidden');
             }, 300);
         }
 
+        // Hàm này không cần thiết nữa, nhưng để lại để nút hamburger không bị lỗi
+        // Nó sẽ gọi chung hàm toggleHeaderMenu()
+        function toggleRightHeaderMenu() {
+            toggleHeaderMenu();
+        }
+        // ▲▲▲ KẾT THÚC THAY THẾ JAVASCRIPT ▲▲▲
+
         function selectMenuItem(section) {
             showSection(section);
-            closeHeaderMenu();
+            // Không cần đóng menu nữa vì nó nằm cố định, không che mất nội dung
         }
 
 
@@ -1312,6 +1322,27 @@
             
             localStorage.setItem('loveStoryTheme', theme);
             addLog('Thay đổi theme', `Đã chuyển sang theme "${document.getElementById('themeSelect').selectedOptions[0].text}"`);
+        }
+
+        // Hamburger menu toggle function
+        function toggleHamburgerMenu() {
+            const checkbox = document.getElementById('showHamburgerMenu');
+            const hamburgerBtn = document.getElementById('rightMenuBtn');
+            const isEnabled = checkbox.checked;
+            
+            if (isEnabled) {
+                hamburgerBtn.style.display = 'flex';
+                localStorage.setItem('showHamburgerMenu', 'true');
+                addLog('Cài đặt giao diện', 'Đã bật nút menu hamburger');
+            } else {
+                hamburgerBtn.style.display = 'none';
+                // Đóng menu nếu đang mở
+                closeHeaderMenu();
+                localStorage.setItem('showHamburgerMenu', 'false');
+                addLog('Cài đặt giao diện', 'Đã ẩn nút menu hamburger');
+            }
+            
+            showNotification(isEnabled ? 'Đã bật nút hamburger!' : 'Đã ẩn nút hamburger!', 'success');
         }
 
         // Stats functions
@@ -1673,6 +1704,29 @@
             openModal('photoModal');
         }
 
+        // Date formatting function
+        function formatDateInput(input) {
+            let value = input.value.replace(/\D/g, ''); // Remove non-digits
+            
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '-' + value.substring(2);
+            }
+            if (value.length >= 5) {
+                value = value.substring(0, 5) + '-' + value.substring(5, 9);
+            }
+            
+            input.value = value;
+        }
+
+        // Image selection handler
+        function handleImageSelection(input) {
+            const files = input.files;
+            document.getElementById('selectedImagesCount').textContent = files.length;
+            
+            // Convert FileList to array for easier handling
+            selectedImages = Array.from(files);
+        }
+
         // Event functions
         async function saveEvent(e) {
             e.preventDefault();
@@ -1681,65 +1735,218 @@
             const date = document.getElementById('eventDate').value;
             const description = document.getElementById('eventDescription').value;
             
-            // Convert date format from YYYY-MM-DD to DD-MM-YYYY
-            const dateParts = date.split('-');
-            const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-            
-            // Create new event
-            const newEvent = {
-                note_id: Date.now().toString(),
-                name: name,
-                day: formattedDate,
-                contdetl: description,
-                image: selectedImages
-            };
+            // Validate date format (dd-mm-yyyy)
+            if (!/^\d{2}-\d{2}-\d{4}$/.test(date)) {
+                showNotification('Vui lòng nhập ngày đúng định dạng dd-mm-yyyy!', 'error');
+                return;
+            }
             
             try {
-                // Add to local data
-                eventsData.push(newEvent);
+                let success = false;
                 
-                // Save to GitHub
-                const success = await githubAPI.updateFile(
-                    config.FILE_PATH, 
-                    eventsData, 
-                    `Thêm sự kiện mới: ${name}`
-                );
+                // Prepare image array - always use the latest selected images (replace old list completely)
+                const imageArray = Array.isArray(selectedImages) ? [...selectedImages] : [];
                 
-                if (success) {
-                    addLog('Thêm sự kiện mới', `Đã thêm sự kiện "${name}"`);
-                    showNotification('Đã lưu sự kiện thành công!', 'success');
+                if (editingEventId) {
+                    // Update existing event
+                    const eventIndex = eventsData.findIndex(event => event.note_id === editingEventId);
+                    if (eventIndex !== -1) {
+                        eventsData[eventIndex] = {
+                            ...eventsData[eventIndex],
+                            name: name,
+                            day: date,
+                            contdetl: description,
+                            image: imageArray // Always replace with new selection
+                        };
+                        
+                        success = await githubAPI.updateFile(
+                            config.FILE_PATH, 
+                            eventsData, 
+                            `Cập nhật sự kiện: ${name}`
+                        );
+                        
+                        if (success) {
+                            addLog('Cập nhật sự kiện', `Đã cập nhật sự kiện "${name}" với ${imageArray.length} ảnh`);
+                            showNotification('Đã cập nhật sự kiện thành công!', 'success');
+                        }
+                    }
+                } else {
+                    // Create new event
+                    const newEvent = {
+                        note_id: Date.now().toString(),
+                        name: name,
+                        day: date,
+                        contdetl: description,
+                        image: imageArray // Use selected image IDs
+                    };
                     
+                    eventsData.push(newEvent);
+                    
+                    success = await githubAPI.updateFile(
+                        config.FILE_PATH, 
+                        eventsData, 
+                        `Thêm sự kiện mới: ${name}`
+                    );
+                    
+                    if (success) {
+                        addLog('Thêm sự kiện mới', `Đã thêm sự kiện "${name}" với ${imageArray.length} ảnh`);
+                        showNotification('Đã lưu sự kiện thành công!', 'success');
+                    } else {
+                        eventsData.pop();
+                    }
+                }
+                
+                if (!success) {
+                    showNotification('Lỗi khi lưu sự kiện!', 'error');
+                } else {
                     // Refresh timeline and stats
                     loadTimeline();
                     updateStats();
                     loadTodayMemories();
-                } else {
-                    // Remove from local data if save failed
-                    eventsData.pop();
-                    showNotification('Lỗi khi lưu sự kiện!', 'error');
                 }
+                
             } catch (error) {
                 console.error('Error saving event:', error);
-                eventsData.pop();
+                if (!editingEventId) {
+                    eventsData.pop();
+                }
                 showNotification('Lỗi khi lưu sự kiện!', 'error');
             }
             
             closeModal('eventModal');
+            resetEventForm();
+        }
+        
+        function resetEventForm() {
             document.getElementById('eventForm').reset();
             document.getElementById('selectedImagesCount').textContent = '0';
             selectedImages = [];
+            editingEventId = null;
+            
+            // ▼▼▼ THÊM NGÀY HÔM NAY MẶC ĐỊNH ▼▼▼
+            // Đặt ngày hôm nay làm mặc định khi thêm mới
+            const today = new Date();
+            const todayFormatted = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
+            document.getElementById('eventDate').value = todayFormatted;
+            // ▲▲▲ KẾT THÚC THÊM NGÀY MẶC ĐỊNH ▲▲▲
+            
+            // Reset modal title and button text
+            const modalTitle = document.querySelector('#eventModal h3');
+            modalTitle.innerHTML = '<i class="fas fa-plus mr-2"></i>Thêm Sự Kiện Mới';
+            
+            const submitBtn = document.querySelector('#eventModal button[type="submit"]');
+            submitBtn.innerHTML = 'Lưu Sự Kiện';
         }
 
         function editEvent(id) {
-            // Implementation for editing event
-            console.log('Edit event:', id);
+            const event = eventsData.find(e => e.note_id === id);
+            if (!event) {
+                showNotification('Không tìm thấy sự kiện!', 'error');
+                return;
+            }
+            
+            // Set editing mode
+            editingEventId = id;
+            
+            // Load event data into form
+            document.getElementById('eventName').value = event.name || '';
+            document.getElementById('eventDate').value = event.day || '';
+            document.getElementById('eventDescription').value = event.contdetl || '';
+            
+            // Load current images - ensure it's an array
+            const currentImages = Array.isArray(event.image) ? event.image : [];
+            selectedImages = [...currentImages]; // Create a copy
+            
+            // Update selected images count
+            document.getElementById('selectedImagesCount').textContent = selectedImages.length;
+            
+            // Update modal title to indicate editing
+            const modalTitle = document.querySelector('#eventModal h3');
+            modalTitle.innerHTML = '<i class="fas fa-edit mr-2"></i>Sửa Sự Kiện';
+            
+            // Update submit button text
+            const submitBtn = document.querySelector('#eventModal button[type="submit"]');
+            submitBtn.innerHTML = 'Cập Nhật Sự Kiện';
+            
+            // Open modal
+            openModal('eventModal');
+            
+            addLog('Sửa sự kiện', `Đang sửa sự kiện "${event.name}"`);
         }
 
-        function deleteEvent(id) {
-            if (confirm('Bạn có chắc chắn muốn xóa sự kiện này?')) {
-                addLog('Xóa sự kiện', `Đã xóa sự kiện ID: ${id}`);
-                showNotification('Đã xóa sự kiện!', 'success');
+        async function deleteEvent(id) {
+            const event = eventsData.find(e => e.note_id === id);
+            if (!event) {
+                showNotification('Không tìm thấy sự kiện!', 'error');
+                return;
             }
+            
+            // Create custom confirmation modal instead of browser confirm
+            const confirmDelete = await showCustomConfirm(`Bạn có chắc chắn muốn xóa sự kiện "${event.name}"?`);
+            
+            if (confirmDelete) {
+                try {
+                    // Remove event from array
+                    const eventIndex = eventsData.findIndex(e => e.note_id === id);
+                    if (eventIndex !== -1) {
+                        eventsData.splice(eventIndex, 1);
+                        
+                        // Update GitHub
+                        const success = await githubAPI.updateFile(
+                            config.FILE_PATH, 
+                            eventsData, 
+                            `Xóa sự kiện: ${event.name}`
+                        );
+                        
+                        if (success) {
+                            addLog('Xóa sự kiện', `Đã xóa sự kiện "${event.name}"`);
+                            showNotification('Đã xóa sự kiện thành công!', 'success');
+                            
+                            // Refresh timeline and stats
+                            loadTimeline();
+                            updateStats();
+                            loadTodayMemories();
+                        } else {
+                            // Restore event if failed
+                            eventsData.splice(eventIndex, 0, event);
+                            showNotification('Lỗi khi xóa sự kiện!', 'error');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error deleting event:', error);
+                    showNotification('Lỗi khi xóa sự kiện!', 'error');
+                }
+            }
+        }
+        
+        function showCustomConfirm(message) {
+            return new Promise((resolve) => {
+                // Create custom confirmation overlay
+                const overlay = document.createElement('div');
+                overlay.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                overlay.innerHTML = `
+                    <div class="bg-white rounded-lg p-6 max-w-md mx-4">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Xác nhận xóa</h3>
+                        <p class="text-gray-700 mb-6">${message}</p>
+                        <div class="flex space-x-3 justify-end">
+                            <button class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400" onclick="resolveConfirm(false)">
+                                Hủy
+                            </button>
+                            <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onclick="resolveConfirm(true)">
+                                Xóa
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                window.resolveConfirm = (result) => {
+                    document.body.removeChild(overlay);
+                    delete window.resolveConfirm;
+                    resolve(result);
+                };
+            });
         }
 
         function viewEventPhotos(id) {
@@ -1748,11 +1955,126 @@
         }
 
         // Image selector functions
+        let currentImageSelectorPage = 1;
+        let totalImagePages = 1;
+
+        function loadImageSelector(page = 1) {
+            const imageSelector = document.getElementById('imageSelector');
+            const photosPerPage = config.PHOTOS_PER_PAGE;
+            currentImageSelectorPage = page;
+            
+            if (photosData.length === 0) {
+                imageSelector.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-gray-500">
+                        <i class="fas fa-images text-4xl mb-3"></i>
+                        <p>Chưa có ảnh nào</p>
+                        <button onclick="syncPhotosMetadata()" class="love-button mt-3">
+                            <i class="fas fa-sync mr-2"></i>Đồng Bộ Ngay
+                        </button>
+                    </div>
+                `;
+                loadImageSelectorPagination(1, 1);
+                return;
+            }
+            
+            // Sort photos by creation time (newest first)
+            const sortedPhotos = [...photosData].sort((a, b) => 
+                new Date(b.createdTime) - new Date(a.createdTime)
+            );
+            
+            totalImagePages = Math.ceil(sortedPhotos.length / photosPerPage);
+            const startIndex = (page - 1) * photosPerPage;
+            const endIndex = startIndex + photosPerPage;
+            const pagePhotos = sortedPhotos.slice(startIndex, endIndex);
+            
+            imageSelector.innerHTML = pagePhotos.map(photo => {
+                const isSelected = selectedImages.includes(photo.id);
+                const selectedClass = isSelected ? 'ring-4 ring-primary' : '';
+                
+                return `
+                    <div class="photo-item aspect-square rounded overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary ${selectedClass}" 
+                         onclick="toggleImageSelection('${photo.id}', this)" title="${photo.name}">
+                        <img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-full h-full object-cover"
+                             onerror="this.src=''; this.style.display='none';">
+                    </div>
+                `;
+            }).join('');
+            
+            loadImageSelectorPagination(page, totalImagePages);
+        }
+
+        function loadImageSelectorPagination(currentPage, totalPages) {
+            const paginationContainer = document.querySelector('#imageSelectorModal .flex.justify-between.items-center:last-child .flex.space-x-2');
+            
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = `<span class="text-sm text-gray-600">Trang 1 / 1</span>`;
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            if (currentPage > 1) {
+                paginationHTML += `<button onclick="loadImageSelector(${currentPage - 1})" class="love-button text-sm px-2 py-1">←</button>`;
+            } else {
+                paginationHTML += `<button class="love-button text-sm px-2 py-1 opacity-50 cursor-not-allowed" disabled>←</button>`;
+            }
+            
+            // Page numbers
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust start page if we're near the end
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // First page and ellipsis
+            if (startPage > 1) {
+                paginationHTML += `<button onclick="loadImageSelector(1)" class="love-button text-sm px-2 py-1">1</button>`;
+                if (startPage > 2) {
+                    paginationHTML += `<span class="text-sm text-gray-500 px-1">...</span>`;
+                }
+            }
+            
+            // Page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                if (i === currentPage) {
+                    paginationHTML += `<button class="love-button text-sm px-2 py-1 bg-secondary">${i}</button>`;
+                } else {
+                    paginationHTML += `<button onclick="loadImageSelector(${i})" class="love-button text-sm px-2 py-1">${i}</button>`;
+                }
+            }
+            
+            // Last page and ellipsis
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<span class="text-sm text-gray-500 px-1">...</span>`;
+                }
+                paginationHTML += `<button onclick="loadImageSelector(${totalPages})" class="love-button text-sm px-2 py-1">${totalPages}</button>`;
+            }
+            
+            // Next button
+            if (currentPage < totalPages) {
+                paginationHTML += `<button onclick="loadImageSelector(${currentPage + 1})" class="love-button text-sm px-2 py-1">→</button>`;
+            } else {
+                paginationHTML += `<button class="love-button text-sm px-2 py-1 opacity-50 cursor-not-allowed" disabled>→</button>`;
+            }
+            
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
         function selectAllImages() {
+            // Select all photos on current page
             document.querySelectorAll('#imageSelector .photo-item').forEach(item => {
-                item.classList.add('ring-4', 'ring-primary');
+                const onclick = item.getAttribute('onclick');
+                const photoId = onclick.match(/'([^']+)'/)[1];
+                if (!selectedImages.includes(photoId)) {
+                    selectedImages.push(photoId);
+                    item.classList.add('ring-4', 'ring-primary');
+                }
             });
-            selectedImages = samplePhotos.slice(0, 24).map(p => p.id);
             document.getElementById('selectedCount').textContent = selectedImages.length;
         }
 
@@ -2007,25 +2329,14 @@
             showNotification('Đã tạo mã QR!', 'success');
         }
 
-        // Initialize image selector
-        function loadImageSelector() {
-            const imageSelector = document.getElementById('imageSelector');
-            if (imageSelector && photosData.length > 0) {
-                imageSelector.innerHTML = photosData.slice(0, 24).map(photo => `
-                    <div class="photo-item aspect-square rounded overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary" 
-                         onclick="toggleImageSelection('${photo.id}', this)">
-                        <img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-full h-full object-cover"
-                             onerror="this.src=''; this.style.display='none';">
-                    </div>
-                `).join('');
-            }
-        }
-
         // Load image selector when modal opens
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('show');
             if (modalId === 'imageSelectorModal') {
-                loadImageSelector();
+                loadImageSelector(1); // Start from page 1
+            } else if (modalId === 'eventModal' && !editingEventId) {
+                // Reset form only when adding new event
+                resetEventForm();
             }
         }
 
@@ -2047,19 +2358,18 @@
             }
         });
 
-        // Close header menu when clicking outside
+        // Logic click ra ngoài để đóng menu (vẫn giữ nguyên nhưng đơn giản hơn)
         document.addEventListener('click', function(event) {
             const menuIcons = document.getElementById('headerMenuIcons');
-            const menuBtn = document.getElementById('headerMenuBtn');
-            const isClickInsideMenu = menuIcons.contains(event.target);
-            const isClickOnMenuBtn = menuBtn.contains(event.target);
-            
-            if (!isClickInsideMenu && !isClickOnMenuBtn && menuIcons.classList.contains('show')) {
+            const header = document.querySelector('header');
+
+            // Nếu click ra ngoài khu vực header và menu đang hiện -> đóng menu
+            if (!header.contains(event.target) && !menuIcons.classList.contains('hidden')) {
                 closeHeaderMenu();
             }
         });
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ee645c71351fca',t:'MTc2MDUyMTYxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f4a52f057804e3',t:'MTc2MDU4NzE4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
