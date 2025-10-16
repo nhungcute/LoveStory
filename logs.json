@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760599012349",
+    "timestamp": "2025-10-16T07:16:52.349Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Hè (Vàng - Đỏ)\"",
+    "sessionId": "1760598054658"
+  },
+  {
     "id": "1760599009504",
     "timestamp": "2025-10-16T07:16:49.504Z",
     "action": "Thay đổi theme",
