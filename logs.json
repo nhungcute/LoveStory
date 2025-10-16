@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-16T02:04:08.563Z",
+    "action": "Đồng bộ tự động",
+    "details": "Đồng bộ dữ liệu thành công",
+    "id": 1760580248563.6904,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-16T02:04:08.561Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Hoàn thành đồng bộ 895 ảnh từ 1 trang",
+    "id": 1760580248561.2756,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-16T02:04:03.982Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Trang 1: Đã tải 895 ảnh (Tổng: 895)",
+    "id": 1760580243982.1687,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-16T02:04:01.338Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Đang tải trang 1...",
+    "id": 1760580241338.131,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-16T02:04:01.338Z",
+    "action": "Đồng bộ Google Drive",
+    "details": "Bắt đầu tải danh sách ảnh từ Google Drive",
+    "id": 1760580241338.755,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
+    "timestamp": "2025-10-16T02:04:01.335Z",
+    "action": "Đồng bộ tự động",
+    "details": "Bắt đầu đồng bộ dữ liệu theo lịch trình",
+    "id": 1760580241335.0164,
+    "sessionId": "session_1760089695685_ty2yj6br1"
+  },
+  {
     "timestamp": "2025-10-15T04:46:09.742Z",
     "action": "Chuyển tab",
     "details": "Người dùng đã chuyển sang tab khác",
