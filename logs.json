@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-16T12:21:22.582Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T12:21:18.451Z",
+    "action": "Bình luận ảnh",
+    "details": "Đã bình luận vào ảnh \"DSC00014.JPG\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T12:20:57.432Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
