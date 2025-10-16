@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-16T08:44:38.778Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Khoảnh khắc\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T08:43:03.870Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
