@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760599918323",
+    "timestamp": "2025-10-16T07:31:58.323Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "sessionId": "1760599760565"
+  },
+  {
     "id": "1760599760564",
     "timestamp": "2025-10-16T07:29:20.564Z",
     "action": "Đồng bộ media",
