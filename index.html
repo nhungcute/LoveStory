@@ -599,7 +599,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
        </div>
        <div class="flex justify-between"><span>Google Drive:</span> <span class="flex items-center"> <span class="status-indicator status-online"></span> <span class="font-bold text-green-600">Kết nối</span> </span>
        </div>
-       <div class="flex justify-between"><span>Dung lượng sử dụng:</span> <span class="font-bold">2.4 GB / 15 GB</span>
+       <div class="flex justify-between"><span>Dung lượng sử dụng:</span> <span id="storageUsageDisplay" class="font-bold">Đang tính...</span>
        </div>
        <div class="flex justify-between"><span>Trạng thái:</span> <span class="flex items-center"> <span class="status-indicator status-online"></span> <span class="font-bold text-green-600" id="onlineStatus">Online</span> </span>
        </div>
@@ -1110,6 +1110,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 
                 // Update stats
                 updateStats();
+				
+				updateStorageUsage(); // <-- THÊM VÀO ĐÂY
                 
             } catch (error) {
                 console.error('Error syncing media:', error);
@@ -1217,6 +1219,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             // Load saved theme
             const savedTheme = localStorage.getItem('loveStoryTheme') || 'default';
             
+			const dataLoaded = await loadAllData();
+			
             // Apply theme to body
             document.body.className = document.body.className.replace(/theme-\w+/g, '');
             if (savedTheme !== 'default') {
@@ -1247,6 +1251,9 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 loadAppConfigToUI();
                 
                 updateStats();
+				
+				updateStorageUsage(); // <-- THÊM VÀO ĐÂY
+				
                 loadTodayMemories();
                 loadUpcomingEvents();
                 loadTimeline();
@@ -1517,6 +1524,34 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             document.getElementById('daysTogether').textContent = daysTogether.toLocaleString();
             document.getElementById('totalMemories').textContent = totalMemories.toLocaleString();
             document.getElementById('totalPhotos').textContent = totalMedia.toLocaleString();
+        }
+		
+		function updateStorageUsage() {
+            try {
+                // 1. Tính tổng dung lượng từ metadata của Google Drive (đã có sẵn đơn vị byte)
+                const photosSize = photosData.reduce((acc, photo) => acc + (parseInt(photo.size) || 0), 0);
+
+                // 2. Ước tính dung lượng của các file JSON khác bằng cách chuyển chúng thành chuỗi
+                const eventsSize = new TextEncoder().encode(JSON.stringify(eventsData)).length;
+                const commentsSize = new TextEncoder().encode(JSON.stringify(commentsData)).length;
+                const logsSize = new TextEncoder().encode(JSON.stringify(logsData)).length;
+                const profilesSize = new TextEncoder().encode(JSON.stringify(profilesData)).length;
+                const configSize = new TextEncoder().encode(JSON.stringify(appConfigData)).length;
+                
+                // 3. Cộng tất cả lại để có tổng dung lượng (tính bằng byte)
+                const totalUsageInBytes = photosSize + eventsSize + commentsSize + logsSize + profilesSize + configSize;
+                
+                // 4. Sử dụng hàm formatFileSize đã có sẵn để chuyển đổi sang định dạng dễ đọc (KB, MB, GB)
+                const formattedUsage = formatFileSize(totalUsageInBytes);
+                
+                // 5. Cập nhật lên giao diện
+                const totalStorage = "15 GB"; // Lấy từ thông tin hệ thống
+                document.getElementById('storageUsageDisplay').textContent = `${formattedUsage} / ${totalStorage}`;
+
+            } catch (error) {
+                console.error("Lỗi khi tính toán dung lượng sử dụng:", error);
+                document.getElementById('storageUsageDisplay').textContent = "Lỗi";
+            }
         }
 
         function convertDateFormat(dateStr) {
