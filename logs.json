@@ -1,7 +1,14 @@
 [
   {
-    "id": "1760587281973",
-    "timestamp": "2025-10-16T04:01:21.974Z",
+    "id": "1760587312623",
+    "timestamp": "2025-10-16T04:01:52.623Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện \"bay hàn\" với 51 ảnh",
+    "sessionId": "1760587272677"
+  },
+  {
+    "id": "1760587272676",
+    "timestamp": "2025-10-16T04:01:12.676Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Mặc định (Xanh - Vàng)\"",
     "sessionId": "1760587272677"
