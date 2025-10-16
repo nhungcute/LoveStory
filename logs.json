@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-16T07:49:02.164Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "username": "1760600930723",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T07:48:59.723Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1760600930723",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T07:48:53.990Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
+    "username": "1760600930723",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T07:48:50.723Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily lúc 2:48:50 PM",
+    "username": "1760600930723",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T07:47:03.603Z",
     "action": "Mở modal",
     "details": "Đã mở \"Nhật ký hoạt động\"",
