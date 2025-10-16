@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760598131891",
+    "timestamp": "2025-10-16T07:02:11.891Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"DSC00424.JPG\"",
+    "sessionId": "1760598049827"
+  },
+  {
     "id": "1760598070371",
     "timestamp": "2025-10-16T07:01:10.371Z",
     "action": "Tải ảnh",
