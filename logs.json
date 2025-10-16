@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760599995436",
+    "timestamp": "2025-10-16T07:33:15.436Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "sessionId": "1760599760565"
+  },
+  {
     "id": "1760599956263",
     "timestamp": "2025-10-16T07:32:36.263Z",
     "action": "Lưu cấu hình",
