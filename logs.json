@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760600185780",
+    "timestamp": "2025-10-16T07:36:25.780Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
+    "sessionId": "1760600182514"
+  },
+  {
     "id": "1760600182513",
     "timestamp": "2025-10-16T07:36:22.513Z",
     "action": "Tự động đồng bộ",
