@@ -1,16 +1,9 @@
 [
   {
-    "timestamp": "2025-10-16T13:13:56.517Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Thêm sự kiện mới\"",
-    "username": "1760620433639",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:13:53.638Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1760620433639",
+    "timestamp": "2025-10-16T13:13:52.255Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily",
+    "username": "1760620432255",
     "saved": true
   },
   {
