@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-16T12:19:35.169Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"DSC00360.JPG\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T12:19:27.649Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1760617091500",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T12:19:18.187Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
