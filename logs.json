@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-16T07:46:46.266Z",
+    "action": "Tải ảnh",
+    "details": "Đã mở trang tải ảnh \"DSC00426.JPG\"",
+    "username": "1760600764354",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T07:46:41.052Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1760600764354",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T07:46:39.022Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Khoảnh khắc\"",
+    "username": "1760600764354",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T07:46:25.364Z",
     "action": "Mở modal",
     "details": "Đã mở \"Nhật ký hoạt động\"",
