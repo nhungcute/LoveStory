@@ -995,7 +995,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         class GoogleAI {
             constructor() {
                 this.apiKey = config.AI_API_KEY;
-                this.baseURL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+                this.baseURL = 'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent'; // [DÒNG MỚI]
             }
 
             async generateResponse(prompt) {
