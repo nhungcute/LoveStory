@@ -1,5 +1,19 @@
 [
   {
+    "id": "1760600333765",
+    "timestamp": "2025-10-16T07:38:53.765Z",
+    "action": "Cài đặt tự động đồng bộ",
+    "details": "Bật tự động đồng bộ - Tần suất: daily, Thời gian: 14:39",
+    "sessionId": "1760600182514"
+  },
+  {
+    "id": "1760600333589",
+    "timestamp": "2025-10-16T07:38:53.589Z",
+    "action": "Cài đặt tự động đồng bộ",
+    "details": "Bật tự động đồng bộ - Tần suất: daily, Thời gian: 14:39",
+    "sessionId": "1760600182514"
+  },
+  {
     "id": "1760600302596",
     "timestamp": "2025-10-16T07:38:22.596Z",
     "action": "Điều hướng",
