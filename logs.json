@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760598638215",
+    "timestamp": "2025-10-16T07:10:38.215Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã ẩn nút menu hamburger",
+    "sessionId": "1760598638215"
+  },
+  {
     "id": "1760598533125",
     "timestamp": "2025-10-16T07:08:53.125Z",
     "action": "Thay đổi theme",
