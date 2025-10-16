@@ -1,5 +1,12 @@
 [
   {
+    "id": "1760599505642",
+    "timestamp": "2025-10-16T07:25:05.642Z",
+    "action": "Lưu cấu hình",
+    "details": "Đã lưu cấu hình ứng dụng",
+    "sessionId": "1760599406319"
+  },
+  {
     "id": "1760599469448",
     "timestamp": "2025-10-16T07:24:29.448Z",
     "action": "Lưu cấu hình",
