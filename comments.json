@@ -62,7 +62,11 @@
   },
   {
     "ID_IMG": "DSC00290.JPG",
-    "tim": [],
+    "tim": [
+      {
+        "userName": "hamanhtinlovely"
+      }
+    ],
     "comments": [
       {
         "comment": "Quá là đẹp zai",
