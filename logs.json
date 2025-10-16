@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-16T07:51:06.939Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "username": "1760601011048",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T07:51:05.348Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1760601011048",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T07:49:02.164Z",
     "action": "Mở modal",
     "details": "Đã mở \"Nhật ký hoạt động\"",
