@@ -431,24 +431,41 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
        </div>
       </div>
      </div><!-- Thống Kê & Đếm Ngược -->
-     <div class="space-y-6"><!-- Thống Kê Tổng Quan -->
-      <div class="love-card rounded-lg p-6">
-       <h3 class="text-lg font-bold text-primary mb-4"><i class="fas fa-chart-bar mr-2"></i>Thống Kê Tổng Quan</h3>
-       <div class="space-y-3">
-        <div class="flex justify-between"><span>Ngày bên nhau:</span> <span class="font-bold text-primary" id="daysTogether">0</span>
+     <div class="space-y-4">
+        <div class="love-card rounded-lg p-4 flex items-center space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                <i class="fas fa-heart text-white text-xl"></i>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500">Ngày bên nhau</p>
+                <p class="text-2xl font-bold text-primary" id="daysTogether">0</p>
+            </div>
         </div>
-        <div class="flex justify-between"><span>Kỷ niệm:</span> <span class="font-bold text-secondary" id="totalMemories">0</span>
+        <div class="love-card rounded-lg p-4 flex items-center space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-secondary rounded-full flex items-center justify-center">
+                <i class="fas fa-star text-white text-xl"></i>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500">Kỷ niệm</p>
+                <p class="text-2xl font-bold text-secondary" id="totalMemories">0</p>
+            </div>
         </div>
-        <div class="flex justify-between"><span>Hình ảnh:</span> <span class="font-bold text-primary" id="totalPhotos">0</span>
+        <div class="love-card rounded-lg p-4 flex items-center space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                <i class="fas fa-images text-white text-xl"></i>
+            </div>
+            <div>
+                <p class="text-sm text-gray-500">Media</p>
+                <p class="text-2xl font-bold text-primary" id="totalPhotos">0</p>
+            </div>
         </div>
-       </div>
-      </div><!-- Đếm Ngược Sự Kiện -->
-      <div class="love-card rounded-lg p-6">
-       <h3 class="text-lg font-bold text-primary mb-4"><i class="fas fa-clock mr-2"></i>Sự Kiện Sắp Tới</h3>
-       <div id="upcomingEvents">
-        <div class="skeleton h-20 rounded"></div>
-       </div>
-      </div>
+        <div class="love-card rounded-lg p-4 flex items-center space-x-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                <i class="fas fa-clock text-white text-xl"></i>
+            </div>
+            <div id="upcomingEventsContainer">
+                </div>
+        </div>
      </div>
     </div>
    </div><!-- Chat AI Section -->
@@ -1477,32 +1494,21 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
 
         // Stats functions
         function updateStats() {
-            // Calculate days together from first event
-            let startDate = new Date('2022-02-22'); // Default start date
-            if (eventsData.length > 0) {
-                const sortedEvents = eventsData.sort((a, b) => new Date(convertDateFormat(a.day)) - new Date(convertDateFormat(b.day)));
-                startDate = new Date(convertDateFormat(sortedEvents[0].day));
-            }
-            
+            // Ngày bên nhau: Tính từ ngày cố định 22/02/2022
+            const startDate = new Date('2022-02-22');
             const today = new Date();
             const daysTogether = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
             
-            // Count images and videos separately
-            const images = photosData.filter(item => item.fileType === 'image' || item.mimeType?.startsWith('image/'));
-            const videos = photosData.filter(item => item.fileType === 'video' || item.mimeType?.startsWith('video/'));
+            // Kỷ niệm: Lấy tổng số lượng sự kiện từ mảng eventsData
+            const totalMemories = eventsData.length;
+
+            // Media: Lấy tổng số lượng media từ mảng photosData
+            const totalMedia = photosData.length;
             
+            // Cập nhật các giá trị lên giao diện
             document.getElementById('daysTogether').textContent = daysTogether.toLocaleString();
-            document.getElementById('totalMemories').textContent = eventsData.length.toLocaleString();
-            
-            // Update photos text to show both images and videos
-            const totalPhotosElement = document.getElementById('totalPhotos');
-            if (videos.length > 0) {
-                totalPhotosElement.textContent = `${images.length} ảnh, ${videos.length} video`;
-                totalPhotosElement.parentElement.querySelector('span:first-child').textContent = 'Media:';
-            } else {
-                totalPhotosElement.textContent = photosData.length.toLocaleString();
-                totalPhotosElement.parentElement.querySelector('span:first-child').textContent = 'Hình ảnh:';
-            }
+            document.getElementById('totalMemories').textContent = totalMemories.toLocaleString();
+            document.getElementById('totalPhotos').textContent = totalMedia.toLocaleString();
         }
 
         function convertDateFormat(dateStr) {
@@ -1594,22 +1600,35 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         }
 
         function loadUpcomingEvents() {
-            const container = document.getElementById('upcomingEvents');
-            
-            // Sample upcoming event
+            const container = document.getElementById('upcomingEventsContainer');
+            // Ví dụ về sự kiện sắp tới. Trong tương lai, bạn có thể lấy dữ liệu này từ eventsData
             const birthday = new Date('2025-06-20');
+            const eventName = 'Sinh nhật em';
+            const eventDateStr = '20/06/2025';
+
             const today = new Date();
-            const daysUntil = Math.ceil((birthday - today) / (1000 * 60 * 60 * 24));
-            
-            container.innerHTML = `
-                <div class="love-card rounded" style="padding: 0.5rem;">
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-primary mb-1">${daysUntil}</div>
-                        <div class="text-sm text-gray-600 mb-2">ngày nữa</div>
-                        <h4 class="font-bold text-primary">Sinh nhật em</h4>
-                        <p class="text-xs text-gray-500">20/06/2025</p>
+            today.setHours(0, 0, 0, 0); // Chuẩn hóa về đầu ngày để đếm chính xác
+
+            // Nếu sự kiện đã qua thì hiển thị thông báo
+            if (birthday < today) {
+                container.innerHTML = `
+                    <div>
+                        <p class="text-sm text-gray-500">Sự Kiện Sắp Tới</p>
+                        <p class="text-xl font-bold text-primary">Không có</p>
                     </div>
+                `;
+                return;
+            }
+
+            const daysUntil = Math.ceil((birthday - today) / (1000 * 60 * 60 * 24));
+
+            // Cập nhật nội dung vào div
+            container.innerHTML = `
+                <div class="flex items-baseline space-x-2">
+                    <p class="text-2xl font-bold text-primary">${daysUntil}</p>
+                    <p class="text-sm font-medium text-gray-600">ngày nữa</p>
                 </div>
+                <p class="text-sm text-gray-500">${eventName}</p>
             `;
         }
 
