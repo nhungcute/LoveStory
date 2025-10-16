@@ -1,58 +1,9 @@
 [
   {
-    "id": "1760588903296",
-    "timestamp": "2025-10-16T04:28:23.296Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"bay hàn\"",
-    "sessionId": "1760588768390"
-  },
-  {
-    "id": "1760588900577",
-    "timestamp": "2025-10-16T04:28:20.577Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"bay hàn\"",
-    "sessionId": "1760588768390"
-  },
-  {
-    "id": "1760588800833",
-    "timestamp": "2025-10-16T04:26:40.833Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"Lễ Thành Hôn\"",
-    "sessionId": "1760588768390"
-  },
-  {
-    "id": "1760588795784",
-    "timestamp": "2025-10-16T04:26:35.784Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"bay hàn\"",
-    "sessionId": "1760588768390"
-  },
-  {
-    "id": "1760588792386",
-    "timestamp": "2025-10-16T04:26:32.386Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"Ngày dự sinh bé con\"",
-    "sessionId": "1760588768390"
-  },
-  {
-    "id": "1760588554022",
-    "timestamp": "2025-10-16T04:22:34.022Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"Lễ Thành Hôn\"",
-    "sessionId": "1760588289144"
-  },
-  {
-    "id": "1760588548683",
-    "timestamp": "2025-10-16T04:22:28.683Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"bay hàn\"",
-    "sessionId": "1760588289144"
-  },
-  {
-    "id": "1760588288270",
-    "timestamp": "2025-10-16T04:18:08.270Z",
+    "id": "1760589565923",
+    "timestamp": "2025-10-16T04:39:25.923Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Mặc định (Xanh - Vàng)\"",
-    "sessionId": "1760588288271"
+    "sessionId": "1760589565924"
   }
 ]
