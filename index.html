@@ -847,27 +847,34 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
 
             async updateFile(filePath, content, message) {
                 try {
-                    // Get current file to get SHA
+                    // Lấy SHA của file hiện tại (logic này giữ nguyên)
                     const currentFile = await fetch(`${this.baseURL}/repos/${config.GITHUB_USERNAME}/${config.REPO_NAME}/contents/${filePath}`, {
                         headers: {
                             'Authorization': `token ${this.token}`,
                             'Accept': 'application/vnd.github.v3+json'
                         }
                     });
-
                     let sha = null;
                     if (currentFile.ok) {
                         const fileData = await currentFile.json();
                         sha = fileData.sha;
                     }
 
-                    // ▼▼▼ SỬA LỖI MÃ HÓA UTF-8 ▼▼▼
-                    // Chuyển đổi chuỗi JSON thành UTF-8 bytes trước khi mã hóa Base64
+                    // ▼▼▼ BẮT ĐẦU PHẦN SỬA LỖI ▼▼▼
                     const jsonString = JSON.stringify(content, null, 2);
                     const utf8Bytes = new TextEncoder().encode(jsonString);
-                    const base64String = btoa(String.fromCharCode(...utf8Bytes));
-                    // ▲▲▲ KẾT THÚC SỬA LỖI ▲▲▲
 
+                    // Xử lý dữ liệu theo từng đoạn nhỏ để tránh lỗi stack overflow
+                    let binaryString = '';
+                    const chunkSize = 8192; // Xử lý 8KB mỗi lần
+                    for (let i = 0; i < utf8Bytes.length; i += chunkSize) {
+                        const chunk = utf8Bytes.subarray(i, i + chunkSize);
+                        binaryString += String.fromCharCode.apply(null, chunk);
+                    }
+                    const base64String = btoa(binaryString);
+                    // ▲▲▲ KẾT THÚC PHẦN SỬA LỖI ▲▲▲
+
+                    // Gửi yêu cầu cập nhật file (logic này giữ nguyên)
                     const response = await fetch(`${this.baseURL}/repos/${config.GITHUB_USERNAME}/${config.REPO_NAME}/contents/${filePath}`, {
                         method: 'PUT',
                         headers: {
@@ -881,7 +888,6 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                             sha: sha
                         })
                     });
-
                     return response.ok;
                 } catch (error) {
                     console.error(`Error updating ${filePath}:`, error);
