@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-16T08:36:07.075Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T08:36:05.726Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-16T08:36:04.386Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T08:27:48.347Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
