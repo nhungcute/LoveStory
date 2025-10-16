@@ -190,7 +190,7 @@
 
         .timeline-item {
             position: relative;
-            padding-left: 2rem;
+            padding-left: 1rem;
             border-left: 2px solid var(--primary-color);
             margin-bottom: 2rem;
         }
@@ -1524,13 +1524,13 @@
                                     <p class="text-secondary font-medium" style="font-size: 0.9em;">${formatDateToDDMMYYYY(event.day)}</p>
                                 </div>
                                 <div class="flex space-x-2">
-                                    <button onclick="editEvent('${event.note_id}')" class="love-button text-xs px-2 py-1" style="transform: scale(0.9);">
+                                    <button onclick="editEvent('${event.note_id}')" class="love-button text-xs px-2 py-1" style="transform: scale(0.95);">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button onclick="viewEventPhotos('${event.note_id}')" class="love-button text-xs px-2 py-1" style="transform: scale(0.9);">
+                                    <button onclick="viewEventPhotos('${event.note_id}')" class="love-button text-xs px-2 py-1" style="transform: scale(0.95);">
                                         <i class="fas fa-images"></i>
                                     </button>
-                                    <button onclick="deleteEvent('${event.note_id}')" class="love-button secondary text-xs px-2 py-1" style="transform: scale(0.9);">
+                                    <button onclick="deleteEvent('${event.note_id}')" class="love-button secondary text-xs px-2 py-1" style="transform: scale(0.95);">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -1579,7 +1579,7 @@
                     const imageUrl = driveAPI.getImageUrl(photo.id, 'thumbnail');
                     const fullImageUrl = driveAPI.getImageUrl(photo.id, 'view');
                     const photoComments = commentsData.find(c => c.ID_IMG === photo.name);
-                    const likesCount = photoComments ? photoComments.count_tim : 0;
+                    const likesCount = photoComments && photoComments.tim && Array.isArray(photoComments.tim) ? photoComments.tim.length : 0;
                     const commentsCount = photoComments ? photoComments.comments.length : 0;
                     
                     return `
@@ -1613,9 +1613,23 @@
                 
                 container.innerHTML = pagePhotos.map(photo => {
                     const imageUrl = driveAPI.getImageUrl(photo.id, 'thumbnail');
+                    const photoComments = commentsData.find(c => c.ID_IMG === photo.name);
+                    const likesCount = photoComments && photoComments.tim && Array.isArray(photoComments.tim) ? photoComments.tim.length : 0;
+                    const commentsCount = photoComments ? (photoComments.comments ? photoComments.comments.length : 0) : 0;
+                    
                     return `
-                        <div class="photo-item" onclick="viewPhotoWithDetails('${photo.id}', '${photo.name}')" title="${photo.name}">
+                        <div class="photo-item relative" onclick="viewPhotoWithDetails('${photo.id}', '${photo.name}')" title="${photo.name}">
                             <img src="${imageUrl}" alt="${photo.name}" onerror="this.src=''; this.style.display='none';">
+                            <div class="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded flex items-center space-x-2">
+                                <span class="flex items-center">
+                                    <i class="fas fa-heart text-red-500 mr-1"></i>
+                                    ${likesCount}
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-comment text-blue-400 mr-1"></i>
+                                    ${commentsCount}
+                                </span>
+                            </div>
                         </div>
                     `;
                 }).join('');
@@ -1970,6 +1984,11 @@
             });
         }
 
+        // Global variables for event photos pagination
+        let currentEventPhotosPage = 1;
+        let currentEventPhotos = [];
+        const eventPhotosPerPage = 12;
+
         function viewEventPhotos(id) {
             const event = eventsData.find(e => e.note_id === id);
             if (!event) {
@@ -1977,36 +1996,89 @@
                 return;
             }
             
-            const eventPhotosGrid = document.getElementById('eventPhotosGrid');
             const modalTitle = document.querySelector('#eventPhotosModal h3');
             
             // Update modal title with event name
             modalTitle.innerHTML = `<i class="fas fa-images mr-2"></i>Ảnh: ${escapeHtml(event.name)}`;
             
-            if (!event.image || event.image.length === 0) {
+            // Store current event photos
+            currentEventPhotos = event.image || [];
+            currentEventPhotosPage = 1;
+            
+            loadEventPhotosPage(1);
+            openModal('eventPhotosModal');
+            addLog('Xem ảnh sự kiện', `Đã xem ảnh của sự kiện "${event.name}"`);
+        }
+
+        function loadEventPhotosPage(page) {
+            const eventPhotosGrid = document.getElementById('eventPhotosGrid');
+            currentEventPhotosPage = page;
+            
+            if (currentEventPhotos.length === 0) {
                 eventPhotosGrid.innerHTML = `
                     <div class="col-span-full text-center py-8 text-gray-500">
                         <i class="fas fa-images text-4xl mb-3"></i>
                         <p>Sự kiện này chưa có ảnh nào</p>
                     </div>
                 `;
-            } else {
-                eventPhotosGrid.innerHTML = event.image.map(imageId => {
-                    const imageUrl = driveAPI.getImageUrl(imageId, 'thumbnail');
-                    const fullImageUrl = driveAPI.getImageUrl(imageId, 'view');
-                    
-                    return `
-                        <div class="photo-item aspect-square rounded overflow-hidden cursor-pointer hover:opacity-80" 
-                             onclick="viewPhoto('${fullImageUrl}')">
-                            <img src="${imageUrl}" alt="" class="w-full h-full object-cover"
-                                 onerror="this.src=''; this.style.display='none';">
-                        </div>
-                    `;
-                }).join('');
+                updateEventPhotosPagination(0);
+                return;
             }
             
-            openModal('eventPhotosModal');
-            addLog('Xem ảnh sự kiện', `Đã xem ảnh của sự kiện "${event.name}"`);
+            const totalPages = Math.ceil(currentEventPhotos.length / eventPhotosPerPage);
+            const startIndex = (page - 1) * eventPhotosPerPage;
+            const endIndex = startIndex + eventPhotosPerPage;
+            const pagePhotos = currentEventPhotos.slice(startIndex, endIndex);
+            
+            eventPhotosGrid.innerHTML = pagePhotos.map(imageId => {
+                const imageUrl = driveAPI.getImageUrl(imageId, 'thumbnail');
+                const fullImageUrl = driveAPI.getImageUrl(imageId, 'view');
+                
+                return `
+                    <div class="photo-item aspect-square rounded overflow-hidden cursor-pointer hover:opacity-80" 
+                         onclick="viewPhoto('${fullImageUrl}')">
+                        <img src="${imageUrl}" alt="" class="w-full h-full object-cover"
+                             onerror="this.src=''; this.style.display='none';">
+                    </div>
+                `;
+            }).join('');
+            
+            updateEventPhotosPagination(totalPages);
+        }
+
+        function updateEventPhotosPagination(totalPages) {
+            const modalContent = document.querySelector('#eventPhotosModal .modal-content');
+            let paginationContainer = modalContent.querySelector('.event-photos-pagination');
+            
+            // Remove existing pagination if any
+            if (paginationContainer) {
+                paginationContainer.remove();
+            }
+            
+            // Don't show pagination if only 1 page or no photos
+            if (totalPages <= 1) return;
+            
+            // Create new pagination
+            paginationContainer = document.createElement('div');
+            paginationContainer.className = 'event-photos-pagination mt-4 flex justify-center items-center space-x-2';
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            if (currentEventPhotosPage > 1) {
+                paginationHTML += `<button onclick="loadEventPhotosPage(${currentEventPhotosPage - 1})" class="love-button text-sm px-3 py-1">← Trước</button>`;
+            }
+            
+            // Page info
+            paginationHTML += `<span class="text-sm text-gray-600 mx-3">Trang ${currentEventPhotosPage} / ${totalPages}</span>`;
+            
+            // Next button
+            if (currentEventPhotosPage < totalPages) {
+                paginationHTML += `<button onclick="loadEventPhotosPage(${currentEventPhotosPage + 1})" class="love-button text-sm px-3 py-1">Sau →</button>`;
+            }
+            
+            paginationContainer.innerHTML = paginationHTML;
+            modalContent.appendChild(paginationContainer);
         }
 
         // Image selector functions
@@ -2441,5 +2513,5 @@
 
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f4bdfa4368f995',t:'MTc2MDU4ODIwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f4e3c8e4a620de',t:'MTc2MDU4OTc0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
