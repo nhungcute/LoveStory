@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-17T14:45:47.795Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1kA33JLcaxrekg6vALD85ZQXhajj9jbd3)",
+    "username": "1760712178884",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-17T14:45:44.622Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1760712178884",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-17T14:45:42.792Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Xuất ngoại Hàn Quốc\"",
+    "username": "1760712178884",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-17T14:45:42.792Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1760712178884",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-17T14:45:39.706Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Xuất ngoại Hàn Quốc\"",
+    "username": "1760712178884",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-17T14:45:39.706Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1760712178884",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-17T14:45:17.550Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện \"Hàn Quốc - Day 1\" với 1 ảnh",
