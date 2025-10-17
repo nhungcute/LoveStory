@@ -1,58 +1,16 @@
 [
   {
-    "timestamp": "2025-10-17T02:30:54.490Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"Xuất ngoại Hàn Quốc\"",
-    "username": "1760668187270",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-17T02:30:54.490Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh sự kiện\"",
-    "username": "1760668187270",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-17T02:30:47.842Z",
-    "action": "Thêm sự kiện mới",
-    "details": "Đã thêm sự kiện \"I'm here\" với 0 ảnh",
-    "username": "1760668187270",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-17T02:29:48.473Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Thêm sự kiện mới\"",
-    "username": "1760668187270",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-17T02:29:47.270Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1760668187270",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T13:22:47.311Z",
+    "timestamp": "2025-10-17T07:39:37.081Z",
     "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 890",
-    "username": "1760620432255",
+    "details": "Đã đồng bộ 851 files (848 ảnh, 3 video) - Cũ: 96",
+    "username": "1760584100608",
     "saved": true
   },
   {
-    "timestamp": "2025-10-16T13:13:52.255Z",
+    "timestamp": "2025-10-17T07:39:29.347Z",
     "action": "Tự động đồng bộ",
     "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1760620432255",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T12:18:07.258Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1760617087258",
+    "username": "1760584100608",
     "saved": true
   },
   {
