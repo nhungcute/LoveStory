@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-17T02:29:48.473Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1760668187270",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-17T02:29:47.270Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1760668187270",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-16T13:22:47.311Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 890",
