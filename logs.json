@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-17T02:30:54.490Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Xuất ngoại Hàn Quốc\"",
+    "username": "1760668187270",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-17T02:30:54.490Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1760668187270",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-17T02:30:47.842Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện \"I'm here\" với 0 ảnh",
+    "username": "1760668187270",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-17T02:29:48.473Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
