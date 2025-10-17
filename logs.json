@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-17T14:49:29.596Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1760712178884",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-17T14:49:23.132Z",
+    "action": "Bình luận ảnh",
+    "details": "Đã bình luận vào ảnh \"IMG_6207.HEIC\"",
+    "username": "1760712178884",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-17T14:49:02.398Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
