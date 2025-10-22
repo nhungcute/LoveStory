@@ -1,23 +1,16 @@
 [
   {
-    "timestamp": "2025-10-21T11:05:00.596Z",
+    "timestamp": "2025-10-22T07:39:36.118Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 419 files (416 ảnh, 3 video) - Cũ: 419",
-    "username": "1761044553241",
+    "username": "1760584100608",
     "saved": true
   },
   {
-    "timestamp": "2025-10-21T11:02:33.238Z",
+    "timestamp": "2025-10-22T07:39:30.079Z",
     "action": "Tự động đồng bộ",
     "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761044553241",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-21T07:55:41.856Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761033341856",
+    "username": "1760584100608",
     "saved": true
   },
   {
