@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-22T09:11:17.432Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1761124197238",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-22T09:11:16.840Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1761124197238",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-22T09:11:15.896Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
+    "username": "1761124197238",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-22T09:11:15.340Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
+    "username": "1761124197238",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-22T09:11:14.376Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"4x4\" sang \"1x1\"",
+    "username": "1761124197238",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-22T09:11:13.688Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1761124197238",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-22T09:11:08.342Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
