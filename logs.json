@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-22T09:10:54.741Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Khoảnh khắc\"",
+    "username": "1761124197238",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-22T09:10:31.102Z",
     "action": "Mở modal",
     "details": "Đã mở \"Nhật ký hoạt động\"",
