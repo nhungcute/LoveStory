@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-23T08:23:41.681Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"ảnh số 1\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T08:23:36.373Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T08:23:32.932Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T08:13:31.317Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"bình luận mới nhất\"",
