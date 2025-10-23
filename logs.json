@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-23T08:12:31.922Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"tìm sự kiện mới nhất\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T08:12:23.990Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"tìm sự kiện\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T08:10:37.293Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"có bao nhiêu bình luận\"",
