@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-23T03:25:34.982Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:25:33.620Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Xuất ngoại Hàn Quốc\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:25:33.620Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:25:23.596Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T03:25:16.813Z",
     "action": "Phân trang ảnh",
     "details": "Chuyển từ trang 1 sang trang 2",
