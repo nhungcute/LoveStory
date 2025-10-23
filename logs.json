@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T05:18:24.514Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T05:18:20.339Z",
     "action": "Hồ sơ",
     "details": "Đã cập nhật hồ sơ: hamanhtinlovely",
