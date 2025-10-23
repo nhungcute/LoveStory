@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-23T02:36:26.207Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:36:24.855Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:36:24.855Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:36:23.676Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T02:36:18.725Z",
     "action": "Phân trang ảnh",
     "details": "Chuyển từ trang 1 sang trang 2",
