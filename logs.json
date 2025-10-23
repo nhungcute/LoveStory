@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-23T08:41:41.821Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"1+1 bằng mấy\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T08:41:35.970Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T08:41:34.394Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T08:41:29.315Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: LOCAL",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T08:40:20.249Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: LOCAL",
