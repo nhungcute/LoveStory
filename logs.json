@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T01:55:27.796Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-22T14:50:40.029Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
