@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-23T08:38:50.572Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GPT",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T08:38:48.564Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T08:38:42.002Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: LOCAL",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T08:24:50.922Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"có bao nhiêu sự kiện\"",
