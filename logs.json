@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T03:01:38.044Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T03:01:22.510Z",
     "action": "Chọn ảnh",
     "details": "Đã bỏ chọn tất cả 50 ảnh",
