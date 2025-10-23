@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T08:23:54.856Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"1+1 bằng mấy\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T08:23:41.681Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"ảnh số 1\"",
