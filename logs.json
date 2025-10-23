@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T09:42:11.867Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã tắt thông báo hệ thống",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T09:41:20.174Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
