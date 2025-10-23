@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T03:25:48.308Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T03:25:34.982Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
