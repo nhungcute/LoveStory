@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-23T06:41:13.282Z",
+    "action": "Xóa sự kiện",
+    "details": "Đã xóa sự kiện \"ahihi\"",
+    "username": "1761201633823",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T06:41:00.206Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761201633823",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T06:40:50.775Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
