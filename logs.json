@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-23T09:57:11.524Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã bật thông báo hệ thống",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T09:57:08.241Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T09:57:04.814Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: LOCAL",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T09:42:11.867Z",
     "action": "Cài đặt giao diện",
     "details": "Đã tắt thông báo hệ thống",
