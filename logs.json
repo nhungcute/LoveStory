@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-23T03:24:11.741Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"4x4\" sang \"5x5\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:24:07.237Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:24:05.949Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:24:04.586Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T03:16:24.365Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"3x3\" sang \"4x4\"",
