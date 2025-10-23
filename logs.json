@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-23T05:31:35.608Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện \"ahihi\" với 2 ảnh",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:31:31.193Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1xKPequseVEqzaYXt4lLVgPydCOD12B91)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:31:30.794Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1KqkhOWDcXaapfqtiWLHtHm-D4_sqYVFi)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:31:29.518Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T05:31:12.793Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
