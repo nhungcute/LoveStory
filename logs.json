@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-23T03:01:22.510Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn tất cả 50 ảnh",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:01:20.517Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn tất cả 50 ảnh trên trang hiện tại",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:01:18.717Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn tất cả 50 ảnh",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T03:01:14.701Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn tất cả 48 ảnh trên trang hiện tại",
