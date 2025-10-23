@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-23T03:46:32.388Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Xuân\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:46:31.702Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Ban Đêm\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:46:31.140Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Đại Dương\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:46:30.509Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Lãng Mạn\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:46:29.364Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Hè\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:46:27.727Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T03:46:26.363Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
