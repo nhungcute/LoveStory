@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T10:23:43.810Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: LOCAL",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T09:57:11.524Z",
     "action": "Cài đặt giao diện",
     "details": "Đã bật thông báo hệ thống",
