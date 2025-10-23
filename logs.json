@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-23T02:18:44.348Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:18:42.772Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"First day of love\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:18:42.772Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T02:18:30.411Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
