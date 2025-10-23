@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T10:27:35.813Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: LOCAL",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T10:26:57.896Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: LOCAL",
