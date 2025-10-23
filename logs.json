@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T09:40:57.423Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã bật thông báo hệ thống",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T09:40:48.442Z",
     "action": "Mở modal",
     "details": "Đã mở \"Nhật ký hoạt động\"",
