@@ -1,58 +1,282 @@
 [
   {
-    "timestamp": "2025-10-23T09:25:48.897Z",
+    "timestamp": "2025-10-23T09:32:26.871Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
+    "username": "1761211943182",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T09:32:23.181Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily",
+    "username": "1761211943182",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T06:41:13.282Z",
+    "action": "Xóa sự kiện",
+    "details": "Đã xóa sự kiện \"ahihi\"",
+    "username": "1761201633823",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T06:41:00.206Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761201633823",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T06:40:50.775Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1761201633823",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T06:40:39.524Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1761201633823",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T06:40:38.001Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1761197122816",
+    "username": "1761201633823",
     "saved": true
   },
   {
-    "timestamp": "2025-10-23T09:25:43.544Z",
+    "timestamp": "2025-10-23T06:40:33.822Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761197122816",
+    "username": "1761201633823",
     "saved": true
   },
   {
-    "timestamp": "2025-10-23T07:39:33.599Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
-    "username": "1761197122816",
+    "timestamp": "2025-10-23T06:17:09.062Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"có bao nhiêu sự kiện\"",
+    "username": "1761184802900",
     "saved": true
   },
   {
-    "timestamp": "2025-10-23T07:39:30.072Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761197122816",
+    "timestamp": "2025-10-23T06:16:59.711Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
+    "username": "1761184802900",
     "saved": true
   },
   {
-    "timestamp": "2025-10-23T07:39:33.599Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
-    "username": "1761197122816",
+    "timestamp": "2025-10-23T06:16:51.896Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
+    "username": "1761184802900",
     "saved": true
   },
   {
-    "timestamp": "2025-10-23T07:39:30.072Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761197122816",
+    "timestamp": "2025-10-23T05:55:27.705Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
+    "username": "1761184802900",
     "saved": true
   },
   {
-    "timestamp": "2025-10-23T07:39:33.599Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
-    "username": "1761197122816",
+    "timestamp": "2025-10-23T05:55:23.552Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
+    "username": "1761184802900",
     "saved": true
   },
   {
-    "timestamp": "2025-10-23T07:39:30.072Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761197122816",
+    "timestamp": "2025-10-23T05:38:02.425Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:38:00.415Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện \"htht\" với 2 ảnh",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:55.569Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 17tEg9yIU20kQYC9kOg6jKrQ17yPUuApy)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:55.024Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn ảnh (ID: 1OHGga-ElY-NI3Bx3g0ystSpAo-ThvsnA)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:54.241Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1OHGga-ElY-NI3Bx3g0ystSpAo-ThvsnA)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:52.912Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1iS24mP5ySFAnG59j211LqTMGXdCbWPSF)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:51.629Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:55.569Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 17tEg9yIU20kQYC9kOg6jKrQ17yPUuApy)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:55.024Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn ảnh (ID: 1OHGga-ElY-NI3Bx3g0ystSpAo-ThvsnA)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:54.241Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1OHGga-ElY-NI3Bx3g0ystSpAo-ThvsnA)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:52.912Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1iS24mP5ySFAnG59j211LqTMGXdCbWPSF)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:51.629Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:40.330Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:38.872Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:24.530Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:31:35.608Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện \"ahihi\" với 2 ảnh",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:31:31.193Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1xKPequseVEqzaYXt4lLVgPydCOD12B91)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:31:30.794Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1KqkhOWDcXaapfqtiWLHtHm-D4_sqYVFi)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:31:29.518Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:31:12.793Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:31:11.096Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:31:01.305Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:30:56.722Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Lãng Mạn\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:30:54.605Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Hè\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:30:37.064Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:30:34.153Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:29:58.811Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761184802900",
     "saved": true
   },
   {
