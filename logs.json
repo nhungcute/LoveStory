@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-23T04:34:59.562Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T04:34:50.916Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T04:17:29.834Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
