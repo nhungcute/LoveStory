@@ -17,5 +17,5 @@
   "API_KEY": "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
   "PROFILES_FILE_PATH": "profiles.json",
   "PHOTOS_PER_PAGE": "50",
-  "ENABLE_NOTI": false
+  "ENABLE_NOTI": true
 }
