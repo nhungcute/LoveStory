@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-23T02:53:28.394Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1c_Ln9OGl-viVgO1u_ngxytVbI4nceuRg)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:53:25.930Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1KqkhOWDcXaapfqtiWLHtHm-D4_sqYVFi)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:53:24.530Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1Lpmmy80OM12M5f3oq1E5vlvmR6AsJ8hO)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:53:22.283Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1b_PLjaXtok-A74de1wkp7aLaQFULTCqF)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T02:50:42.957Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
