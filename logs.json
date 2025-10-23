@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T03:47:10.804Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T03:46:32.388Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Mùa Xuân\"",
