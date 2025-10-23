@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-23T03:46:26.363Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T03:46:19.962Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T03:31:39.900Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Mặc định\"",
