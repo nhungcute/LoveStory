@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-23T02:36:18.725Z",
+    "action": "Phân trang ảnh",
+    "details": "Chuyển từ trang 1 sang trang 2",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:36:08.097Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T02:36:03.652Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
