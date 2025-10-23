@@ -188,10 +188,6 @@
 
         @media (max-width: 768px) {
             .mobile-hide-title { display: none; }
-            .grid-view-3 { grid-template-columns: repeat(2, 1fr); }
-            .grid-view-4 { grid-template-columns: repeat(2, 1fr); }
-            .grid-view-5 { grid-template-columns: repeat(2, 1fr); }
-            .grid-view-6 { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (min-width: 769px) {
@@ -294,6 +290,7 @@
         .theme-radio-romantic,
         .theme-radio-ocean {
             position: relative;
+			display: none;
         }
 
         .theme-radio-default.selected,
@@ -412,8 +409,8 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
      </div>
      <div class="flex items-center justify-end 
 space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w-10 h-10 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center" id="rightMenuBtn"> <i class="fas fa-bars text-lg"></i> </button> <button onclick="openModal('profileModal')" class="flex items-center space-x-2 love-card rounded-full p-1"> 
-    <img src="https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&background=006B68&color=fff" alt="Avatar" class="w-8 h-8 rounded-full"> 
-    <span id="userNameDisplay" class="hidden md:block font-medium pr-3">Hà Mạnh Tín</span> 
+    <img src="https://ui-avatars.com/api/?name=LS&background=006B68&color=fff" alt="Avatar" class="w-8 h-8 rounded-full"> 
+    <span id="userNameDisplay" class="hidden md:block font-medium pr-3"> </span> 
     </button>
      </div>
     </div>
@@ -506,7 +503,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
     </div>
     <div id="photosContainer" class="photo-grid grid-view-2"><!-- Photos will be loaded here -->
     </div>
-    <div id="photosPagination" class="mt-6 flex justify-center"><!-- Pagination will be loaded here -->
+    <div id="photosPagination" class="mt-6 flex justify-center items-center"></div><!-- Pagination will be loaded here -->
     </div>
    </div><!-- Settings Section -->
    <div id="settingsSection" class="section hidden">
@@ -516,52 +513,69 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
       <h3 class="text-lg font-bold text-primary mb-4"><i class="fas fa-palette mr-2"></i>Giao Diện</h3>
       <div class="space-y-4">
        <div class="block"><span class="text-sm font-medium mb-3 block">Chọn Theme:</span>
-        <div class="grid grid-cols-2 gap-3"><label class="flex items-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="default" class="sr-only" onchange="changeThemeRadio('default')">
-          <div class="flex items-center space-x-2">
-           <div class="w-5 h-5 rounded-full bg-gradient-to-r from-teal-600 to-yellow-400 border-2 border-white shadow-sm"></div>
-           <div class="w-3 h-3 rounded-full bg-teal-600"></div>
-          </div><span class="flex-1 font-medium text-sm">Mặc định</span>
-          <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-default"></div></label> <label class="flex items-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="spring" class="sr-only" onchange="changeThemeRadio('spring')">
-          <div class="flex items-center space-x-2">
-           <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-500 to-amber-500 border-2 border-white shadow-sm"></div>
-           <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-          </div><span class="flex-1 font-medium text-sm">Mùa Xuân</span>
-          <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-spring"></div></label> <label class="flex items-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="summer" class="sr-only" onchange="changeThemeRadio('summer')">
-          <div class="flex items-center space-x-2">
-           <div class="w-5 h-5 rounded-full bg-gradient-to-r from-amber-500 to-red-500 border-2 border-white shadow-sm"></div>
-           <div class="w-3 h-3 rounded-full bg-amber-500"></div>
-          </div><span class="flex-1 font-medium text-sm">Mùa Hè</span>
-          <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-summer"></div></label> <label class="flex items-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="night" class="sr-only" onchange="changeThemeRadio('night')">
-          <div class="flex items-center space-x-2">
-           <div class="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 border-2 border-white shadow-sm"></div>
-           <div class="w-3 h-3 rounded-full bg-indigo-500"></div>
-          </div><span class="flex-1 font-medium text-sm">Ban Đêm</span>
-          <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-night"></div></label> <label class="flex items-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="romantic" class="sr-only" onchange="changeThemeRadio('romantic')">
-          <div class="flex items-center space-x-2">
-           <div class="w-5 h-5 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 border-2 border-white shadow-sm"></div>
-           <div class="w-3 h-3 rounded-full bg-pink-500"></div>
-          </div><span class="flex-1 font-medium text-sm">Lãng Mạn</span>
-          <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-romantic"></div></label> <label class="flex items-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="ocean" class="sr-only" onchange="changeThemeRadio('ocean')">
-          <div class="flex items-center space-x-2">
-           <div class="w-5 h-5 rounded-full bg-gradient-to-r from-sky-500 to-cyan-500 border-2 border-white shadow-sm"></div>
-           <div class="w-3 h-3 rounded-full bg-sky-500"></div>
-          </div><span class="flex-1 font-medium text-sm">Đại Dương</span>
-          <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-ocean"></div></label>
-        </div>
+        <div class="grid grid-cols-2 gap-3">
+			<label class="flex items-center justify-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="default" class="sr-only" onchange="changeThemeRadio('default')">
+				<div class="flex items-center space-x-2">
+				   <div class="w-5 h-5 rounded-full bg-gradient-to-r from-teal-600 to-yellow-400 border-2 border-white shadow-sm"></div>
+				   <div class="w-3 h-3 rounded-full bg-teal-600"></div>
+				  </div>
+				  <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-default"></div>
+			</label> 
+			<label class="flex items-center justify-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="spring" class="sr-only" onchange="changeThemeRadio('spring')">
+				  <div 
+			class="flex items-center space-x-2">
+				   <div class="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-500 to-amber-500 border-2 border-white shadow-sm"></div>
+				   <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+				  </div>
+				  <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-spring"></div>
+			</label> 
+			<label class="flex items-center justify-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="summer" class="sr-only" onchange="changeThemeRadio('summer')">
+				  <div class="flex items-center space-x-2">
+		   
+					<div class="w-5 h-5 rounded-full bg-gradient-to-r from-amber-500 to-red-500 border-2 border-white shadow-sm"></div>
+				   <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+				  </div>
+				  <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-summer"></div>
+			</label> 
+			<label class="flex items-center justify-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="night" class="sr-only" onchange="changeThemeRadio('night')">
+				  <div class="flex items-center space-x-2">
+				
+			   <div class="w-5 h-5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 border-2 border-white shadow-sm"></div>
+				   <div class="w-3 h-3 rounded-full bg-indigo-500"></div>
+				  </div>
+				  <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-night"></div>
+			</label> 
+			<label class="flex items-center justify-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="romantic" class="sr-only" onchange="changeThemeRadio('romantic')">
+				  <div class="flex items-center space-x-2">
+				   <div class="w-5 
+			h-5 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 border-2 border-white shadow-sm"></div>
+				   <div class="w-3 h-3 rounded-full bg-pink-500"></div>
+				  </div>
+				  <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-romantic"></div>
+			</label> 
+			<label class="flex items-center justify-center space-x-3 cursor-pointer p-3 rounded-lg border border-custom hover:bg-gray-50 transition-colors"> <input type="radio" name="theme" value="ocean" class="sr-only" onchange="changeThemeRadio('ocean')">
+				  <div class="flex items-center space-x-2">
+				   <div class="w-5 h-5 rounded-full bg-gradient-to-r from-sky-500 to-cyan-500 
+			border-2 border-white shadow-sm"></div>
+				   <div class="w-3 h-3 rounded-full bg-sky-500"></div>
+				  </div>
+				  <div class="w-4 h-4 rounded-full border-2 border-gray-300 theme-radio-ocean"></div>
+			</label>
+		</div>
        </div>
        <div class="flex items-center justify-between">
-        <div><span class="font-medium">Hiển thị nút menu hamburger (di động)</span>
-         <p class="text-xs text-gray-500 mt-1">Ẩn nút hamburger để có giao diện gọn gàng hơn trên điện thoại</p>
+        <div><span class="font-medium">Hiển thị nút menu</span>
+         <p class="text-xs text-gray-500 mt-1">Ẩn nút menu để giao diện gọn gàng</p>
         </div><label class="toggle-switch"> <input type="checkbox" id="showHamburgerMenu" checked onchange="toggleHamburgerMenu()"> <span class="toggle-slider"></span> </label>
        </div>
       </div>
      </div><!-- Tự Động Cập Nhật -->
      <div class="love-card rounded-lg p-6">
-      <h3 class="text-lg font-bold text-primary mb-4"><i class="fas fa-sync mr-2"></i>Tự Động Cập Nhật</h3>
+      <h3 class="text-lg font-bold text-primary mb-4"><i class="fas fa-sync mr-2"></i>Data Google Drive</h3>
       <div class="space-y-4">
        <div class="flex items-center justify-between">
         <div><span class="font-medium">Đồng bộ metadata ảnh từ Google Drive</span>
-         <p class="text-xs text-gray-500 mt-1">Tự động lấy danh sách ảnh từ Google Drive theo lịch</p>
+         <p class="text-xs text-gray-500 mt-1">Tự động tải ảnh từ Google Drive theo lịch</p>
         </div><label class="toggle-switch"> <input type="checkbox" id="autoSync" checked onchange="updateAutoSyncConfig()"> <span class="toggle-slider"></span> </label>
        </div>
        <div class="grid grid-cols-2 gap-4"><label class="block"> <span class="text-sm font-medium mb-2 block">Tần suất:</span> <select id="syncFrequency" class="love-input w-full" onchange="updateAutoSyncConfig()"> <option value="daily">Hàng ngày</option> <option value="weekly">Hàng tuần</option> <option value="monthly">Hàng tháng</option> <option value="once">1 lần</option> </select> </label> <label class="block"> <span class="text-sm font-medium mb-2 block">Thời gian:</span> <input type="text" id="syncTime" class="love-input w-full" value="09:04" placeholder="HH:MM" maxlength="5" oninput="formatTimeInput(this)" onchange="updateAutoSyncConfig()"> </label>
@@ -632,10 +646,19 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
     <div class="flex justify-between items-center mb-4">
      <h3 class="text-xl font-bold text-primary"><i class="fas fa-user mr-2"></i>Hồ Sơ Cá Nhân</h3><button onclick="closeModal('profileModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
     </div>
-    <div class="text-center mb-6"><img src="https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&amp;background=006B68&amp;color=fff&amp;size=100" alt="Avatar" class="w-20 h-20 rounded-full mx-auto mb-3"> <button class="love-button text-sm">Đổi Avatar</button>
+    <div class="text-center mb-6">
+        <div class="relative w-20 h-20 mx-auto mb-3">
+            <img id="profileAvatarImg" src="https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&background=006B68&color=fff&size=100" alt="Avatar" class="w-20 h-20 rounded-full">
+            <button onclick="triggerAvatarUpload()" class="absolute -bottom-1 -right-1 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white hover:opacity-90 border-2 border-white">
+                <i class="fas fa-camera text-sm"></i>
+            </button>
+        </div>
+        <input type="file" id="avatarUpload" class="hidden" accept="image/*" onchange="handleAvatarUpload(event)">
     </div>
-    <div class="space-y-4"><label class="block"> <span class="text-sm font-medium mb-2 block">Họ tên:</span> <input type="text" value="Hà Mạnh Tín" class="love-input w-full"> </label> <label class="block"> <span class="text-sm font-medium mb-2 block">Tên đăng nhập:</span> <input type="text" value="hamanhtinlovely" class="love-input w-full"> </label>
-     <div class="love-card rounded p-3">
+    <div class="space-y-4">
+        <label class="block"> <span class="text-sm font-medium mb-2 block">Họ tên:</span> <input type="text" id="profileNameInput" value="" class="love-input w-full"> </label> 
+        <label class="block"> <span class="text-sm font-medium mb-2 block">Tên đăng nhập:</span> <input type="text" id="profileUsernameInput" value="" class="love-input w-full" onchange="checkExistingUsername()"> </label>
+	 <div class="love-card rounded p-3">
       <h4 class="font-medium mb-2">Thông tin thiết bị:</h4>
       <div class="text-sm space-y-1">
        <p>IP: 192.168.1.100</p>
@@ -643,7 +666,9 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
        <p>Hệ điều hành: Windows 11</p>
       </div>
      </div>
-     <div class="flex space-x-3"><button class="love-button flex-1">Lưu Thay Đổi</button> <button class="love-button secondary">Đăng Xuất</button>
+     <div class="flex space-x-3">
+        <button class="love-button flex-1" onclick="saveProfile()">Lưu Thay Đổi</button> 
+        <button class="love-button secondary" onclick="logoutProfile()">Đăng Xuất</button>
      </div>
     </div>
    </div>
@@ -651,7 +676,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
   <div id="eventModal" class="modal">
    <div class="modal-content w-full max-w-lg">
     <div class="flex justify-between items-center mb-4">
-     <h3 class="text-xl font-bold text-primary"><i class="fas fa-plus mr-2"></i>Thêm Sự Kiện Mới</h3><button onclick="closeModal('eventModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
+     <h3 class="text-xl font-bold text-primary"><i class="fas fa-plus mr-2"></i>Thêm Sự Kiện</h3><button onclick="closeModal('eventModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
     </div>
     <form id="eventForm" onsubmit="saveEvent(event)">
      <div class="space-y-4"><label class="block"> <span class="text-sm font-medium mb-2 block">Tên sự kiện:</span> <input type="text" id="eventName" required class="love-input w-full" placeholder="Ví dụ: Sinh nhật lần thứ 25"> </label> <label class="block"> <span class="text-sm font-medium mb-2 block">Ngày:</span> <input type="text" id="eventDate" required class="love-input w-full" placeholder="dd-mm-yyyy" pattern="\d{2}-\d{2}-\d{4}" maxlength="10" oninput="formatDateInput(this)"> </label> <label class="block"> <span class="text-sm font-medium mb-2 block">Mô tả:</span> <textarea id="eventDescription" rows="3" class="love-input w-full" placeholder="Mô tả chi tiết về sự kiện..."></textarea> </label>
@@ -709,13 +734,13 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
      <h3 class="text-xl font-bold text-primary"><i class="fas fa-images mr-2"></i>Chọn Ảnh</h3><button onclick="closeModal('imageSelectorModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
     </div>
     <div class="flex justify-between items-center mb-4">
-     <div class="flex space-x-2"><button onclick="selectAllImages()" class="love-button text-xs px-2 py-1" style="transform: scale(0.85);">Chọn Tất Cả</button> <button onclick="deselectAllImages()" class="love-button secondary text-xs px-2 py-1" style="transform: scale(0.85);">Bỏ Chọn</button>
+     <div class="flex space-x-2"><button onclick="selectAllImages()" class="love-button">Chọn Tất Cả</button> <button onclick="deselectAllImages()" class="love-button secondary">Bỏ Chọn</button>
      </div><span class="text-sm text-gray-600">Đã chọn: <span id="selectedCount">0</span></span>
     </div>
     <div class="grid grid-cols-4 md:grid-cols-6 gap-3 max-h-96 overflow-y-auto mb-4" id="imageSelector"><!-- Images will be loaded here -->
     </div>
     <div class="flex justify-between items-center">
-     <div class="flex space-x-2"><button class="love-button text-sm">← Trước</button> <span class="text-sm text-gray-600">Trang 1 / 10</span> <button class="love-button text-sm">Sau →</button>
+     <div class="flex space-x-2"><button class="love-button text-sm">←</button> <span class="text-sm text-gray-600">Trang 1 / 10</span> <button class="love-button text-sm">→</button>
      </div><button onclick="confirmImageSelection()" class="love-button">Xác Nhận</button>
     </div>
    </div>
@@ -747,9 +772,12 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
   <script>
         // Global variables
         let currentSection = 'home';
-        // ▼▼▼ Đã sửa lại chu kỳ xem và chỉ số mặc định ▼▼▼
-        let photoViewCycle = ['grid-2', 'grid-3', 'grid-4', 'grid-1', 'list'];
-        let currentViewIndex = 0; // Bắt đầu với grid-2 (chế độ mặc định)
+        
+		// 1. Kiểm tra xem có phải thiết bị di động không (dựa theo CSS media query)
+        const isMobile = window.innerWidth <= 768;
+		
+        let photoViewCycle = ['grid-2', 'grid-3', 'grid-4', 'grid-5', 'grid-6', 'grid-1', 'list'];
+        let currentViewIndex = isMobile ? 0 : 4; // Bắt đầu với grid-2 (chế độ mặc định)
         let currentPhotoView = photoViewCycle[currentViewIndex];
         let selectedImages = [];
         // ▼▼▼ THÊM BIẾN MỚI VÀO KHU VỰC BIẾN GLOBAL ▼▼▼
@@ -761,6 +789,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         let editingEventId = null;
         let currentPhotoId = null;
         let currentPhotoName = null;
+		let todayValidMemories = []; // Lưu danh sách kỷ niệm cho hôm nay
+        let currentMemoryIndex = 0; // Vị trí kỷ niệm đang xem
 
         // Configuration
         const config = {
@@ -1117,22 +1147,66 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 showNotification('Lỗi khi đồng bộ media!', 'error');
             }
         }
+ 
+        // Danh sách tên (bạn có thể thêm/bớt tùy ý)
+        const randomAnimals = ['Gấu', 'Hổ', 'Sư Tử', 'Voi', 'Hươu', 'Cá', 'Vẹt', 'Mèo', 'Chó', 'Rùa', 'Khỉ', 'Thỏ', 'Sói', 'Cáo', 'Heo', 'Bò', 'Gà', 'Vịt', 'Cú', 'Dê', 'Cừu', 'Kiến', 'Tép', 'Tôm'];
+        const randomColors = ['Xanh', 'Đỏ', 'Tím', 'Vàng', 'Cam', 'Hồng', 'Đen', 'Trắng', 'Nâu', 'Xám', 'Lục', 'Lam', 'Bạc', 'Đồng', 'Bích', 'Mơ'];
 
+        /**
+         * Lấy một phần tử ngẫu nhiên từ mảng
+         * @param {Array<string>} arr Mảng đầu vào
+         * @returns {string} Một phần tử ngẫu nhiên
+         */
+        function getRandomItem(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        /**
+         * Chuẩn hóa chuỗi: xóa dấu, xóa khoảng trắng, chuyển chữ thường
+         * @param {string} str Chuỗi đầu vào (Họ tên)
+         * @returns {string} Chuỗi đã chuẩn hóa (username)
+         */
+        function normalizeString(str) {
+            if (!str) return '';
+            return str
+                .normalize("NFD") // 1. Tách dấu (e.g., "è" -> "e" + "`")
+                .replace(/[\u0300-\u036f]/g, "") // 2. Xóa các ký tự dấu
+                .replace(/[đĐ]/g, "d") // 3. Thay thế 'đ' và 'Đ' thành 'd'
+                .replace(/\s+/g, '') // 4. Xóa tất cả khoảng trắng
+                .toLowerCase(); // 5. Chuyển thành chữ thường
+        }
+          
         function loadCurrentUser() {
             const savedUser = localStorage.getItem('currentUser');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
                 updateUserProfile();
             } else {
-                // Create default user if none exists
+                // 1. Tạo Họ tên ngẫu nhiên
+                const randomAnimal = getRandomItem(randomAnimals);
+                const randomColor = getRandomItem(randomColors);
+                const newName = `${randomAnimal} ${randomColor}`; // Ví dụ: "Gấu Nâu"
+                
+                // 2. Tạo Tên đăng nhập đã chuẩn hóa
+                const newUsername = normalizeString(newName); // Ví dụ: "gaunau"
+                
+                // 3. Tạo Avatar URL dựa trên tên mới
+				const newAvatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(newName)}&background=006B68&color=fff`;
+
+                // 4. Tạo đối tượng currentUser
                 currentUser = {
-                    username: 'hamanhtinlovely',
-                    name: 'Hà Mạnh Tín',
-                    avatarUrl: 'https://ui-avatars.com/api/?name=Hà+Mạnh+Tín&background=006B68&color=fff',
+                    username: newUsername,
+                    name: newName,
+                    avatarUrl: newAvatarUrl,
                     createdAt: new Date().toISOString(),
                     lastLoginAt: new Date().toISOString()
                 };
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // 5. Lưu user mới vào localStorage
+				localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // 6. Cập nhật giao diện (header/modal) với tên mới
+                updateUserProfile();
             }
         }
 
@@ -1254,6 +1328,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 updateOnlineStatus();
                 updateTotalLogs();
                 updateSyncStatus();
+				await updateStorageUsageDisplay(); // <-- DÒNG MỚI ĐƯỢC THÊM
             }
             
             // Set active navigation
@@ -1548,41 +1623,99 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 return yearsAgo >= 1;
             });
 
-            if (validMemories.length > 0) {
-                // Sắp xếp để lấy sự kiện cũ nhất (để hiển thị "năm xưa" nhất)
-                validMemories.sort((a, b) => new Date(convertDateFormat(a.day)) - new Date(convertDateFormat(b.day)));
-                const memory = validMemories[0]; // Lấy sự kiện đầu tiên sau khi đã lọc và sắp xếp
-                const eventDate = new Date(convertDateFormat(memory.day));
-                const yearsAgo = today.getFullYear() - eventDate.getFullYear();
-                
-                let imageHtml = '';
-                if (memory.image && memory.image.length > 0) {
-                    const imageId = memory.image[0];
-                    const imageUrl = driveAPI.getImageUrl(imageId, 'thumbnail');
-                    imageHtml = `<img src="${imageUrl}" alt="" class="w-20 h-20 rounded-lg object-cover" onerror="this.src=''; this.style.display='none';">`;
-                }
-                
-                const safeName = escapeHtml(memory.name || '');
-                const safeDescription = escapeHtml(memory.contdetl || 'Không có mô tả');
-                
-                container.innerHTML = `
-                    <div class="flex items-start space-x-4">
-                        ${imageHtml}
-                        <div class="flex-1">
-                             <h4 class="text-lg font-bold text-primary mb-1">${safeName}</h4>
-                            <p class="text-secondary font-medium mb-2">${yearsAgo} năm trước - ${formatDateFromDDMMYYYY(memory.day)}</p>
-                            <p class="text-gray-700 whitespace-pre-wrap">${safeDescription}</p>
-                         </div>
-                    </div>
-                `;
-            } else {
+            // YÊU CẦU 3: Sắp xếp theo năm giảm dần (mới nhất trước)
+            validMemories.sort((a, b) => new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day)));
+            
+            // Lưu vào biến toàn cục và reset vị trí
+            todayValidMemories = validMemories;
+            currentMemoryIndex = 0;
+            
+            // Gọi hàm hiển thị mới
+            displayCurrentMemory();
+        }
+		
+		/**
+         * Hiển thị kỷ niệm hiện tại (dựa trên currentMemoryIndex)
+         */
+        function displayCurrentMemory() {
+            const container = document.getElementById('todayMemories');
+            const today = new Date(); // Cần cho việc tính toán 'năm trước'
+
+            if (todayValidMemories.length === 0) {
+                // Giữ nguyên HTML khi không có kỷ niệm
                 container.innerHTML = `
                     <div class="text-center py-8 text-gray-500">
                         <i class="fas fa-calendar-day text-4xl mb-3"></i>
                         <p>Không có kỷ niệm nào vào ngày hôm nay</p>
                     </div>
                 `;
+                return;
             }
+
+            // Lấy kỷ niệm cụ thể
+            const memory = todayValidMemories[currentMemoryIndex];
+            
+            const eventDate = new Date(convertDateFormat(memory.day));
+            const yearsAgo = today.getFullYear() - eventDate.getFullYear();
+            
+            let imageHtml = '';
+            if (memory.image && memory.image.length > 0) {
+                const imageId = memory.image[0];
+                const imageUrl = driveAPI.getImageUrl(imageId, 'thumbnail');
+                imageHtml = `<img src="${imageUrl}" alt="" class="w-20 h-20 rounded-lg object-cover" onerror="this.src=''; this.style.display='none';">`;
+            }
+            
+            const safeName = escapeHtml(memory.name || '');
+            const safeDescription = escapeHtml(memory.contdetl || 'Không có mô tả');
+
+            // ▼▼▼ KHỐI MÃ ĐÃ SỬA ▼▼▼
+            let navHtml = '';
+            if (todayValidMemories.length > 1) {
+                // YÊU CẦU 2 (Size): Giảm size nút 1/4 (từ w-10/h-10 -> w-7/h-7)
+                // và giảm size icon (từ text-sm -> text-xs)
+                navHtml = `
+                    <button onclick="navigateMemory(1)" class="love-button w-7 h-7 rounded-full flex items-center justify-center p-0 opacity-60 hover:opacity-100 flex-shrink-0">
+                        <i class="fas fa-chevron-right text-xs"></i>
+                    </button>
+                `;
+            }
+
+            // YÊU CẦU 1 (Spacing): Giảm space-x-2 (0.5rem) thành space-x-1 (0.25rem)
+            container.innerHTML = `
+                <div>
+                    <div class="flex items-center space-x-1">
+                        ${imageHtml}
+                        <div class="flex-1">
+                            <h4 class="text-lg font-bold text-primary mb-1">${safeName}</h4>
+                            <p class="text-secondary font-medium mb-2">${yearsAgo} năm trước - ${formatDateToDDMMYYYY(memory.day)}</g>
+                        </div>
+                        ${navHtml}
+                    </div>
+                     <p class="text-gray-700 whitespace-pre-wrap mt-3">${safeDescription}</p>
+                </div>
+            `;
+            // ▲▲▲ KẾT THÚC KHỐI SỬA ▲▲V
+        }
+
+        /**
+         * Xử lý khi bấm nút next/prev của "Ngày Này Năm Xưa"
+         * @param {number} direction -1 (prev) hoặc 1 (next)
+         */
+        function navigateMemory(direction) {
+            if (todayValidMemories.length === 0) return;
+
+            // Cập nhật vị trí
+            currentMemoryIndex += direction;
+
+            // Xử lý xoay vòng (wrap-around)
+            if (currentMemoryIndex >= todayValidMemories.length) {
+                currentMemoryIndex = 0; // Quay về đầu
+            } else if (currentMemoryIndex < 0) {
+                currentMemoryIndex = todayValidMemories.length - 1; // Đi đến cuối
+            }
+
+            // Vẽ lại kỷ niệm
+            displayCurrentMemory();
         }
 
         function formatDateFromDDMMYYYY(dateStr) {
@@ -2005,10 +2138,10 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             const viewConfig = {
                 'grid-1': { icon: 'fas fa-square', text: '1x1' },
                 'grid-2': { icon: 'fas fa-th-large', text: '2x2' },
-                'grid-3': { icon: 'fas fa-th', text: window.innerWidth <= 768 ? '2x2' : '3x3' },
-                'grid-4': { icon: 'fas fa-grip-horizontal', text: window.innerWidth <= 768 ? '2x2' : '4x4' },
-                'grid-5': { icon: 'fas fa-grip-vertical', text: window.innerWidth <= 768 ? '2x2' : '5x5' },
-                'grid-6': { icon: 'fas fa-border-all', text: window.innerWidth <= 768 ? '2x2' : '6x6' },
+                'grid-3': { icon: 'fas fa-th', text: '3x3' },
+                'grid-4': { icon: 'fas fa-grip-horizontal', text: '4x4' },
+                'grid-5': { icon: 'fas fa-grip-vertical', text: '5x5' },
+                'grid-6': { icon: 'fas fa-border-all', text: '6x6' },
                 'list': { icon: 'fas fa-list', text: 'Danh sách' }
             };
             
@@ -2413,14 +2546,29 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             
             imageSelector.innerHTML = pagePhotos.map(photo => {
                 const isSelected = selectedImages.includes(photo.id);
-                const selectedClass = isSelected ? 'ring-4 ring-primary' : '';
                 
+                // ▼▼▼ LOGIC ICON MỚI (NỀN TRÒN) ▼▼▼
+                // Xác định class cho icon (solid hoặc regular)
+                const iconClass = isSelected 
+                    ? 'fas fa-check-circle text-green-500 text-xl' // Icon được chọn
+                    : 'far fa-check-circle text-gray-400 text-xl'; // Icon chưa chọn
+
+                // Tạo HTML: một <span> làm nền tròn và <i> là icon bên trong
+                const iconHtml = `
+                    <span class="absolute top-1.5 right-1.5 w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-md">
+                        <i class="${iconClass}"></i>
+                    </span>
+                `;
+                // ▲▲▲ KẾT THÚC LOGIC ICON MỚI ▲▲▲
+
                 return `
-                    <div class="photo-item aspect-square rounded overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary ${selectedClass}" 
+                    
+				<div class="photo-item relative aspect-square rounded overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary" 
                          onclick="toggleImageSelection('${photo.id}', this)" title="${photo.name}">
                         <img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-full h-full object-cover"
                              onerror="this.src=''; this.style.display='none';">
-                    </div>
+                        ${iconHtml} 
+                 </div>
                 `;
             }).join('');
             
@@ -2428,108 +2576,100 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         }
 
         function loadImageSelectorPagination(currentPage, totalPages) {
+            // Lấy đúng container của modal
             const paginationContainer = document.querySelector('#imageSelectorModal .flex.justify-between.items-center:last-child .flex.space-x-2');
             
-            if (totalPages <= 1) {
-                paginationContainer.innerHTML = `<span class="text-sm text-gray-600">Trang 1 / 1</span>`;
-                return;
+            // ▼▼▼ THÊM DÒNG NÀY ▼▼▼
+            // Thêm class 'items-center' để căn giữa text và button
+            paginationContainer.classList.add('items-center');
+            // ▲▲▲ KẾT THÚC THÊM DÒNG ▲▲▲
+            
+            // Xử lý trường hợp chỉ có 1 trang hoặc không có trang nào
+            if (totalPages <= 0) {
+                 paginationContainer.innerHTML = `<span class="text-sm text-gray-600">Trang 1 / 1</span>`;
+                 return;
             }
             
             let paginationHTML = '';
-            
-            // Previous button
+
+            // Nút "Trước" (Previous)
             if (currentPage > 1) {
-                paginationHTML += `<button onclick="loadImageSelector(${currentPage - 1})" class="love-button text-sm px-2 py-1">←</button>`;
+                // Sử dụng style 'text-sm' từ HTML gốc của modal và gọi hàm 'loadImageSelector'
+                paginationHTML += `<button onclick="loadImageSelector(${currentPage - 1})" class="love-button text-sm">←</button>`;
             } else {
-                paginationHTML += `<button class="love-button text-sm px-2 py-1 opacity-50 cursor-not-allowed" disabled>←</button>`;
+                // Thêm trạng thái 'disabled'
+                paginationHTML += `<button class="love-button text-sm opacity-50 cursor-not-allowed" disabled>←</button>`;
             }
-            
-            // Simplified pagination - show only 2 pages before and after current
-            const showPages = [];
-            
-            // Always show first page
-            if (totalPages > 1) showPages.push(1);
-            
-            // Show 2 pages before current (if different from first)
-            for (let i = Math.max(2, currentPage - 2); i < currentPage; i++) {
-                if (!showPages.includes(i)) showPages.push(i);
-            }
-            
-            // Show current page (if not already included)
-            if (!showPages.includes(currentPage)) showPages.push(currentPage);
-            
-            // Show 2 pages after current
-            for (let i = currentPage + 1; i <= Math.min(totalPages, currentPage + 2); i++) {
-                if (!showPages.includes(i)) showPages.push(i);
-            }
-            
-            // Always show last page (if different from others)
-            if (totalPages > 1 && !showPages.includes(totalPages)) {
-                showPages.push(totalPages);
-            }
-            
-            // Sort pages
-            showPages.sort((a, b) => a - b);
-            
-            // Generate page buttons with ellipsis
-            for (let i = 0; i < showPages.length; i++) {
-                const page = showPages[i];
-                const prevPage = i > 0 ? showPages[i - 1] : 0;
-                
-                // Add ellipsis if there's a gap
-                if (page - prevPage > 1) {
-                    paginationHTML += `<span class="text-sm text-gray-500 px-1">...</span>`;
-                }
-                
-                // Add page button
-                if (page === currentPage) {
-                    paginationHTML += `<button class="love-button text-sm px-2 py-1 bg-secondary">${page}</button>`;
-                } else {
-                    paginationHTML += `<button onclick="loadImageSelector(${page})" class="love-button text-sm px-2 py-1">${page}</button>`;
-                }
-            }
-            
-            // Next button
+
+            // Văn bản "Trang X / Y" (Giống logic của màn hình Khoảnh khắc)
+            // Thêm class 'px-3' để tạo khoảng cách với 2 nút
+            paginationHTML += `<span class="text-sm text-gray-600 px-3">Trang ${currentPage} / ${totalPages}</span>`;
+
+            // Nút "Sau" (Next)
             if (currentPage < totalPages) {
-                paginationHTML += `<button onclick="loadImageSelector(${currentPage + 1})" class="love-button text-sm px-2 py-1">→</button>`;
+                // Sử dụng style 'text-sm' và gọi hàm 'loadImageSelector'
+                paginationHTML += `<button onclick="loadImageSelector(${currentPage + 1})" class="love-button text-sm">→</button>`;
             } else {
-                paginationHTML += `<button class="love-button text-sm px-2 py-1 opacity-50 cursor-not-allowed" disabled>→</button>`;
+                // Thêm trạng thái 'disabled'
+                paginationHTML += `<button class="love-button text-sm opacity-50 cursor-not-allowed" disabled>→</button>`;
             }
-            
+
+            // Cập nhật HTML cho container
             paginationContainer.innerHTML = paginationHTML;
         }
 
         function selectAllImages() {
             let newSelections = 0;
-            // Select all photos on current page
+            // Chọn tất cả các mục ảnh đang hiển thị
             document.querySelectorAll('#imageSelector .photo-item').forEach(item => {
                 const onclick = item.getAttribute('onclick');
                 const photoId = onclick.match(/'([^']+)'/)[1];
+                
+                // Thêm vào mảng selectedImages nếu chưa có
                 if (!selectedImages.includes(photoId)) {
                     selectedImages.push(photoId);
-                    item.classList.add('ring-4', 'ring-primary');
                     newSelections++;
                 }
+                
+                // Cập nhật icon sang trạng thái "đã chọn"
+                const iconEl = item.querySelector('i');
+                if (iconEl) {
+                    iconEl.className = 'fas fa-check-circle text-green-500 text-xl';
+                }
+                
+                // Xóa bất kỳ class ring nào còn sót lại (Yêu cầu số 3)
+                item.classList.remove('ring-4', 'ring-primary');
             });
+            
+            // Cập nhật số lượng
             document.getElementById('selectedCount').textContent = selectedImages.length;
             
             if (newSelections > 0) {
                 addLog('Chọn ảnh', `Đã chọn tất cả ${newSelections} ảnh trên trang hiện tại`);
             }
-        }
+		}
 
         function deselectAllImages() {
             const previousCount = selectedImages.length;
+            
+            // Cập nhật tất cả icon sang trạng thái "chưa chọn"
             document.querySelectorAll('#imageSelector .photo-item').forEach(item => {
+                const iconEl = item.querySelector('i');
+                if (iconEl) {
+                    iconEl.className = 'far fa-check-circle text-gray-400 text-xl';
+                }
+                // Xóa class ring (nếu có)
                 item.classList.remove('ring-4', 'ring-primary');
             });
+            
+            // Xóa mảng
             selectedImages = [];
             document.getElementById('selectedCount').textContent = '0';
             
             if (previousCount > 0) {
                 addLog('Chọn ảnh', `Đã bỏ chọn tất cả ${previousCount} ảnh`);
             }
-        }
+		}
 
         function confirmImageSelection() {
             document.getElementById('selectedImagesCount').textContent = selectedImages.length;
@@ -2544,14 +2684,13 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         }
 
         async function sendChatMessage() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            if (!message) return;
+            const input = document.getElementById('chatInput'); // [cite: 582]
+            const message = input.value.trim(); // [cite: 583]
+            if (!message) return; // [cite: 583]
             
             // Log chat message
-            addLog('Chat AI', `Đã gửi tin nhắn: "${message.length > 50 ? message.substring(0, 50) + '...' : message}"`);
-            
-            const container = document.getElementById('chatMessages');
+            addLog('Chat AI', `Đã gửi tin nhắn: "${message.length > 50 ? message.substring(0, 50) + '...' : message}"`); // [cite: 583]
+            const container = document.getElementById('chatMessages'); // [cite: 584]
             
             // Add user message
             container.innerHTML += `
@@ -2560,19 +2699,18 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                         ${message}
                     </div>
                 </div>
-            `;
-            
-            input.value = '';
-            container.scrollTop = container.scrollHeight;
+            `; // [cite: 584-585]
+            input.value = ''; // [cite: 586]
+            container.scrollTop = container.scrollHeight; // [cite: 586]
             
             // Show typing indicator
-            const typingId = 'typing-' + Date.now();
+            const typingId = 'typing-' + Date.now(); // [cite: 586]
             container.innerHTML += `
                 <div class="mb-4" id="${typingId}">
                     <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
                         <div class="flex items-center mb-1">
                             <i class="fas fa-robot text-primary mr-2"></i>
-                            <strong class="text-primary">AI Assistant</strong>
+                            <strong class="text-primary">AI Love</strong>
                         </div>
                         <div class="flex space-x-1">
                             <div class="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
@@ -2581,24 +2719,65 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                         </div>
                     </div>
                 </div>
-            `;
-            container.scrollTop = container.scrollHeight;
+            `; // [cite: 587-590]
+            container.scrollTop = container.scrollHeight; // [cite: 591]
             
             try {
-                // Create context for AI
-                const context = `
-                Dữ liệu hiện tại:
-                - Số kỷ niệm: ${eventsData.length}
-                - Số ảnh: ${photosData.length}
-                - Kỷ niệm gần nhất: ${eventsData.length > 0 ? eventsData[0].name : 'Chưa có'}
+                // ▼▼▼ BẮT ĐẦU KHỐI MÃ CONTEXT ĐÃ CẬP NHẬT ▼▼▼
+            
+                // 1. Tóm tắt Sự kiện
+                const eventSummary = eventsData.slice(0, 50).map(e => 
+                    `- Name: ${e.name} (Date: ${e.day}, Description: ${e.contdetl || 'none'})`
+                ).join('\n'); // Lấy 20 sự kiện mới nhất
                 
-                Câu hỏi: ${message}
+                // 2. Tóm tắt Media
+                const photoSummary = `Total media (photos/videos): ${photosData.length}.`; // [cite: 592]
+                
+                // 3. Tóm tắt Người dùng
+                const profileSummary = `Current user's name: ${currentUser.name}.`;
+
+                // 4. Tóm tắt Bình luận
+                const allComments = commentsData.flatMap(c => 
+                    (c.comments || []).map(comment => ({
+                        ...comment, 
+                        imageName: c.ID_IMG // Thêm tên ảnh
+                    }))
+                );
+                allComments.sort((a, b) => new Date(b.date_input) - new Date(a.date_input));
+                const recentCommentSummary = allComments.slice(0, 5).map(c => 
+                    `- (On image: ${c.imageName}) ${c.userName}: "${c.comment}"`
+                ).join('\n');
+                const commentSummary = `
+                Total comments: ${allComments.length}
+                5 most recent comments:
+                ${recentCommentSummary || "No comments yet."}
+                `;
+
+                // 5. Tạo prompt cuối cùng
+                const context = `
+                Here is the user's data:
+
+                USER PROFILE:
+                ${profileSummary}
+
+                EVENT SUMMARY (Up to 20 most recent):
+                ${eventSummary}
+
+                MEDIA & COMMENT SUMMARY:
+                ${photoSummary}
+                ${commentSummary}
+
+                Based on ALL the data provided above, please answer the following question:
+                Question: ${message}
                 `;
                 
-                const aiResponse = await googleAI.generateResponse(context);
+                // ▲▲▲ KẾT THÚC KHỐI MÃ CONTEXT ĐÃ CẬP NHẬT ▲▲▲
+                
+                // 6. Gửi prompt (Giữ nguyên)
+                const aiResponse = await googleAI.generateResponse(context); // [cite: 594]
                 
                 // Remove typing indicator
-                document.getElementById(typingId).remove();
+                document.getElementById(typingId).remove(); // [cite: 594]
                 
                 // Add AI response
                 container.innerHTML += `
@@ -2606,16 +2785,16 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                         <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
                             <div class="flex items-center mb-1">
                                 <i class="fas fa-robot text-primary mr-2"></i>
-                                <strong class="text-primary">AI Assistant</strong>
+                                <strong class="text-primary">AI Love</strong>
                             </div>
                             ${aiResponse}
                         </div>
                     </div>
-                `;
+                `; // [cite: 595-597]
                 
             } catch (error) {
                 // Remove typing indicator
-                document.getElementById(typingId).remove();
+                document.getElementById(typingId).remove(); // [cite: 598]
                 
                 // Add error response
                 container.innerHTML += `
@@ -2623,15 +2802,15 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                         <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
                             <div class="flex items-center mb-1">
                                 <i class="fas fa-robot text-primary mr-2"></i>
-                                <strong class="text-primary">AI Assistant</strong>
+                                <strong class="text-primary">AI Love</strong>
                             </div>
                             Xin lỗi, tôi không thể trả lời lúc này. Hãy thử lại sau!
                         </div>
                     </div>
-                `;
+                `; // [cite: 599-602]
             }
             
-            container.scrollTop = container.scrollHeight;
+            container.scrollTop = container.scrollHeight; // [cite: 603]
         }
 
         // Search functions
@@ -2830,6 +3009,289 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 statusElement.textContent = 'Offline';
                 statusElement.className = 'font-bold text-red-600';
                 statusElement.previousElementSibling.className = 'status-indicator status-offline';
+            }
+        }
+		
+		function triggerAvatarUpload() {
+            // 1. Kích hoạt input file ẩn khi bấm nút icon
+            document.getElementById('avatarUpload').click();
+        }
+
+        async function handleAvatarUpload(event) {
+            // 2. Lấy file người dùng chọn
+            const file = event.target.files[0];
+            if (!file || !file.type.startsWith('image/')) {
+                return;
+            }
+            
+            try {
+                // 3. Resize ảnh về ~30KB (30 * 1024 = 30720 bytes)
+                //    với kích thước tối đa 256px
+                const resizedBlob = await resizeImage(file, 30720, 256);
+                
+                // 4. Chuyển blob đã resize thành dataURL để hiển thị
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const dataURL = reader.result;
+                    // 5. Cập nhật ảnh lên giao diện và lưu
+                    updateAvatar(dataURL);
+                    showNotification('Đã cập nhật avatar!', 'success');
+                };
+                reader.readAsDataURL(resizedBlob);
+                
+            } catch (error) {
+                console.error('Lỗi resize ảnh:', error);
+                showNotification('Lỗi khi resize ảnh!', 'error');
+            }
+            
+            // Reset input để người dùng có thể tải lại cùng 1 file
+            event.target.value = null;
+        }
+
+        /**
+         * Cắt (crop) ảnh thành hình vuông, resize, và nén ảnh
+         * @param {File} file File ảnh
+         * @param {number} targetBytes Kích thước mong muốn (ví dụ: 30000)
+         * @param {number} finalSize Kích thước cạnh cuối cùng (ví dụ: 256, cho 256x256)
+         * @returns {Promise<Blob>} Blob ảnh đã resize
+         */
+        function resizeImage(file, targetBytes, finalSize) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = async () => {
+                        // ▼▼▼ BẮT ĐẦU LOGIC CROP VUÔNG MỚI ▼▼▼
+                        
+                        // 1. Xác định kích thước và vị trí crop
+                        // Lấy chiều ngắn nhất của ảnh
+                        const shortestSide = Math.min(img.width, img.height);
+                        // Tính toán vị trí bắt đầu (X, Y) để crop từ tâm
+                        const sourceX = (img.width - shortestSide) / 2;
+                        const sourceY = (img.height - shortestSide) / 2;
+
+                        // 2. Tạo canvas vuông
+                        const canvas = document.createElement('canvas');
+                        canvas.width = finalSize; // Kích thước cuối cùng (e.g., 256)
+                        canvas.height = finalSize; // Kích thước cuối cùng (e.g., 256)
+                        const ctx = canvas.getContext('2d');
+                        
+                        // 3. Vẽ phần đã crop (từ ảnh gốc) vào canvas (đã resize)
+                        // Lệnh này sẽ lấy 1 hình vuông (shortestSide x shortestSide) từ tâm ảnh gốc
+                        // và vẽ nó vào canvas (finalSize x finalSize)
+                        ctx.drawImage(
+                            img, 
+                            sourceX,      // Bắt đầu crop X từ ảnh gốc
+                            sourceY,      // Bắt đầu crop Y từ ảnh gốc
+                            shortestSide, // Chiều rộng vùng crop
+                            shortestSide, // Chiều cao vùng crop
+                            0,            // Vẽ vào X=0 của canvas
+                            0,            // Vẽ vào Y=0 của canvas
+                            finalSize,    // Chiều rộng canvas (resize)
+                            finalSize     // Chiều cao canvas (resize)
+                        );
+                        
+                        // ▲▲▲ KẾT THÚC LOGIC CROP VUÔNG MỚI ▲▲▲
+                        
+                        // Lặp để giảm chất lượng JPEG cho đến khi đạt < 30KB
+                        for (let quality = 0.9; quality >= 0.1; quality -= 0.1) {
+                            const blob = await new Promise(resolveBlob => 
+                                canvas.toBlob(resolveBlob, 'image/jpeg', quality)
+                            );
+                            
+                            if (blob.size <= targetBytes) {
+                                resolve(blob); // Trả về blob đạt yêu cầu
+                                return;
+                            }
+                        }
+                        
+                        // Nếu không thể < 30KB, trả về chất lượng thấp nhất
+                        canvas.toBlob(resolve, 'image/jpeg', 0.1);
+
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result; // DataURL từ FileReader
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Cập nhật ảnh đại diện trên UI và lưu vào bộ nhớ
+        function updateAvatar(dataURL) {
+            // Cập nhật tất cả các ảnh có alt="Avatar"
+            document.querySelectorAll('img[alt="Avatar"]').forEach(img => {
+                img.src = dataURL;
+            });
+            
+			document.getElementById('profileAvatarImg').src = dataURL;
+			
+            // Cập nhật đối tượng currentUser và lưu vào localStorage
+            if (currentUser) {
+                currentUser.avatarUrl = dataURL;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+        }
+		
+		async function saveProfile() {
+            try {
+                // 1. Lấy dữ liệu từ các input và ảnh
+                const name = document.getElementById('profileNameInput').value;
+                const username = document.getElementById('profileUsernameInput').value.trim(); // Dùng trim()
+                const avatarUrl = document.getElementById('profileAvatarImg').src; 
+                const createdAt = new Date().toISOString();
+
+                if (!name || !username) {
+                    showNotification('Họ tên và Tên đăng nhập là bắt buộc!', 'error');
+                    return;
+                }
+
+                // 2. Tạo đối tượng hồ sơ
+                const updatedProfile = { name, username, avatarUrl, createdAt };
+
+                // 3. Cập nhật hoặc thêm mới vào mảng profilesData
+                // Tìm hồ sơ dựa trên TÊN ĐĂNG NHẬP (từ input)
+                let userIndex = profilesData.findIndex(p => p.username === username);
+
+                if (userIndex !== -1) {
+                    // TRƯỜNG HỢP 1 & 3: Tên đăng nhập đã tồn tại (Login hoặc Update)
+                    // Cập nhật hồ sơ tại vị trí đó
+                    profilesData[userIndex] = { ...profilesData[userIndex], ...updatedProfile };
+                } else {
+                    // TRƯỜNG HỢP 2: Tên đăng nhập mới (Rename)
+                    // Tìm user cũ (currentUser) để xóa
+                    let oldUserIndex = profilesData.findIndex(p => p.username === currentUser.username);
+                    if (oldUserIndex !== -1) {
+                        // Xóa user cũ (vì họ đã đổi tên)
+                        profilesData.splice(oldUserIndex, 1);
+                    }
+                    // Thêm hồ sơ mới (với tên đã đổi)
+                    profilesData.push(updatedProfile);
+                }
+
+                // 4. Cập nhật currentUser (global) và localStorage
+                currentUser = updatedProfile;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // 5. Cập nhật UI (header)
+                updateUserProfile();
+                
+                // 6. Lưu file profiles.json lên GitHub
+                const success = await githubAPI.updateFile(
+                    config.PROFILES_FILE_PATH, 
+                    profilesData, 
+                    `Cập nhật hồ sơ: ${username}`
+                );
+
+                if (success) {
+                    showNotification('Đã lưu hồ sơ thành công!', 'success');
+                    addLog('Hồ sơ', `Đã cập nhật hồ sơ: ${username}`);
+                } else {
+                    showNotification('Lỗi khi lưu hồ sơ lên GitHub!', 'error');
+                }
+                
+                closeModal('profileModal');
+
+            } catch (error) {
+                console.error('Lỗi khi lưu hồ sơ:', error);
+                showNotification('Đã xảy ra lỗi khi lưu!', 'error');
+            }
+        }
+
+        function logoutProfile() {
+            // 1. Xóa bộ nhớ
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            
+            // 2. Clear các ô input trong modal
+            document.getElementById('profileNameInput').value = '';
+            document.getElementById('profileUsernameInput').value = '';
+            
+            // 3. Reset avatar trong modal
+            const defaultAvatar = 'https://ui-avatars.com/api/?name=?&background=006B68&color=fff&size=100';
+            document.getElementById('profileAvatarImg').src = defaultAvatar;
+
+            // 4. Đóng modal và thông báo
+            closeModal('profileModal');
+            showNotification('Đã đăng xuất!', 'info');
+            
+            // 5. Tải lại user (sẽ tự động tạo user "động vật" mới)
+            loadCurrentUser();
+        }
+		
+		function checkExistingUsername() {
+            const usernameInput = document.getElementById('profileUsernameInput');
+            const username = usernameInput.value.trim(); // Lấy tên đăng nhập đã nhập
+
+            // Không cần check nếu tên đăng nhập rỗng
+            if (!username) return;
+
+            // 1. Tìm kiếm trong toàn bộ profilesData [cite: 210]
+            const existingProfile = profilesData.find(p => p.username === username);
+
+            // 2. Nếu tìm thấy hồ sơ VÀ nó không phải là hồ sơ hiện tại
+            if (existingProfile && existingProfile.username !== currentUser?.username) {
+                
+                // 3. Tải (load) Họ tên và Avatar tìm thấy vào các ô input [cite: 119]
+                document.getElementById('profileNameInput').value = existingProfile.name;
+                document.getElementById('profileAvatarImg').src = existingProfile.avatarUrl;
+                
+                // 4. THAY ĐỔI: Chuyển đổi client sang hồ sơ này ngay lập tức
+                currentUser = existingProfile;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // 5. Cập nhật header
+                updateUserProfile(); 
+                
+                // 6. Thông báo
+                showNotification(`Đã chuyển sang hồ sơ: ${existingProfile.name}`, 'success');
+                addLog('Hồ sơ', `Đã chuyển đổi sang hồ sơ ${existingProfile.name}`);
+            }
+        }
+		
+		async function updateStorageUsageDisplay() {
+            // Ưu tiên sử dụng API Storage.estimate() hiện đại nếu có
+            if (navigator.storage && navigator.storage.estimate) {
+                try {
+                    const estimate = await navigator.storage.estimate();
+                    // estimate.usage là tổng số byte được sử dụng
+                    const formattedSize = formatFileSize(estimate.usage);
+                    document.getElementById('storageUsageDisplay').textContent = formattedSize;
+                } catch (error) {
+                    console.error('Lỗi khi ước tính dung lượng (Storage.estimate):', error);
+                    calculateManualStorageUsage(); // Sử dụng phương pháp dự phòng
+                }
+            } else {
+                calculateManualStorageUsage(); // Sử dụng phương pháp dự phòng cho trình duyệt cũ
+            }
+        }
+        
+        function calculateManualStorageUsage() {
+            // Phương pháp dự phòng: tính toán thủ công localStorage và sessionStorage
+            try {
+                let totalBytes = 0;
+                
+                // Tính toán localStorage
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    const value = localStorage.getItem(key);
+                    // Ước tính 2 byte mỗi ký tự (UTF-16)
+                    totalBytes += (key.length + (value ? value.length : 0)) * 2; 
+                }
+
+                // Tính toán sessionStorage
+                for (let i = 0; i < sessionStorage.length; i++) {
+                    const key = sessionStorage.key(i);
+                    const value = sessionStorage.getItem(key);
+                    totalBytes += (key.length + (value ? value.length : 0)) * 2; 
+                }
+
+                // Sử dụng hàm formatFileSize đã có [cite: 412]
+                const formattedSize = formatFileSize(totalBytes);
+                document.getElementById('storageUsageDisplay').textContent = formattedSize;
+            } catch (error) {
+                console.error('Lỗi khi tính dung lượng thủ công:', error);
+                document.getElementById('storageUsageDisplay').textContent = 'Lỗi';
             }
         }
 
@@ -3121,6 +3583,13 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             } else if (modalId === 'eventModal' && !editingEventId) {
                 // Reset form only when adding new event
                 resetEventForm();
+            } else if (modalId === 'profileModal') {
+                // Tải dữ liệu người dùng hiện tại vào modal
+                if (currentUser) {
+                    document.getElementById('profileNameInput').value = currentUser.name;
+                    document.getElementById('profileUsernameInput').value = currentUser.username;
+                    document.getElementById('profileAvatarImg').src = currentUser.avatarUrl;
+                }
             }
             
             // Log modal opening
@@ -3147,18 +3616,25 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
 
         function toggleImageSelection(id, element) {
             const wasSelected = selectedImages.includes(id);
-            
-            if (wasSelected) {
+            // Tìm icon <i> bên trong element được nhấp
+            const iconEl = element.querySelector('i');
+            if (!iconEl) return; // Thoát nếu không tìm thấy icon
+
+			if (wasSelected) {
+                // Bỏ chọn
                 selectedImages = selectedImages.filter(i => i !== id);
-                element.classList.remove('ring-4', 'ring-primary');
+                // Đổi class của icon sang trạng thái "chưa chọn" (viền, xám)
+                iconEl.className = 'far fa-check-circle text-gray-400 text-xl';
                 addLog('Chọn ảnh', `Đã bỏ chọn ảnh (ID: ${id})`);
-            } else {
+			} else {
+                // Chọn
                 selectedImages.push(id);
-                element.classList.add('ring-4', 'ring-primary');
+                // Đổi class của icon sang trạng thái "đã chọn" (solid, green)
+                iconEl.className = 'fas fa-check-circle text-green-500 text-xl';
                 addLog('Chọn ảnh', `Đã chọn ảnh (ID: ${id})`);
             }
             document.getElementById('selectedCount').textContent = selectedImages.length;
-        }
+}
 
         // Photo interaction functions
         function loadPhotoLikes(photoName) {
