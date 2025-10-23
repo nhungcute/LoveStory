@@ -16,5 +16,6 @@
   "FOLDER_ID": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
   "API_KEY": "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
   "PROFILES_FILE_PATH": "profiles.json",
-  "PHOTOS_PER_PAGE": 50
+  "PHOTOS_PER_PAGE": "50",
+  "ENABLE_NOTI": false
 }
