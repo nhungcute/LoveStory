@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T03:24:14.677Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"5x5\" sang \"6x6\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T03:24:11.741Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"4x4\" sang \"5x5\"",
