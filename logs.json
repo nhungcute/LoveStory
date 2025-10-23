@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-23T05:37:40.330Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:38.872Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T05:37:24.530Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
