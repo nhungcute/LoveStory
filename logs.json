@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T02:17:52.941Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T02:15:28.500Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
