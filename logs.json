@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T03:31:39.900Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T03:31:10.861Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Mùa Xuân\"",
