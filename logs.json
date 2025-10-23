@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-23T02:53:34.178Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn tất cả 50 ảnh trên trang hiện tại",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:53:33.482Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn tất cả 50 ảnh",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:53:31.730Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn tất cả 48 ảnh trên trang hiện tại",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:53:29.930Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn ảnh (ID: 1b_PLjaXtok-A74de1wkp7aLaQFULTCqF)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:53:29.298Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn ảnh (ID: 1Lpmmy80OM12M5f3oq1E5vlvmR6AsJ8hO)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T02:53:28.394Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn ảnh (ID: 1c_Ln9OGl-viVgO1u_ngxytVbI4nceuRg)",
