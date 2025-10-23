@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-23T02:49:58.926Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:49:58.926Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T02:49:57.661Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T02:42:29.373Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn ảnh (ID: 1fBr3lmOLajgWplI6Ta4UdFW5CC4Y6pl4)",
