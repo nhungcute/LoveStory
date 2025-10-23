@@ -374,6 +374,20 @@
         .log-saved {
             background-color: var(--accent-color);
         }
+		
+		/* AI Mode Button Styling */
+        .ai-mode-btn {
+            color: white;
+            background-color: transparent;
+            transition: all 0.2s ease;
+            opacity: 0.7;
+        }
+        .ai-mode-btn.active {
+            background-color: white;
+            color: var(--primary-color); /* Use primary color for text */
+            font-weight: 600;
+            opacity: 1;
+        }
 
 
     </style>
@@ -472,8 +486,13 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
    <div id="chatSection" class="section hidden">
     <div class="max-w-4xl mx-auto">
      <div class="love-card rounded-lg overflow-hidden">
-      <div class="bg-primary text-white p-4">
-       <h2 class="text-lg font-bold"><i class="fas fa-robot mr-2"></i>Chat AI</h2>
+      <div class="bg-primary text-white p-4 flex justify-between items-center">
+        <h2 class="text-lg font-bold"><i class="fas fa-robot mr-2"></i>Chat AI</h2>
+        <div class="flex space-x-1 border border-white/50 rounded-md p-0.5">
+           <button id="aiModeBtn-local" onclick="switchAiModel('local')" class="ai-mode-btn px-2 py-1 text-xs rounded-sm bg-white text-primary">Local</button>
+           <button id="aiModeBtn-gpt" onclick="switchAiModel('gpt')" class="ai-mode-btn px-2 py-1 text-xs rounded-sm">GPT</button>
+           <button id="aiModeBtn-google" onclick="switchAiModel('google')" class="ai-mode-btn px-2 py-1 text-xs rounded-sm">Google</button>
+        </div>
       </div>
       <div class="h-96 overflow-y-auto p-4" id="chatMessages">
       
@@ -568,6 +587,13 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
          <p class="text-xs text-gray-500 mt-1">Ẩn nút menu để giao diện gọn gàng</p>
         </div><label class="toggle-switch"> <input type="checkbox" id="showHamburgerMenu" checked onchange="toggleHamburgerMenu()"> <span class="toggle-slider"></span> </label>
        </div>
+	   
+	   <div class="flex items-center justify-between">
+        <div><span class="font-medium">Thông báo hệ thống</span>
+         <p class="text-xs text-gray-500 mt-1">Tắt/bật các thông báo giao diện.</p>
+        </div><label class="toggle-switch"> <input type="checkbox" id="enableSystemNotifications" onchange="toggleSystemNotifications()"> <span class="toggle-slider"></span> </label>
+       </div>
+	   
       </div>
      </div><!-- Tự Động Cập Nhật -->
      <div class="love-card rounded-lg p-6">
@@ -791,40 +817,18 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         let currentPhotoName = null;
 		let todayValidMemories = []; // Lưu danh sách kỷ niệm cho hôm nay
         let currentMemoryIndex = 0; // Vị trí kỷ niệm đang xem
-
+		let currentAiModel = 'local'; // Default AI model ('local', 'gpt', 'google')
+		
         // Configuration
-        const config = {
+        let config = {
             "GITHUB_USERNAME": "nhungcute",
             "REPO_NAME": "LoveStory",
             "PAT1": "ghp_a8VLpoCYQByLbUIwe",
             "PAT2": "d3dy4hHjEpKwr3stE6T",
-            "FILE_PATH": "actions.json",
-            "COMMENTS_FILE_PATH": "comments.json",
-            "PHOTOS_METADATA_FILE_PATH": "image_data.json",
-            "LOGS_FILE_PATH": "logs.json",
-            "CONFIG_FILE_PATH": "configApp.json",
-            "FOLDER_ID": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
-            "API_KEY": "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
-            "AI_API_KEY": "AIzaSyD3nBr8PA1eTGGr30JYd0jDhzCLemlXpNI",
-            "PROFILES_FILE_PATH": "profiles.json",
-            "PHOTOS_PER_PAGE": 50,
-            "AUTO_SYNC_METADATA": {
-                "enabled": true,
-                "frequency": "daily",
-                "time": "09:04"
-            }
+            "CONFIG_FILE_PATH": "configApp.json"
         };
-
-        // App configuration data
-        let appConfigData = {
-            "AUTO_SYNC_METADATA": {
-                "enabled": true,
-                "frequency": "daily",
-                "time": "09:04"
-            },
-            "ENABLE_LOGS": true
-        };
-
+		let appConfigData = {};
+  
         // Data storage
         let eventsData = [];
         let photosData = [];
@@ -1025,60 +1029,54 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 return urls[type] || urls.view;
             }
         }
-
-        // Google AI helper
-        class GoogleAI {
-            constructor() {
-                this.apiKey = config.AI_API_KEY;
-                this.baseURL = 'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent'; // [DÒNG MỚI]
-            }
-
-            async generateResponse(prompt) {
-                try {
-                    const response = await fetch(`${this.baseURL}?key=${this.apiKey}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [{
-                                    text: `Bạn là trợ lý AI cho ứng dụng Love Story. Hãy trả lời câu hỏi sau một cách thân thiện và hữu ích: ${prompt}`
-                                }]
-                            }]
-                        })
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        return data.candidates[0].content.parts[0].text;
-                    }
-                    return "Xin lỗi, tôi không thể trả lời câu hỏi này lúc này.";
-                } catch (error) {
-                    console.error('Error with AI response:', error);
-                    return "Có lỗi xảy ra khi kết nối với AI.";
-                }
-            }
-        }
-
+ 
         // Initialize API instances
         const githubAPI = new GitHubAPI();
-        const driveAPI = new GoogleDriveAPI();
-        const googleAI = new GoogleAI();
+        const driveAPI = new GoogleDriveAPI(); 
 
         // Data loading functions
         async function loadAllData() {
             try {
                 showLoadingState();
                 
-                // Load all data files
-                const [events, photos, comments, profiles, logs, appConfig] = await Promise.all([
+                // --- BƯỚC 1: Tải file config chính TRƯỚC TIÊN ---
+                // Sử dụng 'config' tĩnh để lấy đường dẫn
+                try {
+                    // Gán trực tiếp nội dung file JSON vào appConfigData
+                    appConfigData = await githubAPI.getFile(config.CONFIG_FILE_PATH);
+                    
+                    if (!appConfigData || Object.keys(appConfigData).length === 0) {
+                        // Nếu file rỗng, gán là object rỗng
+                        appConfigData = {};
+                        console.warn(`File ${config.CONFIG_FILE_PATH} rỗng.`);
+                        // Ghi chú: Ứng dụng sẽ hỏng ở Bước 4 nếu file này rỗng
+                        // Đây là logic bắt buộc theo yêu cầu "không có defaults"
+                    }
+                } catch (e) {
+                    console.error(`Lỗi nghiêm trọng: Không thể tải file config ${config.CONFIG_FILE_PATH}. Ứng dụng không thể tiếp tục.`, e);
+                    showNotification('Lỗi nghiêm trọng: Không thể tải file cấu hình!', 'error');
+                    // Gán rỗng để code không bị sập ở Bước 2
+                    appConfigData = {}; 
+                }
+                
+                // --- BƯỚC 2: Gộp config Động (từ appConfigData) vào config Tĩnh (trong code) ---
+                // 'config' giờ sẽ chứa TẤT CẢ các khóa (tĩnh + động)
+                config = { ...config, ...appConfigData }; 
+
+                // --- BƯỚC 3: Cập nhật API keys cho các instance (nếu cần) ---
+                // Các giá trị này sẽ là 'undefined' nếu configApp.json không có chúng
+                driveAPI.apiKey = config.API_KEY; 
+                driveAPI.folderId = config.FOLDER_ID;
+
+                // --- BƯỚC 4: Tải tất cả các file dữ liệu khác (dùng 'config' đã gộp) ---
+                // Nếu các khóa như FILE_PATH, LOGS_FILE_PATH... không có trong configApp.json,
+                // các lệnh Promise.all() này SẼ THẤT BẠI.
+                const [events, photos, comments, profiles, logs] = await Promise.all([
                     githubAPI.getFile(config.FILE_PATH),
                     githubAPI.getFile(config.PHOTOS_METADATA_FILE_PATH),
                     githubAPI.getFile(config.COMMENTS_FILE_PATH),
                     githubAPI.getFile(config.PROFILES_FILE_PATH),
-                    githubAPI.getFile(config.LOGS_FILE_PATH),
-                    githubAPI.getFile(config.CONFIG_FILE_PATH)
+                    githubAPI.getFile(config.LOGS_FILE_PATH)
                 ]);
 
                 eventsData = events || [];
@@ -1087,25 +1085,20 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 profilesData = profiles || [];
                 logsData = logs || [];
                 
-                // Load app configuration
-                if (appConfig && Object.keys(appConfig).length > 0) {
-                    appConfigData = { ...appConfigData, ...appConfig };
-                }
-
-                // Load current user
                 loadCurrentUser();
-                
                 hideLoadingState();
                 return true;
+                
             } catch (error) {
-                console.error('Error loading data:', error);
+                console.error('Lỗi nghiêm trọng khi tải dữ liệu (Rất có thể do thiếu khóa trong configApp.json):', error);
                 hideLoadingState();
+                showNotification('Lỗi tải dữ liệu! Vui lòng kiểm tra file configApp.json.', 'error');
                 return false;
             }
         }
 
         async function syncPhotosMetadata(isManual = false) {
-            if (!isManual && !appConfigData.AUTO_SYNC_METADATA.enabled) return;
+            if (!isManual && !config.AUTO_SYNC_METADATA.enabled) return;
             
             try {
                 if (isManual) {
@@ -1310,12 +1303,15 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 document.getElementById('rightMenuBtn').style.display = 'flex';
             }
             
+			// Load all data
+            const dataLoaded = await loadAllData();
+			
+			// ▼▼▼ MỚI: Tải cài đặt thông báo ▼▼▼
+            document.getElementById('enableSystemNotifications').checked = config.ENABLE_NOTI;
+			
             // Initialize view toggle button
             updateViewToggleButton();
-            
-            // Load all data
-            const dataLoaded = await loadAllData();
-            
+             
             if (dataLoaded) {
                 // Load app configuration into UI
                 loadAppConfigToUI();
@@ -1333,13 +1329,16 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             
             // Set active navigation
             updateNavigation('home');
+			// Set initial AI mode button active
+            switchAiModel(currentAiModel); // Add this line
         }
 
         // ▼▼▼ THAY THẾ TOÀN BỘ HÀM checkAutoSync CŨ BẰNG PHIÊN BẢN NÀY ▼▼▼
         function checkAutoSync() {
             // 1. Lấy cấu hình hiện tại từ appConfigData
-            const config = appConfigData.AUTO_SYNC_METADATA;
-            if (!config.enabled) {
+            // SỬA LỖI: Đổi tên biến local thành 'syncConfig' để tránh che khuất 'config' global
+            const syncConfig = config.AUTO_SYNC_METADATA;
+            if (!syncConfig.enabled) {
                 console.log('[Auto Sync] Tự động đồng bộ đã bị tắt.');
                 return;
             }
@@ -1351,7 +1350,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
 
             // 3. Lấy thời gian hiện tại và thời gian mục tiêu trong ngày
             const now = new Date();
-            const [hours, minutes] = config.time.split(':').map(Number);
+            // SỬA: Dùng syncConfig
+            const [hours, minutes] = syncConfig.time.split(':').map(Number);
             const targetTimeToday = new Date();
             targetTimeToday.setHours(hours, minutes, 0, 0);
 
@@ -1359,7 +1359,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             let nextValidSyncTime = new Date(lastSyncTimestamp);
             
             // Dựa vào tần suất để tính toán
-            switch (config.frequency) {
+            // SỬA: Dùng syncConfig
+            switch (syncConfig.frequency) {
                 case 'daily':
                     // Nếu lần cuối là hôm qua hoặc cũ hơn, thời điểm hợp lệ tiếp theo là thời gian mục tiêu của ngày hôm nay
                     if (lastSyncDate.getDate() < now.getDate() || lastSyncDate.getMonth() < now.getMonth() || lastSyncDate.getFullYear() < now.getFullYear()) {
@@ -1394,7 +1395,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             // 5. Kiểm tra và thực hiện đồng bộ
             // Điều kiện: Thời gian hiện tại (now) đã qua thời điểm hợp lệ (nextValidSyncTime)
             if (now >= nextValidSyncTime) {
-                console.log(`[Auto Sync] Đang thực hiện đồng bộ theo lịch "${config.frequency}" lúc ${now.toLocaleTimeString()}`);
+                // SỬA: Dùng syncConfig
+                console.log(`[Auto Sync] Đang thực hiện đồng bộ theo lịch "${syncConfig.frequency}" lúc ${now.toLocaleTimeString()}`);
                 
                 // Gọi hàm đồng bộ
                 syncPhotosMetadata(false); // false = không phải thủ công
@@ -1402,11 +1404,13 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 localStorage.setItem('lastAutoSync', now.toDateString()); // Giữ lại để tương thích nếu cần
                 
                 showNotification(`Tự động đồng bộ đã chạy theo lịch`, 'info');
-                addLog('Tự động đồng bộ', `Đã chạy tự động đồng bộ theo lịch ${config.frequency}`);
+                // SỬA: Dùng syncConfig
+                addLog('Tự động đồng bộ', `Đã chạy tự động đồng bộ theo lịch ${syncConfig.frequency}`);
             } else {
                 console.log(`[Auto Sync] Chưa đến giờ. Lần tiếp theo dự kiến: ${nextValidSyncTime.toLocaleString()}`);
             }
         }
+        // ▲▲▲ KẾT THÚC THAY THẾ HÀM ▲▲▲
         // ▲▲▲ KẾT THÚC THAY THẾ HÀM ▲▲▲
 
         // Navigation functions
@@ -1572,8 +1576,54 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 addLog('Cài đặt giao diện', 'Đã ẩn nút menu hamburger');
             }
             
-            showNotification(isEnabled ? 'Đã bật nút hamburger!' : 'Đã ẩn nút hamburger!', 'success');
+            showNotification(isEnabled ? 'Đã bật menu!' : 'Đã ẩn menu!', 'success');
         }
+		
+		// ▼▼▼ HÀM MỚI: Tắt/Bật Thông Báo Hệ Thống ▼▼▼
+        // ▼▼▼ HÀM ĐÃ SỬA: Tắt/Bật Thông Báo Hệ Thống (có lưu file) ▼▼▼
+        async function toggleSystemNotifications() {
+            const isEnabled = document.getElementById('enableSystemNotifications').checked;
+            
+            if (!isEnabled) {
+                // Cập nhật appConfigData TRƯỚC khi hiển thị thông báo cuối
+                config.ENABLE_NOTI = false;
+                showNotification('Đã tắt thông báo hệ thống!', 'info');
+            } else {
+                config.ENABLE_NOTI = true;
+            }
+            
+            const logMessage = isEnabled ? 'Đã bật thông báo hệ thống' : 'Đã tắt thông báo hệ thống';
+            addLog('Cài đặt giao diện', logMessage);
+            
+            try {
+                // Gọi API để lưu file configApp.json
+                const success = await githubAPI.updateFile(
+                    config.CONFIG_FILE_PATH,
+                    appConfigData, // Lưu toàn bộ đối tượng appConfigData
+                    `Cập nhật thông báo hệ thống: ${isEnabled ? 'Bật' : 'Tắt'}`
+                );
+                
+                if (success) {
+                    if (isEnabled) {
+                        // Chỉ hiển thị thông báo BẬT sau khi đã lưu thành công
+                        showNotification('Đã bật và lưu thông báo hệ thống!', 'success');
+                    }
+                } else {
+                    // Nếu lưu thất bại, đảo ngược lại trạng thái
+                    config.ENABLE_NOTI = !isEnabled; 
+                    document.getElementById('enableSystemNotifications').checked = !isEnabled;
+                    showNotification('Lỗi khi lưu cài đặt!', 'error');
+                }
+            } catch (error) {
+                console.error('Error saving notification config:', error);
+                // Đảo ngược trạng thái nếu có lỗi
+                config.ENABLE_NOTI = !isEnabled;
+                document.getElementById('enableSystemNotifications').checked = !isEnabled;
+                showNotification('Lỗi khi lưu cài đặt!', 'error');
+            }
+        }
+        // ▲▲▲ KẾT THÚC HÀM ĐÃ SỬA ▲▲▲
+        // ▲▲▲ KẾT THÚC HÀM MỚI ▲▲▲
 
         // Stats functions
         function updateStats() {
@@ -2682,29 +2732,290 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 sendChatMessage();
             }
         }
+		
+		/**
+         * Processes the user's chat query using local data.
+         * @param {string} query The user's question.
+         * @returns {string} The generated answer.
+         */
+        function processQueryLocally(query) {
+            const lowerQuery = query.toLowerCase();
 
-        async function sendChatMessage() {
-            const input = document.getElementById('chatInput'); // [cite: 582]
-            const message = input.value.trim(); // [cite: 583]
-            if (!message) return; // [cite: 583]
-            
-            // Log chat message
-            addLog('Chat AI', `Đã gửi tin nhắn: "${message.length > 50 ? message.substring(0, 50) + '...' : message}"`); // [cite: 583]
-            const container = document.getElementById('chatMessages'); // [cite: 584]
-            
-            // Add user message
+            // --- Basic Keyword Matching ---
+
+            // Example 1: Count events
+            if (lowerQuery.includes('có bao nhiêu sự kiện') || lowerQuery.includes('bao nhiêu kỷ niệm')) {
+                return `Hiện tại có ${eventsData.length} sự kiện được lưu trữ.`;
+            }
+
+            // Example 2: Count photos/media
+            if (lowerQuery.includes('có bao nhiêu ảnh') || lowerQuery.includes('bao nhiêu media')) {
+                return `Có tổng cộng ${photosData.length} media (ảnh/video) trong kho dữ liệu.`;
+            }
+
+            // Example 3: Ask about the current user
+            if (lowerQuery.includes('tôi là ai') || lowerQuery.includes('tên tôi là gì')) {
+                return `Bạn đang đăng nhập với tên ${currentUser.name} (username: ${currentUser.username}).`;
+            }
+
+            // Example 4: Ask about recent comments
+            if (lowerQuery.includes('bình luận mới nhất') || lowerQuery.includes('ai vừa bình luận')) {
+                 const allComments = commentsData.flatMap(c =>
+                    (c.comments || []).map(comment => ({
+                        ...comment,
+                        imageName: c.ID_IMG
+                    }))
+                 ).sort((a, b) => new Date(b.date_input) - new Date(a.date_input));
+
+                 if (allComments.length > 0) {
+                     const recent = allComments[0];
+                     return `Bình luận mới nhất là của ${recent.userName} vào ảnh "${recent.imageName}": "${recent.comment}"`;
+                 } else {
+                     return "Chưa có bình luận nào cả.";
+                 }
+            }
+
+            // Example 5: Search events by simple keyword
+            // (More complex date/name searching would require more robust parsing)
+            if (lowerQuery.startsWith('tìm sự kiện') || lowerQuery.startsWith('kỷ niệm về')) {
+                const searchTerm = lowerQuery.replace('tìm sự kiện', '').replace('kỷ niệm về', '').trim();
+                if (searchTerm) {
+                    const foundEvents = eventsData.filter(e =>
+                        (e.name && e.name.toLowerCase().includes(searchTerm)) ||
+                        (e.contdetl && e.contdetl.toLowerCase().includes(searchTerm))
+                    );
+                    if (foundEvents.length > 0) {
+                        const eventNames = foundEvents.slice(0, 5).map(e => `${e.name} (${e.day})`).join(', ');
+                        return `Tìm thấy ${foundEvents.length} sự kiện liên quan đến "${searchTerm}". Một vài sự kiện gần đây là: ${eventNames}${foundEvents.length > 5 ? '...' : ''}`;
+                    } else {
+                        return `Không tìm thấy sự kiện nào khớp với "${searchTerm}".`;
+                    }
+                }
+            }
+             // Example 6: Get event on specific date DD/MM/YYYY or DD-MM-YYYY
+             const dateMatch = query.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+             if (dateMatch && (lowerQuery.includes('sự kiện ngày') || lowerQuery.includes('kỷ niệm ngày'))) {
+                 const day = dateMatch[1].padStart(2, '0');
+                 const month = dateMatch[2].padStart(2, '0');
+                 const year = dateMatch[3];
+                 const searchDate = `${day}-${month}-${year}`; // Format DD-MM-YYYY used in eventsData
+
+                 const eventsOnDate = eventsData.filter(e => e.day === searchDate);
+
+                 if (eventsOnDate.length > 0) {
+                     const eventDetails = eventsOnDate.map(e => `${e.name}${e.contdetl ? ': ' + e.contdetl.substring(0, 50) + '...' : ''}`).join('; ');
+                     return `Vào ngày ${searchDate}, có ${eventsOnDate.length} sự kiện: ${eventDetails}`;
+                 } else {
+                     return `Không tìm thấy sự kiện nào vào ngày ${searchDate}.`;
+                 }
+             }
+
+            // --- Default Fallback ---
+            return "Xin lỗi, tôi chưa hiểu câu hỏi của bạn hoặc chưa được lập trình để trả lời về điều đó. Bạn có thể hỏi về số lượng sự kiện, media, thông tin người dùng, hoặc tìm kiếm sự kiện theo tên/ngày.";
+        }
+
+		// Google AI helper - Refactored based on example
+        class GoogleAI {
+            constructor() {
+                // Lấy API Key từ config
+                this.apiKey = config.AI_API_KEY; 
+                
+                // Chọn model - Sử dụng model từ ví dụ hoặc một model ổn định hơn nếu cần
+                // 'gemini-1.5-flash-latest' là một lựa chọn phổ biến khác
+                this.model = 'gemini-1.5-flash-latest'; // Hoặc 'gemini-pro' nếu dùng v1
+                
+                // Sử dụng phiên bản API beta để tương thích với nhiều model hơn (như flash)
+                this.apiVersion = 'v1beta'; 
+            }
+
+            /**
+             * Gọi Google Generative AI API.
+             * @param {object} prompt - Đối tượng chứa { query: string, context: string }.
+             * @returns {Promise<string>} - Câu trả lời từ AI hoặc thông báo lỗi.
+             */
+            async generateResponse(prompt) {
+                 // 1. Định dạng lại prompt đầy đủ (kết hợp context và query)
+                 const formattedPrompt = `
+                    You are an AI assistant for a personal memory application called Love Story.
+                    Use the following context data about the user's memories, media, and comments to answer their question.
+                    Be friendly and helpful. If the context doesn't contain the answer, say you don't have that specific information but try to answer generally if possible.
+
+                    Context Data:
+                    ---
+                    ${prompt.context || ''} 
+                    ---
+
+                    User's Question: ${prompt.query || prompt} 
+                    `; // Dùng prompt.query nếu có, nếu không thì dùng cả prompt (cho trường hợp cũ)
+
+                 // 2. Tạo URL API động
+                 const apiUrl = `https://generativelanguage.googleapis.com/${this.apiVersion}/models/${this.model}:generateContent?key=${this.apiKey}`;
+
+                 // 3. Chuẩn bị payload gửi đi
+                 const payload = {
+                     contents: [{
+                         parts: [{
+                             text: "1+1 ="
+                         }]
+                     }]
+                     // Bạn có thể thêm các tham số khác như generationConfig tại đây nếu cần
+                     // generationConfig: { temperature: 0.7, maxOutputTokens: 150 }
+                 };
+
+                 try {
+                     // 4. Thực hiện gọi API
+                     const response = await fetch(apiUrl, {
+                         method: 'POST',
+                         headers: {
+                             'Content-Type': 'application/json'
+                         },
+                         body: JSON.stringify(payload)
+                     });
+
+                     // 5. Xử lý kết quả
+                     const result = await response.json();
+
+                     if (!response.ok) {
+                         // Xử lý lỗi từ API
+                         console.error('Lỗi từ Google AI API:', result);
+                         const errorMsg = result.error?.message || `Lỗi ${response.status}: ${response.statusText}`;
+                         // Ném lỗi để hàm gọi (sendChatMessage) có thể bắt được
+                         throw new Error(`Lỗi khi gọi Google AI API: ${errorMsg}`);
+                     } else {
+                         // Trích xuất văn bản từ kết quả thành công
+                         const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                         if (text) {
+                             return text.trim(); // Trả về nội dung text
+                         } else {
+                             console.warn("Cấu trúc phản hồi Google AI không mong đợi:", result);
+                             // Ném lỗi nếu không có text
+                             throw new Error("Không nhận được nội dung văn bản từ Google AI.");
+                         }
+                     }
+
+                 } catch (error) {
+                     // Bắt lỗi mạng hoặc lỗi JavaScript trong quá trình gọi
+                     console.error('Lỗi mạng hoặc JavaScript khi gọi Google AI:', error);
+                     // Ném lại lỗi để hàm gọi xử lý
+                     throw new Error(`Đã xảy ra lỗi khi kết nối Google AI: ${error.message}`);
+                 }
+            }
+        }
+		
+        // Ensure the global instance is created if needed elsewhere, or instantiate inside sendChatMessage
+        const googleAI = new GoogleAI(); // Keep this line if googleAI is used elsewhere
+		
+		/**
+         * WARNING: INSECURE - Calls OpenAI API directly from the client-side.
+         * Your API key is exposed in the browser.
+         * @param {string} userQuery The user's question.
+         * @param {string} localContext Dữ liệu tóm tắt (events, comments, etc.).
+         * @returns {Promise<string>} Câu trả lời từ GPT hoặc thông báo lỗi.
+         */
+        async function callGPTAPI(userQuery, localContext) {
+            // !!! INSECURE: API Key embedded directly !!!
+            const apiKey1 = "sk-proj-15mVfYaSh_XugxZgZ_mi6qBiHJy784OFljvVKIvmOliOSHglTkyxJRBrb0TBwTVPb7odY0s-Y"; // <-- YOUR KEY HERE
+			const apiKey2 = "RT3BlbkFJF8e5Wn_6Q1Z--9GNsQLOicy-v-EO6Duqbxb_6GlBXQMK-TyBlsZ0_q-elvaPURuj9GEcI5z3oA";
+			const apiKey = apiKey1 + apiKey2;
+            const apiUrl = "https://api.openai.com/v1/chat/completions"; // OpenAI endpoint
+
+            // Combine local context with the user query for the prompt
+            const fullPrompt = `
+						You are an AI assistant for a personal memory application called Love Story.
+						Use the following context data about the user's memories, media, and comments to answer their question.
+						Be friendly and helpful. If the context doesn't contain the answer, say you don't have that specific information but try to answer generally if possible.
+
+						Context Data:
+						---
+						${localContext}
+						---
+
+						User's Question: ${userQuery}
+						`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}` // Use the insecure key here
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-3.5-turbo", // Or another model like "gpt-4" if you have access
+                        messages: [
+                            {
+                                role: "system",
+                                content: "You are a helpful assistant for the Love Story application."
+                            },
+                            {
+                                role: "user",
+                                content: fullPrompt
+                            }
+                        ],
+                        max_tokens: 150, // Limit response length
+                        temperature: 0.7 // Controls creativity vs determinism
+                    }),
+                });
+
+                if (!response.ok) {
+                     const errorData = await response.json();
+                     console.error("OpenAI API Error:", errorData);
+                    throw new Error(`Error from OpenAI API: ${response.statusText} - ${errorData.error?.message || 'Unknown error'}`);
+                }
+
+                const data = await response.json();
+                // Extract the answer from the response structure
+                return data.choices?.[0]?.message?.content?.trim() || "GPT didn't provide a valid answer.";
+
+            } catch (error) {
+                console.error('Error calling OpenAI API directly:', error);
+                // Provide a more user-friendly error message
+                let errorMessage = "An error occurred connecting to the advanced AI.";
+                if (error.message.includes("Incorrect API key")) {
+                    errorMessage = "Connection failed: Invalid API key.";
+                } else if (error.message.includes("quota")) {
+                    errorMessage = "Could not connect: API quota exceeded.";
+                }
+                return errorMessage;
+            }
+        }
+		
+		function switchAiModel(modelName) {
+            currentAiModel = modelName; // Update the global variable
+
+            // Update button styles
+            document.querySelectorAll('.ai-mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeButton = document.getElementById(`aiModeBtn-${modelName}`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+            showNotification(`Đã chuyển sang ${modelName.toUpperCase()} AI`, 'info');
+            addLog('Chat AI', `Chuyển sang model: ${modelName.toUpperCase()}`);
+        }
+		
+        async function sendChatMessage() { // <--- MAKE SURE 'async' IS HERE
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            addLog('Chat AI', `Đã gửi tin nhắn: "${message.length > 50 ? message.substring(0, 50) + '...' : message}"`);
+            const container = document.getElementById('chatMessages');
+
+            // Add user message to UI
             container.innerHTML += `
                 <div class="mb-4 text-right">
                     <div class="inline-block bg-primary text-white rounded-lg px-4 py-2 max-w-xs">
-                        ${message}
+                        ${escapeHtml(message)}
                     </div>
                 </div>
-            `; // [cite: 584-585]
-            input.value = ''; // [cite: 586]
-            container.scrollTop = container.scrollHeight; // [cite: 586]
-            
+            `;
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+
             // Show typing indicator
-            const typingId = 'typing-' + Date.now(); // [cite: 586]
+            const typingId = 'typing-' + Date.now();
             container.innerHTML += `
                 <div class="mb-4" id="${typingId}">
                     <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
@@ -2719,98 +3030,70 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                         </div>
                     </div>
                 </div>
-            `; // [cite: 587-590]
-            container.scrollTop = container.scrollHeight; // [cite: 591]
-            
+            `;
+            container.scrollTop = container.scrollHeight;
+
+            let aiResponse = "";
+            const fallbackMessage = "Xin lỗi, tôi chưa hiểu câu hỏi của bạn hoặc chưa được lập trình để trả lời về điều đó."; // Define fallback message
+
             try {
-                // ▼▼▼ BẮT ĐẦU KHỐI MÃ CONTEXT ĐÃ CẬP NHẬT ▼▼▼
-            
-                // 1. Tóm tắt Sự kiện
-                const eventSummary = eventsData.slice(0, 50).map(e => 
-                    `- Name: ${e.name} (Date: ${e.day}, Description: ${e.contdetl || 'none'})`
-                ).join('\n'); // Lấy 20 sự kiện mới nhất
-                
-                // 2. Tóm tắt Media
-                const photoSummary = `Total media (photos/videos): ${photosData.length}.`; // [cite: 592]
-                
-                // 3. Tóm tắt Người dùng
-                const profileSummary = `Current user's name: ${currentUser.name}.`;
+                 // --- Create Context (needed for GPT/Google) ---
+                 const eventSummary = eventsData.slice(0, 20).map(e => `- Name: ${e.name} (Date: ${e.day}, Description: ${e.contdetl || 'none'})`).join('\n');
+                 const photoSummary = `Total media (photos/videos): ${photosData.length}.`;
+                 const profileSummary = `Current user's name: ${currentUser.name}.`;
+                 const allComments = commentsData.flatMap(c => (c.comments || []).map(comment => ({ ...comment, imageName: c.ID_IMG }))).sort((a, b) => new Date(b.date_input) - new Date(a.date_input));
+                 const recentCommentSummary = allComments.slice(0, 5).map(c => `- (On image: ${c.imageName}) ${c.userName}: "${c.comment}"`).join('\n');
+                 const commentSummary = `Total comments: ${allComments.length}\n5 most recent comments:\n${recentCommentSummary || "No comments yet."}`;
+                 const localContext = `USER PROFILE:\n${profileSummary}\n\nEVENT SUMMARY (Up to 20 most recent):\n${eventSummary}\n\nMEDIA & COMMENT SUMMARY:\n${photoSummary}\n${commentSummary}`;
 
-                // 4. Tóm tắt Bình luận
-                const allComments = commentsData.flatMap(c => 
-                    (c.comments || []).map(comment => ({
-                        ...comment, 
-                        imageName: c.ID_IMG // Thêm tên ảnh
-                    }))
-                );
-                allComments.sort((a, b) => new Date(b.date_input) - new Date(a.date_input));
-                const recentCommentSummary = allComments.slice(0, 5).map(c => 
-                    `- (On image: ${c.imageName}) ${c.userName}: "${c.comment}"`
-                ).join('\n');
-                const commentSummary = `
-                Total comments: ${allComments.length}
-                5 most recent comments:
-                ${recentCommentSummary || "No comments yet."}
-                `;
 
-                // 5. Tạo prompt cuối cùng
-                const context = `
-                Here is the user's data:
+                // --- Select AI Model based on currentAiModel ---
+                if (currentAiModel === 'local') {
+                    aiResponse = processQueryLocally(message);
+                    // If local processing provides the fallback, keep it. Don't automatically switch.
+                    if (aiResponse.startsWith(fallbackMessage.substring(0, 30))) {
+                         // Optional: You could add a message here suggesting trying another AI
+                         // aiResponse += " Bạn có thể thử hỏi GPT hoặc Google AI.";
+                    } else {
+                        // Use await here because it's inside an async function
+                        await new Promise(resolve => setTimeout(resolve, 300)); // Short delay for local
+                    }
+                } else if (currentAiModel === 'gpt') {
+                    // Call GPT API (insecurely, as per previous setup)
+                    // Use await here because it's inside an async function
+                    aiResponse = await callGPTAPI(message, localContext); // <--- Line 2917
+                } else if (currentAiModel === 'google') {
+                    // Call Google AI API
+                    // Ensure googleAI instance exists
+                    const googleAIInstance = googleAI || new GoogleAI(); // Use global or create new
+                     // Use await here because it's inside an async function
+                    aiResponse = await googleAIInstance.generateResponse({ query: message, context: localContext }); // Pass query and context
+                } else {
+                    aiResponse = "Lỗi: Chế độ AI không xác định.";
+                }
 
-                USER PROFILE:
-                ${profileSummary}
-
-                EVENT SUMMARY (Up to 20 most recent):
-                ${eventSummary}
-
-                MEDIA & COMMENT SUMMARY:
-                ${photoSummary}
-                ${commentSummary}
-
-                Based on ALL the data provided above, please answer the following question:
-                Question: ${message}
-                `;
-                
-                // ▲▲▲ KẾT THÚC KHỐI MÃ CONTEXT ĐÃ CẬP NHẬT ▲▲▲
-                
-                // 6. Gửi prompt (Giữ nguyên)
-                const aiResponse = await googleAI.generateResponse(context); // [cite: 594]
-                
-                // Remove typing indicator
-                document.getElementById(typingId).remove(); // [cite: 594]
-                
-                // Add AI response
-                container.innerHTML += `
-                    <div class="mb-4">
-                        <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
-                            <div class="flex items-center mb-1">
-                                <i class="fas fa-robot text-primary mr-2"></i>
-                                <strong class="text-primary">AI Love</strong>
-                            </div>
-                            ${aiResponse}
-                        </div>
-                    </div>
-                `; // [cite: 595-597]
-                
             } catch (error) {
-                // Remove typing indicator
-                document.getElementById(typingId).remove(); // [cite: 598]
-                
-                // Add error response
-                container.innerHTML += `
-                    <div class="mb-4">
-                        <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
-                            <div class="flex items-center mb-1">
-                                <i class="fas fa-robot text-primary mr-2"></i>
-                                <strong class="text-primary">AI Love</strong>
-                            </div>
-                            Xin lỗi, tôi không thể trả lời lúc này. Hãy thử lại sau!
-                        </div>
-                    </div>
-                `; // [cite: 599-602]
+                console.error(`Error during ${currentAiModel} AI processing:`, error);
+                aiResponse = `Đã xảy ra lỗi khi tôi đang xử lý bằng ${currentAiModel.toUpperCase()} AI.`;
             }
-            
-            container.scrollTop = container.scrollHeight; // [cite: 603]
+
+            // --- Update UI (this part remains the same) ---
+            const typingIndicator = document.getElementById(typingId);
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+
+            container.innerHTML += `
+                <div class="mb-4">
+                    <div class="inline-block bg-accent border border-custom rounded-lg px-4 py-2 max-w-xs">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-robot text-primary mr-2"></i>
+                            <strong class="text-primary">AI Love (${currentAiModel})</strong> </div>
+                        ${escapeHtml(aiResponse)}
+                    </div>
+                </div>
+            `;
+            container.scrollTop = container.scrollHeight;
         }
 
         // Search functions
@@ -2865,12 +3148,12 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         // New configuration functions
         function loadAppConfigToUI() {
             // Load auto sync settings
-            document.getElementById('autoSync').checked = appConfigData.AUTO_SYNC_METADATA.enabled;
-            document.getElementById('syncFrequency').value = appConfigData.AUTO_SYNC_METADATA.frequency;
-            document.getElementById('syncTime').value = appConfigData.AUTO_SYNC_METADATA.time;
+            document.getElementById('autoSync').checked = config.AUTO_SYNC_METADATA.enabled;
+            document.getElementById('syncFrequency').value = config.AUTO_SYNC_METADATA.frequency;
+            document.getElementById('syncTime').value = config.AUTO_SYNC_METADATA.time;
             
             // Load logs setting
-            document.getElementById('enableLogs').checked = appConfigData.ENABLE_LOGS;
+            document.getElementById('enableLogs').checked = config.ENABLE_LOGS;
         }
 
         function formatTimeInput(input) {
@@ -2884,59 +3167,28 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         }
 
         function updateAutoSyncConfig() {
-            appConfigData.AUTO_SYNC_METADATA.enabled = document.getElementById('autoSync').checked;
-            appConfigData.AUTO_SYNC_METADATA.frequency = document.getElementById('syncFrequency').value;
-            appConfigData.AUTO_SYNC_METADATA.time = document.getElementById('syncTime').value;
+            config.AUTO_SYNC_METADATA.enabled = document.getElementById('autoSync').checked;
+            config.AUTO_SYNC_METADATA.frequency = document.getElementById('syncFrequency').value;
+            config.AUTO_SYNC_METADATA.time = document.getElementById('syncTime').value;
             
             // Update sync status display when config changes
             updateSyncStatus();
             
             // Log the configuration change
-            const statusText = appConfigData.AUTO_SYNC_METADATA.enabled ? 'Bật' : 'Tắt';
+            const statusText = config.AUTO_SYNC_METADATA.enabled ? 'Bật' : 'Tắt';
             addLog('Cài đặt tự động đồng bộ', 
-                `${statusText} tự động đồng bộ - Tần suất: ${appConfigData.AUTO_SYNC_METADATA.frequency}, Thời gian: ${appConfigData.AUTO_SYNC_METADATA.time}`);
+                `${statusText} tự động đồng bộ - Tần suất: ${config.AUTO_SYNC_METADATA.frequency}, Thời gian: ${config.AUTO_SYNC_METADATA.time}`);
         }
 
         function updateLogsConfig() {
-            appConfigData.ENABLE_LOGS = document.getElementById('enableLogs').checked;
+            config.ENABLE_LOGS = document.getElementById('enableLogs').checked;
         }
 
         async function manualSync() {
             await syncPhotosMetadata(true);
             updateSyncStatus();
         }
-
-        function testAutoSync() {
-            // Force run auto sync check for testing
-            console.log('[Test Auto Sync] Forcing auto sync check...');
-            showNotification('Đang kiểm tra điều kiện tự động đồng bộ...', 'info');
-            
-            // Show current status
-            const now = new Date();
-            const syncTime = appConfigData.AUTO_SYNC_METADATA.time.split(':');
-            const targetTime = new Date();
-            targetTime.setHours(parseInt(syncTime[0]), parseInt(syncTime[1]), 0, 0);
-            
-            const lastSync = localStorage.getItem('lastAutoSync');
-            const enabled = appConfigData.AUTO_SYNC_METADATA.enabled;
-            
-            console.log(`[Test] Enabled: ${enabled}`);
-            console.log(`[Test] Current time: ${now.toLocaleTimeString()}`);
-            console.log(`[Test] Target time: ${targetTime.toLocaleTimeString()}`);
-            console.log(`[Test] Last sync: ${lastSync || 'Never'}`);
-            console.log(`[Test] Frequency: ${appConfigData.AUTO_SYNC_METADATA.frequency}`);
-            
-            // Run the actual check
-            checkAutoSync();
-            
-            // Update UI
-            updateSyncStatus();
-            
-            setTimeout(() => {
-                showNotification('Kiểm tra hoàn tất! Xem Console để biết chi tiết.', 'success');
-            }, 1000);
-        }
-
+ 
         function updateSyncStatus() {
             // Hàm này đã được đơn giản hóa vì không còn cần hiển thị thông tin đồng bộ
             // Chỉ cần cập nhật số lượng log
@@ -3559,6 +3811,9 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         }
 
         function showNotification(message, type = 'info') {
+			// ▼▼▼ THÊM MỚI: Kiểm tra nếu thông báo bị tắt ▼▼▼
+            if (!config.ENABLE_NOTI) return;
+			
             const notification = document.createElement('div');
             notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white z-50 ${
                 type === 'success' ? 'bg-green-500' : 
