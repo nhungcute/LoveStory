@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-23T05:24:59.547Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-23T05:24:47.155Z",
     "action": "Hồ sơ",
     "details": "Đã chuyển đổi sang hồ sơ Voi Hồng",
