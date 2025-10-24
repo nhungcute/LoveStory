@@ -953,7 +953,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                         // Xây dựng URL truy vấn để lấy tất cả media (ảnh và video)
                         // pageSize=1000 để yêu cầu tối đa 1000 file mỗi lần gọi
                         let url = `https://www.googleapis.com/drive/v3/files?q='${this.folderId}'+in+parents+and+(mimeType+contains+'image/'+or+mimeType+contains+'video/')&key=${this.apiKey}&fields=files(id,name,createdTime,modifiedTime,size,webViewLink,thumbnailLink,mimeType,parents,webContentLink),nextPageToken&pageSize=1000`;
-                        
+                        //let url = `https://www.googleapis.com/drive/v3/files?q='${this.folderId}'+in+parents+and+(mimeType+contains+'image/'+or+mimeType+contains+'video/')&key=${this.apiKey}&fields=files(id,name,modifiedTime,size,parents,webContentLink),nextPageToken&pageSize=1000`;
                         // Nếu có token của trang tiếp theo, thêm nó vào URL
                         if (nextPageToken) {
                             url += `&pageToken=${nextPageToken}`;
@@ -964,22 +964,22 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                             const data = await response.json();
                             // Chuyển đổi định dạng file cho phù hợp với ứng dụng
                             const transformedFiles = data.files.map((file, index) => ({
-                                id: file.id,
+                                id: file.name,
                                 name: file.name,
-                                webViewLink: file.webViewLink || `https://drive.google.com/file/d/${file.id}/view?usp=drivesdk`,
-                                webContentLink: file.webContentLink || `https://drive.google.com/uc?export=download&id=${file.id}`,
-                                thumbnailLink: file.thumbnailLink || this.generateThumbnailLink(file.id, file.mimeType),
-                                createdTime: file.createdTime,
-                                modifiedTime: file.modifiedTime || file.createdTime,
+                                //webViewLink: file.webViewLink || `https://drive.google.com/file/d/${file.id}/view?usp=drivesdk`,
+                                //webContentLink: file.webContentLink || `https://drive.google.com/uc?export=download&id=${file.id}`,
+                                //thumbnailLink: file.thumbnailLink || this.generateThumbnailLink(file.id, file.mimeType),
+                                //createdTime: file.createdTime,
+                                //modifiedTime: file.modifiedTime || file.createdTime,
                                 size: parseInt(file.size) || 0,
-                                mimeType: file.mimeType,
-                                description: this.generateDescription(file.name, file.mimeType),
+                                //mimeType: file.mimeType,
+                                //description: this.generateDescription(file.name, file.mimeType),
                                 source: "google-drive",
                                 folderId: this.folderId,
-                                loadedAt: new Date().toISOString(),
+                                //loadedAt: new Date().toISOString(),
                                 pageNumber: pageNumber,
-                                fileType: file.mimeType.startsWith('image/') ? 'image' : 'video',
-                                parents: file.parents || [this.folderId]
+                                fileType: file.mimeType.startsWith('image/') ? 'image' : 'video'//,
+                                //parents: file.parents || [this.folderId]
                             }));
                             
                             // Nối các file của trang này vào danh sách tổng
