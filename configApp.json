@@ -15,7 +15,9 @@
   "LOGS_FILE_PATH": "logs.json",
   "FOLDER_ID": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
   "API_KEY": "AIzaSyDJddlVwOWA8vzdVNrcp70if4eOL30xjp0",
-  "AI_API_KEY": "AIzaSyD3nBr8PA1eTGGr30JYd0jDhzCLemlXpNI",
+  "AI_GOOGLE": "AIzaSyD3nBr8PA1eTGGr30JYd0jDhzCLemlXpNI",
+  "AI_GPT1": "sk-proj-15mVfYaSh_XugxZgZ_mi6qBiHJy784OFljvVKIvmOliOSHglTkyxJRBrb0TBwTVPb7odY0s",
+  "AI_GPT2": "-YRT3BlbkFJF8e5Wn_6Q1Z--9GNsQLOicy-v-EO6Duqbxb_6GlBXQMK-TyBlsZ0_q-elvaPURuj9GEcI5z3oA",
   "PROFILES_FILE_PATH": "profiles.json",
   "PHOTOS_PER_PAGE": "50",
   "ENABLE_NOTI": true
