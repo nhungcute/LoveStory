@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-24T17:08:07.281Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:08:05.866Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Ăn hỏi\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:08:05.865Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:08:01.033Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:07:58.905Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:07:56.610Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T17:06:09.303Z",
     "action": "Bình luận ảnh",
     "details": "Đã bình luận vào ảnh \"DSC01563.JPG\"",
