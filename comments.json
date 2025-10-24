@@ -140,7 +140,11 @@
   },
   {
     "ID_IMG": "IMG_6239.HEIC",
-    "tim": [],
+    "tim": [
+      {
+        "userName": "tintin"
+      }
+    ],
     "comments": []
   },
   {
