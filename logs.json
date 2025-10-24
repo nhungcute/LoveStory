@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T17:01:19.449Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:01:10.017Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T17:01:05.369Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
