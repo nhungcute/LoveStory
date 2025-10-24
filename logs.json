@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-24T17:19:29.170Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"DSC00610.JPG\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:19:24.782Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:19:23.278Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Ăn hỏi\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:19:23.277Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T17:19:04.706Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
