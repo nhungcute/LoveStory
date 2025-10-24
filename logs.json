@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T03:10:31.663Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T03:10:29.376Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T03:01:47.231Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
