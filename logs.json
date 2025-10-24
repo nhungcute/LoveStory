@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T13:23:57.695Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761312231099",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T13:23:51.098Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761312231099",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T10:40:57.475Z",
     "action": "Tương tác ảnh",
     "details": "Đã thích ảnh \"IMG_6106.HEIC\"",
