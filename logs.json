@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-24T09:18:05.996Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761297329215",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T09:17:04.929Z",
     "action": "Tương tác ảnh",
     "details": "Đã thích ảnh \"MIN_9690.jpg\"",
