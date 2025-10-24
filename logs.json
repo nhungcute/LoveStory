@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T23:04:28.291Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761346925253",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T23:04:22.162Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1761346925253",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T23:04:06.240Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
