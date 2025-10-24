@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-24T17:05:57.889Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"DSC01563.JPG\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:05:56.257Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:05:54.697Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T17:04:09.545Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
