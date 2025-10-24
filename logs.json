@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-24T03:42:51.379Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã bỏ thích ảnh \"IMG_6239.HEIC\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T03:42:26.449Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
