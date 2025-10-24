@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T05:11:57.597Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T05:11:54.747Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T05:11:41.488Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 57 files (56 ảnh, 1 video) - Cũ: 56",
