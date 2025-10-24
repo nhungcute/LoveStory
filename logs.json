@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-24T04:32:54.664Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T04:32:52.232Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T04:32:48.917Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"IMG_6237.HEIC\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T04:32:45.420Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T04:32:36.601Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
