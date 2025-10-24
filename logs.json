@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-24T07:23:40.946Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T07:23:38.481Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T07:23:33.937Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T07:23:32.289Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T07:23:28.354Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T07:23:27.536Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1760584100608",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T07:19:52.975Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
