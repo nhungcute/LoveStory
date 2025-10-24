@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-24T04:32:20.501Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Timeline\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T04:32:08.929Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"Có bao nhiêu lượt thích\"",
