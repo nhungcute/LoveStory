@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-24T04:33:09.009Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T04:33:00.461Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T04:32:59.162Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"6x6\" sang \"1x1\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T04:32:57.848Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"5x5\" sang \"6x6\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T04:32:56.980Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"4x4\" sang \"5x5\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T04:32:54.664Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"3x3\" sang \"4x4\"",
