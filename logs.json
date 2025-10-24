@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-24T15:02:56.415Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T14:59:12.657Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 57 files (56 ảnh, 1 video) - Cũ: 57",
