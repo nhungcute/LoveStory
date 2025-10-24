@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T16:59:51.801Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T16:59:47.459Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Ăn hỏi\" với 3 ảnh",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T16:59:42.816Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn ảnh (Tên: DSC00610.JPG)",
