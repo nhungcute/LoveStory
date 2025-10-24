@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-24T03:57:18.000Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T03:56:23.190Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
