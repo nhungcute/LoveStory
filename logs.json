@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T16:32:47.421Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T16:32:46.250Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T16:32:25.312Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 162 files (160 ảnh, 2 video) - Cũ: 162",
