@@ -159,7 +159,7 @@
             border-radius: 1rem;
             padding: 2rem;
             max-width: 90vw;
-            max-height: 95%;
+            max-height: 90vh;
             overflow-y: auto;
             transform: scale(0.9);
             transition: transform 0.3s ease;
@@ -2064,14 +2064,14 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 const videoUrl = `https://drive.google.com/file/d/${mediaId}/preview`;
                 modalPhoto.outerHTML = `
 					<iframe id="modalPhoto" src="${videoUrl}" 
-							style="max-width: 100%; max-height: 50vh; width: 800px; height: 450px; border: none;"
+							style="max-width: 95%; max-height: 50vh; width: 800px; height: 450px; border: none;"
 							allow="autoplay">
 					</iframe>
 				`;
             } else {
                 
                 if (modalPhoto.tagName !== 'IMG') {
-					modalPhoto.outerHTML = `<img id="modalPhoto" src="" alt="" class="mx-auto rounded-lg" style="max-width: 100%; max-height: 50vh; width: auto; height: auto; object-fit: contain;" referrerpolicy="no-referrer">`;
+					modalPhoto.outerHTML = `<img id="modalPhoto" src="" alt="" class="mx-auto rounded-lg" style="max-width: 95%; max-height: 50vh; width: auto; height: auto; object-fit: contain;" referrerpolicy="no-referrer">`;
                 }
                  
                 const imgElement = document.getElementById('modalPhoto');
