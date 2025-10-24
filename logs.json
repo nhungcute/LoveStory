@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-24T02:34:26.304Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T02:34:19.195Z",
+    "action": "Hồ sơ",
+    "details": "Đã chuyển đổi sang hồ sơ Hà Mạnh Tín",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T02:34:16.008Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T02:34:15.143Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T02:26:56.872Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
