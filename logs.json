@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-24T17:19:39.113Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chia sẻ ảnh\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:19:33.243Z",
+    "action": "Tải ảnh",
+    "details": "Đã mở trang tải ảnh \"DSC00610.JPG\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T17:19:33.243Z",
+    "action": "Tải ảnh",
+    "details": "Đã mở trang tải ảnh \"DSC00610.JPG\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T17:19:29.170Z",
     "action": "Tương tác ảnh",
     "details": "Đã thích ảnh \"DSC00610.JPG\"",
