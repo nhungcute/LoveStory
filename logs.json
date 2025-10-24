@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T08:24:13.451Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:24:12.410Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T08:23:53.265Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
