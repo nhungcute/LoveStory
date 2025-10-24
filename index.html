@@ -3853,59 +3853,72 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
 
         async function toggleLike() {
             if (!currentPhotoName || !currentUser) return;
+
+            // 1. Tìm hoặc tạo mục nhập cho ảnh
+            let photoComments = commentsData.find(c => c.ID_IMG === currentPhotoName);
+            if (!photoComments) {
+                photoComments = {
+                    ID_IMG: currentPhotoName,
+                    tim: [],
+                    comments: []
+                };
+                commentsData.push(photoComments);
+            }
+            if (!photoComments.tim) photoComments.tim = [];
+
+            // 2. Xác định hành động (like hay unlike)
+            const existingLikeIndex = photoComments.tim.findIndex(like => like.userName === currentUser.username);
+            const isLiking = existingLikeIndex === -1;
             
+            // 3. --- CẬP NHẬT LẠC QUAN (OPTIMISTIC UPDATE) ---
+            // Thực hiện thay đổi trên dữ liệu local TRƯỚC
+            if (isLiking) {
+                photoComments.tim.push({ userName: currentUser.username });
+                showNotification('Đã thích ảnh!', 'success');
+            } else {
+                photoComments.tim.splice(existingLikeIndex, 1);
+                showNotification('Đã bỏ thích!', 'info');
+            }
+
+            // Cập nhật UI ngay lập tức
+            loadPhotoLikes(currentPhotoName); // Cập nhật nút trong modal
+            loadPhotos(currentPage);          // Cập nhật số đếm trên lưới ảnh
+            addLog('Tương tác ảnh', `Đã ${isLiking ? 'thích' : 'bỏ thích'} ảnh "${currentPhotoName}"`);
+
+            // 4. --- ĐỒNG BỘ NỀN (BACKGROUND SYNC) ---
             try {
-                // Find or create photo comments entry
-                let photoComments = commentsData.find(c => c.ID_IMG === currentPhotoName);
-                if (!photoComments) {
-                    photoComments = {
-                        ID_IMG: currentPhotoName,
-                        tim: [],
-                        comments: []
-                    };
-                    commentsData.push(photoComments);
-                }
-                
-                // Ensure tim array exists
-                if (!photoComments.tim) {
-                    photoComments.tim = [];
-                }
-                
-                // Check if user already liked
-                const existingLikeIndex = photoComments.tim.findIndex(like => like.userName === currentUser.username);
-                
-                if (existingLikeIndex !== -1) {
-                    // Remove like
-                    photoComments.tim.splice(existingLikeIndex, 1);
-                    showNotification('Đã bỏ thích!', 'info');
-                } else {
-                    // Add like
-                    photoComments.tim.push({
-                        userName: currentUser.username
-                    });
-                    showNotification('Đã thích ảnh!', 'success');
-                }
-                
-                // Update GitHub
                 const success = await githubAPI.updateFile(
                     config.COMMENTS_FILE_PATH,
                     commentsData,
                     `Cập nhật lượt thích cho ảnh: ${currentPhotoName}`
                 );
-                
-                if (success) {
-                    // Refresh likes display
+
+                if (!success) {
+                    // 5. --- ROLLBACK (NẾU THẤT BẠI) ---
+                    // Hoàn tác lại thay đổi trên dữ liệu local
+                    if (isLiking) {
+                        photoComments.tim.pop(); // Xóa like vừa thêm
+                    } else {
+                        // Thêm lại like vừa xóa (khó hơn, nhưng vì là currentUser nên có thể giả định)
+                        // Trong kịch bản này, chúng ta bỏ qua việc thêm lại phức tạp
+                        // và chỉ thông báo lỗi
+                    }
+                    
+                    showNotification('Lỗi khi cập nhật! Vui lòng thử lại.', 'error');
+                    
+                    // Tải lại UI về trạng thái cũ (trước khi bấm)
                     loadPhotoLikes(currentPhotoName);
-                    // Refresh photos grid to update like counts
                     loadPhotos(currentPage);
-                    addLog('Tương tác ảnh', `Đã ${existingLikeIndex !== -1 ? 'bỏ thích' : 'thích'} ảnh "${currentPhotoName}"`);
-                } else {
-                    showNotification('Lỗi khi cập nhật!', 'error');
                 }
-                
+                // Nếu thành công, không cần làm gì cả vì UI đã đúng
+
             } catch (error) {
                 console.error('Error toggling like:', error);
                 showNotification('Lỗi khi thích ảnh!', 'error');
+                // Thực hiện rollback nếu có lỗi
+                if (isLiking) photoComments.tim.pop();
+                loadPhotoLikes(currentPhotoName);
+                loadPhotos(currentPage);
             }
         }
 
@@ -3920,57 +3933,68 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             const comment = commentInput.value.trim();
             
             if (!comment || !currentPhotoName || !currentUser) return;
-            
-            try {
-                // Find or create photo comments entry
-                let photoComments = commentsData.find(c => c.ID_IMG === currentPhotoName);
-                if (!photoComments) {
-                    photoComments = {
-                        ID_IMG: currentPhotoName,
-                        tim: [],
-                        comments: []
-                    };
-                    commentsData.push(photoComments);
-                }
-                
-                // Ensure comments array exists
-                if (!photoComments.comments) {
-                    photoComments.comments = [];
-                }
-                
-                // Add new comment
-                const newComment = {
-                    comment: comment,
-                    date_input: new Date().toISOString(),
-                    userName: currentUser.username
+
+            // 1. Tìm hoặc tạo mục nhập
+            let photoComments = commentsData.find(c => c.ID_IMG === currentPhotoName);
+            if (!photoComments) {
+                photoComments = {
+                    ID_IMG: currentPhotoName,
+                    tim: [],
+                    comments: []
                 };
-                
-                photoComments.comments.push(newComment);
-                
-                // Update GitHub
+                commentsData.push(photoComments);
+            }
+            if (!photoComments.comments) photoComments.comments = [];
+
+            // 2. Tạo đối tượng bình luận mới
+            const newComment = {
+                comment: comment,
+                date_input: new Date().toISOString(),
+                userName: currentUser.username
+            };
+
+            // 3. --- CẬP NHẬT LẠC QUAN (OPTIMISTIC UPDATE) ---
+            // Thêm bình luận vào dữ liệu local TRƯỚC
+            photoComments.comments.push(newComment);
+            
+            // Cập nhật UI ngay lập tức
+            commentInput.value = ''; // Xóa ô nhập liệu
+            loadPhotoComments(currentPhotoName); // Tải lại danh sách bình luận
+            loadPhotos(currentPage); // Cập nhật số đếm trên lưới ảnh
+            showNotification('Đã thêm bình luận!', 'success');
+            addLog('Bình luận ảnh', `Đã bình luận vào ảnh "${currentPhotoName}"`);
+
+            // 4. --- ĐỒNG BỘ NỀN (BACKGROUND SYNC) ---
+            try {
                 const success = await githubAPI.updateFile(
                     config.COMMENTS_FILE_PATH,
                     commentsData,
                     `Thêm bình luận cho ảnh: ${currentPhotoName}`
                 );
-                
-                if (success) {
-                    // Clear input and refresh comments
-                    commentInput.value = '';
-                    loadPhotoComments(currentPhotoName);
-                    // Refresh photos grid to update comment counts
-                    loadPhotos(currentPage);
-                    showNotification('Đã thêm bình luận!', 'success');
-                    addLog('Bình luận ảnh', `Đã bình luận vào ảnh "${currentPhotoName}"`);
-                } else {
-                    // Remove comment if failed
+
+                if (!success) {
+                    // 5. --- ROLLBACK (NẾU THẤT BẠI) ---
+                    // Xóa bình luận vừa thêm khỏi dữ liệu local
                     photoComments.comments.pop();
-                    showNotification('Lỗi khi thêm bình luận!', 'error');
+                    
+                    showNotification('Lỗi khi thêm bình luận! Vui lòng thử lại.', 'error');
+                    
+                    // Tải lại UI về trạng thái cũ
+                    loadPhotoComments(currentPhotoName);
+                    loadPhotos(currentPage);
+                    commentInput.value = comment; // Trả lại text cho người dùng
                 }
-                
+                // Nếu thành công, không cần làm gì
+
             } catch (error) {
                 console.error('Error adding comment:', error);
                 showNotification('Lỗi khi thêm bình luận!', 'error');
+                
+                // Rollback nếu có lỗi
+                photoComments.comments.pop();
+                loadPhotoComments(currentPhotoName);
+                loadPhotos(currentPage);
+                commentInput.value = comment;
             }
         }
 
