@@ -719,7 +719,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
     <div class="flex justify-between items-center mb-4">
      <h3 class="text-xl font-bold text-primary"><i class="fas fa-image mr-2"></i>Xem Ảnh</h3><button onclick="closeModal('photoModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
     </div>
-    <div class="text-center mb-4"><img id="modalPhoto" src="" alt="" class="mx-auto rounded-lg" style="max-width: 50vw; max-height: 50vh; width: auto; height: auto; object-fit: contain;">
+    <div class="text-center mb-4"><img id="modalPhoto" src="" alt="" class="mx-auto rounded-lg" style="max-width: 100%; max-height: 50vh; width: auto; height: auto; object-fit: contain;" referrerpolicy="no-referrer">
     </div>
     <div class="flex justify-center space-x-3 mb-4"><button id="likeButton" onclick="toggleLike()" class="love-button" style="transform: scale(0.95);"> <i id="likeIcon" class="fas fa-heart mr-2"></i><span id="likeText">Thích</span> (<span id="likeCount">0</span>) </button> <button onclick="openShareModal()" class="love-button" style="transform: scale(0.95);"> <i class="fas fa-share mr-2"></i>Chia Sẻ </button> <button onclick="downloadPhoto()" class="love-button" style="transform: scale(0.95);"> <i class="fas fa-download mr-2"></i>Tải Về </button>
     </div>
@@ -833,7 +833,19 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         let commentsData = [];
         let profilesData = [];
         let logsData = [];
+		
+		// Thêm 2 dòng này (khoảng dòng 595)
+        const imageErrorPlaceholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMDAgMTAwQzE4MC4xIDEwMCAxNjQuNCAxMTUuNyAxNjQuNCAxMzUuNkMxNjQuNCAxNTUuNSAxODAuMSAxNzEuMiAyMDAgMTcxLjJDMjE5LjkgMTcxLjIgMjM1LjYgMTU1LjUgMjM1LjYgMTM1LjZDMjM1LjYgMTE1LjcgMjE5LjkgMTAwIDIwMCAxMDBaIiBmaWxsPSIjOUI5QkEwIi8+CjxwYXRoIGQ9Ik0xMDAgMzAwSDE1MEwyMDAgMjUwTDI1MCAzMDBIMzAwVjI1MEwyNTAgMjAwTDIwMCAyNTBMMTUwIDIwMEwxMDAgMjUwVjMwMFoiIGZpbGw9IiM5QjlCQTAiLz4KPC9zdmc+';
 
+        function getGridThumbnailUrl(media) {
+            if (media.thumbnailLink && media.thumbnailLink.includes('=')) {
+                // Hack URL của Google để lấy ảnh 400px (nét hơn 220px)
+                return media.thumbnailLink.replace(/=s\d+/, '=s400');
+            }
+            // Dùng link gốc hoặc link đã tạo
+            return media.thumbnailLink || driveAPI.generateThumbnailLink(media.id, media.mimeType);
+        }
+		
         // GitHub API helper
         class GitHubAPI {
             constructor() {
@@ -1956,7 +1968,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             if (currentPhotoView === 'list') {
                 container.className = 'list-view';
                 container.innerHTML = pageMedia.map(media => {
-                    const thumbnailUrl = media.thumbnailLink;
+                    const thumbnailUrl = getGridThumbnailUrl(media); // Kỹ thuật hack URL
                     const mediaComments = commentsData.find(c => c.ID_IMG === media.name);
                     const likesCount = mediaComments && mediaComments.tim && Array.isArray(mediaComments.tim) ? mediaComments.tim.length : 0;
                     const commentsCount = mediaComments ? mediaComments.comments.length : 0;
@@ -1966,7 +1978,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                     return `
                         <div class="photo-item" onclick="viewMediaWithDetails('${media.id}', '${media.name}', '${media.fileType}')">
                             <div class="relative">
-                                <img src="${thumbnailUrl}" alt="${media.name}" onerror="this.src=''; this.style.display='none';">
+                                <img src="${thumbnailUrl}" alt="${media.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src=imageErrorPlaceholder; this.style.objectFit='contain';">
                                 ${isVideo ? '<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-play-circle text-white text-3xl opacity-80"></i></div>' : ''}
                             </div>
                             <div class="flex-1">
@@ -1999,7 +2011,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 container.className = `photo-grid ${cssClass}`;
                 
                 container.innerHTML = pageMedia.map(media => {
-                    const thumbnailUrl = media.thumbnailLink;
+                    const thumbnailUrl = getGridThumbnailUrl(media);
                     const mediaComments = commentsData.find(c => c.ID_IMG === media.name);
                     const likesCount = mediaComments && mediaComments.tim && Array.isArray(mediaComments.tim) ? mediaComments.tim.length : 0;
                     const commentsCount = mediaComments ? (mediaComments.comments ? mediaComments.comments.length : 0) : 0;
@@ -2007,7 +2019,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                     
                     return `
                         <div class="photo-item relative" onclick="viewMediaWithDetails('${media.id}', '${media.name}', '${media.fileType}')" title="${media.name}">
-                            <img src="${thumbnailUrl}" alt="${media.name}" onerror="this.src=''; this.style.display='none';">
+                            <img src="${thumbnailUrl}" alt="${media.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src=imageErrorPlaceholder; this.style.objectFit='contain';">
                             ${isVideo ? '<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-play-circle text-white text-4xl opacity-80"></i></div>' : ''}
                             <div class="absolute top-2 right-2">
                                 <span class="bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
@@ -2051,28 +2063,28 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 // For videos, create a video element
                 const videoUrl = `https://drive.google.com/file/d/${mediaId}/preview`;
                 modalPhoto.outerHTML = `
-                    <iframe id="modalPhoto" src="${videoUrl}" 
-                            style="max-width: 50vw; max-height: 50vh; width: 800px; height: 450px; border: none;"
-                            allow="autoplay">
-                    </iframe>
-                `;
+					<iframe id="modalPhoto" src="${videoUrl}" 
+							style="max-width: 100%; max-height: 50vh; width: 800px; height: 450px; border: none;"
+							allow="autoplay">
+					</iframe>
+				`;
             } else {
                 // For images, use img element
-                const highQualityImageUrl = driveAPI.getImageUrl(mediaId, 'highQuality');
+                //const highQualityImageUrl = driveAPI.getImageUrl(mediaId, 'highQuality');
                 
                 // Ensure it's an img element
                 if (modalPhoto.tagName !== 'IMG') {
-                    modalPhoto.outerHTML = `<img id="modalPhoto" src="" alt="" class="mx-auto rounded-lg">`;
+					modalPhoto.outerHTML = `<img id="modalPhoto" src="" alt="" class="mx-auto rounded-lg" style="max-width: 100%; max-height: 50vh; width: auto; height: auto; object-fit: contain;" referrerpolicy="no-referrer">`;
                 }
-                
-                const imgElement = document.getElementById('modalPhoto');
-                imgElement.src = highQualityImageUrl;
+                 
+                //const imgElement = document.getElementById('modalPhoto'); 
+				loadModalImageWithFallback(modalPhoto, mediaId);
 				
-                imgElement.style.maxWidth = '50vw';
-                imgElement.style.maxHeight = '50vh';
-                imgElement.style.width = 'auto';
-                imgElement.style.height = 'auto';
-                imgElement.style.objectFit = 'contain';
+                //imgElement.style.maxWidth = '50vw';
+                //imgElement.style.maxHeight = '50vh';
+                //imgElement.style.width = 'auto';
+                //imgElement.style.height = 'auto';
+                //imgElement.style.objectFit = 'contain';
             }
             
             // Load comments and likes for this media
@@ -2082,6 +2094,66 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             openModal('photoModal');
         }
 
+		// Dán hàm này vào (khoảng dòng 1335)
+        function loadModalImageWithFallback(imgElement, mediaId) {
+            const media = photosData.find(p => p.id === mediaId);
+            
+            // 1. Tạo danh sách URL dự phòng
+            const urls = [
+                driveAPI.getImageUrl(mediaId, 'highQuality'), // 1. Thử link chất lượng cao
+                media.thumbnailLink ? media.thumbnailLink.replace(/=s\d+/, '=s2048') : null, // 2. Thử hack link 2048px
+                `https://drive.google.com/thumbnail?id=${mediaId}&sz=w1600`, // 3. Thử link 1600px
+                media.thumbnailLink // 4. Thử link thumbnail gốc
+            ].filter(url => url); // Lọc bỏ các link null
+
+            // 2. Tạo và chèn spinner "Đang tải"
+            const container = imgElement.parentNode;
+            
+            // Xóa spinner cũ nếu có
+            const oldLoader = container.querySelector('.modal-loader');
+            if (oldLoader) oldLoader.remove();
+            
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'modal-loader w-full flex items-center justify-center mx-auto rounded-lg';
+            // Dùng style giống hệt ảnh để giữ không gian
+            loadingDiv.style.cssText = `max-width: 50vw; max-height: 50vh; min-height: 300px; background: #f8f9fa;`; 
+            loadingDiv.innerHTML = `<div class="text-center">
+                                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                                        <p class="mt-4 text-gray-600">Đang tải ảnh...</p>
+                                    </div>`;
+            
+            imgElement.style.display = 'none'; // Ẩn ảnh đi
+            container.insertBefore(loadingDiv, imgElement); // Chèn spinner vào
+
+            // 3. Bắt đầu quá trình tải ảnh
+            let urlIndex = 0;
+            function tryLoad() {
+                if (urlIndex >= urls.length) {
+                    // Nếu tất cả URL đều lỗi
+                    loadingDiv.innerHTML = '<p class="text-red-500 p-4">Không thể tải ảnh. Vui lòng thử lại.</p>';
+                    return;
+                }
+                
+                // Gán sự kiện cho ảnh
+                imgElement.onload = function() {
+                    loadingDiv.remove(); // Xóa spinner
+                    imgElement.style.display = 'block'; // Hiện ảnh
+                };
+                
+                imgElement.onerror = function() {
+                    console.warn('Modal Image Load Failed, trying next:', urls[urlIndex]);
+                    urlIndex++; // Chuyển sang URL tiếp theo
+                    tryLoad(); // Thử lại
+                };
+                
+                // Bắt đầu tải URL hiện tại
+                imgElement.src = urls[urlIndex];
+            }
+            
+            tryLoad(); // Bắt đầu tải URL đầu tiên
+        }
+		
+		
         function viewPhotoWithDetails(photoId, photoName) {
             // Backward compatibility - assume it's an image
             viewMediaWithDetails(photoId, photoName, 'image');
