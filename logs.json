@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-24T16:59:42.816Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC00610.JPG)",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T16:59:42.352Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC00607.JPG)",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T16:59:41.801Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC00601.JPG)",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T16:59:25.195Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
