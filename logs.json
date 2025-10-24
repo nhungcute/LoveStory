@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-24T14:28:36.261Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T14:18:43.869Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 57 files (56 ảnh, 1 video) - Cũ: 57",
