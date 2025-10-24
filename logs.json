@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T05:11:41.488Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 57 files (56 ảnh, 1 video) - Cũ: 56",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T05:11:35.574Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T05:04:33.144Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
