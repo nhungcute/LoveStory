@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-24T08:40:47.219Z",
+    "action": "Bình luận ảnh",
+    "details": "Đã bình luận vào ảnh \"MIN_9999.jpg\"",
+    "username": "1761295193799",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T08:40:15.899Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
