@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-24T08:09:55.984Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Khoảnh khắc\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:09:53.616Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Chat AI\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:09:49.744Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T08:09:43.560Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
