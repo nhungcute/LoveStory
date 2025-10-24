@@ -148,6 +148,15 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
+		/* Gán z-index cao hơn cho modal chi tiết ảnh */
+        #photoModal {
+            z-index: 1050;
+        }
+
+        /* Gán z-index cao nhất cho modal chia sẻ (vì nó mở từ photoModal) */
+        #shareModal {
+            z-index: 1100;
+        }
 
         .modal.show {
             opacity: 1;
@@ -721,7 +730,10 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
     </div>
     <div class="text-center mb-4"><img id="modalPhoto" src="" alt="" class="mx-auto rounded-lg" style="max-width: 100%; max-height: 50vh; width: auto; height: auto; object-fit: contain;" referrerpolicy="no-referrer">
     </div>
-    <div class="flex justify-center space-x-3 mb-4"><button id="likeButton" onclick="toggleLike()" class="love-button" style="transform: scale(0.95);"> <i id="likeIcon" class="fas fa-heart mr-2"></i><span id="likeText">Thích</span> (<span id="likeCount">0</span>) </button> <button onclick="openShareModal()" class="love-button" style="transform: scale(0.95);"> <i class="fas fa-share mr-2"></i>Chia Sẻ </button> <button onclick="downloadPhoto()" class="love-button" style="transform: scale(0.95);"> <i class="fas fa-download mr-2"></i>Tải Về </button>
+    <div class="flex justify-center space-x-3 mb-4 whitespace-nowrap">
+        <button id="likeButton" onclick="toggleLike()" class="love-button" style="transform: scale(0.90);"> <i id="likeIcon" class="fas fa-heart mr-2"></i><span id="likeText">Thích</span> (<span id="likeCount">0</span>) </button> 
+        <button onclick="openShareModal()" class="love-button" style="transform: scale(0.90);"> <i class="fas fa-share mr-2"></i>Chia Sẻ </button> 
+        <button onclick="downloadPhoto()" class="love-button" style="transform: scale(0.90);"> <i class="fas fa-download mr-2"></i>Tải Về </button>
     </div>
     <div class="love-card rounded" style="padding: 0.5rem;">
      <h4 class="font-medium mb-3">Bình luận:</h4>
@@ -964,8 +976,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                             const data = await response.json();
                             // Chuyển đổi định dạng file cho phù hợp với ứng dụng
                             const transformedFiles = data.files.map((file, index) => ({
-                                id: file.name,
-                                name: file.name,
+                                id: file.id,
+                                name: file.name.toUpperCase(),
                                 //webViewLink: file.webViewLink || `https://drive.google.com/file/d/${file.id}/view?usp=drivesdk`,
                                 //webContentLink: file.webContentLink || `https://drive.google.com/uc?export=download&id=${file.id}`,
                                 //thumbnailLink: file.thumbnailLink || this.generateThumbnailLink(file.id, file.mimeType),
@@ -1871,7 +1883,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 return;
             }
             
-            // Sort events by date (newest first)
+            // Sắp xếp sự kiện (mới nhất trước)
             const sortedEvents = [...eventsData].sort((a, b) => 
                 new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day))
             );
@@ -1879,14 +1891,21 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             const timelineHTML = sortedEvents.map(event => {
                 let imagesHTML = '';
                 if (event.image && event.image.length > 0) {
-                    const displayImages = event.image.slice(0, 3);
+                    const displayImages = event.image.slice(0, 3); // Mảng TÊN ảnh
+                    
                     imagesHTML = `
                         <div class="flex space-x-2 mt-4">
-                            ${displayImages.map(imageId => {
-                                const imageUrl = driveAPI.getImageUrl(imageId, 'thumbnail');
-                                return `<img src="${imageUrl}" alt="" class="w-16 h-16 rounded object-cover cursor-pointer" 
-                                           onclick="viewPhoto('${driveAPI.getImageUrl(imageId, 'view')}')"
-                                           onerror="this.src=''; this.style.display='none';">`;
+                            ${displayImages.map(imageName => {
+                                // Tra cứu thông tin ảnh đầy đủ bằng tên
+                                const photo = findPhotoByName(imageName);
+                                if (!photo) return ''; // Bỏ qua nếu ảnh không (còn) tồn tại
+
+                                const imageUrl = driveAPI.getImageUrl(photo.id, 'thumbnail');
+
+                                // --- BẠN HÃY SỬA DÒNG "onclick" DƯỚI ĐÂY ---
+                                return `<img src="${imageUrl}" alt="${imageName}" class="w-16 h-16 rounded object-cover cursor-pointer" 
+                                           onclick="viewMediaWithDetails('${photo.id}', '${photo.name}', '${photo.fileType}')"
+                                           onerror="this.src=imageErrorPlaceholder; this.style.display='none';">`;
                             }).join('')}
                             ${event.image.length > 3 ? `
                                 <div class="w-16 h-16 rounded bg-gray-200 flex items-center justify-center text-sm font-medium">
@@ -1897,7 +1916,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                     `;
                 }
                 
-                // Safely escape HTML content to prevent font issues
+                // Safely escape HTML content
                 const safeName = escapeHtml(event.name || '');
                 const safeDescription = escapeHtml(event.contdetl || 'Không có mô tả');
                 
@@ -1922,7 +1941,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                                 </div>
                             </div>
                             <p class="text-gray-700 whitespace-pre-wrap" style="font-size: 0.9em; line-height: 1.4;">${safeDescription}</p>
-                        </div>
+                            ${imagesHTML} </div>
                     </div>
                 `;
             }).join('');
@@ -2560,15 +2579,20 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             const endIndex = startIndex + eventPhotosPerPage;
             const pagePhotos = currentEventPhotos.slice(startIndex, endIndex);
             
-            eventPhotosGrid.innerHTML = pagePhotos.map(imageId => {
-                const imageUrl = driveAPI.getImageUrl(imageId, 'thumbnail');
-                const fullImageUrl = driveAPI.getImageUrl(imageId, 'view');
-                
+            eventPhotosGrid.innerHTML = pagePhotos.map(imageName => {
+                // --- THAY ĐỔI: Tra cứu ảnh bằng tên ---
+                const photo = findPhotoByName(imageName);
+                if (!photo) return ''; // Bỏ qua nếu ảnh đã bị xóa
+
+                const imageUrl = driveAPI.getImageUrl(photo.id, 'thumbnail');
+                const highQualityUrl = driveAPI.getImageUrl(photo.id, 'highQuality');
+                // --- Kết thúc thay đổi ---
+
                 return `
                     <div class="photo-item aspect-square rounded overflow-hidden cursor-pointer hover:opacity-80" 
-                         onclick="viewPhoto('${driveAPI.getImageUrl(imageId, 'highQuality')}')">
-                        <img src="${imageUrl}" alt="" class="w-full h-full object-cover"
-                             onerror="this.src=''; this.style.display='none';">
+						onclick="viewMediaWithDetails('${photo.id}', '${photo.name}', '${photo.fileType}')">
+                        <img src="${imageUrl}" alt="${imageName}" class="w-full h-full object-cover"
+                             onerror="this.src=imageErrorPlaceholder; this.style.display='none';">
                     </div>
                 `;
             }).join('');
@@ -2621,20 +2645,11 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             currentImageSelectorPage = page;
             
             if (photosData.length === 0) {
-                imageSelector.innerHTML = `
-                    <div class="col-span-full text-center py-8 text-gray-500">
-                        <i class="fas fa-images text-4xl mb-3"></i>
-                        <p>Chưa có ảnh nào</p>
-                        <button onclick="syncPhotosMetadata()" class="love-button mt-3">
-                            <i class="fas fa-sync mr-2"></i>Đồng Bộ Ngay
-                        </button>
-                    </div>
-                `;
+                imageSelector.innerHTML = `... (giữ nguyên phần code không có ảnh) ...`;
                 loadImageSelectorPagination(1, 1);
                 return;
             }
             
-            // Sort photos by creation time (newest first)
             const sortedPhotos = [...photosData].sort((a, b) => 
                 new Date(b.createdTime) - new Date(a.createdTime)
             );
@@ -2644,18 +2659,17 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             const endIndex = startIndex + photosPerPage;
             const pagePhotos = sortedPhotos.slice(startIndex, endIndex);
             
-            // Set grid columns based on device
             const isMobile = window.innerWidth <= 768;
             const gridCols = isMobile ? 'grid-cols-3' : 'grid-cols-6';
             imageSelector.className = `grid ${gridCols} gap-3 max-h-96 overflow-y-auto mb-4`;
             
             imageSelector.innerHTML = pagePhotos.map(photo => {
-                const isSelected = selectedImages.includes(photo.id);
-                 
-                // Xác định class cho icon (solid hoặc regular)
+                // selectedImages bây giờ lưu TÊN ảnh
+                const isSelected = selectedImages.includes(photo.name); 
+                
                 const iconClass = isSelected 
-                    ? 'fas fa-check-circle text-green-500 text-xl' // Icon được chọn
-                    : 'far fa-check-circle text-gray-400 text-xl'; // Icon chưa chọn
+                    ? 'fas fa-check-circle text-green-500 text-xl'
+                    : 'far fa-check-circle text-gray-400 text-xl';
  
                 const iconHtml = `
                     <span class="absolute top-1.5 right-1.5 w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-md">
@@ -2664,12 +2678,11 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 `; 
 
                 return `
-                    
-				<div class="photo-item relative aspect-square rounded overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary" 
-                         onclick="toggleImageSelection('${photo.id}', this)" title="${photo.name}">
-                        <img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-full h-full object-cover"
-                             onerror="this.src=''; this.style.display='none';">
-                        ${iconHtml} 
+                <div class="photo-item relative aspect-square rounded overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary" 
+                         onclick="toggleImageSelection('${photo.name}', this)" title="${photo.name}"> 
+                         <img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-full h-full object-cover"
+                         onerror="this.src=imageErrorPlaceholder; this.style.display='none';">
+                    ${iconHtml} 
                  </div>
                 `;
             }).join('');
@@ -2716,28 +2729,22 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
 
         function selectAllImages() {
             let newSelections = 0;
-            // Chọn tất cả các mục ảnh đang hiển thị
             document.querySelectorAll('#imageSelector .photo-item').forEach(item => {
                 const onclick = item.getAttribute('onclick');
-                const photoId = onclick.match(/'([^']+)'/)[1];
+                const photoName = onclick.match(/'([^']+)'/)[1]; // <-- THAY ĐỔI: Đây là 'photoName'
                 
-                // Thêm vào mảng selectedImages nếu chưa có
-                if (!selectedImages.includes(photoId)) {
-                    selectedImages.push(photoId);
+                if (!selectedImages.includes(photoName)) { // <-- THAY ĐỔI: Kiểm tra 'photoName'
+                    selectedImages.push(photoName); // <-- THAY ĐỔI: Push 'photoName'
                     newSelections++;
                 }
                 
-                // Cập nhật icon sang trạng thái "đã chọn"
                 const iconEl = item.querySelector('i');
                 if (iconEl) {
                     iconEl.className = 'fas fa-check-circle text-green-500 text-xl';
                 }
-                
-                // Xóa bất kỳ class ring nào còn sót lại (Yêu cầu số 3)
                 item.classList.remove('ring-4', 'ring-primary');
             });
             
-            // Cập nhật số lượng
             document.getElementById('selectedCount').textContent = selectedImages.length;
             
             if (newSelections > 0) {
@@ -3081,6 +3088,17 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+		
+		/**
+         * Tìm đối tượng photo trong photosData dựa vào TÊN
+         * @param {string} name - Tên ảnh (đã UPPERCASE)
+         * @returns {object | null} - Đối tượng photo hoặc null
+         */
+        function findPhotoByName(name) {
+            if (!name) return null;
+            // Giả định cả `name` và `p.name` đều đã ở dạng UPPERCASE
+            return photosData.find(p => p.name === name);
         }
 
         // New configuration functions
@@ -3794,27 +3812,24 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             }
         }
 
-        function toggleImageSelection(id, element) {
-            const wasSelected = selectedImages.includes(id);
-            // Tìm icon <i> bên trong element được nhấp
+        function toggleImageSelection(name, element) { // <-- THAY ĐỔI: Tham số là 'name'
+            const wasSelected = selectedImages.includes(name); // <-- THAY ĐỔI: Kiểm tra 'name'
             const iconEl = element.querySelector('i');
-            if (!iconEl) return; // Thoát nếu không tìm thấy icon
+            if (!iconEl) return;
 
 			if (wasSelected) {
                 // Bỏ chọn
-                selectedImages = selectedImages.filter(i => i !== id);
-                // Đổi class của icon sang trạng thái "chưa chọn" (viền, xám)
+                selectedImages = selectedImages.filter(i => i !== name); // <-- THAY ĐỔI: Lọc theo 'name'
                 iconEl.className = 'far fa-check-circle text-gray-400 text-xl';
-                addLog('Chọn ảnh', `Đã bỏ chọn ảnh (ID: ${id})`);
+                addLog('Chọn ảnh', `Đã bỏ chọn ảnh (Tên: ${name})`); // <-- THAY ĐỔI: Log theo 'name'
 			} else {
                 // Chọn
-                selectedImages.push(id);
-                // Đổi class của icon sang trạng thái "đã chọn" (solid, green)
+                selectedImages.push(name); // <-- THAY ĐỔI: Push 'name'
                 iconEl.className = 'fas fa-check-circle text-green-500 text-xl';
-                addLog('Chọn ảnh', `Đã chọn ảnh (ID: ${id})`);
+                addLog('Chọn ảnh', `Đã chọn ảnh (Tên: ${name})`); // <-- THAY ĐỔI: Log theo 'name'
             }
             document.getElementById('selectedCount').textContent = selectedImages.length;
-}
+        }
 
         // Photo interaction functions
         function loadPhotoLikes(photoName) {
