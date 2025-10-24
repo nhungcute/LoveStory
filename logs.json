@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-24T08:58:24.012Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761296289924",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:58:13.558Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761296289924",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:58:11.724Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761296289924",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:58:09.924Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761296289924",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T08:56:18.632Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
