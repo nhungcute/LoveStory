@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T04:31:18.168Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T04:31:11.103Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761280271103",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T04:31:06.968Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
