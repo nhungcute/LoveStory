@@ -1,9 +1,23 @@
 [
   {
-    "timestamp": "2025-10-24T08:39:52.819Z",
+    "timestamp": "2025-10-24T08:40:02.908Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761295193799",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:40:01.369Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761295193799",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:39:53.799Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
-    "username": "1761295192819",
+    "username": "1761295193799",
     "saved": true
   },
   {
