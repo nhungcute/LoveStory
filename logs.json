@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-24T13:25:22.395Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 57 files (56 ảnh, 1 video) - Cũ: 57",
+    "username": "1761312231099",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T13:25:17.497Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1761312231099",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T13:25:08.155Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761312231099",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T13:24:53.037Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
