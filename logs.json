@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-24T01:43:43.796Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: LOCAL",
+    "username": "1761270223810",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T01:45:06.243Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
