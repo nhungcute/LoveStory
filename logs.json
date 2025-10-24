@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-24T08:10:11.816Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:10:07.281Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"4x4\" sang \"5x5\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:10:06.386Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:10:05.457Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T08:09:55.984Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Chat AI\" sang \"Khoảnh khắc\"",
