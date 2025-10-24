@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-24T16:59:25.195Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T16:59:23.705Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ăn hỏi\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T16:59:23.705Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761315520752",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T16:59:01.337Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
