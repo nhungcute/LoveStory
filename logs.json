@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-24T16:32:20.844Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T16:32:13.637Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T16:32:12.216Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T16:32:10.144Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761323501046",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T16:31:51.506Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 162 files (160 ảnh, 2 video) - Cũ: 162",
