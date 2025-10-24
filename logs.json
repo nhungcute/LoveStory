@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-24T08:23:53.265Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:23:51.124Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T08:22:23.481Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"4x4\" sang \"5x5\"",
