@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-24T23:02:32.257Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã bật nút menu hamburger",
+    "username": "1761346925253",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T23:02:30.351Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã ẩn nút menu hamburger",
+    "username": "1761346925253",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T23:02:25.104Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1761346925253",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T23:02:32.257Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã bật nút menu hamburger",
+    "username": "1761346925253",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T23:02:30.351Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã ẩn nút menu hamburger",
+    "username": "1761346925253",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T23:02:25.104Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1761346925253",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T23:02:12.673Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
