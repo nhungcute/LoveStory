@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-24T08:22:12.961Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:22:11.982Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:22:10.833Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"6x6\" sang \"1x1\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:22:06.111Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:22:04.712Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T08:22:00.279Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T08:10:11.816Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
