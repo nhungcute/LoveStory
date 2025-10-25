@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-25T07:04:13.934Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:04:12.589Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:04:12.589Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:04:11.469Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:04:08.765Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:04:08.280Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:03:40.772Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn ảnh (Tên: DSC01558.JPG)",
@@ -6955,48 +6997,6 @@
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
     "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T01:55:27.796Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T14:50:40.029Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Chọn ảnh\"",
-    "username": "1761144499309",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T14:50:38.179Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"First day of love\"",
-    "username": "1761144499309",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T14:50:38.179Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761144499309",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T14:50:11.858Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1761144499309",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T14:48:21.408Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
-    "username": "1761144499309",
     "saved": true
   }
 ]
