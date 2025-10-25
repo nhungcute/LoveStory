@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-25T09:03:26.457Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 162 files (160 ảnh, 2 video) - Cũ: 162",
+    "username": "1761383004443",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T09:03:24.447Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily",
+    "username": "1761383004443",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T09:03:24.443Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761383004443",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:52:34.872Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn ảnh (Tên: DSC01557.JPG)",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-23T03:01:04.492Z",
     "action": "Chọn ảnh",
     "details": "Đã bỏ chọn ảnh (ID: 1Lpmmy80OM12M5f3oq1E5vlvmR6AsJ8hO)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:01:03.189Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1Lpmmy80OM12M5f3oq1E5vlvmR6AsJ8hO)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:01:01.204Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Chọn ảnh\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:00:51.355Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
     "username": "1761184802900",
     "saved": true
   }
