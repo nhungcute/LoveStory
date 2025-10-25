@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-25T02:34:43.789Z",
+    "action": "Tải ảnh",
+    "details": "Đã mở trang tải ảnh \"DSC01404.JPG\"",
+    "username": "1761359470780",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T02:34:40.499Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
