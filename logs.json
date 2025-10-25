@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-25T02:12:43.238Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761358350541",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T02:12:39.203Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761358350541",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T02:12:30.541Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761358350541",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-24T23:04:28.291Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
