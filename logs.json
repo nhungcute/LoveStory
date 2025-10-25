@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-25T07:15:25.971Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn ảnh (Tên: DSC01558.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:15:18.995Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01558.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:15:00.275Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn ảnh (Tên: DSC01563.JPG)",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-23T02:36:26.207Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:36:24.855Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:36:24.855Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
     "username": "1761184802900",
     "saved": true
   }
