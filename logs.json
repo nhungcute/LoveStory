@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-25T07:09:35.516Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Ngày dự sinh bé con\" với 1 ảnh",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:09:29.380Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01563.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:08:30.756Z",
     "action": "Chọn ảnh",
     "details": "Đã bỏ chọn ảnh (Tên: DSC01561.JPG)",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-23T02:18:42.772Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"First day of love\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:18:42.772Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:18:30.411Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
     "username": "1761184802900",
     "saved": true
   }
