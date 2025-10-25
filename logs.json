@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-25T07:15:43.659Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: IMG_6202.HEIC)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:15:25.971Z",
     "action": "Chọn ảnh",
     "details": "Đã bỏ chọn ảnh (Tên: DSC01558.JPG)",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-23T02:36:37.181Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn ảnh (ID: 1b_PLjaXtok-A74de1wkp7aLaQFULTCqF)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:36:26.207Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Chọn ảnh\"",
     "username": "1761184802900",
     "saved": true
   }
