@@ -2685,8 +2685,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 `; 
 
                 return `
-                <div class="photo-item relative aspect-square rounded overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary" 
-                         onclick="toggleImageSelection('${photo.name}', this)" title="${photo.name}"> 
+                <div class="photo-item relative rounded cursor-pointer border-2 border-transparent hover:border-primary" 
+						onclick="toggleImageSelection('${photo.name}', this)" title="${photo.name}">
                          <img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-full h-full object-cover"
                          onerror="this.src=imageErrorPlaceholder; this.style.display='none';">
                     ${iconHtml} 
