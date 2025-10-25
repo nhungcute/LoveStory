@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-25T07:37:02.922Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01562.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:36:56.923Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:36:55.923Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:36:55.923Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:36:54.561Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:36:49.715Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:34:47.029Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6954,48 +6996,6 @@
     "timestamp": "2025-10-23T02:50:13.725Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn tất cả 50 ảnh trên trang hiện tại",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:13.037Z",
-    "action": "Chọn ảnh",
-    "details": "Đã bỏ chọn tất cả 50 ảnh",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:12.117Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn tất cả 50 ảnh trên trang hiện tại",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:10.637Z",
-    "action": "Chọn ảnh",
-    "details": "Đã bỏ chọn tất cả 50 ảnh",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:07.213Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn tất cả 46 ảnh trên trang hiện tại",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:06.189Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1flwFUSEZG6pDclfOzgQRn8DxKnzp1lHx)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:05.773Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1xKPequseVEqzaYXt4lLVgPydCOD12B91)",
     "username": "1761184802900",
     "saved": true
   }
