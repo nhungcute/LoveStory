@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-25T03:52:04.188Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T03:51:54.709Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T02:34:43.789Z",
     "action": "Tải ảnh",
     "details": "Đã mở trang tải ảnh \"DSC01404.JPG\"",
@@ -6984,12 +6998,5 @@
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
     "username": "1760600764354",
     "saved": true
-  },
-  {
-    "id": "1760600611288",
-    "timestamp": "2025-10-16T07:43:31.288Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Lãng Mạn (Hồng - Cam)\"",
-    "sessionId": "1760584100608"
   }
 ]
