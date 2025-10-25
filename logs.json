@@ -1,5 +1,54 @@
 [
   {
+    "timestamp": "2025-10-25T07:48:32.704Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn ảnh (Tên: DSC01562.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:48:31.817Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01562.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:48:25.514Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:48:24.401Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:48:24.401Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:48:22.487Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:48:18.691Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:39:53.464Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 162 files (160 ảnh, 2 video) - Cũ: 162",
@@ -6947,55 +6996,6 @@
     "timestamp": "2025-10-23T02:50:36.795Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn tất cả 49 ảnh trên trang hiện tại",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:31.826Z",
-    "action": "Chọn ảnh",
-    "details": "Đã bỏ chọn ảnh (ID: 1c_Ln9OGl-viVgO1u_ngxytVbI4nceuRg)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:31.066Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1c_Ln9OGl-viVgO1u_ngxytVbI4nceuRg)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:30.306Z",
-    "action": "Chọn ảnh",
-    "details": "Đã bỏ chọn ảnh (ID: 1xKPequseVEqzaYXt4lLVgPydCOD12B91)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:29.554Z",
-    "action": "Chọn ảnh",
-    "details": "Đã bỏ chọn ảnh (ID: 1KqkhOWDcXaapfqtiWLHtHm-D4_sqYVFi)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:28.946Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1iS24mP5ySFAnG59j211LqTMGXdCbWPSF)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:28.466Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1KqkhOWDcXaapfqtiWLHtHm-D4_sqYVFi)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:50:28.034Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1xKPequseVEqzaYXt4lLVgPydCOD12B91)",
     "username": "1761184802900",
     "saved": true
   }
