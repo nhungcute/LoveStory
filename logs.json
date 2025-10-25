@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-25T07:34:36.075Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761377669488",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:34:34.316Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761377669488",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:34:29.487Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761377669488",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:32:57.734Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-23T02:50:00.550Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:49:58.926Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:49:58.926Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:49:57.661Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
     "username": "1761184802900",
     "saved": true
   }
