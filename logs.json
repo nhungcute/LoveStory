@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-25T07:02:16.197Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:02:14.621Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:02:14.621Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:02:13.029Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:02:06.373Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:01:57.993Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
@@ -6961,41 +6996,6 @@
     "timestamp": "2025-10-22T09:11:16.840Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"2x2\" sang \"3x3\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:15.896Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:15.340Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:14.376Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"4x4\" sang \"1x1\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:13.688Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:08.342Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
     "username": "1761124197238",
     "saved": true
   }
