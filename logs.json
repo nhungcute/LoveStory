@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-25T04:07:22.614Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761365234142",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:07:21.180Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"I'm here\"",
+    "username": "1761365234142",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:07:21.180Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761365234142",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:07:19.446Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761365234142",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:07:14.141Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761365234142",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T04:06:48.327Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6961,41 +6996,6 @@
     "timestamp": "2025-10-16T08:37:42.242Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:36:07.075Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:36:05.726Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mặc định\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:36:04.386Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:27:48.347Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:27:41.337Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
     "username": "1760584100608",
     "saved": true
   }
