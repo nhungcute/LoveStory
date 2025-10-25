@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-25T04:08:47.432Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761365191669",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:08:46.096Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Lễ Thành Hôn\"",
+    "username": "1761365191669",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:08:46.096Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761365191669",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:08:42.311Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761365191669",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:08:37.304Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761365191669",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T04:07:22.614Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6961,41 +6996,6 @@
     "timestamp": "2025-10-16T08:45:14.260Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:44:38.778Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Chat AI\" sang \"Khoảnh khắc\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:43:03.870Z",
-    "action": "Chat AI",
-    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:42:59.867Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:37:46.419Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:37:42.242Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
     "username": "1760584100608",
     "saved": true
   }
