@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-25T04:28:05.905Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761366469022",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:28:04.038Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc - Day 1\"",
+    "username": "1761366469022",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:28:04.037Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761366469022",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T04:27:58.882Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
@@ -6973,27 +6994,6 @@
   },
   {
     "timestamp": "2025-10-16T08:46:40.618Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Chat AI\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:46:39.187Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:46:38.018Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:45:23.370Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Chat AI\"",
     "username": "1760584100608",
