@@ -1,5 +1,54 @@
 [
   {
+    "timestamp": "2025-10-25T07:03:40.772Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01558.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:03:39.548Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01559.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:03:37.142Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:03:35.853Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:03:35.853Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:03:34.821Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:03:32.089Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:03:12.484Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn ảnh (Tên: DSC01552.JPG)",
@@ -6948,55 +6997,6 @@
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
     "username": "1761144499309",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T14:48:19.308Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761144499309",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T14:45:32.767Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
-    "username": "1761144330178",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T14:45:30.178Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761144330178",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:59.414Z",
-    "action": "Chọn ảnh",
-    "details": "Đã bỏ chọn tất cả 2 ảnh",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:55.782Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Chọn ảnh\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:54.109Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"First day of love\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:54.109Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761124197238",
     "saved": true
   }
 ]
