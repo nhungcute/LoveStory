@@ -1,5 +1,68 @@
 [
   {
+    "timestamp": "2025-10-25T06:56:51.400Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01557.JPG)",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:56:50.992Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01556.JPG)",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:56:50.616Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01555.JPG)",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:56:50.224Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01558.JPG)",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:56:49.824Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01559.JPG)",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:56:49.432Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01560.JPG)",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:56:48.944Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01563.JPG)",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:56:48.384Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01561.JPG)",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:56:47.737Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01562.JPG)",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T06:51:05.909Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6933,69 +6996,6 @@
     "timestamp": "2025-10-19T07:39:34.780Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 419 files (416 ảnh, 3 video) - Cũ: 419",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-19T07:39:29.333Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-18T07:39:34.711Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 419 files (416 ảnh, 3 video) - Cũ: 851",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-18T07:39:29.335Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-17T07:39:37.081Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 851 files (848 ảnh, 3 video) - Cũ: 96",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-17T07:39:29.347Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T09:02:49.242Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T09:01:56.539Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Chat AI\" sang \"Trang chủ\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T09:01:52.194Z",
-    "action": "Chat AI",
-    "details": "Đã gửi tin nhắn: \"1+1 = mấy\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T09:01:46.922Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Chat AI\"",
     "username": "1760584100608",
     "saved": true
   }
