@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-25T07:52:34.872Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01557.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:52:34.424Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01561.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:52:34.048Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01560.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:52:12.180Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-23T03:00:51.355Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:00:51.355Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:00:49.434Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:53:34.178Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn tất cả 50 ảnh trên trang hiện tại",
     "username": "1761184802900",
     "saved": true
   }
