@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-25T03:52:48.241Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T03:52:46.995Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T03:52:04.188Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-16T07:46:39.022Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Khoảnh khắc\"",
-    "username": "1760600764354",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T07:46:25.364Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Nhật ký hoạt động\"",
-    "username": "1760600764354",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T07:46:23.723Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
     "username": "1760600764354",
     "saved": true
   }
