@@ -1,5 +1,54 @@
 [
   {
+    "timestamp": "2025-10-25T07:08:30.756Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn ảnh (Tên: DSC01561.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:08:29.652Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01561.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:08:27.869Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:08:26.676Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:08:26.676Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:08:25.332Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:08:21.996Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:06:16.900Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn ảnh (Tên: DSC01561.JPG)",
@@ -6947,55 +6996,6 @@
     "timestamp": "2025-10-23T02:18:30.411Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:18:17.788Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Nhật ký hoạt động\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:17:52.941Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:15:28.500Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:15:28.500Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:15:22.355Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:15:13.589Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"5x5\" sang \"6x6\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T02:15:12.653Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"4x4\" sang \"5x5\"",
     "username": "1761184802900",
     "saved": true
   }
