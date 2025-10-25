@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-25T03:54:42.904Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"4x4\" sang \"5x5\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T03:54:41.991Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T03:54:40.567Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T03:54:35.925Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T03:54:28.350Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
@@ -6969,34 +6997,6 @@
     "action": "Mở modal",
     "details": "Đã mở \"Nhật ký hoạt động\"",
     "username": "1760601011048",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T07:51:05.348Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1760601011048",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T07:49:02.164Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Nhật ký hoạt động\"",
-    "username": "1760600930723",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T07:48:59.723Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1760600930723",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T07:48:53.990Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
-    "username": "1760600930723",
     "saved": true
   }
 ]
