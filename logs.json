@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-25T07:01:43.601Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:01:42.216Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc- Day 3\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:01:42.215Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:01:40.998Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:01:39.138Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T06:58:27.843Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6961,41 +6996,6 @@
     "timestamp": "2025-10-22T09:11:03.152Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"2x2\" sang \"3x3\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:10:54.741Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Khoảnh khắc\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:10:31.102Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Nhật ký hoạt động\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:10:17.854Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:10:00.905Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 419",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:09:57.237Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
     "username": "1761124197238",
     "saved": true
   }
