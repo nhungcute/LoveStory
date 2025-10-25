@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-25T03:53:50.609Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T03:53:43.934Z",
     "action": "Hồ sơ",
     "details": "Đã cập nhật hồ sơ: lovely",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-16T07:46:46.266Z",
     "action": "Tải ảnh",
     "details": "Đã mở trang tải ảnh \"DSC00426.JPG\"",
-    "username": "1760600764354",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T07:46:41.052Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
     "username": "1760600764354",
     "saved": true
   }
