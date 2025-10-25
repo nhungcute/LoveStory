@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-25T04:06:48.327Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761365191669",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:06:47.126Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ăn hỏi\"",
+    "username": "1761365191669",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:06:47.126Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761365191669",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T04:06:43.390Z",
     "action": "Xem ảnh sự kiện",
     "details": "Đã xem ảnh của sự kiện \"Ăn hỏi\"",
@@ -6976,27 +6997,6 @@
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
     "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:27:37.990Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:25:07.764Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
-    "username": "1760602949904",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:25:06.277Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
-    "username": "1760602949904",
     "saved": true
   }
 ]
