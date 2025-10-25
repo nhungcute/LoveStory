@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-25T06:58:27.843Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:58:26.488Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:58:26.488Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T06:57:06.193Z",
     "action": "Chọn ảnh",
     "details": "Đã bỏ chọn tất cả 50 ảnh",
@@ -6976,27 +6997,6 @@
     "action": "Tự động đồng bộ",
     "details": "Đã chạy tự động đồng bộ theo lịch daily",
     "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T07:39:36.118Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 419 files (416 ảnh, 3 video) - Cũ: 419",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T07:39:30.079Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-21T07:39:35.692Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 419 files (416 ảnh, 3 video) - Cũ: 419",
-    "username": "1760584100608",
     "saved": true
   }
 ]
