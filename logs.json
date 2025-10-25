@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-25T04:27:58.882Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761366469022",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:27:49.022Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761366469022",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T04:08:47.432Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-16T08:45:23.370Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Chat AI\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:45:22.083Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:45:14.260Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
     "username": "1760584100608",
     "saved": true
   }
