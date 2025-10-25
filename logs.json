@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-25T03:54:28.350Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T03:54:27.565Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"6x6\" sang \"1x1\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T03:54:24.413Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T03:54:07.488Z",
     "action": "Hồ sơ",
     "details": "Đã cập nhật hồ sơ: lovely",
@@ -6976,27 +6997,6 @@
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
     "username": "1760600930723",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T07:48:50.723Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily lúc 2:48:50 PM",
-    "username": "1760600930723",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T07:47:03.603Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Nhật ký hoạt động\"",
-    "username": "1760600764354",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T07:46:52.788Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
-    "username": "1760600764354",
     "saved": true
   }
 ]
