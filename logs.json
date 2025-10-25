@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-25T04:02:27.741Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T04:02:26.353Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Ăn hỏi\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-16T08:22:49.454Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
-    "username": "1760602949904",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:22:48.267Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
     "username": "1760602949904",
     "saved": true
   }
