@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-25T07:01:57.993Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:01:43.601Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-22T09:11:08.342Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:03.152Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
     "username": "1761124197238",
     "saved": true
   }
