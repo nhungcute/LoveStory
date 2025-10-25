@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-25T07:03:12.484Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01552.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:03:11.468Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01553.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:03:10.700Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01559.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T07:03:07.845Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01558.JPG)",
+    "username": "1761375726374",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T07:02:30.569Z",
     "action": "Chọn ảnh",
     "details": "Đã bỏ chọn ảnh (Tên: DSC01553.JPG)",
@@ -6968,34 +6996,6 @@
     "timestamp": "2025-10-22T09:11:54.109Z",
     "action": "Mở modal",
     "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:45.046Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"First day of love\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:45.046Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh sự kiện\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:37.006Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
-    "username": "1761124197238",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-22T09:11:28.190Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
     "username": "1761124197238",
     "saved": true
   }
