@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-25T04:02:26.353Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ăn hỏi\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:02:26.353Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:02:20.106Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:02:14.376Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T04:02:12.698Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1761364314709",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T04:02:11.432Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
@@ -6962,41 +6997,6 @@
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
     "username": "1760602949904",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:22:32.973Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
-    "username": "1760602949904",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:22:29.904Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1760602949904",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:03:29.083Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Nhật ký hoạt động\"",
-    "username": "1760601660865",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:01:13.316Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1760601660865",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:01:04.112Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
-    "username": "1760601660865",
     "saved": true
   }
 ]
