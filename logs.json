@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-25T06:51:05.909Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:51:04.221Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc- Day 3\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:51:04.221Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:51:02.678Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-25T06:50:54.616Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761375054617",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T04:36:37.797Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6961,41 +6996,6 @@
     "timestamp": "2025-10-16T09:01:46.922Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Chat AI\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:59:33.619Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 890 files (886 ảnh, 4 video) - Cũ: 96",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:59:27.883Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:55:24.778Z",
-    "action": "Phân trang ảnh",
-    "details": "Chuyển từ trang 1 sang trang 2",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:55:21.175Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
-    "username": "1760584100608",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-16T08:55:20.774Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
     "username": "1760584100608",
     "saved": true
   }
