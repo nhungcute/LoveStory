@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-26T08:53:17.981Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"IMG_6254.HEIC\"",
+    "username": "1761468749710",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-26T08:53:15.587Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761468749710",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-26T08:53:11.454Z",
     "action": "Bình luận ảnh",
     "details": "Đã bình luận vào ảnh \"IMG_6304.HEIC\"",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-23T03:06:30.314Z",
     "action": "Phân trang ảnh",
     "details": "Chuyển từ trang 1 sang trang 2",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:06:24.426Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:01:38.044Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
     "username": "1761184802900",
     "saved": true
   }
