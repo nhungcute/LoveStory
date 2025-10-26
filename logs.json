@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-26T08:56:33.746Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761468749710",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-26T08:56:23.834Z",
     "action": "Tương tác ảnh",
     "details": "Đã thích ảnh \"IMG_6290.HEIC\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-23T03:15:40.638Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"6x6\" sang \"1x1\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:15:39.982Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"5x5\" sang \"6x6\"",
     "username": "1761184802900",
     "saved": true
   }
