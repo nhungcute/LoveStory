@@ -152,7 +152,11 @@
   },
   {
     "ID_IMG": "IMG_6290.HEIC",
-    "tim": [],
+    "tim": [
+      {
+        "userName": "tintin"
+      }
+    ],
     "comments": [
       {
         "comment": "Du lịch Hàn Quốc nhưng ăn mì úp Hảo Hảo",
