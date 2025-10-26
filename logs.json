@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-26T08:55:06.626Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761468749710",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-26T08:54:57.083Z",
     "action": "Bình luận ảnh",
     "details": "Đã bình luận vào ảnh \"IMG_6232.HEIC\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-23T03:15:32.739Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:06:46.767Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"5x5\" sang \"6x6\"",
     "username": "1761184802900",
     "saved": true
   }
