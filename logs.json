@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-26T08:38:34.369Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761467900601",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-26T08:38:28.404Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761467900601",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-26T08:38:22.665Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 162 files (160 ảnh, 2 video) - Cũ: 162",
+    "username": "1761467900601",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-26T08:38:20.605Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily",
+    "username": "1761467900601",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-26T08:38:20.601Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761467900601",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-25T09:03:26.457Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 162 files (160 ảnh, 2 video) - Cũ: 162",
@@ -6961,41 +6996,6 @@
     "timestamp": "2025-10-23T03:01:09.716Z",
     "action": "Chọn ảnh",
     "details": "Đã chọn ảnh (ID: 1KqkhOWDcXaapfqtiWLHtHm-D4_sqYVFi)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:01:07.827Z",
-    "action": "Chọn ảnh",
-    "details": "Đã bỏ chọn ảnh (ID: 1xKPequseVEqzaYXt4lLVgPydCOD12B91)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:01:07.068Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1xKPequseVEqzaYXt4lLVgPydCOD12B91)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:01:05.996Z",
-    "action": "Chọn ảnh",
-    "details": "Đã bỏ chọn ảnh (ID: 1c_Ln9OGl-viVgO1u_ngxytVbI4nceuRg)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:01:05.269Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1c_Ln9OGl-viVgO1u_ngxytVbI4nceuRg)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:01:04.492Z",
-    "action": "Chọn ảnh",
-    "details": "Đã bỏ chọn ảnh (ID: 1Lpmmy80OM12M5f3oq1E5vlvmR6AsJ8hO)",
     "username": "1761184802900",
     "saved": true
   }
