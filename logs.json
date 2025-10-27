@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-27T08:36:38.608Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761554184798",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-27T08:36:27.271Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 162 files (160 ảnh, 2 video) - Cũ: 162",
+    "username": "1761554184798",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-27T08:36:24.800Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily",
+    "username": "1761554184798",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-27T08:36:24.798Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761554184798",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-26T08:56:33.746Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
@@ -6968,34 +6996,6 @@
     "timestamp": "2025-10-23T03:15:43.544Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"3x3\" sang \"4x4\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:15:42.847Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:15:42.143Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:15:41.252Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:15:40.638Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"6x6\" sang \"1x1\"",
     "username": "1761184802900",
     "saved": true
   }
