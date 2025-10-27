@@ -1,14 +1,5 @@
 [
   {
-    "id": "1eZZ1zRtS0BuT1wvN6PTpH7aJYOYbaW5g",
-    "name": "DSC01563.JPG",
-    "size": 14250058,
-    "source": "google-drive",
-    "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
-    "pageNumber": 1,
-    "fileType": "image"
-  },
-  {
     "id": "14KtlUICCgvkIO_jEFnBRM_NNCBqVWOED",
     "name": "DSC01562.JPG",
     "size": 12511395,
@@ -29,7 +20,7 @@
   {
     "id": "1Mjks0AigTRhszZUkX4p8k1tEb-4I7w92",
     "name": "DSC01560.JPG",
-    "size": 14531981,
+    "size": 2547567,
     "source": "google-drive",
     "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
     "pageNumber": 1,
@@ -38,7 +29,7 @@
   {
     "id": "1o9YqgHd3uD_WbtQrMYmL3bg6Hr7w18fD",
     "name": "DSC01559.JPG",
-    "size": 14033221,
+    "size": 2421085,
     "source": "google-drive",
     "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
     "pageNumber": 1,
@@ -74,7 +65,7 @@
   {
     "id": "147JBQWqgSS2n3uMEDdouMiCzjIXIq20N",
     "name": "DSC01555.JPG",
-    "size": 13985406,
+    "size": 2377515,
     "source": "google-drive",
     "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
     "pageNumber": 1,
@@ -155,7 +146,7 @@
   {
     "id": "1oMI075EwInNdeF1T8M3VbS7SdFj3ak0V",
     "name": "DSC01546.JPG",
-    "size": 13512634,
+    "size": 2529923,
     "source": "google-drive",
     "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
     "pageNumber": 1,
@@ -164,7 +155,7 @@
   {
     "id": "1keR-lDxkil3WIH8m0yLp74aqGkPhXFi4",
     "name": "DSC01545.JPG",
-    "size": 14653291,
+    "size": 2158771,
     "source": "google-drive",
     "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
     "pageNumber": 1,
@@ -173,16 +164,7 @@
   {
     "id": "1VM2xrG_FJYlZ1mmqJNRoqAl2qZ8ltC-Y",
     "name": "DSC01544.JPG",
-    "size": 13029002,
-    "source": "google-drive",
-    "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
-    "pageNumber": 1,
-    "fileType": "image"
-  },
-  {
-    "id": "1XxPygemCe7xUYDGpMtCgIG5DJGMa1wyD",
-    "name": "DSC01542.JPG",
-    "size": 13380675,
+    "size": 2844919,
     "source": "google-drive",
     "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
     "pageNumber": 1,
@@ -191,7 +173,16 @@
   {
     "id": "1GMIDllkCELJDJu1WH8nRHvK-LIOPMpxn",
     "name": "DSC01543.JPG",
-    "size": 13446262,
+    "size": 2605611,
+    "source": "google-drive",
+    "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
+    "pageNumber": 1,
+    "fileType": "image"
+  },
+  {
+    "id": "1XxPygemCe7xUYDGpMtCgIG5DJGMa1wyD",
+    "name": "DSC01542.JPG",
+    "size": 2578373,
     "source": "google-drive",
     "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
     "pageNumber": 1,
@@ -218,7 +209,16 @@
   {
     "id": "1bAvlucuL2vlFLTYhGbHiNODx5JXTH4Na",
     "name": "DSC01539.JPG",
-    "size": 15025502,
+    "size": 3356951,
+    "source": "google-drive",
+    "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
+    "pageNumber": 1,
+    "fileType": "image"
+  },
+  {
+    "id": "1eZZ1zRtS0BuT1wvN6PTpH7aJYOYbaW5g",
+    "name": "DSC01563.JPG",
+    "size": 14250058,
     "source": "google-drive",
     "folderId": "1B_tpWbLwlc7mqT789-g2RO9K2pYNXVav",
     "pageNumber": 1,
