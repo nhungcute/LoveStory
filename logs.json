@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T09:51:26.024Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:49:28.956Z",
     "action": "Xóa sự kiện",
     "details": "Đã xóa sự kiện \"test\"",
