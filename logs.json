@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T07:34:44.559Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"First day of love\" với 1 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:33:54.909Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-23T05:55:23.552Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:38:02.425Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
     "username": "1761184802900",
     "saved": true
   }
