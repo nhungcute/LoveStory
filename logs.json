@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T07:47:38.385Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:47:16.714Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 188 files (186 ảnh, 2 video) - Cũ: 188",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-23T10:23:43.810Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T09:57:11.524Z",
-    "action": "Cài đặt giao diện",
-    "details": "Đã bật thông báo hệ thống",
     "username": "1761184802900",
     "saved": true
   }
