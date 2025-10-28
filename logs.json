@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-28T10:38:27.641Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T10:38:20.923Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"đi hàn\" với 0 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T10:38:17.150Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"đi hàn\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T10:38:17.150Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T10:38:11.321Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện mới \"đi hàn\" với 0 ảnh",
