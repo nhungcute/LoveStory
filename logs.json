@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T09:24:26.233Z",
+    "action": "Phân trang ảnh",
+    "details": "Chuyển từ trang 1 sang trang 2",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:24:22.201Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:24:18.641Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:20:43.426Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện \"Hàn Quốc - Day 6\" với 0 ảnh",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-24T03:29:59.029Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:29:58.960Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:25:21.200Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Chat AI\" sang \"Timeline\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:25:19.120Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
     "username": "1761184802900",
     "saved": true
   }
