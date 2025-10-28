@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T09:23:42.036Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Lễ Thành Hôn\"",
+    "username": "1761641012033",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:23:42.036Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1761641012033",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:23:14.084Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-24T03:34:04.594Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:33:49.889Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:33:48.560Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
     "username": "1761184802900",
     "saved": true
   }
