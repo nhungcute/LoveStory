@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T08:31:31.774Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Bé con 10w2d\" với 5 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:30:27.914Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Bé con 10w2d\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-24T02:17:40.803Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:17:29.496Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GPT",
     "username": "1761184802900",
     "saved": true
   }
