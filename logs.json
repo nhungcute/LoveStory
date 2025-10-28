@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T08:43:37.046Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761641012033",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:43:32.033Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761641012033",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:45:16.992Z",
     "action": "Cập nhật sự kiện",
     "details": "Đã cập nhật sự kiện \"Bé con 12w3d\" với 5 ảnh",
@@ -6980,20 +6994,6 @@
   },
   {
     "timestamp": "2025-10-24T02:25:32.433Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GPT",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:25:30.681Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:25:30.097Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GPT",
     "username": "1761184802900",
