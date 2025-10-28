@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T08:54:43.867Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:54:04.122Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Hàn Quốc - Day 1\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-24T02:34:15.143Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:26:56.872Z",
-    "action": "Chat AI",
-    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
     "username": "1761184802900",
     "saved": true
   }
