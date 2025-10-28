@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-28T09:18:58.496Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Hàn Quốc- Day 5\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:18:58.496Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:18:55.057Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc- Day 5\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:18:55.057Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:18:39.306Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
@@ -6968,34 +6996,6 @@
     "timestamp": "2025-10-24T03:17:07.985Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:16:52.581Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mặc định\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:16:50.312Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:16:49.248Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:16:48.184Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Chat AI\" sang \"Timeline\"",
     "username": "1761184802900",
     "saved": true
   }
