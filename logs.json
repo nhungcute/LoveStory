@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T08:51:57.618Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Xuất ngoại Hàn Quốc\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:51:57.618Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:51:40.492Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện \"Bé con 12w3d - NIPT\" với 2 ảnh",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-24T02:26:05.032Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:26:04.367Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:25:33.457Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
     "username": "1761184802900",
     "saved": true
   }
