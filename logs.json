@@ -42,6 +42,48 @@
     "saved": true
   },
   {
+    "timestamp": "2025-10-28T05:21:04.342Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761628856468",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:21:01.997Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761628856468",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:21:01.997Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761628856468",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:21:00.229Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761628856468",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:20:57.325Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761628856468",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:20:56.467Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761628856468",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T05:17:38.310Z",
     "action": "Mở modal",
     "details": "Đã mở \"Sửa sự kiện\"",
@@ -6952,48 +6994,6 @@
   },
   {
     "timestamp": "2025-10-23T05:15:00.755Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:14:48.650Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:14:40.563Z",
-    "action": "Hồ sơ",
-    "details": "Đã cập nhật hồ sơ: voihong",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:14:24.841Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:14:14.713Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:13:32.766Z",
-    "action": "Hồ sơ",
-    "details": "Đã cập nhật hồ sơ: hamanhtinlovely",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:13:28.195Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
     "username": "1761184802900",
