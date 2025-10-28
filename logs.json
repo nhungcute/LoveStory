@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-28T04:50:57.339Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T04:50:55.960Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T04:50:55.960Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T04:50:54.743Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T04:50:53.906Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T04:48:01.881Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6961,41 +6996,6 @@
     "timestamp": "2025-10-23T03:46:31.140Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Đại Dương\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:46:30.509Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Lãng Mạn\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:46:29.364Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mùa Hè\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:46:27.727Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mặc định\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:46:26.363Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:46:19.962Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
     "username": "1761184802900",
     "saved": true
   }
