@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-28T08:07:27.867Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:07:23.202Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:07:18.931Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:07:15.410Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:07:10.139Z",
     "action": "Xem ảnh sự kiện",
     "details": "Đã xem ảnh của sự kiện \"Bé con 11mm, 7w2d\"",
@@ -6969,34 +6997,6 @@
     "action": "Chat AI",
     "details": "Chuyển sang model: LOCAL",
     "username": "1761270656659",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:49:39.867Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761270579868",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:49:00.406Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761270540420",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:50:53.251Z",
-    "action": "Chat AI",
-    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:50:49.211Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761184802900",
     "saved": true
   }
 ]
