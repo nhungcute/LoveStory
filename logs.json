@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-28T07:47:57.908Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:47:55.717Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"First day of love\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:47:55.716Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:47:44.171Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:47:38.385Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
@@ -6966,34 +6994,6 @@
   },
   {
     "timestamp": "2025-10-23T10:32:13.015Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T10:29:02.933Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T10:27:35.813Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T10:26:57.896Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T10:23:43.810Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: LOCAL",
     "username": "1761184802900",
