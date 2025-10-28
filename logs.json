@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T07:48:25.182Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:48:24.024Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Dạm ngõ\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:48:24.024Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:48:10.538Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6976,27 +6997,6 @@
     "action": "Chat AI",
     "details": "Chuyển sang model: LOCAL",
     "username": "1761226983340",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T13:43:03.345Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761226983340",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T13:43:03.340Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761226983340",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T10:42:26.360Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1761184802900",
     "saved": true
   }
 ]
