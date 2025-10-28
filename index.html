@@ -2446,93 +2446,114 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         }
 
         // Event functions
-        async function saveEvent(e) {
+        function saveEvent(e) {
             e.preventDefault();
             
             const name = document.getElementById('eventName').value;
             const date = document.getElementById('eventDate').value;
             const description = document.getElementById('eventDescription').value;
             
-            // Validate date format (dd-mm-yyyy)
+            // 1. Kiểm tra định dạng (Giữ nguyên)
             if (!/^\d{2}-\d{2}-\d{4}$/.test(date)) {
                 showNotification('Vui lòng nhập ngày đúng định dạng dd-mm-yyyy!', 'error');
                 return;
             }
             
-            try {
-                let success = false;
+            const imageArray = Array.from(selectedPhotos);
+            
+            let apiMessage = '';
+            let logMessage = '';
+            let originalEvent = null; // Biến để lưu sự kiện gốc (cho việc rollback)
+            let newEvent = null;      // Biến để lưu sự kiện mới (cho việc rollback)
+            let eventIndex = -1;
+
+            if (editingEventId) {
+                // --- XỬ LÝ SỬA SỰ KIỆN ---
+                eventIndex = eventsData.findIndex(event => event.note_id === editingEventId);
+                if (eventIndex === -1) {
+                    showNotification('Lỗi: Không tìm thấy sự kiện để sửa!', 'error');
+                    return; 
+                }
+
+                // a. Lưu lại sự kiện gốc để phòng hờ rollback
+                originalEvent = { ...eventsData[eventIndex] }; 
                 
-                // Prepare image array - always use the latest selected images (replace old list completely)
-                const imageArray = Array.from(selectedPhotos);
-                
-                if (editingEventId) {
-                    // Update existing event
-                    const eventIndex = eventsData.findIndex(event => event.note_id === editingEventId);
-                    if (eventIndex !== -1) {
-                        eventsData[eventIndex] = {
-                            ...eventsData[eventIndex],
-                            name: name,
-                            day: date,
-                            contdetl: description,
-                            image: imageArray // Always replace with new selection
-                        };
-                        
-                        success = await githubAPI.updateFile(
-                            config.FILE_PATH, 
-                            eventsData, 
-                            `Cập nhật sự kiện: ${name}`
-                        );
-                        
-                        if (success) {
-                            addLog('Cập nhật sự kiện', `Đã cập nhật sự kiện "${name}" với ${selectedPhotos.size} ảnh`);
-                            showNotification('Đã cập nhật sự kiện thành công!', 'success');
-                        }
-                    }
-                } else {
-                    // Create new event
-                    const newEvent = {
-                        note_id: Date.now().toString(),
-                        name: name,
-                        day: date,
-                        contdetl: description,
-                        image: imageArray // Use selected image IDs
-                    };
-                    
-                    eventsData.push(newEvent);
-                    
-                    success = await githubAPI.updateFile(
+                // b. Cập nhật lạc quan (thay đổi dữ liệu local ngay lập tức)
+                eventsData[eventIndex] = {
+                    ...eventsData[eventIndex],
+                    name: name,
+                    day: date,
+                    contdetl: description,
+                    image: imageArray
+                };
+
+                apiMessage = `Cập nhật sự kiện: ${name}`;
+                logMessage = `Đã cập nhật sự kiện "${name}" với ${imageArray.length} ảnh`;
+            
+            } else {
+                // --- XỬ LÝ THÊM SỰ KIỆN MỚI ---
+                newEvent = {
+                    note_id: Date.now().toString(),
+                    name: name,
+                    day: date,
+                    contdetl: description,
+                    image: imageArray
+                };
+
+                // b. Cập nhật lạc quan (thêm vào dữ liệu local ngay lập tức)
+                eventsData.push(newEvent);
+
+                apiMessage = `Thêm sự kiện mới: ${name}`;
+                logMessage = `Đã thêm sự kiện mới "${name}" với ${imageArray.length} ảnh`;
+            }
+
+            // 3. --- CẬP NHẬT UI NGAY LẬP TỨC ---
+            // (Đây là phần mấu chốt, giống hệt addComment)
+            loadTimeline();
+            updateStats();
+            loadTodayMemories();
+            addLog(editingEventId ? 'Cập nhật sự kiện' : 'Thêm sự kiện mới', logMessage);
+            showNotification('Đã lưu sự kiện thành công!', 'success');
+            
+            closeModal('eventModal');
+            resetEventForm(); // Hàm này cũng sẽ reset editingEventId
+
+            // 4. --- ĐỒNG BỘ NỀN (BACKGROUND SYNC) ---
+            // Chạy một hàm async tự gọi để lưu file lên GitHub mà không block UI
+            (async () => {
+                try {
+                    const success = await githubAPI.updateFile(
                         config.FILE_PATH, 
                         eventsData, 
-                        `Thêm sự kiện mới: ${name}`
+                        apiMessage
                     );
-                    
-                    if (success) {
-                        addLog('Thêm sự kiện mới', `Đã thêm sự kiện "${name}" với ${selectedPhotos.size} ảnh`);
-                        showNotification('Đã lưu sự kiện thành công!', 'success');
-                    } else {
-                        eventsData.pop();
+
+                    if (!success) {
+                        // 5. --- HOÀN TÁC (ROLLBACK) NẾU LƯU THẤT BẠI ---
+                        throw new Error("API update failed"); // Kích hoạt khối catch
                     }
-                }
-                
-                if (!success) {
-                    showNotification('Lỗi khi lưu sự kiện!', 'error');
-                } else {
-                    // Refresh timeline and stats
+                    // Nếu thành công: không cần làm gì, UI đã đúng.
+                    console.log("Đồng bộ sự kiện lên GitHub thành công.");
+
+                } catch (error) {
+                    console.error('Lỗi khi đồng bộ sự kiện:', error);
+                    showNotification('Lỗi đồng bộ! Đang hoàn tác...', 'error');
+                    
+                    // 5. --- LOGIC HOÀN TÁC ---
+                    if (originalEvent) { 
+                        // Nếu là SỬA, khôi phục sự kiện gốc
+                        eventsData[eventIndex] = originalEvent;
+                    } else {
+                        // Nếu là THÊM MỚI, xóa sự kiện vừa thêm
+                        eventsData.pop(); 
+                    }
+                    
+                    // Tải lại UI để hiển thị trạng thái cũ (đã hoàn tác)
                     loadTimeline();
                     updateStats();
                     loadTodayMemories();
                 }
-                
-            } catch (error) {
-                console.error('Error saving event:', error);
-                if (!editingEventId) {
-                    eventsData.pop();
-                }
-                showNotification('Lỗi khi lưu sự kiện!', 'error');
-            }
-            
-            closeModal('eventModal');
-            resetEventForm();
+            })(); // <-- Dấu () để hàm tự chạy
         }
         
         function resetEventForm() {
@@ -2594,6 +2615,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             addLog('Sửa sự kiện', `Đang sửa sự kiện "${event.name}"`);
         }
 
+        // Thay thế hàm deleteEvent cũ bằng hàm này
         async function deleteEvent(id) {
             const event = eventsData.find(e => e.note_id === id);
             if (!event) {
@@ -2601,42 +2623,64 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 return;
             }
             
-            // Create custom confirmation modal instead of browser confirm
+            // 1. Hỏi xác nhận (Giữ nguyên logic cũ)
             const confirmDelete = await showCustomConfirm(`Bạn có chắc chắn muốn xóa sự kiện "${event.name}"?`);
             
-            if (confirmDelete) {
-                try {
-                    // Remove event from array
-                    const eventIndex = eventsData.findIndex(e => e.note_id === id);
-                    if (eventIndex !== -1) {
-                        eventsData.splice(eventIndex, 1);
-                        
-                        // Update GitHub
-                        const success = await githubAPI.updateFile(
-                            config.FILE_PATH, 
-                            eventsData, 
-                            `Xóa sự kiện: ${event.name}`
-                        );
-                        
-                        if (success) {
-                            addLog('Xóa sự kiện', `Đã xóa sự kiện "${event.name}"`);
-                            showNotification('Đã xóa sự kiện thành công!', 'success');
-                            
-                            // Refresh timeline and stats
-                            loadTimeline();
-                            updateStats();
-                            loadTodayMemories();
-                        } else {
-                            // Restore event if failed
-                            eventsData.splice(eventIndex, 0, event);
-                            showNotification('Lỗi khi xóa sự kiện!', 'error');
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error deleting event:', error);
-                    showNotification('Lỗi khi xóa sự kiện!', 'error');
-                }
+            if (!confirmDelete) {
+                return; // Người dùng đã hủy
             }
+
+            // 2. Tìm vị trí sự kiện (Dùng cho cả cập nhật và rollback)
+            const eventIndex = eventsData.findIndex(e => e.note_id === id);
+            if (eventIndex === -1) {
+                showNotification('Lỗi: Không tìm thấy sự kiện!', 'error');
+                return;
+            }
+
+            // 3. --- CẬP NHẬT LẠC QUAN (OPTIMISTIC UPDATE) ---
+            // Xóa sự kiện khỏi mảng local TRƯỚC
+            // (Chúng ta đã có 'event' và 'eventIndex' để rollback)
+            eventsData.splice(eventIndex, 1);
+            
+            // Cập nhật UI ngay lập tức
+            addLog('Xóa sự kiện', `Đã xóa sự kiện "${event.name}"`);
+            showNotification('Đã xóa sự kiện thành công!', 'success');
+            loadTimeline();
+            updateStats();
+            loadTodayMemories();
+
+            // 4. --- ĐỒNG BỘ NỀN (BACKGROUND SYNC) ---
+            // Chạy hàm async tự gọi để lưu file mà không block UI
+            (async () => {
+                try {
+                    const success = await githubAPI.updateFile(
+                        config.FILE_PATH, 
+                        eventsData, // Gửi mảng eventsData đã bị xóa
+                        `Xóa sự kiện: ${event.name}`
+                    );
+                    
+                    if (!success) {
+                        // 5. --- HOÀN TÁC (ROLLBACK) NẾU LƯU THẤT BẠI ---
+                        throw new Error("API update failed"); // Kích hoạt khối catch
+                    }
+                    
+                    // Nếu thành công: không cần làm gì, UI đã đúng.
+                    console.log("Đồng bộ (xóa) sự kiện lên GitHub thành công.");
+
+                } catch (error) {
+                    console.error('Lỗi khi đồng bộ (xóa) sự kiện:', error);
+                    showNotification('Lỗi đồng bộ! Đang hoàn tác...', 'error');
+                    
+                    // 5. --- LOGIC HOÀN TÁC ---
+                    // Thêm lại sự kiện đã xóa vào đúng vị trí cũ
+                    eventsData.splice(eventIndex, 0, event);
+                    
+                    // Tải lại UI để hiển thị trạng thái cũ (đã hoàn tác)
+                    loadTimeline();
+                    updateStats();
+                    loadTodayMemories();
+                }
+            })(); // <-- Dấu () để hàm tự chạy
         }
         
         function showCustomConfirm(message) {
@@ -3235,7 +3279,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                     const dataURL = reader.result;
                     // 5. Cập nhật ảnh lên giao diện và lưu
                     updateAvatar(dataURL);
-                    showNotification('Đã cập nhật avatar!', 'success');
+                    //showNotification('Đã cập nhật avatar!', 'success');
                 };
                 reader.readAsDataURL(resizedBlob);
                 
@@ -3331,68 +3375,84 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         }
 		
 		async function saveProfile() {
-            try {
-                // 1. Lấy dữ liệu từ các input và ảnh
-                const name = document.getElementById('profileNameInput').value;
-                const username = document.getElementById('profileUsernameInput').value.trim(); // Dùng trim()
-                const avatarUrl = document.getElementById('profileAvatarImg').src; 
-                const createdAt = new Date().toISOString();
-
-                if (!name || !username) {
-                    showNotification('Họ tên và Tên đăng nhập là bắt buộc!', 'error');
-                    return;
-                }
-
-                // 2. Tạo đối tượng hồ sơ
-                const updatedProfile = { name, username, avatarUrl, createdAt };
-
-                // 3. Cập nhật hoặc thêm mới vào mảng profilesData
-                // Tìm hồ sơ dựa trên TÊN ĐĂNG NHẬP (từ input)
-                let userIndex = profilesData.findIndex(p => p.username === username);
-
-                if (userIndex !== -1) {
-                    // TRƯỜNG HỢP 1 & 3: Tên đăng nhập đã tồn tại (Login hoặc Update)
-                    // Cập nhật hồ sơ tại vị trí đó
-                    profilesData[userIndex] = { ...profilesData[userIndex], ...updatedProfile };
-                } else {
-                    // TRƯỜNG HỢP 2: Tên đăng nhập mới (Rename)
-                    // Tìm user cũ (currentUser) để xóa
-                    let oldUserIndex = profilesData.findIndex(p => p.username === currentUser.username);
-                    if (oldUserIndex !== -1) {
-                        // Xóa user cũ (vì họ đã đổi tên)
-                        profilesData.splice(oldUserIndex, 1);
-                    }
-                    // Thêm hồ sơ mới (với tên đã đổi)
-                    profilesData.push(updatedProfile);
-                }
-
-                // 4. Cập nhật currentUser (global) và localStorage
-                currentUser = updatedProfile;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                
-                // 5. Cập nhật UI (header)
-                updateUserProfile();
-                
-                // 6. Lưu file profiles.json lên GitHub
-                const success = await githubAPI.updateFile(
-                    config.PROFILES_FILE_PATH, 
-                    profilesData, 
-                    `Cập nhật hồ sơ: ${username}`
-                );
-
-                if (success) {
-                    showNotification('Đã lưu hồ sơ thành công!', 'success');
-                    addLog('Hồ sơ', `Đã cập nhật hồ sơ: ${username}`);
-                } else {
-                    showNotification('Lỗi khi lưu hồ sơ lên GitHub!', 'error');
-                }
-                
-                closeModal('profileModal');
-
-            } catch (error) {
-                console.error('Lỗi khi lưu hồ sơ:', error);
-                showNotification('Đã xảy ra lỗi khi lưu!', 'error');
+            // --- 1. VALIDATE (Xác thực dữ liệu) ---
+            const name = document.getElementById('profileNameInput').value;
+            const username = document.getElementById('profileUsernameInput').value.trim();
+            
+            if (!name || !username) {
+                showNotification('Họ tên và Tên đăng nhập là bắt buộc!', 'error');
+                return;
             }
+            
+            const avatarUrl = document.getElementById('profileAvatarImg').src;
+            const createdAt = new Date().toISOString();
+
+            // --- 2. GET ORIGINAL STATE (Lấy trạng thái cũ để Rollback) ---
+            const oldCurrentUser = { ...currentUser }; // Sao chép user hiện tại
+            const oldProfilesData = JSON.parse(JSON.stringify(profilesData)); // Deep copy mảng hồ sơ
+            const oldLocalStorage = localStorage.getItem('currentUser'); // Lưu localStorage cũ
+
+            // --- 3. MAKE LOCAL CHANGES (Thay đổi dữ liệu local) ---
+            const updatedProfile = { name, username, avatarUrl, createdAt };
+            let apiMessage = `Cập nhật hồ sơ: ${username}`;
+
+            let userIndex = profilesData.findIndex(p => p.username === username);
+
+            if (userIndex !== -1) {
+                // Trường hợp 1: Cập nhật hồ sơ hiện có
+                profilesData[userIndex] = { ...profilesData[userIndex], ...updatedProfile };
+            } else {
+                // Trường hợp 2: Đổi tên (Rename) hoặc Thêm mới
+                // Tìm và xóa hồ sơ cũ nếu tên đăng nhập thay đổi
+                let oldUserIndex = profilesData.findIndex(p => p.username === currentUser.username);
+                if (oldUserIndex !== -1) {
+                    profilesData.splice(oldUserIndex, 1);
+                }
+                profilesData.push(updatedProfile); // Thêm hồ sơ mới
+            }
+
+            // --- 4. UPDATE UI IMMEDIATELY (CẬP NHẬT LẠC QUAN) ---
+            // Cập nhật UI ngay lập tức mà không cần chờ 'await'
+            currentUser = updatedProfile;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateUserProfile(); // Cập nhật header
+            
+            showNotification('Đã lưu hồ sơ thành công!', 'success'); // Thông báo thành công ngay
+            addLog('Hồ sơ', `Đã cập nhật hồ sơ: ${username}`);
+            closeModal('profileModal'); // Đóng modal ngay
+
+            // --- 5. BACKGROUND SYNC (Đồng bộ nền) ---
+            // Chạy một hàm async tự gọi để lưu file lên GitHub
+            (async () => {
+                try {
+                    const success = await githubAPI.updateFile(
+                        config.PROFILES_FILE_PATH,
+                        profilesData,
+                        apiMessage
+                    );
+
+                    if (!success) {
+                        // Nếu lưu thất bại, ném lỗi để kích hoạt 'catch'
+                        throw new Error("API update failed for profiles.json");
+                    }
+                    
+                    // Nếu thành công: không cần làm gì, UI đã đúng.
+                    console.log("Đồng bộ hồ sơ lên GitHub thành công.");
+
+                } catch (error) {
+                    // --- 6. ROLLBACK ON FAILURE (Hoàn tác nếu lỗi) ---
+                    console.error('Lỗi khi đồng bộ hồ sơ:', error);
+                    showNotification('Lỗi đồng bộ! Đang hoàn tác hồ sơ...', 'error');
+
+                    // Khôi phục lại toàn bộ dữ liệu local
+                    profilesData = oldProfilesData; // Khôi phục mảng
+                    currentUser = oldCurrentUser; // Khôi phục biến global
+                    localStorage.setItem('currentUser', oldLocalStorage); // Khôi phục localStorage
+
+                    // Cập nhật lại UI về trạng thái cũ
+                    updateUserProfile();
+                }
+            })(); // <-- Dấu () để hàm tự chạy
         }
 
         function logoutProfile() {
