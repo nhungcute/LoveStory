@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T05:33:26.873Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"DSC01563.JPG\"",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:33:19.990Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T05:33:09.853Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-23T05:31:35.608Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện \"ahihi\" với 2 ảnh",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:31:31.193Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1xKPequseVEqzaYXt4lLVgPydCOD12B91)",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:31:30.794Z",
-    "action": "Chọn ảnh",
-    "details": "Đã chọn ảnh (ID: 1KqkhOWDcXaapfqtiWLHtHm-D4_sqYVFi)",
     "username": "1761184802900",
     "saved": true
   }
