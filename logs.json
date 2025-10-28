@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T07:53:53.436Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Lễ Thành Hôn\" với 25 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:52:11.118Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-24T01:28:49.972Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761269314054",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:28:35.631Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
     "username": "1761269314054",
     "saved": true
   }
