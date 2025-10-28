@@ -1,65 +1,30 @@
 [
   {
-    "timestamp": "2025-10-28T08:02:18.990Z",
+    "timestamp": "2025-10-28T08:05:45.464Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Bé con 11mm, 7w2d\" với 5 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:03:01.859Z",
     "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761638292434",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761634041517",
     "saved": true
   },
   {
-    "timestamp": "2025-10-28T08:00:29.081Z",
+    "timestamp": "2025-10-28T08:03:00.683Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Bé con 114mm, 7w2d\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:03:00.683Z",
     "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761638292434",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T08:00:20.183Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761638292434",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T07:58:46.005Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761638292434",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T07:58:36.989Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761638292434",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T07:58:27.052Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761638292434",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T07:58:18.207Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761638292434",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T07:58:13.197Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1761638292434",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T07:58:12.433Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761638292434",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
     "saved": true
   },
   {
@@ -6997,6 +6962,41 @@
     "action": "Chat AI",
     "details": "Chuyển sang model: LOCAL",
     "username": "1761270540420",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T01:50:53.251Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T01:50:49.211Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T01:50:48.035Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T01:50:41.448Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: LOCAL",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T01:44:22.690Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: LOCAL",
+    "username": "1761270262703",
     "saved": true
   }
 ]
