@@ -2087,7 +2087,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         // Photo functions
         function loadPhotos(page = 1) {
             const container = document.getElementById('photosContainer');
-            const photosPerPage = config.PHOTOS_PER_PAGE;
+            const photosPerPage = parseInt(config.PHOTOS_PER_PAGE);
             
             // Log page navigation
             if (currentPage !== page && page > 1) {
@@ -2112,8 +2112,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             
             // Sort media by creation time (newest first)
             const sortedMedia = [...photosData].sort((a, b) => 
-                new Date(b.createdTime) - new Date(a.createdTime)
-            );
+				a.name.localeCompare(b.name)
+			);
             
             const startIndex = (page - 1) * photosPerPage;
             const endIndex = startIndex + photosPerPage;
@@ -3864,123 +3864,133 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 loadLogsToModal();
             }
         }
-		function renderPhotoSelector() {
-    const container = document.getElementById('photo-selector-grid');
-    // Sửa lỗi: dùng config.PHOTOS_PER_PAGE
-    const startIndex = (photoSelectorPage - 1) * config.PHOTOS_PER_PAGE;
-    const endIndex = startIndex + config.PHOTOS_PER_PAGE;
-    const pagePhotos = photosData.slice(startIndex, endIndex);
-    
-    // Set grid class based on view mode
-    const gridClass = photoSelectorViewMode === 'list' ? 'grid-list' : `grid-${photoSelectorViewMode.split('-')[1]}x${photoSelectorViewMode.split('-')[1]}`;
-    
-    if (photoSelectorViewMode === 'list') {
-        container.className = 'grid-list space-y-2'; // Thêm space-y
-        container.innerHTML = `
-            ${pagePhotos.map(photo => {
-                const isSelected = selectedPhotos.has(photo.name);
-                return `
-                    <div class="relative flex items-center space-x-4 p-3 bg-accent rounded-lg hover:bg-gray-100 transition-colors duration-200 ${isSelected ? 'bg-green-50 border border-green-200' : ''}" onclick="togglePhotoSelection('${photo.name}')">
-                        <img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-12 h-12 object-cover rounded flex-shrink-0"
-                             onerror="this.src='${imageErrorPlaceholder}';">
-                        <div class="flex-1">
-                            <h4 class="font-medium text-custom">${photo.name}</h4>
-                            <p class="text-sm text-gray-500">Kích thước: ${formatFileSize(photo.size) || 'N/A'}</p>
-                        </div>
-                        <div class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm ${isSelected ? 'bg-primary text-white' : 'bg-gray-300 text-gray-600 border-2 border-gray-400'}">
-                            <i class="fas fa-check"></i>
-                        </div>
-                    </div>
-                `;
-            }).join('')}
-        `;
-    } else {
-        container.className = `grid gap-3 ${gridClass}`; // Gán lại class grid
-        container.innerHTML = `
-            ${pagePhotos.map(photo => {
-                const isSelected = selectedPhotos.has(photo.name);
-                return `
-                    <div class="photo-selector-item ${isSelected ? 'selected' : ''}" onclick="togglePhotoSelection('${photo.name}')">
-                        <img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-full h-full object-cover"
-                             onerror="this.src='${imageErrorPlaceholder}';">
-                        <div class="photo-checkbox ${isSelected ? 'selected' : 'unselected'}">
-                            <i class="fas fa-check"></i>
-                        </div>
-                    </div>
-                `;
-            }).join('')}
-        `;
-    }
-    
-    renderPhotoSelectorPagination();
-	}
- 
-	function renderPhotoSelectorPagination() {
-		const container = document.getElementById('photo-selector-pagination');
-		// Sửa lỗi: dùng config.PHOTOS_PER_PAGE
-		const totalPages = Math.ceil(photosData.length / config.PHOTOS_PER_PAGE);
 		
-		if (totalPages <= 1) {
-			container.innerHTML = '';
-			return;
+		function getPagePhotos(page) {
+            // Sửa lỗi parseInt và gán mặc định
+            const photosPerPage = parseInt(config.PHOTOS_PER_PAGE || 30);
+            const startIndex = (page - 1) * photosPerPage;
+            const endIndex = startIndex + photosPerPage;
+            
+            // Luôn sắp xếp theo tên (A-Z) trước khi cắt
+            const sortedPhotos = [...photosData].sort((a, b) => a.name.localeCompare(b.name));
+            
+            // Trả về mảng ảnh của trang hiện tại
+            return sortedPhotos.slice(startIndex, endIndex);
+        }
+		
+		function renderPhotoSelector() {
+			const container = document.getElementById('photo-selector-grid');
+			
+			const pagePhotos = getPagePhotos(photoSelectorPage);
+		
+			if (photoSelectorViewMode === 'list') {
+				container.className = 'grid-list space-y-2'; // Thêm space-y
+				container.innerHTML = `
+					${pagePhotos.map(photo => {
+						const isSelected = selectedPhotos.has(photo.name);
+						return `
+							<div class="relative flex items-center space-x-4 p-3 bg-accent rounded-lg hover:bg-gray-100 transition-colors duration-200 ${isSelected ? 'bg-green-50 border border-green-200' : ''}" onclick="togglePhotoSelection('${photo.name}')">
+								<img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-12 h-12 object-cover rounded flex-shrink-0"
+									 onerror="this.src='${imageErrorPlaceholder}';">
+								<div class="flex-1">
+									<h4 class="font-medium text-custom">${photo.name}</h4>
+									<p class="text-sm text-gray-500">Kích thước: ${formatFileSize(photo.size) || 'N/A'}</p>
+								</div>
+								<div class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm ${isSelected ? 'bg-primary text-white' : 'bg-gray-300 text-gray-600 border-2 border-gray-400'}">
+									<i class="fas fa-check"></i>
+								</div>
+							</div>
+						`;
+					}).join('')}
+				`;
+			} else {
+				const gridClass = `grid-${photoSelectorViewMode.split('-')[1]}x${photoSelectorViewMode.split('-')[1]}`;
+				container.className = `grid gap-3 ${gridClass}`; // Gán lại class grid
+				container.innerHTML = `
+					${pagePhotos.map(photo => {
+						const isSelected = selectedPhotos.has(photo.name);
+						return `
+							<div class="photo-selector-item ${isSelected ? 'selected' : ''}" onclick="togglePhotoSelection('${photo.name}')">
+								<img src="${driveAPI.getImageUrl(photo.id, 'thumbnail')}" alt="${photo.name}" class="w-full h-full object-cover"
+									 onerror="this.src='${imageErrorPlaceholder}';">
+								<div class="photo-checkbox ${isSelected ? 'selected' : 'unselected'}">
+									<i class="fas fa-check"></i>
+								</div>
+							</div>
+						`;
+					}).join('')}
+				`;
+			}
+    
+			renderPhotoSelectorPagination();
 		}
 		
-		container.innerHTML = `
-			<div class="flex items-center justify-center space-x-4">
-				<button onclick="changePhotoSelectorPage(${photoSelectorPage - 1})" 
-						class="love-button text-sm ${photoSelectorPage <= 1 ? 'opacity-50 cursor-not-allowed' : ''}" 
-						${photoSelectorPage <= 1 ? 'disabled' : ''}>
-					<i class="fas fa-chevron-left"></i>
-				</button>
-				
-				<div class="px-4 py-2 bg-accent text-custom rounded-lg font-medium">
-					Trang ${photoSelectorPage} / ${totalPages}
+		
+ 
+		function renderPhotoSelectorPagination() {
+			const container = document.getElementById('photo-selector-pagination');
+			// Sửa lỗi: dùng config.PHOTOS_PER_PAGE
+			const totalPages = Math.ceil(photosData.length / parseInt(config.PHOTOS_PER_PAGE));
+			
+			if (totalPages <= 1) {
+				container.innerHTML = '';
+				return;
+			}
+		
+			container.innerHTML = `
+				<div class="flex items-center justify-center space-x-4">
+					<button onclick="changePhotoSelectorPage(${photoSelectorPage - 1})" 
+							class="love-button text-sm ${photoSelectorPage <= 1 ? 'opacity-50 cursor-not-allowed' : ''}" 
+							${photoSelectorPage <= 1 ? 'disabled' : ''}>
+						<i class="fas fa-chevron-left"></i>
+					</button>
+					
+					<div class="px-4 py-2 bg-accent text-custom rounded-lg font-medium">
+						Trang ${photoSelectorPage} / ${totalPages}
+					</div>
+					
+					<button onclick="changePhotoSelectorPage(${photoSelectorPage + 1})" 
+							class="love-button text-sm ${photoSelectorPage >= totalPages ? 'opacity-50 cursor-not-allowed' : ''}" 
+							${photoSelectorPage >= totalPages ? 'disabled' : ''}>
+						<i class="fas fa-chevron-right"></i>
+					</button>
 				</div>
-				
-				<button onclick="changePhotoSelectorPage(${photoSelectorPage + 1})" 
-						class="love-button text-sm ${photoSelectorPage >= totalPages ? 'opacity-50 cursor-not-allowed' : ''}" 
-						${photoSelectorPage >= totalPages ? 'disabled' : ''}>
-					<i class="fas fa-chevron-right"></i>
-				</button>
-			</div>
-		`;
+			`;
 	}
-
-	// (TỪ NEW4.HTML) Hàm hỗ trợ cho pagination
+ 
 	function changePhotoSelectorPage(page) {
 		photoSelectorPage = page;
 		renderPhotoSelector(); // Dùng hàm render mới
 	}
-
-	// (TỪ NEW4.HTML) Thay thế cho selectAllImages
+ 
 	function selectAllPhotos() {
-		// Sửa lỗi: dùng config.PHOTOS_PER_PAGE
-		const startIndex = (photoSelectorPage - 1) * config.PHOTOS_PER_PAGE;
-		const endIndex = startIndex + config.PHOTOS_PER_PAGE;
-		const pagePhotos = photosData.slice(startIndex, endIndex);
+		// Lấy CHỈ CÁC ảnh trên trang hiện tại
+		const pagePhotos = getPagePhotos(photoSelectorPage);
 		
+		// Thêm chúng vào Set
 		pagePhotos.forEach(photo => selectedPhotos.add(photo.name));
-		renderPhotoSelector(); // Dùng hàm render mới
 		
-		// Cập nhật count (từ new5.html)
+		// Vẽ lại modal để hiển thị các mục đã chọn
+		renderPhotoSelector(); 
+		
+		// Cập nhật số đếm
 		document.getElementById('selectedImagesCount').textContent = selectedPhotos.size;
 	}
-
-	// (TỪ NEW4.HTML) Thay thế cho deselectAllImages
+ 
 	function deselectAllPhotos() {
-		// Sửa lỗi: dùng config.PHOTOS_PER_PAGE
-		const startIndex = (photoSelectorPage - 1) * config.PHOTOS_PER_PAGE;
-		const endIndex = startIndex + config.PHOTOS_PER_PAGE;
-		const pagePhotos = photosData.slice(startIndex, endIndex);
+		// Lấy CHỈ CÁC ảnh trên trang hiện tại
+		const pagePhotos = getPagePhotos(photoSelectorPage);
 		
+		// Xóa chúng khỏi Set
 		pagePhotos.forEach(photo => selectedPhotos.delete(photo.name));
-		renderPhotoSelector(); // Dùng hàm render mới
 		
-		// Cập nhật count (từ new5.html)
+		// Vẽ lại modal để hiển thị các mục đã hủy chọn
+		renderPhotoSelector(); 
+		
+		// Cập nhật số đếm
 		document.getElementById('selectedImagesCount').textContent = selectedPhotos.size;
 	}
-
-	// (TỪ NEW4.HTML) Thay thế cho confirmImageSelection
+ 
 	function confirmPhotoSelection() {
 		// Cập nhật count (từ new5.html)
 		document.getElementById('selectedImagesCount').textContent = selectedPhotos.size;
