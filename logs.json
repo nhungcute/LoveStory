@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T08:55:44.394Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc - Day 1\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:55:44.394Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:55:32.667Z",
     "action": "Cập nhật sự kiện",
     "details": "Đã cập nhật sự kiện \"Hàn Quốc - Day 1\" với 3 ảnh",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-24T02:34:26.304Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:34:19.195Z",
-    "action": "Hồ sơ",
-    "details": "Đã chuyển đổi sang hồ sơ Hà Mạnh Tín",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:34:16.008Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
     "username": "1761184802900",
     "saved": true
   }
