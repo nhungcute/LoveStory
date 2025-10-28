@@ -1,5 +1,61 @@
 [
   {
+    "timestamp": "2025-10-28T03:50:38.311Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn ảnh (Tên: DSC01562.JPG)",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T03:50:37.375Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (Tên: DSC01562.JPG)",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T03:50:34.936Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T03:50:32.976Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T03:50:32.975Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T03:50:30.550Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Timeline\"",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T03:50:29.647Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T03:50:24.447Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T03:33:02.128Z",
     "action": "Chọn ảnh",
     "details": "Đã bỏ chọn ảnh (Tên: DSC01560.JPG)",
@@ -6940,62 +6996,6 @@
     "timestamp": "2025-10-23T03:25:48.308Z",
     "action": "Mở modal",
     "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:25:34.982Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Chọn ảnh\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:25:33.620Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"Xuất ngoại Hàn Quốc\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:25:33.620Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:25:23.596Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:25:16.813Z",
-    "action": "Phân trang ảnh",
-    "details": "Chuyển từ trang 1 sang trang 2",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:25:12.184Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:25:09.267Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:24:14.677Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"5x5\" sang \"6x6\"",
     "username": "1761184802900",
     "saved": true
   }
