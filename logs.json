@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T02:59:33.408Z",
+    "action": "Hồ sơ",
+    "details": "Đã chuyển đổi sang hồ sơ Hà Mạnh Tín",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T02:59:28.520Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T02:58:34.254Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-23T03:16:07.861Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"6x6\" sang \"1x1\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:16:05.954Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:15:44.183Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"4x4\" sang \"5x5\"",
     "username": "1761184802900",
     "saved": true
   }
