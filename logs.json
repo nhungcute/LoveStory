@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T07:47:16.714Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 188 files (186 ảnh, 2 video) - Cũ: 188",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:47:13.863Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:47:13.858Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:43:18.481Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-23T09:57:11.524Z",
     "action": "Cài đặt giao diện",
     "details": "Đã bật thông báo hệ thống",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T09:57:08.241Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T09:57:04.814Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T09:42:11.867Z",
-    "action": "Cài đặt giao diện",
-    "details": "Đã tắt thông báo hệ thống",
     "username": "1761184802900",
     "saved": true
   }
