@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T09:04:21.073Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:03:32.010Z",
     "action": "Cập nhật sự kiện",
     "details": "Đã cập nhật sự kiện \"Hàn Quốc - Day 1\" với 11 ảnh",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-24T02:57:18.040Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:56:40.071Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
     "username": "1761184802900",
     "saved": true
   }
