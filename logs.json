@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T04:47:38.241Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T04:45:00.032Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-23T03:31:09.900Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Đại Dương\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:31:08.342Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Lãng Mạn\"",
     "username": "1761184802900",
     "saved": true
   }
