@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T04:41:54.990Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"I'm here\"",
+    "username": "1761626452308",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T04:41:54.990Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761626452308",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T04:41:43.233Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761626452308",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T04:40:52.308Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-23T03:30:58.293Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Lãng Mạn\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:30:57.550Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mùa Hè\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:30:52.371Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:26:59.427Z",
-    "action": "Cài đặt giao diện",
-    "details": "Đã bật nút menu hamburger",
     "username": "1761184802900",
     "saved": true
   }
