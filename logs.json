@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-28T04:21:10.807Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T04:21:08.374Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T04:21:08.374Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T04:21:05.382Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T04:21:01.790Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761623424448",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T03:50:38.311Z",
     "action": "Chọn ảnh",
     "details": "Đã bỏ chọn ảnh (Tên: DSC01562.JPG)",
@@ -6961,41 +6996,6 @@
     "timestamp": "2025-10-23T03:26:50.555Z",
     "action": "Cài đặt giao diện",
     "details": "Đã bật nút menu hamburger",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:26:48.934Z",
-    "action": "Cài đặt giao diện",
-    "details": "Đã ẩn nút menu hamburger",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:26:41.907Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:26:38.613Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:25:54.060Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:25:48.308Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
     "username": "1761184802900",
     "saved": true
   }
