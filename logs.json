@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-28T09:04:40.265Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Bé con 7w2d\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:04:40.265Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:04:34.721Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:04:28.765Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 187 files (185 ảnh, 2 video) - Cũ: 188",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:04:21.073Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
@@ -6968,34 +6996,6 @@
     "timestamp": "2025-10-24T02:57:40.285Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Hàn Quốc- Day 3\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:57:40.285Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:57:33.554Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"Hàn Quốc - Day 1\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:57:33.554Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh sự kiện\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:57:18.040Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
     "username": "1761184802900",
     "saved": true
   }
