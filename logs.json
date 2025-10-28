@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T07:58:05.947Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Lần đầu biết tin bé con\" với 6 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:56:33.549Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-24T01:44:59.474Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:44:54.166Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
     "username": "1761184802900",
     "saved": true
   }
