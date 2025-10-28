@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T09:46:47.273Z",
+    "action": "Hồ sơ",
+    "details": "Đã cập nhật hồ sơ: tintin",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:46:20.657Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
