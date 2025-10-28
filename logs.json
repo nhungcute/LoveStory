@@ -1,16 +1,9 @@
 [
   {
-    "timestamp": "2025-10-28T06:52:02.589Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761634322595",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T06:49:49.803Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761634189803",
+    "timestamp": "2025-10-28T07:24:18.013Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
+    "username": "1761634041517",
     "saved": true
   },
   {
@@ -6996,6 +6989,13 @@
     "timestamp": "2025-10-23T05:37:55.024Z",
     "action": "Chọn ảnh",
     "details": "Đã bỏ chọn ảnh (ID: 1OHGga-ElY-NI3Bx3g0ystSpAo-ThvsnA)",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-23T05:37:54.241Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn ảnh (ID: 1OHGga-ElY-NI3Bx3g0ystSpAo-ThvsnA)",
     "username": "1761184802900",
     "saved": true
   }
