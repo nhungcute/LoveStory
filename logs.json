@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-28T05:22:31.052Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761628637830",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:22:29.731Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761628637830",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:22:29.731Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761628637830",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:22:19.703Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761628637830",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T05:22:17.358Z",
     "action": "Xem ảnh sự kiện",
     "details": "Đã xem ảnh của sự kiện \"Ngày dự sinh bé con\"",
@@ -6968,34 +6996,6 @@
     "timestamp": "2025-10-23T05:30:34.153Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:29:58.811Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:24:59.547Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:24:47.155Z",
-    "action": "Hồ sơ",
-    "details": "Đã chuyển đổi sang hồ sơ Voi Hồng",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T05:24:29.410Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
     "username": "1761184802900",
     "saved": true
   }
