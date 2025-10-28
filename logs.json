@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T08:07:50.410Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Bé con 11mm, 7w2d\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:07:50.410Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:07:33.890Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-24T01:59:51.202Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:59:49.658Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:59:43.187Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
     "username": "1761184802900",
     "saved": true
   }
