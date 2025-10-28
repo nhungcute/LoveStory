@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T10:38:48.018Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"đi hàn3\" với 0 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T10:38:40.199Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
