@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T09:19:23.313Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:19:13.073Z",
     "action": "Mở modal",
     "details": "Đã mở \"Sửa sự kiện\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-24T03:17:18.680Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:17:17.784Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
     "username": "1761184802900",
     "saved": true
   }
