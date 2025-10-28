@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T09:32:24.527Z",
+    "action": "Bình luận ảnh",
+    "details": "Đã bình luận vào ảnh \"4Z9A2078.JPG\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:32:18.517Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"4Z9A2078.JPG\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:32:17.369Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:32:11.969Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-24T03:35:22.258Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:34:04.594Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:33:49.889Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:33:48.560Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
     "username": "1761184802900",
     "saved": true
   }
