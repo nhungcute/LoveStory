@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T09:11:37.472Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc- Day 3\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:11:37.472Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:10:59.497Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
@@ -6980,20 +6994,6 @@
   },
   {
     "timestamp": "2025-10-24T03:11:31.047Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GPT",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:11:28.911Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:11:27.999Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GPT",
     "username": "1761184802900",
