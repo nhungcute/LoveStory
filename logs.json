@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T07:39:39.462Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 188 files (186 ảnh, 2 video) - Cũ: 188",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:39:35.079Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:37:49.583Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-23T06:40:50.775Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
-    "username": "1761201633823",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T06:40:39.524Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mặc định\"",
-    "username": "1761201633823",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T06:40:38.001Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
     "username": "1761201633823",
     "saved": true
   }
