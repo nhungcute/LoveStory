@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-28T07:42:44.047Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:42:41.957Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:42:41.957Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:42:40.204Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:42:34.572Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chia sẻ ảnh\"",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:42:32.085Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:42:21.017Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
@@ -6955,48 +6997,6 @@
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
     "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T09:40:28.754Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T09:40:21.408Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T09:32:26.871Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
-    "username": "1761211943182",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T09:32:23.181Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761211943182",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T06:41:13.282Z",
-    "action": "Xóa sự kiện",
-    "details": "Đã xóa sự kiện \"ahihi\"",
-    "username": "1761201633823",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T06:41:00.206Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1761201633823",
     "saved": true
   }
 ]
