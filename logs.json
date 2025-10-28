@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-10-28T05:17:30.273Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761628637830",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:17:30.273Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761628637830",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:17:24.447Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761628637830",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:17:24.446Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1761628637830",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:17:21.621Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761628637830",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T05:17:17.830Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761628637830",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T04:50:57.339Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6954,48 +6996,6 @@
     "timestamp": "2025-10-23T04:11:26.787Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:48:35.540Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:47:19.003Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:47:10.804Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:46:32.388Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mùa Xuân\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:46:31.702Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Ban Đêm\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:46:31.140Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Đại Dương\"",
     "username": "1761184802900",
     "saved": true
   }
