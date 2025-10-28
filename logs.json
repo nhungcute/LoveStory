@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T07:42:21.017Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:42:19.077Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:42:16.655Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:41:52.189Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-23T06:41:00.206Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1761201633823",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T06:40:50.775Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
-    "username": "1761201633823",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T06:40:39.524Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mặc định\"",
-    "username": "1761201633823",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T06:40:38.001Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
     "username": "1761201633823",
     "saved": true
   }
