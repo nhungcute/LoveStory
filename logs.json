@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T07:48:10.538Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:48:09.676Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Gặp nhà gái\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:48:09.675Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761637633858",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:47:57.908Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-23T10:42:26.360Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T10:42:17.697Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T10:35:34.861Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T10:32:13.015Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
     "username": "1761184802900",
     "saved": true
   }
