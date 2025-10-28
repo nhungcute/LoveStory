@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T08:08:12.946Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Bé con 11w\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:08:12.946Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:08:05.879Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Bé con 7w2d\" với 5 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:07:50.410Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Bé con 11mm, 7w2d\"",
@@ -6973,27 +6994,6 @@
   },
   {
     "timestamp": "2025-10-24T02:08:15.730Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:08:14.458Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:08:10.133Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:59:51.202Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
     "username": "1761184802900",
