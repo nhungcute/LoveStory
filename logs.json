@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T09:32:37.865Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:32:33.001Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:32:24.527Z",
     "action": "Bình luận ảnh",
     "details": "Đã bình luận vào ảnh \"4Z9A2078.JPG\"",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-24T03:35:27.585Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:35:25.800Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:35:22.258Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
     "username": "1761184802900",
     "saved": true
   }
