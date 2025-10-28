@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T08:30:27.914Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Bé con 10w2d\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:30:27.914Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:29:29.915Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6980,20 +6994,6 @@
   },
   {
     "timestamp": "2025-10-24T02:17:29.496Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GPT",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:17:27.496Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:17:26.904Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GPT",
     "username": "1761184802900",
