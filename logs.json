@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T09:47:18.436Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"test\" với 3 ảnh",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:47:11.810Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:47:01.959Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
