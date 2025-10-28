@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T08:14:54.920Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện \"Bé con 8w2d\" với 4 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:14:23.389Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-24T02:16:22.210Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:13:39.571Z",
-    "action": "Chat AI",
-    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
     "username": "1761184802900",
     "saved": true
   }
