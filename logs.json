@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T07:54:02.427Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:54:01.211Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Lần đầu biết tin bé con\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:54:01.211Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:53:53.436Z",
     "action": "Cập nhật sự kiện",
     "details": "Đã cập nhật sự kiện \"Lễ Thành Hôn\" với 25 ảnh",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-24T01:29:21.552Z",
     "action": "Phân trang ảnh",
     "details": "Chuyển từ trang 1 sang trang 2",
-    "username": "1761269314054",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:29:02.962Z",
-    "action": "Phân trang ảnh",
-    "details": "Chuyển từ trang 1 sang trang 2",
-    "username": "1761269314054",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:28:56.033Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1761269314054",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:28:49.972Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
     "username": "1761269314054",
     "saved": true
   }
