@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T09:03:14.196Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:03:12.853Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Hàn Quốc - Day 1\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-24T02:56:10.661Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Mặc định\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:56:08.984Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
     "username": "1761184802900",
     "saved": true
   }
