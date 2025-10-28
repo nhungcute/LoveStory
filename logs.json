@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T07:43:18.481Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T07:43:17.533Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761637054726",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:43:15.762Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Chat AI\" sang \"Timeline\"",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-23T09:42:11.867Z",
     "action": "Cài đặt giao diện",
     "details": "Đã tắt thông báo hệ thống",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T09:41:20.174Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 56 files (56 ảnh, 0 video) - Cũ: 56",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T09:40:57.423Z",
-    "action": "Cài đặt giao diện",
-    "details": "Đã bật thông báo hệ thống",
     "username": "1761184802900",
     "saved": true
   }
