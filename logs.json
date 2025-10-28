@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T09:16:45.915Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:16:32.949Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện \"Hàn Quốc- Day 4\" với 2 ảnh",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-10-24T03:14:22.403Z",
     "action": "Tương tác ảnh",
     "details": "Đã thích ảnh \"IMG_6239.HEIC\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:14:15.698Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
     "username": "1761184802900",
     "saved": true
   }
