@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T09:44:21.649Z",
+    "action": "Lưu cấu hình",
+    "details": "Đã lưu cấu hình ứng dụng",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:44:19.457Z",
+    "action": "Cài đặt tự động đồng bộ",
+    "details": "Bật tự động đồng bộ - Tần suất: daily, Thời gian: 09:03",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:44:19.352Z",
+    "action": "Cài đặt tự động đồng bộ",
+    "details": "Bật tự động đồng bộ - Tần suất: daily, Thời gian: 09:03",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:44:01.625Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Lãng Mạn\"",
