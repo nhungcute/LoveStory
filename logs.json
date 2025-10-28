@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-28T07:58:36.989Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761638292434",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T07:58:27.052Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
@@ -6990,13 +6997,6 @@
     "action": "Chat AI",
     "details": "Chuyển sang model: LOCAL",
     "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T01:44:22.690Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: LOCAL",
-    "username": "1761270262703",
     "saved": true
   }
 ]
