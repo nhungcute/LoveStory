@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-28T10:38:11.321Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"đi hàn\" với 0 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T10:38:05.671Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T10:38:03.999Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T10:38:01.503Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T10:32:38.587Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
