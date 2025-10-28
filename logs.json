@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T09:53:29.688Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:53:28.775Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"6x6\" sang \"1x1\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:51:26.024Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
