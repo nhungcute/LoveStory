@@ -1,37 +1,9 @@
 [
   {
-    "timestamp": "2025-10-28T09:13:26.261Z",
-    "action": "Cập nhật sự kiện",
-    "details": "Đã cập nhật sự kiện \"Hàn Quốc - Day 1\" với 11 ảnh",
-    "username": "1761642781631",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T09:13:10.466Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"Hàn Quốc - Day 1\"",
-    "username": "1761642781631",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T09:13:10.465Z",
+    "timestamp": "2025-10-28T09:15:51.891Z",
     "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1761642781631",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T09:13:03.713Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1761642781631",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-28T09:13:01.631Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761642781631",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761634041517",
     "saved": true
   },
   {
@@ -6996,6 +6968,34 @@
     "timestamp": "2025-10-24T03:16:09.290Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T03:14:28.137Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T03:14:22.403Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"IMG_6239.HEIC\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T03:14:15.698Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761184802900",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-24T03:14:04.072Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
     "username": "1761184802900",
     "saved": true
   }
