@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-28T02:59:58.712Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn tất cả 50 ảnh trên trang hiện tại",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T02:59:56.968Z",
+    "action": "Chọn ảnh",
+    "details": "Đã bỏ chọn tất cả 50 ảnh",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T02:59:54.993Z",
+    "action": "Chọn ảnh",
+    "details": "Đã chọn tất cả 49 ảnh trên trang hiện tại",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T02:59:50.331Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761620314255",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T02:59:48.432Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
@@ -6968,34 +6996,6 @@
     "timestamp": "2025-10-23T03:16:23.695Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"2x2\" sang \"3x3\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:16:22.854Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:16:21.752Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:16:20.941Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"6x6\" sang \"1x1\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-23T03:16:15.637Z",
-    "action": "Thay đổi chế độ xem",
-    "details": "Chuyển từ \"5x5\" sang \"6x6\"",
     "username": "1761184802900",
     "saved": true
   }
