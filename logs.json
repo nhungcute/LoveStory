@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T09:47:01.959Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:46:59.969Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:46:47.273Z",
     "action": "Hồ sơ",
     "details": "Đã cập nhật hồ sơ: tintin",
