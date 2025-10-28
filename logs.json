@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-28T08:29:28.467Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Bé con 10w2d\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T08:29:28.467Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T08:28:17.304Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện \"Bé con 10w2d\" với 3 ảnh",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-10-24T02:17:26.032Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: LOCAL",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:17:24.800Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GPT",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T02:16:47.066Z",
-    "action": "Chat AI",
-    "details": "Đã gửi tin nhắn: \"1+1 bằng mấy\"",
     "username": "1761184802900",
     "saved": true
   }
