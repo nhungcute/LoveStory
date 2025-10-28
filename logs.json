@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T09:09:10.747Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:09:08.273Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc- Day 3\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T09:09:08.273Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T09:08:56.991Z",
     "action": "Cập nhật sự kiện",
     "details": "Đã cập nhật sự kiện \"Hàn Quốc - Day 2\" với 24 ảnh",
@@ -6975,27 +6996,6 @@
     "timestamp": "2025-10-24T03:10:46.965Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"tìm bình luận xinh\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:10:31.663Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:10:29.376Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761184802900",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-24T03:01:47.231Z",
-    "action": "Chat AI",
-    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
     "username": "1761184802900",
     "saved": true
   }
