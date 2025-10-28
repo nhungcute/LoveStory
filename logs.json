@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T10:23:47.215Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T10:23:47.215Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T10:23:45.623Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T10:23:26.196Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
