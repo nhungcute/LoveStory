@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-28T10:03:33.825Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T10:03:22.923Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-28T10:03:21.842Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"6x6\" sang \"1x1\"",
+    "username": "1761644634598",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-28T10:01:33.328Z",
     "action": "Phân trang ảnh",
     "details": "Chuyển từ trang 3 sang trang 2",
