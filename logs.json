@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-29T02:42:44.482Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T02:42:39.299Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T02:42:32.147Z",
     "action": "Xóa sự kiện",
     "details": "Đã xóa sự kiện \"đi hàn3\"",
