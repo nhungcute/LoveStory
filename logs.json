@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-29T03:23:35.857Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Cài đặt\"",
+    "username": "1761708142704",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T03:23:33.186Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Chat AI\"",
+    "username": "1761708142704",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T03:23:10.090Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
