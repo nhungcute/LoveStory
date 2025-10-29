@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-29T02:42:12.106Z",
+    "action": "Xóa sự kiện",
+    "details": "Đã xóa sự kiện \"đi hàn2\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T02:42:06.018Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"đi hàn2\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T02:42:06.018Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T02:41:59.770Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"đi hàn2\"",
