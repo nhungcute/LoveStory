@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-29T02:42:32.147Z",
+    "action": "Xóa sự kiện",
+    "details": "Đã xóa sự kiện \"đi hàn3\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T02:42:24.838Z",
+    "action": "Xóa sự kiện",
+    "details": "Đã xóa sự kiện \"đi hàn\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T02:42:12.106Z",
     "action": "Xóa sự kiện",
     "details": "Đã xóa sự kiện \"đi hàn2\"",
