@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-29T02:41:59.770Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"đi hàn2\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T02:41:59.770Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T02:41:53.051Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T02:41:49.344Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T02:35:17.658Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
