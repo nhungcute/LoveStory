@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-29T08:59:17.950Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Trang chủ\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T08:34:12.809Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"mở cho tôi danh sách ảnh\"",
