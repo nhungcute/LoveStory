@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-29T05:07:30.545Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T05:06:52.152Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện mới \"fe\" với 0 ảnh",
