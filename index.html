@@ -468,7 +468,7 @@
     </style>
   <style>@view-transition { navigation: auto; }</style>
  </head>
- <body class="h-full bg-custom text-custom font-sans flex flex-col"><!-- Header -->
+ <body class="h-screen bg-custom text-custom font-sans flex flex-col overflow-hidden"><!-- Header -->
   <!--
   <header class="bg-accent border-b border-custom shadow-sm sticky top-0 z-50">
    <div class="container mx-auto px-4 py-3">
@@ -505,7 +505,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
   </header>
   
   
-  <main class="flex-1 container mx-auto px-4 py-6"><!-- Home Section -->
+  <main class="flex-1 container mx-auto px-4 py-6 overflow-y-auto"><!-- Home Section -->
    <div id="homeSection" class="section">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><!-- Ngày Này Năm Xưa -->
      <div class="lg:col-span-2">
@@ -1779,120 +1779,82 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         }
 
         function loadTodayMemories() {
-			const container = document.getElementById('todayMemories');
-			const today = new Date();
-			// Tạo chuỗi ngày/tháng hôm nay (VD: '24-10')
-			const todayDayMonthStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}`;
-			const currentYear = today.getFullYear();
-			
-			// 1. Lọc các sự kiện (Hiệu quả hơn)
-			const validMemories = eventsData.filter(event => {
-				// Kiểm tra xem trường 'day' có tồn tại và hợp lệ không
-				if (!event.day || event.day.length !== 10) return false; 
-				
-				const eventDayMonthStr = event.day.substring(0, 5); // Lấy DD-MM
-				
-				// 1a. Kiểm tra ngày và tháng
-				if (eventDayMonthStr !== todayDayMonthStr) {
-					return false;
-				}
-				
-				// 1b. Kiểm tra số năm
-				const eventYear = parseInt(event.day.substring(6), 10); // Lấy YYYY
-				const yearsAgo = currentYear - eventYear;
-				// Chỉ chấp nhận nếu ít nhất 1 năm trước
-				return yearsAgo >= 1;
-			});
-
-			// 2. Sắp xếp theo năm giảm dần (mới nhất trước)
-			validMemories.sort((a, b) => {
-				// So sánh bằng cách tạo đối tượng Date từ YYYY-MM-DD (đảm bảo so sánh số)
-				return new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day));
-			});
-			
-			// 3. Lưu vào biến toàn cục và reset vị trí
-			todayValidMemories = validMemories;
-			// GIỮ NGUYÊN: Không reset currentMemoryIndex nếu đã có (để tránh giật lag khi chạy setInterval)
-			if (currentMemoryIndex >= todayValidMemories.length) {
-				currentMemoryIndex = 0; 
-			}
-			
-			// Gọi hàm hiển thị
-			displayCurrentMemory();
-		}
-		
-		/**
-         * Hiển thị kỷ niệm hiện tại (dựa trên currentMemoryIndex)
-         */
-        function displayCurrentMemory() {
             const container = document.getElementById('todayMemories');
-            const today = new Date(); // Cần cho việc tính toán 'năm trước'
+            const today = new Date();
+            // Tạo chuỗi ngày/tháng hôm nay (VD: '29-10')
+            const todayDayMonthStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+            const currentYear = today.getFullYear();
+            
+            // 1. Lọc các sự kiện
+            const validMemories = eventsData.filter(event => {
+                if (!event.day || event.day.length !== 10) return false; 
+                const eventDayMonthStr = event.day.substring(0, 5); // Lấy DD-MM
+                if (eventDayMonthStr !== todayDayMonthStr) {
+                    return false;
+                }
+                const eventYear = parseInt(event.day.substring(6), 10); // Lấy YYYY
+                const yearsAgo = currentYear - eventYear;
+                return yearsAgo >= 1; // Chỉ lấy sự kiện từ 1 năm trước trở lên
+            });
 
-            if (todayValidMemories.length === 0) {
-                // Giữ nguyên HTML khi không có kỷ niệm
+            // 2. Sắp xếp theo năm giảm dần (mới nhất trước)
+            validMemories.sort((a, b) => {
+                return new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day));
+            });
+
+            // 3. Hiển thị
+            
+            // 3a. Trường hợp không có sự kiện
+            if (validMemories.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-calendar-day text-4xl mb-3"></i>
+                        <i class="fas fa-calendar-times text-4xl mb-3"></i>
                         <p>Không có kỷ niệm nào vào ngày hôm nay</p>
                     </div>
                 `;
                 return;
             }
+            
+            // 3b. Trường hợp có sự kiện (Giao diện MỚI theo hình ảnh)
+            container.innerHTML = validMemories.map((event, index) => {
+                const eventDate = new Date(convertDateFormat(event.day));
+                const yearsAgo = today.getFullYear() - eventDate.getFullYear();
+                
+                const eventIdForScroll = event.note_id || event.day; 
 
-            // Lấy kỷ niệm cụ thể
-			const memory = todayValidMemories[currentMemoryIndex];
-			
-			const eventDate = new Date(convertDateFormat(memory.day));
-			const yearsAgo = today.getFullYear() - eventDate.getFullYear();
-			
-			let imageHtml = '';
-			if (memory.image && memory.image.length > 0) {
-				const imageId = memory.image[0];
-				// Sử dụng thumbnail chất lượng thấp nhất để load nhanh nhất
-				const imageUrl = driveAPI.getImageUrl(imageId, 'thumbnail'); 
-				imageHtml = `<img src="${imageUrl}" alt="" class="w-20 h-20 rounded-lg object-cover" onerror="this.src=''; this.style.display='none';">`;
-			}
-			
-			const safeName = escapeHtml(memory.name || '');
-			const safeDescription = escapeHtml(memory.contdetl || 'Không có mô tả');
+                
+                let cardClass = 'love-card rounded-lg p-4 mb-3 cursor-pointer';
+                let badgeClass = '';
+                let iconClass = '';
 
-			let navHtml = '';
-			if (todayValidMemories.length > 1) {
-				// Thêm nút "Trước" nếu không phải kỷ niệm đầu tiên
-				const prevButton = `<button onclick="navigateMemory(-1)" class="love-button w-7 h-7 rounded-full flex items-center justify-center p-0 opacity-60 hover:opacity-100 flex-shrink-0 mr-1">
-										<i class="fas fa-chevron-left text-xs"></i>
-									</button>`;
-									
-				// Thêm nút "Sau"
-				const nextButton = `<button onclick="navigateMemory(1)" class="love-button w-7 h-7 rounded-full flex items-center justify-center p-0 opacity-60 hover:opacity-100 flex-shrink-0 ml-auto">
-										<i class="fas fa-chevron-right text-xs"></i>
-									</button>`;
+                if (index === 0) {
+                    // Item đầu tiên: Nổi bật bằng MÀU VÀNG (secondary)
+                    badgeClass = 'bg-secondary text-white'; // Badge vàng
+                    iconClass = 'text-secondary';          // Tim vàng
+                } else {
+                    // Các item cũ hơn: Dùng MÀU LỤC (primary)
+                    badgeClass = 'bg-primary text-white'; // Badge lục
+                    iconClass = 'text-primary';          // Tim lục
+                    // Thêm: Làm cho thẻ mờ hơn một chút để thẻ đầu tiên nổi bật
+                    cardClass += ' opacity-90';
+                }
+               
 
-				// Hiển thị cả hai nút nếu có nhiều hơn 1 kỷ niệm
-				navHtml = `<div class="flex items-center space-x-2">
-								${prevButton} 
-								<span class="text-xs text-gray-500 whitespace-nowrap">(${currentMemoryIndex + 1}/${todayValidMemories.length})</span>
-								${nextButton}
-							</div>`;
-			}
-
-			container.innerHTML = `
-				<div>
-					<div class="flex items-start space-x-3">
-						${imageHtml}
-						<div class="flex-1 min-w-0">
-							<div class="flex justify-between items-start">
-								<h4 class="text-lg font-bold text-primary mb-1">${safeName}</h4>
-								${navHtml}
-							</div>
-							<p class="text-secondary font-medium mb-2 text-sm">${yearsAgo} năm trước - ${formatDateToDDMMYYYY(memory.day)}</p>
-						</div>
-					</div>
-					 <p class="text-gray-700 whitespace-pre-wrap mt-3">${safeDescription}</p>
-				</div>
-			`;
+                return `
+                    <div class="${cardClass}" onclick="scrollToEvent('${eventIdForScroll}')">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="${badgeClass} px-3 py-1 rounded-full text-sm font-medium">${yearsAgo} năm trước</span>
+                            <span class="text-custom opacity-70 text-sm">${formatDateToDDMMYYYY(event.day)}</span>
+                        </div>
+                        <h4 class="font-bold text-primary text-lg flex items-center">
+                            
+                            ${escapeHtml(event.name)}
+                        </h4>
+                    </div>
+                `;
+            }).join('');
         }
-
+		 
         /**
          * Xử lý khi bấm nút next/prev của "Ngày Này Năm Xưa"
          * @param {number} direction -1 (prev) hoặc 1 (next)
@@ -1909,8 +1871,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             } else if (currentMemoryIndex < 0) {
                 currentMemoryIndex = todayValidMemories.length - 1; // Đi đến cuối
             }
- 
-            displayCurrentMemory();
+  
         }
 
         function formatDateFromDDMMYYYY(dateStr) {
@@ -2056,7 +2017,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 const safeDescription = escapeHtml(event.contdetl || 'Không có mô tả');
                 
                 return `
-                    <div class="timeline-item">
+					<div class="timeline-item" id="event-item-${event.note_id || event.day}">
                         <div class="love-card rounded-lg px-6 py-3">
                             <div class="flex justify-between items-start mb-2">
                                 <div>
@@ -2082,6 +2043,31 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             }).join('');
             
             container.innerHTML = timelineHTML;
+        }
+		
+		function scrollToEvent(eventId) {
+            // 1. Chuyển sang tab Timeline
+            showSection('timeline');
+            
+            // 2. Tìm phần tử
+            const element = document.getElementById(`event-item-${eventId}`);
+            
+            if (element) {
+                // 3. Scroll tới phần tử
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // 4. (Tùy chọn) Thêm hiệu ứng highlight
+                element.style.transition = 'all 0.3s ease';
+                element.style.transform = 'scale(1.02)';
+                element.style.boxShadow = '0 0 15px var(--secondary-color)';
+                
+                setTimeout(() => {
+                    element.style.transform = 'scale(1)';
+                    element.style.boxShadow = '';
+                }, 1500); // Giữ highlight trong 1.5 giây
+            } else {
+                console.warn(`Không tìm thấy phần tử event-item-${eventId} để scroll tới.`);
+            }
         }
 
         // Photo functions
