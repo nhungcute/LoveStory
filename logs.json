@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-29T08:34:12.809Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"mở cho tôi danh sách ảnh\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:34:00.853Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T08:33:39.746Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"tôI CÓ THể lưu trữ lịch sử đoạn chat không\"",
