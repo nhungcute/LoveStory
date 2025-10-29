@@ -1,65 +1,9 @@
 [
   {
-    "timestamp": "2025-10-29T03:34:52.576Z",
+    "timestamp": "2025-10-29T03:35:15.490Z",
     "action": "Điều hướng",
-    "details": "Chuyển từ \"Chat AI\" sang \"Timeline\"",
-    "username": "1761701956987",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-29T03:34:51.120Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Chat AI\"",
-    "username": "1761701956987",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-29T03:34:40.054Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1761701956987",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-29T03:34:36.199Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761701956987",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-29T03:33:03.014Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
-    "username": "1761701956987",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-29T03:33:01.398Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1761701956987",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-29T03:32:58.382Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
-    "username": "1761701956987",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-29T03:32:45.358Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1761701956987",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-29T03:32:31.957Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761701956987",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761634041517",
     "saved": true
   },
   {
