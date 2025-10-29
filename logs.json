@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-29T01:35:06.142Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"đi hàn\" với 0 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T01:34:59.530Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"đi hàn\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T01:34:59.530Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T01:34:43.625Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
