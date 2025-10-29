@@ -556,26 +556,22 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
      </div>
     </div>
    </div><!-- Chat AI Section -->
-   <div id="chatSection" class="section hidden">
-    <div class="max-w-4xl mx-auto">
-     <div class="love-card rounded-lg overflow-hidden">
-      <div class="bg-primary text-white p-4 flex justify-between items-center">
+   <div id="chatSection" class="section hidden h-full flex flex-col">
+    <div class="love-card rounded-lg overflow-hidden flex flex-col flex-1">
+      <div class="bg-primary text-white p-4 flex justify-between items-center flex-shrink-0">
         <h2 class="text-lg font-bold"><i class="fas fa-robot mr-2"></i>Chat AI</h2>
         <div class="flex space-x-1 border border-white/50 rounded-md p-0.5">
 			<button id="aiModeBtn-google" onclick="switchAiModel('google')" class="ai-mode-btn px-2 py-1 text-xs rounded-sm ">Google</button>
             <button id="aiModeBtn-gpt" onclick="switchAiModel('gpt')" class="ai-mode-btn px-2 py-1 text-xs rounded-sm">GPT</button>
-           
         </div>
       </div>
-      <div class="h-96 overflow-y-auto p-4" id="chatMessages">
-      
-      </div>
-      <div class="border-t border-custom p-4">
-       <div class="flex space-x-3"><input type="text" id="chatInput" placeholder="Hỏi AI về kỷ niệm, tìm kiếm sự kiện..." class="love-input flex-1" onkeypress="handleChatKeyPress(event)"> <button onclick="sendChatMessage()" class="love-button"> <i class="fas fa-paper-plane"></i> </button>
+      <div class="flex-1 overflow-y-auto p-4" id="chatMessages">
+        </div>
+      <div class="border-t border-custom p-4 flex-shrink-0">
+        <div class="flex space-x-3"><input type="text" id="chatInput" placeholder="Hỏi AI về kỷ niệm, tìm kiếm sự kiện..." class="love-input flex-1" onkeypress="handleChatKeyPress(event)"> <button onclick="sendChatMessage()" class="love-button"> <i class="fas fa-paper-plane"></i> </button>
        </div>
       </div>
      </div>
-    </div>
    </div><!-- Timeline Section -->
    <div id="timelineSection" class="section hidden">
     <div class="flex justify-between items-center mb-6">
