@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-29T05:06:52.152Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"fe\" với 0 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T05:06:45.886Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T05:06:40.659Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"sdf\" với 0 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T05:06:34.823Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
