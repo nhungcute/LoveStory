@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-10-29T05:06:34.823Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T05:06:33.804Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"dsa\" với 0 ảnh",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T05:06:26.903Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T05:06:25.279Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T05:06:25.255Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-29T05:05:54.685Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện mới \"fds\" với 0 ảnh",
