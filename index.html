@@ -489,7 +489,7 @@
    <div class="container mx-auto px-4 py-3">
     <div class="flex items-center justify-between h-10">
      <div class="flex items-center space-x-3"><button onclick="showSection('home')" class="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center transition-all duration-300" id="headerMenuBtn"> <i class="fas fa-heart text-white text-lg"></i> </button>
-     <h1 id="headerTitle" class="text-xl font-bold text-primary whitespace-nowrap transition-all duration-300 hidden md:block">Love Story</h1>
+     <h1 id="headerTitle" class="text-xl font-bold text-primary whitespace-nowrap transition-all duration-300">Love Story</h1>
      </div>
      <div id="headerMenuIcons" class="flex-1 flex items-center justify-center 
 space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="selectMenuItem('chat')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="chat" title="Chat AI"> <i class="fas fa-robot text-white text-sm"></i> </button> <button onclick="selectMenuItem('timeline')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="timeline" title="Timeline"> <i class="fas fa-clock text-white text-sm"></i> </button> <button onclick="selectMenuItem('photos')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="photos" title="Khoảnh Khắc"> <i class="fas fa-images text-white text-sm"></i> </button> <button onclick="selectMenuItem('settings')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="settings" title="Cài Đặt"> <i class="fas fa-cog text-white text-sm"></i> </button>
@@ -923,7 +923,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
  
         // Biến toàn cục cho photo selector (từ new4.html)
         let photoSelectorPage = 1;
-        let photoSelectorViewMode = 'grid-3'; // Mặc định là 3x3
+        let photoSelectorViewMode = 'grid-4'; // Mặc định là 3x3
         
         // View configuration for photo selector (từ new4.html)
         const viewConfig = {
@@ -1562,8 +1562,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             const title = document.getElementById('headerTitle');
             
             // 1. Ẩn Title trên di động
-            title.classList.add('md:hidden');
-            
+            title.classList.add('hidden');
             // 2. Hiện Menu
             menuIcons.classList.remove('hidden');
             setTimeout(() => { // Dùng setTimeout để trình duyệt kịp render và tạo hiệu ứng fade-in
@@ -1581,7 +1580,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             // 2. Sau khi hiệu ứng mờ kết thúc (300ms), ẩn hoàn toàn Menu và hiện lại Title
             setTimeout(() => {
                 menuIcons.classList.add('hidden');
-                title.classList.remove('md:hidden');
+                title.classList.remove('hidden');
             }, 300);
         }
 
@@ -1985,7 +1984,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day))
             );
             
-            const timelineHTML = sortedEvents.map(event => {
+            const timelineHTML = sortedEvents.map((event, index) => {
                 let imagesHTML = '';
                 if (event.image && event.image.length > 0) {
                     const displayImages = event.image.slice(0, 3); // Mảng TÊN ảnh
@@ -2017,23 +2016,28 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 const safeDescription = escapeHtml(event.contdetl || 'Không có mô tả');
                 
                 return `
-					<div class="timeline-item" id="event-item-${event.note_id || event.day}">
+					<div class="timeline-item" id="event-item-${event.note_id || event.day}" style="z-index: ${sortedEvents.length - index};">
                         <div class="love-card rounded-lg px-6 py-3">
                             <div class="flex justify-between items-start mb-2">
                                 <div>
                                     <h3 class="text-base font-bold text-primary mb-0.5" style="font-size: 0.9em;">${safeName}</h3>
                                     <p class="text-secondary font-medium" style="font-size: 0.9em;">${formatDateToDDMMYYYY(event.day)}</p>
                                 </div>
-                                <div class="flex space-x-3">
-                                    <button onclick="editEvent('${event.note_id}')" class="text-blue-500 hover:text-blue-700 transition-colors duration-200" title="Sửa sự kiện">
-                                        <i class="fas fa-edit"></i>
+                                <div class="relative ml-4">
+                                    <button class="text-custom hover:text-primary transition-colors duration-200 p-2 rounded-full hover:bg-gray-100" onclick="toggleEventMenu('${event.note_id}')">
+                                        <i class="fas fa-ellipsis-v"></i>
                                     </button>
-                                    <button onclick="viewEventPhotos('${event.note_id}')" class="text-green-500 hover:text-green-700 transition-colors duration-200" title="Xem ảnh sự kiện">
-                                        <i class="fas fa-images"></i>
-                                    </button>
-                                    <button onclick="deleteEvent('${event.note_id}')" class="text-red-500 hover:text-red-700 transition-colors duration-200" title="Xóa sự kiện">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <div id="menu-${event.note_id}" class="hidden absolute right-0 top-full mt-1 bg-accent border border-custom rounded-lg shadow-lg z-50 min-w-[150px]">
+                                        <button class="w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-50 transition-colors duration-200 flex items-center" onclick="editEvent('${event.note_id}'); hideEventMenu('${event.note_id}')">
+                                            <i class="fas fa-edit mr-2"></i>Chỉnh sửa
+                                        </button>
+                                        <button class="w-full text-left px-4 py-2 text-green-600 hover:bg-green-50 transition-colors duration-200 flex items-center" onclick="viewEventPhotos('${event.note_id}'); hideEventMenu('${event.note_id}')">
+                                            <i class="fas fa-images mr-2"></i>Xem ảnh
+                                        </button>
+                                        <button class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors duration-200 flex items-center border-t border-custom" onclick="deleteEvent('${event.note_id}'); hideEventMenu('${event.note_id}')">
+                                            <i class="fas fa-trash mr-2"></i>Xóa
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <p class="text-gray-700 whitespace-pre-wrap" style="font-size: 0.9em; line-height: 1.4;">${safeDescription}</p>
@@ -4330,7 +4334,54 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             }
         });
 
+		/**
+         * Mở hoặc đóng menu cho một sự kiện
+         * @param {string} eventId - ID của sự kiện (event.note_id)
+         */
+        function toggleEventMenu(eventId) {
+            const menu = document.getElementById(`menu-${eventId}`);
+            if (!menu) return;
 
+            const isHidden = menu.classList.contains('hidden');
+            
+            // 1. Ẩn tất cả các menu khác
+            document.querySelectorAll('[id^="menu-"]').forEach(m => {
+                if (m.id !== `menu-${eventId}`) {
+                    m.classList.add('hidden');
+                }
+            });
+            
+            // 2. Bật/tắt menu hiện tại
+            if (isHidden) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Ẩn một menu cụ thể (thường gọi sau khi nhấp vào một tùy chọn)
+         * @param {string} eventId - ID của sự kiện (event.note_id)
+         */
+        function hideEventMenu(eventId) {
+            const menu = document.getElementById(`menu-${eventId}`);
+            if (menu) {
+                menu.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Trình lắng nghe sự kiện toàn cục:
+         * Đóng tất cả các menu 3 chấm nếu nhấp ra bên ngoài
+         */
+        document.addEventListener('click', function(e) {
+            // Kiểm tra xem cú click có nằm ngoài nút 3 chấm VÀ ngoài menu không
+            if (!e.target.closest('[onclick*="toggleEventMenu"]') && !e.target.closest('[id^="menu-"]')) {
+                document.querySelectorAll('[id^="menu-"]').forEach(menu => {
+                    menu.classList.add('hidden');
+                });
+            }
+        });
     </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f60467b36d04e3',t:'MTc2MDYwMTU3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
