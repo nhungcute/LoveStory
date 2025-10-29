@@ -1156,59 +1156,69 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
         // Initialize API instances
         const githubAPI = new GitHubAPI();
         const driveAPI = new GoogleDriveAPI(); 
-
-        // Data loading functions
-        async function loadAllData() {
+ 
+		async function loadCoreData() {
             try {
                 showLoadingState();
                 
-                // --- BƯỚC 1: Tải file config chính TRƯỚC TIÊN ---
+                // --- BƯỚC 1: Tải file config chính (BẮT BUỘC) ---
                 try {
-                    // Gán trực tiếp nội dung file JSON vào appConfigData
                     appConfigData = await githubAPI.getFile(config.CONFIG_FILE_PATH);
-                    
                     if (!appConfigData || Object.keys(appConfigData).length === 0) {
-                        // Nếu file rỗng, gán là object rỗng
                         appConfigData = {};
                         console.warn(`File ${config.CONFIG_FILE_PATH} rỗng.`);
                     }
                 } catch (e) {
-                    console.error(`Lỗi nghiêm trọng: Không thể tải file config ${config.CONFIG_FILE_PATH}. Ứng dụng không thể tiếp tục.`, e);
+                    console.error(`Lỗi nghiêm trọng: Không thể tải file config ${config.CONFIG_FILE_PATH}.`, e);
                     showNotification('Lỗi nghiêm trọng: Không thể tải file cấu hình!', 'error');
-                    // Gán rỗng để code không bị sập ở Bước 2
                     appConfigData = {}; 
                 }
                 
-                // --- BƯỚC 2: Gộp config Động (từ appConfigData) vào config Tĩnh (trong code) ---
+                // --- BƯỚC 2: Gộp config và cập nhật API keys ---
                 config = { ...config, ...appConfigData }; 
-
-                // --- BƯỚC 3: Cập nhật API keys cho các instance (nếu cần) ---
                 driveAPI.apiKey = config.API_KEY; 
                 driveAPI.folderId = config.FOLDER_ID;
 
-                // --- BƯỚC 4: Tải tất cả các file dữ liệu khác (dùng 'config' đã gộp) ---
-                const [events, photos, comments, profiles, logs] = await Promise.all([
-                    githubAPI.getFile(config.FILE_PATH),
-                    githubAPI.getFile(config.PHOTOS_METADATA_FILE_PATH),
-                    githubAPI.getFile(config.COMMENTS_FILE_PATH),
-                    githubAPI.getFile(config.PROFILES_FILE_PATH),
-                    githubAPI.getFile(config.LOGS_FILE_PATH)
+                // --- BƯỚC 3: Tải dữ liệu CỐT LÕI (cho Home & Header) ---
+                const [events, photos, profiles] = await Promise.all([
+                    githubAPI.getFile(config.FILE_PATH),                  // Cần cho Home
+                    githubAPI.getFile(config.PHOTOS_METADATA_FILE_PATH),  // Cần cho Home (đếm media)
+                    githubAPI.getFile(config.PROFILES_FILE_PATH)          // Cần cho Header
                 ]);
 
                 eventsData = events || [];
                 photosData = photos || [];
-                commentsData = comments || [];
                 profilesData = profiles || [];
-                logsData = logs || [];
                 
-                loadCurrentUser();
-                hideLoadingState();
+                // Tải user (cần profilesData)
+                loadCurrentUser(); 
+                
+                // Không ẩn loading ở đây, để initializeApp xử lý
                 return true;
                 
             } catch (error) {
-                console.error('Lỗi nghiêm trọng khi tải dữ liệu (Rất có thể do thiếu khóa trong configApp.json):', error);
-                hideLoadingState();
-                showNotification('Lỗi tải dữ liệu! Vui lòng kiểm tra file configApp.json.', 'error');
+                console.error('Lỗi nghiêm trọng khi tải :', error);
+                hideLoadingState(); // Ẩn nếu lỗi
+                showNotification('Lỗi tải dữ liệu chính! Vui lòng kiểm tra file configApp.json.', 'error');
+                return false;
+            }
+        }
+
+        async function loadSecondaryData() {
+            try {
+                // --- BƯỚC 4: Tải dữ liệu PHỤ (cho các tab khác) ---
+                const [comments, logs] = await Promise.all([
+                    githubAPI.getFile(config.COMMENTS_FILE_PATH), // Cần cho Photos, Timeline
+                    githubAPI.getFile(config.LOGS_FILE_PATH)      // Cần cho Settings
+                ]);
+
+                commentsData = comments || [];
+                logsData = logs || [];
+                
+                return true;
+            } catch (error) {
+                console.error('Lỗi khi tải dữ liệu (comments, logs):', error);
+                showNotification('Lỗi tải dữ liệu (bình luận, nhật ký).', 'error');
                 return false;
             }
         }
@@ -1415,33 +1425,55 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 document.getElementById('rightMenuBtn').style.display = 'flex';
             }
             
-			// Load all data
-            const dataLoaded = await loadAllData();
-			
-			// MỚI: Tải cài đặt thông báo 
-            document.getElementById('enableSystemNotifications').checked = config.ENABLE_NOTI;
-			
             // Initialize view toggle button
             updateViewToggleButton();
-             
-            if (dataLoaded) {
-                // Load app configuration into UI
-                loadAppConfigToUI();
+
+            // --- GIAI ĐOẠN 1: TẢI DỮ LIỆU CỐT LÕI VÀ HIỂN THỊ HOME ---
+            const coreDataLoaded = await loadCoreData(); // Chờ dữ liệu Home
+            
+            if (coreDataLoaded) {
+                // Tải cài đặt thông báo (từ config)
+                document.getElementById('enableSystemNotifications').checked = config.ENABLE_NOTI;
+
+                // **Render ngay lập tức các thành phần của Home**
+                updateStats();           // Home
+                loadTodayMemories();     // Home
+                loadUpcomingEvents();    // Home
                 
-                updateStats();
-                loadTodayMemories();
-                loadUpcomingEvents();
-                loadTimeline();
-                loadPhotos();
+                // Render các thông tin hệ thống cơ bản
                 updateOnlineStatus();
-                updateTotalLogs();
                 updateSyncStatus();
-				await updateStorageUsageDisplay();
+                await updateStorageUsageDisplay();
             }
             
-            // Set active navigation
+            // Ẩn skeleton và hiển thị trang chủ
+            hideLoadingState();
             updateNavigation('home');
-			// Set initial AI mode button active
+            showSection('home'); // Đảm bảo Trang chủ luôn hiển thị đầu tiên
+
+            // --- GIAI ĐOẠN 2: TẢI NGẦM DỮ LIỆU PHỤ VÀ RENDER CÁC TAB KHÁC ---
+            // Chúng ta dùng .then() để hàm này chạy ngầm mà không block UI
+            loadSecondaryData().then((secondaryDataLoaded) => {
+                if (secondaryDataLoaded) {
+                    console.log("Đã tải xong dữ liệu phụ (comments, logs).");
+                    
+                    // **Render các tab còn lại sau khi có đủ dữ liệu**
+                    loadAppConfigToUI(); // Settings (cần logsData)
+                    loadTimeline();      // Timeline (cần commentsData)
+                    loadPhotos();        // Photos (cần commentsData)
+                    updateTotalLogs();   // Settings (cần logsData)
+                    
+                    // Cập nhật lại UI nếu người dùng đã chuyển tab trong lúc chờ
+                    if (currentSection === 'photos') {
+                         loadPhotos(currentPage);
+                    }
+                    if (currentSection === 'timeline') {
+                         loadTimeline();
+                    }
+                }
+            });
+            
+            // Set initial AI mode button active
             switchAiModel(currentAiModel);
         }
 
@@ -1840,11 +1872,11 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 return `
                     <div class="${cardClass}" onclick="scrollToEvent('${eventIdForScroll}')">
                         <div class="flex items-center space-x-3 mb-2">
-                            <span class="${badgeClass} px-3 py-1 rounded-full text-sm font-medium">${yearsAgo} năm trước</span>
-                            <span class="text-custom opacity-70 text-sm">${formatDateToDDMMYYYY(event.day)}</span>
+							
+                            <span class="${badgeClass} px-3 py-1 rounded-full text-sm font-medium"><i class="fa-regular fa-clock"></i> ${yearsAgo} năm trước</span>
+                            <span class="text-custom opacity-70 text-sm"> <i class="fa-regular fa-calendar"></i> ${formatDateToDDMMYYYY(event.day)}</span>
                         </div>
                         <h4 class="font-bold text-primary text-lg flex items-center">
-                            
                             ${escapeHtml(event.name)}
                         </h4>
                     </div>
