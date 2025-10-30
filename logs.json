@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-30T04:41:54.103Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761799232235",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-30T04:41:31.814Z",
     "action": "Tương tác ảnh",
     "details": "Đã thích ảnh \"4Z9A1543.JPG\"",
