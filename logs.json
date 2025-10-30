@@ -1,23 +1,16 @@
 [
   {
-    "timestamp": "2025-10-30T04:02:04.224Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 187 files (185 ảnh, 2 video) - Cũ: 187",
-    "username": "1761796921665",
+    "timestamp": "2025-10-30T04:05:23.485Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1761701956987",
     "saved": true
   },
   {
-    "timestamp": "2025-10-30T04:02:01.671Z",
-    "action": "Tự động đồng bộ",
-    "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761796921665",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-30T04:02:01.664Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1761796921665",
+    "timestamp": "2025-10-30T04:05:21.223Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Lãng Mạn\"",
+    "username": "1761701956987",
     "saved": true
   },
   {
