@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-30T03:57:59.100Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T03:57:53.539Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-30T03:57:29.343Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
