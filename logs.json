@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-30T08:04:19.547Z",
+    "action": "Tải ảnh",
+    "details": "Đã mở trang tải ảnh \"D3523BDB708A9B233F7B95857E80AE74.JPG\"",
+    "username": "1761811177988",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T08:04:16.835Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761811177988",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-30T08:04:12.967Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
