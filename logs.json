@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-30T01:51:10.914Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Lãng Mạn\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T01:51:10.067Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Hè\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T01:51:08.931Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T01:51:07.692Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-30T01:48:56.547Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
