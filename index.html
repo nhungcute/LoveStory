@@ -945,6 +945,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 		let readTimestamps = new Set(); // Set để lưu các timestamp đã đọc
         const READ_TIMESTAMPS_KEY = 'loveStoryReadLogs';
 		let initialLogsLoaded = false;
+		let allNotificationsLoaded = false;
 		
 		// 1. Kiểm tra xem có phải thiết bị di động không (dựa theo CSS media query)
         const isMobile = window.innerWidth <= 768;
@@ -3841,6 +3842,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             
             if (notificationsOpen) {
                 dropdown.classList.remove('hidden');
+				allNotificationsLoaded = false;
                 // Tải trang 1 và YÊU CẦU reset (true)
                 loadNotifications(1, true); 
                 // Thêm trình nghe sự kiện cuộn
@@ -3858,8 +3860,8 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
         function handleNotificationScroll() {
             const container = document.getElementById('notifications-content');
             
-            // Nếu cuộn gần đến đáy (cách 20px) VÀ không đang trong quá trình tải
-            if (container.scrollTop + container.clientHeight >= container.scrollHeight - 20 && !isLoadingNotifications) {
+            // THAY ĐỔI: Thêm điều kiện !allNotificationsLoaded
+            if (container.scrollTop + container.clientHeight >= container.scrollHeight - 20 && !isLoadingNotifications && !allNotificationsLoaded) {
                 
                 // Tải trang tiếp theo
                 notificationLogPage++;
@@ -4006,6 +4008,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             if (!isReset && logsToDisplay.length === 0) {
                 container.innerHTML += '<div class="p-2 text-center text-xs text-gray-500">Đã tải tất cả.</div>';
                 isLoadingNotifications = false;
+				allNotificationsLoaded = true;
                 return;
             }
 
