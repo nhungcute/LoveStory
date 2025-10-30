@@ -1,86 +1,156 @@
 [
   {
-    "timestamp": "2025-10-30T02:03:15.748Z",
+    "timestamp": "2025-10-30T02:03:33.525Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 187 files (185 ảnh, 2 video) - Cũ: 187",
-    "username": "1761634041517",
+    "username": "1761701956987",
     "saved": true
   },
   {
-    "timestamp": "2025-10-30T02:03:12.823Z",
+    "timestamp": "2025-10-30T02:03:30.080Z",
     "action": "Tự động đồng bộ",
     "details": "Đã chạy tự động đồng bộ theo lịch daily",
-    "username": "1761634041517",
+    "username": "1761701956987",
     "saved": true
   },
   {
-    "timestamp": "2025-10-30T01:51:20.156Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mặc định\"",
-    "username": "1761634041517",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-30T01:51:13.489Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mùa Xuân\"",
-    "username": "1761634041517",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-30T01:51:12.833Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Ban Đêm\"",
-    "username": "1761634041517",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-30T01:51:12.329Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Đại Dương\"",
-    "username": "1761634041517",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-30T01:51:10.914Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Lãng Mạn\"",
-    "username": "1761634041517",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-30T01:51:10.067Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mùa Hè\"",
-    "username": "1761634041517",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-30T01:51:08.931Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mặc định\"",
-    "username": "1761634041517",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-10-30T01:51:07.692Z",
+    "timestamp": "2025-10-29T09:00:08.149Z",
     "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1761634041517",
+    "details": "Chuyển từ \"Chat AI\" sang \"Trang chủ\"",
+    "username": "1761701956987",
     "saved": true
   },
   {
-    "timestamp": "2025-10-30T01:48:56.547Z",
+    "timestamp": "2025-10-29T09:00:06.877Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Chat AI\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T09:00:05.861Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T09:00:04.477Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:59:52.456Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
-    "username": "1761634041517",
+    "username": "1761701956987",
     "saved": true
   },
   {
-    "timestamp": "2025-10-29T10:00:57.974Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1761634041517",
+    "timestamp": "2025-10-29T08:59:17.950Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Trang chủ\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:34:12.809Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"mở cho tôi danh sách ảnh\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:34:00.853Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"có bao nhiêu ảnh\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:33:39.746Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"tôI CÓ THể lưu trữ lịch sử đoạn chat không\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:33:09.646Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Chat AI\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:33:03.846Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:32:40.887Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:32:37.255Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:30:26.422Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:30:20.862Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:30:14.109Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:29:42.828Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:29:18.004Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:26:55.268Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-29T08:25:21.663Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761701956987",
     "saved": true
   },
   {
