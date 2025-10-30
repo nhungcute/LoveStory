@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-30T08:04:12.967Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761811177988",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T08:04:06.119Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761811177988",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T08:04:03.017Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Bé con 10w2d\"",
+    "username": "1761811177988",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T08:04:03.016Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1761811177988",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-30T08:03:41.909Z",
     "action": "Tải ảnh",
     "details": "Đã mở trang tải ảnh \"DSC01557.JPG\"",
