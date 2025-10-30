@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-30T07:31:35.421Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"Mày có biết thằng Vũ không\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-30T07:31:15.956Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Chat AI\"",
