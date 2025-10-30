@@ -963,6 +963,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
         let currentPhotoId = null;
         let currentPhotoName = null;
 		let todayValidMemories = []; // Lưu danh sách kỷ niệm cho hôm nay
+		let upcomingEventInfo = null;
         let currentMemoryIndex = 0; // Vị trí kỷ niệm đang xem
 		let currentAiModel = 'google'; // Default AI model ('gpt', 'google')
 		
@@ -1886,7 +1887,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             const currentYear = today.getFullYear();
             
             // 1. Lọc các sự kiện
-            const validMemories = eventsData.filter(event => {
+            todayValidMemories = eventsData.filter(event => {
                 if (!event.day || event.day.length !== 10) return false; 
                 const eventDayMonthStr = event.day.substring(0, 5); // Lấy DD-MM
                 if (eventDayMonthStr !== todayDayMonthStr) {
@@ -1898,14 +1899,14 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             });
 
             // 2. Sắp xếp theo năm giảm dần (mới nhất trước)
-            validMemories.sort((a, b) => {
+            todayValidMemories.sort((a, b) => {
                 return new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day));
             });
 
             // 3. Hiển thị
             
             // 3a. Trường hợp không có sự kiện
-            if (validMemories.length === 0) {
+            if (todayValidMemories.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-8 text-gray-500">
                         <i class="fas fa-calendar-times text-4xl mb-3"></i>
@@ -1916,7 +1917,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             }
             
             // 3b. Trường hợp có sự kiện (Giao diện MỚI theo hình ảnh)
-            container.innerHTML = validMemories.map((event, index) => {
+            container.innerHTML = todayValidMemories.map((event, index) => {
                 const eventDate = new Date(convertDateFormat(event.day));
                 const yearsAgo = today.getFullYear() - eventDate.getFullYear();
                 
@@ -2040,7 +2041,8 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 
             // Lấy sự kiện gần nhất
             const nextEvent = futureEvents.length > 0 ? futureEvents[0] : null;
-
+			upcomingEventInfo = nextEvent; // <-- THÊM DÒNG NÀY
+			
             // Nếu không có sự kiện nào hoặc không có dữ liệu
             if (!nextEvent) {
                 container.innerHTML = `
@@ -3998,11 +4000,52 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             const logsToDisplay = sortedLogs.slice(startIndex, endIndex);
 
             // 4. Xử lý khi không có dữ liệu
-            if (isReset && logsToDisplay.length === 0) {
+            // --- BẮT ĐẦU THÊM MỚI ---
+            let specialNotificationsHtml = '';
+
+            // 1. Thêm Sự kiện Sắp tới
+            if (isReset && upcomingEventInfo && upcomingEventInfo.diff > 0) {
+                specialNotificationsHtml += `
+                    <div class="notification-item p-3 border-b border-custom" style="background-color: var(--accent-color); opacity: 1;">
+                        <div class="flex items-start space-x-3">
+                            <div class="text-primary mt-1"><i class="fas fa-calendar-check"></i></div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <p class="text-sm text-primary font-medium" style="overflow-wrap: break-word;">Sự kiện sắp tới</p>
+                                <p class="text-xs text-custom" style="overflow-wrap: break-word;">${upcomingEventInfo.diff} ngày nữa: ${escapeHtml(upcomingEventInfo.name)}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 2. Thêm "Ngày Này Năm Xưa"
+            if (isReset && todayValidMemories && todayValidMemories.length > 0) {
+                todayValidMemories.forEach(event => {
+                    const yearsAgo = new Date().getFullYear() - new Date(convertDateFormat(event.day)).getFullYear();
+                    const eventIdForScroll = event.note_id || event.day;
+
+                    specialNotificationsHtml += `
+                    <div class="notification-item p-3 border-b border-custom cursor-pointer hover:bg-gray-100" style="background-color: var(--accent-color); opacity: 1;" 
+                         onclick="scrollToEvent('${eventIdForScroll}'); toggleNotifications();">
+                        <div class="flex items-start space-x-3">
+                            <div class="text-secondary mt-1"><i class="fas fa-calendar-day"></i></div>
+                            <div class="flex-1" style="min-width: 0;">
+                                <p class="text-sm text-secondary font-medium" style="overflow-wrap: break-word;">Ngày Này Năm Xưa (${yearsAgo} năm)</p>
+                                <p class="text-xs text-custom" style="overflow-wrap: break-word;">${escapeHtml(event.name)}</p>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+            }
+
+            // 3. Xử lý khi không có DỮ LIỆU NÀO (cả đặc biệt và log)
+            if (isReset && logsToDisplay.length === 0 && specialNotificationsHtml === '') {
                  container.innerHTML = '<div class="p-4 text-center text-gray-500">Không có hoạt động nào</div>';
                  isLoadingNotifications = false;
                  return;
             }
+            // --- KẾT THÚC THÊM MỚI ---
             
             // Nếu không phải reset và không có log mới (đã tải đến cuối)
             if (!isReset && logsToDisplay.length === 0) {
@@ -4045,7 +4088,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 
             // 6. Thêm HTML vào container (KHÁC BIỆT CHÍNH)
             if (isReset) {
-                container.innerHTML = notificationsHtml; // Thay thế (cho trang 1)
+                container.innerHTML = specialNotificationsHtml + notificationsHtml; // Thay thế (cho trang 1)
             } else {
                 container.innerHTML += notificationsHtml; // Nối thêm (cho trang 2+)
             }
