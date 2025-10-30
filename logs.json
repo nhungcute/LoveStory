@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-30T04:35:46.704Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"dsa\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T04:35:46.704Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T04:35:41.680Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1761701956987",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-30T04:34:54.420Z",
     "action": "Chat AI",
     "details": "Chuyển sang model: GOOGLE",
