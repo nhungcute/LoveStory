@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-10-30T08:03:01.948Z",
+    "action": "Tải ảnh",
+    "details": "Đã mở trang tải ảnh \"DSC01556.JPG\"",
+    "username": "1761811177988",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T08:02:58.111Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761811177988",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-30T08:02:28.877Z",
     "action": "Tải ảnh",
     "details": "Đã mở trang tải ảnh \"DSC01555.JPG\"",
