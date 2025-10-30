@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-30T01:51:20.156Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T01:51:13.489Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Xuân\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T01:51:12.833Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Ban Đêm\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-30T01:51:12.329Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Đại Dương\"",
+    "username": "1761634041517",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-30T01:51:10.914Z",
     "action": "Thay đổi theme",
     "details": "Đã chuyển sang theme \"Lãng Mạn\"",
