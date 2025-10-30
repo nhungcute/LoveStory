@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="vi" class="h-full">
  <head>
   <meta charset="UTF-8">
@@ -198,16 +198,16 @@
         .grid-view-6 { grid-template-columns: repeat(6, 1fr); }
 
         @media (max-width: 768px) {
-    .mobile-hide-title { display: none; }
-    
-    /* Bắt lỗi bị dồn ảnh trên di động khi chọn chế độ lưới lớn hơn 2 cột */
-    .grid-view-3, 
-    .grid-view-4,
-    .grid-view-5,
-    .grid-view-6 { 
-        grid-template-columns: repeat(2, 1fr) !important; 
-    }
-}
+			.mobile-hide-title { display: none; }
+			
+			/* Bắt lỗi bị dồn ảnh trên di động khi chọn chế độ lưới lớn hơn 2 cột */
+			.grid-view-3, 
+			.grid-view-4,
+			.grid-view-5,
+			.grid-view-6 { 
+				grid-template-columns: repeat(2, 1fr) !important; 
+			}
+		}
 
         @media (min-width: 769px) {
             .grid-view-2 { grid-template-columns: repeat(2, 1fr); }
@@ -300,7 +300,28 @@
         .menu-icon:not(.active) {
             background-color: #6B7280;
         }
-
+		
+		.loading-spinner {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+		/* CSS cho thông báo đã đọc */
+        .notification-item.read {
+            opacity: 0.6;
+            background-color: var(--bg-color);
+        }
+        .notification-item.read:hover {
+            opacity: 1; /* Vẫn sáng lên khi hover */
+        }
+		
         /* Theme Radio Button Styles */
         .theme-radio-default,
         .theme-radio-spring,
@@ -494,12 +515,34 @@
      <div id="headerMenuIcons" class="flex-1 flex items-center justify-center 
 space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="selectMenuItem('chat')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="chat" title="Chat AI"> <i class="fas fa-robot text-white text-sm"></i> </button> <button onclick="selectMenuItem('timeline')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="timeline" title="Timeline"> <i class="fas fa-clock text-white text-sm"></i> </button> <button onclick="selectMenuItem('photos')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="photos" title="Khoảnh Khắc"> <i class="fas fa-images text-white text-sm"></i> </button> <button onclick="selectMenuItem('settings')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="settings" title="Cài Đặt"> <i class="fas fa-cog text-white text-sm"></i> </button>
      </div>
-     <div class="flex items-center justify-end 
-space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w-10 h-10 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center" id="rightMenuBtn"> <i class="fas fa-bars text-lg"></i> </button> <button onclick="openModal('profileModal')" class="flex items-center space-x-2 love-card rounded-full p-1"> 
-    <img src="https://ui-avatars.com/api/?name=LS&background=006B68&color=fff" alt="Avatar" class="w-8 h-8 rounded-full"> 
-    <span id="userNameDisplay" class="hidden md:block font-medium pr-3"> </span> 
-    </button>
+     
+	<div class="flex items-center justify-end space-x-3"> 
+        <button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w-10 h-10 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center" id="rightMenuBtn"> <i class="fas fa-bars text-lg"></i> </button> 
+        
+		<div class="relative">
+            <button onclick="toggleNotifications()" class="text-custom hover:text-primary transition-colors duration-200 p-2 rounded-full relative" title="Thông báo">
+                <i class="bi bi-bell text-xl"></i>
+                <span id="notification-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden" style="font-size: 0.6rem;">0</span>
+            </button>
+            <div id="notifications-dropdown" class="absolute right-0 top-12 bg-accent border border-custom rounded-lg shadow-lg hidden z-50" style="width: 19rem;">
+                <div class="p-4 border-b border-custom flex justify-between items-center">
+                   <h3 class="font-bold text-primary">Thông báo</h3>
+                   <button onclick="markAllNotificationsAsRead()" class="text-custom hover:text-primary transition-colors duration-200 p-1 rounded-full" title="Đánh dấu tất cả đã đọc">
+                       <i class="bi bi-check-all text-xl"></i>
+                   </button>
+                </div>
+                <div id="notifications-content" class="max-h-96 overflow-y-auto">
+                   <div class="loading-spinner mx-auto my-4"></div>
+                </div>
+            </div>
+        </div>
+		
+        <button onclick="openModal('profileModal')" class="flex items-center space-x-2 love-card rounded-full p-1"> 
+        <img src="https://ui-avatars.com/api/?name=LS&background=006B68&color=fff" alt="Avatar" class="w-8 h-8 rounded-full"> 
+        <span id="userNameDisplay" class="hidden md:block font-medium pr-3"> </span> 
+        </button>
      </div>
+	 
     </div>
    </div>
   </header>
@@ -849,8 +892,10 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
     </div>
     </div>
 	</div>
-	<!-- Event Photos Modal -->
+	
+ 
   
+	<!-- Event Photos Modal -->
   <div id="eventPhotosModal" class="modal">
    <div class="modal-content w-full max-w-4xl">
     <div class="flex justify-between items-center mb-4">
@@ -866,7 +911,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
      <h3 class="text-xl font-bold text-primary"><i class="fas fa-file-alt mr-2"></i>Nhật Ký Hoạt Động</h3><button onclick="closeModal('logsModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
     </div>
     <div class="flex justify-between items-center mb-4">
-     <div class="flex space-x-2"><button onclick="clearAllLogs()" class="love-button secondary text-xs px-3 py-1">Xóa Tất Cả</button> <button onclick="exportLogs()" class="love-button text-xs px-3 py-1">Xuất File</button>
+     <div class="flex space-x-2"><button onclick="clearAllLogs('logsContainer', 'logFilter')" class="love-button secondary text-xs px-3 py-1">Xóa Tất Cả</button> <button onclick="exportLogs('logFilter')" class="love-button text-xs px-3 py-1">Xuất File</button>
      </div>
      <div class="flex items-center space-x-2">
 	 <label class="text-sm">Lọc:</label> 
@@ -894,7 +939,13 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
   <script>
         // Global variables
         let currentSection = 'home';
-        
+        let notificationsOpen = false;
+		let notificationLogPage = 1;
+        let isLoadingNotifications = false;
+		let readTimestamps = new Set(); // Set để lưu các timestamp đã đọc
+        const READ_TIMESTAMPS_KEY = 'loveStoryReadLogs';
+		let initialLogsLoaded = false;
+		
 		// 1. Kiểm tra xem có phải thiết bị di động không (dựa theo CSS media query)
         const isMobile = window.innerWidth <= 768;
 		
@@ -1359,7 +1410,6 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             setInterval(saveLogsBatch, 15000);
             
             // 2. Lắng nghe sự kiện khi người dùng đóng tab, chuyển tab hoặc ẩn trình duyệt
-            // Đây là cách hiện đại và đáng tin cậy để lưu dữ liệu trước khi thoát
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'hidden') {
                     // Nếu có log đang chờ, thực hiện lưu ngay lập tức
@@ -1414,6 +1464,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             
             // Update radio button selection
             document.querySelector(`.theme-radio-${savedTheme}`).classList.add('selected');
+			
+			loadReadTimestamps();
             
             // Load hamburger menu setting
             const showHamburger = localStorage.getItem('showHamburgerMenu');
@@ -1428,7 +1480,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             // Initialize view toggle button
             updateViewToggleButton();
 
-            // --- GIAI ĐOẠN 1: TẢI DỮ LIỆU CỐT LÕI VÀ HIỂN THỊ HOME ---
+            // --- GIAI ĐOẠN 1: TẢI DỮ LIỆU IỂN THỊ HOME ---
             const coreDataLoaded = await loadCoreData(); // Chờ dữ liệu Home
             
             if (coreDataLoaded) {
@@ -1462,6 +1514,8 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                     loadTimeline();      // Timeline (cần commentsData)
                     loadPhotos();        // Photos (cần commentsData)
                     updateTotalLogs();   // Settings (cần logsData)
+					initialLogsLoaded = true; // <-- BẬT CỜ
+					updateNotificationBadge();
                     
                     // Cập nhật lại UI nếu người dùng đã chuyển tab trong lúc chờ
                     if (currentSection === 'photos') {
@@ -1479,53 +1533,69 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
 
 
         function checkAutoSync() {
-            // 1. Lấy cấu hình hiện tại từ appConfigData
+            // 1. Lấy cấu hình (Giữ nguyên)
             const syncConfig = config.AUTO_SYNC_METADATA;
             if (!syncConfig.enabled) {
                 console.log('[Auto Sync] Tự động đồng bộ đã bị tắt.');
                 return;
             }
 
-            // 2. Lấy thông tin về lần đồng bộ cuối cùng từ localStorage
-            const lastSyncTimestampStr = localStorage.getItem('lastAutoSyncTimestamp');
+            const now = new Date();
+            // Lấy chuỗi ngày hôm nay, ví dụ: "2025-10-30"
+            const todayStr = now.toISOString().split('T')[0];
+
+            // --- 2. LOGIC KHÓA (LOCKING) ---
+            // 'lastAutoSync_CheckDay' lưu ngày cuối cùng mà BẤT KỲ client nào đã chạy hàm này.
+            const lastCheckDay = localStorage.getItem('lastAutoSync_CheckDay');
+
+            if (lastCheckDay === todayStr) {
+                // Một client khác đã chạy kiểm tra cho ngày hôm nay.
+                // Client này không cần làm gì cả.
+                // console.log(`[Auto Sync] Check for ${todayStr} already performed by another client.`);
+                return; // Dừng lại
+            }
+
+            // --- 3. YÊU CẦU QUYỀN KIỂM TRA (CLAIM CHECK) ---
+            // Client này là client đầu tiên trong ngày.
+            // Nó "đóng dấu" ngay lập tức để các client khác (mở sau 1-2 giây) sẽ dừng lại ở bước 2.
+            console.log(`[Auto Sync] This client is performing the check for ${todayStr}.`);
+            localStorage.setItem('lastAutoSync_CheckDay', todayStr);
+
+            // --- 4. LOGIC ĐỒNG BỘ GỐC (Chỉ chạy trên client này) ---
+            
+            // 'lastAutoSync_SuccessTimestamp' lưu thời điểm ĐỒNG BỘ THÀNH CÔNG lần cuối.
+            const lastSyncTimestampStr = localStorage.getItem('lastAutoSync_SuccessTimestamp');
             const lastSyncTimestamp = lastSyncTimestampStr ? parseInt(lastSyncTimestampStr, 10) : 0;
             const lastSyncDate = new Date(lastSyncTimestamp);
 
-            // 3. Lấy thời gian hiện tại và thời gian mục tiêu trong ngày
-            const now = new Date();
+            // Lấy thời gian mục tiêu (ví dụ: 09:04)
             const [hours, minutes] = syncConfig.time.split(':').map(Number);
             const targetTimeToday = new Date();
             targetTimeToday.setHours(hours, minutes, 0, 0);
 
-            // 4. Tính toán thời điểm hợp lệ để đồng bộ tiếp theo
+            // Tính toán thời điểm hợp lệ tiếp theo (Logic gốc của bạn)
             let nextValidSyncTime = new Date(lastSyncTimestamp);
             
-            // Dựa vào tần suất để tính toán
             switch (syncConfig.frequency) {
                 case 'daily':
-                    // Nếu lần cuối là hôm qua hoặc cũ hơn, thời điểm hợp lệ tiếp theo là thời gian mục tiêu của ngày hôm nay
                     if (lastSyncDate.getDate() < now.getDate() || lastSyncDate.getMonth() < now.getMonth() || lastSyncDate.getFullYear() < now.getFullYear()) {
                         nextValidSyncTime = targetTimeToday;
                     } else {
-                        // Nếu đã đồng bộ hôm nay, thì thời điểm tiếp theo là ngày mai
                         nextValidSyncTime = new Date(targetTimeToday.getTime() + 24 * 60 * 60 * 1000);
                     }
                     break;
                 case 'weekly':
-                    // Thêm 7 ngày vào lần đồng bộ cuối
                     nextValidSyncTime.setDate(lastSyncDate.getDate() + 7);
                     nextValidSyncTime.setHours(hours, minutes, 0, 0);
                     break;
                 case 'monthly':
-                    // Thêm 1 tháng vào lần đồng bộ cuối
                     nextValidSyncTime.setMonth(lastSyncDate.getMonth() + 1);
                     nextValidSyncTime.setHours(hours, minutes, 0, 0);
                     break;
                 case 'once':
-                    // Chỉ chạy nếu chưa bao giờ đồng bộ
                     if (lastSyncTimestamp > 0) {
                         console.log('[Auto Sync] Đã chạy đồng bộ 1 lần, sẽ không chạy lại.');
-                        return;
+                        return; // Đã chạy 1 lần, dừng lại
                     }
                     nextValidSyncTime = targetTimeToday;
                     break;
@@ -1534,21 +1604,21 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             }
             
             // 5. Kiểm tra và thực hiện đồng bộ
-            // Điều kiện: Thời gian hiện tại (now) đã qua thời điểm hợp lệ (nextValidSyncTime)
             if (now >= nextValidSyncTime) {
                 console.log(`[Auto Sync] Đang thực hiện đồng bộ theo lịch "${syncConfig.frequency}" lúc ${now.toLocaleTimeString()}`);
                 
-                // Gọi hàm đồng bộ
+                // Gọi hàm đồng bộ (Giữ nguyên)
                 syncPhotosMetadata(false); // false = không phải thủ công
-                localStorage.setItem('lastAutoSyncTimestamp', now.getTime().toString());
-                localStorage.setItem('lastAutoSync', now.toDateString()); // Giữ lại để tương thích nếu cần
+                
+                // QUAN TRỌNG: Cập nhật lại thời điểm THÀNH CÔNG
+                localStorage.setItem('lastAutoSync_SuccessTimestamp', now.getTime().toString());
                 
                 showNotification(`Tự động đồng bộ đã chạy theo lịch`, 'info');
                 addLog('Tự động đồng bộ', `Đã chạy tự động đồng bộ theo lịch ${syncConfig.frequency}`);
             } else {
-                console.log(`[Auto Sync] Chưa đến giờ. Lần tiếp theo dự kiến: ${nextValidSyncTime.toLocaleString()}`);
+                console.log(`[Auto Sync] Check complete. Chưa đến giờ. Lần tiếp theo dự kiến: ${nextValidSyncTime.toLocaleString()}`);
             }
-        } 
+        }
 
         // Navigation functions
         function showSection(section) {
@@ -2707,7 +2777,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             return new Promise((resolve) => {
                 // Create custom confirmation overlay
                 const overlay = document.createElement('div');
-                overlay.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                overlay.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1300]';
                 overlay.innerHTML = `
                     <div class="bg-white rounded-lg p-6 max-w-md mx-4">
                         <h3 class="text-lg font-bold text-gray-900 mb-4">Xác nhận xóa</h3>
@@ -3252,6 +3322,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             
             // Cập nhật số lượng log đang chờ trên giao diện
             updateLogCounts();
+			updateNotificationBadge();
         }
 
         function getSessionId() {
@@ -3614,17 +3685,20 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                     console.log(`Lưu thành công ${logsToSave.length} nhật ký.`);
                     // Cập nhật lại tổng số log trên giao diện
                     updateLogCounts();
+					updateNotificationBadge();
                 } else {
                     // Nếu lưu thất bại, trả lại các log vào hàng đợi để thử lại lần sau
                     console.error("Lưu nhật ký thất bại, các nhật ký đã được đưa lại vào hàng đợi.");
                     logQueue.unshift(...logsToSave);
                     updateLogCounts();
+					updateNotificationBadge();
                 }
             } catch (error) {
                 console.error('Lỗi nghiêm trọng khi đang lưu nhật ký:', error);
                 // Trả lại log vào hàng đợi nếu có lỗi xảy ra
                 logQueue.unshift(...logsToSave);
                 updateLogCounts();
+				updateNotificationBadge();
             }
         }
         function updateLogCounts() {
@@ -3648,9 +3722,9 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             updateLogCounts();
         }
 
-        function loadLogsToModal() {
-            const container = document.getElementById('logsContainer');
-            const filter = document.getElementById('logFilter')?.value || 'all';
+        function loadLogsToModal(containerId = 'logsContainer', filterId = 'logFilter') {
+            const container = document.getElementById(containerId);
+            const filter = document.getElementById(filterId)?.value || 'all';
             
             let filteredLogs = logsData;
             if (filter !== 'all') {
@@ -3756,41 +3830,294 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)} ngày trước`;
             return `${Math.floor(diffInSeconds / 2592000)} tháng trước`;
         }
-
-        function filterLogs() {
-            loadLogsToModal();
-        }
-
-        async function clearAllLogs() {
-            const confirmClear = await showCustomConfirm('Bạn có chắc chắn muốn xóa tất cả nhật ký hoạt động?');
+		
+		/**
+         * Mở/đóng dropdown thông báo (từ new4)
+         */
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notifications-dropdown');
+            const content = document.getElementById('notifications-content'); // Lấy div nội dung
+            notificationsOpen = !notificationsOpen;
             
-            if (confirmClear) {
-                try {
-                    logsData = [];
-                    
-                    const success = await githubAPI.updateFile(
-                        config.LOGS_FILE_PATH,
-                        logsData,
-                        'Xóa tất cả nhật ký hoạt động'
-                    );
-                    
-                    if (success) {
-                        loadLogsToModal();
-                        updateTotalLogs();
-                        showNotification('Đã xóa tất cả nhật ký!', 'success');
-                    } else {
-                        showNotification('Lỗi khi xóa nhật ký!', 'error');
-                    }
-                } catch (error) {
-                    console.error('Error clearing logs:', error);
-                    showNotification('Lỗi khi xóa nhật ký!', 'error');
-                }
+            if (notificationsOpen) {
+                dropdown.classList.remove('hidden');
+                // Tải trang 1 và YÊU CẦU reset (true)
+                loadNotifications(1, true); 
+                // Thêm trình nghe sự kiện cuộn
+                content.addEventListener('scroll', handleNotificationScroll);
+            } else {
+                dropdown.classList.add('hidden');
+                // Gỡ bỏ trình nghe sự kiện cuộn
+                content.removeEventListener('scroll', handleNotificationScroll);
+            }
+        }
+		
+		/**
+         * Xử lý sự kiện cuộn cho dropdown thông báo
+         */
+        function handleNotificationScroll() {
+            const container = document.getElementById('notifications-content');
+            
+            // Nếu cuộn gần đến đáy (cách 20px) VÀ không đang trong quá trình tải
+            if (container.scrollTop + container.clientHeight >= container.scrollHeight - 20 && !isLoadingNotifications) {
+                
+                // Tải trang tiếp theo
+                notificationLogPage++;
+                loadNotifications(notificationLogPage, false); // Tải trang N, KHÔNG reset
             }
         }
 
-        function exportLogs() {
+        /**
+         * Cập nhật số trên badge thông báo (từ new4, adapt new5)
+         */
+        function updateNotificationBadge() {
+            // Nếu logsData chưa tải xong lần đầu, KHÔNG LÀM GÌ CẢ
+            if (!initialLogsLoaded) {
+                return;
+            }
+            
+            const badge = document.getElementById('notification-badge');
+            
+            // Lấy tất cả log
+            const allLogs = [...logsData, ...logQueue];
+            
+            // **THAY ĐỔI CHÍNH: Lọc ra các log CHƯA ĐỌC**
+            const unreadLogs = allLogs.filter(log => !readTimestamps.has(log.timestamp));
+            const logCount = unreadLogs.length; // Đếm số log chưa đọc
+            
+            if (logCount > 0) {
+                badge.textContent = logCount > 99 ? '99+' : logCount; // Giới hạn 99+
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+		
+		/**
+         * Tải danh sách timestamp đã đọc từ localStorage vào Set
+         */
+        function loadReadTimestamps() {
             try {
-                const filter = document.getElementById('logFilter')?.value || 'all';
+                const stored = localStorage.getItem(READ_TIMESTAMPS_KEY);
+                if (stored) {
+                    const timestamps = JSON.parse(stored);
+                    readTimestamps = new Set(timestamps);
+                }
+            } catch (e) {
+                console.error('Lỗi tải danh sách đã đọc:', e);
+                readTimestamps = new Set();
+            }
+        }
+
+        /**
+         * Lưu Set timestamp đã đọc vào localStorage
+         */
+        function saveReadTimestamps() {
+            try {
+                // Chuyển Set thành Array để lưu JSON
+                localStorage.setItem(READ_TIMESTAMPS_KEY, JSON.stringify([...readTimestamps]));
+            } catch (e) {
+                console.error('Lỗi lưu danh sách đã đọc:', e);
+            }
+        }
+
+        /**
+         * (HÀM MỚI) Xử lý khi click vào 1 thông báo
+         * @param {string} timestamp - ID (timestamp) của log
+         */
+        function toggleNotificationRead(timestamp) {
+            // Tìm phần tử trong DOM
+            const element = document.getElementById(`log-item-${timestamp}`);
+
+            if (readTimestamps.has(timestamp)) {
+                // Nếu đã đọc -> Đánh dấu chưa đọc
+                readTimestamps.delete(timestamp);
+                if (element) element.classList.remove('read');
+            } else {
+                // Nếu chưa đọc -> Đánh dấu đã đọc
+                readTimestamps.add(timestamp);
+                if (element) element.classList.add('read');
+            }
+            
+            saveReadTimestamps();       // Lưu lại
+            updateNotificationBadge();  // Cập nhật lại số trên badge
+        }
+
+        /**
+         * (HÀM MỚI) Xử lý khi click "Đánh dấu tất cả đã đọc"
+         */
+        function markAllNotificationsAsRead() {
+            const allLogs = [...logsData, ...logQueue];
+            
+            // Thêm TẤT CẢ timestamp vào Set
+            allLogs.forEach(log => readTimestamps.add(log.timestamp));
+            
+            saveReadTimestamps();       // Lưu lại
+            updateNotificationBadge();  // Cập nhật badge (về 0)
+            
+            // Cập nhật giao diện cho tất cả các item đang hiển thị
+            document.querySelectorAll('.notification-item').forEach(el => {
+                el.classList.add('read');
+            });
+
+            showNotification('Đã đánh dấu tất cả là đã đọc!', 'info');
+        }
+
+        /**
+         * Tải log vào dropdown với tính năng "infinite scroll"
+         * @param {number} page - Trang cần tải (bắt đầu từ 1)
+         * @param {boolean} isReset - Nếu true, xóa nội dung cũ và tải trang 1
+         */
+        async function loadNotifications(page = 1, isReset = false) {
+            // Ngăn chặn việc tải trùng lặp nếu đang cuộn nhanh
+            if (isLoadingNotifications && !isReset) return; 
+            isLoadingNotifications = true;
+
+            const container = document.getElementById('notifications-content');
+            const logsPerPage = 20; // Số log tải mỗi lần
+
+            // 1. Xử lý reset (khi mở) hoặc xóa spinner cũ (khi cuộn)
+            if (isReset) {
+                notificationLogPage = 1; // Đặt lại bộ đếm trang
+                container.innerHTML = '<div class="loading-spinner mx-auto my-4"></div>';
+            } else {
+                // Xóa spinner "đang tải thêm" cũ
+                const oldLoader = container.querySelector('.notification-loader');
+                if (oldLoader) oldLoader.remove();
+            }
+
+            // 2. Lấy dữ liệu (logic cũ)
+            const allLogs = [...logsData, ...logQueue.map(log => ({...log, saved: false}))];
+            const sortedLogs = allLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            // 3. Tính toán trang
+            const startIndex = (page - 1) * logsPerPage;
+            const endIndex = startIndex + logsPerPage;
+            const logsToDisplay = sortedLogs.slice(startIndex, endIndex);
+
+            // 4. Xử lý khi không có dữ liệu
+            if (isReset && logsToDisplay.length === 0) {
+                 container.innerHTML = '<div class="p-4 text-center text-gray-500">Không có hoạt động nào</div>';
+                 isLoadingNotifications = false;
+                 return;
+            }
+            
+            // Nếu không phải reset và không có log mới (đã tải đến cuối)
+            if (!isReset && logsToDisplay.length === 0) {
+                container.innerHTML += '<div class="p-2 text-center text-xs text-gray-500">Đã tải tất cả.</div>';
+                isLoadingNotifications = false;
+                return;
+            }
+
+            // 5. Tạo HTML (logic cũ)
+            const notificationsHtml = logsToDisplay.map(log => { 
+				const timeAgo = getTimeAgo(log.timestamp);
+				const icon = getActionIcon(log.action);
+				const isRead = readTimestamps.has(log.timestamp); // Kiểm tra đã đọc?
+				
+				// Dùng timestamp làm ID (phải escape để an toàn)
+				const safeTimestamp = escapeHtml(log.timestamp); 
+
+				return `
+					<div id="log-item-${safeTimestamp}" 
+						 class="notification-item p-3 border-b border-custom hover:bg-gray-100 transition-colors cursor-pointer ${isRead ? 'read' : ''}" 
+						 onclick="toggleNotificationRead('${safeTimestamp}')"> 
+						<div class="flex items-start space-x-3">
+							<div class="text-primary mt-1"><i class="${icon}"></i></div>
+							<div class="flex-1">
+								<p class="text-sm text-custom font-medium">${escapeHtml(log.action)}</p>
+								<p class="text-xs text-gray-600 truncate">${escapeHtml(log.details)}</p>
+								<div class="flex items-center justify-between mt-1">
+									<span class="text-xs text-gray-500">${timeAgo}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				`;
+            }).join('');
+
+            // 6. Thêm HTML vào container (KHÁC BIỆT CHÍNH)
+            if (isReset) {
+                container.innerHTML = notificationsHtml; // Thay thế (cho trang 1)
+            } else {
+                container.innerHTML += notificationsHtml; // Nối thêm (cho trang 2+)
+            }
+
+            // 7. Thêm spinner "đang tải thêm" nếu vẫn còn log
+            if (endIndex < sortedLogs.length) {
+                container.innerHTML += '<div class="notification-loader loading-spinner mx-auto my-4"></div>';
+            }
+
+            // 8. Đánh dấu là đã tải xong
+            isLoadingNotifications = false;
+        }
+		
+
+        function filterLogs(containerId = 'logsContainer', filterId = 'logFilter') {
+            loadLogsToModal(containerId, filterId);
+        }
+
+        async function clearAllLogs(containerId = 'logsContainer', filterId = 'logFilter') {
+            const confirmClear = await showCustomConfirm('Bạn có chắc chắn muốn xóa tất cả nhật ký hoạt động?');
+            
+            if (!confirmClear) {
+                return; // Người dùng đã hủy
+            }
+
+            // --- 1. LƯU TRẠNG THÁI CŨ ĐỂ ROLLBACK ---
+            const oldLogsData = [...logsData];
+            const oldLogQueue = [...logQueue];
+
+            // --- 2. CẬP NHẬT LẠC QUAN (OPTIMISTIC UPDATE) ---
+            // Xóa dữ liệu local ngay lập tức
+            logsData = [];
+            logQueue = [];
+            readTimestamps.clear(); // Xóa bộ nhớ "đã đọc"
+
+            // Cập nhật UI ngay lập tức
+            loadLogsToModal(containerId, filterId); // Hiển thị modal trống
+            updateTotalLogs();                      // Cập nhật số đếm về 0
+            updateNotificationBadge();              // Cập nhật badge về 0
+            saveReadTimestamps();                   // Lưu lại trạng thái "đã đọc" (rỗng)
+            
+            showNotification('Đã xóa tất cả nhật ký!', 'success');
+
+            // --- 3. ĐỒNG BỘ NỀN (BACKGROUND SYNC) ---
+            (async () => {
+                try {
+                    const success = await githubAPI.updateFile(
+                        config.LOGS_FILE_PATH,
+                        logsData, // Gửi mảng rỗng
+                        'Xóa tất cả nhật ký hoạt động'
+                    );
+                    
+                    if (!success) {
+                        throw new Error("API update failed"); // Kích hoạt khối catch
+                    }
+                    // Nếu thành công: không cần làm gì, UI đã đúng.
+                    console.log("Đồng bộ (xóa) nhật ký thành công.");
+
+                } catch (error) {
+                    // --- 4. ROLLBACK (HOÀN TÁC NẾU LỖI) ---
+                    console.error('Lỗi khi đồng bộ (xóa) nhật ký:', error);
+                    showNotification('Lỗi đồng bộ! Đang hoàn tác...', 'error');
+                    
+                    // Khôi phục dữ liệu
+                    logsData = oldLogsData;
+                    logQueue = oldLogQueue;
+                    // (Không cần khôi phục readTimestamps, vì log đã quay lại)
+                    
+                    // Tải lại UI về trạng thái cũ
+                    loadLogsToModal(containerId, filterId);
+                    updateTotalLogs();
+                    updateNotificationBadge();
+                }
+            })();
+        }
+
+        function exportLogs(filterId = 'logFilter') {
+            try {
+                const filter = document.getElementById(filterId)?.value || 'all';
                 let exportData = logsData;
                 
                 if (filter !== 'all') {
@@ -3873,6 +4200,7 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
                 'shareModal': 'Chia sẻ ảnh',
                 'eventPhotosModal': 'Xem ảnh sự kiện',
                 'logsModal': 'Nhật ký hoạt động'
+                // ĐÃ XÓA 'notificationModal'
             };
             
             if (modalNames[modalId]) {
@@ -3881,8 +4209,9 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
             
             // Load logs when opening logs modal
             if (modalId === 'logsModal') {
-                loadLogsToModal();
+                loadLogsToModal('logsContainer', 'logFilter');
             }
+            // ĐÃ XÓA 'notificationModal'
         }
 		
 		function getPagePhotos(page) {
@@ -4405,11 +4734,17 @@ space-x-3"><button onclick="toggleHeaderMenu()" class="md:hidden flex-shrink-0 w
          * Đóng tất cả các menu 3 chấm nếu nhấp ra bên ngoài
          */
         document.addEventListener('click', function(e) {
-            // Kiểm tra xem cú click có nằm ngoài nút 3 chấm VÀ ngoài menu không
+            // 1. Logic đóng menu 3 chấm (event menu)
             if (!e.target.closest('[onclick*="toggleEventMenu"]') && !e.target.closest('[id^="menu-"]')) {
                 document.querySelectorAll('[id^="menu-"]').forEach(menu => {
                     menu.classList.add('hidden');
                 });
+            }
+
+            // 2. Logic đóng dropdown thông báo (từ new4)
+            const dropdown = document.getElementById('notifications-dropdown');
+            if (notificationsOpen && dropdown && !dropdown.contains(e.target) && !e.target.closest('button[onclick="toggleNotifications()"]')) {
+                toggleNotifications();
             }
         });
     </script>
