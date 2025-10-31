@@ -28,7 +28,7 @@ jobs:
 
       - name: 4. Chạy kịch bản đồng bộ và tính toán
         # Chúng ta sẽ tạo file này ở Bước 2
-        run: node ./.github/scripts/build_data_home.js
+        run: node ./.github/scripts/build_data.js
         env:
           # Cần tạo 2 Secret này trong cài đặt của Kho (Repo)
           GDRIVE_API_KEY: ${{ secrets.GDRIVE_API_KEY }}
