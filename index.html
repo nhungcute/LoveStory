@@ -1007,22 +1007,28 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
         };
 		
 		
-        // Configuration
-        let config = {
+		
+		
+		
+		
+		let config = {
             "GITHUB_USERNAME": "nhungcute",
             "REPO_NAME": "LoveStory",
             "PAT1": "ghp_a8VLpoCYQByLbUIwe",
             "PAT2": "d3dy4hHjEpKwr3stE6T",
-            "CONFIG_FILE_PATH": "configApp.json"
+            "CONFIG_FILE_PATH": "configApp.json",
+			"BRANCH": "main"
         };
 		let appConfigData = {};
   
         // Data storage
-        let eventsData = [];
-        let photosData = [];
+        let homeData = {}; // <-- Dữ liệu cho trang chủ
+        let eventsData = []; // Dữ liệu cho trang Timeline
+        let photosData = []; // Dữ liệu cho trang Khoảnh khắc
         let commentsData = [];
         let profilesData = [];
         let logsData = [];
+		 
 		
 		// Thêm 2 dòng này (khoảng dòng 595)
         const imageErrorPlaceholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yMDAgMTAwQzE4MC4xIDEwMCAxNjQuNCAxMTUuNyAxNjQuNCAxMzUuNkMxNjQuNCAxNTUuNSAxODAuMSAxNzEuMiAyMDAgMTcxLjJDMjE5LjkgMTcxLjIgMjM1LjYgMTU1LjUgMjM1LjYgMTM1LjZDMjM1LjYgMTE1LjcgMjE5LjkgMTAwIDIwMCAxMDBaIiBmaWxsPSIjOUI5QkEwIi8+CjxwYXRoIGQ9Ik0xMDAgMzAwSDE1MEwyMDAgMjUwTDI1MCAzMDBIMzAwVjI1MEwyNTAgMjAwTDIwMCAyNTBMMTUwIDIwMEwxMDAgMjUwVjMwMFoiIGZpbGw9IiM5QjlCQTAiLz4KPC9zdmc+';
@@ -1124,13 +1130,34 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
                     return false;
                 }
             }
+			
+			async getRawFile(filePath) {
+            const branch = config.BRANCH || 'main'; // Mặc định là 'main'
+            const rawUrl = `https://raw.githubusercontent.com/${config.GITHUB_USERNAME}/${config.REPO_NAME}/${branch}/${filePath}`;
+            
+            try {
+                // Thêm ?t=... để tránh bị cache
+                const response = await fetch(`${rawUrl}?t=${new Date().getTime()}`);
+                
+                if (response.ok) {
+                    return await response.json(); // Tải và parse JSON trực tiếp
+                }
+                
+                console.error(`Lỗi tải file thô ${filePath}: ${response.statusText}`);
+                return [];
+            } catch (error) {
+                console.error(`Lỗi fetch file thô ${filePath}:`, error);
+                return [];
+            }
+        }
+		
         }
 
         // Google Drive API helper
         class GoogleDriveAPI {
             constructor() {
-                this.apiKey = config.API_KEY;
-                this.folderId = config.FOLDER_ID;
+                this.apiKey = config.GDRIVE_API_KEY;
+                this.folderId = config.GDRIVE_FOLDER_ID;
             }
 
             async getAllMediaFiles() {
@@ -1233,55 +1260,38 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             try {
                 showLoadingState();
                 
-                // --- BƯỚC 1: Tải file config chính (BẮT BUỘC) ---
+                // --- BƯỚC 1: Tải file config chính (BẮT BUỘC, dùng API) ---
                 try {
                     appConfigData = await githubAPI.getFile(config.CONFIG_FILE_PATH);
                     if (!appConfigData || Object.keys(appConfigData).length === 0) {
                         appConfigData = {};
-                        console.warn(`File ${config.CONFIG_FILE_PATH} rỗng.`);
                     }
                 } catch (e) {
                     console.error(`Lỗi nghiêm trọng: Không thể tải file config ${config.CONFIG_FILE_PATH}.`, e);
-                    showNotification('Lỗi nghiêm trọng: Không thể tải file cấu hình!', 'error');
                     appConfigData = {}; 
                 }
                 
                 // --- BƯỚC 2: Gộp config và cập nhật API keys ---
                 config = { ...config, ...appConfigData }; 
-                driveAPI.apiKey = config.API_KEY; 
-                driveAPI.folderId = config.FOLDER_ID;
+                driveAPI.apiKey = config.GDRIVE_API_KEY; 
+                driveAPI.folderId = config.GDRIVE_FOLDER_ID;
 
-                // --- BƯỚC 3: Tải dữ liệu CỐT LÕI (cho Home & Header) ---
-                
-                // ▼▼▼ SỬA LỖI TẠI DÒNG NÀY ▼▼▼
-                // Hãy chắc chắn rằng bạn có 'gold' trong cả 2 danh sách
-                const [events, photos, profiles, gold] = await Promise.all([
-                // ▲▲▲ KẾT THÚC SỬA LỖI ▲▲▲
-
-                    githubAPI.getFile(config.FILE_PATH),                  // Cần cho Home
-                    githubAPI.getFile(config.PHOTOS_METADATA_FILE_PATH),  // Cần cho Home (đếm media)
-                    githubAPI.getFile(config.PROFILES_FILE_PATH),         // Cần cho Header
-                    githubAPI.getFile(config.CHART_FILE_PATH)             // <-- Tải giá vàng
+                // --- BƯỚC 3: Tải dữ liệu CỐT LÕI (Dùng hàm getRawFile SIÊU NHANH) ---
+                const [home, profiles] = await Promise.all([
+                    githubAPI.getRawFile(config.HOME_DATA_FILE_PATH),  // <-- SỬA Ở ĐÂY
+                    githubAPI.getRawFile(config.PROFILES_FILE_PATH)    // <-- SỬA Ở ĐÂY
                 ]);
 
-                eventsData = events || [];
-                photosData = photos || [];
+                homeData = home || {}; 
                 profilesData = profiles || [];
                 
-                // ▼▼▼ SỬA LỖI TẠI DÒNG NÀY ▼▼▼
-                // Dòng này gán biến 'gold' (đã nhận ở trên) vào 'goldData'
-                goldData = gold || []; 
-                // ▲▲▲ KẾT THÚC SỬA LỖI ▲▲▲
-                
-                // Tải user (cần profilesData)
                 loadCurrentUser(); 
                 
-                // Không ẩn loading ở đây, để initializeApp xử lý
                 return true;
                 
             } catch (error) {
                 console.error('Lỗi nghiêm trọng khi tải :', error);
-                hideLoadingState(); // Ẩn nếu lỗi
+                hideLoadingState(); 
                 showNotification('Lỗi tải dữ liệu chính! Vui lòng kiểm tra file configApp.json.', 'error');
                 return false;
             }
@@ -1289,19 +1299,23 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 
         async function loadSecondaryData() {
             try {
-                // --- BƯỚC 4: Tải dữ liệu PHỤ (cho các tab khác) ---
-                const [comments, logs] = await Promise.all([
-                    githubAPI.getFile(config.COMMENTS_FILE_PATH), // Cần cho Photos, Timeline
-                    githubAPI.getFile(config.LOGS_FILE_PATH)      // Cần cho Settings
+                // --- BƯỚC 4: Tải dữ liệu PHỤ (Dùng hàm getRawFile SIÊU NHANH) ---
+                const [events, photos, comments, logs] = await Promise.all([
+                    githubAPI.getRawFile(config.FILE_PATH),                  
+                    githubAPI.getRawFile(config.PHOTOS_METADATA_FILE_PATH),  
+                    githubAPI.getRawFile(config.COMMENTS_FILE_PATH),         
+                    githubAPI.getRawFile(config.LOGS_FILE_PATH)              
                 ]);
 
+                eventsData = events || []; 
+                photosData = photos || []; 
                 commentsData = comments || [];
                 logsData = logs || [];
                 
                 return true;
             } catch (error) {
-                console.error('Lỗi khi tải dữ liệu (comments, logs):', error);
-                showNotification('Lỗi tải dữ liệu (bình luận, nhật ký).', 'error');
+                console.error('Lỗi khi tải dữ liệu (events, photos, comments, logs):', error);
+                showNotification('Lỗi tải dữ liệu (sự kiện, ảnh...).', 'error');
                 return false;
             }
         }
@@ -1456,8 +1470,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
                 isOnline = true;
                 updateOnlineStatus();
                 // Ngay khi có mạng, thử lưu ngay các log đang chờ
-                saveLogsBatch();
-                syncPhotosMetadata();
+                saveLogsBatch(); 
             });
                    
             window.addEventListener('offline', () => {
@@ -1473,13 +1486,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
                     closeHeaderMenu();
                 }
             });
-
-            // Auto sync check
-            if (config.AUTO_SYNC_METADATA.enabled) {
-                checkAutoSync();
-                setInterval(checkAutoSync, 60000); // Check every minute
-            }
-
+  
             // Update view button on window resize
             window.addEventListener('resize', updateViewToggleButton);
         });
@@ -1885,21 +1892,10 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 
         // Stats functions
         function updateStats() {
-            // Ngày bên nhau: Tính từ ngày cố định 22/02/2022
-            const startDate = new Date('2022-02-22');
-            const today = new Date();
-            const daysTogether = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
-            
-            // Kỷ niệm: Lấy tổng số lượng sự kiện từ mảng eventsData
-            const totalMemories = eventsData.length;
-
-            // Media: Lấy tổng số lượng media từ mảng photosData
-            const totalMedia = photosData.length;
-            
-            // Cập nhật các giá trị lên giao diện
-            document.getElementById('daysTogether').textContent = daysTogether.toLocaleString();
-            document.getElementById('totalMemories').textContent = totalMemories.toLocaleString();
-            document.getElementById('totalPhotos').textContent = totalMedia.toLocaleString();
+            // Đọc dữ liệu đã tính toán sẵn từ homeData
+            document.getElementById('daysTogether').textContent = (homeData.daysTogether || 0).toLocaleString();
+            document.getElementById('totalMemories').textContent = (homeData.totalMemories || 0).toLocaleString();
+            document.getElementById('totalPhotos').textContent = (homeData.totalPhotos || 0).toLocaleString();
         }
 		
 		
@@ -1912,31 +1908,11 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 
         function loadTodayMemories() {
             const container = document.getElementById('todayMemories');
-            const today = new Date();
-            // Tạo chuỗi ngày/tháng hôm nay (VD: '29-10')
-            const todayDayMonthStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}`;
-            const currentYear = today.getFullYear();
-            
-            // 1. Lọc các sự kiện
-            todayValidMemories = eventsData.filter(event => {
-                if (!event.day || event.day.length !== 10) return false; 
-                const eventDayMonthStr = event.day.substring(0, 5); // Lấy DD-MM
-                if (eventDayMonthStr !== todayDayMonthStr) {
-                    return false;
-                }
-                const eventYear = parseInt(event.day.substring(6), 10); // Lấy YYYY
-                const yearsAgo = currentYear - eventYear;
-                return yearsAgo >= 1; // Chỉ lấy sự kiện từ 1 năm trước trở lên
-            });
+            const today = new Date(); // Vẫn cần để tính "số năm trước"
 
-            // 2. Sắp xếp theo năm giảm dần (mới nhất trước)
-            todayValidMemories.sort((a, b) => {
-                return new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day));
-            });
+            // Đọc dữ liệu đã tính toán sẵn
+            todayValidMemories = homeData.todayMemories || [];
 
-            // 3. Hiển thị
-            
-            // 3a. Trường hợp không có sự kiện
             if (todayValidMemories.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-8 text-gray-500">
@@ -1947,35 +1923,25 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
                 return;
             }
             
-            // 3b. Trường hợp có sự kiện (Giao diện MỚI theo hình ảnh)
+            // Logic hiển thị HTML giữ nguyên, chỉ dùng dữ liệu đã lọc sẵn
             container.innerHTML = todayValidMemories.map((event, index) => {
                 const eventDate = new Date(convertDateFormat(event.day));
                 const yearsAgo = today.getFullYear() - eventDate.getFullYear();
                 
                 const eventIdForScroll = event.note_id || event.day; 
-
-                
                 let cardClass = 'love-card rounded-lg p-4 mb-3 cursor-pointer';
                 let badgeClass = '';
-                let iconClass = '';
 
                 if (index === 0) {
-                    // Item đầu tiên: Nổi bật bằng MÀU VÀNG (secondary)
-                    badgeClass = 'bg-secondary text-white'; // Badge vàng
-                    iconClass = 'text-secondary';          // Tim vàng
+                    badgeClass = 'bg-secondary text-white';
                 } else {
-                    // Các item cũ hơn: Dùng MÀU LỤC (primary)
-                    badgeClass = 'bg-primary text-white'; // Badge lục
-                    iconClass = 'text-primary';          // Tim lục
-                    // Thêm: Làm cho thẻ mờ hơn một chút để thẻ đầu tiên nổi bật
+                    badgeClass = 'bg-primary text-white';
                     cardClass += ' opacity-90';
                 }
                
-
                 return `
                     <div class="${cardClass}" onclick="scrollToEvent('${eventIdForScroll}')">
                         <div class="flex items-center space-x-3 mb-2">
-							
                             <span class="${badgeClass} px-3 py-1 rounded-full text-sm font-medium"><i class="fa-regular fa-clock"></i> ${yearsAgo} năm trước</span>
                             <span class="text-custom opacity-70 text-sm"> <i class="fa-regular fa-calendar"></i> ${formatDateToDDMMYYYY(event.day)}</span>
                         </div>
@@ -2043,39 +2009,12 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 
         function loadUpcomingEvents() {
             const container = document.getElementById('upcomingEventsContainer');
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Chuẩn hóa về đầu ngày để đếm cho chính xác
-
-            // Tìm tất cả các sự kiện có thể xảy ra trong tương lai
-            const futureEvents = eventsData.map(event => {
-                const parts = event.day.split('-'); // Tách chuỗi dd-mm-yyyy
-                const day = parseInt(parts[0], 10);
-                const month = parseInt(parts[1], 10) - 1; // Tháng trong JS bắt đầu từ 0
-
-                // Lấy ngày sự kiện trong năm nay
-                let nextEventDate = new Date(today.getFullYear(), month, day);
-
-                // Nếu ngày sự kiện của năm nay đã trôi qua, thì tính cho năm sau
-                if (nextEventDate < today) {
-                    nextEventDate.setFullYear(today.getFullYear() + 1);
-                }
-
-                return {
-                    name: event.name,
-                    date: nextEventDate,
-                    // Tính số ngày chênh lệch để so sánh
-                    diff: Math.ceil((nextEventDate - today) / (1000 * 60 * 60 * 24))
-                };
-            })
-            // Sắp xếp để tìm ra sự kiện có số ngày chênh lệch nhỏ nhất (gần nhất)
-            .sort((a, b) => a.diff - b.diff);
-
-            // Lấy sự kiện gần nhất
-            const nextEvent = futureEvents.length > 0 ? futureEvents[0] : null;
-			upcomingEventInfo = nextEvent; // <-- THÊM DÒNG NÀY
+            
+            // Đọc dữ liệu đã tính toán sẵn
+            const nextEvent = homeData.upcomingEvent;
+            upcomingEventInfo = nextEvent; // Cập nhật biến toàn cục
 			
-            // Nếu không có sự kiện nào hoặc không có dữ liệu
-            if (!nextEvent) {
+            if (!nextEvent || nextEvent.diff <= 0) {
                 container.innerHTML = `
                     <div>
                         <p class="text-sm text-gray-500">Sự Kiện Sắp Tới</p>
@@ -2085,7 +2024,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
                 return;
             }
 
-            // Hiển thị thông tin sự kiện gần nhất
+            // Hiển thị thông tin
             container.innerHTML = `
                 <div class="flex items-baseline space-x-2">
                     <p class="text-2xl font-bold text-primary">${nextEvent.diff}</p>
@@ -2099,38 +2038,15 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             const buyPriceEl = document.getElementById('goldBuyPrice');
             const sellPriceEl = document.getElementById('goldSellPrice');
 
-            if (!goldData || goldData.length === 0) {
-                buyPriceEl.textContent = 'Lỗi tải';
-                sellPriceEl.textContent = 'Lỗi tải';
-                return;
-            }
+            // Đọc dữ liệu đã tính toán sẵn
+            const price = homeData.goldPrice;
 
-            try {
-                // Tìm item có timestamp lớn nhất (mới nhất)
-                const latestData = goldData.reduce((latest, current) => {
-                    // Chuyển đổi sang số để so sánh an toàn (hoạt động cho cả số và chuỗi ISO)
-                    const latestTs = new Date(latest.timestamp).getTime();
-                    const currentTs = new Date(current.timestamp).getTime();
-                    return (currentTs > latestTs) ? current : latest;
-                });
-
-                if (latestData && latestData.ring_buy && latestData.ring_sell) {
-                    // Chuyển đổi sang số
-                    const buyPrice = parseFloat(latestData.ring_buy);
-                    const sellPrice = parseFloat(latestData.ring_sell);
-
-                    // Format số với dấu phẩy (ví dụ: 74,500,000)
-                    buyPriceEl.textContent = buyPrice.toLocaleString('vi-VN');
-                    sellPriceEl.textContent = sellPrice.toLocaleString('vi-VN');
-
-                } else {
-                    buyPriceEl.textContent = 'N/A';
-                    sellPriceEl.textContent = 'N/A';
-                }
-            } catch (error) {
-                console.error("Error processing gold data:", error);
-                buyPriceEl.textContent = 'Lỗi';
-                sellPriceEl.textContent = 'Lỗi';
+            if (price && price.buy > 0) {
+                buyPriceEl.textContent = price.buy.toLocaleString('vi-VN');
+                sellPriceEl.textContent = price.sell.toLocaleString('vi-VN');
+            } else {
+                buyPriceEl.textContent = 'N/A';
+                sellPriceEl.textContent = 'N/A';
             }
         }
 
