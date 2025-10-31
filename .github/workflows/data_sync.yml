@@ -1,0 +1,52 @@
+name: Đồng Bộ Dữ Liệu Hàng Ngày
+
+on:
+  schedule:
+    # Chạy vào 00:01 giờ Việt Nam (tức 17:01 UTC ngày hôm trước)
+    - cron: '1 17 * * *'
+  
+  # Cho phép chạy thủ công từ tab Actions
+  workflow_dispatch:
+
+permissions:
+  contents: write # Cấp quyền cho Action để commit file
+
+jobs:
+  build-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Checkout mã nguồn
+        uses: actions/checkout@v4
+
+      - name: 2. Cài đặt Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 3. Cài đặt thư viện (node-fetch)
+        run: npm install node-fetch@2 # Cài node-fetch phiên bản 2 (tương thích CJS)
+
+      - name: 4. Chạy kịch bản đồng bộ và tính toán
+        # Chúng ta sẽ tạo file này ở Bước 2
+        run: node ./.github/scripts/build_data_home.js
+        env:
+          # Cần tạo 2 Secret này trong cài đặt của Kho (Repo)
+          GDRIVE_API_KEY: ${{ secrets.GDRIVE_API_KEY }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+
+      - name: 5. Commit và Push dữ liệu mới
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Thêm cả 2 file mới vào
+          git add image_data.json
+          git add home_data.json
+          
+          # Chỉ commit nếu có thay đổi
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto Sync: Cập nhật dữ liệu media và trang chủ"
+            git push
+          else
+            echo "Không có thay đổi dữ liệu."
+          fi
