@@ -14,10 +14,10 @@ if (!GDRIVE_API_KEY || !GDRIVE_FOLDER_ID) {
 }
 
 // === ĐỊNH NGHĨA ĐƯỜNG DẪN (so với thư mục gốc của repo) ===
-const IMAGE_DATA_PATH = path.resolve(__dirname, '../../image_data.json');
-const HOME_DATA_PATH = path.resolve(__dirname, '../../home_data.json');
-const ACTIONS_PATH = path.resolve(__dirname, '../../actions.json');
-const CHART_PATH = path.resolve(__dirname, '../../chart_data.json'); // Giả sử đây là file config.CHART_FILE_PATH
+const IMAGE_DATA_PATH = 'image_data.json';
+const HOME_DATA_PATH = 'home_data.json';
+const ACTIONS_PATH = 'actions.json';
+const CHART_PATH = 'chart_data.json'; // Giả sử đây là file config.CHART_FILE_PATH
 const START_DATE = '2022-02-22'; // Ngày bắt đầu yêu nhau
 
 // === CÁC HÀM TÍNH TOÁN (Lấy từ index.html) ===
