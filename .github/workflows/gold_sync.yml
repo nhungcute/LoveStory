@@ -12,6 +12,11 @@ jobs:
   update-gold-price:
     runs-on: ubuntu-latest
 
+    # ▼▼▼ THÊM KHỐI PERMISSIONS NÀY ▼▼▼
+    permissions:
+      contents: write # Cấp quyền ghi để cho phép git commit và push
+    # ▲▲▲ KẾT THÚC THÊM MỚI ▲▲▲
+    
     steps:
       - name: Kiểm tra mã nguồn (Checkout Repository)
         uses: actions/checkout@v4
