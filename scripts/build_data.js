@@ -17,7 +17,7 @@ if (!GDRIVE_API_KEY || !GDRIVE_FOLDER_ID) {
 const IMAGE_DATA_PATH = 'image_data.json';
 const HOME_DATA_PATH = 'home_data.json';
 const ACTIONS_PATH = 'actions.json';
-const CHART_PATH = 'chart_data.json'; // Giả sử đây là file config.CHART_FILE_PATH
+const CHART_PATH = 'gold_history.json'; // Giả sử đây là file config.CHART_FILE_PATH
 const START_DATE = '2022-02-22'; // Ngày bắt đầu yêu nhau
 
 // === CÁC HÀM TÍNH TOÁN (Lấy từ index.html) ===
