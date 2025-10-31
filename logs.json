@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-10-31T12:35:37.505Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1761914082664",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-31T12:35:35.188Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1761914082664",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-31T12:35:32.914Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1761914082664",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-31T12:35:29.480Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Timeline\"",
+    "username": "1761914082664",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-31T12:35:08.520Z",
     "action": "Chat AI",
     "details": "Đã gửi tin nhắn: \"Giá vàng nhẫn mua bao nhiêu\"",
