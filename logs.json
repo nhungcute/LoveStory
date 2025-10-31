@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-31T12:35:08.520Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"Giá vàng nhẫn mua bao nhiêu\"",
+    "username": "1761914082664",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-31T12:34:56.117Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
