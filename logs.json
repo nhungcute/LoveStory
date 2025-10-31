@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-10-31T10:54:30.998Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 187 files (185 ảnh, 2 video) - Cũ: 187",
+    "username": "1761908067123",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-31T10:54:27.126Z",
+    "action": "Tự động đồng bộ",
+    "details": "Đã chạy tự động đồng bộ theo lịch daily",
+    "username": "1761908067123",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-10-31T10:54:27.122Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761908067123",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-31T02:02:34.411Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
