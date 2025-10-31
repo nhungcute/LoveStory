@@ -8,66 +8,56 @@ on:
   # Cho phép chạy thủ công từ tab Actions
   workflow_dispatch: 
 
-# ... (Phần trước Jobs giữ nguyên) ...
-
 jobs:
   update-gold-price:
     runs-on: ubuntu-latest
-    
+
+    # ▼▼▼ THÊM KHỐI PERMISSIONS NÀY ▼▼▼
     permissions:
-      contents: write # Đảm bảo quyền GHI đã được thiết lập
+      contents: write # Cấp quyền ghi để cho phép git commit và push
+    # ▲▲▲ KẾT THÚC THÊM MỚI ▲▲▲
 
     steps:
-      - name: 1. Kiểm tra mã nguồn (Checkout Repository)
+      - name: Kiểm tra mã nguồn (Checkout Repository)
         uses: actions/checkout@v4
+        # Cần lịch sử đầy đủ để có thể commit sau đó
         with:
           fetch-depth: 0 
+          token: ${{ secrets.GITHUB_TOKEN }} # Sử dụng token mặc định của GitHub Action
 
-      - name: 2. Thiết lập Node.js
+      - name: Thiết lập Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: 3. Cài đặt Dependencies (axios, xml2js)
-        # Giữ nguyên bước cài đặt thủ công.
+      - name: Cài đặt Dependencies (axios, xml2js)
+        # Vì ta không dùng package.json, ta cài đặt thủ công vào môi trường ảo
         run: npm install axios xml2js
 
-      - name: 4. Chạy Script Tải và Lưu Dữ Liệu
+      - name: Chạy Script Tải và Lưu Dữ Liệu
         run: node scripts/gold_scraper.js
         env:
+          # Lấy khóa API từ Secret đã tạo ở Bước 1
           DOJI_API_KEY: ${{ secrets.DOJI_API_KEY }} 
-          
-      # ▼▼▼ THAY THẾ LOGIC COMMIT VÀ PUSH BẰNG CÁC BƯỚC NÀY ▼▼▼
 
-      - name: 5. Kiểm tra và Chuẩn bị Commit
-        id: git_check
+      - name: Kiểm tra thay đổi và Commit
+        id: commit
         run: |
-          # Thiết lập người dùng cho commit
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
           # Kiểm tra xem file gold_history.json có thay đổi không
-          # Dùng git status --porcelain để có đầu ra sạch (hoặc trống)
-          git status --porcelain gold_history.json
-          
-          # Lưu trạng thái thay đổi vào output
-          if [[ $(git status --porcelain gold_history.json) ]]; then
-            echo "commit_needed=true" >> $GITHUB_OUTPUT
-            echo "Tìm thấy thay đổi trong gold_history.json."
+          if [[ $(git diff --quiet gold_history.json) ]]; then
+            echo "Không có thay đổi dữ liệu, bỏ qua commit."
+            echo "commit_required=false" >> $GITHUB_OUTPUT
           else
-            echo "commit_needed=false" >> $GITHUB_OUTPUT
-            echo "Không tìm thấy thay đổi trong gold_history.json, bỏ qua commit."
+            echo "Dữ liệu đã thay đổi, chuẩn bị commit."
+            echo "commit_required=true" >> $GITHUB_OUTPUT
           fi
           
-      - name: 6. Commit Thay Đổi (Nếu cần)
-        # Chỉ chạy nếu bước 5 xác định cần commit
-        if: steps.git_check.outputs.commit_needed == 'true'
+      - name: Commit và Đẩy (Push) Thay Đổi
+        # Chỉ chạy nếu có thay đổi
+        if: steps.commit.outputs.commit_required == 'true'
         run: |
-          # Chỉ thêm file mà ta cần commit
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add gold_history.json
-          
-          # Commit với thông điệp động
-          git commit -m "Auto sync: Cập nhật giá Nhẫn Tròn vào $(date +%H:%M) ngày $(date +%d-%m-%Y)"
-          
-          # Đẩy lên repository
+          git commit -m "Auto sync: Cập nhật giá vàng DOJI vào $(date +%H:%M) ngày $(date +%d-%m-%Y)"
           git push
