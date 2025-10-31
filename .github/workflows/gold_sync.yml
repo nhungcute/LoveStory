@@ -3,7 +3,7 @@ name: Tải Giá Vàng DOJI Định Kỳ
 on:
   # Lịch trình chạy: Chạy 2 lần mỗi giờ, vào phút thứ 0 và 30
   schedule:
-    - cron: '0,30 * * * *' 
+    - cron: '*/10 * * * *'
   
   # Cho phép chạy thủ công từ tab Actions
   workflow_dispatch: 
