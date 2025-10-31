@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-10-31T15:59:04.646Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1761922810566",
+    "saved": true
+  },
+  {
     "timestamp": "2025-10-31T15:58:43.862Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
