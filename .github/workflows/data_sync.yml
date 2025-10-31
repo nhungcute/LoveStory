@@ -17,7 +17,8 @@ jobs:
     steps:
       - name: 1. Checkout mã nguồn
         uses: actions/checkout@v4
-
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}  
       - name: 2. Cài đặt Node.js v20
         uses: actions/setup-node@v4
         with:
