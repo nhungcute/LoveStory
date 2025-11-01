@@ -40,6 +40,9 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
+          # ▼▼▼ THÊM DÒNG NÀY ▼▼▼
+          git pull --rebase
+          
           # Thêm cả 2 file mới vào
           git add image_data.json
           git add home_data.json
@@ -48,6 +51,9 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "Auto Sync: Cập nhật dữ liệu media và trang chủ"
             git push
+          else
+            echo "Không có thay đổi dữ liệu."
+          fi
           else
             echo "Không có thay đổi dữ liệu."
           fi
