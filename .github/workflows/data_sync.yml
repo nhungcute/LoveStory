@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false # Xếp hàng, không hủy
 
 permissions:
-  contents: write # Cấp quyền cho Action để commit file
+  contents: write 
 
 jobs:
   build-data:
@@ -24,8 +24,6 @@ jobs:
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
             
-      # ▼▼▼ ĐÃ XÓA BƯỚC 1.5 (PULL TẠI ĐÂY) ▼▼▼
-          
       - name: 2. Cài đặt Node.js v20
         uses: actions/setup-node@v4
         with:
@@ -56,9 +54,7 @@ jobs:
             # Commit các thay đổi local
             git commit -m "Auto Sync: Cập nhật dữ liệu media và trang chủ"
             
-            # ▼▼▼ THÊM PULL --REBASE VÀO ĐÚNG VỊ TRÍ NÀY ▼▼▼
             # Kéo các thay đổi từ xa (gold_sync) và đặt commit của chúng ta lên trên
-            # Lệnh này an toàn vì các thay đổi của chúng ta đã được commit
             git pull --rebase
             
             # Đẩy (push) các thay đổi đã hợp nhất
