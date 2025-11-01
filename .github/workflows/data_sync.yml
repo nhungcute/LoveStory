@@ -18,20 +18,19 @@ jobs:
       - name: 1. Checkout mã nguồn
         uses: actions/checkout@v4
         with:
-            token: ${{ secrets.GITHUB_TOKEN }}  
+            token: ${{ secrets.GITHUB_TOKEN }}
+            
       - name: 2. Cài đặt Node.js v20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: 3. Cài đặt thư viện (node-fetch)
-        run: npm install node-fetch@2 # Cài node-fetch phiên bản 2 (tương thích CJS)
+        run: npm install node-fetch@2
 
       - name: 4. Chạy kịch bản đồng bộ và tính toán
-        # ▼▼▼ ĐÃ SỬA ĐƯỜNG DẪN TẠI ĐÂY ▼▼▼
         run: node ./scripts/build_data.js
         env:
-          # Cần tạo 2 Secret này trong cài đặt của Kho (Repo)
           GDRIVE_API_KEY: ${{ secrets.GDRIVE_API_KEY }}
           GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
 
@@ -40,20 +39,18 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # ▼▼▼ THÊM DÒNG NÀY ▼▼▼
+          # ▼▼▼ THÊM BƯỚC NÀY ĐỂ FIX LỖI ▼▼▼
+          # Kéo các thay đổi mới nhất (ví dụ: từ gold_sync) VỀ TRƯỚC
           git pull --rebase
           
-          # Thêm cả 2 file mới vào
+          # Thêm các file mới tạo
           git add image_data.json
           git add home_data.json
           
-          # Chỉ commit nếu có thay đổi
+          # Chỉ commit và push nếu có thay đổi
           if ! git diff --cached --quiet; then
             git commit -m "Auto Sync: Cập nhật dữ liệu media và trang chủ"
             git push
-          else
-            echo "Không có thay đổi dữ liệu."
-          fi
           else
             echo "Không có thay đổi dữ liệu."
           fi
