@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: true
+  group: 'global-data-sync' # Tên nhóm chung (PHẢI GIỐNG TỆP TRÊN)
+  cancel-in-progress: true  # Hủy tác vụ cũ nếu có tác vụ mới
 
 permissions:
   contents: write
@@ -22,9 +22,6 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # ▼▼▼ BƯỚC 1.5 (MỚI): KÉO THAY ĐỔI MỚI NHẤT TRƯỚC ▼▼▼
-      # Chúng ta pull trước khi chạy script để đảm bảo 
-      # luôn làm việc trên phiên bản mới nhất.
       - name: 1.5. Cập nhật (Pull) thay đổi mới nhất
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -43,7 +40,6 @@ jobs:
         run: node scripts/gold_scraper.js
         env:
           DOJI_API_KEY: ${{ secrets.DOJI_API_KEY }}
-        # Script sẽ chạy SAU KHI đã pull
         
       - name: 5. Kiểm tra thay đổi
         id: commit
@@ -62,9 +58,8 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # ▼▼▼ ĐÃ XÓA 'git pull' KHỎI ĐÂY ▼▼▼
-          # Vì chúng ta đã pull ở Bước 1.5
-          
           git add gold_history.json
           git commit -m "Auto sync: Cập nhật giá vàng DOJI vào $(date +%H:%M) ngày $(date +%d-%m-%Y)"
+          
+          # Không cần pull ở đây nữa vì đã làm ở bước 1.5
           git push
