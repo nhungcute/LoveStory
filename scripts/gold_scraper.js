@@ -40,7 +40,7 @@ async function scrapeAndSaveRingPrice() {
         // --- CHUẨN BỊ DỮ LIỆU ĐỂ LƯU VÀO LỊCH SỬ ---
         const newEntry = {
             timestamp: new Date().toISOString(),
-            date_api: result.GoldList.JewelryList.DateTime,
+            //date_api: result.GoldList.JewelryList.DateTime,
             // Trích xuất và làm sạch giá (xóa dấu phẩy)
             ring_buy: ringRow.Attr.Buy.replace(/,/g, ''), 
             ring_sell: ringRow.Attr.Sell.replace(/,/g, ''), 
