@@ -24,12 +24,7 @@ jobs:
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
             
-      # ▼▼▼ BƯỚC MỚI: KÉO THAY ĐỔI TRƯỚC KHI CHẠY SCRIPT ▼▼▼
-      - name: 1.5. Cập nhật (Pull) thay đổi mới nhất
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git pull --rebase
+      # ▼▼▼ ĐÃ XÓA BƯỚC 1.5 (PULL TẠI ĐÂY) ▼▼▼
           
       - name: 2. Cài đặt Node.js v20
         uses: actions/setup-node@v4
@@ -50,15 +45,23 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # ▼▼▼ ĐÃ XÓA 'git pull' KHỎI ĐÂY ▼▼▼
-          
-          # Thêm các file mới tạo
+          # Thêm các file mới tạo (Staging)
           git add image_data.json
           git add home_data.json
           
-          # Chỉ commit và push nếu có thay đổi
+          # Chỉ commit nếu có thay đổi
           if ! git diff --cached --quiet; then
+            echo "Phát hiện thay đổi, đang commit..."
+            
+            # Commit các thay đổi local
             git commit -m "Auto Sync: Cập nhật dữ liệu media và trang chủ"
+            
+            # ▼▼▼ THÊM PULL --REBASE VÀO ĐÚNG VỊ TRÍ NÀY ▼▼▼
+            # Kéo các thay đổi từ xa (gold_sync) và đặt commit của chúng ta lên trên
+            # Lệnh này an toàn vì các thay đổi của chúng ta đã được commit
+            git pull --rebase
+            
+            # Đẩy (push) các thay đổi đã hợp nhất
             git push
           else
             echo "Không có thay đổi dữ liệu."
