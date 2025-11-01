@@ -8,6 +8,12 @@ on:
   # Cho phép chạy thủ công từ tab Actions
   workflow_dispatch:
 
+# ▼▼▼ THÊM KHỐI NÀY ĐỂ FIX LỖI ▼▼▼
+concurrency:
+  group: 'global-data-sync' # Tên nhóm chung
+  cancel-in-progress: false # Xếp hàng, không hủy
+# ▲▲▲ KẾT THÚC THÊM ▼▼▲
+
 permissions:
   contents: write # Cấp quyền cho Action để commit file
 
@@ -39,7 +45,6 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # ▼▼▼ THÊM BƯỚC NÀY ĐỂ FIX LỖI ▼▼▼
           # Kéo các thay đổi mới nhất (ví dụ: từ gold_sync) VỀ TRƯỚC
           git pull --rebase
           
