@@ -1,29 +1,30 @@
 name: Tải Giá Vàng DOJI Định Kỳ
 
 on:
-  # Lịch trình chạy: Chạy 2 lần mỗi giờ, vào phút thứ 0 và 30
   schedule:
     - cron: '*/10 * * * *'
-  
-  # Cho phép chạy thủ công từ tab Actions
-  workflow_dispatch: 
+  workflow_dispatch:
+
+# ▼▼▼ SỬA LỖI 1: THÊM KHỐI CONCURRENCY ▼▼▼
+# Khối này đảm bảo chỉ có 1 tác vụ chạy tại một thời điểm.
+# Nếu một tác vụ mới được kích hoạt, nó sẽ hủy tác vụ cũ đang chạy.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+# ▲▲▲ KẾT THÚC SỬA LỖI 1 ▲▲▲
+
+permissions:
+  contents: write
 
 jobs:
   update-gold-price:
     runs-on: ubuntu-latest
-
-    # ▼▼▼ THÊM KHỐI PERMISSIONS NÀY ▼▼▼
-    permissions:
-      contents: write # Cấp quyền ghi để cho phép git commit và push
-    # ▲▲▲ KẾT THÚC THÊM MỚI ▲▲▲
-
     steps:
       - name: Kiểm tra mã nguồn (Checkout Repository)
         uses: actions/checkout@v4
-        # Cần lịch sử đầy đủ để có thể commit sau đó
         with:
-          fetch-depth: 0 
-          token: ${{ secrets.GITHUB_TOKEN }} # Sử dụng token mặc định của GitHub Action
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Thiết lập Node.js
         uses: actions/setup-node@v4
@@ -31,36 +32,34 @@ jobs:
           node-version: '20'
 
       - name: Cài đặt Dependencies (axios, xml2js)
-        # Vì ta không dùng package.json, ta cài đặt thủ công vào môi trường ảo
         run: npm install axios xml2js
 
       - name: Chạy Script Tải và Lưu Dữ Liệu
         run: node scripts/gold_scraper.js
         env:
-          # Lấy khóa API từ Secret đã tạo ở Bước 1
-          DOJI_API_KEY: ${{ secrets.DOJI_API_KEY }} 
+          DOJI_API_KEY: ${{ secrets.DOJI_API_KEY }}
 
       - name: Kiểm tra thay đổi và Commit
         id: commit
         run: |
-          # Kiểm tra xem file gold_history.json có thay đổi không
-          if [[ $(git diff --quiet gold_history.json) ]]; then
+          # ▼▼▼ SỬA LỖI 2: SỬA LOGIC IF ▼▼▼
+          # Lệnh `git diff --quiet` trả về 0 (true) NẾU KHÔNG CÓ THAY ĐỔI.
+          if git diff --quiet gold_history.json; then
             echo "Không có thay đổi dữ liệu, bỏ qua commit."
             echo "commit_required=false" >> $GITHUB_OUTPUT
           else
             echo "Dữ liệu đã thay đổi, chuẩn bị commit."
             echo "commit_required=true" >> $GITHUB_OUTPUT
           fi
+          # ▲▲▲ KẾT THÚC SỬA LỖI 2 ▲▲▲
           
       - name: Commit và Đẩy (Push) Thay Đổi
-        # Chỉ chạy nếu có thay đổi
         if: steps.commit.outputs.commit_required == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # Thêm pull --rebase để lấy thay đổi mới nhất (nếu có) trước
-          # Điều này sẽ hợp nhất commit của Action A (nếu có) vào Action B
+          # git pull vẫn giữ nguyên để xử lý các commit thủ công (nếu có)
           git pull --rebase
           
           git add gold_history.json
