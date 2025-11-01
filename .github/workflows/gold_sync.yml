@@ -58,6 +58,11 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Thêm pull --rebase để lấy thay đổi mới nhất (nếu có) trước
+          # Điều này sẽ hợp nhất commit của Action A (nếu có) vào Action B
+          git pull --rebase
+          
           git add gold_history.json
           git commit -m "Auto sync: Cập nhật giá vàng DOJI vào $(date +%H:%M) ngày $(date +%d-%m-%Y)"
           git push
