@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: 'global-data-sync' # Tên nhóm chung (PHẢI GIỐNG TỆP TRÊN)
-  cancel-in-progress: true  # Hủy tác vụ cũ nếu có tác vụ mới
+  group: 'gold-sync-group' # <-- Tên nhóm 2
+  cancel-in-progress: true  # Tự hủy tác vụ cũ (Đúng ý bạn)
 
 permissions:
   contents: write
