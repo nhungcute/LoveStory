@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-01T01:23:49.338Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761960168253",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-01T01:23:45.344Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
