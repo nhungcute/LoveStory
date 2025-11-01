@@ -8,11 +8,9 @@ on:
   # Cho phép chạy thủ công từ tab Actions
   workflow_dispatch:
 
-# ▼▼▼ THÊM KHỐI NÀY ĐỂ FIX LỖI ▼▼▼
 concurrency:
   group: 'global-data-sync' # Tên nhóm chung
   cancel-in-progress: false # Xếp hàng, không hủy
-# ▲▲▲ KẾT THÚC THÊM ▼▼▲
 
 permissions:
   contents: write # Cấp quyền cho Action để commit file
@@ -26,6 +24,13 @@ jobs:
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
             
+      # ▼▼▼ BƯỚC MỚI: KÉO THAY ĐỔI TRƯỚC KHI CHẠY SCRIPT ▼▼▼
+      - name: 1.5. Cập nhật (Pull) thay đổi mới nhất
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git pull --rebase
+          
       - name: 2. Cài đặt Node.js v20
         uses: actions/setup-node@v4
         with:
@@ -45,8 +50,7 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # Kéo các thay đổi mới nhất (ví dụ: từ gold_sync) VỀ TRƯỚC
-          git pull --rebase
+          # ▼▼▼ ĐÃ XÓA 'git pull' KHỎI ĐÂY ▼▼▼
           
           # Thêm các file mới tạo
           git add image_data.json
