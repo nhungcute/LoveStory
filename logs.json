@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-01T00:34:06.953Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1761957213332",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-01T00:34:05.797Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Bé con 12w3d\"",
+    "username": "1761957213332",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-01T00:34:05.797Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1761957213332",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-01T00:33:59.599Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
