@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: 'global-data-sync' # Tên nhóm chung
-  cancel-in-progress: false # Xếp hàng, không hủy
+  group: 'data-sync-group' # <-- Tên nhóm 1
+  cancel-in-progress: false # Không bao giờ tự hủy
 
 permissions:
   contents: write 
@@ -43,7 +43,6 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # Thêm các file mới tạo (Staging)
           git add image_data.json
           git add home_data.json
           
@@ -51,13 +50,11 @@ jobs:
           if ! git diff --cached --quiet; then
             echo "Phát hiện thay đổi, đang commit..."
             
-            # Commit các thay đổi local
             git commit -m "Auto Sync: Cập nhật dữ liệu media và trang chủ"
             
             # Kéo các thay đổi từ xa (gold_sync) và đặt commit của chúng ta lên trên
             git pull --rebase
             
-            # Đẩy (push) các thay đổi đã hợp nhất
             git push
           else
             echo "Không có thay đổi dữ liệu."
