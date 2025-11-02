@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-02T13:25:27.801Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Xuân\"",
+    "username": "1762089923718",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-02T13:25:26.413Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1762089923718",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-02T13:25:23.718Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1762089923718",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-02T10:57:31.489Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện mới \"Cafe cuối tuần\" với 0 ảnh",
