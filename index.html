@@ -935,6 +935,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 	 <label class="text-sm">Lọc:</label> 
 	 <select id="logFilter" onchange="filterLogs()" class="love-input text-xs px-2 py-1"> 
 		 <option value="all">Tất cả</option> 
+		 <option value="Hệ thống">Hệ thống</option>
 		 <option value="Điều hướng">Điều hướng</option> 
 		 <option value="Thêm sự kiện mới">Thêm sự kiện</option> 
 		 <option value="Cập nhật sự kiện">Sửa sự kiện</option> 
@@ -3785,6 +3786,10 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 
         function getActionIcon(action) {
             const icons = {
+				'Hệ thống': 'fas fa-server',
+                'Đồng bộ media': 'fas fa-sync',
+                'Cập nhật giá vàng': 'fas fa-ring',
+                'Lỗi Hệ thống': 'fas fa-exclamation-triangle',
                 'Điều hướng': 'fas fa-compass',
                 'Thêm sự kiện mới': 'fas fa-plus-circle',
                 'Cập nhật sự kiện': 'fas fa-edit',
