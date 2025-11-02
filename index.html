@@ -3073,7 +3073,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
                 activeButton.classList.add('active');
             }
             //showNotification(`Đã chuyển sang ${modelName.toUpperCase()} AI`, 'info');
-            addLog('Chat AI', `Chuyển sang model: ${modelName.toUpperCase()}`);
+            //addLog('Chat AI', `Chuyển sang model: ${modelName.toUpperCase()}`);
         }
 		
         async function sendChatMessage() {
@@ -3081,7 +3081,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             const message = input.value.trim();
             if (!message) return;
 
-            addLog('Chat AI', `Đã gửi tin nhắn: "${message.length > 50 ? message.substring(0, 50) + '...' : message}"`);
+            //addLog('Chat AI', `Đã gửi tin nhắn: "${message.length > 50 ? message.substring(0, 50) + '...' : message}"`);
             const container = document.getElementById('chatMessages');
 
             // Add user message to UI
