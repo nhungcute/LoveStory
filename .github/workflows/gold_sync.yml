@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: 'gold-sync-group' # <-- Tên nhóm 2
+  group: 'data-sync-group' # <-- Tên nhóm 2
   cancel-in-progress: true  # Tự hủy tác vụ cũ (Đúng ý bạn)
 
 permissions:
