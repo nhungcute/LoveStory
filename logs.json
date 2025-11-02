@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-02T03:23:55.762Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1762044067789",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-02T03:22:08.443Z",
     "action": "Cập nhật giá vàng",
     "details": "Giá vàng: Mua 14530, Bán 14830",
