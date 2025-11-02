@@ -1,15 +1,15 @@
 {
-  "daysTogether": 1348,
+  "daysTogether": 1349,
   "totalMemories": 22,
   "totalPhotos": 187,
   "upcomingEvent": {
     "name": "Sinh nhậ­t vợ tui",
     "date": "2025-12-04T00:00:00.000Z",
-    "diff": 33
+    "diff": 32
   },
   "todayMemories": [],
   "goldPrice": {
-    "buy": 0,
-    "sell": 0
+    "buy": 14530,
+    "sell": 14830
   }
 }
