@@ -1,37 +1,9 @@
 [
   {
-    "timestamp": "2025-11-02T01:44:27.617Z",
+    "timestamp": "2025-11-02T02:53:12.004Z",
     "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
-    "username": "1762047863335",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-02T01:44:25.404Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1762047863335",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-02T01:44:23.334Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1762047863335",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-02T01:34:38.416Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1762047276875",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-02T01:34:36.872Z",
-    "action": "Chat AI",
-    "details": "Chuyển sang model: GOOGLE",
-    "username": "1762047276875",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Khoảnh khắc\"",
+    "username": "1762044067789",
     "saved": true
   },
   {
