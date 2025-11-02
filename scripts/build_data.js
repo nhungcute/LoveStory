@@ -17,7 +17,7 @@ if (!GDRIVE_API_KEY || !GDRIVE_FOLDER_ID) {
 const IMAGE_DATA_PATH = 'image_data.json';
 const HOME_DATA_PATH = 'home_data.json';
 const ACTIONS_PATH = 'actions.json';
-const CHART_PATH = 'gold_history.json'; // Giả sử đây là file config.CHART_FILE_PATH
+const CHART_PATH = 'gold_history.json'; // Đọc file do gold_sync.yml tạo ra
 const START_DATE = '2022-02-22'; // Ngày bắt đầu yêu nhau
 
 // === CÁC HÀM TÍNH TOÁN (Lấy từ index.html) ===
@@ -91,7 +91,7 @@ async function buildHomeData(mediaData) {
     
     try {
         goldData = JSON.parse(await fs.readFile(CHART_PATH, 'utf8'));
-    } catch (e) { console.warn("Không tìm thấy chart_data.json, bỏ qua..."); }
+    } catch (e) { console.warn("Không tìm thấy gold_history.json, bỏ qua..."); } // Sửa lại tên file trong cảnh báo
 
     // === 2. Bắt đầu tính toán ===
     
@@ -130,20 +130,30 @@ async function buildHomeData(mediaData) {
         return (currentYear - eventYear) >= 1;
     }).sort((a, b) => new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day)));
 
-    // d. Tính Giá Vàng (Logic từ loadGoldPrice)
-    if (goldData.length > 0) {
-        const latestData = goldData.reduce((latest, current) => {
-            const latestTs = new Date(latest.timestamp).getTime();
-            const currentTs = new Date(current.timestamp).getTime();
-            return (currentTs > latestTs) ? current : latest;
-        });
+    // ▼▼▼ SỬA LOGIC LẤY GIÁ VÀNG ▼▼▼
+    // d. Tính Giá Vàng (Logic từ loadGoldPrice - Đã cập nhật format mới)
+    const targetProductName = "Nhẫn Tròn 9999 Hưng Thịnh Vượng";
+    
+    // Tìm đúng đối tượng sản phẩm trong mảng
+    const productData = Array.isArray(goldData) 
+        ? goldData.find(p => p.product_name === targetProductName)
+        : null;
+
+    // Kiểm tra xem có tìm thấy sản phẩm VÀ mảng 'gia' có dữ liệu không
+    if (productData && productData.gia && productData.gia.length > 0) {
+        // Lấy bản ghi giá mới nhất (nằm ở đầu mảng 'gia' theo logic của gold_scraper.js)
+        const latestData = productData.gia[0]; 
+        
         homeData.goldPrice = {
             buy: parseFloat(latestData.ring_buy) || 0,
             sell: parseFloat(latestData.ring_sell) || 0
         };
     } else {
+        // Nếu không tìm thấy sản phẩm hoặc không có dữ liệu giá
+        console.warn(`Không tìm thấy dữ liệu giá cho "${targetProductName}" trong gold_history.json`);
         homeData.goldPrice = { buy: 0, sell: 0 };
     }
+    // ▲▲▲ KẾT THÚC SỬA LOGIC VÀNG ▲▲▲
 
     // 3. Lưu file home_data.json
     await fs.writeFile(HOME_DATA_PATH, JSON.stringify(homeData, null, 2));
