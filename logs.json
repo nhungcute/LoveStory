@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-02T10:57:31.489Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"Cafe cuối tuần\" với 0 ảnh",
+    "username": "1762080984840",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-02T10:57:23.192Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
