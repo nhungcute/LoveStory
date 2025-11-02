@@ -195,7 +195,7 @@ async function buildHomeData(mediaData) {
 
     // 4. ▼▼▼ GHI LOG TỔNG HỢP (ĐÃ SỬA) ▼▼▼
     // Tạo thông điệp log mới theo yêu cầu của bạn
-    const finalLogMessage = `Cập nhật số lượng Kỷ niệm ${homeData.totalMemories} Media ${homeData.totalPhotos}`;
+    const finalLogMessage = `Cập nhật dữ liệu hệ thống thành công(${homeData.totalMemories} Kỷ niệm, ${homeData.totalPhotos} Media`;
     await addSystemLog("Hệ thống", finalLogMessage);
     // ▲▲▲ KẾT THÚC SỬA LOGIC ▲▲▲
 }
