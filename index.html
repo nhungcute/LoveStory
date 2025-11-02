@@ -602,15 +602,9 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
                 <i class="fas fa-ring text-white text-xl"></i>
             </div>
             <div class="w-full">
-                <p class="text-sm text-gray-500 mb-1">Giá vàng (Nhẫn)</p>
-                <div class="flex justify-between w-full text-lg">
-                    <span class="font-medium">Giá mua:</span>
-                    <span class="font-bold text-yellow-600" id="goldBuyPrice">N/A</span>
-                </div>
-                <div class="flex justify-between w-full text-lg">
-                    <span class="font-medium">Giá bán:</span>
-                    <span class="font-bold text-yellow-600" id="goldSellPrice">N/A</span>
-                </div>
+                <p class="text-sm text-gray-500 mb-1">Giá vàng (Nhẫn tròn 9999)</p>
+				<p class="text-sm text-gray-400 mb-1">Giá mua:&nbsp&nbsp<span class="font-bold text-yellow-600" id="goldBuyPrice">N/A</span></p>
+				<p class="text-sm text-gray-400 mb-1">Giá bán:&nbsp&nbsp&nbsp<span class="font-bold text-yellow-600" id="goldSellPrice">N/A</span></p>
             </div>
         </div> 
 		
@@ -3081,7 +3075,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             const message = input.value.trim();
             if (!message) return;
 
-            //addLog('Chat AI', `Đã gửi tin nhắn: "${message.length > 50 ? message.substring(0, 50) + '...' : message}"`);
+            addLog('Chat AI', `Đã gửi tin nhắn: "${message.length > 50 ? message.substring(0, 50) + '...' : message}"`);
             const container = document.getElementById('chatMessages');
 
             // Add user message to UI
