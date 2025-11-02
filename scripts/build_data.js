@@ -18,7 +18,7 @@ const IMAGE_DATA_PATH = 'image_data.json';
 const HOME_DATA_PATH = 'home_data.json';
 const ACTIONS_PATH = 'actions.json';
 const CHART_PATH = 'gold_history.json';
-const LOGS_PATH = 'logs.json'; // <-- THÊM ĐƯỜNG DẪN LOGS
+const LOGS_PATH = 'logs.json'; 
 const START_DATE = '2022-02-22'; 
 
 // === HÀM GHI LOG HỆ THỐNG (MỚI) ===
@@ -110,8 +110,7 @@ async function syncGoogleDrive() {
         const logMessage = `Đã đồng bộ ${allFiles.length} media từ Google Drive.`;
         console.log(`✅ ${logMessage}`);
         
-        // <-- GỌI HÀM GHI LOG MỚI
-        await addSystemLog("Đồng bộ media", logMessage); 
+        // <-- ĐÃ XÓA LOG GHI Ở ĐÂY --> 
         
         return allFiles;
 
@@ -139,7 +138,6 @@ async function buildHomeData(mediaData) {
 
     // 2. Bắt đầu tính toán
     const today = new Date();
-    // ... (Tính toán a, b, c giữ nguyên) ...
     // a. Tính Stats
     const startDate = new Date(START_DATE);
     homeData.daysTogether = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
@@ -186,19 +184,20 @@ async function buildHomeData(mediaData) {
             buy: parseFloat(latestData.ring_buy) || 0,
             sell: parseFloat(latestData.ring_sell) || 0
         };
-        // <-- GỌI HÀM GHI LOG MỚI (chỉ log nếu file tồn tại)
-        // Chúng ta chỉ log giá vàng 1 lần/ngày tại đây
-        const goldLogMessage = `Giá vàng: Mua ${latestData.ring_buy}, Bán ${latestData.ring_sell}`;
-        await addSystemLog("Cập nhật giá vàng", goldLogMessage);
-        
     } else {
         console.warn(`Không tìm thấy dữ liệu giá cho "${targetProductName}" trong gold_history.json`);
         homeData.goldPrice = { buy: 0, sell: 0 };
     }
-
+    
     // 3. Lưu file home_data.json
     await fs.writeFile(HOME_DATA_PATH, JSON.stringify(homeData, null, 2));
     console.log(`✅ Đã lưu dữ liệu trang chủ vào home_data.json`);
+
+    // 4. ▼▼▼ GHI LOG TỔNG HỢP (ĐÃ SỬA) ▼▼▼
+    // Tạo thông điệp log mới theo yêu cầu của bạn
+    const finalLogMessage = `Cập nhật số lượng Kỷ niệm ${homeData.totalMemories} Media ${homeData.totalPhotos}`;
+    await addSystemLog("Hệ thống", finalLogMessage);
+    // ▲▲▲ KẾT THÚC SỬA LOGIC ▲▲▲
 }
 
 // === HÀM CHẠY CHÍNH ===
