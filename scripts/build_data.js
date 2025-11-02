@@ -54,7 +54,7 @@ async function syncGoogleDrive() {
                 // Lấy các trường đầy đủ từ index.html
                 webViewLink: file.webViewLink || `https://drive.google.com/file/d/${file.id}/view?usp=drivesdk`,
                 webContentLink: file.webContentLink || `https://drive.google.com/uc?export=download&id=${file.id}`,
-                thumbnailLink: file.thumbnailLink, // Giữ link gốc, client sẽ tự hack
+                //thumbnailLink: file.thumbnailLink, // Giữ link gốc, client sẽ tự hack
                 createdTime: file.createdTime,
                 modifiedTime: file.modifiedTime || file.createdTime,
                 mimeType: file.mimeType,
