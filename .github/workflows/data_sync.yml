@@ -45,6 +45,7 @@ jobs:
           
           git add image_data.json
           git add home_data.json
+          git add logs.json
           
           # Chỉ commit nếu có thay đổi
           if ! git diff --cached --quiet; then
