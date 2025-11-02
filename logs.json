@@ -1,44 +1,9 @@
 [
   {
-    "timestamp": "2025-11-02T13:26:14.182Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
-    "username": "1762089923718",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-02T13:25:59.326Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
-    "username": "1762089923718",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-02T13:25:55.990Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Khoảnh khắc\"",
-    "username": "1762089923718",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-02T13:25:27.801Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mùa Xuân\"",
-    "username": "1762089923718",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-02T13:25:26.413Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mặc định\"",
-    "username": "1762089923718",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-02T13:25:23.718Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1762089923718",
+    "timestamp": "2025-11-02T13:27:29.008Z",
+    "action": "Chat AI",
+    "details": "Chuyển sang model: GOOGLE",
+    "username": "1762090049008",
     "saved": true
   },
   {
