@@ -1,16 +1,9 @@
 [
   {
-    "timestamp": "2025-11-02T03:06:04.326Z",
-    "action": "Cập nhật giá vàng",
-    "details": "Giá vàng: Mua 14530, Bán 14830",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-02T03:06:04.322Z",
-    "action": "Đồng bộ media",
-    "details": "Đã đồng bộ 187 media từ Google Drive.",
-    "username": "GitHub Actions",
+    "timestamp": "2025-11-02T03:06:06.156Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
+    "username": "1762044067789",
     "saved": true
   },
   {
