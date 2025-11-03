@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-03T09:21:22.175Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Đại Dương\"",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-03T09:21:17.898Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-03T09:09:11.882Z",
     "action": "Quản lý vàng",
     "details": "Đã cập nhật giao dịch vàng (ID: 1762159894848)",
