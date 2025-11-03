@@ -6,6 +6,8 @@
   <title>Love Story</title>
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <style>
@@ -295,10 +297,12 @@
         /* Header Menu Styles */
         .menu-icon.active {
             background-color: var(--primary-color) !important;
+			color: white !important;
         }
 
         .menu-icon:not(.active) {
             background-color: #6B7280;
+			color: white;
         }
 		
 		.loading-spinner {
@@ -486,6 +490,95 @@
 		#imageSelectorModal .modal-content {
 			padding: 0.5rem;
 		}
+		
+		/* CSS cho menu xổ dọc (dropdown) mới */
+        #headerMenuIcons.vertical-dropdown {
+            /* Ghi đè style ngang có sẵn */
+            position: absolute;
+            top: 100%; /* Ngay bên dưới header */
+            /*right: 0.5rem;  Căn lề phải */
+            width: 200px;
+            
+            /* Ghi đè flex ngang */
+            display: flex;
+            flex-direction: column; /* Xếp dọc */
+            align-items: stretch; /* Kéo dãn các mục */
+            justify-content: flex-start;
+            
+            /* Ghi đè style của dropdown */
+            background-color: var(--accent-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            
+            /* Ghi đè opacity/hidden */
+            opacity: 1 !important; 
+            visibility: visible !important;
+        }
+
+        #headerMenuIcons.vertical-dropdown .menu-icon {
+            /* Ghi đè style của nút */
+            display: flex;
+            justify-content: flex-start; /* Căn trái text/icon */
+            width: 100%;
+            border-radius: 0.25rem;
+            padding: 0.5rem 0.75rem;
+            
+            /* Style lại nút */
+            height: auto;
+            background-color: transparent !important; /* Xóa nền tròn */
+            color: var(--text-color); /* Màu text */
+        }
+        
+        #headerMenuIcons.vertical-dropdown .menu-icon:hover {
+             background-color: var(--bg-color) !important;
+             color: var(--primary-color);
+        }
+
+        #headerMenuIcons.vertical-dropdown .menu-icon.active {
+             background-color: var(--primary-color) !important;
+             color: white;
+        }
+
+        /* Thêm text cho các nút menu (chỉ hiện ở chế độ dọc) */
+        .menu-icon::after {
+            content: attr(data-title);
+            margin-left: 0.75rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        /* Ẩn text khi ở chế độ ngang (mặc định) */
+        #headerMenuIcons:not(.vertical-dropdown) .menu-icon::after {
+            display: none;
+        }
+		
+		/* CSS cho Toolbar của biểu đồ vàng */
+        .chart-toolbar-btn {
+            background-color: #f0f0f0; /* Màu nền xám nhạt */
+            color: #333;
+            border: 1px solid #ddd;
+            padding: 4px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.75rem; /* 12px */
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .chart-toolbar-btn:hover {
+            background-color: #e0e0e0;
+        }
+        .chart-toolbar-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        /* Đảm bảo biểu đồ có màu chữ */
+        #homeGoldChart {
+            color: #333;
+        }
+		
     </style>
   <style>@view-transition { navigation: auto; }</style>
  </head>
@@ -513,7 +606,12 @@
      <h1 id="headerTitle" class="text-xl font-bold text-primary whitespace-nowrap transition-all duration-300">Love Story</h1>
      </div>
      <div id="headerMenuIcons" class="flex-1 flex items-center justify-center 
-space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="selectMenuItem('chat')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="chat" title="Chat AI"> <i class="fas fa-robot text-white text-sm"></i> </button> <button onclick="selectMenuItem('timeline')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="timeline" title="Timeline"> <i class="fas fa-clock text-white text-sm"></i> </button> <button onclick="selectMenuItem('photos')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="photos" title="Khoảnh Khắc"> <i class="fas fa-images text-white text-sm"></i> </button> <button onclick="selectMenuItem('settings')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="settings" title="Cài Đặt"> <i class="fas fa-cog text-white text-sm"></i> </button>
+space-x-1 transition-opacity duration-300 opacity-0 hidden">
+<button onclick="selectMenuItem('chat')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="chat" title="Chat AI" data-title= "Chat AI"> 
+<i class="fas fa-robot text-sm"></i> </button> <button onclick="selectMenuItem('timeline')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="timeline" title="Timeline" data-title="Timeline"> 
+<i class="fas fa-clock text-sm"></i> </button> 
+<button onclick="selectMenuItem('photos')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="photos" title="Khoảnh Khắc" data-title="Khoảnh Khắc"> <i class="fas fa-images text-sm"></i> </button> 
+<button onclick="selectMenuItem('settings')" class="menu-icon flex-shrink-0 w-10 h-10 bg-gray-500 rounded-full flex items-center justify-center hover:bg-primary" data-section="settings" title="Cài Đặt" data-title="Cài Đặt"> <i class="fas fa-cog text-sm"></i> </button>
      </div>
      
 	<div class="flex items-center justify-end space-x-3"> 
@@ -597,7 +695,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             </div>
         </div>
 		
-		<div class="love-card rounded-lg p-4 flex items-center space-x-4">
+		<div class="love-card rounded-lg p-4 flex items-center space-x-4 cursor-pointer" onclick="toggleGoldChart()">
             <div class="flex-shrink-0 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
                 <i class="fas fa-ring text-white text-xl"></i>
             </div>
@@ -607,6 +705,16 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 				<p class="text-sm text-gray-400 mb-1">Giá bán:&nbsp&nbsp&nbsp<span class="font-bold text-yellow-600" id="goldSellPrice">N/A</span></p>
             </div>
         </div> 
+		<div id="goldChartContainer" class="love-card rounded-lg p-4 hidden mt-4"> 
+			<div class="chart-toolbar mb-4 flex justify-center gap-2">
+				<button id="btn-gold-1m" class="chart-toolbar-btn active">1M</button>
+				<button id="btn-gold-3m" class="chart-toolbar-btn">3M</button>
+				<button id="btn-gold-6m" class="chart-toolbar-btn">6M</button>
+				<button id="btn-gold-1y" class="chart-toolbar-btn">1Y</button>
+				<button id="btn-gold-3y" class="chart-toolbar-btn">3Y</button>
+			</div>
+			<div id="homeGoldChart"></div>
+		</div>
 		
      </div>
     </div>
@@ -718,6 +826,12 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
         <div><span class="font-medium">Thông báo hệ thống</span>
          <p class="text-xs text-gray-500 mt-1">Tắt/bật các thông báo giao diện.</p>
         </div><label class="toggle-switch"> <input type="checkbox" id="enableSystemNotifications" onchange="toggleSystemNotifications()"> <span class="toggle-slider"></span> </label>
+       </div>
+	   
+	   <div class="flex items-center justify-between">
+        <div><span class="font-medium">Menu Dạng Dọc</span>
+         <p class="text-xs text-gray-500 mt-1">Bật để menu xổ xuống (dọc) thay vì ngang.</p>
+        </div><label class="toggle-switch"> <input type="checkbox" id="verticalMenuToggle" onchange="toggleVerticalMenu()"> <span class="toggle-slider"></span> </label>
        </div>
 	   
       </div>
@@ -960,6 +1074,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
 		let initialLogsLoaded = false;
 		let allNotificationsLoaded = false;
 		let goldData = [];
+		let isVerticalMenu = false;
 		
 		// 1. Kiểm tra xem có phải thiết bị di động không (dựa theo CSS media query)
         const isMobile = window.innerWidth <= 768;
@@ -1295,17 +1410,19 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
         async function loadSecondaryData() {
             try {
                 // --- BƯỚC 4: Tải dữ liệu PHỤ (Dùng hàm getRawFile SIÊU NHANH) ---
-                const [events, photos, comments, logs] = await Promise.all([
+                const [events, photos, comments, logs, gold] = await Promise.all([
                     githubAPI.getRawFile(config.FILE_PATH),                  
                     githubAPI.getRawFile(config.PHOTOS_METADATA_FILE_PATH),  
                     githubAPI.getRawFile(config.COMMENTS_FILE_PATH),         
-                    githubAPI.getRawFile(config.LOGS_FILE_PATH)              
+                    githubAPI.getRawFile(config.LOGS_FILE_PATH),
+					githubAPI.getRawFile(config.CHART_FILE_PATH)      
                 ]);
 
                 eventsData = events || []; 
                 photosData = photos || []; 
                 commentsData = comments || [];
                 logsData = logs || [];
+				goldData = gold || [];
                 
                 return true;
             } catch (error) {
@@ -1499,6 +1616,10 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             // Update radio button selection
             document.querySelector(`.theme-radio-${savedTheme}`).classList.add('selected');
 			
+			const savedMenuMode = localStorage.getItem('loveStoryMenuMode') || 'horizontal';
+            isVerticalMenu = (savedMenuMode === 'vertical');
+            document.getElementById('verticalMenuToggle').checked = isVerticalMenu;
+			
 			loadReadTimestamps();
             
             // Load hamburger menu setting
@@ -1684,39 +1805,85 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
  
         function toggleHeaderMenu() {
             const menuIcons = document.getElementById('headerMenuIcons');
-            // Kiểm tra xem menu có đang ẩn không bằng class 'hidden'
-            if (menuIcons.classList.contains('hidden')) {
-                openHeaderMenu();
+            const title = document.getElementById('headerTitle');
+            const isCurrentlyHidden = menuIcons.classList.contains('hidden');
+
+            if (isVerticalMenu) {
+                // --- LOGIC DỌC (DROPDOWN) ---
+                if (isCurrentlyHidden) {
+                    // --- Bắt đầu sửa ---
+                    // 1. Lấy nút hamburger
+                    const btn = document.getElementById('rightMenuBtn');
+                    // 2. Lấy tọa độ (vị trí) của nút
+                    const rect = btn.getBoundingClientRect(); 
+                    
+                    // 3. Hiển thị menu (nhưng chưa định vị)
+                    menuIcons.classList.remove('hidden');
+                    menuIcons.classList.add('vertical-dropdown'); 
+                    
+                    // 4. Lấy chiều rộng của menu (SAU KHI NÓ HIỂN THỊ)
+                    const menuWidth = menuIcons.offsetWidth;
+
+                    // 5. Tính toán vị trí
+                    // Tìm tâm của nút
+                    const buttonCenter = rect.left + (rect.width / 2);
+                    // Lùi lại một nửa chiều rộng menu
+                    const newLeft = buttonCenter - (menuWidth / 2);
+                    
+                    // 6. Căn lề
+                    menuIcons.style.left = newLeft + 'px';
+                    // 7. Ghi đè 'right' (nếu có)
+                    menuIcons.style.right = 'auto'; 
+                    // --- Kết thúc sửa ---
+                } else {
+                    // Đóng menu
+                    menuIcons.classList.add('hidden');
+                    menuIcons.classList.remove('vertical-dropdown');
+                    // Reset style
+                    menuIcons.style.left = '';
+                    menuIcons.style.right = '';
+                }
             } else {
-                closeHeaderMenu();
+                // --- LOGIC NGANG (GIỮ NGUYÊN) ---
+                if (isCurrentlyHidden) {
+                    title.classList.add('hidden');
+                    menuIcons.classList.remove('hidden');
+                    setTimeout(() => menuIcons.classList.remove('opacity-0'), 10);
+                } else {
+                    menuIcons.classList.add('opacity-0');
+                    setTimeout(() => {
+                        menuIcons.classList.add('hidden');
+                        title.classList.remove('hidden');
+                    }, 300);
+                }
             }
         }
 
         function openHeaderMenu() {
-            const menuIcons = document.getElementById('headerMenuIcons');
-            const title = document.getElementById('headerTitle');
-            
-            // 1. Ẩn Title trên di động
-            title.classList.add('hidden');
-            // 2. Hiện Menu
-            menuIcons.classList.remove('hidden');
-            setTimeout(() => { // Dùng setTimeout để trình duyệt kịp render và tạo hiệu ứng fade-in
-                menuIcons.classList.remove('opacity-0');
-            }, 10);
+            // (Hàm này không cần thiết, đã gộp vào toggleHeaderMenu)
         }
 
         function closeHeaderMenu() {
             const menuIcons = document.getElementById('headerMenuIcons');
             const title = document.getElementById('headerTitle');
             
-            // 1. Làm mờ Menu đi
-            menuIcons.classList.add('opacity-0');
-            
-            // 2. Sau khi hiệu ứng mờ kết thúc (300ms), ẩn hoàn toàn Menu và hiện lại Title
-            setTimeout(() => {
+            if (isVerticalMenu) {
+                // --- LOGIC DỌC (ĐÓNG) ---
                 menuIcons.classList.add('hidden');
-                title.classList.remove('hidden');
-            }, 300);
+                menuIcons.classList.remove('vertical-dropdown');
+                // Reset style
+                menuIcons.style.left = '';
+                menuIcons.style.right = '';
+            } else {
+                // --- LOGIC NGANG (ĐÓNG) ---
+                if (menuIcons.classList.contains('hidden')) return; // Đã đóng rồi thì thôi
+                
+                menuIcons.classList.add('opacity-0');
+                setTimeout(() => {
+                    menuIcons.classList.add('hidden');
+                    title.classList.remove('hidden');
+                }, 300);
+            }
         }
 
         function toggleRightHeaderMenu() {
@@ -1884,7 +2051,20 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
             }
         }
  
-
+		function toggleVerticalMenu() {
+            const checkbox = document.getElementById('verticalMenuToggle');
+            isVerticalMenu = checkbox.checked;
+            
+            if (isVerticalMenu) {
+                localStorage.setItem('loveStoryMenuMode', 'vertical');
+                showNotification('Đã bật menu dạng dọc!', 'success');
+            } else {
+                localStorage.setItem('loveStoryMenuMode', 'horizontal');
+                showNotification('Đã bật menu dạng ngang!', 'success');
+            }
+            addLog('Cài đặt giao diện', `Chuyển menu sang dạng ${isVerticalMenu ? 'dọc' : 'ngang'}`);
+        }
+		
         // Stats functions
         function updateStats() {
             // Đọc dữ liệu đã tính toán sẵn từ homeData
@@ -4782,6 +4962,186 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden"><button onclick="sel
                 toggleNotifications();
             }
         });
+		
+		// === LOGIC BIỂU ĐỒ VÀNG TRANG CHỦ ===
+
+        let homeGoldChart = null; // Biến toàn cục để giữ biểu đồ
+
+        /**
+         * Xử lý dữ liệu thô từ gold_history.json
+         */
+        function processGoldDataForLineChart(rawData) {
+            const productName = "Nhẫn Tròn 9999 Hưng Thịnh Vượng";
+            const product = rawData.find(p => p.product_name === productName);
+            
+            if (!product || !product.gia || product.gia.length === 0) {
+                console.warn("Không tìm thấy dữ liệu giá vàng để vẽ biểu đồ.");
+                return { buySeries: [], sellSeries: [] };
+            }
+
+            // 1. Nhóm giá cuối cùng của mỗi ngày
+            const prices = product.gia;
+            const dailyMap = new Map();
+            
+            // Sắp xếp giá từ CŨ -> MỚI (vì file gốc là MỚI -> CŨ)
+            const sortedPrices = [...prices].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+            for (const entry of sortedPrices) {
+                const date = new Date(entry.timestamp);
+                const dayString = date.toISOString().split('T')[0];
+                dailyMap.set(dayString, {
+                    buy: parseFloat(entry.ring_buy),
+                    sell: parseFloat(entry.ring_sell)
+                });
+            }
+
+            if (dailyMap.size === 0) return { buySeries: [], sellSeries: [] };
+
+            // 2. Điền các ngày bị thiếu
+            const filledBuySeries = [];
+            const filledSellSeries = [];
+            
+            const firstDate = new Date(dailyMap.keys().next().value);
+            const today = new Date();
+            let currentDate = new Date(firstDate);
+            let lastBuy = null;
+            let lastSell = null;
+
+            while (currentDate <= today) {
+                const dayString = currentDate.toISOString().split('T')[0];
+                const entry = dailyMap.get(dayString);
+
+                if (entry) {
+                    lastBuy = entry.buy;
+                    lastSell = entry.sell;
+                }
+                
+                // Chỉ thêm vào biểu đồ nếu đã có giá (bỏ qua các ngày đầu tiên bị null)
+                if (lastBuy !== null) {
+                    filledBuySeries.push([currentDate.getTime(), lastBuy]);
+                    filledSellSeries.push([currentDate.getTime(), lastSell]);
+                }
+                
+                // Tăng lên 1 ngày
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            return { buySeries: filledBuySeries, sellSeries: filledSellSeries };
+        }
+
+        /**
+         * Khởi tạo biểu đồ (chỉ chạy 1 lần)
+         */
+        function initHomeGoldChart() {
+            // Chỉ khởi tạo nếu chưa có (lazy load)
+            if (homeGoldChart || goldData.length === 0) {
+                return;
+            }
+
+            console.log("Đang khởi tạo biểu đồ giá vàng...");
+            
+            // Xử lý dữ liệu
+            const { buySeries, sellSeries } = processGoldDataForLineChart(goldData);
+
+            if (buySeries.length === 0) {
+                document.getElementById('homeGoldChart').innerHTML = "<p class='text-center text-gray-500'>Không đủ dữ liệu để vẽ biểu đồ.</p>";
+                return;
+            }
+
+            const options = {
+                series: [
+                    {
+                        name: 'Giá Mua',
+                        data: buySeries,
+                        color: '#00B746' // Xanh green
+                    },
+                    {
+                        name: 'Giá Bán',
+                        data: sellSeries,
+                        color: '#EF403C' // Đỏ red
+                    }
+                ],
+                chart: {
+                    type: 'line',
+                    height: 250,
+                    zoom: {
+                        enabled: true // Cho phép zoom bằng chuột
+                    },
+                    toolbar: {
+                        show: false // Ẩn toolbar mặc định (vì ta dùng toolbar riêng)
+                    }
+                },
+                xaxis: {
+                    type: 'datetime',
+                    labels: {
+                        datetimeUTC: false,
+                        format: 'dd/MM'
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        formatter: (val) => val.toLocaleString('vi-VN')
+                    }
+                },
+                tooltip: {
+                    x: {
+                        format: 'dd/MM/yyyy'
+                    }
+                },
+                stroke: {
+                    width: 2 // Độ dày của đường line
+                }
+            };
+
+            homeGoldChart = new ApexCharts(document.querySelector("#homeGoldChart"), options);
+            homeGoldChart.render();
+
+            // Gắn sự kiện cho các nút toolbar (phải sau khi chart đã render)
+            function setupToolbarEvents() {
+                const today = new Date().getTime();
+
+                function zoomChart(days) {
+                    const startDate = new Date().setDate(new Date().getDate() - days);
+                    homeGoldChart.zoomX(startDate, today);
+                }
+
+                const buttons = document.querySelectorAll('.chart-toolbar-btn');
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Bỏ active tất cả
+                        buttons.forEach(b => b.classList.remove('active'));
+                        // Active nút được chọn
+                        btn.classList.add('active');
+
+                        const id = btn.id;
+                        if (id === 'btn-gold-1m') zoomChart(31);
+                        if (id === 'btn-gold-3m') zoomChart(90);
+                        if (id === 'btn-gold-6m') zoomChart(180);
+                        if (id === 'btn-gold-1y') zoomChart(365);
+                        if (id === 'btn-gold-3y') zoomChart(365 * 3);
+                    });
+                });
+
+                // Kích hoạt 1M làm mặc định
+                zoomChart(31);
+            }
+            
+            setupToolbarEvents();
+        }
+
+        /**
+         * Ẩn/hiện khối biểu đồ
+         */
+        function toggleGoldChart() {
+            const container = document.getElementById('goldChartContainer');
+            const isHidden = container.classList.toggle('hidden');
+
+            if (!isHidden) {
+                // Nếu vừa hiện lên, gọi hàm khởi tạo (chỉ chạy 1 lần)
+                initHomeGoldChart();
+            }
+        }
+		
     </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f60467b36d04e3',t:'MTc2MDYwMTU3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
