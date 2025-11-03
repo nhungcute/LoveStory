@@ -292,7 +292,9 @@ async function buildHomeData(mediaData) {
         };
     }).sort((a, b) => a.diff - b.diff);
     homeData.upcomingEvent = futureEvents.length > 0 ? futureEvents[0] : null;
-
+ 
+    await addSystemLog("Sự kiện sắp tới", `${Math.ceil((nextEventDate - today) / (1000 * 60 * 60 * 24))} ngày nữa: ${event.name}`);
+    
     // c. Tính "Ngày này năm xưa"
     const todayDayMonthStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}`;
     const currentYear = today.getFullYear();
