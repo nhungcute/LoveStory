@@ -324,7 +324,7 @@ async function buildHomeData(mediaData) {
     console.log(`✅ Đã lưu dữ liệu trang chủ vào home_data.json`);
 
     // 4. GHI LOG TỔNG HỢP
-    const finalLogMessage = `Cập nhật dữ liệu hệ thống thành công (${homeData.totalMemories} Kỷ niệm, ${homeData.totalPhotos} Media)`;
+    const finalLogMessage = `Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)`;
     await addSystemLog("Hệ thống", finalLogMessage);
 }
 
