@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-03T09:51:04.247Z",
+    "action": "Quản lý vàng",
+    "details": "Thêm giao dịch buy (SL: 1 chỉ)",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-03T09:46:33.542Z",
     "action": "Quản lý vàng",
     "details": "Thêm giao dịch buy (SL: 12 chỉ)",
