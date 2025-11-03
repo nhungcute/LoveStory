@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-03T08:09:25.421Z",
+    "action": "Quản lý vàng",
+    "details": "Đã thêm giao dịch vàng mới (SL: 2 chỉ)",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-03T07:47:02.489Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
