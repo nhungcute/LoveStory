@@ -1,22 +1,22 @@
 [
   {
-    "timestamp": "2025-11-03T04:00:25.433Z",
+    "timestamp": "2025-11-03T04:03:08.715Z",
     "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
+    "details": "Chuyển từ \"Timeline\" sang \"Chat AI\"",
     "username": "1762141388701",
     "saved": true
   },
   {
-    "timestamp": "2025-11-03T04:00:00.656Z",
-    "action": "Cài đặt giao diện",
-    "details": "Chuyển menu sang dạng dọc",
+    "timestamp": "2025-11-03T04:03:08.035Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Timeline\"",
     "username": "1762141388701",
     "saved": true
   },
   {
-    "timestamp": "2025-11-03T03:59:58.993Z",
+    "timestamp": "2025-11-03T04:03:07.211Z",
     "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
     "username": "1762141388701",
     "saved": true
   },
