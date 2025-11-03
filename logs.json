@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-03T04:00:00.656Z",
+    "action": "Cài đặt giao diện",
+    "details": "Chuyển menu sang dạng dọc",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-03T03:59:58.993Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-03T03:55:32.448Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
