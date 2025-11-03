@@ -6,5 +6,13 @@
     "price_per_chi": 11700000,
     "notes": "Nhẫn 9999 Egold",
     "id": "1762159894848"
+  },
+  {
+    "date": "19-06-2025",
+    "type": "buy",
+    "quantity_chi": 3,
+    "price_per_chi": 11700000,
+    "notes": "Nhẫn",
+    "id": "1762160635785"
   }
 ]
