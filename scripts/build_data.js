@@ -4,29 +4,42 @@ const path = require('path');
 
 // Sử dụng node-fetch v2
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+// Thư viện cho giá vàng
+const axios = require('axios');
+const { parseStringPromise } = require('xml2js');
 
-// === LẤY BIẾN MÔI TRƯỜNG ===
-const { GDRIVE_API_KEY, GDRIVE_FOLDER_ID } = process.env;
+// === LẤY BIẾN MÔI TRƯỜNG (ĐÃ GỘP) ===
+const { GDRIVE_API_KEY, GDRIVE_FOLDER_ID, DOJI_API_KEY } = process.env;
 
 if (!GDRIVE_API_KEY || !GDRIVE_FOLDER_ID) {
-    console.error("Thiếu GDRIVE_API_KEY hoặc GDRIVE_FOLDER_ID. Hãy thêm chúng vào GitHub Secrets.");
-    process.exit(1); // Thoát nếu thiếu
+    console.error("Thiếu GDRIVE_API_KEY hoặc GDRIVE_FOLDER_ID.");
+    // Không thoát, chỉ cảnh báo, để giá vàng vẫn có thể chạy
+}
+if (!DOJI_API_KEY) {
+    console.error("Thiếu DOJI_API_KEY.");
+    // Không thoát, chỉ cảnh báo, để GDrive vẫn có thể chạy
 }
 
-// === ĐỊNH NGHĨA ĐƯỜNG DẪN ===
+// === ĐỊNH NGHĨA ĐƯỜNG DẪN (ĐÃ GỘP) ===
 const IMAGE_DATA_PATH = 'image_data.json';
 const HOME_DATA_PATH = 'home_data.json';
 const ACTIONS_PATH = 'actions.json';
-const CHART_PATH = 'gold_history.json';
 const LOGS_PATH = 'logs.json'; 
 const START_DATE = '2022-02-22'; 
+// Từ gold_scraper.js
+const HISTORY_FILE = 'gold_history.json';
+const LOG_STATE_FILE = 'gold_log_state.txt'; 
+const CHART_PATH = HISTORY_FILE; // (Đổi tên để buildHomeData có thể dùng)
+const TARGET_PRODUCT_NAME = "Nhẫn Tròn 9999 Hưng Thịnh Vượng";
+const MAX_HISTORY_ENTRIES = 300; 
+const API_URL = `http://giavang.doji.vn/api/giavang/?api_key=${DOJI_API_KEY}`;
 
-// === HÀM GHI LOG HỆ THỐNG (MỚI) ===
+
+// === HÀM GHI LOG HỆ THỐNG (Giữ nguyên) ===
 async function addSystemLog(action, details) {
     console.log(`Đang ghi log: ${action} - ${details}`);
     let logs = [];
     try {
-        // Đọc file logs.json hiện tại
         const logContent = await fs.readFile(LOGS_PATH, 'utf8');
         logs = JSON.parse(logContent);
         if (!Array.isArray(logs)) logs = [];
@@ -35,24 +48,17 @@ async function addSystemLog(action, details) {
         logs = [];
     }
 
-    // Tạo log mới
     const newLog = {
         timestamp: new Date().toISOString(),
-        action: action, // Ví dụ: "Hệ thống"
+        action: action,
         details: details,
-        username: "GitHub Actions", // Tên người dùng cho bot
-        saved: true // Log từ server luôn là "đã lưu"
+        username: "GitHub Actions", 
+        saved: true
     };
 
-    // Thêm log mới vào đầu mảng
     logs.unshift(newLog);
+    if (logs.length > 1000) logs = logs.slice(0, 1000);
 
-    // Giới hạn 1000 log
-    if (logs.length > 1000) {
-        logs = logs.slice(0, 1000);
-    }
-
-    // Ghi đè lại file logs.json
     try {
         await fs.writeFile(LOGS_PATH, JSON.stringify(logs, null, 2));
         console.log("✅ Ghi log hệ thống thành công.");
@@ -61,13 +67,129 @@ async function addSystemLog(action, details) {
     }
 }
 
-// === CÁC HÀM CŨ (Giữ nguyên) ===
+// === HÀM HỖ TRỢ LOG GIÁ VÀNG (Lấy từ gold_scraper.js) ===
+async function checkAndLogPrice(action, details) {
+    const todayStr = new Date().toISOString().split('T')[0]; // "2025-11-02"
+    let lastLogDate = '';
+
+    try {
+        lastLogDate = await fs.readFile(LOG_STATE_FILE, 'utf8');
+    } catch (e) {
+        console.log("Không tìm thấy file trạng thái log, sẽ tạo mới.");
+    }
+
+    if (lastLogDate !== todayStr) {
+        console.log("Ghi log giá vàng lần đầu trong ngày...");
+        await addSystemLog(action, details);
+        await fs.writeFile(LOG_STATE_FILE, todayStr); // Cập nhật file trạng thái
+    } else {
+        console.log("Đã log giá vàng hôm nay, bỏ qua ghi log.");
+    }
+}
+
+
+// === HÀM LOGIC 1: TẢI GIÁ VÀNG (Lấy từ gold_scraper.js) ===
+async function scrapeAndSaveRingPrice() {
+    if (!DOJI_API_KEY) {
+        console.warn("Bỏ qua tải giá vàng do thiếu DOJI_API_KEY.");
+        return; // Không dừng quy trình, chỉ bỏ qua
+    }
+    
+    try {
+        console.log(`Đang gọi API DOJI để lấy giá tại: ${new Date().toISOString()}`);
+
+        const response = await axios.get(API_URL);
+        const xmlData = response.data;
+        const result = await parseStringPromise(xmlData, { 
+            explicitArray: false, 
+            attrkey: "Attr" 
+        });
+        
+        const jewelryRows = result.GoldList.JewelryList.Row;
+        const ringRow = Array.isArray(jewelryRows) 
+            ? jewelryRows.find(row => row.Attr.Name === TARGET_PRODUCT_NAME) 
+            : null;
+
+        if (!ringRow || !ringRow.Attr) {
+            console.error(`Lỗi: Không tìm thấy dữ liệu cho "${TARGET_PRODUCT_NAME}".`);
+            await checkAndLogPrice("Lỗi Hệ thống", "Tải giá vàng thất bại: Không tìm thấy sản phẩm.");
+            return; // Không dừng quy trình
+        }
+
+        const newPriceEntry = {
+            timestamp: new Date().toISOString(),
+            ring_buy: ringRow.Attr.Buy.replace(/,/g, ''),
+            ring_sell: ringRow.Attr.Sell.replace(/,/g, '')
+        };
+        
+        console.log("Dữ liệu giá vàng mới thu thập:", newPriceEntry);
+        
+        let history = [];
+        try {
+            const historyContent = await fs.readFile(HISTORY_FILE, 'utf8');
+            history = JSON.parse(historyContent);
+            if (!Array.isArray(history)) history = [];
+        } catch (readError) {
+            console.log("File lịch sử giá vàng chưa tồn tại hoặc rỗng, tạo mới.");
+            history = [];
+        }
+
+        let productData = history.find(p => p.product_name === TARGET_PRODUCT_NAME);
+        if (!productData) {
+            console.log(`Tạo mục mới cho sản phẩm "${TARGET_PRODUCT_NAME}"`);
+            productData = {
+                product_name: TARGET_PRODUCT_NAME,
+                gia: []
+            };
+            history.push(productData);
+        }
+
+        const latestEntry = productData.gia[0]; 
+        let hasChanged = false;
+
+        if (!latestEntry) {
+            console.log("Thêm giá vàng đầu tiên cho sản phẩm.");
+            hasChanged = true;
+        } else if (latestEntry.ring_buy !== newPriceEntry.ring_buy || latestEntry.ring_sell !== newPriceEntry.ring_sell) {
+            console.log("Phát hiện thay đổi giá vàng. Thêm vào lịch sử.");
+            hasChanged = true;
+        } else {
+            console.log("Giá vàng không thay đổi. Bỏ qua không lưu.");
+            hasChanged = false;
+        }
+
+        if (hasChanged) {
+            productData.gia.unshift(newPriceEntry);
+            if (productData.gia.length > MAX_HISTORY_ENTRIES) {
+                productData.gia = productData.gia.slice(0, MAX_HISTORY_ENTRIES);
+            }
+            
+            await fs.writeFile(HISTORY_FILE, JSON.stringify(history, null, 2));
+            console.log(`Lưu thành công. "${TARGET_PRODUCT_NAME}" hiện có ${productData.gia.length} bản ghi giá.`);
+            
+            const logMessage = `Giá vàng thay đổi: Mua ${newPriceEntry.ring_buy}, Bán ${newPriceEntry.ring_sell}`;
+            await checkAndLogPrice("Cập nhật giá vàng", logMessage);
+        }
+
+    } catch (error) {
+        console.error("Lỗi nghiêm trọng khi lấy/xử lý dữ liệu giá vàng:", error.message);
+        await checkAndLogPrice("Lỗi Hệ thống", `Tải giá vàng thất bại: ${error.message}`);
+    }
+}
+
+
+// === HÀM LOGIC 2: ĐỒNG BỘ GDRIVE (Lấy từ build_data.js) ===
 function convertDateFormat(dateStr) {
     const parts = dateStr.split('-');
     return `${parts[2]}-${parts[1]}-${parts[0]}`;
 }
 
 async function syncGoogleDrive() {
+    if (!GDRIVE_API_KEY || !GDRIVE_FOLDER_ID) {
+        console.warn("Bỏ qua đồng bộ Google Drive do thiếu API Key hoặc Folder ID.");
+        return null; // Trả về null để buildHomeData biết
+    }
+    
     console.log("Bắt đầu đồng bộ Google Drive...");
     let allFiles = [];
     let nextPageToken = null;
@@ -107,10 +229,7 @@ async function syncGoogleDrive() {
         } while (nextPageToken);
         
         await fs.writeFile(IMAGE_DATA_PATH, JSON.stringify(allFiles, null, 2));
-        const logMessage = `Đã đồng bộ ${allFiles.length} media từ Google Drive.`;
-        console.log(`✅ ${logMessage}`);
-        
-        // <-- ĐÃ XÓA LOG GHI Ở ĐÂY --> 
+        console.log(`✅ Đã lưu ${allFiles.length} media vào image_data.json`);
         
         return allFiles;
 
@@ -121,6 +240,7 @@ async function syncGoogleDrive() {
     }
 }
 
+// === HÀM LOGIC 3: TÍNH TOÁN HOME (Lấy từ build_data.js) ===
 async function buildHomeData(mediaData) {
     console.log("Bắt đầu tính toán dữ liệu trang chủ...");
     let homeData = {};
@@ -142,7 +262,18 @@ async function buildHomeData(mediaData) {
     const startDate = new Date(START_DATE);
     homeData.daysTogether = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
     homeData.totalMemories = eventsData.length;
-    homeData.totalPhotos = mediaData.length;
+    // Nếu mediaData là null (do GDrive lỗi), thì đọc từ file cũ (nếu có)
+    if (mediaData) {
+        homeData.totalPhotos = mediaData.length;
+    } else {
+        try {
+            const oldMedia = JSON.parse(await fs.readFile(IMAGE_DATA_PATH, 'utf8'));
+            homeData.totalPhotos = oldMedia.length || 0;
+        } catch (e) {
+            homeData.totalPhotos = 0;
+        }
+    }
+
 
     // b. Tính Sự kiện sắp tới
     today.setHours(0, 0, 0, 0);
@@ -173,9 +304,8 @@ async function buildHomeData(mediaData) {
     }).sort((a, b) => new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day)));
 
     // d. Tính Giá Vàng
-    const targetProductName = "Nhẫn Tròn 9999 Hưng Thịnh Vượng";
     const productData = Array.isArray(goldData) 
-        ? goldData.find(p => p.product_name === targetProductName)
+        ? goldData.find(p => p.product_name === TARGET_PRODUCT_NAME)
         : null;
 
     if (productData && productData.gia && productData.gia.length > 0) {
@@ -185,7 +315,7 @@ async function buildHomeData(mediaData) {
             sell: parseFloat(latestData.ring_sell) || 0
         };
     } else {
-        console.warn(`Không tìm thấy dữ liệu giá cho "${targetProductName}" trong gold_history.json`);
+        console.warn(`Không tìm thấy dữ liệu giá cho "${TARGET_PRODUCT_NAME}" trong gold_history.json`);
         homeData.goldPrice = { buy: 0, sell: 0 };
     }
     
@@ -193,28 +323,31 @@ async function buildHomeData(mediaData) {
     await fs.writeFile(HOME_DATA_PATH, JSON.stringify(homeData, null, 2));
     console.log(`✅ Đã lưu dữ liệu trang chủ vào home_data.json`);
 
-    // 4. ▼▼▼ GHI LOG TỔNG HỢP (ĐÃ SỬA) ▼▼▼
-    // Tạo thông điệp log mới theo yêu cầu của bạn
+    // 4. GHI LOG TỔNG HỢP
     const finalLogMessage = `Cập nhật dữ liệu hệ thống thành công (${homeData.totalMemories} Kỷ niệm, ${homeData.totalPhotos} Media)`;
     await addSystemLog("Hệ thống", finalLogMessage);
-    // ▲▲▲ KẾT THÚC SỬA LOGIC ▲▲▲
 }
 
-// === HÀM CHẠY CHÍNH ===
+// === HÀM CHẠY CHÍNH (ĐÃ SỬA) ===
 async function main() {
-    // Bước 1: Đồng bộ Google Drive
+    
+    // Bước 1: Chạy giá vàng TRƯỚC
+    await scrapeAndSaveRingPrice();
+
+    // Bước 2: Đồng bộ Google Drive
+    // (Hàm này đã có try/catch nội bộ và sẽ trả về null nếu lỗi)
     const mediaData = await syncGoogleDrive();
     
-    // Bước 2: Tính toán dữ liệu
-    if (mediaData) {
-        await buildHomeData(mediaData);
-    } else {
-        console.error("Dừng lại do không thể đồng bộ Google Drive.");
-    }
+    // Bước 3: Tính toán dữ liệu (Luôn chạy)
+    // (buildHomeData sẽ tự xử lý nếu mediaData là null)
+    await buildHomeData(mediaData);
+
 }
 
 // Chạy hàm main
 main().catch(err => {
-    console.error(err);
-    process.exit(1);
+    console.error("Lỗi nghiêm trọng trong hàm main:", err);
+    // Vẫn cố gắng ghi log lỗi
+    addSystemLog("Lỗi Hệ thống", `Quy trình chính thất bại: ${err.message}`)
+        .finally(() => process.exit(1));
 });
