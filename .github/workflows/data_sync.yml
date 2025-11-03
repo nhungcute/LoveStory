@@ -1,22 +1,24 @@
-name: Đồng Bộ Dữ Liệu Hàng Ngày
+name: Đồng Bộ Dữ Liệu Tổng Hợp (15 phút/lần)
 
 on:
   schedule:
-    # Chạy vào 00:01 giờ Việt Nam (tức 17:01 UTC ngày hôm trước)
-    - cron: '1 17 * * *'
+    # Chạy 15 phút một lần
+    - cron: '*/15 * * * *'
   
   # Cho phép chạy thủ công từ tab Actions
   workflow_dispatch:
 
+# Đảm bảo chỉ 1 quy trình này chạy tại 1 thời điểm
+# Hủy các lần chạy cũ nếu có lần chạy mới
 concurrency:
-  group: 'data-sync-group' # <-- Tên nhóm 1
-  cancel-in-progress: false # Không bao giờ tự hủy
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 
 permissions:
   contents: write 
 
 jobs:
-  build-data:
+  build-and-sync:
     runs-on: ubuntu-latest
     steps:
       - name: 1. Checkout mã nguồn
@@ -24,38 +26,48 @@ jobs:
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
             
+      - name: 1.5. Cập nhật (Pull) thay đổi mới nhất (nếu có)
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git pull --rebase
+
       - name: 2. Cài đặt Node.js v20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: 3. Cài đặt thư viện (node-fetch)
-        run: npm install node-fetch@2
+      - name: 3. Cài đặt TẤT CẢ thư viện
+        # Cài thư viện cho cả 2 script (gold và build)
+        run: npm install axios xml2js node-fetch@2
 
-      - name: 4. Chạy kịch bản đồng bộ và tính toán
-        run: node ./scripts/build_data.js
+      - name: 4. Chạy Script Tổng Hợp (Vàng, GDrive, Home)
+        # Chỉ chạy 1 tệp JS duy nhất
+        run: node scripts/build_data.js
         env:
+          # Cung cấp TẤT CẢ các secret
+          DOJI_API_KEY: ${{ secrets.DOJI_API_KEY }}
           GDRIVE_API_KEY: ${{ secrets.GDRIVE_API_KEY }}
           GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
 
-      - name: 5. Commit và Push dữ liệu mới
+      - name: 5. Commit và Push TẤT CẢ thay đổi
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
+          # Thêm TẤT CẢ các tệp dữ liệu có thể đã bị thay đổi
+          git add gold_history.json
           git add image_data.json
           git add home_data.json
           git add logs.json
           
-          # Chỉ commit nếu có thay đổi
+          # Chỉ commit nếu có bất kỳ thay đổi nào
           if ! git diff --cached --quiet; then
             echo "Phát hiện thay đổi, đang commit..."
             
-            git commit -m "Auto Sync: Cập nhật dữ liệu media và trang chủ"
+            git commit -m "Auto Sync: Cập nhật dữ liệu hệ thống"
             
-            # Kéo các thay đổi từ xa (gold_sync) và đặt commit của chúng ta lên trên
-            git pull --rebase
-            
+            # Push các thay đổi
             git push
           else
             echo "Không có thay đổi dữ liệu."
