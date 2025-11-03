@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-03T02:28:13.674Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1762136893675",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-02T17:20:26.677Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (23 Kỷ niệm, 187 Media)",
