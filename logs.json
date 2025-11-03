@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-03T09:05:02.873Z",
+    "action": "Quản lý vàng",
+    "details": "Đã cập nhật giao dịch vàng (ID: 1762159894848)",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-03T09:04:14.440Z",
     "action": "Quản lý vàng",
     "details": "Đã cập nhật giao dịch vàng (ID: 1762160635785)",
