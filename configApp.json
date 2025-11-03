@@ -22,5 +22,6 @@
   "PHOTOS_PER_PAGE": "50",
   "ENABLE_NOTI": true,
   "CHART_FILE_PATH": "gold_history.json",
-  "HOME_DATA_FILE_PATH": "home_data.json"
+  "HOME_DATA_FILE_PATH": "home_data.json",
+  "GOLD_PORTFOLIO_FILE_PATH": "gold_portfolio.json"
 }
