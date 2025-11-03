@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-11-03T04:29:24.702Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1762144154321",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-03T04:29:24.259Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1762144154321",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-03T04:29:23.712Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Timeline\"",
+    "username": "1762144154321",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-03T04:29:22.947Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Chat AI\"",
+    "username": "1762144154321",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-03T04:29:16.431Z",
+    "action": "Cài đặt giao diện",
+    "details": "Chuyển menu sang dạng dọc",
+    "username": "1762144154321",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-03T04:29:14.320Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1762144154321",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-03T04:16:06.340Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
