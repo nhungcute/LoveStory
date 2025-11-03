@@ -57,6 +57,7 @@ jobs:
           
           # Thêm TẤT CẢ các tệp dữ liệu có thể đã bị thay đổi
           git add gold_history.json
+          git add gold_log_state.txt
           git add image_data.json
           git add home_data.json
           git add logs.json
