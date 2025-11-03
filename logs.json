@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-03T09:32:00.854Z",
+    "action": "Quản lý vàng",
+    "details": "Đã cập nhật giao dịch vàng (ID: 1762162276253)",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-03T09:32:00.854Z",
+    "action": "Quản lý vàng",
+    "details": "Đã cập nhật giao dịch vàng (ID: 1762162276253)",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-03T09:31:16.254Z",
     "action": "Quản lý vàng",
     "details": "Thêm giao dịch buy (SL: 3 chỉ)",
