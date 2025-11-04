@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-04T13:39:45.936Z",
+    "action": "Quản lý vàng",
+    "details": "Đã xóa giao dịch vàng (ID: 1762163193541)",
+    "username": "1762263578887",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-04T13:39:38.879Z",
+    "action": "Quản lý vàng",
+    "details": "Đã xóa giao dịch vàng (ID: 1762220786119)",
+    "username": "1762263578887",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-04T13:08:14.456Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
