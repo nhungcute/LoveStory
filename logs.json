@@ -1,6 +1,20 @@
 [
   {
-    "timestamp": "2025-11-04T03:03:14.454Z",
+    "timestamp": "2025-11-04T03:06:56.886Z",
+    "action": "Quản lý vàng",
+    "details": "Đã cập nhật giao dịch vàng (ID: 1762159894848)",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-04T03:06:51.286Z",
+    "action": "Quản lý vàng",
+    "details": "Đã cập nhật giao dịch vàng (ID: 1762162276253)",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-04T03:06:45.414Z",
     "action": "Quản lý vàng",
     "details": "Đã cập nhật giao dịch vàng (ID: 1762163464246)",
     "username": "1762141388701",
