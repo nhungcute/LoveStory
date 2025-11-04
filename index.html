@@ -718,20 +718,27 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         <div id="homeGoldChart" class="mb-4"></div>
 
         <div class="border-t border-custom pt-4 mb-4">
-            <h3 class="text-lg font-bold text-primary mb-4">Tài sản</h3>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
-                <div>
+            <h3 class="text-lg font-bold text-primary mb-4">Tóm Tắt Danh Mục</h3>
+            
+            <div class="grid grid-cols-2 gap-4"> 
+                
+                <div class="text-center flex flex-col justify-center">
                     <p class="text-sm text-gray-500">Số Lượng</p>
                     <p class="text-lg font-bold" id="summaryTotalHolding">0 chỉ</p>
                 </div>
-                <div>
-                    <p class="text-sm text-gray-500">Lãi/Lỗ Tạm Tính</p>
-                    <p class="text-lg font-bold" id="summaryUnrealizedPNL">0 đ</p>
+                
+                <div class="text-center">
+                    <div>
+                        <p class="text-sm text-gray-500">Lãi/Lỗ Tạm Tính</p>
+                        <p class="text-lg font-bold" id="summaryUnrealizedPNL">0 đ</p>
+                    </div>
+                    
+                    <div class="mt-2 border-t border-custom"> 
+                        <p class="text-sm text-gray-500">Lãi/Lỗ Đã Chốt</p>
+                        <p class="text-lg font-bold" id="summaryRealizedPNL">0 đ</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="text-sm text-gray-500">Lãi/Lỗ Đã Chốt</p>
-                    <p class="text-lg font-bold" id="summaryRealizedPNL">0 đ</p>
-                </div>
+                
             </div>
         </div>
 
@@ -5584,7 +5591,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                     if (tx.type === 'sell') {
                         // Nếu là Bán, hiển thị PNL
                         column4_HTML = `
-                            <div class="text-center border-l border-gray-200 pl-2">
+                            <div class="text-center border-l border-gray-200">
 								<span class="text-xs text-gray-400">PLN</span>
 								<p class="font-medium text-custom text-[0.7rem] ${tx.realizedPNL_for_this_tx >= 0 ? 'text-green-600' : 'text-red-600'}"> ${formatPNL(tx.realizedPNL_for_this_tx)} </p>
 							</div> 
@@ -5592,7 +5599,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                     } else {
                         // Nếu là Mua, hiển thị cột rỗng (dùng '-' để giữ chiều cao)
                         column4_HTML = `
-                            <div class="text-center border-l border-gray-200 pl-2">
+                            <div class="text-center border-l border-gray-200">
 								<span class="text-xs text-gray-400">-</span>
 							</div> 
                         `;
@@ -5615,12 +5622,12 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                                         <p class="font-medium text-custom text-[0.7rem]">${tx.quantity_chi} chỉ</p>
                                     </div>
                                     
-                                    <div class="text-center border-l border-gray-200 pl-2">
+                                    <div class="text-center border-l border-gray-200">
                                         <span class="text-xs text-gray-400">Giá GD</span>
                                         <p class="font-medium text-custom text-[0.7rem]">${formatCurrency(tx.price_per_chi)}</p>
                                     </div>
                                     
-                                    <div class="text-center border-l border-gray-200 pl-2">
+                                    <div class="text-center border-l border-gray-200">
                                         <span class="text-xs text-gray-400">Giá vốn</span>
                                         <p class="font-medium text-custom text-[0.7rem]">${formatCurrency(tx.avgCostAtTx)}</p>
                                     </div>
