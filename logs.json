@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-04T04:08:43.123Z",
+    "action": "Quản lý vàng",
+    "details": "Đã cập nhật giao dịch vàng (ID: 1762163464246)",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-04T03:52:55.187Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
