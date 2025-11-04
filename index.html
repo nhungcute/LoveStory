@@ -705,16 +705,50 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 				<p class="text-sm text-gray-400 mb-1">Giá bán:&nbsp&nbsp&nbsp<span class="font-bold text-yellow-600" id="goldSellPrice">N/A</span></p>
             </div>
         </div> 
-		<div id="goldChartContainer" class="love-card rounded-lg p-4 hidden mt-4"> 
-			<div class="chart-toolbar mb-4 flex justify-center gap-2">
-				<button id="btn-gold-1m" class="chart-toolbar-btn active">1M</button>
-				<button id="btn-gold-3m" class="chart-toolbar-btn">3M</button>
-				<button id="btn-gold-6m" class="chart-toolbar-btn">6M</button>
-				<button id="btn-gold-1y" class="chart-toolbar-btn">1Y</button>
-				<button id="btn-gold-3y" class="chart-toolbar-btn">3Y</button>
-			</div>
-			<div id="homeGoldChart"></div>
-		</div>
+		<div id="goldChartContainer" class="love-card rounded-lg p-4 hidden mt-4">
+        
+        <div class="chart-toolbar mb-4 flex justify-center gap-2">
+            <button id="btn-gold-1m" class="chart-toolbar-btn active">1M</button>
+            <button id="btn-gold-3m" class="chart-toolbar-btn">3M</button>
+            <button id="btn-gold-6m" class="chart-toolbar-btn">6M</button>
+            <button id="btn-gold-1y" class="chart-toolbar-btn">1Y</button>
+            <button id="btn-gold-3y" class="chart-toolbar-btn">3Y</button>
+        </div>
+        
+        <div id="homeGoldChart" class="mb-4"></div>
+
+        <div class="border-t border-custom pt-4 mb-4">
+            <h3 class="text-lg font-bold text-primary mb-4">Tài sản</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                <div>
+                    <p class="text-sm text-gray-500">Số Lượng</p>
+                    <p class="text-lg font-bold" id="summaryTotalHolding">0 chỉ</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Lãi/Lỗ Tạm Tính</p>
+                    <p class="text-lg font-bold" id="summaryUnrealizedPNL">0 đ</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Lãi/Lỗ Đã Chốt</p>
+                    <p class="text-lg font-bold" id="summaryRealizedPNL">0 đ</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-custom pt-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-primary">Lịch Sử Giao Dịch</h3>
+                <button onclick="openGoldModal()" class="love-button w-10 h-10 rounded-full flex items-center justify-center p-0" title="Thêm giao dịch mới">
+                    <i class="fas fa-plus"></i> 
+                </button>
+            </div>
+            
+            <div id="goldTransactionList" class="space-y-3 mb-4 max-h-80 overflow-y-auto">
+                <p class="text-sm text-gray-500 text-center">Chưa có giao dịch nào.</p>
+            </div>
+        </div>
+		
+    </div>
 		
      </div>
     </div>
@@ -978,7 +1012,60 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
      </div>
     </div>
    </div>
-  </div><!-- Share Modal -->
+  </div>
+  
+  <div id="goldFormModal" class="modal" style="z-index: 1250;">
+   <div class="modal-content w-full max-w-lg">
+    <div class="flex justify-between items-center mb-4">
+     <h3 id="goldModalTitle" class="text-xl font-bold text-primary"><i class="fas fa-plus mr-2"></i>Thêm Giao Dịch Mới</h3>
+     <button onclick="closeModal('goldFormModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
+    </div>
+    
+    <form id="goldForm" onsubmit="saveGoldTransaction(event)">
+     <input type="hidden" id="goldTxId">
+
+     <div class="space-y-4">
+        
+        <div class="grid grid-cols-2 gap-4">
+            <label class="block"> 
+                <span class="text-sm font-medium mb-2 block">Ngày Giao Dịch:</span> 
+                <input type="text" id="goldTxDate" required class="love-input w-full" placeholder="dd-mm-yyyy" pattern="\d{2}-\d{2}-\d{4}" maxlength="10" oninput="formatDateInput(this)"> 
+            </label>
+            <label class="block"> 
+                <span class="text-sm font-medium mb-2 block">Loại Giao Dịch:</span> 
+                <select id="goldTxType" required class="love-input w-full">
+                    <option value="buy" class="text-green-600 font-bold">Mua-M</option>
+                    <option value="sell" class="text-red-600 font-bold">Bán-B</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+             <label class="block"> 
+                <span class="text-sm font-medium mb-2 block">Số lượng (chỉ):</span> 
+                <input type="number" step="0.1" id="goldTxQuantity" required class="love-input w-full" placeholder="0.0"> 
+            </label>
+             <label class="block"> 
+                <span class="text-sm font-medium mb-2 block">Giá (VND/chỉ):</span> 
+                <input type="text" inputmode="numeric" id="goldTxPrice" required class="love-input w-full" placeholder="0" oninput="formatCurrencyInput(event)">
+            </label>
+        </div>
+
+        <label class="block"> 
+            <span class="text-sm font-medium mb-2 block">Ghi chú:</span> 
+            <textarea id="goldTxNotes" rows="2" class="love-input w-full" placeholder="Ghi chú giao dịch..."></textarea> 
+        </label>
+      
+      <div class="flex space-x-3">
+        <button type="submit" class="love-button flex-1">Lưu Giao Dịch</button> 
+        <button type="button" id="goldDeleteButton" onclick="deleteGoldTransaction()" class="love-button secondary" style="display: none; background-color: #EF4444;">Xóa</button>
+      </div>
+     </div>
+    </form>
+   </div>
+  </div>
+  
+  <!-- Share Modal -->
   <div id="shareModal" class="modal">
    <div class="modal-content w-full max-w-md">
     <div class="flex justify-between items-center mb-4">
@@ -1045,6 +1132,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 		 <option value="all">Tất cả</option> 
 		 <option value="Hệ thống">Hệ thống</option>
 		 <option value="Điều hướng">Điều hướng</option> 
+		 <option value="Quản lý vàng">Quản lý vàng</option>
 		 <option value="Thêm sự kiện mới">Thêm sự kiện</option> 
 		 <option value="Cập nhật sự kiện">Sửa sự kiện</option> 
 		 <option value="Xóa sự kiện">Xóa sự kiện</option> 
@@ -1075,6 +1163,9 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 		let allNotificationsLoaded = false;
 		let goldData = [];
 		let isVerticalMenu = false;
+		let goldPortfolioData = [];
+		let homeGoldChart = null; // Biến toàn cục để giữ biểu đồ
+        let editingGoldHoldingId = null; // Biến tạm để biết đang sửa hay thêm mới
 		
 		// 1. Kiểm tra xem có phải thiết bị di động không (dựa theo CSS media query)
         const isMobile = window.innerWidth <= 768;
@@ -1242,24 +1333,34 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             }
 			
 			async getRawFile(filePath) {
-            const branch = config.BRANCH || 'main'; // Mặc định là 'main'
-            const rawUrl = `https://raw.githubusercontent.com/${config.GITHUB_USERNAME}/${config.REPO_NAME}/${branch}/${filePath}`;
-            
-            try {
-                // Thêm ?t=... để tránh bị cache
-                const response = await fetch(`${rawUrl}?t=${new Date().getTime()}`);
-                
-                if (response.ok) {
-                    return await response.json(); // Tải và parse JSON trực tiếp
-                }
-                
-                console.error(`Lỗi tải file thô ${filePath}: ${response.statusText}`);
-                return [];
-            } catch (error) {
-                console.error(`Lỗi fetch file thô ${filePath}:`, error);
-                return [];
-            }
-        }
+				const branch = config.BRANCH || 'main';
+				const rawUrl = `https://raw.githubusercontent.com/${config.GITHUB_USERNAME}/${config.REPO_NAME}/${branch}/${filePath}`;
+				
+				try {
+					const response = await fetch(`${rawUrl}?t=${new Date().getTime()}`);
+					
+					if (response.ok) {
+						// 1. Lấy nội dung dưới dạng VĂN BẢN (text) trước
+						const text = await response.text();
+						
+						// 2. Kiểm tra xem file có rỗng không
+						if (text.trim() === "") {
+							console.warn(`File ${filePath} bị rỗng. Trả về mảng [].`);
+							return []; // Trả về mảng rỗng (hợp lệ)
+						}
+						
+						// 3. Nếu không rỗng, mới parse JSON
+						return JSON.parse(text);
+					}
+					
+					console.error(`Lỗi tải file thô ${filePath}: ${response.statusText}`);
+					return []; // Trả về mảng rỗng nếu 404
+				} catch (error) {
+					// Bắt lỗi nếu file có nội dung, nhưng JSON bị sai
+					console.error(`Lỗi fetch/parse file thô ${filePath}:`, error);
+					return [];
+				}
+			}
 		
         }
 
@@ -1410,12 +1511,13 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         async function loadSecondaryData() {
             try {
                 // --- BƯỚC 4: Tải dữ liệu PHỤ (Dùng hàm getRawFile SIÊU NHANH) ---
-                const [events, photos, comments, logs, gold] = await Promise.all([
+                const [events, photos, comments, logs, gold, portfolio] = await Promise.all([
                     githubAPI.getRawFile(config.FILE_PATH),                  
                     githubAPI.getRawFile(config.PHOTOS_METADATA_FILE_PATH),  
                     githubAPI.getRawFile(config.COMMENTS_FILE_PATH),         
                     githubAPI.getRawFile(config.LOGS_FILE_PATH),
-					githubAPI.getRawFile(config.CHART_FILE_PATH)      
+					githubAPI.getRawFile(config.CHART_FILE_PATH)     ,
+					githubAPI.getRawFile(config.GOLD_PORTFOLIO_FILE_PATH) 
                 ]);
 
                 eventsData = events || []; 
@@ -1423,6 +1525,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 commentsData = comments || [];
                 logsData = logs || [];
 				goldData = gold || [];
+				goldPortfolioData = portfolio || [];
                 
                 return true;
             } catch (error) {
@@ -3982,7 +4085,8 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 'Tải ảnh': 'fas fa-download',
                 'Chọn ảnh': 'fas fa-check-square',
                 'Chat AI': 'fas fa-robot',
-                'Xuất nhật ký': 'fas fa-file-export'
+                'Xuất nhật ký': 'fas fa-file-export',
+				'Quản lý vàng': 'fas fa-wallet',
             };
             return icons[action] || 'fas fa-info-circle';
         }
@@ -4964,9 +5068,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         });
 		
 		// === LOGIC BIỂU ĐỒ VÀNG TRANG CHỦ ===
-
-        let homeGoldChart = null; // Biến toàn cục để giữ biểu đồ
-
+  
         /**
          * Xử lý dữ liệu thô từ gold_history.json
          */
@@ -5108,6 +5210,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 const buttons = document.querySelectorAll('.chart-toolbar-btn');
                 buttons.forEach(btn => {
                     btn.addEventListener('click', () => {
+						e.stopPropagation();
                         // Bỏ active tất cả
                         buttons.forEach(b => b.classList.remove('active'));
                         // Active nút được chọn
@@ -5139,6 +5242,551 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             if (!isHidden) {
                 // Nếu vừa hiện lên, gọi hàm khởi tạo (chỉ chạy 1 lần)
                 initHomeGoldChart();
+            }
+        }
+		
+		function formatNumberForInput(value) {
+            if (value == null || value === 0) return '0';
+            
+            // Chuyển số 7000000 thành chuỗi "7000000"
+            const numericValue = String(value); 
+            
+            // Thêm dấu phẩy (ví dụ: "7,000,000")
+            return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+		
+		function formatCurrencyInput(event) {
+            const input = event.target;
+            let value = input.value;
+            let cursorPosition = input.selectionStart;
+
+            // 1. Chỉ giữ lại số
+            let numericValue = value.replace(/\D/g, '');
+            if (numericValue === "") {
+                input.value = "";
+                return;
+            }
+
+            // 2. Lưu độ dài cũ trước khi format
+            let oldLength = input.value.length;
+            let oldCommas = (value.match(/,/g) || []).length;
+
+            // 3. Định dạng lại bằng Regex (thêm dấu phẩy)
+            let formattedValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            
+            // 4. Cập nhật giá trị
+            input.value = formattedValue;
+            
+            // 5. Cập nhật vị trí con trỏ
+            let newLength = formattedValue.length;
+            let newCommas = (formattedValue.match(/,/g) || []).length;
+            
+            // Tính toán vị trí con trỏ mới
+            let newCursorPosition = cursorPosition + (newLength - oldLength);
+            
+            // Điều chỉnh nếu một dấu phẩy đã bị thêm/xóa ngay trước con trỏ
+            if (newCommas > oldCommas && newCursorPosition === cursorPosition + 1 && formattedValue[newCursorPosition-1] === ',') {
+                 newCursorPosition++;
+            }
+            if (newCommas < oldCommas && originalValue[cursorPosition-1] === ',') {
+                 newCursorPosition--;
+            }
+
+            input.setSelectionRange(newCursorPosition, newCursorPosition);
+        }
+		
+		/**
+         * Định dạng số tiền (ví dụ: 7,000,000 đ)
+         */
+        function formatCurrency(value) {
+            if (isNaN(value)) value = 0;
+            return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+        
+        /**
+         * Định dạng Lãi/Lỗ với màu sắc
+         */
+        function formatPNL(value) {
+            if (isNaN(value)) value = 0;
+            const formatted = formatCurrency(value);
+            if (value > 0) return `<span class="text-green-600 font-bold">+${formatted}</span>`;
+            if (value < 0) return `<span class="text-red-500 font-bold">${formatted}</span>`;
+            return `<span>${formatted}</span>`;
+        }
+
+        /**
+         * Lấy giá thị trường (giá MUA của tiệm) từ homeData
+         */
+        function getLiveMarketPrice() {
+            const price = homeData.goldPrice;
+            // Chúng ta dùng giá MUA (giá tiệm mua vào, là giá chúng ta bán ra)
+            if (price && price.buy > 0) { 
+                return price.buy;
+            }
+            return 0; // Trả về 0 nếu không lấy được giá
+        }
+        
+        let editingGoldTxId = null; // Biến tạm để biết đang sửa hay thêm mới
+
+        /**
+         * Định dạng số tiền (ví dụ: 7,000,000 đ)
+         */
+        function formatCurrency(value) {
+            // Sửa lỗi: Kiểm tra (value == null) để bắt cả null và undefined
+            if (value == null || isNaN(value)) {
+                value = 0;
+            }
+            return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+        
+        /**
+         * Định dạng Lãi/Lỗ với màu sắc
+         */
+        function formatPNL(value) {
+            if (isNaN(value)) value = 0;
+            const formatted = formatCurrency(value);
+            if (value > 0) return `<span class="text-green-600 font-bold">+${formatted}</span>`;
+            if (value < 0) return `<span class="text-red-500 font-bold">${formatted}</span>`;
+            return `<span>${formatted}</span>`;
+        }
+
+        /**
+         * Lấy giá thị trường (giá MUA của tiệm) từ homeData
+         */
+        function getLiveMarketPrice() {
+            const price = homeData.goldPrice;
+            // Dùng giá MUA (giá tiệm mua vào, là giá chúng ta bán ra)
+            if (price && price.buy > 0) { 
+                return price.buy;
+            }
+            return 0; // Trả về 0 nếu không lấy được giá
+        }
+        
+        /**
+         * Mở Modal, hoặc là để thêm mới (không có id) hoặc sửa (có id)
+         */
+        function openGoldModal(id = null) {
+            const form = document.getElementById('goldForm');
+            const modalTitle = document.getElementById('goldModalTitle');
+            const deleteButton = document.getElementById('goldDeleteButton');
+            
+            form.reset(); // Xóa sạch form
+            
+            if (id) {
+                // --- Chế độ SỬA ---
+                editingGoldTxId = id; // Đã sửa
+                const tx = goldPortfolioData.find(h => h.id === id);
+                if (!tx) return;
+                
+                modalTitle.innerHTML = '<i class="fas fa-edit mr-2"></i>Sửa Giao Dịch';
+                deleteButton.style.display = 'block';
+                
+                document.getElementById('goldTxId').value = tx.id; // Đã sửa
+                document.getElementById('goldTxDate').value = tx.date;
+                document.getElementById('goldTxType').value = tx.type;
+                
+                document.getElementById('goldTxQuantity').value = tx.quantity_chi;
+                document.getElementById('goldTxPrice').value = formatNumberForInput(tx.price_per_chi);
+                document.getElementById('goldTxNotes').value = tx.notes || '';
+                
+            } else {
+                // --- Chế độ THÊM MỚI ---
+                editingGoldTxId = null; // Đã sửa
+                document.getElementById('goldTxId').value = ''; // Đã sửa
+                
+                modalTitle.innerHTML = '<i class="fas fa-plus mr-2"></i>Thêm Giao Dịch Mới';
+                deleteButton.style.display = 'none';
+                
+                const today = new Date();
+                const todayFormatted = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
+                document.getElementById('goldTxDate').value = todayFormatted;
+
+                document.getElementById('goldTxQuantity').value = '0';
+                document.getElementById('goldTxPrice').value = '0';
+            }
+            
+            openModal('goldFormModal');
+        }
+
+        /**
+         * Lưu Giao Dịch (Hàm mới)
+         */
+        async function saveGoldTransaction(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('goldTxId').value; // Đã sửa
+            
+            const qtyString = (document.getElementById('goldTxQuantity').value || '0').replace(/,/g, '');
+            const priceString = (document.getElementById('goldTxPrice').value || '0').replace(/,/g, '');
+            
+            const txData = {
+                date: document.getElementById('goldTxDate').value,
+                type: document.getElementById('goldTxType').value,
+                quantity_chi: parseFloat(qtyString),
+                price_per_chi: parseFloat(priceString),
+                notes: document.getElementById('goldTxNotes').value
+            };
+
+            if (txData.quantity_chi <= 0 || txData.price_per_chi <= 0) {
+                showNotification('Số lượng và giá phải lớn hơn 0.', 'error');
+                return;
+            }
+
+            let logMessage = '';
+            
+            if (id) {
+                // Cập nhật
+                const index = goldPortfolioData.findIndex(h => h.id === id);
+                if (index > -1) {
+                    goldPortfolioData[index] = { ...goldPortfolioData[index], ...txData };
+                    logMessage = `Đã cập nhật giao dịch vàng (ID: ${id})`;
+                }
+            } else {
+                // Thêm mới
+                txData.id = Date.now().toString();
+                goldPortfolioData.push(txData);
+                logMessage = `Thêm giao dịch ${txData.type} (SL: ${txData.quantity_chi} chỉ)`;
+            }
+
+            loadGoldPortfolio();
+            showNotification('Đã lưu giao dịch!', 'success');
+            addLog('Quản lý vàng', logMessage);
+            closeModal('goldFormModal');
+
+            (async () => {
+                try {
+                    const success = await githubAPI.updateFile(config.GOLD_PORTFOLIO_FILE_PATH, goldPortfolioData, logMessage);
+                    if (!success) throw new Error('API Update Failed');
+                } catch (error) {
+                    showNotification('Lỗi đồng bộ danh mục vàng!', 'error');
+                }
+            })();
+        }
+        
+        /**
+         * Xóa Giao Dịch (Hàm mới)
+         */
+        async function deleteGoldTransaction() {
+            if (!editingGoldTxId) return; // Đã sửa
+            
+            const confirmDelete = await showCustomConfirm("Bạn có chắc chắn muốn xóa vĩnh viễn giao dịch này?");
+            if (!confirmDelete) return;
+
+            const index = goldPortfolioData.findIndex(h => h.id === editingGoldTxId); // Đã sửa
+            if (index > -1) {
+                const tx = goldPortfolioData[index];
+                goldPortfolioData.splice(index, 1);
+                
+                const logMessage = `Đã xóa giao dịch vàng (ID: ${tx.id})`;
+
+                loadGoldPortfolio();
+                showNotification('Đã xóa giao dịch!', 'info');
+                addLog('Quản lý vàng', logMessage);
+                closeModal('goldFormModal');
+
+                (async () => {
+                    try {
+                        await githubAPI.updateFile(config.GOLD_PORTFOLIO_FILE_PATH, goldPortfolioData, logMessage);
+                    } catch (error) {
+                        showNotification('Lỗi đồng bộ!', 'error');
+                    }
+                })();
+            }
+        } 
+		
+		function loadGoldPortfolio() {
+			const listEl = document.getElementById('goldTransactionList');
+			listEl.innerHTML = '';
+
+			// --- Sắp xếp lại theo ngày ---
+			const transactions = [...goldPortfolioData].sort((a, b) => {
+				const [dA, mA, yA] = a.date.split('-').map(Number);
+				const [dB, mB, yB] = b.date.split('-').map(Number);
+				return new Date(yA, mA - 1, dA) - new Date(yB, mB - 1, dB);
+			});
+
+			let totalHolding = 0;        // Số lượng hiện có
+			let avgCost = 0;             // Giá vốn bình quân hiện tại
+			let totalRealizedPNL = 0;    // Tổng lãi/lỗ đã chốt
+			let totalCostBasis = 0;      // Tổng giá trị vốn
+
+			const enrichedTransactions = [];
+
+			// --- PASS 1: Tính toán P&L và giá vốn động (Logic này của bạn đã đúng) ---
+			// Chúng ta tính toán P&L dựa trên giá vốn bình quân động tại thời điểm bán.
+			for (let i = 0; i < transactions.length; i++) {
+				const tx = {
+					...transactions[i],
+					quantity_chi: Number(transactions[i].quantity_chi),
+					price_per_chi: Number(transactions[i].price_per_chi)
+				};
+				let realizedPNL = 0;
+
+				if (tx.type === 'buy') {
+					// Tính bình quân gia quyền động
+					const newTotalValue = (totalHolding * avgCost) + (tx.quantity_chi * tx.price_per_chi);
+					const newTotalQty = totalHolding + tx.quantity_chi;
+					
+					avgCost = (newTotalQty > 0) ? (newTotalValue / newTotalQty) : 0;
+					totalHolding = newTotalQty;
+					
+					totalCostBasis = avgCost * totalHolding;
+				} 
+				else if (tx.type === 'sell') {
+					// Tính lãi/lỗ theo giá vốn bình quân (avgCost) hiện tại
+					realizedPNL = (tx.price_per_chi - avgCost) * tx.quantity_chi;
+					totalRealizedPNL += realizedPNL;
+
+					// Giảm SL và vốn (avgCost không đổi khi bán)
+					totalHolding -= tx.quantity_chi;
+					totalCostBasis = avgCost * totalHolding;
+				}
+
+				enrichedTransactions.push({
+					...tx,
+					avgCostAtTx: avgCost, // Lưu lại giá vốn "động" tại thời điểm này
+					realizedPNL_for_this_tx: realizedPNL
+				});
+			}
+
+			// --- PASS 2: Cập nhật giá vốn "hiển thị" (Theo logic của ảnh chụp màn hình) ---
+			// Chúng ta lặp ngược lại danh sách để gán giá vốn "chuẩn" của mỗi "lô"
+			// cho tất cả các giao dịch thuộc lô đó.
+			let currentBlockAvgCost = 0;
+			if (enrichedTransactions.length > 0) {
+				// Giá vốn "chuẩn" của lô cuối cùng là giá vốn của giao dịch cuối cùng
+				currentBlockAvgCost = enrichedTransactions[enrichedTransactions.length - 1].avgCostAtTx;
+			}
+
+			for (let i = enrichedTransactions.length - 1; i >= 0; i--) {
+				const tx = enrichedTransactions[i];
+				
+				// Giao dịch "Bán" (Sell) là ranh giới của một lô.
+				// Giá vốn (từ Pass 1) của chính giao dịch Bán này là
+				// giá vốn "chuẩn" cho toàn bộ lô TRƯỚC nó.
+				if (tx.type === 'sell') {
+					// Cập nhật giá trị "chuẩn" cho lô tiếp theo (cũ hơn)
+					currentBlockAvgCost = tx.avgCostAtTx;
+				}
+				
+				// Gán giá vốn "chuẩn" của lô hiện tại cho giao dịch này để hiển thị
+				tx.avgCostAtTx = currentBlockAvgCost;
+			}
+
+
+			// --- Hiển thị kết quả ---
+			enrichedTransactions.forEach(tx => {
+				const titleClass = (tx.type === 'buy') ? 'text-green-600' : 'text-red-500';
+				const titleIcon = (tx.type === 'buy') ? 'fa-plus-circle' : 'fa-minus-circle';
+				const titleText = (tx.type === 'buy') ? 'Mua' : 'Bán';
+
+				// Hiển thị P&L chỉ cho giao dịch bán
+				const pnlDisplay = (tx.type === 'sell' && tx.realizedPNL_for_this_tx !== 0)
+					? `<span>${formatPNL(tx.realizedPNL_for_this_tx)}</span>`
+					: '<span></span>'; // Giữ chỗ để layout không bị vỡ
+
+				listEl.innerHTML += `
+					<div class="love-card rounded-lg p-3 cursor-pointer hover:bg-gray-50 mb-2 shadow-sm border border-gray-100" onclick="openGoldModal('${tx.id}')">
+						<div class="flex justify-between items-start text-sm mb-2">
+							<p class="font-bold ${titleClass}">
+								<i class="fas ${titleIcon} mr-1"></i> ${titleText}
+							</p>
+							<span class="text-xs text-gray-400">${tx.date}</span>
+						</div>
+						<div class="grid grid-cols-4 mt-1 pt-2 border-t border-gray-100">
+                                    <div class="text-left">
+                                        <span class="text-xs text-gray-400">Số lượng</span>
+                                        <p class="font-medium text-custom text-[0.85rem]">${tx.quantity_chi} chỉ</p>
+                                    </div>
+                                    
+                                    <div class="text-left border-l border-gray-200 pl-2">
+                                        <span class="text-xs text-gray-400">Giá GD</span>
+                                        <p class="font-medium text-custom text-[0.85rem]">${formatCurrency(tx.price_per_chi)}</p>
+                                    </div>
+                                    
+                                    <div class="text-left border-l border-gray-200 pl-2">
+                                        <span class="text-xs text-gray-400">Giá vốn</span>
+                                        <p class="font-medium text-custom text-[0.85rem]">${formatCurrency(tx.avgCostAtTx)}</p>
+                                    </div>
+									
+									<div class="text-left border-l border-gray-200 pl-2">
+                                        <span class="text-xs text-gray-400">PLN</span>
+                                        <p class="font-medium text-custom text-[0.85rem] ${tx.realizedPNL_for_this_tx >= 0 ? 'text-green-600' : 'text-red-600'}"> ${pnlDisplay} </p>
+                                    </div> 
+									
+                                </div>
+					</div>
+				`;
+			});
+
+			// --- Cập nhật tổng kết ---
+			// Các giá trị này (từ Pass 1) vẫn chính xác
+			const avgCostFinal = totalHolding > 0 ? avgCost : 0;
+			const liveMarketPrice = getLiveMarketPrice(); // Giả sử bạn có hàm này
+			const marketValue = totalHolding * liveMarketPrice;
+			
+			// Tính lại Unrealized PNL dựa trên avgCostFinal (là avgCost của lô cuối cùng)
+			const unrealizedPNL = (liveMarketPrice > 0 && totalHolding > 0)
+				? (marketValue - (totalHolding * avgCostFinal)) // (Giá TT * SL) - (Giá vốn TB * SL)
+				: 0;
+
+			document.getElementById('summaryTotalHolding').textContent = `${totalHolding.toFixed(1)} chỉ`;
+			//document.getElementById('summaryAvgCost').textContent = formatCurrency(avgCostFinal);
+			document.getElementById('summaryUnrealizedPNL').innerHTML = formatPNL(unrealizedPNL);
+			document.getElementById('summaryRealizedPNL').innerHTML = formatPNL(totalRealizedPNL);
+		}
+
+		/**
+		 * Giả định các hàm hỗ trợ này đã tồn tại
+		 */
+		function formatCurrency(num) {
+			if (typeof num !== 'number') return '0';
+			return num.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }).replace(' ₫', '');
+		}
+
+		function formatPNL(pnl) {
+			if (typeof pnl !== 'number' || pnl === 0) {
+				return '<span class="text-gray-500">0</span>';
+			}
+			const formatted = formatCurrency(Math.abs(pnl));
+			if (pnl > 0) {
+				return `<span class="text-green-600">+${formatted}</span>`;
+			} else {
+				return `<span class="text-red-600">-${formatted}</span>`;
+			}
+		} 
+
+
+
+
+        /**
+         * Xử lý dữ liệu thô từ gold_history.json
+         */
+        function processGoldDataForLineChart(rawData) {
+            const productName = "Nhẫn Tròn 9999 Hưng Thịnh Vượng";
+            // Sửa lỗi: rawData (từ goldData) là một mảng
+            const product = Array.isArray(rawData) ? rawData.find(p => p.product_name === productName) : null;
+            
+            if (!product || !product.gia || product.gia.length === 0) {
+                console.warn("Không tìm thấy dữ liệu giá vàng để vẽ biểu đồ.");
+                return { buySeries: [], sellSeries: [] };
+            }
+
+            // 1. Nhóm giá cuối cùng của mỗi ngày
+            const prices = product.gia;
+            const dailyMap = new Map();
+            
+            // Sắp xếp giá từ CŨ -> MỚI (vì file gốc là MỚI -> CŨ)
+            const sortedPrices = [...prices].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+            for (const entry of sortedPrices) {
+                const date = new Date(entry.timestamp);
+                const dayString = date.toISOString().split('T')[0];
+                dailyMap.set(dayString, {
+                    buy: parseFloat(entry.ring_buy),
+                    sell: parseFloat(entry.ring_sell)
+                });
+            }
+
+            if (dailyMap.size === 0) return { buySeries: [], sellSeries: [] };
+
+            // 2. Điền các ngày bị thiếu
+            const filledBuySeries = [];
+            const filledSellSeries = [];
+            
+            const firstDate = new Date(dailyMap.keys().next().value);
+            const today = new Date();
+            let currentDate = new Date(firstDate);
+            let lastBuy = null;
+            let lastSell = null;
+
+            while (currentDate <= today) {
+                const dayString = currentDate.toISOString().split('T')[0];
+                const entry = dailyMap.get(dayString);
+
+                if (entry) {
+                    lastBuy = entry.buy;
+                    lastSell = entry.sell;
+                }
+                
+                if (lastBuy !== null) {
+                    filledBuySeries.push([currentDate.getTime(), lastBuy]);
+                    filledSellSeries.push([currentDate.getTime(), lastSell]);
+                }
+                
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            return { buySeries: filledBuySeries, sellSeries: filledSellSeries };
+        }
+
+        /**
+         * Khởi tạo biểu đồ (chỉ chạy 1 lần)
+         */
+        function initHomeGoldChart() {
+            if (homeGoldChart || goldData.length === 0) {
+                return;
+            }
+            console.log("Đang khởi tạo biểu đồ giá vàng...");
+            
+            const { buySeries, sellSeries } = processGoldDataForLineChart(goldData);
+
+            if (buySeries.length === 0) {
+                document.getElementById('homeGoldChart').innerHTML = "<p class='text-center text-gray-500'>Không đủ dữ liệu để vẽ biểu đồ.</p>";
+                return;
+            }
+
+            const options = {
+                series: [
+                    { name: 'Giá Mua', data: buySeries, color: '#00B746' },
+                    { name: 'Giá Bán', data: sellSeries, color: '#EF403C' }
+                ],
+                chart: { type: 'line', height: 250, zoom: { enabled: true }, toolbar: { show: false } },
+                xaxis: { type: 'datetime', labels: { datetimeUTC: false, format: 'dd/MM' } },
+                yaxis: { labels: { formatter: (val) => val.toLocaleString('vi-VN') } },
+                tooltip: { x: { format: 'dd/MM/yyyy' } },
+                stroke: { width: 2 }
+            };
+
+            homeGoldChart = new ApexCharts(document.querySelector("#homeGoldChart"), options);
+            homeGoldChart.render();
+
+            function setupToolbarEvents() {
+                const today = new Date().getTime();
+                function zoomChart(days) {
+                    const startDate = new Date().setDate(new Date().getDate() - days);
+                    homeGoldChart.zoomX(startDate, today);
+                }
+                const buttons = document.querySelectorAll('.chart-toolbar-btn');
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Ngăn click vào nút làm ẩn/hiện
+                        buttons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        const id = btn.id;
+                        if (id === 'btn-gold-1m') zoomChart(31);
+                        if (id === 'btn-gold-3m') zoomChart(90);
+                        if (id === 'btn-gold-6m') zoomChart(180);
+                        if (id === 'btn-gold-1y') zoomChart(365);
+                        if (id === 'btn-gold-3y') zoomChart(365 * 3);
+                    });
+                });
+                zoomChart(31);
+            }
+            setupToolbarEvents();
+        }
+
+        /**
+         * Ẩn/hiện khối biểu đồ VÀ TẢI DANH MỤC
+         */
+        function toggleGoldChart() {
+            const container = document.getElementById('goldChartContainer');
+            const isHidden = container.classList.toggle('hidden');
+
+            if (!isHidden) {
+                // Nếu vừa hiện lên:
+                initHomeGoldChart(); // 1. Khởi tạo biểu đồ (nếu chưa)
+                loadGoldPortfolio(); // 2. Tải danh mục giao dịch
             }
         }
 		
