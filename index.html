@@ -5579,11 +5579,27 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 				const titleClass = (tx.type === 'buy') ? 'text-green-600' : 'text-red-500';
 				const titleIcon = (tx.type === 'buy') ? 'fa-plus-circle' : 'fa-minus-circle';
 				const titleText = (tx.type === 'buy') ? 'Mua' : 'Bán';
-
+				
+				let column4_HTML = '';
+                    if (tx.type === 'sell') {
+                        // Nếu là Bán, hiển thị PNL
+                        column4_HTML = `
+                            <div class="text-center border-l border-gray-200 pl-2">
+								<span class="text-xs text-gray-400">PLN</span>
+								<p class="font-medium text-custom text-[0.7rem] ${tx.realizedPNL_for_this_tx >= 0 ? 'text-green-600' : 'text-red-600'}"> ${formatPNL(tx.realizedPNL_for_this_tx)} </p>
+							</div> 
+                        `;
+                    } else {
+                        // Nếu là Mua, hiển thị cột rỗng (dùng '-' để giữ chiều cao)
+                        column4_HTML = `
+                            <div class="text-center border-l border-gray-200 pl-2">
+								<span class="text-xs text-gray-400">-</span>
+							</div> 
+                        `;
+                    }
+					
 				// Hiển thị P&L chỉ cho giao dịch bán
-				const pnlDisplay = (tx.type === 'sell' && tx.realizedPNL_for_this_tx !== 0)
-					? `<span>${formatPNL(tx.realizedPNL_for_this_tx)}</span>`
-					: '<span></span>'; // Giữ chỗ để layout không bị vỡ
+				const pnlDisplay = (tx.type === 'sell' && tx.realizedPNL_for_this_tx !== 0) ? `<span>${formatPNL(tx.realizedPNL_for_this_tx)}</span>` : '<span></span>'; // Giữ chỗ để layout không bị vỡ
 
 				listEl.innerHTML += `
 					<div class="love-card rounded-lg p-3 cursor-pointer hover:bg-gray-50 mb-2 shadow-sm border border-gray-100" onclick="openGoldModal('${tx.id}')">
@@ -5594,25 +5610,22 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 							<span class="text-xs text-gray-400">${tx.date}</span>
 						</div>
 						<div class="grid grid-cols-4 mt-1 pt-2 border-t border-gray-100">
-                                    <div class="text-left">
+                                    <div class="text-center">
                                         <span class="text-xs text-gray-400">Số lượng</span>
-                                        <p class="font-medium text-custom text-[0.85rem]">${tx.quantity_chi} chỉ</p>
+                                        <p class="font-medium text-custom text-[0.7rem]">${tx.quantity_chi} chỉ</p>
                                     </div>
                                     
-                                    <div class="text-left border-l border-gray-200 pl-2">
+                                    <div class="text-center border-l border-gray-200 pl-2">
                                         <span class="text-xs text-gray-400">Giá GD</span>
-                                        <p class="font-medium text-custom text-[0.85rem]">${formatCurrency(tx.price_per_chi)}</p>
+                                        <p class="font-medium text-custom text-[0.7rem]">${formatCurrency(tx.price_per_chi)}</p>
                                     </div>
                                     
-                                    <div class="text-left border-l border-gray-200 pl-2">
+                                    <div class="text-center border-l border-gray-200 pl-2">
                                         <span class="text-xs text-gray-400">Giá vốn</span>
-                                        <p class="font-medium text-custom text-[0.85rem]">${formatCurrency(tx.avgCostAtTx)}</p>
+                                        <p class="font-medium text-custom text-[0.7rem]">${formatCurrency(tx.avgCostAtTx)}</p>
                                     </div>
 									
-									<div class="text-left border-l border-gray-200 pl-2">
-                                        <span class="text-xs text-gray-400">PLN</span>
-                                        <p class="font-medium text-custom text-[0.85rem] ${tx.realizedPNL_for_this_tx >= 0 ? 'text-green-600' : 'text-red-600'}"> ${pnlDisplay} </p>
-                                    </div> 
+									${column4_HTML} 
 									
                                 </div>
 					</div>
@@ -5623,7 +5636,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 			// Các giá trị này (từ Pass 1) vẫn chính xác
 			const avgCostFinal = totalHolding > 0 ? avgCost : 0;
 			const liveMarketPrice = getLiveMarketPrice(); // Giả sử bạn có hàm này
-			const marketValue = totalHolding * liveMarketPrice;
+			const marketValue = totalHolding * liveMarketPrice*1000;
 			
 			// Tính lại Unrealized PNL dựa trên avgCostFinal (là avgCost của lô cuối cùng)
 			const unrealizedPNL = (liveMarketPrice > 0 && totalHolding > 0)
