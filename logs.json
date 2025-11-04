@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-04T20:55:44.124Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762289744126",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-04T20:49:58.065Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
