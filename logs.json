@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-04T04:40:18.715Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-04T04:40:15.292Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1762141388701",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-04T04:35:16.513Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
