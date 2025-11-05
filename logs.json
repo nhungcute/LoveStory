@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-05T12:38:53.467Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T12:38:52.170Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc - Day 1\"",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T12:38:52.170Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T12:38:40.159Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
