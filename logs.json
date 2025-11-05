@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-05T03:11:08.702Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:11:01.247Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã lọc 0 loại",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:11:00.357Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã xóa bộ lọc",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:10:58.860Z",
     "action": "Mở modal",
     "details": "Mở bộ lọc sự kiện",
