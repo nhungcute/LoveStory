@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-05T08:21:00.244Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T08:20:52.517Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
