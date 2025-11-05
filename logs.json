@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-05T01:34:29.787Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T01:34:19.555Z",
     "action": "Bình luận ảnh",
     "details": "Đã bình luận vào ảnh \"DSC00751.JPG\"",
