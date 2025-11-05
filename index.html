@@ -2668,7 +2668,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         }
 
         /**
-         * Hàm trợ giúp mới: Tách logic render 1 sự kiện ra (Đã cập nhật layout)
+         * Hàm trợ giúp mới: Tách logic render 1 sự kiện ra (Đã cập nhật ô "+")
          */
         function renderEventHTML(event, zIndex = 1) {
             let imagesHTML = '';
@@ -2685,17 +2685,24 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                                        onclick="viewMediaWithDetails('${photo.id}', '${photo.name}', '${photo.fileType}')"
                                        onerror="this.src=imageErrorPlaceholder; this.style.display='none';">`;
                         }).join('')}
-                        ${event.image.length > 3 ? `<div class="w-16 h-16 rounded bg-gray-200 flex items-center justify-center text-sm font-medium">+${event.image.length - 3}</div>` : ''}
-                    </div>
+                        
+                        ${event.image.length > 3 ? 
+                            `<div class="w-16 h-16 rounded bg-gray-200 flex items-center justify-center text-sm font-medium cursor-pointer hover:bg-gray-300" 
+                                  onclick="viewEventPhotos('${event.note_id}')"
+                                  title="Xem tất cả ${event.image.length} ảnh">
+                                +${event.image.length - 3}
+                             </div>` 
+                           : ''}
+                        </div>
                 `;
             }
             
             const safeName = escapeHtml(event.name || '');
             const safeDescription = escapeHtml(event.contdetl || 'Không có mô tả');
              
-            // Thêm class text-xs, text-gray-400 và căn lề trái (ml-2)
+            // Style và vị trí của Category
             const categoryHTML = event.category 
-                ? `<span class="text-xs text-gray-400 ml-2 flex-shrink-0">${escapeHtml(event.category)}</span>` 
+                ? `<span class="text-xs text-gray-400 mr-2">${escapeHtml(event.category)}</span>` 
                 : '';
              
             return `
@@ -2704,29 +2711,31 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                         <div class="flex justify-between items-start mb-2">
                             
                             <div class="flex-1 min-w-0"> 
-                                
                                 <div class="flex justify-between items-baseline">
                                     <h3 class="text-base font-bold text-primary mb-0.5 truncate" style="font-size: 0.9em;">${safeName}</h3>
-                                    ${categoryHTML} </div>
+                                </div>
                                 <p class="text-secondary font-medium" style="font-size: 0.9em;">${formatDateToDDMMYYYY(event.day)}</p>
                             </div>
                             
-                            <div class="relative ml-4 flex-shrink-0"> 
-                                <button class="text-custom hover:text-primary transition-colors duration-200 p-2 rounded-full hover:bg-gray-100" onclick="toggleEventMenu('${event.note_id}')">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <div id="menu-${event.note_id}" class="hidden absolute right-0 top-full mt-1 bg-accent border border-custom rounded-lg shadow-lg z-50 min-w-[150px]">
-                                    <button class="w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-50" onclick="editEvent('${event.note_id}'); hideEventMenu('${event.note_id}')">
-                                        <i class="fas fa-edit mr-2"></i>Chỉnh sửa
+                            <div class="relative ml-4 flex-shrink-0 flex items-center">
+                                ${categoryHTML} <div class="relative">
+                                    <button class="text-custom hover:text-primary transition-colors duration-200 p-2 rounded-full hover:bg-gray-100" onclick="toggleEventMenu('${event.note_id}')">
+                                        <i class="fas fa-ellipsis-v"></i>
                                     </button>
-                                    <button class="w-full text-left px-4 py-2 text-green-600 hover:bg-green-50" onclick="viewEventPhotos('${event.note_id}'); hideEventMenu('${event.note_id}')">
-                                        <i class="fas fa-images mr-2"></i>Xem ảnh
-                                    </button>
-                                    <button class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 border-t border-custom" onclick="deleteEvent('${event.note_id}'); hideEventMenu('${event.note_id}')">
-                                        <i class="fas fa-trash mr-2"></i>Xóa
-                                    </button>
+                                    <div id="menu-${event.note_id}" class="hidden absolute right-0 top-full mt-1 bg-accent border border-custom rounded-lg shadow-lg z-50 min-w-[150px]">
+                                        <button class="w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-50" onclick="editEvent('${event.note_id}'); hideEventMenu('${event.note_id}')">
+                                            <i class="fas fa-edit mr-2"></i>Chỉnh sửa
+                                        </button>
+                                        <button class="w-full text-left px-4 py-2 text-green-600 hover:bg-green-50" onclick="viewEventPhotos('${event.note_id}'); hideEventMenu('${event.note_id}')">
+                                            <i class="fas fa-images mr-2"></i>Xem ảnh
+                                        </button>
+                                        <button class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 border-t border-custom" onclick="deleteEvent('${event.note_id}'); hideEventMenu('${event.note_id}')">
+                                            <i class="fas fa-trash mr-2"></i>Xóa
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                            
                         </div>
                         <p class="text-gray-700 whitespace-pre-wrap" style="font-size: 0.9em; line-height: 1.4;">${safeDescription}</p>
                         ${imagesHTML} 
@@ -2734,6 +2743,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 </div>
             `;
         }
+		
         /**
          * Bật/Tắt chế độ xem Nhóm (Khoảnh khắc)
          */
