@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-11-05T03:01:58.574Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã xóa bộ lọc",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:01:56.412Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:01:49.636Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã lọc 2 loại",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:01:47.180Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:01:45.613Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã lọc 1 loại",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:01:41.564Z",
     "action": "Mở modal",
     "details": "Mở bộ lọc sự kiện",
