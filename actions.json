@@ -3,7 +3,8 @@
     "note_id": "key8",
     "name": "Sinh nhậ­t vợ tui",
     "day": "04-12-1999",
-    "contdetl": "Sinh nhậ­t vợ tui <3"
+    "contdetl": "Sinh nhậ­t vợ tui <3",
+    "category": "Gia đình"
   },
   {
     "note_id": "key1",
@@ -12,7 +13,8 @@
     "contdetl": "First day of love.",
     "image": [
       "IMG_0632.JPEG"
-    ]
+    ],
+    "category": "Gia đình"
   },
   {
     "note_id": "key2",
@@ -20,7 +22,8 @@
     "name": "Gặp nhà gái",
     "contdetl": "Gặp nhà gái",
     "colorClass": "bg-yellow-500",
-    "image": []
+    "image": [],
+    "category": "Đám cưới"
   },
   {
     "note_id": "key3",
@@ -28,7 +31,8 @@
     "name": "Gặp nhà trai",
     "contdetl": "Gặp nhà trai",
     "colorClass": "bg-pink-500",
-    "image": []
+    "image": [],
+    "category": "Đám cưới"
   },
   {
     "note_id": "key9",
@@ -37,7 +41,8 @@
     "contdetl": "Dạm ngõ",
     "colorClass": "bg-red-500",
     "date": "2025-09-12T03:23:54.504Z",
-    "image": []
+    "image": [],
+    "category": "Đám cưới"
   },
   {
     "note_id": "key4",
@@ -49,7 +54,8 @@
       "DSC00601.JPG",
       "DSC00607.JPG",
       "DSC00610.JPG"
-    ]
+    ],
+    "category": "Đám cưới"
   },
   {
     "note_id": "key10",
