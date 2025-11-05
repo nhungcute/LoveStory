@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-05T03:01:41.564Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:01:34.376Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"Bé con 16w2d\" với 0 ảnh",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:01:09.452Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
