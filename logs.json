@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-05T12:40:39.318Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T12:40:37.608Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T12:40:32.850Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Hàn Quốc - Day 1\" với 13 ảnh",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T12:38:53.467Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
