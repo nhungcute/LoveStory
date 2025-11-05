@@ -5636,61 +5636,85 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 		// === LOGIC BIỂU ĐỒ VÀNG TRANG CHỦ ===
   
         /**
-         * Xử lý dữ liệu thô từ gold_history.json
+         * Xử lý dữ liệu thô từ gold_history.json (Đã cập nhật để lấy Min/Max/Last)
          */
         function processGoldDataForLineChart(rawData) {
             const productName = "Nhẫn Tròn 9999 Hưng Thịnh Vượng";
-            const product = rawData.find(p => p.product_name === productName);
+            const product = Array.isArray(rawData) ? rawData.find(p => p.product_name === productName) : null;
             
             if (!product || !product.gia || product.gia.length === 0) {
                 console.warn("Không tìm thấy dữ liệu giá vàng để vẽ biểu đồ.");
                 return { buySeries: [], sellSeries: [] };
             }
 
-            // 1. Nhóm giá cuối cùng của mỗi ngày
+            // 1. Nhóm giá (Sắp xếp từ CŨ -> MỚI)
             const prices = product.gia;
             const dailyMap = new Map();
-            
-            // Sắp xếp giá từ CŨ -> MỚI (vì file gốc là MỚI -> CŨ)
             const sortedPrices = [...prices].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
             for (const entry of sortedPrices) {
                 const date = new Date(entry.timestamp);
                 const dayString = date.toISOString().split('T')[0];
-                dailyMap.set(dayString, {
-                    buy: parseFloat(entry.ring_buy),
-                    sell: parseFloat(entry.ring_sell)
-                });
+                const buyPrice = parseFloat(entry.ring_buy);
+                const sellPrice = parseFloat(entry.ring_sell);
+
+                if (!dailyMap.has(dayString)) {
+                    // Nếu là entry đầu tiên trong ngày, gán min/max/last bằng giá trị đó
+                    dailyMap.set(dayString, {
+                        buy_min: buyPrice, buy_max: buyPrice, buy_last: buyPrice,
+                        sell_min: sellPrice, sell_max: sellPrice, sell_last: sellPrice
+                    });
+                } else {
+                    // Cập nhật min/max/last cho ngày
+                    const currentDay = dailyMap.get(dayString);
+                    currentDay.buy_min = Math.min(currentDay.buy_min, buyPrice);
+                    currentDay.buy_max = Math.max(currentDay.buy_max, buyPrice);
+                    currentDay.buy_last = buyPrice; // Entry cuối cùng sẽ là 'last'
+                    
+                    currentDay.sell_min = Math.min(currentDay.sell_min, sellPrice);
+                    currentDay.sell_max = Math.max(currentDay.sell_max, sellPrice);
+                    currentDay.sell_last = sellPrice;
+                }
             }
 
             if (dailyMap.size === 0) return { buySeries: [], sellSeries: [] };
 
-            // 2. Điền các ngày bị thiếu
+            // 2. Điền các ngày bị thiếu (Sửa: 'lastBuy' và 'lastSell' giờ là object)
             const filledBuySeries = [];
             const filledSellSeries = [];
             
             const firstDate = new Date(dailyMap.keys().next().value);
             const today = new Date();
             let currentDate = new Date(firstDate);
-            let lastBuy = null;
-            let lastSell = null;
+            let lastBuyData = null; // Lưu trữ object {y, min, max}
+            let lastSellData = null;
 
             while (currentDate <= today) {
                 const dayString = currentDate.toISOString().split('T')[0];
                 const entry = dailyMap.get(dayString);
 
                 if (entry) {
-                    lastBuy = entry.buy;
-                    lastSell = entry.sell;
+                    // Nếu có dữ liệu mới, cập nhật
+                    lastBuyData = { y: entry.buy_last, min: entry.buy_min, max: entry.buy_max };
+                    lastSellData = { y: entry.sell_last, min: entry.sell_min, max: entry.sell_max };
                 }
                 
-                // Chỉ thêm vào biểu đồ nếu đã có giá (bỏ qua các ngày đầu tiên bị null)
-                if (lastBuy !== null) {
-                    filledBuySeries.push([currentDate.getTime(), lastBuy]);
-                    filledSellSeries.push([currentDate.getTime(), lastSell]);
+                if (lastBuyData !== null) {
+                    // Đẩy (push) object vào mảng
+                    filledBuySeries.push({
+                        x: currentDate.getTime(),
+                        y: lastBuyData.y,
+                        min: lastBuyData.min,
+                        max: lastBuyData.max
+                    });
+                    filledSellSeries.push({
+                        x: currentDate.getTime(),
+                        y: lastSellData.y,
+                        min: lastSellData.min,
+                        max: lastSellData.max
+                    });
                 }
                 
-                // Tăng lên 1 ngày
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
@@ -6239,11 +6263,10 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 
 
         /**
-         * Xử lý dữ liệu thô từ gold_history.json
+         * Xử lý dữ liệu thô từ gold_history.json (Đã cập nhật để lấy Min/Max/Last)
          */
         function processGoldDataForLineChart(rawData) {
             const productName = "Nhẫn Tròn 9999 Hưng Thịnh Vượng";
-            // Sửa lỗi: rawData (từ goldData) là một mảng
             const product = Array.isArray(rawData) ? rawData.find(p => p.product_name === productName) : null;
             
             if (!product || !product.gia || product.gia.length === 0) {
@@ -6251,46 +6274,72 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 return { buySeries: [], sellSeries: [] };
             }
 
-            // 1. Nhóm giá cuối cùng của mỗi ngày
+            // 1. Nhóm giá (Sắp xếp từ CŨ -> MỚI)
             const prices = product.gia;
             const dailyMap = new Map();
-            
-            // Sắp xếp giá từ CŨ -> MỚI (vì file gốc là MỚI -> CŨ)
             const sortedPrices = [...prices].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
             for (const entry of sortedPrices) {
                 const date = new Date(entry.timestamp);
                 const dayString = date.toISOString().split('T')[0];
-                dailyMap.set(dayString, {
-                    buy: parseFloat(entry.ring_buy),
-                    sell: parseFloat(entry.ring_sell)
-                });
+                const buyPrice = parseFloat(entry.ring_buy);
+                const sellPrice = parseFloat(entry.ring_sell);
+
+                if (!dailyMap.has(dayString)) {
+                    // Nếu là entry đầu tiên trong ngày, gán min/max/last bằng giá trị đó
+                    dailyMap.set(dayString, {
+                        buy_min: buyPrice, buy_max: buyPrice, buy_last: buyPrice,
+                        sell_min: sellPrice, sell_max: sellPrice, sell_last: sellPrice
+                    });
+                } else {
+                    // Cập nhật min/max/last cho ngày
+                    const currentDay = dailyMap.get(dayString);
+                    currentDay.buy_min = Math.min(currentDay.buy_min, buyPrice);
+                    currentDay.buy_max = Math.max(currentDay.buy_max, buyPrice);
+                    currentDay.buy_last = buyPrice; // Entry cuối cùng sẽ là 'last'
+                    
+                    currentDay.sell_min = Math.min(currentDay.sell_min, sellPrice);
+                    currentDay.sell_max = Math.max(currentDay.sell_max, sellPrice);
+                    currentDay.sell_last = sellPrice;
+                }
             }
 
             if (dailyMap.size === 0) return { buySeries: [], sellSeries: [] };
 
-            // 2. Điền các ngày bị thiếu
+            // 2. Điền các ngày bị thiếu (Sửa: 'lastBuy' và 'lastSell' giờ là object)
             const filledBuySeries = [];
             const filledSellSeries = [];
             
             const firstDate = new Date(dailyMap.keys().next().value);
             const today = new Date();
             let currentDate = new Date(firstDate);
-            let lastBuy = null;
-            let lastSell = null;
+            let lastBuyData = null; // Lưu trữ object {y, min, max}
+            let lastSellData = null;
 
             while (currentDate <= today) {
                 const dayString = currentDate.toISOString().split('T')[0];
                 const entry = dailyMap.get(dayString);
 
                 if (entry) {
-                    lastBuy = entry.buy;
-                    lastSell = entry.sell;
+                    // Nếu có dữ liệu mới, cập nhật
+                    lastBuyData = { y: entry.buy_last, min: entry.buy_min, max: entry.buy_max };
+                    lastSellData = { y: entry.sell_last, min: entry.sell_min, max: entry.sell_max };
                 }
                 
-                if (lastBuy !== null) {
-                    filledBuySeries.push([currentDate.getTime(), lastBuy]);
-                    filledSellSeries.push([currentDate.getTime(), lastSell]);
+                if (lastBuyData !== null) {
+                    // Đẩy (push) object vào mảng
+                    filledBuySeries.push({
+                        x: currentDate.getTime(),
+                        y: lastBuyData.y,
+                        min: lastBuyData.min,
+                        max: lastBuyData.max
+                    });
+                    filledSellSeries.push({
+                        x: currentDate.getTime(),
+                        y: lastSellData.y,
+                        min: lastSellData.min,
+                        max: lastSellData.max
+                    });
                 }
                 
                 currentDate.setDate(currentDate.getDate() + 1);
@@ -6300,7 +6349,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         }
 
         /**
-         * Khởi tạo biểu đồ (chỉ chạy 1 lần)
+         * Khởi tạo biểu đồ (Đã cập nhật Tooltip)
          */
         function initHomeGoldChart() {
             if (homeGoldChart || goldData.length === 0) {
@@ -6322,14 +6371,55 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 ],
                 chart: { type: 'line', height: 250, zoom: { enabled: true }, toolbar: { show: false } },
                 xaxis: { type: 'datetime', labels: { datetimeUTC: false, format: 'dd/MM' } },
-                yaxis: { labels: { formatter: (val) => val.toLocaleString('vi-VN') } },
-                tooltip: { x: { format: 'dd/MM/yyyy' } },
-                stroke: { width: 2 }
+                yaxis: { 
+                    labels: { formatter: (val) => val.toLocaleString('vi-VN') },
+                    tooltip: { enabled: true } // Bật tooltip cho trục Y
+                },
+                stroke: { width: 2 },
+
+                // ▼▼▼ BẮT ĐẦU SỬA TOOLTIP ▼▼▼
+                tooltip: {
+                    x: {
+                        format: 'dd/MM/yyyy' // Định dạng ngày
+                    },
+                    y: {
+                        // Hàm formatter tùy chỉnh
+                        formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+                            // 'value' ở đây là giá trị 'y' (giá cuối)
+                            // w.config.series... cho phép truy cập toàn bộ object data
+                            try {
+                                const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
+                                
+                                const last = (dataPoint.y || 0).toLocaleString('vi-VN');
+                                const min = (dataPoint.min || 0).toLocaleString('vi-VN');
+                                const max = (dataPoint.max || 0).toLocaleString('vi-VN');
+                                
+                                // Trả về HTML cho tooltip
+                                return `
+                                    <div class="p-1">
+                                        <div class="flex justify-between"><span>Cuối:</span><strong class="ml-4">${last}</strong></div>
+                                        <div class="flex justify-between"><span>Thấp:</span><strong class="ml-4">${min}</strong></div>
+                                        <div class="flex justify-between"><span>Cao:</span><strong class="ml-4">${max}</strong></div>
+                                    </div>
+                                `;
+                            } catch (e) {
+                                // Dự phòng nếu dataPoint không tồn tại
+                                return (value || 0).toLocaleString('vi-VN');
+                            }
+                        },
+                        title: {
+                            // Thêm tiêu đề (Giá Mua/Giá Bán) cho mỗi phần
+                            formatter: (seriesName) => `${seriesName}:`
+                        }
+                    }
+                }
+                // ▲▲▲ KẾT THÚC SỬA TOOLTIP ▲▲▲
             };
 
             homeGoldChart = new ApexCharts(document.querySelector("#homeGoldChart"), options);
             homeGoldChart.render();
 
+            // Setup toolbar (giữ nguyên)
             function setupToolbarEvents() {
                 const today = new Date().getTime();
                 function zoomChart(days) {
@@ -6339,7 +6429,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 const buttons = document.querySelectorAll('.chart-toolbar-btn');
                 buttons.forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        e.stopPropagation(); // Ngăn click vào nút làm ẩn/hiện
+                        e.stopPropagation(); 
                         buttons.forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
                         const id = btn.id;
@@ -6372,4 +6462,3 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
     </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f60467b36d04e3',t:'MTc2MDYwMTU3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
