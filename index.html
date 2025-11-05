@@ -578,6 +578,64 @@
         #homeGoldChart {
             color: #333;
         }
+		/* CSS cho danh sách lọc trong Modal */
+        .filter-checkbox-label {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .filter-checkbox-label:hover {
+            background-color: var(--bg-color);
+        }
+        .filter-checkbox-label input {
+            width: 1.25rem; /* 20px */
+            height: 1.25rem; /* 20px */
+            margin-right: 0.75rem;
+            accent-color: var(--primary-color);
+        }
+
+        /* CSS cho giao diện nhóm (Grouped View) - Giao diện mới */
+        .category-group-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Đẩy 2 mục ra 2 bên */
+            
+            padding: 0.75rem 1rem; /* 12px 16px */
+            border-radius: 0.75rem; /* 12px, bo tròn */
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            
+            /* Nền Gradient theo Theme (từ Primary -> Secondary) */
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 150%);
+            color: white; /* Chữ màu trắng */
+            
+            font-weight: 700;
+            font-size: 1.125rem; /* text-lg */
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        /* CSS cho icon và text bên trái */
+        .category-group-header .header-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem; /* Khoảng cách 12px */
+        }
+        .category-group-header .header-content i {
+            font-size: 1rem; /* 16px */
+            opacity: 0.8;
+        }
+
+        /* CSS cho "bong bóng" đếm số lượng bên phải */
+        .category-group-header .header-badge {
+            background-color: rgba(255, 255, 255, 0.2); /* Nền mờ */
+            padding: 0.25rem 0.75rem; /* 4px 12px */
+            border-radius: 9999px; /* Bo tròn */
+            font-size: 0.75rem; /* 12px, text-xs */
+            font-weight: 600;
+        }
 		
     </style>
   <style>@view-transition { navigation: auto; }</style>
@@ -669,7 +727,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 <p class="text-2xl font-bold text-primary" id="daysTogether">0</p>
             </div>
         </div>
-        <div class="love-card rounded-lg p-4 flex items-center space-x-4">
+        <div class="love-card rounded-lg p-4 flex items-center space-x-4 cursor-pointer" onclick="selectMenuItem('timeline')">
             <div class="flex-shrink-0 w-12 h-12 bg-secondary rounded-full flex items-center justify-center">
                 <i class="fas fa-star text-white text-xl"></i>
             </div>
@@ -678,7 +736,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 <p class="text-2xl font-bold text-secondary" id="totalMemories">0</p>
             </div>
         </div>
-        <div class="love-card rounded-lg p-4 flex items-center space-x-4">
+        <div class="love-card rounded-lg p-4 flex items-center space-x-4 cursor-pointer" onclick="selectMenuItem('photos')">
             <div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
                 <i class="fas fa-images text-white text-xl"></i>
             </div>
@@ -778,15 +836,38 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
      </div>
    </div><!-- Timeline Section -->
    <div id="timelineSection" class="section hidden">
+    
     <div class="flex justify-between items-center sticky top-0 z-40 bg-custom py-2 mb-6">
-     <h2 class="text-xl font-bold text-primary"><i class="fas fa-clock mr-2"></i>Sự Kiện</h2><button onclick="openModal('eventModal')" class="love-button w-10 h-10 rounded-full flex items-center justify-center p-0"> <i class="fas fa-plus"></i> </button>
-    </div>
+     <h2 class="text-xl font-bold text-primary"><i class="fas fa-clock mr-2"></i>Sự Kiện</h2>
+     
+     <div class="flex items-center space-x-2 relative"> <button onclick="toggleFilterDropdown()" class="love-button w-10 h-10 rounded-full flex items-center justify-center p-0" title="Lọc sự kiện"> 
+            <i class="fas fa-filter"></i> 
+        </button>
+        
+        <div id="filterDropdown" class="hidden absolute top-full right-0 z-50 mt-2 w-72 bg-accent border border-custom rounded-lg shadow-lg">
+            <div class="p-2 border-b border-custom">
+                <button onclick="clearEventFilter()" class="love-button secondary text-xs px-3 py-1 w-full">Xóa tất cả</button>
+            </div>
+            <div id="filterDropdownList" class="max-h-80 overflow-y-auto p-2">
+                </div>
+        </div>
+        <button id="timelineViewToggle" onclick="toggleTimelineView()" class="love-button w-10 h-10 rounded-full flex items-center justify-center p-0" title="Đổi chế độ xem"> 
+            <i class="fas fa-list"></i> 
+        </button>
+        <button onclick="openModal('eventModal')" class="love-button w-10 h-10 rounded-full flex items-center justify-center p-0" title="Thêm sự kiện"> 
+            <i class="fas fa-plus"></i> 
+        </button>
+     </div>
+     </div>
+
     <div id="timelineContainer">
      <div class="skeleton h-40 rounded mb-4"></div>
      <div class="skeleton h-40 rounded mb-4"></div>
      <div class="skeleton h-40 rounded"></div>
     </div>
-   </div><!-- Photos Section -->
+
+   </div>
+   <!-- Photos Section -->
    <div id="photosSection" class="section hidden">
 	<div class="flex justify-between items-center sticky top-0 z-40 bg-custom py-2 mb-6">
      <h2 class="text-xl font-bold text-primary"><i class="fas fa-photo-video mr-2"></i>Khoảnh Khắc</h2>
@@ -797,7 +878,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
     </div>
     <div id="photosPagination" class="mt-6 flex justify-center items-center"></div><!-- Pagination will be loaded here -->
     </div>
-   </div><!-- Settings Section -->
+	<!-- Settings Section -->
    <div id="settingsSection" class="section hidden py-6">
     <h2 class="text-xl font-bold text-primary sticky top-0 z-40 bg-custom py-2 mb-6">
 		<i class="fas fa-cog mr-2"></i>Cài Đặt
@@ -986,7 +1067,16 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
      <h3 class="text-xl font-bold text-primary"><i class="fas fa-plus mr-2"></i>Thêm Sự Kiện</h3><button onclick="closeModal('eventModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
     </div>
     <form id="eventForm" onsubmit="saveEvent(event)">
-     <div class="space-y-4"><label class="block"> <span class="text-sm font-medium mb-2 block">Tên sự kiện:</span> <input type="text" id="eventName" required class="love-input w-full" placeholder="Ví dụ: Sinh nhật lần thứ 25"> </label> <label class="block"> <span class="text-sm font-medium mb-2 block">Ngày:</span> <input type="text" id="eventDate" required class="love-input w-full" placeholder="dd-mm-yyyy" pattern="\d{2}-\d{2}-\d{4}" maxlength="10" oninput="formatDateInput(this)"> </label> <label class="block"> <span class="text-sm font-medium mb-2 block">Mô tả:</span> <textarea id="eventDescription" rows="3" class="love-input w-full" placeholder="Mô tả chi tiết về sự kiện..."></textarea> </label>
+     <div class="space-y-4"><label class="block"> 
+		<label class="block"> 
+            <span class="text-sm font-medium mb-2 block">Loại sự kiện:</span> 
+            <input type="text" id="eventCategory" class="love-input w-full" list="categoryDatalist" placeholder="Chọn hoặc nhập loại sự kiện...">
+            <datalist id="categoryDatalist">
+                </datalist>
+        </label>
+		<span class="text-sm font-medium mb-2 block">Tên sự kiện:</span> <input type="text" id="eventName" required class="love-input w-full" placeholder="Ví dụ: Sinh nhật lần thứ 25"> </label> <label class="block"> <span class="text-sm font-medium mb-2 block">Ngày:</span> <input type="text" id="eventDate" required class="love-input w-full" placeholder="dd-mm-yyyy" pattern="\d{2}-\d{2}-\d{4}" maxlength="10" oninput="formatDateInput(this)"> </label> <label class="block"> <span class="text-sm font-medium mb-2 block">Mô tả:</span> <textarea id="eventDescription" rows="3" class="love-input w-full" placeholder="Mô tả chi tiết về sự kiện..."></textarea> </label>
+		
+		
 		<div><span class="text-sm font-medium mb-2 block">Ảnh:</span> <button type="button" onclick="openPhotoSelector()" class="love-button w-full"> <i class="fas fa-images mr-2"></i>Chọn Ảnh </button>
 			<p class="text-xs text-gray-500 mt-1">Đã chọn: <span id="selectedImagesCount">0</span> ảnh</p>
 		</div>
@@ -1069,6 +1159,27 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
       </div>
      </div>
     </form>
+   </div>
+  </div>
+  
+  <div id="eventFilterModal" class="modal">
+   <div class="modal-content w-full max-w-lg">
+    <div class="flex justify-between items-center mb-4">
+     <h3 class="text-xl font-bold text-primary"><i class="fas fa-filter mr-2"></i>Lọc Sự Kiện</h3>
+     <button onclick="closeModal('eventFilterModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
+    </div>
+    
+    <div class="flex justify-end mb-4">
+        <button onclick="clearEventFilter()" class="love-button secondary text-sm px-3 py-1">Xóa tất cả</button>
+    </div>
+
+    <div id="filterCategoryList" class="space-y-3 max-h-80 overflow-y-auto mb-4 p-2 border border-custom rounded-lg">
+        </div>
+      
+    <div class="flex space-x-3">
+        <button type="button" onclick="applyEventFilter()" class="love-button flex-1">Áp Dụng</button> 
+        <button type="button" onclick="closeModal('eventFilterModal')" class="love-button secondary">Hủy</button>
+    </div>
    </div>
   </div>
   
@@ -1173,7 +1284,16 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 		let goldPortfolioData = [];
 		let homeGoldChart = null; // Biến toàn cục để giữ biểu đồ
         let editingGoldHoldingId = null; // Biến tạm để biết đang sửa hay thêm mới
-		
+		const predefinedCategories = [
+            "Gia đình", "Bé con", "Du lịch", "Giải trí", "Giáo dục", "Hài kịch", "Phong cách",
+            "Khoa học và công nghệ", "Vlog", "Nhạc", "Ô tô và xe cộ",
+            "Phim", "Thể thao", "Thú cưng", "Tin tức",
+            "Xã hội", "Trò chơi"
+        ];
+        
+        let allCategories = []; // Biến lưu trữ (predefined + custom)
+        let currentEventFilter = []; // Mảng lưu các category đang được lọc
+        let isTimelineGrouped = false; // Trạng thái xem (List/Group)
 		// 1. Kiểm tra xem có phải thiết bị di động không (dựa theo CSS media query)
         const isMobile = window.innerWidth <= 768;
 		
@@ -2334,94 +2454,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 sellPriceEl.textContent = 'N/A';
             }
         }
-
-        // Timeline functions
-        function loadTimeline() {
-            const container = document.getElementById('timelineContainer');
-            
-            if (eventsData.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-12 text-gray-500">
-                        <i class="fas fa-clock text-6xl mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Chưa có kỷ niệm nào</h3>
-                        <p class="mb-4">Hãy thêm kỷ niệm đầu tiên của bạn!</p>
-                        <button onclick="openModal('eventModal')" class="love-button">
-                            <i class="fas fa-plus mr-2"></i>Thêm Kỷ Niệm Đầu Tiên
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Sắp xếp sự kiện (mới nhất trước)
-            const sortedEvents = [...eventsData].sort((a, b) => 
-                new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day))
-            );
-            
-            const timelineHTML = sortedEvents.map((event, index) => {
-                let imagesHTML = '';
-                if (event.image && event.image.length > 0) {
-                    const displayImages = event.image.slice(0, 3); // Mảng TÊN ảnh
-                    
-                    imagesHTML = `
-                        <div class="flex space-x-2 mt-4">
-                            ${displayImages.map(imageName => {
-                                // Tra cứu thông tin ảnh đầy đủ bằng tên
-                                const photo = findPhotoByName(imageName);
-                                if (!photo) return ''; // Bỏ qua nếu ảnh không (còn) tồn tại
-
-                                const imageUrl = driveAPI.getImageUrl(photo.id, 'thumbnail');
-
-                                return `<img src="${imageUrl}" alt="${imageName}" class="w-16 h-16 rounded object-cover cursor-pointer" 
-                                           onclick="viewMediaWithDetails('${photo.id}', '${photo.name}', '${photo.fileType}')"
-                                           onerror="this.src=imageErrorPlaceholder; this.style.display='none';">`;
-                            }).join('')}
-                            ${event.image.length > 3 ? `
-                                <div class="w-16 h-16 rounded bg-gray-200 flex items-center justify-center text-sm font-medium">
-                                    +${event.image.length - 3}
-                                </div>
-                            ` : ''}
-                        </div>
-                    `;
-                }
-                
-                // Safely escape HTML content
-                const safeName = escapeHtml(event.name || '');
-                const safeDescription = escapeHtml(event.contdetl || 'Không có mô tả');
-                
-                return `
-					<div class="timeline-item" id="event-item-${event.note_id || event.day}" style="z-index: ${sortedEvents.length - index};">
-                        <div class="love-card rounded-lg px-6 py-3">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <h3 class="text-base font-bold text-primary mb-0.5" style="font-size: 0.9em;">${safeName}</h3>
-                                    <p class="text-secondary font-medium" style="font-size: 0.9em;">${formatDateToDDMMYYYY(event.day)}</p>
-                                </div>
-                                <div class="relative ml-4">
-                                    <button class="text-custom hover:text-primary transition-colors duration-200 p-2 rounded-full hover:bg-gray-100" onclick="toggleEventMenu('${event.note_id}')">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div id="menu-${event.note_id}" class="hidden absolute right-0 top-full mt-1 bg-accent border border-custom rounded-lg shadow-lg z-50 min-w-[150px]">
-                                        <button class="w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-50 transition-colors duration-200 flex items-center" onclick="editEvent('${event.note_id}'); hideEventMenu('${event.note_id}')">
-                                            <i class="fas fa-edit mr-2"></i>Chỉnh sửa
-                                        </button>
-                                        <button class="w-full text-left px-4 py-2 text-green-600 hover:bg-green-50 transition-colors duration-200 flex items-center" onclick="viewEventPhotos('${event.note_id}'); hideEventMenu('${event.note_id}')">
-                                            <i class="fas fa-images mr-2"></i>Xem ảnh
-                                        </button>
-                                        <button class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors duration-200 flex items-center border-t border-custom" onclick="deleteEvent('${event.note_id}'); hideEventMenu('${event.note_id}')">
-                                            <i class="fas fa-trash mr-2"></i>Xóa
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="text-gray-700 whitespace-pre-wrap" style="font-size: 0.9em; line-height: 1.4;">${safeDescription}</p>
-                            ${imagesHTML} </div>
-                    </div>
-                `;
-            }).join('');
-            
-            container.innerHTML = timelineHTML;
-        }
+ 
 		
 		function scrollToEvent(eventId) {
             // 1. Chuyển sang tab Timeline
@@ -2447,7 +2480,255 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 console.warn(`Không tìm thấy phần tử event-item-${eventId} để scroll tới.`);
             }
         }
+		/**
+         * Tải danh sách Loại sự kiện (từ dữ liệu) vào datalist
+         */
+        function loadCategoryDatalist() {
+            // 1. Lấy tất cả category tùy chỉnh từ eventsData
+            const customCategories = eventsData.map(e => e.category).filter(Boolean);
+            
+            // 2. Gộp danh sách (dùng Set để loại bỏ trùng lặp)
+            allCategories = [...new Set([...predefinedCategories, ...customCategories])].sort();
 
+            // 3. Đẩy vào datalist của Modal
+            const datalist = document.getElementById('categoryDatalist');
+            datalist.innerHTML = allCategories.map(cat => `<option value="${escapeHtml(cat)}"></option>`).join('');
+        }
+        
+        /**
+         * Mở/Đóng Dropdown Lọc
+         */
+        function toggleFilterDropdown() {
+            const dropdown = document.getElementById('filterDropdown');
+            const isHidden = dropdown.classList.toggle('hidden');
+            
+            if (!isHidden) {
+                // Mở dropdown
+                loadCategoryDatalist(); // Cập nhật danh sách loại
+                
+                const container = document.getElementById('filterDropdownList');
+                if (allCategories.length === 0) {
+                     container.innerHTML = `<p class="text-gray-500 text-center text-sm p-2">Không có loại sự kiện nào.</p>`;
+                } else {
+                    container.innerHTML = allCategories.map(cat => {
+                        const isChecked = currentEventFilter.includes(cat) ? 'checked' : '';
+                        
+                        // Quan trọng: Gọi applyInstantFilter() ngay khi 'onchange'
+                        return `
+                            <label class="filter-checkbox-label">
+                                <input type="checkbox" onchange="applyInstantFilter(this)" value="${escapeHtml(cat)}" ${isChecked}>
+                                <span>${escapeHtml(cat)}</span>
+                            </label>
+                        `;
+                    }).join('');
+                }
+                addLog('Mở modal', 'Mở bộ lọc sự kiện (dropdown)');
+            }
+        }
+
+        /**
+         * Áp dụng bộ lọc ngay lập tức khi check
+         */
+        function applyInstantFilter(checkbox) {
+            const category = checkbox.value;
+            if (checkbox.checked) {
+                // Thêm vào bộ lọc
+                if (!currentEventFilter.includes(category)) {
+                    currentEventFilter.push(category);
+                }
+            } else {
+                // Xóa khỏi bộ lọc
+                currentEventFilter = currentEventFilter.filter(c => c !== category);
+            }
+            
+            // Tải lại timeline ngay lập tức
+            loadTimeline();
+            addLog('Lọc sự kiện', `Đã (bỏ) chọn lọc: ${category}`);
+        }
+        
+        /**
+         * Xóa bộ lọc (cho dropdown)
+         */
+        function clearEventFilter() {
+            currentEventFilter = [];
+            // Bỏ check tất cả checkbox trong dropdown
+            document.querySelectorAll('#filterDropdownList input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            loadTimeline(); // Tải lại Timeline (không lọc)
+            addLog('Lọc sự kiện', 'Đã xóa bộ lọc');
+        }
+
+        /**
+         * Chuyển đổi chế độ xem (List / Group)
+         */
+        function toggleTimelineView() {
+            isTimelineGrouped = !isTimelineGrouped;
+            const btn = document.getElementById('timelineViewToggle');
+            const icon = btn.querySelector('i');
+
+            if (isTimelineGrouped) {
+                icon.className = 'fas fa-layer-group';
+                btn.title = "Xem dạng danh sách";
+                addLog('Chế độ xem', 'Đổi sang xem nhóm (Sự kiện)');
+            } else {
+                icon.className = 'fas fa-list';
+                btn.title = "Xem dạng nhóm";
+                addLog('Chế độ xem', 'Đổi sang xem danh sách (Sự kiện)');
+            }
+            
+            loadTimeline(); // Tải lại Timeline
+        }
+
+        /**
+         * HÀM QUAN TRỌNG: TẢI LẠI TIMELINE (ĐÃ VIẾT LẠI HOÀN TOÀN)
+         */
+        function loadTimeline() {
+            const container = document.getElementById('timelineContainer');
+            
+            // 0. Cập nhật danh sách loại sự kiện (cho modal thêm/sửa)
+            loadCategoryDatalist();
+
+            // 1. Lọc dữ liệu
+            let filteredEvents = [];
+            if (currentEventFilter.length === 0) {
+                filteredEvents = [...eventsData]; // Không lọc
+            } else {
+                filteredEvents = eventsData.filter(event => 
+                    currentEventFilter.includes(event.category)
+                );
+            }
+            
+            // 2. Sắp xếp (mới nhất trước)
+            const sortedEvents = filteredEvents.sort((a, b) => 
+                new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day))
+            );
+
+            // 3. Hiển thị (theo chế độ xem)
+            if (isTimelineGrouped) {
+                // --- 3a. CHẾ ĐỘ XEM NHÓM ---
+                const groups = new Map();
+                
+                // Gom nhóm
+                for (const event of sortedEvents) {
+                    const category = event.category || "Không phân loại";
+                    if (!groups.has(category)) {
+                        groups.set(category, []);
+                    }
+                    groups.get(category).push(event);
+                }
+                
+                // Sắp xếp các nhóm theo tên (để "Không phân loại" ở cuối)
+                const sortedGroups = new Map(
+                    [...groups.entries()].sort((a, b) => {
+                        if (a[0] === "Không phân loại") return 1;
+                        if (b[0] === "Không phân loại") return -1;
+                        return a[0].localeCompare(b[0]);
+                    })
+                );
+
+                container.innerHTML = ''; // Xóa nội dung cũ
+                if (sortedGroups.size === 0) {
+                    container.innerHTML = `<p class="text-center text-gray-500 py-12">Không tìm thấy sự kiện nào.</p>`;
+                    return;
+                }
+
+                sortedGroups.forEach((events, category) => {
+                    // Thêm tiêu đề nhóm (Layout mới)
+                    container.innerHTML += `
+                        <div class="category-group-header">
+                            <div class="header-content">
+                                <i class="fas fa-tag"></i> 
+                                <span>${escapeHtml(category)}</span>
+                            </div>
+                            <div class="header-badge">
+                                ${events.length} sự kiện
+                            </div>
+                        </div>
+                    `;
+                    // Thêm các sự kiện trong nhóm (dùng hàm renderEvent)
+                    container.innerHTML += events.map(event => renderEventHTML(event)).join('');
+                });
+
+            } else {
+                // --- 3b. CHẾ ĐỘ XEM DANH SÁCH (MẶC ĐỊNH) ---
+                if (sortedEvents.length === 0) {
+                    container.innerHTML = `<p class="text-center text-gray-500 py-12">Không tìm thấy sự kiện nào.</p>`;
+                    return;
+                }
+                container.innerHTML = sortedEvents.map((event, index) => 
+                    renderEventHTML(event, sortedEvents.length - index) // Thêm z-index
+                ).join('');
+            }
+        }
+
+        /**
+         * Hàm trợ giúp mới: Tách logic render 1 sự kiện ra (Đã cập nhật layout)
+         */
+        function renderEventHTML(event, zIndex = 1) {
+            let imagesHTML = '';
+            if (event.image && event.image.length > 0) {
+                const displayImages = event.image.slice(0, 3);
+                
+                imagesHTML = `
+                    <div class="flex space-x-2 mt-4">
+                        ${displayImages.map(imageName => {
+                            const photo = findPhotoByName(imageName);
+                            if (!photo) return '';
+                            const imageUrl = driveAPI.getImageUrl(photo.id, 'thumbnail');
+                            return `<img src="${imageUrl}" alt="${imageName}" class="w-16 h-16 rounded object-cover cursor-pointer" 
+                                       onclick="viewMediaWithDetails('${photo.id}', '${photo.name}', '${photo.fileType}')"
+                                       onerror="this.src=imageErrorPlaceholder; this.style.display='none';">`;
+                        }).join('')}
+                        ${event.image.length > 3 ? `<div class="w-16 h-16 rounded bg-gray-200 flex items-center justify-center text-sm font-medium">+${event.image.length - 3}</div>` : ''}
+                    </div>
+                `;
+            }
+            
+            const safeName = escapeHtml(event.name || '');
+            const safeDescription = escapeHtml(event.contdetl || 'Không có mô tả');
+             
+            // Thêm class text-xs, text-gray-400 và căn lề trái (ml-2)
+            const categoryHTML = event.category 
+                ? `<span class="text-xs text-gray-400 ml-2 flex-shrink-0">${escapeHtml(event.category)}</span>` 
+                : '';
+             
+            return `
+                <div class="timeline-item" id="event-item-${event.note_id || event.day}" style="z-index: ${zIndex};">
+                    <div class="love-card rounded-lg px-6 py-3">
+                        <div class="flex justify-between items-start mb-2">
+                            
+                            <div class="flex-1 min-w-0"> 
+                                
+                                <div class="flex justify-between items-baseline">
+                                    <h3 class="text-base font-bold text-primary mb-0.5 truncate" style="font-size: 0.9em;">${safeName}</h3>
+                                    ${categoryHTML} </div>
+                                <p class="text-secondary font-medium" style="font-size: 0.9em;">${formatDateToDDMMYYYY(event.day)}</p>
+                            </div>
+                            
+                            <div class="relative ml-4 flex-shrink-0"> 
+                                <button class="text-custom hover:text-primary transition-colors duration-200 p-2 rounded-full hover:bg-gray-100" onclick="toggleEventMenu('${event.note_id}')">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div id="menu-${event.note_id}" class="hidden absolute right-0 top-full mt-1 bg-accent border border-custom rounded-lg shadow-lg z-50 min-w-[150px]">
+                                    <button class="w-full text-left px-4 py-2 text-blue-600 hover:bg-blue-50" onclick="editEvent('${event.note_id}'); hideEventMenu('${event.note_id}')">
+                                        <i class="fas fa-edit mr-2"></i>Chỉnh sửa
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 text-green-600 hover:bg-green-50" onclick="viewEventPhotos('${event.note_id}'); hideEventMenu('${event.note_id}')">
+                                        <i class="fas fa-images mr-2"></i>Xem ảnh
+                                    </button>
+                                    <button class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 border-t border-custom" onclick="deleteEvent('${event.note_id}'); hideEventMenu('${event.note_id}')">
+                                        <i class="fas fa-trash mr-2"></i>Xóa
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 whitespace-pre-wrap" style="font-size: 0.9em; line-height: 1.4;">${safeDescription}</p>
+                        ${imagesHTML} 
+                    </div>
+                </div>
+            `;
+        }
         // Photo functions
         function loadPhotos(page = 1) {
             const container = document.getElementById('photosContainer');
@@ -2816,7 +3097,8 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             const name = document.getElementById('eventName').value;
             const date = document.getElementById('eventDate').value;
             const description = document.getElementById('eventDescription').value;
-            
+            const category = document.getElementById('eventCategory').value.trim() || null; // <-- THÊM DÒNG NÀY
+			
             // 1. Kiểm tra định dạng (Giữ nguyên)
             if (!/^\d{2}-\d{2}-\d{4}$/.test(date)) {
                 showNotification('Vui lòng nhập ngày đúng định dạng dd-mm-yyyy!', 'error');
@@ -2848,7 +3130,8 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                     name: name,
                     day: date,
                     contdetl: description,
-                    image: imageArray
+                    image: imageArray,
+					category: category
                 };
 
                 apiMessage = `Cập nhật sự kiện: ${name}`;
@@ -2861,7 +3144,8 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                     name: name,
                     day: date,
                     contdetl: description,
-                    image: imageArray
+                    image: imageArray,
+					category: category
                 };
 
                 // b. Cập nhật lạc quan (thêm vào dữ liệu local ngay lập tức)
@@ -2923,16 +3207,16 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         function resetEventForm() {
             document.getElementById('eventForm').reset();
             document.getElementById('selectedImagesCount').textContent = '0';
+			document.getElementById('eventCategory').value = '';
+			
             selectedPhotos.clear();
             editingEventId = null;
-            
-            // ▼▼▼ THÊM NGÀY HÔM NAY MẶC ĐỊNH ▼▼▼
+             
             // Đặt ngày hôm nay làm mặc định khi thêm mới
             const today = new Date();
             const todayFormatted = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
             document.getElementById('eventDate').value = todayFormatted;
-            // ▲▲▲ KẾT THÚC THÊM NGÀY MẶC ĐỊNH ▲▲▲
-            
+           
             // Reset modal title and button text
             const modalTitle = document.querySelector('#eventModal h3');
             modalTitle.innerHTML = '<i class="fas fa-plus mr-2"></i>Thêm Sự Kiện Mới';
@@ -2955,7 +3239,8 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             document.getElementById('eventName').value = event.name || '';
             document.getElementById('eventDate').value = event.day || '';
             document.getElementById('eventDescription').value = event.contdetl || '';
-            
+            document.getElementById('eventCategory').value = event.category || '';
+			
             // Load current images - ensure it's an array
             selectedPhotos.clear();
             if (Array.isArray(event.image)) {
@@ -5072,6 +5357,16 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             if (notificationsOpen && dropdown && !dropdown.contains(e.target) && !e.target.closest('button[onclick="toggleNotifications()"]')) {
                 toggleNotifications();
             }
+			
+			// 3. Logic đóng dropdown Lọc Sự Kiện
+            const filterDropdown = document.getElementById('filterDropdown');
+            if (filterDropdown && !filterDropdown.classList.contains('hidden')) {
+                // Nếu click ra ngoài nút filter VÀ ra ngoài dropdown
+                if (!e.target.closest('button[onclick="toggleFilterDropdown()"]') && !e.target.closest('#filterDropdown')) {
+                    filterDropdown.classList.add('hidden');
+                }
+            }
+			
         });
 		
 		// === LOGIC BIỂU ĐỒ VÀNG TRANG CHỦ ===
