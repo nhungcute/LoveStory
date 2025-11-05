@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-11-05T03:10:58.860Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:10:57.636Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:10:55.692Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:10:53.724Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:08:36.934Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"3x3\" sang \"4x4\"",
