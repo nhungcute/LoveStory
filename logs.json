@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-05T04:07:51.902Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1762315655243",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T04:07:38.628Z",
     "action": "Chế độ xem",
     "details": "Đổi sang xem nhóm (Sự kiện)",
