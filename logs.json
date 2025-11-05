@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-05T12:35:39.809Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã (bỏ) chọn lọc: Bé con",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T12:35:35.608Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã xóa bộ lọc",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T12:35:33.467Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T12:35:18.631Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
