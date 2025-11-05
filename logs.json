@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-05T03:28:06.015Z",
+    "action": "Xóa sự kiện",
+    "details": "Đã xóa sự kiện \"Bé con 16w2d\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:27:58.117Z",
     "action": "Chế độ xem",
     "details": "Đổi sang xem danh sách (Sự kiện)",
