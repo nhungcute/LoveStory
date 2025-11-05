@@ -871,7 +871,10 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
    <div id="photosSection" class="section hidden">
 	<div class="flex justify-between items-center sticky top-0 z-40 bg-custom py-2 mb-6">
      <h2 class="text-xl font-bold text-primary"><i class="fas fa-photo-video mr-2"></i>Khoảnh Khắc</h2>
-     <div class="flex items-center space-x-3"><button onclick="cyclePhotoView()" class="love-button flex items-center space-x-1 text-sm px-3 py-2" id="viewToggleBtn" style="transform: scale(0.85);"> <i class="fas fa-th text-sm" id="viewToggleIcon"></i> <span id="viewToggleText">2x2</span> </button>
+     <div class="flex items-center space-x-3">
+		 <button onclick="cyclePhotoView()" class="love-button flex items-center space-x-1 text-sm px-3 py-2" id="viewToggleBtn" style="transform: scale(0.85);"> 
+			<i class="fas fa-th text-sm" id="viewToggleIcon"></i> <span id="viewToggleText">2x2</span> 
+		 </button>
      </div>
     </div>
     <div id="photosContainer" class="photo-grid grid-view-2"><!-- Photos will be loaded here -->
@@ -1300,6 +1303,12 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         let photoViewCycle = ['grid-2', 'grid-3', 'grid-4', 'grid-5', 'grid-6', 'grid-1', 'list'];
         let currentViewIndex = isMobile ? 0 : 4; // Bắt đầu với grid-2 (di dong), và grid 6 nếu khong phai di dong
         let currentPhotoView = photoViewCycle[currentViewIndex];
+		// 4. Biến trạng thái nhóm (Mặc định Bật)
+        let isPhotoGrouped = true; 
+        let photoCategoryMap = new Map();
+        // 5. Hằng số phân trang (MỚI)
+        const GROUPS_PER_PAGE = 3; // Hiển thị 5 nhóm (thể loại) mỗi trang
+		
         //let selectedImages = [];
         let logQueue = [];
         let isOnline = navigator.onLine;
@@ -1334,10 +1343,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             'list': { icon: 'fas fa-list', text: 'Danh sách' }
         };
 		
-		
-		
-		
-		
+		 
 		
 		let config = {
             "GITHUB_USERNAME": "nhungcute",
@@ -1864,7 +1870,8 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             
             // Initialize view toggle button
             updateViewToggleButton();
-
+			//if (isPhotoGrouped) 
+				//document.getElementById('photoGroupToggle').classList.add('active');
             // --- GIAI ĐOẠN 1: TẢI DỮ LIỆU IỂN THỊ HOME ---
             const coreDataLoaded = await loadCoreData(); // Chờ dữ liệu Home
             
@@ -2729,117 +2736,366 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 </div>
             `;
         }
-        // Photo functions
-        function loadPhotos(page = 1) {
-            const container = document.getElementById('photosContainer');
-            const photosPerPage = parseInt(config.PHOTOS_PER_PAGE);
-            
-            // Log page navigation
-            if (currentPage !== page && page > 1) {
-                addLog('Phân trang ảnh', `Chuyển từ trang ${currentPage} sang trang ${page}`);
+        /**
+         * Bật/Tắt chế độ xem Nhóm (Khoảnh khắc)
+         */
+        function togglePhotoGrouping() {
+            isPhotoGrouped = !isPhotoGrouped;
+            const btn = document.getElementById('photoGroupToggle');
+
+            if (isPhotoGrouped) {
+                btn.classList.add('active'); // Làm sáng nút
+                addLog('Chế độ xem', 'Đổi sang xem nhóm (Khoảnh khắc)');
+            } else {
+                btn.classList.remove('active');
+                addLog('Chế độ xem', 'Đổi sang xem lưới (Khoảnh khắc)');
             }
             
-            currentPage = page;
+            // Tải lại toàn bộ, bắt đầu từ trang 1
+            loadPhotos(1);
+        }
+
+        /**
+         * Hàm render riêng cho Chế Độ Xem Nhóm
+         * (Đã sửa: Chỉ render các nhóm được truyền vào)
+         */
+        function renderGroupedPhotos(container, groupsToRender, viewMode) {
             
-            if (photosData.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-12 text-gray-500 col-span-full">
-                        <i class="fas fa-images text-6xl mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2">Chưa có media nào</h3>
-                        <p class="mb-4">Ảnh và video sẽ được đồng bộ tự động từ Google Drive</p>
-                        <button onclick="syncPhotosMetadata(true)" class="love-button">
-                            <i class="fas fa-sync mr-2"></i>Đồng Bộ Ngay
-                        </button>
+            container.innerHTML = ''; // Xóa sạch
+            
+            // Lặp qua các nhóm được phân trang
+            groupsToRender.forEach((photos, category) => {
+                // Thêm tiêu đề nhóm
+                container.innerHTML += `
+                    <div class="category-group-header">
+                        <div class="header-content">
+                            <i class="fas fa-tag"></i> 
+                            <span>${escapeHtml(category)}</span>
+                        </div>
+                        <div class="header-badge">
+                            ${photos.length} media
+                        </div>
                     </div>
                 `;
-                return;
-            }
-            
-            // Sort media by creation time (newest first)
-            const sortedMedia = [...photosData].sort((a, b) => 
-				a.name.localeCompare(b.name)
-			);
-            
-            const startIndex = (page - 1) * photosPerPage;
-            const endIndex = startIndex + photosPerPage;
-            const pageMedia = sortedMedia.slice(startIndex, endIndex);
-            
-            if (currentPhotoView === 'list') {
-                container.className = 'list-view';
-                container.innerHTML = pageMedia.map(media => {
-                    const thumbnailUrl = getGridThumbnailUrl(media); // Kỹ thuật hack URL
-                    const mediaComments = commentsData.find(c => c.ID_IMG === media.name);
-                    const likesCount = mediaComments && mediaComments.tim && Array.isArray(mediaComments.tim) ? mediaComments.tim.length : 0;
-                    const commentsCount = mediaComments ? mediaComments.comments.length : 0;
-                    const isVideo = media.fileType === 'video';
-                    const fileIcon = isVideo ? 'fas fa-play-circle' : 'fas fa-image';
-                    
-                    return `
-                        <div class="photo-item" onclick="viewMediaWithDetails('${media.id}', '${media.name}', '${media.fileType}')">
-                            <div class="relative">
-                                <img src="${thumbnailUrl}" alt="${media.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src=imageErrorPlaceholder; this.style.objectFit='contain';">
-                                ${isVideo ? '<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-play-circle text-white text-3xl opacity-80"></i></div>' : ''}
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-medium text-primary flex items-center">
-                                    <i class="${fileIcon} mr-2"></i>${media.name}
-                                </h4>
-                                <div class="flex items-center space-x-4 mt-2 text-xs text-gray-500">
-                                    <span><i class="fas fa-heart mr-1"></i>${likesCount}</span>
-                                    <span><i class="fas fa-comment mr-1"></i>${commentsCount}</span>
-                                    <span><i class="fas fa-file mr-1"></i>${formatFileSize(media.size)}</span>
-                                    <span class="px-2 py-1 bg-gray-200 rounded text-xs">${isVideo ? 'Video' : 'Ảnh'}</span>
+                
+                const photoGrid = document.createElement('div');
+                
+                if (viewMode === 'list') {
+                    // --- Nếu chế độ xem là List ---
+                    photoGrid.className = 'list-view';
+                    photoGrid.innerHTML = photos.map(media => {
+                        // (Copy HTML từ 'list' của loadPhotos)
+                        const thumbnailUrl = getGridThumbnailUrl(media);
+                        const mediaComments = commentsData.find(c => c.ID_IMG === media.name);
+                        const likesCount = mediaComments && mediaComments.tim && Array.isArray(mediaComments.tim) ? mediaComments.tim.length : 0;
+                        const commentsCount = mediaComments ? (mediaComments.comments ? mediaComments.comments.length : 0) : 0;
+                        const isVideo = media.fileType === 'video';
+                        const fileIcon = isVideo ? 'fas fa-play-circle' : 'fas fa-image';
+                        return `
+                            <div class="photo-item" onclick="viewMediaWithDetails('${media.id}', '${media.name}', '${media.fileType}')">
+                                <div class="relative">
+                                    <img src="${thumbnailUrl}" alt="${media.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src=imageErrorPlaceholder; this.style.objectFit='contain';">
+                                    ${isVideo ? '<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-play-circle text-white text-3xl opacity-80"></i></div>' : ''}
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-primary flex items-center">
+                                        <i class="${fileIcon} mr-2"></i>${media.name}
+                                    </h4>
+                                    <div class="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                                        <span><i class="fas fa-heart mr-1"></i>${likesCount}</span>
+                                        <span><i class="fas fa-comment mr-1"></i>${commentsCount}</span>
+                                        <span><i class="fas fa-file mr-1"></i>${formatFileSize(media.size)}</span>
+                                        <span class="px-2 py-1 bg-gray-200 rounded text-xs">${isVideo ? 'Video' : 'Ảnh'}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
-                }).join('');
-            } else {
-                // Map view names to CSS classes
-                const viewClassMap = {
-                    'grid-1': 'grid-view-1',
-                    'grid-2': 'grid-view-2', 
-                    'grid-3': 'grid-view-3',
-                    'grid-4': 'grid-view-4',
-                    'grid-5': 'grid-view-5',
-                    'grid-6': 'grid-view-6'
-                };
-                
-                const cssClass = viewClassMap[currentPhotoView] || 'grid-view-2';
-                container.className = `photo-grid ${cssClass}`;
-                
-                container.innerHTML = pageMedia.map(media => {
-                    const thumbnailUrl = getGridThumbnailUrl(media);
-                    const mediaComments = commentsData.find(c => c.ID_IMG === media.name);
-                    const likesCount = mediaComments && mediaComments.tim && Array.isArray(mediaComments.tim) ? mediaComments.tim.length : 0;
-                    const commentsCount = mediaComments ? (mediaComments.comments ? mediaComments.comments.length : 0) : 0;
-                    const isVideo = media.fileType === 'video';
+                        `;
+                    }).join('');
+
+                } else {
+                    // --- Nếu chế độ xem là Grid (grid-1, grid-2...) ---
+                    const viewClassMap = {
+                        'grid-1': 'grid-view-1', 'grid-2': 'grid-view-2', 'grid-3': 'grid-view-3',
+                        'grid-4': 'grid-view-4', 'grid-5': 'grid-view-5', 'grid-6': 'grid-view-6'
+                    };
+                    const cssClass = viewClassMap[viewMode] || 'grid-view-3';
+                    photoGrid.className = `photo-grid ${cssClass}`; 
                     
-                    return `
-                        <div class="photo-item relative" onclick="viewMediaWithDetails('${media.id}', '${media.name}', '${media.fileType}')" title="${media.name}">
-                            <img src="${thumbnailUrl}" alt="${media.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src=imageErrorPlaceholder; this.style.objectFit='contain';">
-                            ${isVideo ? '<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-play-circle text-white text-4xl opacity-80"></i></div>' : ''}
-                            <div class="absolute top-2 right-2">
-                                <span class="bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
-                                    ${isVideo ? 'Video' : 'Ảnh'}
-                                </span>
+                    photoGrid.innerHTML = photos.map(media => {
+                        // (Copy HTML từ 'grid' của loadPhotos)
+                        const thumbnailUrl = getGridThumbnailUrl(media);
+                        const mediaComments = commentsData.find(c => c.ID_IMG === media.name);
+                        const likesCount = mediaComments && mediaComments.tim && Array.isArray(mediaComments.tim) ? mediaComments.tim.length : 0;
+                        const commentsCount = mediaComments ? (mediaComments.comments ? mediaComments.comments.length : 0) : 0;
+                        const isVideo = media.fileType === 'video';
+                        return `
+                            <div class="photo-item relative" onclick="viewMediaWithDetails('${media.id}', '${media.name}', '${media.fileType}')" title="${media.name}">
+                                <img src="${thumbnailUrl}" alt="${media.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src=imageErrorPlaceholder; this.style.objectFit='contain';">
+                                ${isVideo ? '<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-play-circle text-white text-4xl opacity-80"></i></div>' : ''}
+                                <div class="absolute top-2 right-2">
+                                    <span class="bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                                        ${isVideo ? 'Video' : 'Ảnh'}
+                                    </span>
+                                </div>
+                                <div class="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded flex items-center space-x-2">
+                                    <span class="flex items-center">
+                                        <i class="fas fa-heart text-red-500 mr-1"></i>
+                                        ${likesCount}
+                                    </span>
+                                    <span class="flex items-center">
+                                        <i class="fas fa-comment text-blue-400 mr-1"></i>
+                                        ${commentsCount}
+                                    </span>
+                                </div>
                             </div>
-                            <div class="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded flex items-center space-x-2">
-                                <span class="flex items-center">
-                                    <i class="fas fa-heart text-red-500 mr-1"></i>
-                                    ${likesCount}
-                                </span>
-                                <span class="flex items-center">
-                                    <i class="fas fa-comment text-blue-400 mr-1"></i>
-                                    ${commentsCount}
-                                </span>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
+                        `;
+                    }).join('');
+                }
+                
+                container.appendChild(photoGrid);
+            });
+        }
+		// ▼▼▼ DÁN TOÀN BỘ KHỐI NÀY VÀO ▼▼▼
+
+        /**
+         * Xây dựng một Map (ánh xạ) từ Tên Ảnh -> Loại Sự Kiện
+         * Dữ liệu được lấy từ 'eventsData' (actions.json)
+         */
+        function buildPhotoCategoryMap() {
+            photoCategoryMap.clear();
+            for (const event of eventsData) {
+                // Chỉ xử lý nếu sự kiện có ảnh VÀ có loại
+                if (event.image && event.category) {
+                    for (const imageName of event.image) {
+                        // Ưu tiên bản đồ đầu tiên tìm thấy
+                        if (!photoCategoryMap.has(imageName)) { 
+                            photoCategoryMap.set(imageName, event.category);
+                        }
+                    }
+                }
             }
+            console.log(`Đã tạo bản đồ liên kết ảnh: ${photoCategoryMap.size} ảnh được phân loại.`);
+        }
+
+        /**
+         * Hàm render riêng cho Chế Độ Xem Nhóm
+         * (Đã sửa: Chỉ render các nhóm được truyền vào)
+         */
+        function renderGroupedPhotos(container, groupsToRender, viewMode) {
             
-            loadPhotosPagination(page, Math.ceil(sortedMedia.length / photosPerPage));
+            container.innerHTML = ''; // Xóa sạch
+            
+            // Lặp qua các nhóm được phân trang
+            groupsToRender.forEach((photos, category) => {
+                // Thêm tiêu đề nhóm
+                container.innerHTML += `
+                    <div class="category-group-header">
+                        <div class="header-content">
+                            <i class="fas fa-tag"></i> 
+                            <span>${escapeHtml(category)}</span>
+                        </div>
+                        <div class="header-badge">
+                            ${photos.length} media
+                        </div>
+                    </div>
+                `;
+                
+                const photoGrid = document.createElement('div');
+                
+                if (viewMode === 'list') {
+                    // --- Nếu chế độ xem là List ---
+                    photoGrid.className = 'list-view';
+                    photoGrid.innerHTML = photos.map(media => {
+                        const thumbnailUrl = getGridThumbnailUrl(media);
+                        const mediaComments = commentsData.find(c => c.ID_IMG === media.name);
+                        const likesCount = mediaComments && mediaComments.tim && Array.isArray(mediaComments.tim) ? mediaComments.tim.length : 0;
+                        const commentsCount = mediaComments ? (mediaComments.comments ? mediaComments.comments.length : 0) : 0;
+                        const isVideo = media.fileType === 'video';
+                        const fileIcon = isVideo ? 'fas fa-play-circle' : 'fas fa-image';
+                        return `
+                            <div class="photo-item" onclick="viewMediaWithDetails('${media.id}', '${media.name}', '${media.fileType}')">
+                                <div class="relative">
+                                    <img src="${thumbnailUrl}" alt="${media.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src=imageErrorPlaceholder; this.style.objectFit='contain';">
+                                    ${isVideo ? '<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-play-circle text-white text-3xl opacity-80"></i></div>' : ''}
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-primary flex items-center">
+                                        <i class="${fileIcon} mr-2"></i>${media.name}
+                                    </h4>
+                                    <div class="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                                        <span><i class="fas fa-heart mr-1"></i>${likesCount}</span>
+                                        <span><i class="fas fa-comment mr-1"></i>${commentsCount}</span>
+                                        <span><i class="fas fa-file mr-1"></i>${formatFileSize(media.size)}</span>
+                                        <span class="px-2 py-1 bg-gray-200 rounded text-xs">${isVideo ? 'Video' : 'Ảnh'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                } else {
+                    // --- Nếu chế độ xem là Grid (grid-1, grid-2...) ---
+                    const viewClassMap = {
+                        'grid-1': 'grid-view-1', 'grid-2': 'grid-view-2', 'grid-3': 'grid-view-3',
+                        'grid-4': 'grid-view-4', 'grid-5': 'grid-view-5', 'grid-6': 'grid-view-6'
+                    };
+                    const cssClass = viewClassMap[viewMode] || 'grid-view-3';
+                    photoGrid.className = `photo-grid ${cssClass}`; 
+                    
+                    photoGrid.innerHTML = photos.map(media => {
+                        const thumbnailUrl = getGridThumbnailUrl(media);
+                        const mediaComments = commentsData.find(c => c.ID_IMG === media.name);
+                        const likesCount = mediaComments && mediaComments.tim && Array.isArray(mediaComments.tim) ? mediaComments.tim.length : 0;
+                        const commentsCount = mediaComments ? (mediaComments.comments ? mediaComments.comments.length : 0) : 0;
+                        const isVideo = media.fileType === 'video';
+                        return `
+                            <div class="photo-item relative" onclick="viewMediaWithDetails('${media.id}', '${media.name}', '${media.fileType}')" title="${media.name}">
+                                <img src="${thumbnailUrl}" alt="${media.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src=imageErrorPlaceholder; this.style.objectFit='contain';">
+                                ${isVideo ? '<div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-play-circle text-white text-4xl opacity-80"></i></div>' : ''}
+                                <div class="absolute top-2 right-2">
+                                    <span class="bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                                        ${isVideo ? 'Video' : 'Ảnh'}
+                                    </span>
+                                </div>
+                                <div class="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded flex items-center space-x-2">
+                                    <span class="flex items-center">
+                                        <i class="fas fa-heart text-red-500 mr-1"></i>
+                                        ${likesCount}
+                                    </span>
+                                    <span class="flex items-center">
+                                        <i class="fas fa-comment text-blue-400 mr-1"></i>
+                                        ${commentsCount}
+                                    </span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+                
+                container.appendChild(photoGrid);
+            });
+        }
+         
+        /**
+         * VIẾT LẠI HÀM NÀY ĐỂ HỖ TRỢ PHÂN TRANG CHO CẢ 2 CHẾ ĐỘ
+         */
+        function loadPhotos(page = 1) {
+            const container = document.getElementById('photosContainer');
+            const paginationContainer = document.getElementById('photosPagination');
+            currentPage = page; // Luôn cập nhật trang hiện tại
+
+            // 1. Luôn xây dựng bản đồ nếu nó trống
+            if (photoCategoryMap.size === 0 && eventsData.length > 0) {
+                buildPhotoCategoryMap();
+            }
+
+            // 2. Kiểm tra dữ liệu
+            if (photosData.length === 0) {
+                container.className = '';
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500 col-span-full">
+                        </div>
+                `;
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            // === 3. LOGIC MỚI: KIỂM TRA CHẾ ĐỘ NHÓM ===
+            if (isPhotoGrouped) {
+                // --- 3a. RENDER CHẾ ĐỘ XEM NHÓM (CÓ PHÂN TRANG NHÓM) ---
+                
+                // Phân nhóm (giống hàm cũ)
+                const groups = new Map();
+                for (const photo of photosData) {
+                    const category = photoCategoryMap.get(photo.name) || "Không phân loại";
+                    if (!groups.has(category)) groups.set(category, []);
+                    groups.get(category).push(photo);
+                }
+                const sortedGroups = new Map(
+                    [...groups.entries()].sort((a, b) => {
+                        if (a[0] === "Không phân loại") return 1;
+                        if (b[0] === "Không phân loại") return -1;
+                        return a[0].localeCompare(b[0]);
+                    })
+                );
+
+                // Tính toán phân trang cho NHÓM
+                const totalPages = Math.ceil(sortedGroups.size / GROUPS_PER_PAGE);
+                const startIndex = (page - 1) * GROUPS_PER_PAGE;
+                const endIndex = startIndex + GROUPS_PER_PAGE;
+                
+                // Lấy các nhóm cho trang này
+                const pageGroups = new Map(Array.from(sortedGroups).slice(startIndex, endIndex));
+
+                container.className = ''; // Xóa class grid/list cũ
+                renderGroupedPhotos(container, pageGroups, currentPhotoView); 
+                loadPhotosPagination(page, totalPages); // Tải phân trang
+
+            } else {
+                // --- 3b. RENDER CHẾ ĐỘ XEM THƯỜNG (KHÔNG NHÓM) ---
+                const photosPerPage = parseInt(config.PHOTOS_PER_PAGE);
+                
+                const sortedMedia = [...photosData].sort((a, b) => a.name.localeCompare(b.name));
+                const totalPages = Math.ceil(sortedMedia.length / photosPerPage);
+                const startIndex = (page - 1) * photosPerPage;
+                const endIndex = startIndex + photosPerPage;
+                const pageMedia = sortedMedia.slice(startIndex, endIndex);
+
+                if (currentPhotoView === 'list') {
+                    container.className = 'list-view';
+                    container.innerHTML = pageMedia.map(media => {
+                        // ... (HTML của List View) ...
+                        const thumbnailUrl = getGridThumbnailUrl(media);
+                        const mediaComments = commentsData.find(c => c.ID_IMG === media.name);
+                        const likesCount = mediaComments && mediaComments.tim && Array.isArray(mediaComments.tim) ? mediaComments.tim.length : 0;
+                        const commentsCount = mediaComments ? (mediaComments.comments ? mediaComments.comments.length : 0) : 0;
+                        const isVideo = media.fileType === 'video';
+                        const fileIcon = isVideo ? 'fas fa-play-circle' : 'fas fa-image';
+                        return `
+                            <div class="photo-item" onclick="viewMediaWithDetails('${media.id}', '${media.name}', '${media.fileType}')">
+                                <div class="relative">
+                                    <img src="${thumbnailUrl}" alt="${media.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src=imageErrorPlaceholder; this.style.objectFit='contain';">
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-primary flex items-center">
+                                        <i class="${fileIcon} mr-2"></i>${media.name}
+                                    </h4>
+                                    <div class...">${formatFileSize(media.size)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    const viewClassMap = {
+                        'grid-1': 'grid-view-1', 'grid-2': 'grid-view-2', 'grid-3': 'grid-view-3',
+                        'grid-4': 'grid-view-4', 'grid-5': 'grid-view-5', 'grid-6': 'grid-view-6'
+                    };
+                    const cssClass = viewClassMap[currentPhotoView] || 'grid-view-2';
+                    container.className = `photo-grid ${cssClass}`;
+                    
+                    container.innerHTML = pageMedia.map(media => {
+                        // ... (HTML của Grid View) ...
+                        const thumbnailUrl = getGridThumbnailUrl(media);
+                        const mediaComments = commentsData.find(c => c.ID_IMG === media.name);
+                        const likesCount = mediaComments && mediaComments.tim && Array.isArray(mediaComments.tim) ? mediaComments.tim.length : 0;
+                        const commentsCount = mediaComments ? (mediaComments.comments ? mediaComments.comments.length : 0) : 0;
+                        const isVideo = media.fileType === 'video';
+                        return `
+                            <div class="photo-item relative" onclick="viewMediaWithDetails('${media.id}', '${media.name}', '${media.fileType}')" title="${media.name}">
+                                <img src="${thumbnailUrl}" alt="${media.name}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src=imageErrorPlaceholder; this.style.objectFit='contain';">
+                                <div class="absolute bottom-2 left-2 ...">
+                                    <span><i class="fas fa-heart ..."></i>${likesCount}</span>
+                                    <span><i class="fas fa-comment ..."></i>${commentsCount}</span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+                
+                // Tải phân trang
+                loadPhotosPagination(page, totalPages);
+            }
         }
 
         function formatFileSize(bytes) {
