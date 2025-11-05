@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-05T03:53:35.143Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:53:28.600Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem danh sách (Sự kiện)",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:46:17.874Z",
     "action": "Lọc sự kiện",
     "details": "Đã xóa bộ lọc",
