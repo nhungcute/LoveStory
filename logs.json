@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-05T03:30:33.923Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Lần đầu biết tin bé con\" với 6 ảnh",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:30:30.455Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Lần đầu biết tin bé con\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:30:30.455Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:30:26.803Z",
     "action": "Cập nhật sự kiện",
     "details": "Đã cập nhật sự kiện \"Bé con 7w2d\" với 5 ảnh",
