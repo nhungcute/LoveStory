@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-05T03:19:45.256Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã lọc 0 loại",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:19:43.288Z",
     "action": "Lọc sự kiện",
     "details": "Đã xóa bộ lọc",
