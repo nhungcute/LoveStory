@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-05T04:07:38.628Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1762315655243",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T04:07:35.243Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762315655243",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:58:55.998Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
