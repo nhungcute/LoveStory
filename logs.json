@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-05T08:03:56.685Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762329836686",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T08:05:49.977Z",
     "action": "Xem ảnh sự kiện",
     "details": "Đã xem ảnh của sự kiện \"Lễ Thành Hôn\"",
