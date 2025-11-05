@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-05T03:06:05.540Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:06:01.364Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem danh sách (Sự kiện)",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:05:59.608Z",
     "action": "Chế độ xem",
     "details": "Đổi sang xem nhóm (Sự kiện)",
