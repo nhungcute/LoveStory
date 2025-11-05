@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-11-05T03:58:37.852Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:58:36.337Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:58:34.845Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Hè\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T03:58:33.464Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T03:55:58.080Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
