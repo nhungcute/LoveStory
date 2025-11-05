@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-05T12:35:53.910Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã xóa bộ lọc",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T12:35:52.367Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1762346118632",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T12:35:39.809Z",
     "action": "Lọc sự kiện",
     "details": "Đã (bỏ) chọn lọc: Bé con",
