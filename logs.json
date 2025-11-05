@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-05T04:08:04.906Z",
+    "action": "Phân trang ảnh",
+    "details": "Chuyển từ trang 1 sang trang 2",
+    "username": "1762315655243",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T04:07:56.695Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1762315655243",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T04:07:51.902Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
