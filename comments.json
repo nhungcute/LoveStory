@@ -241,6 +241,12 @@
         "userName": "tintin"
       }
     ],
-    "comments": []
+    "comments": [
+      {
+        "comment": "Món quà đầu tiên",
+        "date_input": "2025-11-05T01:34:19.553Z",
+        "userName": "tintin"
+      }
+    ]
   }
 ]
