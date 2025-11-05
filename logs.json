@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-05T01:34:19.555Z",
+    "action": "Bình luận ảnh",
+    "details": "Đã bình luận vào ảnh \"DSC00751.JPG\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T01:34:13.373Z",
+    "action": "Tương tác ảnh",
+    "details": "Đã thích ảnh \"DSC00751.JPG\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T01:34:12.021Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T01:34:07.109Z",
     "action": "Bình luận ảnh",
     "details": "Đã bình luận vào ảnh \"DSC00748.JPG\"",
