@@ -1,76 +1,27 @@
 [
   {
-    "timestamp": "2025-11-05T08:19:23.671Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "timestamp": "2025-11-05T08:20:09.260Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Hàn Quốc- Day 3\"",
     "username": "1762306322252",
     "saved": true
   },
   {
-    "timestamp": "2025-11-05T08:19:21.339Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "timestamp": "2025-11-05T08:20:09.260Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
     "username": "1762306322252",
     "saved": true
   },
   {
-    "timestamp": "2025-11-05T08:19:09.552Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Mùa Xuân\"",
-    "username": "1762306322252",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-05T08:19:08.053Z",
-    "action": "Thay đổi theme",
-    "details": "Đã chuyển sang theme \"Đại Dương\"",
-    "username": "1762306322252",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-05T08:19:01.939Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
-    "username": "1762306322252",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-05T08:17:37.747Z",
+    "timestamp": "2025-11-05T08:20:00.204Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
     "username": "1762306322252",
     "saved": true
   },
   {
-    "timestamp": "2025-11-05T08:17:29.179Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"Hàn Quốc- Day 5\"",
-    "username": "1762306322252",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-05T08:17:29.179Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh sự kiện\"",
-    "username": "1762306322252",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-05T08:17:24.612Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"Hàn Quốc - Day 6\"",
-    "username": "1762306322252",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-05T08:17:24.611Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh sự kiện\"",
-    "username": "1762306322252",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-05T08:16:57.073Z",
+    "timestamp": "2025-11-05T08:19:58.236Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
     "username": "1762306322252",
