@@ -1,5 +1,68 @@
 [
   {
+    "timestamp": "2025-11-05T04:27:46.473Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1762316798523",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T04:27:45.670Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1762316798523",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T04:27:44.810Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
+    "username": "1762316798523",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T04:27:43.634Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
+    "username": "1762316798523",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T04:27:42.787Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"6x6\" sang \"1x1\"",
+    "username": "1762316798523",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T04:27:41.884Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"5x5\" sang \"6x6\"",
+    "username": "1762316798523",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T04:27:40.705Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"4x4\" sang \"5x5\"",
+    "username": "1762316798523",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T04:27:39.395Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1762316798523",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-05T04:27:37.116Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1762316798523",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-05T04:27:28.415Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
