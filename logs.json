@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-06T10:12:05.173Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762423412194",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-06T10:12:02.870Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1762423412194",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-06T10:09:07.457Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện mới \"Chụp ảnh cưới\" với 32 ảnh",
