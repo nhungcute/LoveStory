@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-06T10:03:32.193Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1762423412194",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-06T09:50:04.682Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
