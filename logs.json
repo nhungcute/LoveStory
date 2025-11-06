@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-06T02:22:32.163Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-06T02:22:29.713Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-06T02:22:26.938Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-06T00:51:17.141Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
