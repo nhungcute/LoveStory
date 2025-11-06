@@ -1,5 +1,40 @@
 [
   {
+    "timestamp": "2025-11-06T03:42:17.648Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-06T03:42:15.553Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-06T03:42:14.209Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-06T03:42:13.272Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-06T03:42:09.049Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762306322252",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-06T03:34:32.454Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
