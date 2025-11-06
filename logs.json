@@ -1,9 +1,16 @@
 [
   {
-    "timestamp": "2025-11-06T10:12:24.081Z",
+    "timestamp": "2025-11-06T10:12:51.004Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1762423969901",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-06T10:12:49.892Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1762423412194",
+    "username": "1762423969901",
     "saved": true
   },
   {
