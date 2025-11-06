@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-06T11:31:10.537Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã (bỏ) chọn lọc: Bé con",
+    "username": "1762428662072",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-06T11:31:09.006Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1762428662072",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-06T11:31:02.072Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762428662072",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-06T11:27:06.939Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
