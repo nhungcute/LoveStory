@@ -5633,9 +5633,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 			
         });
 		
-		// === LOGIC BIỂU ĐỒ VÀNG TRANG CHỦ ===
-  
-        /**
+		/**
          * Xử lý dữ liệu thô từ gold_history.json (Đã cập nhật để lấy Min/Max/Last)
          */
         function processGoldDataForLineChart(rawData) {
@@ -5720,108 +5718,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 
             return { buySeries: filledBuySeries, sellSeries: filledSellSeries };
         }
-
-        /**
-         * Khởi tạo biểu đồ (chỉ chạy 1 lần)
-         */
-        function initHomeGoldChart() {
-            // Chỉ khởi tạo nếu chưa có (lazy load)
-            if (homeGoldChart || goldData.length === 0) {
-                return;
-            }
-
-            console.log("Đang khởi tạo biểu đồ giá vàng...");
-            
-            // Xử lý dữ liệu
-            const { buySeries, sellSeries } = processGoldDataForLineChart(goldData);
-
-            if (buySeries.length === 0) {
-                document.getElementById('homeGoldChart').innerHTML = "<p class='text-center text-gray-500'>Không đủ dữ liệu để vẽ biểu đồ.</p>";
-                return;
-            }
-
-            const options = {
-                series: [
-                    {
-                        name: 'Giá Mua',
-                        data: buySeries,
-                        color: '#00B746' // Xanh green
-                    },
-                    {
-                        name: 'Giá Bán',
-                        data: sellSeries,
-                        color: '#EF403C' // Đỏ red
-                    }
-                ],
-                chart: {
-                    type: 'line',
-                    height: 250,
-                    zoom: {
-                        enabled: true // Cho phép zoom bằng chuột
-                    },
-                    toolbar: {
-                        show: false // Ẩn toolbar mặc định (vì ta dùng toolbar riêng)
-                    }
-                },
-                xaxis: {
-                    type: 'datetime',
-                    labels: {
-                        datetimeUTC: false,
-                        format: 'dd/MM'
-                    }
-                },
-                yaxis: {
-                    labels: {
-                        formatter: (val) => val.toLocaleString('vi-VN')
-                    }
-                },
-                tooltip: {
-                    x: {
-                        format: 'dd/MM/yyyy'
-                    }
-                },
-                stroke: {
-                    width: 2 // Độ dày của đường line
-                }
-            };
-
-            homeGoldChart = new ApexCharts(document.querySelector("#homeGoldChart"), options);
-            homeGoldChart.render();
-
-            // Gắn sự kiện cho các nút toolbar (phải sau khi chart đã render)
-            function setupToolbarEvents() {
-                const today = new Date().getTime();
-
-                function zoomChart(days) {
-                    const startDate = new Date().setDate(new Date().getDate() - days);
-                    homeGoldChart.zoomX(startDate, today);
-                }
-
-                const buttons = document.querySelectorAll('.chart-toolbar-btn');
-                buttons.forEach(btn => {
-                    btn.addEventListener('click', () => {
-						e.stopPropagation();
-                        // Bỏ active tất cả
-                        buttons.forEach(b => b.classList.remove('active'));
-                        // Active nút được chọn
-                        btn.classList.add('active');
-
-                        const id = btn.id;
-                        if (id === 'btn-gold-1m') zoomChart(31);
-                        if (id === 'btn-gold-3m') zoomChart(90);
-                        if (id === 'btn-gold-6m') zoomChart(180);
-                        if (id === 'btn-gold-1y') zoomChart(365);
-                        if (id === 'btn-gold-3y') zoomChart(365 * 3);
-                    });
-                });
-
-                // Kích hoạt 1M làm mặc định
-                zoomChart(31);
-            }
-            
-            setupToolbarEvents();
-        }
-
+ 
         /**
          * Ẩn/hiện khối biểu đồ
          */
@@ -6347,9 +6244,9 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 
             return { buySeries: filledBuySeries, sellSeries: filledSellSeries };
         }
-
-        /**
-         * Khởi tạo biểu đồ (Đã cập nhật Tooltip)
+		
+		/**
+         * Khởi tạo biểu đồ (Đã cập nhật Tooltip theo yêu cầu mới)
          */
         function initHomeGoldChart() {
             if (homeGoldChart || goldData.length === 0) {
@@ -6357,6 +6254,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             }
             console.log("Đang khởi tạo biểu đồ giá vàng...");
             
+            // Hàm này phải là hàm MỚI NHẤT (dòng 3662)
             const { buySeries, sellSeries } = processGoldDataForLineChart(goldData);
 
             if (buySeries.length === 0) {
@@ -6376,44 +6274,80 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                     tooltip: { enabled: true } // Bật tooltip cho trục Y
                 },
                 stroke: { width: 2 },
-
-                // ▼▼▼ BẮT ĐẦU SỬA TOOLTIP ▼▼▼
-                tooltip: {
+ 
+tooltip: {
+                    shared: true,
+                    intersect: false,
                     x: {
-                        format: 'dd/MM/yyyy' // Định dạng ngày
+                        format: 'dd/MM/yyyy'
+                    },
+                    marker: {
+                        show: false 
                     },
                     y: {
-                        // Hàm formatter tùy chỉnh
-                        formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-                            // 'value' ở đây là giá trị 'y' (giá cuối)
-                            // w.config.series... cho phép truy cập toàn bộ object data
+                        title: {
+                            formatter: () => '' 
+                        },
+                        // ▼▼▼ THAY THẾ TOÀN BỘ HÀM FORMATTER NÀY ▼▼▼
+                        formatter: function(value, { seriesIndex, dataPointIndex, w }) {
                             try {
                                 const dataPoint = w.config.series[seriesIndex].data[dataPointIndex];
-                                
-                                const last = (dataPoint.y || 0).toLocaleString('vi-VN');
+                                const seriesName = w.config.series[seriesIndex].name;
+                                const color = w.config.series[seriesIndex].color;
+                                const last = (value || 0).toLocaleString('vi-VN');
                                 const min = (dataPoint.min || 0).toLocaleString('vi-VN');
                                 const max = (dataPoint.max || 0).toLocaleString('vi-VN');
-                                
-                                // Trả về HTML cho tooltip
+ 
                                 return `
-                                    <div class="p-1">
-                                        <div class="flex justify-between"><span>Cuối:</span><strong class="ml-4">${last}</strong></div>
-                                        <div class="flex justify-between"><span>Thấp:</span><strong class="ml-4">${min}</strong></div>
-                                        <div class="flex justify-between"><span>Cao:</span><strong class="ml-4">${max}</strong></div>
-                                    </div>
+								
+									<table class="text-xs" style="border-spacing: 10px 2px; width: 100%;">
+									  <tr>
+										<td></td><td>&nbsp</td>
+										<td class="text-gray-500 text-left">Thấp:</td>
+										<td class="text-gray-500 text-right">&nbsp${min}</td>
+									  </tr>
+
+									  <tr style="height: 20px;">
+										<td style="text-align: center; vertical-align: middle;">
+										  <span style="
+											width: 8px; 
+											height: 8px; 
+											border-radius: 50%; 
+											background: ${color}; 
+											display: inline-block;
+										  "></span>
+										</td>
+										<td>&nbsp</td>
+										<td style="vertical-align: middle; text-align: left;">
+										  <p class="text-xs text-gray-500 m-0">${seriesName}:</p>
+										</td>
+										<td style="vertical-align: middle; text-align: right;">
+										  <p class="text-xs text-gray-700 font-semibold m-0">&nbsp${last}</p>
+										</td>
+									  </tr>
+
+									  <tr>
+										<td></td><td>&nbsp</td>
+										<td class="text-gray-500 text-left">Cao:</td>
+										<td class="text-gray-500 text-right">&nbsp${max}</td>
+									  </tr>
+									</table>
+
                                 `;
                             } catch (e) {
-                                // Dự phòng nếu dataPoint không tồn tại
                                 return (value || 0).toLocaleString('vi-VN');
                             }
-                        },
-                        title: {
-                            // Thêm tiêu đề (Giá Mua/Giá Bán) cho mỗi phần
-                            formatter: (seriesName) => `${seriesName}:`
                         }
+                        // ▲▲▲ KẾT THÚC KHỐI THAY THẾ ▲▲▲
+                    },
+                    style: {
+                        fontSize: '13px'
                     }
                 }
-                // ▲▲▲ KẾT THÚC SỬA TOOLTIP ▲▲▲
+
+
+
+                
             };
 
             homeGoldChart = new ApexCharts(document.querySelector("#homeGoldChart"), options);
@@ -6444,7 +6378,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             }
             setupToolbarEvents();
         }
-
+		
         /**
          * Ẩn/hiện khối biểu đồ VÀ TẢI DANH MỤC
          */
