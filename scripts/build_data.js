@@ -144,21 +144,40 @@ async function scrapeAndSaveRingPrice() {
             history.push(productData);
         }
 
-        const latestEntry = productData.gia[0]; 
-        let hasChanged = false;
+        // === BẮT ĐẦU LOGIC ĐÃ SỬA ===
+        const latestEntry = productData.gia[0];
+        let shouldSave = false; // Đổi tên biến cho rõ nghĩa
+        
+        const newDateStr = newPriceEntry.timestamp.split('T')[0];
 
         if (!latestEntry) {
             console.log("Thêm giá vàng đầu tiên cho sản phẩm.");
-            hasChanged = true;
-        } else if (latestEntry.ring_buy !== newPriceEntry.ring_buy || latestEntry.ring_sell !== newPriceEntry.ring_sell) {
-            console.log("Phát hiện thay đổi giá vàng. Thêm vào lịch sử.");
-            hasChanged = true;
+            shouldSave = true;
         } else {
-            console.log("Giá vàng không thay đổi. Bỏ qua không lưu.");
-            hasChanged = false;
-        }
+            // Lấy ngày của bản ghi cũ
+            const latestDateStr = latestEntry.timestamp.split('T')[0];
 
-        if (hasChanged) {
+            // Điều kiện 1: Giá thay đổi
+            const priceChanged = latestEntry.ring_buy !== newPriceEntry.ring_buy || latestEntry.ring_sell !== newPriceEntry.ring_sell;
+            
+            // Điều kiện 2: Ngày thay đổi (theo yêu cầu của bạn)
+            const dateChanged = newDateStr !== latestDateStr;
+
+            if (priceChanged) {
+                console.log("Phát hiện thay đổi giá vàng. Thêm vào lịch sử.");
+                shouldSave = true;
+            } else if (dateChanged) {
+                console.log("Ngày mới, thêm giá vàng (dù không đổi) làm mốc.");
+                shouldSave = true;
+            } else {
+                console.log("Giá vàng không thay đổi và vẫn trong cùng ngày. Bỏ qua.");
+                shouldSave = false;
+            }
+        }
+        // === KẾT THÚC LOGIC ĐÃ SỬA ===
+
+
+        if (shouldSave) { // Đã đổi tên biến từ hasChanged
             productData.gia.unshift(newPriceEntry);
             if (productData.gia.length > MAX_HISTORY_ENTRIES) {
                 productData.gia = productData.gia.slice(0, MAX_HISTORY_ENTRIES);
