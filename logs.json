@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-11T07:37:14.499Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1762846578211",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T07:37:12.554Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc - Day 1\"",
+    "username": "1762846578211",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T07:37:12.554Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1762846578211",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T07:36:53.897Z",
     "action": "Cập nhật sự kiện",
     "details": "Đã cập nhật sự kiện \"Lần đầu biết tin bé con\" với 8 ảnh",
