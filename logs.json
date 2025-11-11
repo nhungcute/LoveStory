@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-11T03:07:04.825Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Hàn Quốc- Day 3\" với 11 ảnh",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:07:01.653Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc- Day 3\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:07:01.652Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T03:06:52.454Z",
     "action": "Lọc sự kiện",
     "details": "Đã xóa bộ lọc",
