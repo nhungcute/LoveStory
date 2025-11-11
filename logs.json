@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-11T04:22:30.450Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T04:22:27.044Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T04:22:25.698Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T04:22:09.881Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
