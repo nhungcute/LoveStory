@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-11-11T07:38:29.714Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T07:38:26.249Z",
+    "action": "Tương tác ảnh",
+    "details": "Gắn ảnh \"DSC01291.JPG\" vào sự kiện \"Hàn Quốc - Day 1\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T07:38:24.051Z",
+    "action": "Mở modal",
+    "details": "Mở Gắn ảnh vào sự kiện cho: DSC01291.JPG",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T07:38:19.202Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T07:38:13.370Z",
     "action": "Tương tác ảnh",
     "details": "Gắn ảnh \"IMG_6260.HEIC\" vào sự kiện \"Xuất ngoại Hàn Quốc\"",
