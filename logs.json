@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-11T04:23:15.490Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Ăn hỏi\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T04:23:15.490Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T04:23:09.058Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Ăn hỏi\" với 5 ảnh",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T04:22:56.410Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Ăn hỏi\"",
