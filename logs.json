@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-11T04:25:39.809Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T04:25:38.538Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T04:24:42.927Z",
     "action": "Cập nhật sự kiện",
     "details": "Đã cập nhật sự kiện \"Ăn hỏi\" với 15 ảnh",
