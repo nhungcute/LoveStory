@@ -1,65 +1,9 @@
 [
   {
-    "timestamp": "2025-11-11T03:49:51.815Z",
-    "action": "Tương tác ảnh",
-    "details": "Gắn ảnh \"DSC00600.JPG\" vào sự kiện \"Ăn hỏi\"",
-    "username": "1762832830623",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:49:43.687Z",
-    "action": "Mở modal",
-    "details": "Mở Gắn ảnh vào sự kiện cho: DSC00600.JPG",
-    "username": "1762832830623",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:49:39.024Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1762832830623",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:48:57.655Z",
-    "action": "Tương tác ảnh",
-    "details": "Gắn ảnh \"DSC00579.JPG\" vào sự kiện \"Ăn hỏi\"",
-    "username": "1762832830623",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:48:25.175Z",
-    "action": "Mở modal",
-    "details": "Mở Gắn ảnh vào sự kiện cho: DSC00579.JPG",
-    "username": "1762832830623",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:48:20.399Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1762832830623",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:47:58.950Z",
+    "timestamp": "2025-11-11T03:50:40.505Z",
     "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1762832830623",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:47:54.047Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
-    "username": "1762832830623",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:47:10.623Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1762832830623",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762832925231",
     "saved": true
   },
   {
