@@ -1,5 +1,47 @@
 [
   {
+    "timestamp": "2025-11-11T03:14:54.064Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Hàn Quốc - Day 1\" với 13 ảnh",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:14:46.964Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Hàn Quốc - Day 1\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:14:46.964Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:14:44.153Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã (bỏ) chọn lọc: Du lịch",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:14:42.453Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:14:41.172Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T03:10:56.748Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Cafe cuối tuần\"",
