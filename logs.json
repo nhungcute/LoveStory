@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-11T03:05:48.740Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:05:43.278Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Xuất ngoại Hàn Quốc\" với 1 ảnh",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T03:05:39.963Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Xuất ngoại Hàn Quốc\"",
