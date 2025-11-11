@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-11T03:49:51.815Z",
+    "action": "Tương tác ảnh",
+    "details": "Gắn ảnh \"DSC00600.JPG\" vào sự kiện \"Ăn hỏi\"",
+    "username": "1762832830623",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T03:49:43.687Z",
     "action": "Mở modal",
     "details": "Mở Gắn ảnh vào sự kiện cho: DSC00600.JPG",
