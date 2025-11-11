@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-11T04:24:42.927Z",
+    "action": "Cập nhật sự kiện",
+    "details": "Đã cập nhật sự kiện \"Ăn hỏi\" với 15 ảnh",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T04:23:24.275Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
