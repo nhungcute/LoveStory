@@ -1090,7 +1090,20 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
   <div id="photoModal" class="modal">
    <div class="modal-content w-full max-w-4xl" style="padding: 1rem;">
     <div class="flex justify-between items-center mb-4">
-     <h3 class="text-xl font-bold text-primary"><i class="fas fa-image mr-2"></i>Xem Ảnh</h3><button onclick="closeModal('photoModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
+        <div class="flex items-center space-x-2">
+            <h3 class="text-xl font-bold text-primary"><i class="fas fa-image mr-2"></i>Xem Ảnh</h3>
+            <div class="relative">
+                <button onclick="togglePhotoActionsMenu()" class="text-custom hover:text-primary p-2 rounded-full hover:bg-gray-100">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div id="photoActionsMenu" class="hidden absolute left-0 top-full mt-1 bg-accent border border-custom rounded-lg shadow-lg z-50 min-w-[200px]">
+                    <button onclick="openEventLinkModal()" class="w-full text-left px-4 py-2 text-custom hover:bg-gray-100 flex items-center">
+                        <i class="fas fa-link mr-2 w-4"></i>Gắn vào sự kiện...
+                    </button>
+                    </div>
+            </div>
+        </div>
+        <button onclick="closeModal('photoModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
     </div>
     <div class="text-center mb-4"><img id="modalPhoto" src="" alt="" class="mx-auto rounded-lg" style="max-width: 100%; max-height: 50vh; width: auto; height: auto; object-fit: contain;" referrerpolicy="no-referrer">
     </div>
@@ -1236,7 +1249,29 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
     <div id="eventPhotosGrid" class="grid grid-cols-3 md:grid-cols-4 gap-3 max-h-96 overflow-y-auto"><!-- Event photos will be loaded here -->
     </div>
    </div>
-  </div><!-- Logs Modal -->
+  </div>
+  
+  <div id="eventLinkModal" class="modal" style="z-index: 1060;"> <div class="modal-content w-full max-w-lg">
+    <div class="flex justify-between items-center mb-4">
+     <h3 class="text-xl font-bold text-primary"><i class="fas fa-link mr-2"></i>Gắn Ảnh vào Sự Kiện</h3>
+     <button onclick="closeModal('eventLinkModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
+    </div>
+    <div class="space-y-4">
+        <p class="text-sm">Chọn sự kiện để gắn ảnh: <strong id="linkPhotoName" class="text-primary"></strong></p>
+        
+        <input type="text" id="eventLinkSearch" class="love-input w-full" placeholder="Tìm kiếm sự kiện..." oninput="filterEventLinkList()">
+        
+        <div id="eventLinkList" class="space-y-2 max-h-80 overflow-y-auto p-2 border border-custom rounded-lg">
+            <div class="loading-spinner mx-auto my-4"></div>
+        </div>
+        
+        <div class="text-right">
+             <button type="button" onclick="closeModal('eventLinkModal')" class="love-button secondary">Đóng</button>
+        </div>
+		</div>
+	   </div>
+	</div>
+  <!-- Logs Modal -->
   <div id="logsModal" class="modal">
    <div class="modal-content w-full max-w-3xl">
     <div class="flex justify-between items-center mb-4">
@@ -5620,6 +5655,15 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                     menu.classList.add('hidden');
                 });
             }
+			
+			// 🔥 THÊM LOGIC NÀY: Đóng menu 3 chấm (photo modal)
+			const photoMenu = document.getElementById('photoActionsMenu');
+			if (photoMenu && !photoMenu.classList.contains('hidden')) {
+				// Nếu click ra ngoài nút 3 chấm VÀ ra ngoài menu
+				if (!e.target.closest('[onclick*="togglePhotoActionsMenu"]') && !e.target.closest('#photoActionsMenu')) {
+					photoMenu.classList.add('hidden');
+				}
+			}
 
             // 2. Logic đóng dropdown thông báo (từ new4)
             const dropdown = document.getElementById('notifications-dropdown');
@@ -6397,6 +6441,164 @@ tooltip: {
                 loadGoldPortfolio(); // 2. Tải danh mục giao dịch
             }
         }
+		
+		/**
+		 * (MỚI) Bật/tắt menu 3 chấm trong modal xem ảnh
+		 */
+		function togglePhotoActionsMenu() {
+			const menu = document.getElementById('photoActionsMenu');
+			if (!menu) return;
+			menu.classList.toggle('hidden');
+		}
+
+		/**
+		 * (MỚI) Mở modal để chọn sự kiện gán ảnh
+		 */
+		function openEventLinkModal() {
+			// 1. Đóng menu 3 chấm
+			const menu = document.getElementById('photoActionsMenu');
+			if (menu) menu.classList.add('hidden');
+
+			// 2. Kiểm tra xem có ảnh đang được chọn không
+			if (!currentPhotoName) {
+				showNotification('Lỗi: Không có ảnh nào được chọn.', 'error');
+				return;
+			}
+
+			// 3. Cập nhật tên ảnh vào modal mới
+			document.getElementById('linkPhotoName').textContent = currentPhotoName;
+
+			// 4. Reset thanh tìm kiếm và tải danh sách
+			document.getElementById('eventLinkSearch').value = '';
+			loadEventLinkList(); // Gọi hàm tải danh sách
+
+			// 5. Mở modal
+			openModal('eventLinkModal');
+			addLog('Mở modal', `Mở Gắn ảnh vào sự kiện cho: ${currentPhotoName}`);
+		}
+
+		/**
+		 * (MỚI) Tải và hiển thị danh sách sự kiện vào modal
+		 * @param {string} filter - Chuỗi tìm kiếm (tùy chọn)
+		 */
+		function loadEventLinkList(filter = '') {
+			const container = document.getElementById('eventLinkList');
+			const lowerFilter = filter.toLowerCase();
+
+			// Sắp xếp sự kiện theo ngày, mới nhất trước
+			const sortedEvents = [...eventsData].sort((a, b) => 
+				new Date(convertDateFormat(b.day)) - new Date(convertDateFormat(a.day))
+			);
+			
+			// Lọc sự kiện theo tên
+			const filteredEvents = sortedEvents.filter(event => 
+				event.name.toLowerCase().includes(lowerFilter)
+			);
+
+			if (filteredEvents.length === 0) {
+				container.innerHTML = '<p class="text-center text-gray-500 p-4">Không tìm thấy sự kiện.</p>';
+				return;
+			}
+
+			// Render danh sách
+			container.innerHTML = filteredEvents.map(event => {
+				// Kiểm tra xem ảnh này đã được gán cho sự kiện này chưa
+				const isAlreadyLinked = event.image && event.image.includes(currentPhotoName);
+				
+				return `
+					<div class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 ${isAlreadyLinked ? 'bg-green-50' : 'bg-accent'}">
+						<div>
+							<p class="font-medium text-custom">${escapeHtml(event.name)}</p>
+							<p class="text-sm text-gray-500">${event.day}</p>
+						</div>
+						<button onclick="linkPhotoToEvent('${event.note_id}')" 
+								class="love-button text-sm px-3 py-1 ${isAlreadyLinked ? 'secondary' : ''}"
+								style="${isAlreadyLinked ? 'opacity: 0.6; cursor: not-allowed;' : ''}"
+								${isAlreadyLinked ? 'disabled' : ''}>
+							${isAlreadyLinked ? '<i class="fas fa-check mr-1"></i>Đã gắn' : '<i class="fas fa-link mr-1"></i>Gắn'}
+						</button>
+					</div>
+				`;
+			}).join('');
+		}
+
+		/**
+		 * (MỚI) Hàm được gọi bởi thanh tìm kiếm (oninput)
+		 */
+		function filterEventLinkList() {
+			const filter = document.getElementById('eventLinkSearch').value;
+			loadEventLinkList(filter);
+		}
+
+		/**
+		 * (MỚI) Hàm lõi: Thực hiện gán ảnh vào sự kiện
+		 * @param {string} eventId - ID của sự kiện được chọn
+		 */
+		async function linkPhotoToEvent(eventId) {
+			if (!currentPhotoName) return;
+
+			const eventIndex = eventsData.findIndex(e => e.note_id === eventId);
+			if (eventIndex === -1) {
+				showNotification('Lỗi: Không tìm thấy sự kiện.', 'error');
+				return;
+			}
+			
+			const event = eventsData[eventIndex];
+			
+			// 1. Lưu trạng thái cũ để rollback
+			const originalImageArray = [...(event.image || [])];
+
+			// 2. Cập nhật lạc quan (Optimistic Update)
+			if (!event.image) {
+				event.image = [];
+			}
+			
+			if (event.image.includes(currentPhotoName)) {
+				return; // Đã gắn rồi
+			}
+
+			event.image.push(currentPhotoName);
+
+			// 3. Cập nhật UI
+			showNotification(`Đã gắn ảnh vào sự kiện "${event.name}"`, 'success');
+			addLog('Tương tác ảnh', `Gắn ảnh "${currentPhotoName}" vào sự kiện "${event.name}"`);
+			
+			// Tải lại danh sách trong modal để cập nhật nút "Đã gắn"
+			loadEventLinkList(document.getElementById('eventLinkSearch').value);
+			
+			// 🔥 Quan trọng: Xây dựng lại bản đồ phân loại ảnh
+			buildPhotoCategoryMap();
+			
+			// Tải lại tab khoảnh khắc (nếu đang ở đó) để cập nhật tag
+			if (currentSection === 'photos') {
+				loadPhotos(currentPage);
+			}
+			
+			// 4. Đồng bộ nền (Lưu vào actions.json)
+			(async () => {
+				try {
+					const success = await githubAPI.updateFile(
+						config.FILE_PATH, // actions.json
+						eventsData,
+						`Link photo ${currentPhotoName} to event ${event.name}`
+					);
+
+					if (!success) throw new Error("API update failed");
+					
+				} catch (error) {
+					// 5. Rollback nếu lỗi
+					console.error('Lỗi khi đồng bộ file sự kiện:', error);
+					showNotification('Lỗi đồng bộ! Đang hoàn tác...', 'error');
+					
+					// Khôi phục mảng ảnh cũ
+					eventsData[eventIndex].image = originalImageArray;
+					
+					// Tải lại UI
+					loadEventLinkList(document.getElementById('eventLinkSearch').value);
+					buildPhotoCategoryMap(); // Xây dựng lại bản đồ (cũ)
+				}
+			})();
+		}
 		
     </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f60467b36d04e3',t:'MTc2MDYwMTU3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
