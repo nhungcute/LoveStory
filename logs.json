@@ -1,71 +1,57 @@
 [
   {
-    "timestamp": "2025-11-11T03:15:09.204Z",
+    "timestamp": "2025-11-11T03:15:54.162Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"5x5\" sang \"6x6\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:15:53.595Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"4x4\" sang \"5x5\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:15:53.018Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"3x3\" sang \"4x4\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:15:52.435Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:15:51.786Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"Danh sách\" sang \"2x2\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:15:51.011Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"1x1\" sang \"Danh sách\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:15:50.179Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"6x6\" sang \"1x1\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:15:46.421Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:15:08.060Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:15:00.886Z",
-    "action": "Lọc sự kiện",
-    "details": "Đã xóa bộ lọc",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:14:59.661Z",
-    "action": "Mở modal",
-    "details": "Mở bộ lọc sự kiện (dropdown)",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:14:54.064Z",
-    "action": "Cập nhật sự kiện",
-    "details": "Đã cập nhật sự kiện \"Hàn Quốc - Day 1\" với 13 ảnh",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:14:46.964Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"Hàn Quốc - Day 1\"",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:14:46.964Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:14:44.153Z",
-    "action": "Lọc sự kiện",
-    "details": "Đã (bỏ) chọn lọc: Du lịch",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:14:42.453Z",
-    "action": "Mở modal",
-    "details": "Mở bộ lọc sự kiện (dropdown)",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:14:41.172Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
     "username": "1762828384930",
     "saved": true
   },
