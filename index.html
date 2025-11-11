@@ -2863,8 +2863,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                 container.appendChild(photoGrid);
             });
         }
-		// ▼▼▼ DÁN TOÀN BỘ KHỐI NÀY VÀO ▼▼▼
-
+		
         /**
          * Xây dựng một Map (ánh xạ) từ Tên Ảnh -> Loại Sự Kiện
          * Dữ liệu được lấy từ 'eventsData' (actions.json)
@@ -3424,6 +3423,9 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             loadTimeline();
             updateStats();
             loadTodayMemories();
+			
+			buildPhotoCategoryMap();
+			
             addLog(editingEventId ? 'Cập nhật sự kiện' : 'Thêm sự kiện mới', logMessage);
             showNotification('Đã lưu sự kiện thành công!', 'success');
             
@@ -3561,6 +3563,8 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
             loadTimeline();
             updateStats();
             loadTodayMemories();
+			
+			buildPhotoCategoryMap();
 
             // 4. --- ĐỒNG BỘ NỀN (BACKGROUND SYNC) ---
             // Chạy hàm async tự gọi để lưu file mà không block UI
@@ -3592,6 +3596,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
                     loadTimeline();
                     updateStats();
                     loadTodayMemories();
+					
                 }
             })(); // <-- Dấu () để hàm tự chạy
         }
