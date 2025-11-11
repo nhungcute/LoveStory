@@ -1,23 +1,30 @@
 [
   {
-    "timestamp": "2025-11-11T07:36:02.514Z",
+    "timestamp": "2025-11-11T07:36:28.671Z",
     "action": "Mở modal",
-    "details": "Mở Gắn ảnh vào sự kiện cho: DSC01246.JPG",
-    "username": "1762828384930",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1762846578211",
     "saved": true
   },
   {
-    "timestamp": "2025-11-11T07:35:59.315Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1762828384930",
+    "timestamp": "2025-11-11T07:36:27.538Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Lần đầu biết tin bé con\"",
+    "username": "1762846578211",
     "saved": true
   },
   {
-    "timestamp": "2025-11-11T07:35:43.179Z",
+    "timestamp": "2025-11-11T07:36:27.538Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1762846578211",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T07:36:18.210Z",
     "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
-    "username": "1762828384930",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762846578211",
     "saved": true
   },
   {
