@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-11-11T03:37:50.286Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:37:49.110Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:37:45.470Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem danh sách (Sự kiện)",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:37:43.974Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T03:37:07.225Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
