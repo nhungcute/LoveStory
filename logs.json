@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-11T03:06:52.454Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã xóa bộ lọc",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:06:51.244Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:06:41.048Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã (bỏ) chọn lọc: Hàn Quốc",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T03:06:31.620Z",
     "action": "Mở modal",
     "details": "Mở bộ lọc sự kiện (dropdown)",
