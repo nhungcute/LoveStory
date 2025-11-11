@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-11T03:10:56.748Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Cafe cuối tuần\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-11T03:10:56.748Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T03:07:20.780Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Ngày dự sinh bé con\"",
