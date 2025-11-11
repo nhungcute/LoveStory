@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-11T07:38:13.370Z",
+    "action": "Tương tác ảnh",
+    "details": "Gắn ảnh \"IMG_6260.HEIC\" vào sự kiện \"Xuất ngoại Hàn Quốc\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T07:38:03.211Z",
     "action": "Mở modal",
     "details": "Mở Gắn ảnh vào sự kiện cho: IMG_6260.HEIC",
