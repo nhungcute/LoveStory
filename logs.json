@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-12T00:52:07.918Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-12T00:52:07.220Z",
+    "action": "Cập nhật giá vàng",
+    "details": "Giá vàng thay đổi: Mua 14850, Bán 15150",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-11T23:47:01.363Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
