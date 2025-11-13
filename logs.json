@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-13T02:45:17.647Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-13T02:45:16.063Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-13T02:45:07.751Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-13T02:29:27.104Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
