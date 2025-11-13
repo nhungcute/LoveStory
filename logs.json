@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-13T02:49:23.494Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"Bé con 17w3d\" với 4 ảnh",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-13T02:48:34.417Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
