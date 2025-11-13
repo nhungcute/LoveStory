@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-13T03:08:30.002Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-13T03:07:32.187Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
