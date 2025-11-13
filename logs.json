@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-13T03:11:03.690Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-13T03:10:54.072Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"Bé con 15w4d\" với 8 ảnh",
+    "username": "1762828384930",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-13T03:10:21.820Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
