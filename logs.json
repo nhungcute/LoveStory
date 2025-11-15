@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-15T04:05:02.253Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Bé con 17w3d\"",
+    "username": "1763179501764",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-15T04:05:02.252Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1763179501764",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-15T04:05:01.764Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1763179501764",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-15T03:49:55.056Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
