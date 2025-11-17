@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-11-17T13:52:02.129Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1763387345946",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-17T13:51:57.598Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã xóa bộ lọc",
+    "username": "1763387345946",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-17T13:51:56.513Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1763387345946",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-17T13:49:20.033Z",
     "action": "Lọc sự kiện",
     "details": "Đã (bỏ) chọn lọc: Bé con",
