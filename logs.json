@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-11-17T13:49:17.873Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã (bỏ) chọn lọc: Bé con",
+    "username": "1763387345946",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-17T13:49:15.955Z",
+    "action": "Lọc sự kiện",
+    "details": "Đã (bỏ) chọn lọc: Bé con",
+    "username": "1763387345946",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-17T13:49:14.001Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1763387345946",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-17T13:49:05.946Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1763387345946",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-17T13:42:01.056Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
