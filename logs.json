@@ -1,36 +1,22 @@
 [
   {
-    "timestamp": "2025-11-20T03:23:46.912Z",
+    "timestamp": "2025-11-20T03:24:25.824Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
     "username": "1763609016241",
     "saved": true
   },
   {
-    "timestamp": "2025-11-20T03:23:43.911Z",
+    "timestamp": "2025-11-20T03:24:17.896Z",
     "action": "Chế độ xem",
     "details": "Đổi sang xem nhóm (Sự kiện)",
     "username": "1763609016241",
     "saved": true
   },
   {
-    "timestamp": "2025-11-20T03:23:39.312Z",
+    "timestamp": "2025-11-20T03:24:16.792Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1763609016241",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-20T03:23:38.512Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
-    "username": "1763609016241",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-20T03:23:36.240Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
     "username": "1763609016241",
     "saved": true
   },
@@ -6994,6 +6980,20 @@
   },
   {
     "timestamp": "2025-11-07T06:16:53.597Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-07T05:47:32.315Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-07T05:32:43.610Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
     "username": "GitHub Actions",
