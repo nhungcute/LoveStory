@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-22T13:19:11.669Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-22T12:56:38.468Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
@@ -6987,13 +6994,6 @@
   },
   {
     "timestamp": "2025-11-09T14:27:07.532Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-09T14:08:25.703Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
     "username": "GitHub Actions",
