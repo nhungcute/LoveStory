@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-24T09:51:08.568Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-24T09:39:04.800Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-11-11T03:06:26.123Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:06:07.371Z",
-    "action": "Sửa sự kiện",
-    "details": "Đang sửa sự kiện \"Hàn Quốc- Day 5\"",
     "username": "1762828384930",
     "saved": true
   }
