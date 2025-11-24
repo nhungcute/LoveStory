@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-24T00:55:08.102Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-24T00:55:07.390Z",
+    "action": "Cập nhật giá vàng",
+    "details": "Giá vàng thay đổi: Mua 14610, Bán 14910",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-23T23:47:05.338Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
@@ -6982,20 +6996,6 @@
     "timestamp": "2025-11-11T03:05:04.132Z",
     "action": "Mở modal",
     "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:04:59.471Z",
-    "action": "Lọc sự kiện",
-    "details": "Đã (bỏ) chọn lọc: Du lịch",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T03:04:57.468Z",
-    "action": "Mở modal",
-    "details": "Mở bộ lọc sự kiện (dropdown)",
     "username": "1762828384930",
     "saved": true
   }
