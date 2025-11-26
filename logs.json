@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-26T00:52:01.856Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-26T00:52:01.363Z",
+    "action": "Cập nhật giá vàng",
+    "details": "Giá vàng thay đổi: Mua 14870, Bán 15170",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-25T23:46:59.162Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
@@ -6980,20 +6994,6 @@
   },
   {
     "timestamp": "2025-11-11T19:25:33.419Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T19:08:49.315Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T18:46:31.222Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
     "username": "GitHub Actions",
