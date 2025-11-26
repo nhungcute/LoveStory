@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-11-26T03:24:47.619Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1764127480907",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-26T03:24:45.874Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1764127480907",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-26T03:24:41.258Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1764127480907",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-26T03:24:40.907Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1764127480907",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-26T02:29:05.707Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
@@ -6966,34 +6994,6 @@
   },
   {
     "timestamp": "2025-11-11T20:48:57.921Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T20:32:34.851Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T20:11:51.635Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T19:47:17.127Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T19:32:38.017Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
     "username": "GitHub Actions",
