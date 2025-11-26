@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-11-26T04:37:07.688Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-11-26T04:37:06.017Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-26T04:01:36.312Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
@@ -6980,20 +6994,6 @@
   },
   {
     "timestamp": "2025-11-11T21:47:05.206Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T21:37:11.813Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-11T21:27:25.900Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
     "username": "GitHub Actions",
