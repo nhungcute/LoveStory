@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-11-27T11:38:00.872Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
     "timestamp": "2025-11-27T11:28:04.365Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-11-13T03:10:54.072Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện mới \"Bé con 15w4d\" với 8 ảnh",
-    "username": "1762828384930",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-13T03:10:21.820Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Chọn ảnh\"",
     "username": "1762828384930",
     "saved": true
   }
