@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-12-05T03:22:32.532Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"Bé con 19w3d\" với 0 ảnh",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-05T03:22:17.996Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-11-20T03:23:21.074Z",
     "action": "Chế độ xem",
     "details": "Đổi sang xem nhóm (Sự kiện)",
-    "username": "1763608997532",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-20T03:23:17.531Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
     "username": "1763608997532",
     "saved": true
   }
