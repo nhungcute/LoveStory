@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-12-05T03:22:17.996Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-05T03:20:30.915Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
@@ -6990,13 +6997,6 @@
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
     "username": "1763608997532",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-20T03:24:25.824Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1763609016241",
     "saved": true
   }
 ]
