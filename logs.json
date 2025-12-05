@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-12-05T03:20:30.915Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-05T03:20:21.659Z",
     "action": "Chế độ xem",
     "details": "Đổi sang xem nhóm (Sự kiện)",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-11-20T03:24:25.824Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1763609016241",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-20T03:24:17.896Z",
-    "action": "Chế độ xem",
-    "details": "Đổi sang xem nhóm (Sự kiện)",
     "username": "1763609016241",
     "saved": true
   }
