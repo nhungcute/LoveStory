@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "timestamp": "2025-12-05T06:51:15.471Z",
+    "action": "Cài đặt giao diện",
+    "details": "Chuyển menu sang dạng ngang",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-05T06:51:12.638Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã bật thông báo hệ thống",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-05T06:51:07.718Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã tắt thông báo hệ thống",
+    "username": "1764131826018",
+    "saved": true
+  }
+]
