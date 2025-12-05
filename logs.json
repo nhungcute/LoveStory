@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-12-05T03:23:02.650Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-05T03:22:59.979Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem danh sách (Sự kiện)",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-05T03:22:58.211Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-05T03:22:56.195Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-05T03:22:50.321Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 207 files (205 ảnh, 2 video) - Cũ: 203",
@@ -6969,34 +6997,6 @@
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
     "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-20T03:29:58.370Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-20T03:23:34.371Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1763608997532",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-20T03:23:32.011Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"Bé con 7w2d\"",
-    "username": "1763608997532",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-11-20T03:23:32.011Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh sự kiện\"",
-    "username": "1763608997532",
     "saved": true
   }
 ]
