@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-12-05T06:51:25.382Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã bật nút menu hamburger",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-05T06:51:24.535Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã ẩn nút menu hamburger",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-05T06:51:21.142Z",
+    "action": "Cài đặt giao diện",
+    "details": "Chuyển menu sang dạng dọc",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-05T06:51:15.471Z",
     "action": "Cài đặt giao diện",
     "details": "Chuyển menu sang dạng ngang",
