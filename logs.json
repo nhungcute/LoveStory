@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-12-10T07:17:17.113Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Bé con 19w3d\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-10T07:17:17.113Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-10T07:17:08.442Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Bé con 19w3d\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-10T07:17:08.442Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-10T07:16:57.482Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
