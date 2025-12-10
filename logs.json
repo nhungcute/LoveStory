@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-12-10T07:28:09.947Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-10T07:28:08.394Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Bé con 19w3d\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-10T07:28:08.394Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-10T07:28:00.642Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
