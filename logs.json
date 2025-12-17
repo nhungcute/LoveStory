@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-12-17T03:32:07.172Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1765941799545",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-17T03:31:54.903Z",
+    "action": "Tương tác ảnh",
+    "details": "Gắn ảnh \"DSC00463.JPG\" vào sự kiện \"Lễ Thành Hôn\"",
+    "username": "1765941799545",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-17T03:31:52.094Z",
     "action": "Mở modal",
     "details": "Mở Gắn ảnh vào sự kiện cho: DSC00463.JPG",
