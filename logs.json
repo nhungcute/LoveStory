@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2025-12-17T03:29:21.665Z",
+    "action": "Thay đổi chế độ xem",
+    "details": "Chuyển từ \"2x2\" sang \"3x3\"",
+    "username": "1765941799545",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-17T03:29:14.894Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1765941799545",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-17T03:29:12.122Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1765941799545",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-17T03:29:07.111Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1765941799545",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-17T03:28:47.506Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh chi tiết\"",
