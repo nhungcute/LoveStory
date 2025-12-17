@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-12-17T03:31:07.035Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1765941799545",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-17T03:31:02.502Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1765941799545",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-17T03:30:51.789Z",
     "action": "Bình luận ảnh",
     "details": "Đã bình luận vào ảnh \"DSC00763.JPG\"",
