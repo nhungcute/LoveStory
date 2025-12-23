@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-12-23T07:22:38.432Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 211 files (209 ảnh, 2 video) - Cũ: 211",
+    "username": "1766474476823",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-23T07:22:21.911Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
@@ -6987,13 +6994,6 @@
   },
   {
     "timestamp": "2025-12-07T16:50:08.664Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-12-07T16:35:02.887Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
     "username": "GitHub Actions",
