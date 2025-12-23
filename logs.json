@@ -1,13 +1,6 @@
 [
   {
-    "timestamp": "2025-12-23T07:21:33.798Z",
-    "action": "Lỗi đồng bộ",
-    "details": "Không thể đồng bộ media từ Google Drive",
-    "username": "1766474476823",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-12-23T07:21:16.823Z",
+    "timestamp": "2025-12-23T07:22:21.911Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
     "username": "1766474476823",
@@ -6994,6 +6987,13 @@
   },
   {
     "timestamp": "2025-12-07T16:50:08.664Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-07T16:35:02.887Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
     "username": "GitHub Actions",
