@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-12-26T20:11:32.201Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-26T19:46:50.838Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
@@ -6989,13 +6996,6 @@
     "timestamp": "2025-12-10T07:17:17.113Z",
     "action": "Mở modal",
     "details": "Đã mở \"Sửa sự kiện\"",
-    "username": "1764131826018",
-    "saved": true
-  },
-  {
-    "timestamp": "2025-12-10T07:17:08.442Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"Bé con 19w3d\"",
     "username": "1764131826018",
     "saved": true
   }
