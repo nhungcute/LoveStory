@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2025-12-30T08:05:42.288Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Bé con 22w01d\"",
+    "username": "1767081914957",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-30T08:05:42.288Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1767081914957",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-30T08:05:29.318Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Timeline\"",
+    "username": "1767081914957",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-30T08:05:21.576Z",
     "action": "Đồng bộ media",
     "details": "Đã đồng bộ 225 files (223 ảnh, 2 video) - Cũ: 218",
