@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2025-12-30T08:05:43.440Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Chọn ảnh\"",
+    "username": "1767081914957",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-30T08:05:42.288Z",
     "action": "Sửa sự kiện",
     "details": "Đang sửa sự kiện \"Bé con 22w01d\"",
