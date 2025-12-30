@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-12-30T08:05:21.576Z",
+    "action": "Đồng bộ media",
+    "details": "Đã đồng bộ 225 files (223 ảnh, 2 video) - Cũ: 218",
+    "username": "1767081914957",
+    "saved": true
+  },
+  {
+    "timestamp": "2025-12-30T08:05:14.955Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767081914957",
+    "saved": true
+  },
+  {
     "timestamp": "2025-12-30T07:49:01.138Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
