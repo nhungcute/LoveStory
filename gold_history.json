@@ -3,6 +3,11 @@
     "product_name": "Nhẫn Tròn 9999 Hưng Thịnh Vượng",
     "gia": [
       {
+        "timestamp": "2025-12-30T02:50:18.855Z",
+        "ring_buy": "15000",
+        "ring_sell": "15300"
+      },
+      {
         "timestamp": "2025-12-30T00:55:00.667Z",
         "ring_buy": "15400",
         "ring_sell": "15700"

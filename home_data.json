@@ -1,7 +1,7 @@
 {
   "daysTogether": 1407,
-  "totalMemories": 29,
-  "totalPhotos": 211,
+  "totalMemories": 31,
+  "totalPhotos": 218,
   "upcomingEvent": {
     "name": "First day of love",
     "date": "2026-02-22T00:00:00.000Z",
@@ -9,7 +9,7 @@
   },
   "todayMemories": [],
   "goldPrice": {
-    "buy": 15400,
-    "sell": 15700
+    "buy": 15000,
+    "sell": 15300
   }
 }
