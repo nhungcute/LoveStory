@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-02T04:16:10.714Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Bé con 22w01d\"",
+    "username": "1767327255781",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-02T04:16:10.714Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1767327255781",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-02T04:15:56.596Z",
     "action": "Chế độ xem",
     "details": "Đổi sang xem nhóm (Sự kiện)",
