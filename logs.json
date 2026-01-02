@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-02T04:15:56.596Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1767327255781",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-02T04:15:54.023Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1767327255781",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-02T04:15:00.249Z",
     "action": "Hồ sơ",
     "details": "Đã cập nhật hồ sơ: lovely",
