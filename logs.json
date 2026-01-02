@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-02T04:15:00.249Z",
+    "action": "Hồ sơ",
+    "details": "Đã cập nhật hồ sơ: lovely",
+    "username": "1767327255781",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-02T04:14:15.780Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
