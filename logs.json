@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2026-01-06T08:45:48.637Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Bé con 22w01d\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:45:48.637Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:45:45.352Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T08:40:11.401Z",
     "action": "Tương tác",
     "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
