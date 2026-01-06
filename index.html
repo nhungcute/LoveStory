@@ -1329,21 +1329,35 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
   
   <!----chart so lan dap--->
   <div id="babyRunChartModal" class="modal" style="z-index: 1300;">
-   <div class="modal-content w-full max-w-3xl">
-    <div class="flex justify-between items-center mb-4">
-     <h3 class="text-xl font-bold text-primary"><i class="fas fa-chart-line mr-2"></i>Thống Kê</h3>
-     <button onclick="closeModal('babyRunChartModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
+    <div class="modal-content w-full max-w-3xl">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-primary"><i class="fas fa-chart-line mr-2"></i>Thống Kê</h3>
+            <button onclick="closeModal('babyRunChartModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
+        </div>
+
+        <div class="bg-white rounded p-2">
+            <div id="babyRunChartArea" class="mb-6"></div>
+            
+            <h4 class="font-bold text-gray-700 mb-2 px-2">Chi tiết</h4>
+            <div class="overflow-x-auto max-h-60 overflow-y-auto border border-gray-200 rounded-lg">
+                <table class="min-w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Ngày</th>
+                            <th scope="col" class="px-6 py-3 text-right">Số lần</th>
+                        </tr>
+                    </thead>
+                    <tbody id="babyRunTableBody">
+                        </tbody>
+                </table>
+            </div>
+            </div>
+
+        <div class="mt-4 text-center">
+            <p class="text-sm text-gray-500">Dữ liệu được tổng hợp theo ngày.</p>
+        </div>
     </div>
-    
-    <div class="bg-white rounded p-2">
-        <div id="babyRunChartArea"></div>
-    </div>
-    
-    <div class="mt-4 text-center">
-        <p class="text-sm text-gray-500">Dữ liệu được tổng hợp theo ngày.</p>
-    </div>
-   </div>
-  </div>
+</div>
   
   <script>
         // Global variables
@@ -6661,7 +6675,8 @@ tooltip: {
 			// 1. CẬP NHẬT LẠC QUAN (UI thay đổi ngay lập tức)
 			const countEl = document.getElementById('babyRunCount');
 			let currentCount = parseInt(countEl.textContent) || 0;
-			countEl.textContent = currentCount + 1;
+			let newTotal = currentCount + 1; // Tính tổng mới
+			countEl.textContent = newTotal;
 
 			// Hiệu ứng nút bấm
 			const btn = document.getElementById('babyRunBtn');
@@ -6687,7 +6702,8 @@ tooltip: {
 				syncBabyRunBatch();
 			}, 5000);
 
-			addLog('Tương tác', `Yêu thêm +1 (Đang chờ 5s để đồng bộ...)`);
+			// --- ĐÃ SỬA DÒNG NÀY ---
+			addLog('Tương tác', `Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng ${newTotal})`);
 		}
 		
 		// --- BẮT ĐẦU: Code Logic Biểu Đồ Baby Run ---
@@ -6695,7 +6711,9 @@ tooltip: {
 
         async function openBabyRunChart() {
 			openModal('babyRunChartModal');
+			
 			document.getElementById('babyRunChartArea').innerHTML = '<div class="loading-spinner mx-auto my-10"></div>';
+			document.getElementById('babyRunTableBody').innerHTML = '<tr><td colspan="2" class="text-center py-4">Đang tải...</td></tr>';
 
 			try {
 				let remoteData = await githubAPI.getRawFile(config.BABYRUN_FILE_PATH);
@@ -6705,36 +6723,96 @@ tooltip: {
 				const allData = [...remoteData, ...localQueue];
 
 				// 1. Gom nhóm dữ liệu
-				const dailyCounts = {};
+				const dailyCounts = {};   // Dùng cho Biểu đồ: { "2024-01-05": 10 }
+				const dailyDetails = {};  // Dùng cho Bảng: { "2024-01-05": { "12h30": 1, "13h01": 2 } }
+				
 				allData.forEach(item => {
 					if (item.timerun) {
-						// Lấy ngày YYYY-MM-DD chuẩn để gom nhóm
 						const dateObj = new Date(item.timerun);
 						const year = dateObj.getFullYear();
 						const month = String(dateObj.getMonth() + 1).padStart(2, '0');
 						const day = String(dateObj.getDate()).padStart(2, '0');
 						const dateKey = `${year}-${month}-${day}`;
 						
+						// Lấy Giờ:Phút (ví dụ: 12h30)
+						const h = String(dateObj.getHours()).padStart(2, '0');
+						const m = String(dateObj.getMinutes()).padStart(2, '0');
+						const timeKey = `${h}h${m}`;
+
+						// Cộng tổng ngày (cho biểu đồ)
 						dailyCounts[dateKey] = (dailyCounts[dateKey] || 0) + 1;
+
+						// Cộng chi tiết giờ (cho bảng)
+						if (!dailyDetails[dateKey]) dailyDetails[dateKey] = {};
+						dailyDetails[dateKey][timeKey] = (dailyDetails[dateKey][timeKey] || 0) + 1;
 					}
 				});
 
-				// 2. Tạo Series dữ liệu (Đã sắp xếp)
-				const seriesData = Object.keys(dailyCounts)
-					.sort() // Sắp xếp ngày tăng dần (2024-01-04 -> 2024-01-05)
-					.map(dateKey => {
-						const [y, m, d] = dateKey.split('-');
-						return {
-							x: `${d}/${m}`, // SỬA: Dùng chuỗi "04/01" làm nhãn trục X
-							y: dailyCounts[dateKey]
-						};
-					});
+				// 2. Xử lý dữ liệu BIỂU ĐỒ (Sắp xếp ngày TĂNG DẦN)
+				const sortedKeys = Object.keys(dailyCounts).sort();
+				const seriesData = sortedKeys.map(dateKey => {
+					const [y, m, d] = dateKey.split('-');
+					return {
+						x: `${d}/${m}`, 
+						y: dailyCounts[dateKey]
+					};
+				});
 
-				renderBabyRunChart(seriesData);
+				// 3. Xử lý dữ liệu BẢNG (Sắp xếp ngày GIẢM DẦN)
+				const tableHtml = sortedKeys.reverse().map(dateKey => {
+					const [y, m, d] = dateKey.split('-');
+					const totalCount = dailyCounts[dateKey];
+					
+					// Xử lý chi tiết giờ trong ngày (Sắp xếp giờ giảm dần: 14h00 -> 12h00)
+					const timeData = dailyDetails[dateKey];
+					const sortedTimes = Object.keys(timeData).sort().reverse();
+					
+					// Tạo HTML cho phần chi tiết giờ
+					const detailsHtml = sortedTimes.map(time => {
+						const count = timeData[time];
+						return `
+							<div class="flex justify-between items-center text-xs text-gray-500 py-1 border-l-2 border-gray-200 pl-3 ml-2 hover:bg-gray-50">
+								<span>${time}</span>
+								<span class="font-medium">${count} lần</span>
+							</div>
+						`;
+					}).join('');
+
+					// Kết hợp dòng tổng ngày và dòng chi tiết
+					return `
+						<tr class="bg-gray-50 border-b">
+							<td class="px-6 py-3 font-bold text-primary whitespace-nowrap">
+								${d}/${m}/${y}
+							</td>
+							<td class="px-6 py-3 text-right font-bold text-primary">
+								Tổng: ${totalCount}
+							</td>
+						</tr>
+						<tr class="bg-white border-b">
+							<td colspan="2" class="px-4 py-2">
+								<div class="grid grid-cols-2 gap-x-4 gap-y-1">
+									${detailsHtml}
+								</div>
+							</td>
+						</tr>
+					`;
+				}).join('');
+
+				// 4. Render
+				renderBabyRunChart(seriesData); // Vẽ biểu đồ (Hàm cũ)
+				
+				// Vẽ bảng
+				const tableBody = document.getElementById('babyRunTableBody');
+				if (seriesData.length === 0) {
+					tableBody.innerHTML = '<tr><td colspan="2" class="text-center py-4">Chưa có dữ liệu</td></tr>';
+				} else {
+					tableBody.innerHTML = tableHtml;
+				}
 
 			} catch (error) {
-				console.error("Lỗi tải biểu đồ:", error);
+				console.error("Lỗi tải dữ liệu babyrun:", error);
 				document.getElementById('babyRunChartArea').innerHTML = '<p class="text-center text-red-500">Lỗi tải dữ liệu.</p>';
+				document.getElementById('babyRunTableBody').innerHTML = '';
 			}
 		}
 
