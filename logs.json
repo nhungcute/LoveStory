@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2026-01-06T09:00:09.871Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T09:00:03.600Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Chụp ảnh cưới\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T09:00:03.600Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:59:59.445Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T08:59:58.670Z",
     "action": "Chế độ xem",
     "details": "Đổi sang xem danh sách (Sự kiện)",
