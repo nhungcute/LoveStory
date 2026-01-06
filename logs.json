@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2026-01-06T08:32:24.535Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Chụp ảnh cưới\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:32:24.535Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:32:12.192Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Ăn hỏi\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:32:12.192Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T08:32:04.508Z",
     "action": "Xem ảnh sự kiện",
     "details": "Đã xem ảnh của sự kiện \"Chụp ảnh cưới\"",
