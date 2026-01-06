@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-06T08:32:49.017Z",
+    "action": "Mở modal",
+    "details": "Mở Gắn ảnh vào sự kiện cho: MIN_9667.JPG",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:32:42.384Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T08:32:37.242Z",
     "action": "Thay đổi chế độ xem",
     "details": "Chuyển từ \"3x3\" sang \"4x4\"",
