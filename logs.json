@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2026-01-06T04:40:13.879Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 lượt yêu (Tổng hàng đợi: 1)",
+    "username": "1767673557471",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T04:40:06.711Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 lượt yêu (Tổng hàng đợi: 1)",
+    "username": "1767673557471",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T04:40:00.135Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 lượt yêu (Tổng hàng đợi: 1)",
+    "username": "1767673557471",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T04:36:09.399Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
