@@ -1,44 +1,114 @@
 [
   {
-    "timestamp": "2026-01-06T08:50:54.096Z",
+    "timestamp": "2026-01-06T08:51:39.069Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Chụp ảnh cưới\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:51:39.069Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:30:24.244Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:30:24.244Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:30:21.309Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:30:16.308Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:30:13.028Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:29:56.472Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã bật thông báo hệ thống",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:29:51.648Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã bật thông báo hệ thống",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:29:49.314Z",
+    "action": "Cài đặt giao diện",
+    "details": "Đã tắt thông báo hệ thống",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:29:34.641Z",
+    "action": "Cài đặt giao diện",
+    "details": "Chuyển menu sang dạng ngang",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:29:18.940Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:29:13.395Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:29:07.844Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:17:17.871Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
     "username": "GitHub Actions",
     "saved": true
   },
   {
-    "timestamp": "2026-01-06T08:49:55.737Z",
-    "action": "Xem ảnh sự kiện",
-    "details": "Đã xem ảnh của sự kiện \"Bé con 22w01d\"",
-    "username": "1767689390257",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-06T08:49:55.737Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh sự kiện\"",
-    "username": "1767689390257",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-06T08:49:50.255Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1767689390257",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-06T08:40:11.401Z",
-    "action": "Tương tác",
-    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
-    "username": "1767681493234",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-06T08:40:11.209Z",
-    "action": "Tương tác",
-    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
-    "username": "1767681493234",
+    "timestamp": "2026-01-06T07:53:36.439Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
     "saved": true
   },
   {
