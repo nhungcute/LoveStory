@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-06T08:34:08.704Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Chụp ảnh cưới\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:34:08.703Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T08:33:09.257Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
