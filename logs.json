@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-06T08:52:38.215Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T08:52:07.279Z",
     "action": "Xem ảnh sự kiện",
     "details": "Đã xem ảnh của sự kiện \"Chụp ảnh cưới\"",
