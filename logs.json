@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "timestamp": "2026-01-06T06:21:19.854Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Timeline\"",
+    "username": "1767680460649",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T06:21:18.041Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Chat AI\"",
+    "username": "1767680460649",
+    "saved": true
+  }
+]
