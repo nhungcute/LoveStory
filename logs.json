@@ -1,30 +1,23 @@
 [
   {
-    "timestamp": "2026-01-06T08:45:53.882Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Xem ảnh chi tiết\"",
-    "username": "1767688278238",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-06T08:45:48.637Z",
+    "timestamp": "2026-01-06T08:49:55.737Z",
     "action": "Xem ảnh sự kiện",
     "details": "Đã xem ảnh của sự kiện \"Bé con 22w01d\"",
-    "username": "1767688278238",
+    "username": "1767689390257",
     "saved": true
   },
   {
-    "timestamp": "2026-01-06T08:45:48.637Z",
+    "timestamp": "2026-01-06T08:49:55.737Z",
     "action": "Mở modal",
     "details": "Đã mở \"Xem ảnh sự kiện\"",
-    "username": "1767688278238",
+    "username": "1767689390257",
     "saved": true
   },
   {
-    "timestamp": "2026-01-06T08:45:45.352Z",
+    "timestamp": "2026-01-06T08:49:50.255Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
-    "username": "1767688278238",
+    "username": "1767689390257",
     "saved": true
   },
   {
