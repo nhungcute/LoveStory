@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-06T08:57:28.752Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767689838007",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:57:18.007Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767689838007",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T08:52:28.508Z",
     "action": "Thêm sự kiện mới",
     "details": "Đã thêm sự kiện mới \"E\" với 0 ảnh",
