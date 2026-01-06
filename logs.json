@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-06T04:25:58.983Z",
+    "action": "Tương tác",
+    "details": "Đã nhấn nút Yêu Thêm",
+    "username": "1767673557471",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T04:25:57.470Z",
+    "action": "Tương tác",
+    "details": "Đã nhấn nút Yêu Thêm",
+    "username": "1767673557471",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T03:57:35.215Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
