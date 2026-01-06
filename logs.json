@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2026-01-06T08:31:54.919Z",
+    "action": "Sửa sự kiện",
+    "details": "Đang sửa sự kiện \"Chụp ảnh cưới\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:31:54.919Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Sửa sự kiện\"",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:31:51.782Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1767688278238",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T08:31:31.937Z",
     "action": "Mở modal",
     "details": "Đã mở \"Chọn ảnh\"",
