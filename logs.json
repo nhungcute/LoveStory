@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-06T08:52:53.721Z",
+    "action": "Thêm sự kiện mới",
+    "details": "Đã thêm sự kiện mới \"a\" với 0 ảnh",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-06T08:52:38.215Z",
     "action": "Mở modal",
     "details": "Đã mở \"Thêm sự kiện mới\"",
