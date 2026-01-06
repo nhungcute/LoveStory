@@ -704,7 +704,28 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
   
   <main class="flex-1 container mx-auto px-4 overflow-y-auto"><!-- Home Section -->
    <div id="homeSection" class="section py-6">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><!-- Ngày Này Năm Xưa -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+	<!--dem dap-->
+	<div class="lg:col-span-2">
+	  <div class="love-card rounded-lg p-6 mb-4 relative"> <button onclick="openBabyRunChart()" class="absolute top-2 right-2 text-gray-400 hover:text-primary transition-colors p-2 rounded-full hover:bg-gray-100" title="Xem biểu đồ">
+			<i class="fas fa-chart-line text-xl"></i>
+		</button>
+		<div class="flex flex-col items-center justify-center space-y-4">
+		  <div class="text-center">
+			<p class="text-sm text-gray-500">Lượt đạp hôm nay</p>
+			<p id="babyRunCount" class="text-4xl font-bold text-primary">0</p>
+		  </div>
+		  
+		  <button id="babyRunBtn" 
+				  class="w-20 h-20 rounded-full bg-primary text-white shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center text-3xl"
+				  onclick="handleBabyRunClick()">
+			<span style="font-size: 32px; filter: brightness(0) invert(1);">👣</span>
+		  </button>
+		   
+		</div>
+	  </div>
+	</div>
+	<!-- Ngày Này Năm Xưa -->
      <div class="lg:col-span-2">
       <div class="love-card rounded-lg p-6">
        <div class="flex items-center mb-4"><i class="fas fa-calendar-day text-primary text-2xl mr-3"></i>
@@ -979,7 +1000,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
       <h3 class="text-lg font-bold text-primary mb-4"><i class="fas fa-file-alt mr-2"></i>Nhật Ký Hoạt Động</h3>
       <div class="space-y-4">
        <div class="flex items-center justify-between">
-        <div><span class="font-medium">Bật ký hoạt động</span>
+        <div><span class="font-medium">Bật nhật ký hoạt động</span>
          <p class="text-xs text-gray-500 mt-1">Lưu hoạt động người dùng</p>
         </div><label class="toggle-switch"> <input type="checkbox" id="enableLogs" checked onchange="updateLogsConfig()"> <span class="toggle-slider"></span> </label>
        </div>
@@ -1305,6 +1326,25 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
     </div>
    </div>
   </div>
+  
+  <!----chart so lan dap--->
+  <div id="babyRunChartModal" class="modal" style="z-index: 1300;">
+   <div class="modal-content w-full max-w-3xl">
+    <div class="flex justify-between items-center mb-4">
+     <h3 class="text-xl font-bold text-primary"><i class="fas fa-chart-line mr-2"></i>Thống Kê</h3>
+     <button onclick="closeModal('babyRunChartModal')" class="text-gray-500 hover:text-gray-700"> <i class="fas fa-times text-xl"></i> </button>
+    </div>
+    
+    <div class="bg-white rounded p-2">
+        <div id="babyRunChartArea"></div>
+    </div>
+    
+    <div class="mt-4 text-center">
+        <p class="text-sm text-gray-500">Dữ liệu được tổng hợp theo ngày.</p>
+    </div>
+   </div>
+  </div>
+  
   <script>
         // Global variables
         let currentSection = 'home';
@@ -1354,7 +1394,11 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
 		let todayValidMemories = []; // Lưu danh sách kỷ niệm cho hôm nay
 		let upcomingEventInfo = null;
         let currentMemoryIndex = 0; // Vị trí kỷ niệm đang xem
-		let currentAiModel = 'google'; // Default AI model ('gpt', 'google')
+		let currentAiModel = 'google'; // Default AI model ('gpt', 'google');
+		
+		const STORAGE_COUNT_KEY = 'babyrun_count';
+		const STORAGE_DATE_KEY = 'babyrun_date';
+		const STORAGE_LOCAL_LOGS = 'babyrun_local_logs';
 		
 		//let modalViewCycle = ['grid-cols-3', 'grid-cols-4', 'grid-cols-5', 'grid-cols-6', 'grid-cols-2'];
         //let currentModalViewIndex = 0; // Bắt đầu với grid-cols-3
@@ -6599,6 +6643,249 @@ tooltip: {
 				}
 			})();
 		}
+		
+		// Cấu hình đường dẫn file
+		config.BABYRUN_FILE_PATH = "babyrun.json"; 
+
+		// Biến lưu trữ local (load từ babyrun.json khi khởi tạo)
+		let babyRunData = [];  
+		let babyRunTimeout = null; // Biến giữ bộ đếm thời gian
+		let isSyncingBabyRun = false; 
+		const STORAGE_BABYRUN_QUEUE = 'babyrun_pending_queue';
+		let babyRunQueue = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
+		
+		/**
+		 * Xử lý khi click nút Lượt yêu
+		 */
+		function handleBabyRunClick() {
+			// 1. CẬP NHẬT LẠC QUAN (UI thay đổi ngay lập tức)
+			const countEl = document.getElementById('babyRunCount');
+			let currentCount = parseInt(countEl.textContent) || 0;
+			countEl.textContent = currentCount + 1;
+
+			// Hiệu ứng nút bấm
+			const btn = document.getElementById('babyRunBtn');
+			btn.classList.add('scale-110');
+			setTimeout(() => btn.classList.remove('scale-110'), 150);
+
+			// 2. TẠO RECORD VÀ LƯU VÀO HÀNG ĐỢI
+			const newRecord = {
+				username: currentUser ? currentUser.username : "Ẩn danh",
+				timerun: new Date().toISOString(),
+				id: Date.now() + Math.random().toString(36).substr(2, 5)
+			};
+
+			babyRunQueue.push(newRecord);
+			localStorage.setItem(STORAGE_BABYRUN_QUEUE, JSON.stringify(babyRunQueue));
+
+			// 3. CƠ CHẾ CHỜ 5 GIÂY (DEBOUNCE)
+			// Xóa bộ đếm cũ nếu người dùng vẫn đang bấm liên tục
+			if (babyRunTimeout) clearTimeout(babyRunTimeout);
+
+			// Thiết lập bộ đếm mới: Sau 5 giây kể từ lần click cuối sẽ chạy sync
+			babyRunTimeout = setTimeout(() => {
+				syncBabyRunBatch();
+			}, 5000);
+
+			addLog('Tương tác', `Yêu thêm +1 (Đang chờ 5s để đồng bộ...)`);
+		}
+		
+		// --- BẮT ĐẦU: Code Logic Biểu Đồ Baby Run ---
+        let babyRunChartInstance = null;
+
+        async function openBabyRunChart() {
+			openModal('babyRunChartModal');
+			document.getElementById('babyRunChartArea').innerHTML = '<div class="loading-spinner mx-auto my-10"></div>';
+
+			try {
+				let remoteData = await githubAPI.getRawFile(config.BABYRUN_FILE_PATH);
+				if (!Array.isArray(remoteData)) remoteData = [];
+
+				const localQueue = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
+				const allData = [...remoteData, ...localQueue];
+
+				// 1. Gom nhóm dữ liệu
+				const dailyCounts = {};
+				allData.forEach(item => {
+					if (item.timerun) {
+						// Lấy ngày YYYY-MM-DD chuẩn để gom nhóm
+						const dateObj = new Date(item.timerun);
+						const year = dateObj.getFullYear();
+						const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+						const day = String(dateObj.getDate()).padStart(2, '0');
+						const dateKey = `${year}-${month}-${day}`;
+						
+						dailyCounts[dateKey] = (dailyCounts[dateKey] || 0) + 1;
+					}
+				});
+
+				// 2. Tạo Series dữ liệu (Đã sắp xếp)
+				const seriesData = Object.keys(dailyCounts)
+					.sort() // Sắp xếp ngày tăng dần (2024-01-04 -> 2024-01-05)
+					.map(dateKey => {
+						const [y, m, d] = dateKey.split('-');
+						return {
+							x: `${d}/${m}`, // SỬA: Dùng chuỗi "04/01" làm nhãn trục X
+							y: dailyCounts[dateKey]
+						};
+					});
+
+				renderBabyRunChart(seriesData);
+
+			} catch (error) {
+				console.error("Lỗi tải biểu đồ:", error);
+				document.getElementById('babyRunChartArea').innerHTML = '<p class="text-center text-red-500">Lỗi tải dữ liệu.</p>';
+			}
+		}
+
+        function renderBabyRunChart(dataSeries) {
+			document.getElementById('babyRunChartArea').innerHTML = ""; 
+
+			if (dataSeries.length === 0) {
+				document.getElementById('babyRunChartArea').innerHTML = '<p class="text-center text-gray-500 py-10">Chưa có dữ liệu nào.</p>';
+				return;
+			}
+
+			const options = {
+				series: [{
+					name: 'Tổng lần đạp',
+					data: dataSeries
+				}],
+				chart: {
+					type: 'line',
+					height: 350,
+					zoom: { enabled: false },
+					toolbar: { show: false }
+				},
+				stroke: {
+					curve: 'smooth',
+					width: 3,
+					colors: ['#006B68']
+				},
+				markers: {
+					size: 6,
+					colors: ['#FFC62F'],
+					strokeColors: '#fff',
+					strokeWidth: 2,
+					hover: { size: 8 }
+				},
+				dataLabels: {
+					enabled: false,
+					offsetY: -10,
+					style: {
+						colors: ["#304758"]
+					},
+					background: {
+						enabled: true,
+						foreColor: '#000',
+						padding: 4,
+						borderRadius: 2,
+						opacity: 0.9,
+						borderColor: '#e0e0e0',
+					}
+				},
+				xaxis: {
+					type: 'category', // QUAN TRỌNG: Chuyển sang category để không bị lặp ngày
+					tooltip: { enabled: false },
+					axisBorder: { show: true },
+					axisTicks: { show: true }
+				},
+				yaxis: {
+					title: { text: 'Số lần' },
+					min: 0,
+					forceNiceScale: true,
+					labels: {
+						formatter: function (val) {
+							return val.toFixed(0);
+						}
+					}
+				},
+				grid: {
+					borderColor: '#f1f1f1',
+				},
+				tooltip: {
+					// Không cần format ngày nữa vì x đã là chuỗi "dd/MM"
+					y: {
+						formatter: function (val) {
+							return val + " lần";
+						}
+					}
+				},
+				colors: ['#006B68']
+			};
+
+			if (babyRunChartInstance) {
+				babyRunChartInstance.destroy();
+			}
+
+			babyRunChartInstance = new ApexCharts(document.querySelector("#babyRunChartArea"), options);
+			babyRunChartInstance.render();
+		}
+        // --- KẾT THÚC: Code Logic Biểu Đồ Baby Run ---
+		
+		
+  
+		async function syncBabyRunBatch() {
+			if (isSyncingBabyRun || !navigator.onLine || babyRunQueue.length === 0) return;
+
+			isSyncingBabyRun = true;
+			const logsToSave = [...babyRunQueue]; 
+
+			try {
+				let remoteData = await githubAPI.getRawFile(config.BABYRUN_FILE_PATH);
+				if (!Array.isArray(remoteData)) remoteData = [];
+
+				// Hợp nhất dữ liệu mới lên đầu file
+				const updatedData = [...logsToSave.reverse(), ...remoteData].slice(0, 5000);
+
+				const success = await githubAPI.updateFile(
+					config.BABYRUN_FILE_PATH,
+					updatedData,
+					`Sync babyrun: +${logsToSave.length} records (Debounced)`
+				);
+
+				if (success) {
+					// Xóa các bản ghi đã lưu khỏi hàng đợi local
+					babyRunQueue = babyRunQueue.filter(item => !logsToSave.find(saved => saved.id === item.id));
+					localStorage.setItem(STORAGE_BABYRUN_QUEUE, JSON.stringify(babyRunQueue));
+					console.log("Đã đồng bộ lượt yêu sau 5 giây tạm nghỉ.");
+				}
+			} catch (error) {
+				console.error("Lỗi đồng bộ, dữ liệu vẫn nằm trong hàng đợi:", error);
+			} finally {
+				isSyncingBabyRun = false;
+				babyRunTimeout = null;
+			}
+		}
+
+		// Khi có mạng lại, tự động đẩy hàng đợi lên GitHub
+		window.addEventListener('online', syncBabyRunBatch);
+
+		/**
+		 * Hàm hiển thị số lượt yêu hôm nay (Cập nhật từ file và hàng đợi local)
+		 */
+		async function updateBabyRunDisplay() {
+			const todayStr = new Date().toISOString().split('T')[0];
+			
+			// 1. Đếm từ hàng đợi chưa lưu (để UI luôn đúng kể cả khi mất mạng)
+			const pendingCount = babyRunQueue.filter(item => item.timerun.startsWith(todayStr)).length;
+
+			// 2. Đếm từ dữ liệu đã lưu trên GitHub
+			try {
+				const remoteData = await githubAPI.getRawFile(config.BABYRUN_FILE_PATH);
+				const savedCount = Array.isArray(remoteData) 
+					? remoteData.filter(item => item.timerun.startsWith(todayStr)).length 
+					: 0;
+
+				document.getElementById('babyRunCount').textContent = savedCount + pendingCount;
+			} catch (e) {
+				// Nếu lỗi mạng, ít nhất vẫn hiện số đã click trong phiên này
+				document.getElementById('babyRunCount').textContent = pendingCount;
+			}
+		}
+
+		// Gọi hàm hiển thị khi khởi tạo app
+		updateBabyRunDisplay();
 		
     </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f60467b36d04e3',t:'MTc2MDYwMTU3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
