@@ -6877,7 +6877,8 @@ tooltip: {
 			// A. Cập nhật giao diện ngay lập tức (để user thấy mượt)
 			const countEl = document.getElementById('babyRunCount');
 			let currentCount = parseInt(countEl.textContent) || 0;
-			countEl.textContent = currentCount + 1;
+			let newTotal = currentCount + 1;
+			countEl.textContent = newTotal;
 
 			// Hiệu ứng nút bấm
 			const btn = document.getElementById('babyRunBtn');
@@ -6898,10 +6899,11 @@ tooltip: {
 
 			// D. Debounce: Chờ 5s không bấm nữa mới bắt đầu đồng bộ
 			if (babyRunTimeout) clearTimeout(babyRunTimeout);
-			babyRunTimeout = setTimeout(syncBabyRunBatch, 3000);
+			babyRunTimeout = setTimeout(syncBabyRunBatch, 5000);
 			
-			// Log cục bộ (không cần lưu server log để tiết kiệm request)
-			console.log(`Đã thêm lượt đạp. Hàng đợi hiện tại: ${babyRunQueue.length}`);
+			// E. Ghi log với nội dung bạn yêu cầu
+			// newTotal chính là tổng số lượt hiển thị trên màn hình (đã bao gồm lượt vừa bấm)
+			addLog('Tương tác', `Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: ${newTotal})`);
 		}
 
 		// --- 3. ĐỒNG BỘ BATCH (CỐT LÕI) ---
@@ -6939,7 +6941,7 @@ tooltip: {
 					.sort((a, b) => new Date(b.timerun) - new Date(a.timerun));
 					
 				// Giới hạn 5000 dòng để file không quá nặng
-				const finalData = uniqueData.slice(0, 5000);
+				const finalData = uniqueData.slice(0, 10000);
 
 				// BƯỚC 3: GỬI LÊN GITHUB
 				const success = await githubAPI.updateFile(
