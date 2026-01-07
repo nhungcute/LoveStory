@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-07T03:15:38.285Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-07T03:15:26.255Z",
     "action": "Xem ảnh sự kiện",
     "details": "Đã xem ảnh của sự kiện \"Bé con 22w01d\"",
