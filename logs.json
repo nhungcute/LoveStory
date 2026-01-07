@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-07T05:39:18.936Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T05:39:14.264Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-07T05:02:24.524Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
