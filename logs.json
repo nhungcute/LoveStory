@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-08T14:19:51.842Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1767881680961",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:19:51.036Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 32",
+    "username": "1767881680961",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-08T14:15:53.311Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
