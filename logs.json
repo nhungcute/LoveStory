@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-08T00:06:24.816Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 2)",
+    "username": "1767830783955",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T00:06:23.954Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 1)",
+    "username": "1767830783955",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-07T23:49:08.323Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
