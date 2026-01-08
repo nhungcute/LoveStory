@@ -1,15 +1,8 @@
 [
   {
-    "timestamp": "2026-01-08T14:19:51.842Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Hồ sơ cá nhân\"",
-    "username": "1767881680961",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-08T14:19:51.036Z",
+    "timestamp": "2026-01-08T14:21:00.364Z",
     "action": "Tương tác",
-    "details": "Đã thêm 1 đạp (waiting). Tổng: 32",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 25",
     "username": "1767881680961",
     "saved": true
   },
