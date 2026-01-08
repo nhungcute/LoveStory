@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-08T10:35:24.889Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1767868524891",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-08T10:14:05.501Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
