@@ -6874,98 +6874,118 @@ tooltip: {
 
 		// --- 2. XỬ LÝ CLICK (OPTIMISTIC UI) ---
 		function handleBabyRunClick() {
-			// A. Cập nhật giao diện ngay lập tức (để user thấy mượt)
-			const countEl = document.getElementById('babyRunCount');
-			let currentCount = parseInt(countEl.textContent) || 0;
-			let newTotal = currentCount + 1;
-			countEl.textContent = newTotal;
-
-			// Hiệu ứng nút bấm
+			// 1. Hiệu ứng UI (giữ nguyên)
 			const btn = document.getElementById('babyRunBtn');
 			btn.classList.add('scale-110');
 			setTimeout(() => btn.classList.remove('scale-110'), 150);
 
-			// B. Tạo bản ghi mới với ID duy nhất
+			// 2. Tăng số hiển thị tạm thời (Optimistic UI)
+			const countEl = document.getElementById('babyRunCount');
+			let currentCount = parseInt(countEl.textContent) || 0;
+			countEl.textContent = currentCount + 1;
+
+			// 3. Tạo bản ghi mới với trạng thái synced: false
 			const newRecord = {
-				id: `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`, // ID chống trùng tuyệt đối
+				id: `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
 				username: currentUser?.username || "Ẩn danh",
 				timerun: new Date().toISOString(),
-				synced: false
+				synced: false // <--- QUAN TRỌNG: Đánh dấu là chưa gửi
 			};
 
-			// C. Lưu vào hàng đợi LocalStorage (An toàn khi đóng trình duyệt)
-			babyRunQueue.push(newRecord);
-			localStorage.setItem(STORAGE_BABYRUN_QUEUE, JSON.stringify(babyRunQueue));
+			// 4. Lưu vào LocalStorage
+			// Lấy danh sách cũ ra
+			let localData = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
+			localData.push(newRecord);
+			localStorage.setItem(STORAGE_BABYRUN_QUEUE, JSON.stringify(localData));
 
-			// D. Debounce: Chờ 5s không bấm nữa mới bắt đầu đồng bộ
-			if (babyRunTimeout) clearTimeout(babyRunTimeout);
-			babyRunTimeout = setTimeout(syncBabyRunBatch, 5000);
+			// 5. Log và kích hoạt đồng bộ
+			addLog('Tương tác', `Đã thêm 1 đạp (waiting). Tổng: ${currentCount + 1}`);
 			
-			// E. Ghi log với nội dung bạn yêu cầu
-			// newTotal chính là tổng số lượt hiển thị trên màn hình (đã bao gồm lượt vừa bấm)
-			addLog('Tương tác', `Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: ${newTotal})`);
+			// Debounce: Chờ 3s mới gửi để gom nhóm
+			if (babyRunTimeout) clearTimeout(babyRunTimeout);
+			babyRunTimeout = setTimeout(syncBabyRunBatch, 3000);
 		}
 
 		// --- 3. ĐỒNG BỘ BATCH (CỐT LÕI) ---
 		async function syncBabyRunBatch() {
-			// Điều kiện dừng: Đang sync, Mất mạng, hoặc Queue rỗng
-			if (isSyncingBabyRun || !navigator.onLine || babyRunQueue.length === 0) return;
+			if (isSyncingBabyRun || !navigator.onLine) return;
+
+			// 1. Lấy toàn bộ dữ liệu từ LocalStorage
+			let localData = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
+
+			// 2. Lọc ra các item có synced = false (Cần gửi)
+			const pendingItems = localData.filter(item => item.synced === false);
+
+			if (pendingItems.length === 0) {
+				return; // Không có gì để gửi
+			}
 
 			isSyncingBabyRun = true;
-			
-			// Snapshot: Sao chép danh sách đang định lưu để xử lý
-			const recordsToSync = [...babyRunQueue];
+			console.log(`⏳ Bắt đầu đồng bộ ${pendingItems.length} item...`);
 
 			try {
-				console.log("⏳ Bắt đầu đồng bộ babyrun...");
-
-				// BƯỚC 1: Lấy dữ liệu MỚI NHẤT từ Server (Dùng API getFile để tránh Cache CDN)
+				// --- BƯỚC 3: LẤY DỮ LIỆU SERVER ---
 				let remoteData = await githubAPI.getFile(config.BABYRUN_FILE_PATH);
 				if (!Array.isArray(remoteData)) remoteData = [];
 
-				// BƯỚC 2: GỘP & LỌC TRÙNG (QUAN TRỌNG)
-				// Nguyên tắc: (Server Data + Local Queue) -> Map theo ID -> Array
-				// Điều này đảm bảo nếu thiết bị khác đã gửi lên, hoặc mạng lag gửi 2 lần, ID sẽ giúp lọc bỏ.
+				// --- BƯỚC 4: GỘP DỮ LIỆU (Merge) ---
+				// Tạo Map để loại bỏ trùng lặp dựa trên ID
 				const mergedMap = new Map();
-				
-				// Ưu tiên dữ liệu server trước
+
+				// 4a. Đưa dữ liệu server vào Map
 				remoteData.forEach(item => mergedMap.set(item.id, item));
-				// Ghi đè bằng dữ liệu local (nếu cần) hoặc thêm mới
-				recordsToSync.forEach(item => {
-					const itemToSave = { ...item, synced: true }; // Đánh dấu đã sync
-					mergedMap.set(item.id, itemToSave);
+
+				// 4b. Đưa các item đang chờ (pending) vào Map
+				// Lưu ý: Lúc này ta giả định gửi sẽ thành công, nên trong file json gửi đi
+				// ta có thể set synced=true luôn hoặc giữ nguyên tùy logic server.
+				// Ở đây ta chỉ quan tâm đẩy dữ liệu vào file JSON.
+				pendingItems.forEach(item => {
+					// Khi lưu lên server, bản chất nó đã là "được sync"
+					mergedMap.set(item.id, { ...item, synced: true }); 
 				});
 
-				// Chuyển về mảng và sắp xếp mới nhất lên đầu
-				const uniqueData = Array.from(mergedMap.values())
-					.sort((a, b) => new Date(b.timerun) - new Date(a.timerun));
-					
-				// Giới hạn 5000 dòng để file không quá nặng
-				const finalData = uniqueData.slice(0, 10000);
+				// 4c. Chuyển về mảng & Sắp xếp & Cắt gọn
+				const finalData = Array.from(mergedMap.values())
+					.sort((a, b) => new Date(b.timerun) - new Date(a.timerun))
+					.slice(0, 10000); // Giới hạn 10k dòng
 
-				// BƯỚC 3: GỬI LÊN GITHUB
+				// --- BƯỚC 5: GỬI REQUEST API ---
 				const success = await githubAPI.updateFile(
 					config.BABYRUN_FILE_PATH,
 					finalData,
-					`Sync babyrun: +${recordsToSync.length} records`
+					`Sync: ${pendingItems.length} new records`
 				);
 
 				if (success) {
-					// BƯỚC 4: DỌN DẸP HÀNG ĐỢI LOCAL
-					// Chỉ xóa những item đã có trong danh sách recordsToSync
-					// Giữ lại những item mới phát sinh trong lúc đang sync (nếu có)
-					const syncedIds = new Set(recordsToSync.map(r => r.id));
-					babyRunQueue = babyRunQueue.filter(r => !syncedIds.has(r.id));
-					localStorage.setItem(STORAGE_BABYRUN_QUEUE, JSON.stringify(babyRunQueue));
+					console.log("✅ Đồng bộ thành công!");
+
+					// --- BƯỚC 6: CẬP NHẬT TRẠNG THÁI LOCAL (Quan trọng) ---
+					// Duyệt qua localData, tìm những thằng vừa gửi và update synced = true
+					const pendingIds = new Set(pendingItems.map(i => i.id));
 					
-					console.log(`✅ Đồng bộ thành công. Đã xóa ${recordsToSync.length} item khỏi hàng đợi.`);
-					
-					// Cập nhật lại số hiển thị (để đảm bảo đồng bộ với các thiết bị khác nếu có)
-					updateBabyRunDisplay();
+					localData = localData.map(item => {
+						if (pendingIds.has(item.id)) {
+							return { ...item, synced: true }; // Đánh dấu đã xong
+						}
+						return item;
+					});
+
+					// --- BƯỚC 7: DỌN DẸP (Cleanup) ---
+					// Tùy chọn: Xóa các item đã sync để nhẹ bộ nhớ máy
+					// Hoặc giữ lại nếu bạn muốn hiện lịch sử offline. 
+					// Ở đây tôi sẽ xóa các item đã sync để tránh LocalStorage bị đầy.
+					localData = localData.filter(item => item.synced === false);
+
+					// Lưu lại mảng mới vào LocalStorage
+					localStorage.setItem(STORAGE_BABYRUN_QUEUE, JSON.stringify(localData));
+
+					// Cập nhật giao diện bằng dữ liệu chính xác vừa gửi
+					updateBabyRunDisplay(finalData);
 				}
 
 			} catch (error) {
-				console.error("❌ Lỗi đồng bộ babyRun:", error);
+				console.error("❌ Lỗi đồng bộ:", error);
+				// Nếu lỗi, status vẫn là false, lần sau sẽ tự gửi lại.
 			} finally {
 				isSyncingBabyRun = false;
 				babyRunTimeout = null;
@@ -6973,27 +6993,40 @@ tooltip: {
 		}
 
 		// --- 4. HIỂN THỊ DỮ LIỆU (LOCAL + REMOTE) ---
-		async function updateBabyRunDisplay() {
+		// Sửa đổi: Thêm tham số directData để nhận dữ liệu tươi ngay sau khi sync
+		async function updateBabyRunDisplay(directData = null) {
 			const todayStr = new Date().toISOString().split('T')[0];
 			
-			// Đếm số lượng trong hàng đợi local (của ngày hôm nay)
-			const localPendingCount = babyRunQueue.filter(r => r.timerun.startsWith(todayStr)).length;
+			// 1. Đếm số lượng trong LocalStorage MÀ CHƯA SYNC (synced: false)
+			const localData = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
+			const localPendingCount = localData.filter(r => 
+				r.synced === false && r.timerun.startsWith(todayStr)
+			).length;
 
 			try {
-				// Lấy dữ liệu từ Server (Dùng getRawFile cho nhanh, chấp nhận cache vài phút)
-				const remoteData = await githubAPI.getRawFile(config.BABYRUN_FILE_PATH);
-				const serverData = Array.isArray(remoteData) ? remoteData : [];
+				let serverData = [];
+				if (directData) {
+					serverData = directData;
+				} else {
+					// Lấy từ server (có thể bị cache)
+					const remoteData = await githubAPI.getRawFile(config.BABYRUN_FILE_PATH);
+					serverData = Array.isArray(remoteData) ? remoteData : [];
+				}
 				
-				// Đếm số lượng trên server (của ngày hôm nay)
+				// Đếm số lượng trên server hôm nay
 				const serverCount = serverData.filter(r => r.timerun.startsWith(todayStr)).length;
 				
-				// Cập nhật UI: Tổng = Server + Local đang chờ
-				document.getElementById('babyRunCount').textContent = serverCount + localPendingCount;
+				// Tổng = Server (đã lưu) + Local (đang chờ)
+				// Lưu ý: Nếu serverData đã bao gồm local data vừa gửi (trường hợp directData),
+				// thì logic lọc synced=false ở trên sẽ đảm bảo không bị cộng đôi.
+				const total = serverCount + localPendingCount;
+				
+				document.getElementById('babyRunCount').textContent = total;
 				
 			} catch (e) {
-				// Nếu lỗi mạng, hiển thị tạm số local
-				console.warn("Offline mode: Hiển thị dữ liệu local.");
-				document.getElementById('babyRunCount').textContent = localPendingCount;
+				// Offline: Hiển thị những gì đang có trong local (cả true và false nếu chưa xóa)
+				const localTodayTotal = localData.filter(r => r.timerun.startsWith(todayStr)).length;
+				document.getElementById('babyRunCount').textContent = localTodayTotal;
 			}
 		}
 
@@ -7007,8 +7040,19 @@ tooltip: {
 		// Cố gắng sync trước khi đóng tab (Best effort)
 		window.addEventListener('beforeunload', () => {
 			if (babyRunQueue.length > 0) {
-				// Lưu ý: Không dùng await ở đây được, chỉ gọi hàm và hy vọng trình duyệt xử lý kịp
 				syncBabyRunBatch();
+			}
+		});
+
+		// THÊM MỚI: Xử lý cho Mobile khi ẩn trình duyệt/tắt màn hình
+		document.addEventListener('visibilitychange', () => {
+			if (document.visibilityState === 'hidden') {
+				// Nếu có dữ liệu đang chờ, sync ngay lập tức không cần chờ debounce 5s
+				if (babyRunQueue.length > 0) {
+					console.log("App hidden: Triggering immediate sync...");
+					if (babyRunTimeout) clearTimeout(babyRunTimeout); // Xóa bộ đếm giờ
+					syncBabyRunBatch();
+				}
 			}
 		});
     </script>
