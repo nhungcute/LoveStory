@@ -7,6 +7,7 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
   
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -1461,6 +1462,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         let commentsData = [];
         let profilesData = [];
         let logsData = [];
+		let cachedServerBabyRunCount = 0;
 		 
 		
 		// Thêm 2 dòng này (khoảng dòng 595)
@@ -6874,34 +6876,37 @@ tooltip: {
 
 		// --- 2. XỬ LÝ CLICK (OPTIMISTIC UI) ---
 		function handleBabyRunClick() {
-			// 1. Hiệu ứng UI (giữ nguyên)
+			// 1. Hiệu ứng UI (Giữ nguyên)
 			const btn = document.getElementById('babyRunBtn');
 			btn.classList.add('scale-110');
 			setTimeout(() => btn.classList.remove('scale-110'), 150);
 
-			// 2. Tăng số hiển thị tạm thời (Optimistic UI)
-			const countEl = document.getElementById('babyRunCount');
-			let currentCount = parseInt(countEl.textContent) || 0;
-			countEl.textContent = currentCount + 1;
-
-			// 3. Tạo bản ghi mới với trạng thái synced: false
+			// 2. Tạo bản ghi mới (Đưa bước này lên trước để tính toán chính xác)
 			const newRecord = {
 				id: `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
 				username: currentUser?.username || "Ẩn danh",
 				timerun: new Date().toISOString(),
-				synced: false // <--- QUAN TRỌNG: Đánh dấu là chưa gửi
+				synced: false
 			};
 
-			// 4. Lưu vào LocalStorage
-			// Lấy danh sách cũ ra
+			// 3. Lưu vào LocalStorage
 			let localData = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
 			localData.push(newRecord);
 			localStorage.setItem(STORAGE_BABYRUN_QUEUE, JSON.stringify(localData));
 
-			// 5. Log và kích hoạt đồng bộ
-			addLog('Tương tác', `Đã thêm 1 đạp (waiting). Tổng: ${currentCount + 1}`);
+			// 4. Tính toán tổng CHÍNH XÁC (Server đã lưu + Local đang chờ)
+			// Lọc số lượng local của ngày hôm nay
+			const todayStr = new Date().toISOString().split('T')[0];
+			const localTodayCount = localData.filter(r => r.timerun.startsWith(todayStr)).length;
 			
-			// Debounce: Chờ 3s mới gửi để gom nhóm
+			// Tổng thực tế = (Số đã lưu trên Server) + (Số đang chờ ở Local)
+			const realTotal = cachedServerBabyRunCount + localTodayCount;
+
+			// 5. Cập nhật hiển thị và Log
+			document.getElementById('babyRunCount').textContent = realTotal;
+			addLog('Tương tác', `Đã thêm 1 đạp (waiting). Tổng: ${realTotal}`);
+			
+			// 6. Debounce Sync (Giữ nguyên)
 			if (babyRunTimeout) clearTimeout(babyRunTimeout);
 			babyRunTimeout = setTimeout(syncBabyRunBatch, 3000);
 		}
@@ -7008,19 +7013,17 @@ tooltip: {
 				if (directData) {
 					serverData = directData;
 				} else {
-					// Lấy từ server (có thể bị cache)
 					const remoteData = await githubAPI.getRawFile(config.BABYRUN_FILE_PATH);
 					serverData = Array.isArray(remoteData) ? remoteData : [];
 				}
 				
-				// Đếm số lượng trên server hôm nay
+				// Đếm số lượng trên server
 				const serverCount = serverData.filter(r => r.timerun.startsWith(todayStr)).length;
 				
-				// Tổng = Server (đã lưu) + Local (đang chờ)
-				// Lưu ý: Nếu serverData đã bao gồm local data vừa gửi (trường hợp directData),
-				// thì logic lọc synced=false ở trên sẽ đảm bảo không bị cộng đôi.
-				const total = serverCount + localPendingCount;
+				// --- CẬP NHẬT BIẾN TOÀN CỤC ---
+				cachedServerBabyRunCount = serverCount; // <--- THÊM DÒNG NÀY
 				
+				const total = serverCount + localPendingCount;
 				document.getElementById('babyRunCount').textContent = total;
 				
 			} catch (e) {
