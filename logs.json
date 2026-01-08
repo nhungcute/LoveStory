@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-08T13:20:21.048Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 22",
+    "username": "1767878421049",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-08T13:12:00.919Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
