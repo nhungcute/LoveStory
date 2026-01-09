@@ -7,20 +7,6 @@
     "contentHTML": ""
   },
   {
-    "id": "widget-memories",
-    "colSpan": "3",
-    "type": "widget",
-    "minHeight": "",
-    "contentHTML": ""
-  },
-  {
-    "id": "widget-stats",
-    "colSpan": "2",
-    "type": "widget",
-    "minHeight": "",
-    "contentHTML": ""
-  },
-  {
     "id": "widget-gold",
     "colSpan": "1",
     "type": "widget",
@@ -32,6 +18,20 @@
     "colSpan": "3",
     "type": "spacer",
     "minHeight": "50px",
+    "contentHTML": "<div class=\"widget-controls\"><button class=\"control-btn spacer ignore-drag\" title=\"Tăng chiều cao\"><i class=\"fas fa-arrows-alt-v\"></i></button><button class=\"control-btn resize ignore-drag\" title=\"Đổi kích thước\"><i class=\"fas fa-expand-alt\"></i></button><button class=\"control-btn delete ignore-drag\" title=\"Ẩn khối này\"><i class=\"fas fa-trash\"></i></button></div>"
+  },
+  {
+    "id": "spacer-1767938113020",
+    "colSpan": "3",
+    "type": "spacer",
+    "minHeight": "50px",
     "contentHTML": "<span class=\"text-xs text-gray-400 select-none\">Khoảng trắng (Click icon xanh để chỉnh cao)</span><div class=\"widget-controls\"><button class=\"control-btn spacer ignore-drag\" title=\"Tăng chiều cao\"><i class=\"fas fa-arrows-alt-v\"></i></button><button class=\"control-btn resize ignore-drag\" title=\"Đổi kích thước\"><i class=\"fas fa-expand-alt\"></i></button><button class=\"control-btn delete ignore-drag\" title=\"Ẩn khối này\"><i class=\"fas fa-trash\"></i></button></div>"
+  },
+  {
+    "id": "widget-memories",
+    "colSpan": "3",
+    "type": "widget",
+    "minHeight": "",
+    "contentHTML": ""
   }
 ]
