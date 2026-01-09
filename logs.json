@@ -1,23 +1,16 @@
 [
   {
-    "timestamp": "2026-01-09T05:51:11.426Z",
+    "timestamp": "2026-01-09T05:52:06.314Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
-    "username": "1767936896474",
+    "username": "1767937922602",
     "saved": true
   },
   {
-    "timestamp": "2026-01-09T05:50:38.265Z",
-    "action": "Mở modal",
-    "details": "Đã mở \"Nhật ký hoạt động\"",
-    "username": "1767936896474",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-09T05:50:33.474Z",
+    "timestamp": "2026-01-09T05:52:02.599Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1767936896474",
+    "username": "1767937922602",
     "saved": true
   },
   {
