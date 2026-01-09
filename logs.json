@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-09T07:15:17.372Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:15:16.067Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-09T07:08:26.576Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
