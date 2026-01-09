@@ -1,36 +1,15 @@
 [
   {
-    "timestamp": "2026-01-09T07:17:38.532Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-09T07:17:15.564Z",
+    "timestamp": "2026-01-09T07:20:19.985Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
     "username": "1767936896474",
     "saved": true
   },
   {
-    "timestamp": "2026-01-09T07:17:13.963Z",
+    "timestamp": "2026-01-09T07:20:18.388Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
-    "username": "1767936896474",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-09T07:17:11.187Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
-    "username": "1767936896474",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-09T07:17:08.315Z",
-    "action": "Điều hướng",
-    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
     "username": "1767936896474",
     "saved": true
   },
