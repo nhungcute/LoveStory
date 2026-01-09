@@ -7029,18 +7029,31 @@ tooltip: {
 			btn.classList.add('scale-110');
 			setTimeout(() => btn.classList.remove('scale-110'), 150);
 
-			// 2. LẤY TỔNG GẦN NHẤT TỪ GIAO DIỆN
-			// Thay vì tính toán lại từ cache, ta lấy ngay số đang hiện trên màn hình
-			let currentDisplay = parseInt(document.getElementById('babyRunCount').textContent) || 0;
+			// --- SỬA ĐỔI: TÍNH TOÁN DỰA TRÊN DỮ LIỆU THỰC TẾ ---
+			const todayStr = new Date().toISOString().split('T')[0];
 			
-			// 3. TÍNH TỔNG MỚI (Tổng gần nhất + 1)
-			const realTotal = currentDisplay + 1;
+			// a. Lấy danh sách đang chờ từ LocalStorage
+			let localData = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
+			
+			// b. Đếm số lượng chưa đồng bộ của ngày hôm nay
+			const localPendingCount = localData.filter(r => 
+				r.synced === false && r.timerun.startsWith(todayStr)
+			).length;
 
-			// 4. Cập nhật hiển thị và Log ngay lập tức
+			// c. Tính tổng cũ = (Số lượng Server đã cache) + (Số lượng Local đang chờ)
+			// cachedServerBabyRunCount là biến toàn cục được cập nhật ở hàm updateBabyRunDisplay
+			const oldTotal = (cachedServerBabyRunCount || 0) + localPendingCount;
+			
+			// d. Tổng mới = Tổng cũ + 1
+			const realTotal = oldTotal + 1;
+
+			// 2. Cập nhật hiển thị
 			document.getElementById('babyRunCount').textContent = realTotal;
-			addLog('Tương tác', `Đã thêm 1 đạp (waiting). Tổng: ${realTotal}`);
+			
+			// 3. Ghi log với số liệu chính xác
+			addLog('Tương tác', `Đã thêm 1 đạp. Tổng hôm nay: ${realTotal}`);
 
-			// 5. Tạo bản ghi mới (Xử lý ngầm để lưu data)
+			// 4. Tạo bản ghi mới
 			const newRecord = {
 				id: `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
 				username: currentUser?.username || "Ẩn danh",
@@ -7048,12 +7061,11 @@ tooltip: {
 				synced: false
 			};
 
-			// 6. Lưu vào LocalStorage
-			let localData = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
+			// 5. Lưu vào LocalStorage (Push trực tiếp vào biến localData đã lấy ở bước a)
 			localData.push(newRecord);
 			localStorage.setItem(STORAGE_BABYRUN_QUEUE, JSON.stringify(localData));
 
-			// 7. Debounce Sync (Giữ nguyên)
+			// 6. Debounce Sync (Giữ nguyên)
 			if (babyRunTimeout) clearTimeout(babyRunTimeout);
 			babyRunTimeout = setTimeout(syncBabyRunBatch, 3000);
 		}
@@ -7181,30 +7193,35 @@ tooltip: {
 		}
 
 		// --- 5. KÍCH HOẠT ---
-		// Chạy khi mở app
-		updateBabyRunDisplay();
+        // Chạy khi mở app
+        updateBabyRunDisplay();
 
-		// Tự động sync khi có mạng lại
-		window.addEventListener('online', syncBabyRunBatch);
+        // Tự động sync khi có mạng lại
+        window.addEventListener('online', syncBabyRunBatch);
 
-		// Cố gắng sync trước khi đóng tab (Best effort)
-		window.addEventListener('beforeunload', () => {
-			if (babyRunQueue.length > 0) {
-				syncBabyRunBatch();
-			}
-		});
+        // Cố gắng sync trước khi đóng tab (Best effort)
+        window.addEventListener('beforeunload', () => {
+            // Kiểm tra trực tiếp LocalStorage xem có dữ liệu chờ không
+            const queue = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
+            if (queue.some(item => item.synced === false)) {
+                syncBabyRunBatch();
+            }
+        });
 
-		// THÊM MỚI: Xử lý cho Mobile khi ẩn trình duyệt/tắt màn hình
-		document.addEventListener('visibilitychange', () => {
-			if (document.visibilityState === 'hidden') {
-				// Nếu có dữ liệu đang chờ, sync ngay lập tức không cần chờ debounce 5s
-				if (babyRunQueue.length > 0) {
-					console.log("App hidden: Triggering immediate sync...");
-					if (babyRunTimeout) clearTimeout(babyRunTimeout); // Xóa bộ đếm giờ
-					syncBabyRunBatch();
-				}
-			}
-		});
+        // THÊM MỚI: Xử lý cho Mobile khi ẩn trình duyệt/tắt màn hình
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                // Kiểm tra trực tiếp LocalStorage thay vì biến babyRunQueue
+                const queue = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
+                
+                // Nếu có bất kỳ item nào chưa sync (synced === false)
+                if (queue.some(item => item.synced === false)) {
+                    console.log("App hidden: Triggering immediate sync...");
+                    if (babyRunTimeout) clearTimeout(babyRunTimeout); // Xóa bộ đếm giờ
+                    syncBabyRunBatch();
+                }
+            }
+        });
 		
 		// --- LOGIC TÙY CHỈNH LAYOUT NÂNG CAO ---
 		let sortableInstance = null;
