@@ -22,28 +22,28 @@
   },
   {
     "id": "widget-count-memories",
-    "colSpan": "6",
+    "colSpan": "3",
     "type": "widget",
     "minHeight": "auto",
     "contentHTML": ""
   },
   {
     "id": "widget-count-media",
-    "colSpan": "2",
+    "colSpan": "3",
     "type": "widget",
     "minHeight": "auto",
     "contentHTML": ""
   },
   {
     "id": "widget-upcoming",
-    "colSpan": "2",
+    "colSpan": "3",
     "type": "widget",
     "minHeight": "auto",
     "contentHTML": ""
   },
   {
     "id": "widget-gold",
-    "colSpan": "1",
+    "colSpan": "6",
     "type": "widget",
     "minHeight": "auto",
     "contentHTML": ""
