@@ -6874,14 +6874,25 @@ tooltip: {
 		let isSyncingBabyRun = false;
 		let babyRunTimeout = null;
 
-		// --- 2. XỬ LÝ CLICK (OPTIMISTIC UI) ---
+		// --- 2. XỬ LÝ CLICK (OPTIMISTIC UI) - ĐÃ SỬA ---
 		function handleBabyRunClick() {
 			// 1. Hiệu ứng UI (Giữ nguyên)
 			const btn = document.getElementById('babyRunBtn');
 			btn.classList.add('scale-110');
 			setTimeout(() => btn.classList.remove('scale-110'), 150);
 
-			// 2. Tạo bản ghi mới (Đưa bước này lên trước để tính toán chính xác)
+			// 2. LẤY TỔNG GẦN NHẤT TỪ GIAO DIỆN
+			// Thay vì tính toán lại từ cache, ta lấy ngay số đang hiện trên màn hình
+			let currentDisplay = parseInt(document.getElementById('babyRunCount').textContent) || 0;
+			
+			// 3. TÍNH TỔNG MỚI (Tổng gần nhất + 1)
+			const realTotal = currentDisplay + 1;
+
+			// 4. Cập nhật hiển thị và Log ngay lập tức
+			document.getElementById('babyRunCount').textContent = realTotal;
+			addLog('Tương tác', `Đã thêm 1 đạp (waiting). Tổng: ${realTotal}`);
+
+			// 5. Tạo bản ghi mới (Xử lý ngầm để lưu data)
 			const newRecord = {
 				id: `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
 				username: currentUser?.username || "Ẩn danh",
@@ -6889,24 +6900,12 @@ tooltip: {
 				synced: false
 			};
 
-			// 3. Lưu vào LocalStorage
+			// 6. Lưu vào LocalStorage
 			let localData = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
 			localData.push(newRecord);
 			localStorage.setItem(STORAGE_BABYRUN_QUEUE, JSON.stringify(localData));
 
-			// 4. Tính toán tổng CHÍNH XÁC (Server đã lưu + Local đang chờ)
-			// Lọc số lượng local của ngày hôm nay
-			const todayStr = new Date().toISOString().split('T')[0];
-			const localTodayCount = localData.filter(r => r.timerun.startsWith(todayStr)).length;
-			
-			// Tổng thực tế = (Số đã lưu trên Server) + (Số đang chờ ở Local)
-			const realTotal = cachedServerBabyRunCount + localTodayCount;
-
-			// 5. Cập nhật hiển thị và Log
-			document.getElementById('babyRunCount').textContent = realTotal;
-			addLog('Tương tác', `Đã thêm 1 đạp (waiting). Tổng: ${realTotal}`);
-			
-			// 6. Debounce Sync (Giữ nguyên)
+			// 7. Debounce Sync (Giữ nguyên)
 			if (babyRunTimeout) clearTimeout(babyRunTimeout);
 			babyRunTimeout = setTimeout(syncBabyRunBatch, 3000);
 		}
