@@ -1,5 +1,33 @@
 [
   {
+    "timestamp": "2026-01-09T07:17:15.564Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:17:13.963Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:17:11.187Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:17:08.315Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-09T07:15:17.372Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
