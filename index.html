@@ -675,37 +675,62 @@
 		.widget-controls {
 			display: none;
 			position: absolute;
-			top: -10px;
-			right: -10px;
+			top: 5px;
+			right: 5px;
 			z-index: 50;
-			background: white;
-			border-radius: 20px;
-			box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-			padding: 2px;
+			background: rgba(255, 255, 255, 0.95);
+			border-radius: 8px;
+			box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+			padding: 5px;
+			border: 1px solid #e2e8f0;
+			/* Grid layout cho các nút điều khiển */
+			display: grid;
+			grid-template-columns: repeat(4, 1fr); /* 4 nút 1 hàng */
+			gap: 4px;
+			width: 140px; /* Độ rộng cố định */
 		}
 
-		.edit-mode .widget-controls {
-			display: flex;
-			gap: 2px;
+		/* Ẩn controls mặc định, chỉ hiện khi cha có class edit-mode */
+		.widget-item:not(.edit-mode) .widget-controls {
+			display: none !important;
+		}
+
+		.widget-item.edit-mode .widget-controls {
+			display: grid !important;
+		}
+		/* Hiệu ứng focus khối */
+		.widget-item.edit-mode {
+			border: 2px dashed var(--primary-color);
+			background-color: rgba(255,255,255, 0.8);
+			position: relative; 
+			/* Quan trọng: transition mượt khi đổi size */
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 		}
 
 		.control-btn {
-			width: 24px;
-			height: 24px;
-			border-radius: 50%;
+			width: 100%; /* Full ô grid */
+			height: 28px;
+			border-radius: 4px;
 			border: none;
 			color: white;
-			font-size: 10px;
+			font-size: 12px;
 			cursor: pointer;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-		}
+		} /* <-- Đã thêm dấu đóng ngoặc */
 
+		.control-btn:hover { filter: brightness(1.1); }
+
+		.control-btn:hover { filter: brightness(1.1); }
+		.control-btn:active { transform: scale(0.95); }
 		.control-btn.resize { background-color: #3b82f6; }
 		.control-btn.delete { background-color: #ef4444; }
 		.control-btn.spacer { background-color: #10b981; }
-
+		.btn-move { background-color: #64748b; } /* Xám - Di chuyển */
+		.btn-size { background-color: #3b82f6; } /* Xanh - Kích thước */
+		.btn-del  { background-color: #ef4444; grid-column: span 4; } /* Đỏ - Xóa (chiếm cả dòng) */
+	
 		/* Toolbar chỉnh sửa nằm dưới cùng màn hình */
 		#editorToolbar {
 			transform: translateY(100%);
@@ -714,6 +739,26 @@
 		#editorToolbar.show {
 			transform: translateY(0);
 		}
+		
+		/* --- CSS CHO TOOLBAR CHỈNH SỬA --- */
+		#editorToolbar {
+			/* Định vị cố định */
+			position: fixed;
+			left: 50%;
+			bottom: 20px; /* Cách đáy màn hình 20px */
+			
+			/* Mặc định: Căn giữa ngang (-50%) và Đẩy xuống dưới màn hình (200%) để ẩn */
+			transform: translate(-50%, 200%);
+			transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			
+			z-index: 9999;
+		}
+
+		/* Khi có class 'show', thanh sẽ trồi lên vị trí gốc (translateY về 0) */
+		#editorToolbar.show {
+			transform: translate(-50%, 0);
+		}
+
     </style>
   <style>@view-transition { navigation: auto; }</style>
  </head>
@@ -783,136 +828,155 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
   
   <main class="flex-1 container mx-auto px-4 overflow-y-auto"><!-- Home Section -->
    <div id="homeSection" class="section py-6 relative">
-    <div id="dashboardGrid" class="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-20">
+    <div id="dashboardGrid" class="grid grid-cols-1 lg:grid-cols-6 gap-6 pb-20 transition-all duration-300">
+		<div id="widget-babyrun" class="widget-item lg:col-span-4 relative group" data-col="4">
+			<div class="love-card rounded-lg p-6 mb-4 relative h-full"> 
+				<button onclick="openBabyRunChart()" class="absolute top-2 right-2 text-gray-400 hover:text-primary transition-colors p-2 rounded-full hover:bg-gray-100" title="Xem biểu đồ">
+					<i class="fas fa-chart-line text-xl"></i>
+				</button>
+				<div class="flex flex-col items-center justify-center space-y-4">
+					<div class="text-center">
+						<p class="text-sm text-gray-500">Lượt đạp hôm nay</p>
+						<p id="babyRunCount" class="text-4xl font-bold text-primary">0</p>
+					</div>
+					<button id="babyRunBtn" 
+							class="w-20 h-20 rounded-full bg-primary text-white shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center text-3xl"
+							onclick="handleBabyRunClick()">
+						<span style="font-size: 32px; filter: brightness(0) invert(1);">👣</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="widget-memories" class="widget-item lg:col-span-4 relative group" data-col="4">
+			<div class="love-card rounded-lg p-6 h-full">
+				<div class="flex items-center mb-4"><i class="fas fa-calendar-day text-primary text-2xl mr-3"></i>
+					<h2 class="text-xl font-bold text-primary">Ngày Này Năm Xưa</h2>
+				</div>
+				<div id="todayMemories">
+					<div class="skeleton h-32 rounded mb-4"></div>
+				</div>
+			</div>
+		</div>
+
+		<div id="widget-days" class="widget-item lg:col-span-2 relative group" data-col="2">
+			<div class="love-card rounded-lg p-4 flex items-center space-x-4 h-full">
+				<div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+					<i class="fas fa-heart text-white text-xl"></i>
+				</div>
+				<div>
+					<p class="text-sm text-gray-500">Ngày bên nhau</p>
+					<p class="text-2xl font-bold text-primary" id="daysTogether">0</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="widget-count-memories" class="widget-item lg:col-span-2 relative group" data-col="2">
+			<div class="love-card rounded-lg p-4 flex items-center space-x-4 cursor-pointer h-full" onclick="selectMenuItem('timeline')">
+				<div class="flex-shrink-0 w-12 h-12 bg-secondary rounded-full flex items-center justify-center">
+					<i class="fas fa-star text-white text-xl"></i>
+				</div>
+				<div>
+					<p class="text-sm text-gray-500">Kỷ niệm</p>
+					<p class="text-2xl font-bold text-secondary" id="totalMemories">0</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="widget-count-media" class="widget-item lg:col-span-2 relative group" data-col="2">
+			<div class="love-card rounded-lg p-4 flex items-center space-x-4 cursor-pointer h-full" onclick="selectMenuItem('photos')">
+				<div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+					<i class="fas fa-images text-white text-xl"></i>
+				</div>
+				<div>
+					<p class="text-sm text-gray-500">Media</p>
+					<p class="text-2xl font-bold text-primary" id="totalPhotos">0</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="widget-upcoming" class="widget-item lg:col-span-2 relative group" data-col="2">
+			 <div class="love-card rounded-lg p-4 flex items-center space-x-4 h-full">
+				<div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+					<i class="fas fa-clock text-white text-xl"></i>
+				</div>
+				<div id="upcomingEventsContainer" class="flex-1">
+					</div>
+			</div>
+		</div>
+
+		<div id="widget-gold" class="widget-item lg:col-span-2 relative group" data-col="2">
+			 <div class="love-card rounded-lg p-4 flex items-center space-x-4 cursor-pointer h-full" onclick="toggleGoldChart()">
+				<div class="flex-shrink-0 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
+					<i class="fas fa-ring text-white text-xl"></i>
+				</div>
+				<div class="w-full">
+					<p class="text-sm text-gray-500 mb-1">Giá vàng (Nhẫn tròn 9999)</p>
+					<p class="text-sm text-gray-400 mb-1">Giá mua:&nbsp&nbsp<span class="font-bold text-yellow-600" id="goldBuyPrice">N/A</span></p>
+					<p class="text-sm text-gray-400 mb-1">Giá bán:&nbsp&nbsp&nbsp<span class="font-bold text-yellow-600" id="goldSellPrice">N/A</span></p>
+				</div>
+			</div> 
+			
+			<div id="goldChartContainer" class="love-card rounded-lg p-4 hidden mt-4 absolute top-full left-0 right-0 z-50 shadow-xl border border-gray-200">
+				<div class="chart-toolbar mb-4 flex justify-center gap-2">
+					<button id="btn-gold-1m" class="chart-toolbar-btn active">1M</button>
+					<button id="btn-gold-3m" class="chart-toolbar-btn">3M</button>
+					<button id="btn-gold-6m" class="chart-toolbar-btn">6M</button>
+					<button id="btn-gold-1y" class="chart-toolbar-btn">1Y</button>
+					<button id="btn-gold-3y" class="chart-toolbar-btn">3Y</button>
+				</div>
+				<div id="homeGoldChart" class="mb-4"></div>
+				<div class="border-t border-custom pt-4 mb-4">
+					<h3 class="text-lg font-bold text-primary mb-4">Tóm Tắt Danh Mục</h3>
+					<div class="grid grid-cols-2 gap-4"> 
+						<div class="text-center flex flex-col justify-center">
+							<p class="text-sm text-gray-500">Số Lượng</p>
+							<p class="text-lg font-bold" id="summaryTotalHolding">0 chỉ</p>
+						</div>
+						<div class="text-center">
+							<div>
+								<p class="text-sm text-gray-500">Lãi/Lỗ Tạm Tính</p>
+								<p class="text-lg font-bold" id="summaryUnrealizedPNL">0 đ</p>
+							</div>
+							<div class="mt-2 border-t border-custom"> 
+								<p class="text-sm text-gray-500">Lãi/Lỗ Đã Chốt</p>
+								<p class="text-lg font-bold" id="summaryRealizedPNL">0 đ</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="border-t border-custom pt-4">
+					<div class="flex justify-between items-center mb-4">
+						<h3 class="text-lg font-bold text-primary">Lịch Sử Giao Dịch</h3>
+						<button onclick="openGoldModal()" class="love-button w-10 h-10 rounded-full flex items-center justify-center p-0" title="Thêm giao dịch mới">
+							<i class="fas fa-plus"></i> 
+						</button>
+					</div>
+					<div id="goldTransactionList" class="space-y-3 mb-4 max-h-80 overflow-y-auto">
+						<p class="text-sm text-gray-500 text-center">Chưa có giao dịch nào.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+    <div id="editorToolbar" class="bg-white shadow-2xl rounded-full px-6 py-3 flex items-center space-x-3 border border-gray-200">
+        <span class="font-bold text-primary text-sm whitespace-nowrap">Edit</span>
+                
+        <button onclick="saveLayoutConfig()" class="love-button secondary text-sm px-3 py-1 whitespace-nowrap">
+            <i class="fas fa-save mr-1"></i>Lưu
+        </button>
         
-        <div id="widget-babyrun" class="widget-item lg:col-span-2 relative group" data-col="2">
-            <div class="love-card rounded-lg p-6 mb-4 relative h-full"> 
-                <button onclick="openBabyRunChart()" class="absolute top-2 right-2 text-gray-400 hover:text-primary transition-colors p-2 rounded-full hover:bg-gray-100" title="Xem biểu đồ">
-                    <i class="fas fa-chart-line text-xl"></i>
-                </button>
-                <div class="flex flex-col items-center justify-center space-y-4">
-                    <div class="text-center">
-                        <p class="text-sm text-gray-500">Lượt đạp hôm nay</p>
-                        <p id="babyRunCount" class="text-4xl font-bold text-primary">0</p>
-                    </div>
-                    <button id="babyRunBtn" 
-                            class="w-20 h-20 rounded-full bg-primary text-white shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center text-3xl"
-                            onclick="handleBabyRunClick()">
-                        <span style="font-size: 32px; filter: brightness(0) invert(1);">👣</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div id="widget-memories" class="widget-item lg:col-span-2 relative group" data-col="2">
-            <div class="love-card rounded-lg p-6 h-full">
-                <div class="flex items-center mb-4"><i class="fas fa-calendar-day text-primary text-2xl mr-3"></i>
-                    <h2 class="text-xl font-bold text-primary">Ngày Này Năm Xưa</h2>
-                </div>
-                <div id="todayMemories">
-                    <div class="skeleton h-32 rounded mb-4"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="widget-stats" class="widget-item lg:col-span-1 space-y-4 relative group" data-col="1">
-            <div class="love-card rounded-lg p-4 flex items-center space-x-4">
-                <div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-                    <i class="fas fa-heart text-white text-xl"></i>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">Ngày bên nhau</p>
-                    <p class="text-2xl font-bold text-primary" id="daysTogether">0</p>
-                </div>
-            </div>
-            <div class="love-card rounded-lg p-4 flex items-center space-x-4 cursor-pointer" onclick="selectMenuItem('timeline')">
-                <div class="flex-shrink-0 w-12 h-12 bg-secondary rounded-full flex items-center justify-center">
-                    <i class="fas fa-star text-white text-xl"></i>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">Kỷ niệm</p>
-                    <p class="text-2xl font-bold text-secondary" id="totalMemories">0</p>
-                </div>
-            </div>
-            <div class="love-card rounded-lg p-4 flex items-center space-x-4 cursor-pointer" onclick="selectMenuItem('photos')">
-                <div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-                    <i class="fas fa-images text-white text-xl"></i>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">Media</p>
-                    <p class="text-2xl font-bold text-primary" id="totalPhotos">0</p>
-                </div>
-            </div>
-             <div class="love-card rounded-lg p-4 flex items-center space-x-4">
-                <div class="flex-shrink-0 w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-                    <i class="fas fa-clock text-white text-xl"></i>
-                </div>
-                <div id="upcomingEventsContainer"></div>
-            </div>
-        </div>
-
-        <div id="widget-gold" class="widget-item lg:col-span-1 relative group" data-col="1">
-             <div class="love-card rounded-lg p-4 flex items-center space-x-4 cursor-pointer" onclick="toggleGoldChart()">
-                <div class="flex-shrink-0 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
-                    <i class="fas fa-ring text-white text-xl"></i>
-                </div>
-                <div class="w-full">
-                    <p class="text-sm text-gray-500 mb-1">Giá vàng (Nhẫn tròn 9999)</p>
-                    <p class="text-sm text-gray-400 mb-1">Giá mua:&nbsp&nbsp<span class="font-bold text-yellow-600" id="goldBuyPrice">N/A</span></p>
-                    <p class="text-sm text-gray-400 mb-1">Giá bán:&nbsp&nbsp&nbsp<span class="font-bold text-yellow-600" id="goldSellPrice">N/A</span></p>
-                </div>
-            </div> 
-            
-            <div id="goldChartContainer" class="love-card rounded-lg p-4 hidden mt-4">
-                <div class="chart-toolbar mb-4 flex justify-center gap-2">
-                    <button id="btn-gold-1m" class="chart-toolbar-btn active">1M</button>
-                    <button id="btn-gold-3m" class="chart-toolbar-btn">3M</button>
-                    <button id="btn-gold-6m" class="chart-toolbar-btn">6M</button>
-                    <button id="btn-gold-1y" class="chart-toolbar-btn">1Y</button>
-                    <button id="btn-gold-3y" class="chart-toolbar-btn">3Y</button>
-                </div>
-                <div id="homeGoldChart" class="mb-4"></div>
-                <div class="border-t border-custom pt-4 mb-4">
-                    <h3 class="text-lg font-bold text-primary mb-4">Tóm Tắt Danh Mục</h3>
-                    <div class="grid grid-cols-2 gap-4"> 
-                        <div class="text-center flex flex-col justify-center">
-                            <p class="text-sm text-gray-500">Số Lượng</p>
-                            <p class="text-lg font-bold" id="summaryTotalHolding">0 chỉ</p>
-                        </div>
-                        <div class="text-center">
-                            <div>
-                                <p class="text-sm text-gray-500">Lãi/Lỗ Tạm Tính</p>
-                                <p class="text-lg font-bold" id="summaryUnrealizedPNL">0 đ</p>
-                            </div>
-                            <div class="mt-2 border-t border-custom"> 
-                                <p class="text-sm text-gray-500">Lãi/Lỗ Đã Chốt</p>
-                                <p class="text-lg font-bold" id="summaryRealizedPNL">0 đ</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-t border-custom pt-4">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-bold text-primary">Lịch Sử Giao Dịch</h3>
-                        <button onclick="openGoldModal()" class="love-button w-10 h-10 rounded-full flex items-center justify-center p-0" title="Thêm giao dịch mới">
-                            <i class="fas fa-plus"></i> 
-                        </button>
-                    </div>
-                    <div id="goldTransactionList" class="space-y-3 mb-4 max-h-80 overflow-y-auto">
-                        <p class="text-sm text-gray-500 text-center">Chưa có giao dịch nào.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <button onclick="resetLayoutConfig()" class="love-button text-sm px-3 py-1 whitespace-nowrap bg-red-500 hover:bg-red-600">
+            <i class="fas fa-undo mr-1"></i>Mặc định
+        </button>
+        
+        <button onclick="toggleEditMode()" class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center ml-2">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
-
-    <div id="editorToolbar" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-white shadow-2xl rounded-full px-4 py-2 z-50 flex items-center space-x-2 border border-gray-200">
-        <span class="font-bold text-primary text-xs hidden md:block mr-2">Chỉnh sửa</span>
-        <button onclick="addNewSpacer()" class="love-button text-xs px-3 py-2"><i class="fas fa-plus mr-1"></i>Khoảng trắng</button>
-        <button onclick="saveLayoutConfig()" class="love-button secondary text-xs px-3 py-2"><i class="fas fa-save mr-1"></i>Lưu</button>
-        <button onclick="toggleEditMode()" class="bg-gray-500 text-white rounded-full w-8 h-8 flex items-center justify-center ml-2"><i class="fas fa-times"></i></button>
-    </div>
+	
    </div><!-- Chat AI Section -->
    <div id="chatSection" class="section hidden h-full flex flex-col py-6">
     <div class="love-card rounded-lg overflow-hidden flex flex-col flex-1">
@@ -1055,14 +1119,15 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         </div><label class="toggle-switch"> <input type="checkbox" id="verticalMenuToggle" onchange="toggleVerticalMenu()"> <span class="toggle-slider"></span> </label>
        </div>
 	   
-	   <div class="love-card rounded-lg p-6 mt-6">
-			<h3 class="text-lg font-bold text-primary mb-4"><i class="fas fa-magic mr-2"></i>Tùy Chỉnh Trang Chủ</h3>
-			<p class="text-sm text-gray-500 mb-4">Sắp xếp, thay đổi kích thước các khối dữ liệu trên trang chủ.</p>
-			<button onclick="toggleEditMode(); showSection('home')" class="love-button w-full">
-				<i class="fas fa-pencil-alt mr-2"></i>Chỉnh sửa Bố cục
+	   <div class="flex items-center justify-between">
+        <div><span class="font-medium">Chỉnh sửa bố cục</span>
+         <p class="text-xs text-gray-500 mt-1">Sắp xếp, thay đổi kích thước các khối dữ liệu trên trang chủ.</p>
+        </div>
+		<button onclick="toggleEditMode(); showSection('home')" class="love-button">
+				<i class="fas fa-pencil-alt"></i>
 			</button>
-		</div>
-	   
+       </div>
+	    
       </div>
      </div><!-- Tự Động Cập Nhật -->
      <div class="love-card rounded-lg p-6">
@@ -2484,9 +2549,14 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         // Stats functions
         function updateStats() {
             // Đọc dữ liệu đã tính toán sẵn từ homeData
-            document.getElementById('daysTogether').textContent = (homeData.daysTogether || 0).toLocaleString();
-            document.getElementById('totalMemories').textContent = (homeData.totalMemories || 0).toLocaleString();
-            document.getElementById('totalPhotos').textContent = (homeData.totalPhotos || 0).toLocaleString();
+            const daysEl = document.getElementById('daysTogether');
+            if (daysEl) daysEl.textContent = (homeData.daysTogether || 0).toLocaleString();
+
+            const memEl = document.getElementById('totalMemories');
+            if (memEl) memEl.textContent = (homeData.totalMemories || 0).toLocaleString();
+
+            const photoEl = document.getElementById('totalPhotos');
+            if (photoEl) photoEl.textContent = (homeData.totalPhotos || 0).toLocaleString();
         }
 		
 		
@@ -7136,10 +7206,9 @@ tooltip: {
 			}
 		});
 		
-		// --- LOGIC TÙY CHỈNH LAYOUT (NEW) ---
+		// --- LOGIC TÙY CHỈNH LAYOUT NÂNG CAO ---
 		let sortableInstance = null;
 		let isEditMode = false;
-		// Thêm đường dẫn file config vào đối tượng config gốc của bạn
 		config.LAYOUT_CONFIG_PATH = "layoutConfig.json";
 
 		// 1. Bật/Tắt chế độ Edit
@@ -7152,20 +7221,20 @@ tooltip: {
 				toolbar.classList.add('show');
 				grid.classList.add('edit-mode-active');
 				
-				// Kích hoạt SortableJS
-				sortableInstance = new Sortable(grid, {
-					animation: 150,
-					ghostClass: 'sortable-ghost',
-					handle: '.widget-item', // Kéo thả cả khối
-					filter: '.ignore-drag', // Tránh kéo khi bấm vào nút
-					onEnd: function (evt) {
-						// Có thể auto-save ở đây nếu muốn
-					}
-				});
-
-				// Thêm các nút điều khiển cho từng widget
+				// Kích hoạt SortableJS (Kéo thả tự do)
+				if (!sortableInstance) {
+					sortableInstance = new Sortable(grid, {
+						animation: 150,
+						ghostClass: 'sortable-ghost',
+						handle: '.widget-item', // Kéo nắm vào thân widget
+						filter: '.widget-controls, button, a', // Không kéo khi bấm vào nút
+						preventOnFilter: false
+					});
+				}
+				
+				// Thêm controls cho từng widget
 				document.querySelectorAll('.widget-item').forEach(el => addWidgetControls(el));
-				showNotification('Đang ở chế độ chỉnh sửa giao diện', 'info');
+				showNotification('Đã bật chế độ chỉnh sửa', 'info');
 			} else {
 				toolbar.classList.remove('show');
 				grid.classList.remove('edit-mode-active');
@@ -7174,45 +7243,42 @@ tooltip: {
 					sortableInstance.destroy();
 					sortableInstance = null;
 				}
-				
 				removeWidgetControls();
 			}
 		}
 
-		// 2. Thêm nút (Resize, Delete) vào góc widget
+		// 2. Tạo bảng điều khiển (10 nút)
 		function addWidgetControls(element) {
 			if (element.querySelector('.widget-controls')) return;
 			
 			element.classList.add('edit-mode');
+			
+			// Đảm bảo widget có min-height để resize
+			if (!element.style.minHeight) {
+				element.style.minHeight = 'auto'; // Mặc định
+			}
+
 			const controls = document.createElement('div');
 			controls.className = 'widget-controls';
 			
-			// Nút Resize
-			const resizeBtn = document.createElement('button');
-			resizeBtn.className = 'control-btn resize ignore-drag';
-			resizeBtn.innerHTML = '<i class="fas fa-expand-alt"></i>';
-			resizeBtn.title = 'Đổi kích thước';
-			resizeBtn.onclick = (e) => { e.stopPropagation(); resizeWidget(element.id); };
-			
-			// Nút Delete (Ẩn)
-			const delBtn = document.createElement('button');
-			delBtn.className = 'control-btn delete ignore-drag';
-			delBtn.innerHTML = '<i class="fas fa-trash"></i>';
-			delBtn.title = 'Ẩn khối này';
-			delBtn.onclick = (e) => { e.stopPropagation(); deleteWidget(element.id); };
-			
-			// Nếu là Spacer thì có nút chỉnh chiều cao
-			if (element.getAttribute('data-type') === 'spacer') {
-				 const heightBtn = document.createElement('button');
-				 heightBtn.className = 'control-btn spacer ignore-drag';
-				 heightBtn.innerHTML = '<i class="fas fa-arrows-alt-v"></i>';
-				 heightBtn.title = 'Tăng chiều cao';
-				 heightBtn.onclick = (e) => { e.stopPropagation(); changeSpacerHeight(element.id); };
-				 controls.appendChild(heightBtn);
-			}
+			// HTML các nút chức năng
+			controls.innerHTML = `
+				<!-----
+				<button class="control-btn btn-move" onclick="moveWidget('${element.id}', 'left')" title="Sang Trái"><i class="fas fa-arrow-left"></i></button>
+				<button class="control-btn btn-move" onclick="moveWidget('${element.id}', 'up')" title="Lên Trên"><i class="fas fa-arrow-up"></i></button>
+				<button class="control-btn btn-move" onclick="moveWidget('${element.id}', 'down')" title="Xuống Dưới"><i class="fas fa-arrow-down"></i></button>
+				<button class="control-btn btn-move" onclick="moveWidget('${element.id}', 'right')" title="Sang Phải"><i class="fas fa-arrow-right"></i></button>
+				----->
+				<button class="control-btn btn-size" onclick="adjustWidth('${element.id}', -1)" title="Giảm Rộng (-1/6)"><i class="fas fa-compress-arrows-alt"></i>W</button>
+				<button class="control-btn btn-size" onclick="adjustWidth('${element.id}', 1)" title="Tăng Rộng (+1/6)"><i class="fas fa-expand-arrows-alt"></i>W</button>
+				<button class="control-btn btn-size" onclick="adjustHeight('${element.id}', -50)" title="Giảm Cao"><i class="fas fa-compress-alt"></i>H</button>
+				<button class="control-btn btn-size" onclick="adjustHeight('${element.id}', 50)" title="Tăng Cao"><i class="fas fa-expand-alt"></i>H</button>
+				
+				<button class="control-btn btn-del" onclick="deleteWidget('${element.id}')" title="Xóa/Ẩn khối này"><i class="fas fa-trash"></i> Xóa</button>
+			`;
 
-			controls.appendChild(resizeBtn);
-			controls.appendChild(delBtn);
+			// Ngăn sự kiện click xuyên qua (bubbling)
+			controls.onclick = (e) => e.stopPropagation();
 			element.appendChild(controls);
 		}
 
@@ -7221,64 +7287,95 @@ tooltip: {
 			document.querySelectorAll('.widget-item').forEach(el => el.classList.remove('edit-mode'));
 		}
 
-		// 3. Xử lý Resize (1 cột -> 2 cột -> 3 cột)
-		function resizeWidget(id) {
+		// 3. Logic Di Chuyển (Swap DOM)
+		function moveWidget(id, direction) {
 			const el = document.getElementById(id);
-			let currentSpan = parseInt(el.getAttribute('data-col') || '1');
-			let nextSpan = currentSpan + 1;
-			if (nextSpan > 3) nextSpan = 1;
+			const parent = el.parentNode;
+			const siblings = Array.from(parent.children).filter(c => c.classList.contains('widget-item')); // Chỉ lấy widget
+			const index = siblings.indexOf(el);
 
-			// Xóa class cũ
-			el.classList.remove(`lg:col-span-${currentSpan}`);
-			// Thêm class mới
-			el.classList.add(`lg:col-span-${nextSpan}`);
-			el.setAttribute('data-col', nextSpan);
-		}
-
-		// 4. Xử lý Spacer (Vùng trắng)
-		function addNewSpacer() {
-			const id = `spacer-${Date.now()}`;
-			const grid = document.getElementById('dashboardGrid');
-			
-			const div = document.createElement('div');
-			div.id = id;
-			div.className = 'widget-item lg:col-span-3 bg-gray-100 rounded-lg flex items-center justify-center';
-			div.setAttribute('data-col', '3');
-			div.setAttribute('data-type', 'spacer');
-			div.style.minHeight = '50px';
-			div.innerHTML = '<span class="text-xs text-gray-400 select-none">Khoảng trắng (Click icon xanh để chỉnh cao)</span>';
-			
-			grid.appendChild(div);
-			addWidgetControls(div);
-		}
-
-		function changeSpacerHeight(id) {
-			const el = document.getElementById(id);
-			let h = parseInt(el.style.minHeight || '50');
-			h += 50;
-			if (h > 200) h = 50; // Reset nếu quá cao
-			el.style.minHeight = h + 'px';
-		}
-
-		function deleteWidget(id) {
-			if(confirm('Bạn muốn ẩn/xóa khối này? (Bạn có thể reset lại bằng cách xóa file config trên GitHub)')) {
-				document.getElementById(id).remove();
+			if (direction === 'left' || direction === 'up') {
+				// Chuyển về trước
+				if (index > 0) {
+					parent.insertBefore(el, siblings[index - 1]);
+				}
+			} else if (direction === 'right' || direction === 'down') {
+				// Chuyển ra sau
+				if (index < siblings.length - 1) {
+					parent.insertBefore(el, siblings[index + 1].nextSibling);
+				}
 			}
 		}
 
-		// 5. Lưu cấu hình
+		// 4. Logic Thay đổi Chiều Rộng (Width) - Hệ thống 6 cột
+		function adjustWidth(id, delta) {
+			const el = document.getElementById(id);
+			// Lấy số cột hiện tại (mặc định 2/6 ~ 1/3 màn hình)
+			let currentCol = parseInt(el.getAttribute('data-col') || '2');
+			
+			// Các mức độ rộng: 2 (1/3), 3 (1/2), 4 (2/3), 6 (Full)
+			// Logic cộng trừ đơn giản, tối thiểu 2, tối đa 6
+			let nextCol = currentCol + delta;
+			
+			// Ràng buộc (Snapping):
+			// Nếu đang 3 (1/2) + 1 -> lên 4 (2/3)
+			// Nếu đang 4 (2/3) + 1 -> lên 6 (Full)
+			if (currentCol === 4 && delta > 0) nextCol = 6;
+			if (currentCol === 6 && delta < 0) nextCol = 4;
+
+			if (nextCol < 2) nextCol = 2; // Nhỏ nhất 1/3 màn hình (2 cột)
+			if (nextCol > 6) nextCol = 6; // Lớn nhất Full màn hình (6 cột)
+
+			// Xóa class cũ
+			el.classList.remove(`lg:col-span-${currentCol}`);
+			// Thêm class mới
+			el.classList.add(`lg:col-span-${nextCol}`);
+			el.setAttribute('data-col', nextCol);
+		}
+
+		// 5. Logic Thay đổi Chiều Cao (Height)
+		function adjustHeight(id, delta) {
+			const el = document.getElementById(id);
+			// Lấy chiều cao hiện tại (từ style hoặc computed)
+			let currentHeight = parseInt(el.style.minHeight || el.offsetHeight);
+			
+			// Nếu widget chưa có minHeight, lấy chiều cao thật
+			if (!el.style.minHeight) currentHeight = el.offsetHeight;
+
+			let newHeight = currentHeight + delta;
+			if (newHeight < 100) newHeight = 100; // Tối thiểu 100px
+
+			el.style.minHeight = `${newHeight}px`;
+			
+			// Nếu widget có card bên trong, set luôn height cho card để fill
+			const card = el.querySelector('.love-card');
+			if (card) card.style.height = '100%';
+		}
+
+		// 6. Xóa Widget
+		function deleteWidget(id) {
+			if(confirm('Bạn có chắc muốn xóa khối này? Nó sẽ không hiển thị nữa cho đến khi bạn Reset bố cục.')) {
+				const el = document.getElementById(id);
+				el.remove();
+				// Lưu ý: Việc xóa DOM sẽ có hiệu lực khi bấm "Lưu".
+			}
+		}
+  
+		// 8. LƯU CẤU HÌNH (Chỉ lưu những gì đang hiện thị)
 		async function saveLayoutConfig() {
 			const grid = document.getElementById('dashboardGrid');
 			const items = Array.from(grid.children);
 			
 			const layoutData = items.map(item => {
 				if (!item.classList.contains('widget-item')) return null;
+				
 				return {
 					id: item.id,
-					colSpan: item.getAttribute('data-col') || '1',
+					colSpan: item.getAttribute('data-col') || '2',
 					type: item.getAttribute('data-type') || 'widget',
 					minHeight: item.style.minHeight || '',
-					contentHTML: item.getAttribute('data-type') === 'spacer' ? item.innerHTML : '' // Lưu nội dung spacer
+					// Lưu nội dung HTML nếu là spacer để tái tạo
+					contentHTML: item.getAttribute('data-type') === 'spacer' ? item.innerHTML : '' 
 				};
 			}).filter(Boolean);
 
@@ -7286,8 +7383,9 @@ tooltip: {
 				const success = await githubAPI.updateFile(
 					config.LAYOUT_CONFIG_PATH,
 					layoutData,
-					"Cập nhật bố cục trang chủ"
+					"Cập nhật bố cục trang chủ (6 cols)"
 				);
+				
 				if (success) {
 					showNotification('Đã lưu bố cục thành công!', 'success');
 					toggleEditMode();
@@ -7300,51 +7398,97 @@ tooltip: {
 			}
 		}
 
-		// 6. Tải cấu hình
+		// 9. TẢI CẤU HÌNH (QUAN TRỌNG: Ẩn những gì không có trong JSON)
 		async function loadLayoutConfig() {
 			try {
 				const layoutData = await githubAPI.getRawFile(config.LAYOUT_CONFIG_PATH);
-				if (!Array.isArray(layoutData) || layoutData.length === 0) return;
+				
+				// Nếu không có file config hoặc file rỗng -> Dùng mặc định HTML -> Return luôn
+				if (!Array.isArray(layoutData) || layoutData.length === 0) {
+					console.log("Dùng bố cục mặc định (HTML gốc)");
+					return;
+				}
 
 				const grid = document.getElementById('dashboardGrid');
-				const existingWidgets = {};
 				
-				// Map các widget đang có trong HTML
+				// 1. Map các widget GỐC đang có trong HTML (để tái sử dụng)
+				const availableWidgets = {};
 				Array.from(grid.children).forEach(child => {
-					if (child.id) existingWidgets[child.id] = child;
+					if (child.id) availableWidgets[child.id] = child;
 				});
 				
-				grid.innerHTML = ''; // Xóa grid để xếp lại
+				// 2. Xóa sạch Grid hiện tại
+				grid.innerHTML = '';
 				
+				// 3. Tái tạo lại Grid dựa trên JSON
 				layoutData.forEach(item => {
 					let widget = null;
+					
 					if (item.type === 'spacer') {
-						// Tạo lại spacer
+						// Tạo mới spacer
 						widget = document.createElement('div');
 						widget.id = item.id;
-						widget.className = `widget-item lg:col-span-${item.colSpan} bg-transparent`;
+						widget.innerHTML = item.contentHTML || '';
+						widget.className = `widget-item lg:col-span-${item.colSpan} bg-transparent`; // Trong suốt khi view
 						widget.setAttribute('data-col', item.colSpan);
 						widget.setAttribute('data-type', 'spacer');
-						widget.style.minHeight = item.minHeight;
-						// Nếu muốn spacer ẩn đi khi không edit, có thể thêm class invisible
-					} else if (existingWidgets[item.id]) {
-						// Lấy widget cũ
-						widget = existingWidgets[item.id];
-						// Reset class col-span cũ
-						widget.className = widget.className.replace(/lg:col-span-\d/g, '');
+					} 
+					else if (availableWidgets[item.id]) {
+						// Lấy widget gốc ra dùng
+						widget = availableWidgets[item.id];
+						delete availableWidgets[item.id]; // Đánh dấu đã dùng
+						
+						// Cập nhật Class Col-span
+						widget.className = widget.className.replace(/lg:col-span-\d/g, ''); // Xóa class cũ
 						widget.classList.add(`lg:col-span-${item.colSpan}`);
 						widget.setAttribute('data-col', item.colSpan);
-						delete existingWidgets[item.id];
 					}
 					
-					if (widget) grid.appendChild(widget);
+					// Cập nhật chiều cao & Append vào Grid
+					if (widget) {
+						if (item.minHeight) {
+							widget.style.minHeight = item.minHeight;
+							// Fix height cho card con
+							const card = widget.querySelector('.love-card');
+							if (card) card.style.height = '100%';
+						}
+						grid.appendChild(widget);
+					}
 				});
-				
-				// Append những widget còn sót lại (chưa có trong config)
-				Object.values(existingWidgets).forEach(w => grid.appendChild(w));
+
+				// 4. Những widget có trong HTML gốc nhưng KHÔNG có trong JSON (đã bị xóa)
+				// -> Chúng sẽ không được append lại -> Tự động biến mất.
+				// Object.values(availableWidgets) lúc này chứa các widget bị xóa.
+				Object.values(availableWidgets).forEach(widget => {
+					grid.appendChild(widget);
+				});
 
 			} catch (e) {
-				console.log('Chưa có layout config, dùng mặc định.');
+				console.error('Lỗi tải layout:', e);
+			}
+		}
+
+		// 10. RESET CẤU HÌNH (Xóa file JSON)
+		async function resetLayoutConfig() {
+			if (!confirm("Bạn có chắc muốn Reset về mặc định? Mọi tùy chỉnh sẽ bị mất.")) return;
+			
+			try {
+				// Gửi mảng rỗng [] lên server coi như xóa
+				const success = await githubAPI.updateFile(
+					config.LAYOUT_CONFIG_PATH,
+					[], // Mảng rỗng
+					"Reset bố cục về mặc định"
+				);
+				
+				if (success) {
+					showNotification('Đã reset bố cục! Vui lòng tải lại trang.', 'success');
+					setTimeout(() => location.reload(), 1500);
+				} else {
+					showNotification('Lỗi khi reset!', 'error');
+				}
+			} catch (e) {
+				console.error(e);
+				showNotification('Lỗi hệ thống!', 'error');
 			}
 		}
     </script>
