@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-09T05:35:40.361Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-09T05:35:39.065Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
