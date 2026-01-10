@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2026-01-10T11:42:22.043Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:42:15.123Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-10T11:42:09.922Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
