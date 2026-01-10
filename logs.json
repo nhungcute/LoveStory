@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2026-01-10T11:42:09.922Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Cài đặt\"",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:42:01.247Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:41:57.962Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-10T11:41:26.606Z",
     "action": "Tương tác",
     "details": "Đã thêm 1 đạp. Tổng hôm nay: 27",
