@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-12T08:20:13.157Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-12T08:20:00.286Z",
     "action": "Chế độ xem",
     "details": "Đổi sang xem nhóm (Sự kiện)",
