@@ -1133,17 +1133,21 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
      <div class="love-card rounded-lg p-6">
       <h3 class="text-lg font-bold text-primary mb-4"><i class="fas fa-sync mr-2"></i>Data Google Drive</h3>
       <div class="space-y-4">
-       <div class="flex items-center justify-between">
+       <!---
+	   <div class="flex items-center justify-between">
         <div><span class="font-medium">Đồng bộ metadata ảnh từ Google Drive</span>
          <p class="text-xs text-gray-500 mt-1">Tự động tải ảnh từ Google Drive theo lịch</p>
-        </div><label class="toggle-switch"> <input type="checkbox" id="autoSync" checked onchange="updateAutoSyncConfig()"> <span class="toggle-slider"></span> </label>
+        </div>
+	   <label class="toggle-switch"> <input type="checkbox" id="autoSync" checked onchange="updateAutoSyncConfig()"> <span class="toggle-slider"></span> </label>
        </div>
+	   
        <div class="grid grid-cols-2 gap-4"><label class="block"> <span class="text-sm font-medium mb-2 block">Tần suất:</span> <select id="syncFrequency" class="love-input w-full" onchange="updateAutoSyncConfig()"> <option value="daily">Hàng ngày</option> <option value="weekly">Hàng tuần</option> <option value="monthly">Hàng tháng</option> <option value="once">1 lần</option> </select> </label> <label class="block"> <span class="text-sm font-medium mb-2 block">Thời gian:</span> <input type="text" id="syncTime" class="love-input w-full" value="09:04" placeholder="HH:MM" maxlength="5" oninput="formatTimeInput(this)" onchange="updateAutoSyncConfig()"> </label>
        </div>
+	   --->
        <div class="flex space-x-3"><button onclick="manualSync()" class="love-button w-full"> <i class="fas fa-sync mr-2"></i>Đồng Bộ Thủ Công</button>
        </div>
-       <div class="flex space-x-3 mt-2"><button onclick="saveAppConfig()" class="love-button secondary w-full"> <i class="fas fa-save mr-2"></i>Lưu</button>
-       </div>
+       <!---<div class="flex space-x-3 mt-2"><button onclick="saveAppConfig()" class="love-button secondary w-full"> <i class="fas fa-save mr-2"></i>Lưu</button>
+       </div>--->
       </div>
      </div><!-- Nhật ký hoạt động -->
      <div class="love-card rounded-lg p-6">
