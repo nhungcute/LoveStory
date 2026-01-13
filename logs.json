@@ -1,5 +1,26 @@
 [
   {
+    "timestamp": "2026-01-13T09:47:23.597Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T09:47:21.565Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T09:47:11.525Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-13T09:41:10.108Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
