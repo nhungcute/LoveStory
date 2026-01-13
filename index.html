@@ -1604,6 +1604,7 @@ space-x-1 transition-opacity duration-300 opacity-0 hidden">
         let profilesData = [];
         let logsData = [];
 		let cachedServerBabyRunCount = 0;
+		let cachedServerBabyRunDate = "";
 		 
 		
 		// Thêm 2 dòng này (khoảng dòng 595)
@@ -7032,6 +7033,11 @@ tooltip: {
 			// --- SỬA ĐỔI: TÍNH TOÁN DỰA TRÊN DỮ LIỆU THỰC TẾ ---
 			const todayStr = new Date().toISOString().split('T')[0];
 			
+			if (cachedServerBabyRunDate !== todayStr) {
+				cachedServerBabyRunCount = 0;
+				cachedServerBabyRunDate = todayStr;
+			}
+	
 			// a. Lấy danh sách đang chờ từ LocalStorage
 			let localData = JSON.parse(localStorage.getItem(STORAGE_BABYRUN_QUEUE) || "[]");
 			
@@ -7180,7 +7186,8 @@ tooltip: {
 				const serverCount = serverData.filter(r => r.timerun.startsWith(todayStr)).length;
 				
 				// --- CẬP NHẬT BIẾN TOÀN CỤC ---
-				cachedServerBabyRunCount = serverCount; // <--- THÊM DÒNG NÀY
+				cachedServerBabyRunCount = serverCount; 
+				cachedServerBabyRunDate = todayStr;
 				
 				const total = serverCount + localPendingCount;
 				document.getElementById('babyRunCount').textContent = total;
