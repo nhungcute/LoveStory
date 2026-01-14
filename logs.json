@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-14T01:59:06.609Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-14T01:51:14.624Z",
     "action": "Mở modal",
     "details": "Đã mở \"Hồ sơ cá nhân\"",
