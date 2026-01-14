@@ -1,5 +1,75 @@
 [
   {
+    "timestamp": "2026-01-14T11:00:02.582Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1768388388915",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T10:59:57.483Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Đại Dương\"",
+    "username": "1768388388915",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T10:59:56.616Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Xuân\"",
+    "username": "1768388388915",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T10:59:56.229Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Ban Đêm\"",
+    "username": "1768388388915",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T10:59:55.828Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Đại Dương\"",
+    "username": "1768388388915",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T10:59:55.199Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Lãng Mạn\"",
+    "username": "1768388388915",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T10:59:53.728Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mùa Hè\"",
+    "username": "1768388388915",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T10:59:53.102Z",
+    "action": "Thay đổi theme",
+    "details": "Đã chuyển sang theme \"Mặc định\"",
+    "username": "1768388388915",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T10:59:49.763Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1768388388915",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T10:59:48.914Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1768388388915",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-14T10:58:42.889Z",
     "action": "Hệ thống",
     "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
