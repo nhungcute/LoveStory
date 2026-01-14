@@ -1,143 +1,1824 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kết nối Google Sheet</title>
-    <style>
-        /* CSS đơn giản để làm đẹp giao diện */
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; }
-        .container { border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        input, textarea { width: 100%; padding: 10px; margin: 5px 0 15px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px; }
-        button:hover { background-color: #45a049; }
-        button#btnGet { background-color: #008CBA; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        #status { margin-top: 10px; font-weight: bold; color: green; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h2>Gửi dữ liệu lên Google Sheet</h2>
+<!doctype html>
+<html lang="vi" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Social Memory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
     
-    <form id="contactForm">
-        <label for="ten">Họ và Tên</label>
-        <input type="text" id="ten" name="ten" placeholder="Nhập tên của bạn..." required>
-
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Nhập email..." required>
-
-        <label for="noidung">Nội dung</label>
-        <textarea id="noidung" name="noidung" placeholder="Viết nội dung..." style="height:100px" required></textarea>
-
-        <button type="submit" id="btnSubmit">Gửi dữ liệu</button>
-        <button type="button" id="btnGet" onclick="getData()">Lấy danh sách về</button>
-    </form>
-
-    <div id="status"></div>
-
-    <div id="dataArea">
-        <h3>Dữ liệu từ Google Sheet:</h3>
-        <table id="dataTable">
-            <thead>
-                <tr>
-                    <th>Thời gian</th>
-                    <th>Tên</th>
-                    <th>Email</th>
-                    <th>Nội dung</th>
-                </tr>
-            </thead>
-            <tbody>
-                </tbody>
-        </table>
+    * {
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    :root {
+      --primary-color: #006B68;
+      --secondary-color: #FFC62F;
+      --text-color: #000000;
+      --bg-color: #f5f5f5;
+      --surface-color: #ffffff;
+    }
+    
+    .theme-gradient {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    }
+    
+    .theme-bg-primary {
+      background-color: var(--primary-color);
+    }
+    
+    .theme-bg-secondary {
+      background-color: var(--secondary-color);
+    }
+    
+    .theme-text-primary {
+      color: var(--primary-color);
+    }
+    
+    .theme-text-secondary {
+      color: var(--secondary-color);
+    }
+    
+    .theme-border-primary {
+      border-color: var(--primary-color);
+    }
+    
+    .card-glass {
+      background: var(--surface-color);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-bottom {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
+    }
+    
+    .nav-item-active {
+      color: var(--primary-color);
+    }
+    
+    .nav-item-inactive {
+      color: #94a3b8;
+    }
+    
+    .fab-button {
+      background: var(--primary-color);
+      box-shadow: 0 6px 20px rgba(0, 107, 104, 0.35);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .fab-button:active {
+      transform: scale(0.9);
+    }
+    
+    .post-card {
+      background: var(--surface-color);
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s ease;
+    }
+    
+    .post-card:active {
+      transform: scale(0.98);
+    }
+    
+    .avatar-ring {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      padding: 3px;
+      border-radius: 50%;
+    }
+    
+    .avatar-inner {
+      background: var(--surface-color);
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:active {
+      transform: scale(0.95);
+      opacity: 0.9;
+    }
+    
+    .input-mobile {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      font-size: 16px;
+      padding: 14px 16px;
+      transition: all 0.2s ease;
+    }
+    
+    .input-mobile:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background: var(--surface-color);
+    }
+    
+    .modal-mobile {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+    }
+    
+    .modal-content {
+      background: var(--surface-color);
+      border-radius: 24px 24px 0 0;
+      max-height: 90%;
+      animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+    
+    .like-button.active {
+      color: #ef4444;
+      animation: heartBeat 0.3s ease;
+    }
+    
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .memory-card {
+      background: var(--surface-color);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+    
+    .album-card {
+      background: var(--surface-color);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+    
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 100%);
+    }
+    
+    .safe-area-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .safe-area-top {
+      padding-top: env(safe-area-inset-top);
+    }
+    
+    .comment-bubble {
+      background: #f1f5f9;
+      border-radius: 16px;
+    }
+    
+    .emoji-large {
+      font-size: 4rem;
+      line-height: 1;
+    }
+    
+    .text-gradient {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .scrollable-content {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .scrollable-content::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+    
+    .delete-btn {
+      background: rgba(239, 68, 68, 0.9);
+      backdrop-filter: blur(8px);
+    }
+    
+    .header-gradient {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    }
+    
+    .ripple {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ripple::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: inherit;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .ripple:active::after {
+      opacity: 1;
+    }
+    
+    .theme-option {
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      padding: 0;
+    }
+    
+    .theme-option.selected {
+      border-color: var(--primary-color);
+      box-shadow: 0 2px 8px rgba(0, 107, 104, 0.3);
+    }
+    
+    .theme-preview {
+      width: 100%;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 0.9rem;
+    }
+    
+    .settings-item {
+      background: var(--surface-color);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .settings-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    
+    .image-preview-grid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .preview-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .layout-option {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--surface-color);
+    }
+    
+    .layout-option:active {
+      transform: scale(0.97);
+    }
+    
+    .layout-option.selected {
+      border-color: var(--primary-color);
+      background: rgba(0, 107, 104, 0.05);
+    }
+    
+    .layout-preview {
+      display: grid;
+      gap: 2px;
+      height: 60px;
+      margin-bottom: 6px;
+    }
+    
+    .layout-preview-box {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    
+    .layout-grid-2x2 {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+    }
+    
+    .layout-1-wide {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 1fr 0.5fr;
+    }
+    
+    .layout-1-wide .box-1 {
+      grid-column: span 3;
+    }
+    
+    .layout-1-tall {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(3, 1fr);
+    }
+    
+    .layout-1-tall .box-1 {
+      grid-row: span 3;
+    }
+    
+    .post-images-2x2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 4px;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 1;
+    }
+    
+    .post-images-1-wide {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 2fr 1fr;
+      gap: 4px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .post-images-1-wide .img-1 {
+      grid-column: span 3;
+    }
+    
+    .post-images-1-tall {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 4px;
+      border-radius: 12px;
+      overflow: hidden;
+      height: 400px;
+    }
+    
+    .post-images-1-tall .img-1 {
+      grid-row: span 3;
+    }
+    
+    .post-images-auto {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 4px;
+      border-radius: 12px;
+      overflow: hidden;
+      height: 300px;
+    }
+    
+    .post-images-auto .img-1 {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    
+    .post-img-item {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .post-img-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .img-counter {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full" style="background-color: var(--bg-color);">
+  <div id="app" class="h-full flex flex-col w-full overflow-hidden"><!-- Header -->
+   <header class="header-gradient safe-area-top px-5 py-4 flex items-center justify-between shadow-lg">
+    <div class="flex-1">
+     <h1 id="app-title" class="text-white text-xl font-bold tracking-tight">Social Memory</h1>
+     <p id="welcome-message" class="text-white/80 text-xs font-medium">Lưu giữ kỷ niệm đẹp</p>
+    </div><button id="profile-btn" class="ripple w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center overflow-hidden">
+     <div id="header-avatar" class="w-10 h-10 rounded-full bg-white/30 flex items-center justify-center text-white font-bold text-sm overflow-hidden"><span id="header-avatar-text"><i class="fas fa-user"></i></span>
+     </div></button>
+   </header><!-- Main Content -->
+   <main class="flex-1 overflow-hidden"><!-- Feed Tab -->
+    <div id="tab-feed" class="tab-content h-full scrollable-content px-4 py-4 hidden">
+     <div id="posts-container" class="space-y-4 pb-24">
+      <div class="text-center py-16">
+       <div class="emoji-large mb-3">
+        <i class="fas fa-newspaper theme-text-primary"></i>
+       </div>
+       <p class="font-semibold text-lg" style="color: var(--text-color);">Chưa có bài đăng</p>
+       <p class="text-gray-400 text-sm mt-1">Nhấn + để tạo bài viết đầu tiên</p>
+      </div>
+     </div>
+    </div><!-- Memories Tab -->
+    <div id="tab-memories" class="tab-content h-full scrollable-content px-4 py-4"><!-- Stats Cards -->
+     <div class="space-y-3 mb-4"><!-- Lượt đạp hôm nay -->
+      <div class="card-glass rounded-2xl p-4 flex items-center gap-4">
+       <div class="w-14 h-14 rounded-2xl theme-bg-primary flex items-center justify-center flex-shrink-0"><i class="fas fa-bicycle text-white text-2xl"></i>
+       </div>
+       <div class="flex-1">
+        <p class="text-sm text-gray-500 font-medium">Lượt đạp hôm nay</p>
+        <p id="bike-count" class="text-3xl font-bold theme-text-primary">0</p>
+       </div>
+      </div><!-- Ngày bên nhau -->
+      <div class="card-glass rounded-2xl p-4 flex items-center gap-4">
+       <div class="w-14 h-14 rounded-2xl theme-bg-secondary flex items-center justify-center flex-shrink-0"><i class="fas fa-heart text-white text-2xl"></i>
+       </div>
+       <div class="flex-1">
+        <p class="text-sm text-gray-500 font-medium">Ngày bên nhau</p>
+        <p id="days-together" class="text-3xl font-bold theme-text-secondary">0 ngày</p>
+       </div>
+      </div><!-- Kỷ niệm -->
+      <div class="card-glass rounded-2xl p-4 flex items-center gap-4">
+       <div class="w-14 h-14 rounded-2xl bg-purple-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-star text-white text-2xl"></i>
+       </div>
+       <div class="flex-1">
+        <p class="text-sm text-gray-500 font-medium">Kỷ niệm</p>
+        <p id="memory-count" class="text-3xl font-bold text-purple-500">0</p>
+       </div>
+      </div><!-- Sự kiện tiếp theo -->
+      <div class="card-glass rounded-2xl p-4">
+       <div class="flex items-center gap-3 mb-2">
+        <div class="w-14 h-14 rounded-2xl bg-pink-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-calendar-heart text-white text-2xl"></i>
+        </div>
+        <div class="flex-1">
+         <p class="text-sm text-gray-500 font-medium">Sự kiện tiếp theo</p>
+         <p id="next-event-countdown" class="text-2xl font-bold text-pink-500">Còn 39 ngày nữa</p>
+        </div>
+       </div>
+       <p id="next-event-name" class="text-sm font-semibold theme-text-primary pl-17">First day of love</p>
+      </div><!-- Giá vàng -->
+      <div class="card-glass rounded-2xl p-4">
+       <div class="flex items-center gap-3 mb-3">
+        <div class="w-14 h-14 rounded-2xl bg-amber-500 flex items-center justify-center flex-shrink-0"><i class="fas fa-coins text-white text-2xl"></i>
+        </div>
+        <div class="flex-1">
+         <p class="text-sm text-gray-500 font-medium">Giá vàng</p>
+        </div>
+       </div>
+       <div class="grid grid-cols-2 gap-3 pl-17">
+        <div>
+         <p class="text-xs text-gray-500">Giá mua</p>
+         <p id="gold-buy" class="text-xl font-bold text-green-600">15.700</p>
+        </div>
+        <div>
+         <p class="text-xs text-gray-500">Giá bán</p>
+         <p id="gold-sell" class="text-xl font-bold text-red-600">16.000</p>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div id="memories-container" class="space-y-4 pb-24">
+      <div class="text-center py-16">
+       <div class="emoji-large mb-3">
+        <i class="fas fa-star theme-text-secondary"></i>
+       </div>
+       <p class="font-semibold text-lg" style="color: var(--text-color);">Chưa có kỷ niệm</p>
+       <p class="text-gray-400 text-sm mt-1">Lưu lại những khoảnh khắc đáng nhớ</p>
+      </div>
+     </div>
+    </div><!-- Albums Tab -->
+    <div id="tab-albums" class="tab-content h-full scrollable-content px-4 py-4 hidden">
+     <div id="albums-container" class="grid grid-cols-2 gap-4 pb-24">
+      <div class="col-span-2 text-center py-16">
+       <div class="emoji-large mb-3">
+        <i class="fas fa-folder theme-text-primary"></i>
+       </div>
+       <p class="font-semibold text-lg" style="color: var(--text-color);">Chưa có album</p>
+       <p class="text-gray-400 text-sm mt-1">Tạo album để sắp xếp ảnh</p>
+      </div>
+     </div>
     </div>
-</div>
+   </main><!-- FAB Button --> <button id="fab-btn" class="fab-button fixed bottom-20 right-5 w-11 h-11 rounded-full flex items-center justify-center text-white shadow-2xl z-40 hidden"> <i class="fas fa-plus text-lg"></i> </button> <!-- Bottom Navigation -->
+   <nav class="nav-bottom safe-area-bottom fixed bottom-0 left-0 right-0 flex items-center justify-around py-2 z-30"><button data-tab="feed" class="nav-item nav-item-inactive flex flex-col items-center py-2 px-4 transition-all"> <i class="fas fa-th-large text-xl mb-1"></i> <span class="text-xs font-semibold">Bảng tin</span> </button> <button data-tab="memories" class="nav-item nav-item-active flex flex-col items-center py-2 px-4 transition-all"> <i class="fas fa-home text-xl mb-1"></i> <span class="text-xs font-semibold">Home</span> </button> <button data-tab="albums" class="nav-item nav-item-inactive flex flex-col items-center py-2 px-4 transition-all"> <i class="fas fa-folder text-xl mb-1"></i> <span class="text-xs font-semibold">Album</span> </button>
+   </nav><!-- Create Post Modal -->
+   <div id="create-modal" class="modal-mobile fixed inset-0 z-50 hidden items-end justify-center">
+    <div class="absolute inset-0" id="create-modal-overlay"></div>
+    <div class="modal-content w-full relative scrollable-content">
+     <div class="sticky top-0 border-b border-gray-100 px-5 py-4 flex items-center justify-between" style="background-color: var(--surface-color);">
+      <h2 class="text-xl font-bold theme-text-primary">Tạo bài viết</h2><button id="close-create" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center" style="color: var(--text-color);"> <i class="fas fa-times"></i> </button>
+     </div>
+     <div class="p-5 space-y-4"><textarea id="post-input" placeholder="Bạn đang nghĩ gì?" class="input-mobile w-full resize-none" rows="4"></textarea>
+      <div id="image-preview-container" class="hidden">
+       <div class="flex items-center justify-between mb-3"><span class="text-sm font-semibold" style="color: var(--text-color);"><span id="image-count">0</span> ảnh</span> <button id="clear-all-images" class="text-sm text-red-500 font-semibold"> <i class="fas fa-trash-alt mr-1"></i>Xóa tất cả </button>
+       </div>
+       <div id="images-preview-grid" class="image-preview-grid"></div>
+      </div>
+      <div id="layout-selector" class="hidden space-y-3"><label class="block text-sm font-bold" style="color: var(--text-color);">Chọn bố cục hiển thị</label>
+       <div class="grid grid-cols-2 gap-3">
+        <div class="layout-option" data-layout="grid-2x2">
+         <div class="layout-preview layout-grid-2x2">
+          <div class="layout-preview-box"></div>
+          <div class="layout-preview-box"></div>
+          <div class="layout-preview-box"></div>
+          <div class="layout-preview-box"></div>
+         </div>
+         <p class="text-xs font-semibold text-center" style="color: var(--text-color);">Lưới 2x2</p>
+        </div>
+        <div class="layout-option" data-layout="1-wide">
+         <div class="layout-preview layout-1-wide">
+          <div class="layout-preview-box box-1"></div>
+          <div class="layout-preview-box"></div>
+          <div class="layout-preview-box"></div>
+          <div class="layout-preview-box"></div>
+         </div>
+         <p class="text-xs font-semibold text-center" style="color: var(--text-color);">1 ngang + 3</p>
+        </div>
+        <div class="layout-option" data-layout="1-tall">
+         <div class="layout-preview layout-1-tall">
+          <div class="layout-preview-box box-1"></div>
+          <div class="layout-preview-box"></div>
+          <div class="layout-preview-box"></div>
+          <div class="layout-preview-box"></div>
+         </div>
+         <p class="text-xs font-semibold text-center" style="color: var(--text-color);">1 dọc + 3</p>
+        </div>
+        <div class="layout-option" data-layout="auto">
+         <div class="layout-preview layout-1-tall">
+          <div class="layout-preview-box box-1"></div>
+          <div class="layout-preview-box"></div>
+          <div class="layout-preview-box"></div>
+          <div class="layout-preview-box"></div>
+         </div>
+         <p class="text-xs font-semibold text-center" style="color: var(--text-color);">Tự động</p>
+        </div>
+       </div>
+      </div><label class="ripple flex items-center justify-center gap-3 py-4 rounded-2xl border-2 border-dashed border-gray-300 cursor-pointer"> <i class="fas fa-image text-2xl theme-text-primary"></i> <span class="font-semibold" style="color: var(--text-color);">Thêm ảnh</span> <input type="file" id="image-input" accept="image/*" multiple class="hidden"> </label> <button id="post-btn" class="btn-primary w-full py-4 rounded-2xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled> Đăng bài </button>
+     </div>
+    </div>
+   </div><!-- Create Memory Modal -->
+   <div id="memory-modal" class="modal-mobile fixed inset-0 z-50 hidden items-end justify-center">
+    <div class="absolute inset-0" id="memory-modal-overlay"></div>
+    <div class="modal-content w-full relative scrollable-content">
+     <div class="sticky top-0 border-b border-gray-100 px-5 py-4 flex items-center justify-between" style="background-color: var(--surface-color);">
+      <h2 class="text-xl font-bold theme-text-primary">Tạo kỷ niệm</h2><button id="close-memory" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center" style="color: var(--text-color);"> <i class="fas fa-times"></i> </button>
+     </div>
+     <div class="p-5 space-y-4"><input type="text" id="memory-title" placeholder="Tiêu đề kỷ niệm" class="input-mobile w-full"> <input type="date" id="memory-date" class="input-mobile w-full"> <textarea id="memory-content" placeholder="Kể về kỷ niệm của bạn..." class="input-mobile w-full resize-none" rows="4"></textarea>
+      <div id="memory-image-preview-container" class="hidden">
+       <div class="relative rounded-2xl overflow-hidden"><img id="memory-image-preview" class="w-full object-cover" src="" alt="Preview"> <button id="remove-memory-image" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center shadow-lg"> <i class="fas fa-times"></i> </button>
+       </div>
+      </div><label class="ripple flex items-center justify-center gap-3 py-4 rounded-2xl border-2 border-dashed border-gray-300 cursor-pointer"> <i class="fas fa-image text-2xl theme-text-primary"></i> <span class="font-semibold" style="color: var(--text-color);">Thêm ảnh</span> <input type="file" id="memory-image-input" accept="image/*" class="hidden"> </label> <button id="create-memory-btn" class="btn-primary w-full py-4 rounded-2xl font-bold text-lg"> Lưu kỷ niệm </button>
+     </div>
+    </div>
+   </div><!-- Create Album Modal -->
+   <div id="album-create-modal" class="modal-mobile fixed inset-0 z-50 hidden items-end justify-center">
+    <div class="absolute inset-0" id="album-create-modal-overlay"></div>
+    <div class="modal-content w-full relative">
+     <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between" style="background-color: var(--surface-color);">
+      <h2 class="text-xl font-bold theme-text-primary">Tạo album mới</h2><button id="close-album-create" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center" style="color: var(--text-color);"> <i class="fas fa-times"></i> </button>
+     </div>
+     <div class="p-5 space-y-4"><input type="text" id="album-name" placeholder="Tên album" class="input-mobile w-full"> <button id="create-album-btn" class="btn-primary w-full py-4 rounded-2xl font-bold text-lg"> Tạo album </button>
+     </div>
+    </div>
+   </div><!-- Album Detail Modal -->
+   <div id="album-detail-modal" class="modal-mobile fixed inset-0 z-50 hidden items-end justify-center">
+    <div class="absolute inset-0" id="album-detail-overlay"></div>
+    <div class="modal-content w-full relative scrollable-content">
+     <div class="sticky top-0 border-b border-gray-100 px-5 py-4 flex items-center justify-between" style="background-color: var(--surface-color);">
+      <h2 id="album-detail-title" class="text-xl font-bold theme-text-primary">Album</h2><button id="close-album-detail" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center" style="color: var(--text-color);"> <i class="fas fa-times"></i> </button>
+     </div>
+     <div class="p-5 space-y-4"><label class="ripple flex items-center justify-center gap-3 py-4 rounded-2xl border-2 border-dashed border-gray-300 cursor-pointer"> <i class="fas fa-plus text-2xl theme-text-primary"></i> <span class="font-semibold" style="color: var(--text-color);">Thêm ảnh</span> <input type="file" id="album-image-input" accept="image/*" class="hidden"> </label>
+      <div id="album-photos" class="image-grid">
+       <div class="col-span-3 text-center py-10 text-gray-400">
+        <p class="text-5xl mb-2"><i class="fas fa-camera"></i></p>
+        <p class="text-sm mt-2">Chưa có ảnh</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Comment Modal -->
+   <div id="comment-modal" class="modal-mobile fixed inset-0 z-50 hidden items-end justify-center">
+    <div class="absolute inset-0" id="comment-modal-overlay"></div>
+    <div class="modal-content w-full relative flex flex-col" style="max-height: 80%;">
+     <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between" style="background-color: var(--surface-color);">
+      <h2 class="text-xl font-bold theme-text-primary">Bình luận</h2><button id="close-comment" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center" style="color: var(--text-color);"> <i class="fas fa-times"></i> </button>
+     </div>
+     <div id="comments-list" class="flex-1 overflow-y-auto p-5 space-y-3">
+      <p class="text-center text-gray-400 py-8">Chưa có bình luận</p>
+     </div>
+     <div class="p-4 border-t border-gray-100 flex gap-2"><input type="text" id="comment-input" placeholder="Viết bình luận..." class="flex-1 input-mobile"> <button id="send-comment" class="btn-primary w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"> <i class="fas fa-paper-plane"></i> </button>
+     </div>
+    </div>
+   </div><!-- Profile Modal -->
+   <div id="profile-modal" class="modal-mobile fixed inset-0 z-50 hidden items-end justify-center">
+    <div class="absolute inset-0" id="profile-modal-overlay"></div>
+    <div class="modal-content w-full relative scrollable-content">
+     <div class="sticky top-0 border-b border-gray-100 px-5 py-4 flex items-center justify-between" style="background-color: var(--surface-color);">
+      <h2 class="text-xl font-bold theme-text-primary">Hồ sơ cá nhân</h2><button id="close-profile" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center" style="color: var(--text-color);"> <i class="fas fa-times"></i> </button>
+     </div>
+     <div class="p-5 space-y-6"><!-- Profile Info -->
+      <div class="text-center">
+       <div class="avatar-ring inline-block mb-4">
+        <div id="profile-avatar" class="w-24 h-24 avatar-inner flex items-center justify-center text-4xl font-bold overflow-hidden"><span id="profile-avatar-text"><i class="fas fa-user theme-text-primary"></i></span>
+        </div>
+       </div><label class="inline-block theme-text-primary font-semibold text-sm cursor-pointer"> <i class="fas fa-camera mr-1"></i> Đổi ảnh đại diện <input type="file" id="avatar-input" accept="image/*" class="hidden"> </label>
+      </div>
+      <div class="space-y-4">
+       <div><label class="block text-gray-600 text-sm font-semibold mb-2"> <i class="fas fa-user mr-2"></i>Tên người dùng </label> <input type="text" id="profile-username" placeholder="username" class="input-mobile w-full">
+       </div>
+       <div><label class="block text-gray-600 text-sm font-semibold mb-2"> <i class="fas fa-id-card mr-2"></i>Tên hiển thị </label> <input type="text" id="profile-displayname" placeholder="Tên của bạn" class="input-mobile w-full">
+       </div>
+      </div><!-- Settings Section -->
+      <div class="border-t border-gray-200 pt-6">
+       <h3 class="text-lg font-bold theme-text-primary mb-4"><i class="fas fa-cog mr-2"></i>Cài đặt</h3><!-- Theme Settings -->
+       <div class="settings-item mb-4">
+        <div class="settings-icon theme-bg-primary"><i class="fas fa-palette text-white"></i>
+        </div>
+        <div class="flex-1">
+         <h4 class="font-bold" style="color: var(--text-color);">Giao diện</h4>
+         <p class="text-sm text-gray-500">Chọn màu sắc cho ứng dụng</p>
+        </div>
+       </div>
+       <div class="grid grid-cols-4 gap-2 mb-4">
+        <div class="theme-option rounded-md overflow-hidden" data-theme="green">
+         <div class="theme-preview h-8" style="background: linear-gradient(135deg, #006B68 0%, #FFC62F 100%);"><i class="fas fa-check text-sm"></i>
+         </div>
+        </div>
+        <div class="theme-option rounded-md overflow-hidden" data-theme="purple">
+         <div class="theme-preview h-8" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"><i class="fas fa-check text-sm"></i>
+         </div>
+        </div>
+        <div class="theme-option rounded-md overflow-hidden" data-theme="blue">
+         <div class="theme-preview h-8" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);"><i class="fas fa-check text-sm"></i>
+         </div>
+        </div>
+        <div class="theme-option rounded-md overflow-hidden" data-theme="red">
+         <div class="theme-preview h-8" style="background: linear-gradient(135deg, #dc2626 0%, #fb923c 100%);"><i class="fas fa-check text-sm"></i>
+         </div>
+        </div>
+       </div>
+      </div><button id="save-profile" class="btn-primary w-full py-4 rounded-2xl font-bold text-lg"> <i class="fas fa-save mr-2"></i>Lưu thay đổi </button>
+     </div>
+    </div>
+   </div><!-- Delete Confirmation -->
+   <div id="delete-confirm" class="modal-mobile fixed inset-0 z-50 hidden items-center justify-center p-5">
+    <div class="absolute inset-0" id="delete-confirm-overlay"></div>
+    <div class="rounded-3xl p-6 w-full max-w-sm text-center relative z-10" style="background-color: var(--surface-color);">
+     <div class="text-5xl mb-3">
+      <i class="fas fa-trash-alt text-red-500"></i>
+     </div>
+     <h3 class="text-lg font-bold mb-2" style="color: var(--text-color);">Xác nhận xóa?</h3>
+     <p class="text-gray-500 text-sm mb-6">Bạn có chắc muốn xóa không?</p>
+     <div class="flex gap-3"><button id="cancel-delete" class="flex-1 py-3 rounded-2xl bg-gray-100 font-bold" style="color: var(--text-color);">Hủy</button> <button id="confirm-delete" class="flex-1 py-3 rounded-2xl bg-red-500 text-white font-bold">Xóa</button>
+     </div>
+    </div>
+   </div><!-- Loading -->
+   <div id="loading-overlay" class="fixed inset-0 z-[100] bg-black/50 hidden items-center justify-center">
+    <div class="rounded-3xl p-6 flex items-center gap-3" style="background-color: var(--surface-color);">
+     <div class="w-6 h-6 border-3 border-t-transparent rounded-full animate-spin theme-border-primary" style="border-width: 3px; border-color: var(--primary-color); border-top-color: transparent;"></div><span class="font-semibold" style="color: var(--text-color);">��ang xử lý...</span>
+    </div>
+   </div><!-- Toast Notification -->
+   <div id="toast" class="fixed top-20 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-lg z-[110] hidden">
+    Thông báo
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      app_title: 'Social Memory',
+      welcome_message: 'Lưu giữ kỷ niệm đẹp'
+    };
 
-<script>
-    // -------------------------------------------------------------------------
-    // QUAN TRỌNG: THAY LINK WEB APP CỦA BẠN VÀO DÒNG DƯỚI ĐÂY
-    // Link phải có đuôi /exec
-    // -------------------------------------------------------------------------
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwEGoBG8Yj3Aq8RGMHMgWGvJD6UqsoAPGqwJXMf-lZkWGYPt-3s89KHdic7Ja-jVXVeAA/exec'; 
+    const themes = {
+      green: {
+        primary: '#006B68',
+        secondary: '#FFC62F',
+        text: '#000000',
+        bg: '#f5f5f5',
+        surface: '#ffffff'
+      },
+      purple: {
+        primary: '#667eea',
+        secondary: '#764ba2',
+        text: '#1f2937',
+        bg: '#f5f5f5',
+        surface: '#ffffff'
+      },
+      blue: {
+        primary: '#1e3a8a',
+        secondary: '#3b82f6',
+        text: '#000000',
+        bg: '#f0f9ff',
+        surface: '#ffffff'
+      },
+      red: {
+        primary: '#dc2626',
+        secondary: '#fb923c',
+        text: '#000000',
+        bg: '#fef2f2',
+        surface: '#ffffff'
+      }
+    };
 
-    const form = document.forms['contactForm'];
-    const statusTxt = document.getElementById('status');
-    const tableBody = document.querySelector('#dataTable tbody');
+    let allData = [];
+    let currentProfile = null;
+    let currentTab = 'memories';
+    let currentAlbumId = null;
+    let currentPostId = null;
+    let pendingDeleteId = null;
+    let pendingDeleteType = null;
+    let currentImages = [];
+    let memoryImageData = null;
+    let recordCount = 0;
+    let currentTheme = 'green';
+    let selectedLayout = 'grid-2x2';
 
-    // --- 1. XỬ LÝ GỬI DỮ LIỆU (POST) ---
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        statusTxt.innerText = "Đang gửi...";
+    function applyTheme(themeName) {
+      const theme = themes[themeName];
+      if (!theme) return;
+      
+      document.documentElement.style.setProperty('--primary-color', theme.primary);
+      document.documentElement.style.setProperty('--secondary-color', theme.secondary);
+      document.documentElement.style.setProperty('--text-color', theme.text);
+      document.documentElement.style.setProperty('--bg-color', theme.bg);
+      document.documentElement.style.setProperty('--surface-color', theme.surface);
+      
+      document.querySelectorAll('.theme-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      const selected = document.querySelector(`[data-theme="${themeName}"]`);
+      if (selected) {
+        selected.classList.add('selected');
+      }
+      
+      currentTheme = themeName;
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          const appTitle = config.app_title || defaultConfig.app_title;
+          const welcomeMsg = config.welcome_message || defaultConfig.welcome_message;
+          
+          document.getElementById('app-title').textContent = appTitle;
+          document.getElementById('welcome-message').textContent = welcomeMsg;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['app_title', config.app_title || defaultConfig.app_title],
+          ['welcome_message', config.welcome_message || defaultConfig.welcome_message]
+        ])
+      });
+    }
+
+    const dataHandler = {
+      onDataChanged(data) {
+        allData = data;
+        recordCount = data.length;
         
-        // Tạo JSON object
-        let data = {
-            ten: form['ten'].value,
-            email: form['email'].value,
-            noidung: form['noidung'].value
-        };
+        currentProfile = data.find(d => d.type === 'profile');
+        if (currentProfile && currentProfile.themeName) {
+          applyTheme(currentProfile.themeName);
+        }
+        
+        updateAvatarDisplays();
+        
+        if (currentTab === 'feed') {
+          renderPosts();
+        } else if (currentTab === 'memories') {
+          renderMemories();
+          updateStats();
+        } else if (currentTab === 'albums') {
+          renderAlbums();
+        }
+        
+        if (currentAlbumId && !document.getElementById('album-detail-modal').classList.contains('hidden')) {
+          renderAlbumPhotos();
+        }
+      }
+    };
 
-        fetch(scriptURL, { 
-            method: 'POST', 
-            body: JSON.stringify(data),
-            mode: 'no-cors', // Bắt buộc để tránh lỗi CORS
-            headers: { 'Content-Type': 'application/json' }
-        })
-        .then(() => {
-            statusTxt.innerText = "Gửi thành công! (Kiểm tra Sheet)";
-            form.reset(); // Xóa form sau khi gửi
-            setTimeout(() => { statusTxt.innerText = ""; }, 3000);
-        })
-        .catch(error => {
-            statusTxt.style.color = 'red';
-            statusTxt.innerText = "Lỗi! Xem console để biết chi tiết.";
-            console.error('Error!', error.message);
+    (async () => {
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Failed to init data SDK');
+        }
+      }
+      applyTheme('green');
+      updateStats();
+    })();
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2000);
+    }
+
+    function showLoading() {
+      document.getElementById('loading-overlay').classList.remove('hidden');
+      document.getElementById('loading-overlay').classList.add('flex');
+    }
+
+    function hideLoading() {
+      document.getElementById('loading-overlay').classList.add('hidden');
+      document.getElementById('loading-overlay').classList.remove('flex');
+    }
+
+    function updateAvatarDisplays() {
+      const avatarText = currentProfile?.displayName?.[0]?.toUpperCase() || currentProfile?.username?.[0]?.toUpperCase() || 'U';
+      const avatarImg = currentProfile?.avatarData;
+      
+      ['header-avatar', 'profile-avatar'].forEach(id => {
+        const container = document.getElementById(id);
+        if (avatarImg) {
+          container.innerHTML = `<img src="${avatarImg}" class="w-full h-full object-cover" alt="Avatar">`;
+        } else {
+          container.innerHTML = `<span class="theme-text-primary font-bold">${avatarText}</span>`;
+        }
+      });
+      
+      if (currentProfile) {
+        document.getElementById('profile-username').value = currentProfile.username || '';
+        document.getElementById('profile-displayname').value = currentProfile.displayName || '';
+      }
+    }
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      const now = new Date();
+      const diff = now - date;
+      const mins = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+      
+      if (mins < 1) return 'Vừa xong';
+      if (mins < 60) return `${mins} phút`;
+      if (hours < 24) return `${hours} giờ`;
+      if (days < 7) return `${days} ngày`;
+      return date.toLocaleDateString('vi-VN');
+    }
+
+    function parseComments(commentsStr) {
+      if (!commentsStr) return [];
+      try {
+        return JSON.parse(commentsStr);
+      } catch {
+        return [];
+      }
+    }
+
+    function parseImages(imageStr) {
+      if (!imageStr) return [];
+      try {
+        return JSON.parse(imageStr);
+      } catch {
+        return imageStr ? [imageStr] : [];
+      }
+    }
+
+    function updateStats() {
+      const startDate = new Date('2022-02-22');
+      const today = new Date();
+      const diffTime = Math.abs(today - startDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      document.getElementById('days-together').textContent = `${diffDays} ngày`;
+      
+      const memoryCount = allData.filter(d => d.type === 'memory').length;
+      document.getElementById('memory-count').textContent = memoryCount;
+      
+      const bikeCount = allData.find(d => d.type === 'bike_count')?.count || 0;
+      document.getElementById('bike-count').textContent = bikeCount;
+    }
+
+    function renderPostImages(images, layout) {
+      if (!images || images.length === 0) return '';
+      
+      const imageCount = images.length;
+      
+      if (imageCount === 1) {
+        return `
+          <div class="rounded-2xl overflow-hidden mb-3">
+            <img src="${images[0]}" class="w-full object-cover" alt="Post image" style="max-height: 400px;">
+          </div>
+        `;
+      }
+      
+      if (imageCount === 2) {
+        return `
+          <div class="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden mb-3">
+            <img src="${images[0]}" class="w-full h-64 object-cover" alt="Post image">
+            <img src="${images[1]}" class="w-full h-64 object-cover" alt="Post image">
+          </div>
+        `;
+      }
+      
+      if (imageCount === 3) {
+        return `
+          <div class="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden mb-3" style="height: 300px;">
+            <img src="${images[0]}" class="w-full h-full object-cover col-span-2" alt="Post image">
+            <img src="${images[1]}" class="w-full h-full object-cover" alt="Post image">
+            <img src="${images[2]}" class="w-full h-full object-cover" alt="Post image">
+          </div>
+        `;
+      }
+      
+      if (imageCount === 4) {
+        if (layout === '1-wide') {
+          return `
+            <div class="post-images-1-wide mb-3">
+              <img src="${images[0]}" class="post-img-item img-1"><img src="${images[0]}" alt="Post image"></div>
+              <div class="post-img-item"><img src="${images[1]}" alt="Post image"></div>
+              <div class="post-img-item"><img src="${images[2]}" alt="Post image"></div>
+              <div class="post-img-item"><img src="${images[3]}" alt="Post image"></div>
+            </div>
+          `;
+        } else if (layout === '1-tall') {
+          return `
+            <div class="post-images-1-tall mb-3">
+              <div class="post-img-item img-1"><img src="${images[0]}" alt="Post image"></div>
+              <div class="post-img-item"><img src="${images[1]}" alt="Post image"></div>
+              <div class="post-img-item"><img src="${images[2]}" alt="Post image"></div>
+              <div class="post-img-item"><img src="${images[3]}" alt="Post image"></div>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="post-images-2x2 mb-3">
+              <div class="post-img-item"><img src="${images[0]}" alt="Post image"></div>
+              <div class="post-img-item"><img src="${images[1]}" alt="Post image"></div>
+              <div class="post-img-item"><img src="${images[2]}" alt="Post image"></div>
+              <div class="post-img-item"><img src="${images[3]}" alt="Post image"></div>
+            </div>
+          `;
+        }
+      }
+      
+      if (imageCount >= 5) {
+        const remaining = imageCount - 4;
+        return `
+          <div class="post-images-auto mb-3">
+            <div class="post-img-item img-1"><img src="${images[0]}" alt="Post image"></div>
+            <div class="post-img-item"><img src="${images[1]}" alt="Post image"></div>
+            <div class="post-img-item"><img src="${images[2]}" alt="Post image"></div>
+            <div class="post-img-item"><img src="${images[3]}" alt="Post image"></div>
+            <div class="post-img-item">
+              <img src="${images[4]}" alt="Post image">
+              ${remaining > 0 ? `<div class="img-counter">+${remaining}</div>` : ''}
+            </div>
+          </div>
+        `;
+      }
+      
+      return '';
+    }
+
+    function renderPosts() {
+      const container = document.getElementById('posts-container');
+      const posts = allData.filter(d => d.type === 'post').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      
+      if (posts.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-16">
+            <div class="text-6xl mb-3"><i class="fas fa-newspaper theme-text-primary"></i></div>
+            <p class="font-semibold text-lg" style="color: var(--text-color);">Chưa có bài đăng</p>
+            <p class="text-gray-400 text-sm mt-1">Nhấn + để tạo bài viết đầu tiên</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = posts.map(post => {
+        const comments = parseComments(post.comments);
+        const images = parseImages(post.imageData);
+        const displayName = currentProfile?.displayName || currentProfile?.username || 'Người dùng';
+        const avatarText = displayName[0]?.toUpperCase() || 'U';
+        const avatarHtml = currentProfile?.avatarData 
+          ? `<img src="${currentProfile.avatarData}" class="w-full h-full object-cover" alt="Avatar">`
+          : `<span>${avatarText}</span>`;
+        
+        return `
+          <div class="post-card p-4">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="avatar-ring flex-shrink-0">
+                <div class="w-11 h-11 avatar-inner flex items-center justify-center theme-text-primary font-bold text-sm overflow-hidden">
+                  ${avatarHtml}
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="font-bold truncate" style="color: var(--text-color);">${displayName}</p>
+                <p class="text-xs text-gray-400">${formatDate(post.createdAt)}</p>
+              </div>
+              <button class="delete-post-btn text-gray-400 p-2" data-id="${post.__backendId}">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+            ${post.content ? `<p class="mb-3 whitespace-pre-wrap" style="color: var(--text-color);">${post.content}</p>` : ''}
+            ${renderPostImages(images, post.layout || 'grid-2x2')}
+            <div class="flex items-center gap-6 pt-2 border-t border-gray-100">
+              <button class="like-button flex items-center gap-2 text-gray-500 ${post.liked ? 'active' : ''}" data-id="${post.__backendId}">
+                <i class="fas fa-heart text-xl"></i>
+                <span class="font-semibold">${post.likes || 0}</span>
+              </button>
+              <button class="comment-button flex items-center gap-2 text-gray-500" data-id="${post.__backendId}">
+                <i class="fas fa-comment text-xl"></i>
+                <span class="font-semibold">${comments.length}</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderMemories() {
+      const container = document.getElementById('memories-container');
+      const memories = allData.filter(d => d.type === 'memory').sort((a, b) => new Date(b.memoryDate || b.createdAt) - new Date(a.memoryDate || a.createdAt));
+      
+      if (memories.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-16">
+            <div class="text-6xl mb-3"><i class="fas fa-star theme-text-secondary"></i></div>
+            <p class="font-semibold text-lg" style="color: var(--text-color);">Chưa có kỷ niệm</p>
+            <p class="text-gray-400 text-sm mt-1">Lưu lại những khoảnh khắc đáng nhớ</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = memories.map(memory => `
+        <div class="memory-card">
+          ${memory.imageData ? `
+            <div class="relative" style="height: 200px;">
+              <img src="${memory.imageData}" class="w-full h-full object-cover" alt="Memory">
+              <div class="image-overlay"></div>
+            </div>
+          ` : ''}
+          <div class="p-4">
+            <div class="flex items-start justify-between mb-2">
+              <div class="flex-1 min-w-0">
+                <h3 class="font-bold text-lg truncate mb-1 theme-text-primary">${memory.memoryTitle || 'Kỷ niệm'}</h3>
+                <p class="text-sm theme-text-secondary font-semibold"><i class="fas fa-calendar mr-1"></i>${memory.memoryDate ? new Date(memory.memoryDate).toLocaleDateString('vi-VN') : formatDate(memory.createdAt)}</p>
+              </div>
+              <button class="delete-memory-btn text-gray-400 p-1 flex-shrink-0" data-id="${memory.__backendId}">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+            ${memory.content ? `<p class="text-gray-600 text-sm line-clamp-3">${memory.content}</p>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAlbums() {
+      const container = document.getElementById('albums-container');
+      const albums = allData.filter(d => d.type === 'album').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      
+      if (albums.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-2 text-center py-16">
+            <div class="text-6xl mb-3"><i class="fas fa-folder theme-text-primary"></i></div>
+            <p class="font-semibold text-lg" style="color: var(--text-color);">Chưa có album</p>
+            <p class="text-gray-400 text-sm mt-1">Tạo album để sắp xếp ảnh</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = albums.map(album => {
+        const photos = allData.filter(d => d.type === 'album_photo' && d.albumId === album.__backendId);
+        const coverImg = photos[0]?.imageData;
+        
+        return `
+          <div class="album-card cursor-pointer album-item" data-album-id="${album.__backendId}">
+            <div class="aspect-square bg-gradient-to-br from-green-50 to-yellow-50 flex items-center justify-center overflow-hidden">
+              ${coverImg 
+                ? `<img src="${coverImg}" class="w-full h-full object-cover" alt="Album cover">`
+                : `<span class="text-5xl"><i class="fas fa-folder theme-text-primary"></i></span>`
+              }
+            </div>
+            <div class="p-3">
+              <p class="font-bold truncate" style="color: var(--text-color);">${album.albumName}</p>
+              <p class="text-xs text-gray-500">${photos.length} ảnh</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAlbumPhotos() {
+      const container = document.getElementById('album-photos');
+      const photos = allData.filter(d => d.type === 'album_photo' && d.albumId === currentAlbumId);
+      
+      if (photos.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-3 text-center py-10 text-gray-400">
+            <p class="text-5xl mb-2"><i class="fas fa-camera"></i></p>
+            <p class="text-sm mt-2">Chưa có ảnh</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = photos.map(photo => `
+        <div class="relative group">
+          <img src="${photo.imageData}" class="w-full aspect-square object-cover rounded-lg" alt="Album photo">
+          <button class="delete-photo-btn delete-btn absolute top-1 right-1 w-7 h-7 rounded-full text-white text-sm flex items-center justify-center opacity-0 group-active:opacity-100 transition-opacity" data-id="${photo.__backendId}">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function renderComments(postId) {
+      const post = allData.find(d => d.__backendId === postId);
+      if (!post) return;
+      
+      const comments = parseComments(post.comments);
+      const container = document.getElementById('comments-list');
+      
+      if (comments.length === 0) {
+        container.innerHTML = `<p class="text-center text-gray-400 py-8">Chưa có bình luận</p>`;
+        return;
+      }
+
+      container.innerHTML = comments.map(comment => `
+        <div class="comment-bubble p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-8 h-8 rounded-full theme-bg-primary flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+              ${comment.author?.[0]?.toUpperCase() || 'U'}
+            </div>
+            <div class="flex-1 min-w-0">
+              <span class="font-bold text-sm block truncate" style="color: var(--text-color);">${comment.author || 'Người dùng'}</span>
+              <span class="text-xs text-gray-400">${formatDate(comment.time)}</span>
+            </div>
+          </div>
+          <p class="text-sm pl-10" style="color: var(--text-color);">${comment.text}</p>
+        </div>
+      `).join('');
+    }
+
+    function updateImagePreview() {
+      const container = document.getElementById('images-preview-grid');
+      const previewContainer = document.getElementById('image-preview-container');
+      const layoutSelector = document.getElementById('layout-selector');
+      const postBtn = document.getElementById('post-btn');
+      const imageCount = document.getElementById('image-count');
+      
+      if (currentImages.length === 0) {
+        previewContainer.classList.add('hidden');
+        layoutSelector.classList.add('hidden');
+        postBtn.disabled = !document.getElementById('post-input').value.trim();
+        return;
+      }
+      
+      previewContainer.classList.remove('hidden');
+      imageCount.textContent = currentImages.length;
+      postBtn.disabled = false;
+      
+      if (currentImages.length >= 3) {
+        layoutSelector.classList.remove('hidden');
+      } else {
+        layoutSelector.classList.add('hidden');
+      }
+      
+      container.innerHTML = currentImages.map((img, index) => `
+        <div class="preview-item">
+          <img src="${img}" alt="Preview ${index + 1}">
+          <button class="remove-preview-img absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500 text-white text-xs flex items-center justify-center" data-index="${index}">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    // Navigation
+    document.querySelectorAll('.nav-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentTab = btn.dataset.tab;
+        document.querySelectorAll('.nav-item').forEach(b => {
+          b.classList.remove('nav-item-active');
+          b.classList.add('nav-item-inactive');
         });
+        btn.classList.add('nav-item-active');
+        btn.classList.remove('nav-item-inactive');
+        
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+        document.getElementById(`tab-${currentTab}`).classList.remove('hidden');
+        
+        const fabBtn = document.getElementById('fab-btn');
+        if (currentTab === 'memories') {
+          fabBtn.classList.add('hidden');
+        } else {
+          fabBtn.classList.remove('hidden');
+        }
+        
+        if (currentTab === 'feed') renderPosts();
+        else if (currentTab === 'memories') {
+          renderMemories();
+          updateStats();
+        }
+        else if (currentTab === 'albums') renderAlbums();
+      });
     });
 
-    // --- 2. XỬ LÝ LẤY DỮ LIỆU (GET) ---
-    function getData() {
-        statusTxt.innerText = "Đang tải dữ liệu...";
-        
-        fetch(scriptURL)
-        .then(response => response.json())
-        .then(data => {
-            // Xóa dữ liệu cũ trong bảng
-            tableBody.innerHTML = ""; 
+    // FAB Button
+    document.getElementById('fab-btn').addEventListener('click', () => {
+      if (currentTab === 'feed') {
+        document.getElementById('create-modal').classList.remove('hidden');
+        document.getElementById('create-modal').classList.add('flex');
+      } else if (currentTab === 'memories') {
+        document.getElementById('memory-modal').classList.remove('hidden');
+        document.getElementById('memory-modal').classList.add('flex');
+      } else if (currentTab === 'albums') {
+        document.getElementById('album-create-modal').classList.remove('hidden');
+        document.getElementById('album-create-modal').classList.add('flex');
+      }
+    });
+
+    // Theme Selection
+    document.querySelectorAll('.theme-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        const themeName = opt.dataset.theme;
+        applyTheme(themeName);
+      });
+    });
+
+    // Layout Selection
+    document.querySelectorAll('.layout-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        selectedLayout = opt.dataset.layout;
+        document.querySelectorAll('.layout-option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+      });
+    });
+
+    // Create Post Modal
+    const postInput = document.getElementById('post-input');
+    const postBtn = document.getElementById('post-btn');
+    const imageInput = document.getElementById('image-input');
+
+    postInput.addEventListener('input', () => {
+      postBtn.disabled = !postInput.value.trim() && currentImages.length === 0;
+    });
+
+    function compressImage(file, maxWidth = 800, quality = 0.7) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
             
-            // Duyệt qua từng dòng dữ liệu (data là mảng 2 chiều)
-            // Bắt đầu từ i = 0 (nếu script trả về cả header) 
-            // hoặc i = 1 (nếu muốn bỏ dòng tiêu đề trong Sheet)
-            data.forEach((row, index) => {
-                // Chỉ hiển thị nếu dòng có dữ liệu
-                if(row[0] !== "") { 
-                    let tr = document.createElement('tr');
-                    
-                    // Format ngày tháng một chút cho đẹp (cột 0 là thời gian)
-                    let timeStr = row[0];
-                    if (index > 0 && row[0]) { // Tránh format dòng tiêu đề
-                         try { timeStr = new Date(row[0]).toLocaleString(); } catch(e){}
-                    }
-
-                    tr.innerHTML = `
-                        <td>${timeStr}</td>
-                        <td>${row[1]}</td>
-                        <td>${row[2]}</td>
-                        <td>${row[3]}</td>
-                    `;
-                    tableBody.appendChild(tr);
-                }
-            });
-            statusTxt.innerText = "Đã tải dữ liệu xong!";
-        })
-        .catch(error => {
-            console.error('Lỗi lấy dữ liệu', error);
-            statusTxt.innerText = "Lỗi tải dữ liệu!";
-        });
+            if (width > maxWidth) {
+              height = (height * maxWidth) / width;
+              width = maxWidth;
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
     }
-</script>
 
-</body>
+    imageInput.addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files);
+      if (files.length === 0) return;
+      
+      showLoading();
+      for (const file of files) {
+        const compressed = await compressImage(file);
+        currentImages.push(compressed);
+      }
+      hideLoading();
+      updateImagePreview();
+      
+      e.target.value = '';
+    });
+
+    document.getElementById('images-preview-grid').addEventListener('click', (e) => {
+      const removeBtn = e.target.closest('.remove-preview-img');
+      if (removeBtn) {
+        const index = parseInt(removeBtn.dataset.index);
+        currentImages.splice(index, 1);
+        updateImagePreview();
+      }
+    });
+
+    document.getElementById('clear-all-images').addEventListener('click', () => {
+      currentImages = [];
+      updateImagePreview();
+    });
+
+    postBtn.addEventListener('click', async () => {
+      if (recordCount >= 999) {
+        showToast('Đã đạt giới hạn 999 mục!');
+        return;
+      }
+      
+      const content = postInput.value.trim();
+      if (!content && currentImages.length === 0) return;
+      
+      showLoading();
+      const result = await window.dataSdk.create({
+        type: 'post',
+        content: content,
+        imageData: JSON.stringify(currentImages),
+        layout: currentImages.length >= 4 ? selectedLayout : 'grid-2x2',
+        likes: 0,
+        liked: false,
+        comments: '[]',
+        createdAt: new Date().toISOString()
+      });
+      hideLoading();
+      
+      if (result.isOk) {
+        postInput.value = '';
+        currentImages = [];
+        selectedLayout = 'grid-2x2';
+        updateImagePreview();
+        postBtn.disabled = true;
+        document.getElementById('create-modal').classList.add('hidden');
+        document.getElementById('create-modal').classList.remove('flex');
+        showToast('Đã đăng bài!');
+      } else {
+        showToast('Lỗi: ' + result.error.message);
+      }
+    });
+
+    document.getElementById('close-create').addEventListener('click', () => {
+      document.getElementById('create-modal').classList.add('hidden');
+      document.getElementById('create-modal').classList.remove('flex');
+    });
+
+    document.getElementById('create-modal-overlay').addEventListener('click', () => {
+      document.getElementById('create-modal').classList.add('hidden');
+      document.getElementById('create-modal').classList.remove('flex');
+    });
+
+    // Memory Modal
+    const memoryImageInput = document.getElementById('memory-image-input');
+    const memoryImagePreview = document.getElementById('memory-image-preview');
+    const memoryImagePreviewContainer = document.getElementById('memory-image-preview-container');
+
+    memoryImageInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        showLoading();
+        memoryImageData = await compressImage(file);
+        memoryImagePreview.src = memoryImageData;
+        memoryImagePreviewContainer.classList.remove('hidden');
+        hideLoading();
+      }
+    });
+
+    document.getElementById('remove-memory-image').addEventListener('click', () => {
+      memoryImageData = null;
+      memoryImagePreviewContainer.classList.add('hidden');
+      memoryImageInput.value = '';
+    });
+
+    document.getElementById('create-memory-btn').addEventListener('click', async () => {
+      if (recordCount >= 999) {
+        showToast('Đã đạt giới hạn 999 mục!');
+        return;
+      }
+      
+      const title = document.getElementById('memory-title').value.trim();
+      const date = document.getElementById('memory-date').value;
+      const content = document.getElementById('memory-content').value.trim();
+      
+      if (!title && !content && !memoryImageData) return;
+      
+      showLoading();
+      const result = await window.dataSdk.create({
+        type: 'memory',
+        memoryTitle: title || 'Kỷ niệm',
+        memoryDate: date || new Date().toISOString().split('T')[0],
+        content: content,
+        imageData: memoryImageData || '',
+        createdAt: new Date().toISOString()
+      });
+      hideLoading();
+      
+      if (result.isOk) {
+        document.getElementById('memory-title').value = '';
+        document.getElementById('memory-date').value = '';
+        document.getElementById('memory-content').value = '';
+        memoryImageData = null;
+        memoryImagePreviewContainer.classList.add('hidden');
+        memoryImageInput.value = '';
+        document.getElementById('memory-modal').classList.add('hidden');
+        document.getElementById('memory-modal').classList.remove('flex');
+        showToast('Đã lưu kỷ niệm!');
+      } else {
+        showToast('Lỗi: ' + result.error.message);
+      }
+    });
+
+    document.getElementById('close-memory').addEventListener('click', () => {
+      document.getElementById('memory-modal').classList.add('hidden');
+      document.getElementById('memory-modal').classList.remove('flex');
+    });
+
+    document.getElementById('memory-modal-overlay').addEventListener('click', () => {
+      document.getElementById('memory-modal').classList.add('hidden');
+      document.getElementById('memory-modal').classList.remove('flex');
+    });
+
+    // Album Create Modal
+    document.getElementById('create-album-btn').addEventListener('click', async () => {
+      if (recordCount >= 999) {
+        showToast('Đã đạt giới hạn 999 mục!');
+        return;
+      }
+      
+      const name = document.getElementById('album-name').value.trim();
+      if (!name) return;
+      
+      showLoading();
+      const result = await window.dataSdk.create({
+        type: 'album',
+        albumName: name,
+        createdAt: new Date().toISOString()
+      });
+      hideLoading();
+      
+      if (result.isOk) {
+        document.getElementById('album-name').value = '';
+        document.getElementById('album-create-modal').classList.add('hidden');
+        document.getElementById('album-create-modal').classList.remove('flex');
+        showToast('Đã tạo album!');
+      } else {
+        showToast('Lỗi: ' + result.error.message);
+      }
+    });
+
+    document.getElementById('close-album-create').addEventListener('click', () => {
+      document.getElementById('album-create-modal').classList.add('hidden');
+      document.getElementById('album-create-modal').classList.remove('flex');
+    });
+
+    document.getElementById('album-create-modal-overlay').addEventListener('click', () => {
+      document.getElementById('album-create-modal').classList.add('hidden');
+      document.getElementById('album-create-modal').classList.remove('flex');
+    });
+
+    // Album Detail Modal
+    document.getElementById('albums-container').addEventListener('click', (e) => {
+      const albumCard = e.target.closest('.album-item');
+      if (albumCard) {
+        currentAlbumId = albumCard.dataset.albumId;
+        const album = allData.find(d => d.__backendId === currentAlbumId);
+        document.getElementById('album-detail-title').textContent = album?.albumName || 'Album';
+        renderAlbumPhotos();
+        document.getElementById('album-detail-modal').classList.remove('hidden');
+        document.getElementById('album-detail-modal').classList.add('flex');
+      }
+    });
+
+    document.getElementById('close-album-detail').addEventListener('click', () => {
+      document.getElementById('album-detail-modal').classList.add('hidden');
+      document.getElementById('album-detail-modal').classList.remove('flex');
+      currentAlbumId = null;
+    });
+
+    document.getElementById('album-detail-overlay').addEventListener('click', () => {
+      document.getElementById('album-detail-modal').classList.add('hidden');
+      document.getElementById('album-detail-modal').classList.remove('flex');
+      currentAlbumId = null;
+    });
+
+    document.getElementById('album-image-input').addEventListener('change', async (e) => {
+      if (recordCount >= 999) {
+        showToast('Đã đạt giới hạn 999 mục!');
+        return;
+      }
+      
+      const file = e.target.files[0];
+      if (file && currentAlbumId) {
+        showLoading();
+        const compressed = await compressImage(file);
+        const result = await window.dataSdk.create({
+          type: 'album_photo',
+          albumId: currentAlbumId,
+          imageData: compressed,
+          createdAt: new Date().toISOString()
+        });
+        hideLoading();
+        if (result.isOk) {
+          showToast('Đã thêm ảnh!');
+        } else {
+          showToast('Lỗi: ' + result.error.message);
+        }
+      }
+      e.target.value = '';
+    });
+
+    document.getElementById('album-photos').addEventListener('click', (e) => {
+      const deleteBtn = e.target.closest('.delete-photo-btn');
+      if (deleteBtn) {
+        e.stopPropagation();
+        showDeleteConfirm('Xóa ảnh này?', deleteBtn.dataset.id, 'photo');
+      }
+    });
+
+    // Profile
+    document.getElementById('profile-btn').addEventListener('click', () => {
+      document.getElementById('profile-modal').classList.remove('hidden');
+      document.getElementById('profile-modal').classList.add('flex');
+    });
+
+    document.getElementById('close-profile').addEventListener('click', () => {
+      document.getElementById('profile-modal').classList.add('hidden');
+      document.getElementById('profile-modal').classList.remove('flex');
+    });
+
+    document.getElementById('profile-modal-overlay').addEventListener('click', () => {
+      document.getElementById('profile-modal').classList.add('hidden');
+      document.getElementById('profile-modal').classList.remove('flex');
+    });
+
+    document.getElementById('avatar-input').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        showLoading();
+        const avatarData = await compressImage(file, 400, 0.8);
+        
+        if (currentProfile) {
+          await window.dataSdk.update({
+            ...currentProfile,
+            avatarData: avatarData
+          });
+        } else {
+          if (recordCount >= 999) {
+            hideLoading();
+            showToast('Đã đạt giới hạn 999 mục!');
+            return;
+          }
+          const result = await window.dataSdk.create({
+            type: 'profile',
+            username: '',
+            displayName: '',
+            avatarData: avatarData,
+            themeName: currentTheme,
+            createdAt: new Date().toISOString()
+          });
+          if (!result.isOk) {
+            hideLoading();
+            showToast('Lỗi: ' + result.error.message);
+            return;
+          }
+        }
+        hideLoading();
+        showToast('Đã cập nhật ảnh!');
+      }
+    });
+
+    document.getElementById('save-profile').addEventListener('click', async () => {
+      const username = document.getElementById('profile-username').value.trim();
+      const displayName = document.getElementById('profile-displayname').value.trim();
+      
+      if (!username) {
+        showToast('Vui lòng nhập tên người dùng!');
+        return;
+      }
+      
+      showLoading();
+      
+      if (currentProfile) {
+        await window.dataSdk.update({
+          ...currentProfile,
+          username: username,
+          displayName: displayName,
+          themeName: currentTheme
+        });
+      } else {
+        if (recordCount >= 999) {
+          hideLoading();
+          showToast('Đã đạt giới hạn 999 mục!');
+          return;
+        }
+        const result = await window.dataSdk.create({
+          type: 'profile',
+          username: username,
+          displayName: displayName,
+          avatarData: '',
+          themeName: currentTheme,
+          createdAt: new Date().toISOString()
+        });
+        
+        if (!result.isOk) {
+          hideLoading();
+          showToast('Lỗi: ' + result.error.message);
+          return;
+        }
+      }
+      
+      hideLoading();
+      showToast('Đã lưu hồ sơ!');
+    });
+
+    // Post interactions
+    document.getElementById('posts-container').addEventListener('click', async (e) => {
+      const likeBtn = e.target.closest('.like-button');
+      if (likeBtn) {
+        const postId = likeBtn.dataset.id;
+        const post = allData.find(d => d.__backendId === postId);
+        if (post) {
+          const newLiked = !post.liked;
+          const newLikes = newLiked ? (post.likes || 0) + 1 : Math.max(0, (post.likes || 0) - 1);
+          
+          await window.dataSdk.update({
+            ...post,
+            liked: newLiked,
+            likes: newLikes
+          });
+        }
+        return;
+      }
+      
+      const commentBtn = e.target.closest('.comment-button');
+      if (commentBtn) {
+        currentPostId = commentBtn.dataset.id;
+        renderComments(currentPostId);
+        document.getElementById('comment-modal').classList.remove('hidden');
+        document.getElementById('comment-modal').classList.add('flex');
+        return;
+      }
+      
+      const deleteBtn = e.target.closest('.delete-post-btn');
+      if (deleteBtn) {
+        showDeleteConfirm('Xóa bài đăng này?', deleteBtn.dataset.id, 'post');
+      }
+    });
+
+    // Comments
+    document.getElementById('close-comment').addEventListener('click', () => {
+      document.getElementById('comment-modal').classList.add('hidden');
+      document.getElementById('comment-modal').classList.remove('flex');
+      currentPostId = null;
+    });
+
+    document.getElementById('comment-modal-overlay').addEventListener('click', () => {
+      document.getElementById('comment-modal').classList.add('hidden');
+      document.getElementById('comment-modal').classList.remove('flex');
+      currentPostId = null;
+    });
+
+    document.getElementById('send-comment').addEventListener('click', async () => {
+      const input = document.getElementById('comment-input');
+      const text = input.value.trim();
+      if (!text || !currentPostId) return;
+      
+      const post = allData.find(d => d.__backendId === currentPostId);
+      if (!post) return;
+      
+      const comments = parseComments(post.comments);
+      comments.push({
+        text: text,
+        author: currentProfile?.displayName || currentProfile?.username || 'Người dùng',
+        time: new Date().toISOString()
+      });
+      
+      showLoading();
+      await window.dataSdk.update({
+        ...post,
+        comments: JSON.stringify(comments)
+      });
+      hideLoading();
+      
+      input.value = '';
+      renderComments(currentPostId);
+      showToast('Đã bình luận!');
+    });
+
+    // Delete memory
+    document.getElementById('memories-container').addEventListener('click', (e) => {
+      const deleteBtn = e.target.closest('.delete-memory-btn');
+      if (deleteBtn) {
+        showDeleteConfirm('Xóa kỷ niệm này?', deleteBtn.dataset.id, 'memory');
+      }
+    });
+
+    // Delete confirmation
+    function showDeleteConfirm(message, id, type) {
+      pendingDeleteId = id;
+      pendingDeleteType = type;
+      document.querySelector('#delete-confirm h3').textContent = message || 'Xác nhận xóa?';
+      document.getElementById('delete-confirm').classList.remove('hidden');
+      document.getElementById('delete-confirm').classList.add('flex');
+      
+      if (!id) {
+        document.getElementById('confirm-delete').classList.add('hidden');
+      } else {
+        document.getElementById('confirm-delete').classList.remove('hidden');
+      }
+    }
+
+    document.getElementById('cancel-delete').addEventListener('click', () => {
+      document.getElementById('delete-confirm').classList.add('hidden');
+      document.getElementById('delete-confirm').classList.remove('flex');
+      pendingDeleteId = null;
+      pendingDeleteType = null;
+    });
+
+    document.getElementById('delete-confirm-overlay').addEventListener('click', () => {
+      document.getElementById('delete-confirm').classList.add('hidden');
+      document.getElementById('delete-confirm').classList.remove('flex');
+      pendingDeleteId = null;
+      pendingDeleteType = null;
+    });
+
+    document.getElementById('confirm-delete').addEventListener('click', async () => {
+      if (!pendingDeleteId) {
+        document.getElementById('delete-confirm').classList.add('hidden');
+        document.getElementById('delete-confirm').classList.remove('flex');
+        return;
+      }
+      
+      const item = allData.find(d => d.__backendId === pendingDeleteId);
+      if (item) {
+        showLoading();
+        
+        if (pendingDeleteType === 'album') {
+          const photos = allData.filter(d => d.type === 'album_photo' && d.albumId === pendingDeleteId);
+          for (const photo of photos) {
+            await window.dataSdk.delete(photo);
+          }
+        }
+        
+        await window.dataSdk.delete(item);
+        hideLoading();
+        showToast('Đã xóa!');
+      }
+      
+      document.getElementById('delete-confirm').classList.add('hidden');
+      document.getElementById('delete-confirm').classList.remove('flex');
+      pendingDeleteId = null;
+      pendingDeleteType = null;
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bda953173872442',t:'MTc2ODM2Njk2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
