@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-14T02:26:06.814Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 3",
+    "username": "1768357566814",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-14T01:59:06.609Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
