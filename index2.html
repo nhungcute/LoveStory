@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết nối Google Sheet</title>
+    <style>
+        /* CSS đơn giản để làm đẹp giao diện */
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; }
+        .container { border: 1px solid #ddd; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; padding: 10px; margin: 5px 0 15px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+        button:hover { background-color: #45a049; }
+        button#btnGet { background-color: #008CBA; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        #status { margin-top: 10px; font-weight: bold; color: green; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Gửi dữ liệu lên Google Sheet</h2>
+    
+    <form id="contactForm">
+        <label for="ten">Họ và Tên</label>
+        <input type="text" id="ten" name="ten" placeholder="Nhập tên của bạn..." required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Nhập email..." required>
+
+        <label for="noidung">Nội dung</label>
+        <textarea id="noidung" name="noidung" placeholder="Viết nội dung..." style="height:100px" required></textarea>
+
+        <button type="submit" id="btnSubmit">Gửi dữ liệu</button>
+        <button type="button" id="btnGet" onclick="getData()">Lấy danh sách về</button>
+    </form>
+
+    <div id="status"></div>
+
+    <div id="dataArea">
+        <h3>Dữ liệu từ Google Sheet:</h3>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Thời gian</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Nội dung</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // -------------------------------------------------------------------------
+    // QUAN TRỌNG: THAY LINK WEB APP CỦA BẠN VÀO DÒNG DƯỚI ĐÂY
+    // Link phải có đuôi /exec
+    // -------------------------------------------------------------------------
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwEGoBG8Yj3Aq8RGMHMgWGvJD6UqsoAPGqwJXMf-lZkWGYPt-3s89KHdic7Ja-jVXVeAA/exec'; 
+
+    const form = document.forms['contactForm'];
+    const statusTxt = document.getElementById('status');
+    const tableBody = document.querySelector('#dataTable tbody');
+
+    // --- 1. XỬ LÝ GỬI DỮ LIỆU (POST) ---
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        statusTxt.innerText = "Đang gửi...";
+        
+        // Tạo JSON object
+        let data = {
+            ten: form['ten'].value,
+            email: form['email'].value,
+            noidung: form['noidung'].value
+        };
+
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: JSON.stringify(data),
+            mode: 'no-cors', // Bắt buộc để tránh lỗi CORS
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(() => {
+            statusTxt.innerText = "Gửi thành công! (Kiểm tra Sheet)";
+            form.reset(); // Xóa form sau khi gửi
+            setTimeout(() => { statusTxt.innerText = ""; }, 3000);
+        })
+        .catch(error => {
+            statusTxt.style.color = 'red';
+            statusTxt.innerText = "Lỗi! Xem console để biết chi tiết.";
+            console.error('Error!', error.message);
+        });
+    });
+
+    // --- 2. XỬ LÝ LẤY DỮ LIỆU (GET) ---
+    function getData() {
+        statusTxt.innerText = "Đang tải dữ liệu...";
+        
+        fetch(scriptURL)
+        .then(response => response.json())
+        .then(data => {
+            // Xóa dữ liệu cũ trong bảng
+            tableBody.innerHTML = ""; 
+            
+            // Duyệt qua từng dòng dữ liệu (data là mảng 2 chiều)
+            // Bắt đầu từ i = 0 (nếu script trả về cả header) 
+            // hoặc i = 1 (nếu muốn bỏ dòng tiêu đề trong Sheet)
+            data.forEach((row, index) => {
+                // Chỉ hiển thị nếu dòng có dữ liệu
+                if(row[0] !== "") { 
+                    let tr = document.createElement('tr');
+                    
+                    // Format ngày tháng một chút cho đẹp (cột 0 là thời gian)
+                    let timeStr = row[0];
+                    if (index > 0 && row[0]) { // Tránh format dòng tiêu đề
+                         try { timeStr = new Date(row[0]).toLocaleString(); } catch(e){}
+                    }
+
+                    tr.innerHTML = `
+                        <td>${timeStr}</td>
+                        <td>${row[1]}</td>
+                        <td>${row[2]}</td>
+                        <td>${row[3]}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                }
+            });
+            statusTxt.innerText = "Đã tải dữ liệu xong!";
+        })
+        .catch(error => {
+            console.error('Lỗi lấy dữ liệu', error);
+            statusTxt.innerText = "Lỗi tải dữ liệu!";
+        });
+    }
+</script>
+
+</body>
+</html>
