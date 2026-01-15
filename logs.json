@@ -1,58 +1,16 @@
 [
   {
-    "timestamp": "2026-01-15T05:46:10.254Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
+    "timestamp": "2026-01-15T06:12:27.805Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Thêm sự kiện mới\"",
+    "username": "1768457546526",
     "saved": true
   },
   {
-    "timestamp": "2026-01-15T05:35:27.801Z",
-    "action": "Tương tác",
-    "details": "Đã thêm 1 đạp. Tổng hôm nay: 16",
-    "username": "1768455327357",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-15T05:35:27.357Z",
-    "action": "Tương tác",
-    "details": "Đã thêm 1 đạp. Tổng hôm nay: 3",
-    "username": "1768455327357",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-15T05:18:37.100Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-15T05:00:51.950Z",
-    "action": "Tương tác",
-    "details": "Đã thêm 1 đạp. Tổng hôm nay: 10",
-    "username": "1768453251550",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-15T05:00:51.548Z",
-    "action": "Tương tác",
-    "details": "Đã thêm 1 đạp. Tổng hôm nay: 9",
-    "username": "1768453251550",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-15T05:00:51.950Z",
-    "action": "Tương tác",
-    "details": "Đã thêm 1 đạp. Tổng hôm nay: 10",
-    "username": "1768453251550",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-15T05:00:51.548Z",
-    "action": "Tương tác",
-    "details": "Đã thêm 1 đạp. Tổng hôm nay: 9",
-    "username": "1768453251550",
+    "timestamp": "2026-01-15T06:12:26.525Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1768457546526",
     "saved": true
   },
   {
