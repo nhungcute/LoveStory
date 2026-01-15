@@ -7,17 +7,30 @@
 	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
 	  <style>
+	  
+		@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+		
 		body {
 		  box-sizing: border-box;
-		  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 		}
 		
 		:root {
-		  --primary-color: #006B68;
-		  --secondary-color: #FFC62F;
-		  --text-color: #212529;
-		  --bg-color: #f8f9fa;
-		  --surface-color: #ffffff;
+			--primary-color: #4ade80;
+			--primary-dark: #22c55e;
+			--secondary-color: #f0fdf4;
+			--text-dark: #1f2937;
+			--text-light: #6b7280;
+			--bg-color: #f3f4f6;
+			--card-bg: #ffffff;
+			
+			/* 2. Cấu hình font chữ mới ở đây */
+			--font-family: 'Patrick Hand', cursive; 
+			
+			--shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+			--shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+			--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+			--radius: 1rem;
 		}
 		
 		html, body {
@@ -469,76 +482,7 @@
 		 </div>
 		</div>
 	   </div>
-	   
-	   <div class="modal fade" id="createPostModal" tabindex="-1">
-		<div class="modal-dialog modal-fullscreen">
-		 <div class="modal-content">
-		  <div class="modal-header">
-		   <h5 class="modal-title theme-text-primary fw-bold">Tạo bài viết</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-		  </div>
-		  <div class="modal-body">
-		   <div class="mb-3"><textarea class="form-control" id="post-input" rows="4" placeholder="Bạn đang nghĩ gì?"></textarea>
-		   </div>
-		   <div id="image-preview-container" class="d-none mb-3">
-			<div class="d-flex justify-content-between align-items-center mb-2"><span class="text-muted"><span id="image-count">0</span> ảnh</span> <button class="btn btn-sm btn-outline-danger" id="clear-all-images"> <i class="bi bi-trash"></i> Xóa tất cả </button>
-			</div>
-			<div id="images-preview-grid" class="row g-2"></div>
-		   </div>
-		   <div id="layout-selector" class="d-none mb-3"><label class="form-label fw-bold">Chọn bố cục hiển thị</label>
-			<div class="row g-2">
-			 <div class="col-6">
-			  <div class="layout-preview-box" data-layout="grid-2x2">
-			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-			   </div>
-			   <p class="text-center small fw-semibold mt-2 mb-0">Lưới 2x2</p>
-			  </div>
-			 </div>
-			 <div class="col-6">
-			  <div class="layout-preview-box" data-layout="1-wide">
-			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-				<div style="grid-column: span 2;"></div>
-				<div></div>
-				<div></div>
-			   </div>
-			   <p class="text-center small fw-semibold mt-2 mb-0">1 ngang + 3</p>
-			  </div>
-			 </div>
-			 <div class="col-6">
-			  <div class="layout-preview-box" data-layout="1-tall">
-			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-				<div style="grid-row: span 2;"></div>
-				<div></div>
-				<div></div>
-			   </div>
-			   <p class="text-center small fw-semibold mt-2 mb-0">1 dọc + 3</p>
-			  </div>
-			 </div>
-			 <div class="col-6">
-			  <div class="layout-preview-box" data-layout="auto">
-			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-				<div style="grid-row: span 2;"></div>
-				<div></div>
-				<div></div>
-			   </div>
-			   <p class="text-center small fw-semibold mt-2 mb-0">Tự động</p>
-			  </div>
-			 </div>
-			</div>
-		   </div>
-		   <div class="mb-3"><label class="btn btn-outline-primary w-100"> <i class="bi bi-image me-2"></i>Thêm ảnh <input type="file" id="image-input" accept="image/*" multiple class="d-none"> </label>
-		   </div>
-				<button class="btn btn-primary w-100 py-3" id="post-btn" onclick="handlePostSubmit()" disabled> 
-					<i class="bi bi-send me-2"></i>Đăng bài 
-				</button>
-		  </div>
-		 </div>
-		</div>
-	   </div>
-	   
+	    
 	   <div class="modal fade" id="createMemoryModal" tabindex="-1">
 		<div class="modal-dialog modal-fullscreen">
 		 <div class="modal-content">
@@ -652,14 +596,17 @@
 		  </div>
 		 </div>
 		</div>
-	   </div><div class="modal fade" id="postOptionsModal" tabindex="-1">
+	   </div>
+	   
+	   <div class="modal fade" id="postOptionsModal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 		 <div class="modal-content">
 		  <div class="list-group list-group-flush"><button class="list-group-item list-group-item-action" id="edit-post-option"> <i class="bi bi-pencil theme-text-primary me-2"></i> <span class="fw-semibold">Chỉnh sửa bài viết</span> </button> <button class="list-group-item list-group-item-action text-danger" id="delete-post-option"> <i class="bi bi-trash me-2"></i> <span class="fw-semibold">Xóa bài viết</span> </button> <button class="list-group-item list-group-item-action" data-bs-dismiss="modal"> Hủy </button>
 		  </div>
 		 </div>
 		</div>
-	   </div><div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+	   </div>
+	   <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 		 <div class="modal-content text-center p-3">
 		  <div class="modal-body"><i class="bi bi-trash text-danger" style="font-size: 3rem;"></i>
@@ -671,6 +618,7 @@
 		 </div>
 		</div>
 	   </div>
+	    
 	   
 	   <div class="modal fade" id="bikeStatsModal" tabindex="-1">
 		<div class="modal-dialog modal-fullscreen">
@@ -826,10 +774,80 @@
 		</div>
 	   </div>
 	  </div>
+	   
+	   <div class="modal fade" id="createPostModal" tabindex="-1">
+		<div class="modal-dialog modal-fullscreen">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold">Tạo bài viết</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body">
+		   <div class="mb-3"><textarea class="form-control" id="post-input" rows="4" placeholder="Bạn đang nghĩ gì?"></textarea>
+		   </div>
+		   <div id="image-preview-container" class="d-none mb-3">
+			<div class="d-flex justify-content-between align-items-center mb-2"><span class="text-muted"><span id="image-count">0</span> ảnh</span> <button class="btn btn-sm btn-outline-danger" id="clear-all-images"> <i class="bi bi-trash"></i> Xóa tất cả </button>
+			</div>
+			<div id="images-preview-grid" class="row g-2"></div>
+		   </div>
+		   <div id="layout-selector" class="d-none mb-3"><label class="form-label fw-bold">Chọn bố cục hiển thị</label>
+			<div class="row g-2">
+			 <div class="col-6">
+			  <div class="layout-preview-box" data-layout="grid-2x2">
+			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			   </div>
+			   <p class="text-center small fw-semibold mt-2 mb-0">Lưới 2x2</p>
+			  </div>
+			 </div>
+			 <div class="col-6">
+			  <div class="layout-preview-box" data-layout="1-wide">
+			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+				<div style="grid-column: span 2;"></div>
+				<div></div>
+				<div></div>
+			   </div>
+			   <p class="text-center small fw-semibold mt-2 mb-0">1 ngang + 3</p>
+			  </div>
+			 </div>
+			 <div class="col-6">
+			  <div class="layout-preview-box" data-layout="1-tall">
+			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+				<div style="grid-row: span 2;"></div>
+				<div></div>
+				<div></div>
+			   </div>
+			   <p class="text-center small fw-semibold mt-2 mb-0">1 dọc + 3</p>
+			  </div>
+			 </div>
+			 <div class="col-6">
+			  <div class="layout-preview-box" data-layout="auto">
+			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+				<div style="grid-row: span 2;"></div>
+				<div></div>
+				<div></div>
+			   </div>
+			   <p class="text-center small fw-semibold mt-2 mb-0">Tự động</p>
+			  </div>
+			 </div>
+			</div>
+		   </div>
+		   <div class="mb-3"><label class="btn btn-outline-primary w-100"> <i class="bi bi-image me-2"></i>Thêm ảnh <input type="file" id="image-input" accept="image/*" multiple class="d-none"> </label>
+		   </div>
+				<button class="btn btn-primary w-100 py-3" id="post-btn" onclick="handlePostSubmit()" disabled> 
+					<i class="bi bi-send me-2"></i>Đăng bài 
+				</button>
+		  </div>
+		 </div>
+		</div>
+	   </div>
+	   
 	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	  <script>
 		// --- CẤU HÌNH KẾT NỐI ---
-		const API_URL = 'https://script.google.com/macros/s/AKfycbwGbu9v0Dhk6Tn3sffxwWE2hJ88PeU1RjEAY6RW5-Ki2xVORi8mlCt_h5560GJbFSP8pg/exec';
+		const API_URL = 'https://script.google.com/macros/s/AKfycbzXyRIkwICCjtLarH_djmq-cD17k3U0Tp4R7fA5cfUlpdRUgBsiWhU8NDXoMd950xK3/exec';
 		
 		let userFingerprint = null;
 
@@ -886,11 +904,15 @@
 			});
 		}
 
-		// 3. Hàm gửi dữ liệu chung (Router Client)
+		// 3. Hàm gửi dữ liệu chung (Router Client) 
 		async function sendToServer(payload) {
 			try {
 				const res = await fetch(API_URL, {
 					method: 'POST',
+					// THÊM DÒNG NÀY: Giúp bỏ qua bước kiểm duyệt CORS phức tạp của Google
+					headers: {
+						"Content-Type": "text/plain;charset=utf-8",
+					},
 					body: JSON.stringify(payload)
 				});
 				return await res.json();
@@ -2058,77 +2080,88 @@
 		  return html;
 		}
 
-		function renderPosts() {
-			  const container = document.getElementById('posts-container');
+		// --- HÀM RENDER POSTS (Đã sửa lỗi ký tự lạ & Hiển thị Fullname) ---
+function renderPosts() {
+    const container = document.getElementById('posts-container');
+    
+    // Lấy dữ liệu từ serverFeedData (biến toàn cục đã load từ Server)
+    const posts = serverFeedData || []; 
+    
+    // Nếu không có bài viết
+    if (posts.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-5">
+                <i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
+                <p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
+                <p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
+            </div>
+        `;
+        return;
+    }
 
-			  // Dùng serverFeedData nếu có, nếu không thì mảng rỗng
-			  const posts = serverFeedData || []; 
+    container.innerHTML = posts.map(post => {
+        // --- BƯỚC 1: MÃ HÓA DỮ LIỆU ĐỂ TRÁNH LỖI HTML (QUAN TRỌNG) ---
+        // encodeURIComponent sẽ biến đổi các ký tự xuống dòng, ngoặc kép... thành mã an toàn
+        const safeContent = encodeURIComponent(post.content || '');
+        const safeImages = encodeURIComponent(post.imageData || '[]');
+        // -----------------------------------------------------------
 
-			  if (posts.length === 0) {
-				container.innerHTML = `
-				  <div class="text-center py-5">
-					<i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
-					<p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
-					<p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
-				  </div>
-				`;
-				return;
-			  }
+        const comments = parseComments(post.comments);
+        const images = parseImages(post.imageData);
+        
+        // Xử lý hiển thị Tên và Avatar
+        const displayName = post.fullname || post.username || 'Người dùng ẩn danh';
+        const avatarUrl = post.avatar; 
 
-			  container.innerHTML = posts.map(post => {
-				const comments = parseComments(post.comments);
-				const images = parseImages(post.imageData);
+        // HTML cho Avatar
+        const avatarHtml = avatarUrl 
+            ? `<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">`
+            : `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold" style="font-size: 1.2rem;">${displayName.charAt(0).toUpperCase()}</div>`;
+        
+        // HTML hiển thị nút Sửa (Chỉ hiện nếu là bài của chính mình)
+        // Lưu ý: Ta truyền safeContent và safeImages vào hàm openEditPost
+        const editButtonHtml = (currentProfile && currentProfile.username === post.username) 
+			? `<button class="btn btn-sm btn-link text-muted post-menu-btn" data-id="${post.__backendId}">
+					<i class="bi bi-three-dots-vertical"></i>
+			   </button>` 
+			: '';
 
-				// Xử lý hiển thị Avatar/Tên (Logic tìm trong profiles sheet nếu cần, ở đây lấy tạm username)
-				// Nếu muốn map với Avatar thật, bạn cần map username của post với danh sách user đã load
-				let avatarUrl = '';
-				let displayName = post.username || 'Người dùng';
-
-				// (Tùy chọn) Logic map avatar nếu bạn đã load list user
-				// const authorProfile = listOfProfiles.find(p => p.username == post.username);
-				// if(authorProfile) { avatarUrl = authorProfile.avatar; displayName = authorProfile.fullname; }
-
-				const avatarHtml = avatarUrl 
-				  ? `<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">`
-				  : `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold">${displayName[0].toUpperCase()}</div>`;
-
-				return `
-				  <div class="post-card p-3 mb-3" id="post-${post.__backendId}">
-					<div class="d-flex align-items-center justify-content-between mb-3">
-					  <div class="d-flex align-items-center">
-						<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden">
-						  ${avatarHtml}
-						</div>
-						<div>
-						  <p class="fw-bold mb-0">${displayName}</p>
-						  <small class="text-muted">${post.createdAt}</small>
-						</div>
-					  </div>
-
-					  ${ (currentProfile && currentProfile.username === post.username) ? 
-					  `<button class="btn btn-sm btn-link text-muted post-menu-btn" data-id="${post.__backendId}">
-						<i class="bi bi-three-dots-vertical"></i>
-					  </button>` : '' }
-					</div>
-
-					${post.content ? `<p class="mb-3" style="white-space: pre-wrap;">${post.content}</p>` : ''}
-
-					${renderPostImages(images, post.layout || 'grid-2x2')}
-
-					<div class="d-flex gap-4 pt-2 border-top">
-					  <button class="btn btn-sm btn-link text-decoration-none like-btn text-muted">
-						<i class="bi bi-heart fs-5"></i>
-						<span class="ms-1">Thích</span>
-					  </button>
-					  <button class="btn btn-sm btn-link text-decoration-none text-muted comment-btn" data-id="${post.__backendId}">
-						<i class="bi bi-chat fs-5"></i>
-						<span class="ms-1">Bình luận</span>
-					  </button>
-					</div>
-				  </div>
-				`;
-			  }).join('');
-			}
+        return `
+            <div class="post-card p-3 mb-3" id="post-${post.__backendId}">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
+                            ${avatarHtml}
+                        </div>
+                        <div>
+                            <p class="fw-bold mb-0 text-dark">${displayName}</p>
+                            <small class="text-muted" style="font-size: 0.8rem;">
+                                <i class="bi bi-clock me-1"></i>${post.createdAt}
+                            </small>
+                        </div>
+                    </div>
+                    
+                    ${editButtonHtml}
+                </div>
+                
+                ${post.content ? `<div class="mb-3" style="white-space: pre-wrap; font-size: 1rem; color: #374151;">${post.content}</div>` : ''}
+                
+                ${renderPostImages(images, post.layout || 'grid-2x2')}
+                
+                <div class="d-flex gap-4 pt-2 border-top mt-2">
+                    <button class="btn btn-sm btn-link text-decoration-none like-btn text-muted">
+                        <i class="bi bi-heart fs-5"></i>
+                        <span class="ms-1">Thích</span>
+                    </button>
+                    <button class="btn btn-sm btn-link text-decoration-none text-muted comment-btn">
+                        <i class="bi bi-chat fs-5"></i>
+                        <span class="ms-1">Bình luận</span>
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
 
 		function renderAlbums() {
 		  const container = document.getElementById('albums-container');
@@ -2644,61 +2677,76 @@
 		});
 
 		// 4. Lưu Thông Tin Profile (Cập nhật LocalStorage)
-		document.getElementById('save-profile').addEventListener('click', async () => {
-			const usernameInput = document.getElementById('profile-username');
-			const fullnameInput = document.getElementById('profile-fullname');
+		// Xử lý nút LƯU trong Modal Hồ sơ (OPTIMISTIC UI)
+		const saveProfileBtn = document.getElementById('save-profile');
+		if (saveProfileBtn) {
+			saveProfileBtn.addEventListener('click', () => {
+				const fullnameInput = document.getElementById('profile-fullname');
+				const usernameInput = document.getElementById('profile-username');
+				
+				// 1. Validate dữ liệu
+				const newUsername = usernameInput.value.trim();
+				const newFullname = fullnameInput.value.trim();
 
-			if (!usernameInput || !fullnameInput) return;
-
-			const usernameVal = usernameInput.value.trim();
-			const fullnameVal = fullnameInput.value.trim();
-
-			if (!usernameVal) {
-				showToast('Vui lòng nhập tên người dùng!');
-				return;
-			}
-
-			const previousProfile = currentProfile ? { ...currentProfile } : null;
-
-			// --- CẬP NHẬT UI & LOCAL STORAGE NGAY (OPTIMISTIC) ---
-			if (!currentProfile) currentProfile = {};
-			
-			currentProfile.username = usernameVal;
-			currentProfile.fullName = fullnameVal;
-			currentProfile.themeName = currentTheme;
-			// avatarData đã có sẵn
-			
-			// 1. Lưu ngay vào LocalStorage
-			saveLocalData(currentProfile);
-
-			// 2. Cập nhật UI
-			updateAvatarDisplays(); 
-			applyTheme(currentTheme);
-			showToast('Đã cập nhật hồ sơ!'); 
-
-			// --- GỬI SERVER ---
-			const payload = {
-				action: 'save_profile',
-				fingerprint: userFingerprint,
-				username: usernameVal,
-				fullname: fullnameVal,
-				theme: currentTheme,
-				avaurl: currentProfile.avatarData || ''
-			};
-
-			try {
-				const res = await sendToServer(payload);
-				if (res.status !== 'success' && res.result !== 'success') {
-					throw new Error(res.message || 'Lỗi lưu');
+				if (!newUsername) {
+					showToast('Vui lòng nhập Username!');
+					return;
 				}
-				console.log('Đã đồng bộ lên Cloud');
-			} catch (e) {
-				console.error('Lỗi đồng bộ:', e);
-				showToast('Lỗi kết nối Server! (Dữ liệu đã lưu trên máy)');
-				// Không rollback LocalStorage vì dữ liệu mới vẫn đúng với ý người dùng
-				// Chỉ cảnh báo là chưa lên được mây thôi.
-			}
-		});
+
+				// --- BẮT ĐẦU OPTIMISTIC UI UPDATE ---
+				
+				// 2. Cập nhật ngay lập tức vào biến cục bộ
+				const previousProfile = { ...currentProfile }; // Lưu lại đề phòng lỗi
+				
+				// Tạo object profile mới
+				currentProfile = {
+					...currentProfile,
+					username: newUsername,
+					fullName: newFullname || newUsername,
+					themeName: currentTheme,
+					avatarData: currentProfile.avatarData || ''
+				};
+
+				// 3. Lưu ngay vào LocalStorage
+				saveLocalData(currentProfile);
+
+				// 4. Cập nhật giao diện ngay lập tức (Header, Avatar...)
+				updateAvatarDisplays();
+				const appTitle = document.getElementById('app-title');
+				if(appTitle) appTitle.textContent = currentProfile.fullName;
+
+				// 5. Đóng Modal NGAY LẬP TỨC
+				const modalEl = document.getElementById('profileModal');
+				const modalInstance = bootstrap.Modal.getInstance(modalEl);
+				if (modalInstance) modalInstance.hide();
+				
+				// 6. Báo thành công ngay
+				showToast('Đã cập nhật hồ sơ!');
+
+				// --- XỬ LÝ NGẦM (BACKGROUND SYNC) ---
+				// Gửi lên server sau, không bắt người dùng chờ
+				sendToServer({
+					action: 'save_profile',
+					username: currentProfile.username,
+					fullname: currentProfile.fullName,
+					avaurl: currentProfile.avatarData || '',
+					theme: currentProfile.themeName || 'green',
+					fingerprint: userFingerprint || 'unknown'
+				}).then(res => {
+					if (res.status === 'success') {
+						console.log('Đồng bộ Server thành công');
+					} else {
+						console.warn('Server chưa lưu được, nhưng Local đã lưu');
+					}
+				}).catch(err => {
+					console.error('Lỗi đồng bộ server:', err);
+					// Tùy chọn: Có thể revert lại profile cũ nếu muốn chặt chẽ
+					// currentProfile = previousProfile;
+					// saveLocalData(currentProfile);
+					// showToast('Lỗi kết nối! Đã hoàn tác.');
+				});
+			});
+		}
 
 		// Post interactions
 		document.getElementById('posts-container').addEventListener('click', async (e) => {
@@ -2740,21 +2788,48 @@
 
 		// Post Options
 		document.getElementById('edit-post-option').addEventListener('click', () => {
-		  const post = allData.find(d => d.__backendId === currentPostId);
-		  if (!post) return;
+		  // 1. Tìm bài viết trong serverFeedData (Ưu tiên) hoặc allData
+		  let post = null;
+		  if (typeof serverFeedData !== 'undefined' && serverFeedData.length > 0) {
+			  post = serverFeedData.find(d => d.__backendId === currentPostId);
+		  }
+		  // Fallback nếu không tìm thấy trong feed thì tìm trong allData cũ
+		  if (!post) {
+			  post = allData.find(d => d.__backendId === currentPostId);
+		  }
+
+		  if (!post) {
+			  showToast("Không tìm thấy dữ liệu bài viết!");
+			  return;
+		  }
 		  
+		  // 2. Điền dữ liệu vào form
 		  document.getElementById('post-input').value = post.content || '';
-		  currentImages = parseImages(post.imageData);
+		  currentImages = parseImages(post.imageData); // Hoặc post.image tùy cấu trúc data của bạn
 		  selectedLayout = post.layout || 'grid-2x2';
 		  
-		  if (currentImages.length >= 4) {
+		  // 3. Highlight layout đang chọn
+		  if (currentImages.length >= 3) { // Logic cũ của bạn là >=4, nhưng layout hiển thị từ 3 ảnh
 			document.querySelectorAll('.layout-preview-box').forEach(opt => {
 			  opt.classList.remove('selected');
 			  if (opt.dataset.layout === selectedLayout) opt.classList.add('selected');
 			});
 		  }
 		  
+		  // 4. Cập nhật ảnh preview và chuyển đổi Modal
 		  updateImagePreview();
+		  
+		  // Quan trọng: Gọi hàm openEditPost để set cờ isEditingPost = true
+		  // Nhưng ta cần sửa hàm openEditPost một chút hoặc set thủ công ở đây:
+		  isEditingPost = true;
+		  currentEditPostId = currentPostId;
+
+		  // Cập nhật giao diện Modal sang chế độ "Sửa"
+		  document.querySelector('#createPostModal .modal-title').textContent = "Chỉnh sửa bài viết";
+		  const modalBtn = document.querySelector('#createPostModal .btn-primary');
+		  if(modalBtn) modalBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Lưu thay đổi';
+
+		  // Chuyển Modal
 		  postOptionsModal.hide();
 		  createPostModal.show();
 		});
@@ -3144,67 +3219,130 @@
 		}
 	  
 		// --- HÀM XỬ LÝ ĐĂNG / CẬP NHẬT BÀI VIẾT (ĐÃ SỬA) ---
+		// Xử lý Đăng bài / Lưu bài viết (OPTIMISTIC UI)
 		async function handlePostSubmit() {
-			// 1. Lấy dữ liệu từ đúng ID trong HTML
-			const contentInput = document.getElementById('post-input'); 
-			const content = contentInput.value.trim();
+			const contentInput = document.getElementById('post-input');
+			const content = contentInput.value;
 			
-			// 2. Kiểm tra dữ liệu (Nội dung hoặc Ảnh)
+			// 1. Validate dữ liệu
 			if (!content && currentImages.length === 0) {
-				showToast('Vui lòng nhập nội dung hoặc ảnh!');
+				showToast('Vui lòng viết gì đó hoặc thêm ảnh!');
 				return;
 			}
 
-			// 3. Đóng modal ngay (Optimistic UI)
+			// 2. Chuẩn bị dữ liệu cho UI Lạc quan
+			const now = new Date();
+			const timeString = "Vừa xong"; // Hiển thị ngay lập tức
+			
+			// Đảm bảo serverFeedData là mảng
+			if (!serverFeedData) serverFeedData = [];
+
+			// --- TRƯỜNG HỢP: SỬA BÀI VIẾT ---
+			if (isEditingPost && currentEditPostId) {
+				// Cập nhật ngay vào mảng dữ liệu cục bộ
+				const postIndex = serverFeedData.findIndex(p => p.__backendId === currentEditPostId);
+				
+				if (postIndex !== -1) {
+					// Update dữ liệu trong mảng
+					serverFeedData[postIndex] = {
+						...serverFeedData[postIndex],
+						content: content,
+						imageData: JSON.stringify(currentImages), // Cập nhật ảnh mới
+						layout: selectedLayout
+					};
+					
+					// Vẽ lại giao diện ngay lập tức
+					renderPosts();
+					showToast('Đã cập nhật bài viết!');
+				}
+
+				// Gửi yêu cầu cập nhật ngầm lên Server
+				sendToServer({
+					action: 'feed_action',
+					type: 'update',
+					id: currentEditPostId,
+					content: content,
+					image: JSON.stringify(currentImages)
+				}).catch(console.error);
+			} 
+			
+			// --- TRƯỜNG HỢP: ĐĂNG BÀI MỚI ---
+			else {
+				// Tạo ID tạm thời (để render được ngay)
+				const tempId = 'temp_' + Date.now();
+				
+				// Tạo object bài viết giả lập
+				const newOptimisticPost = {
+					__backendId: tempId,
+					username: currentProfile ? currentProfile.username : 'AnDanh',
+                    // THÊM 2 DÒNG NÀY:
+                    fullname: currentProfile ? currentProfile.fullName : 'Ẩn Danh',
+                    avatar: currentProfile ? currentProfile.avatarData : '',
+                    // ----------------
+					content: content,
+					imageData: JSON.stringify(currentImages),
+					createdAt: timeString,
+					layout: selectedLayout,
+					likes: 0,
+					liked: false,
+					comments: '[]'
+				};
+
+				// Chèn bài mới lên đầu danh sách
+				serverFeedData.unshift(newOptimisticPost);
+				
+				// Vẽ lại giao diện ngay lập tức
+				renderPosts();
+				
+				// Chuyển tab sang Feed nếu đang ở tab khác
+				if (currentTab !== 'feed') {
+					document.querySelector('[data-tab="feed"]').click();
+				}
+				
+				// Scroll nhẹ lên đầu để thấy bài mới
+				const container = document.getElementById('posts-container');
+				if(container) container.scrollTop = 0;
+				
+				showToast('Đã đăng bài viết!');
+
+				// Gửi dữ liệu thật lên Server (Chạy ngầm)
+				sendToServer({
+					action: 'feed_action',
+					type: 'create',
+					username: currentProfile ? currentProfile.username : 'Anonymous',
+					content: content,
+					image: JSON.stringify(currentImages),
+					layout: selectedLayout, // Gửi thêm layout nếu server có cột lưu layout
+					fingerprint: userFingerprint
+				}).then(res => {
+					// Khi Server trả về ID thật, cập nhật lại ID tạm
+					if (res.status === 'success' && res.id) {
+						const tempPost = serverFeedData.find(p => p.__backendId === tempId);
+						if (tempPost) {
+							tempPost.__backendId = res.id;
+							tempPost.createdAt = res.time || "Vừa xong"; // Cập nhật giờ server
+							// Không cần render lại để tránh giật, lần sau reload sẽ tự khớp
+						}
+					}
+				}).catch(err => {
+					console.error("Lỗi đăng bài:", err);
+					// Nếu lỗi thì xóa bài tạm đi và báo lỗi (Undo UI)
+					serverFeedData = serverFeedData.filter(p => p.__backendId !== tempId);
+					renderPosts();
+					showToast('Lỗi kết nối! Bài viết chưa được lưu.');
+				});
+			}
+
+			// 3. Đóng Modal & Reset Form ngay lập tức
 			const modalEl = document.getElementById('createPostModal');
 			const modalInstance = bootstrap.Modal.getInstance(modalEl);
 			if (modalInstance) modalInstance.hide();
 
-			showLoading();
-
-			try {
-				const actionType = isEditingPost ? 'update' : 'create';
-				
-				const payload = {
-					action: 'feed_action',
-					type: actionType,
-					username: currentProfile.username,
-					content: content,
-					// Chuyển mảng ảnh sang chuỗi JSON để lưu vào cột Image
-					image: JSON.stringify(currentImages),
-					// Giữ nguyên logic chọn bố cục
-					layout: currentImages.length >= 4 ? selectedLayout : 'grid-2x2'
-				};
-
-				if (isEditingPost) {
-					payload.id = currentEditPostId;
-				}
-
-				const res = await sendToServer(payload);
-
-				if (res.status === 'success' || res.result === 'success') {
-					showToast(isEditingPost ? 'Đã cập nhật bài viết!' : 'Đã đăng bài viết mới!');
-					
-					// Reset form
-					contentInput.value = '';
-					currentImages = []; // Xóa danh sách ảnh tạm
-					selectedLayout = 'grid-2x2';
-					updateImagePreview(); // Cập nhật lại giao diện ảnh (ẩn đi)
-					
-					isEditingPost = false;
-					currentEditPostId = null;
-
-					// Tạm thời reload trang để lấy dữ liệu mới (vì chưa có hàm loadFeedData riêng)
-					setTimeout(() => location.reload(), 1000); 
-				} else {
-					showToast('Lỗi: ' + res.message);
-				}
-			} catch (e) {
-				console.error(e);
-				showToast('Lỗi kết nối server');
-			} finally {
-				hideLoading();
-			}
+			// Reset form (Code trong sự kiện hidden.bs.modal sẽ lo phần còn lại)
+			const postInput = document.getElementById('post-input');
+			if(postInput) postInput.value = '';
+			currentImages = [];
+			updateImagePreview();
 		}
 		
 		// --- HÀM XÓA BÀI VIẾT ---
