@@ -1,345 +1,3487 @@
-// =======================================================
-// CODE.GS - SOCIAL MEMORY API (FIXED SORTING & TIMEZONE)
-// =======================================================
+	<!doctype html>
+	<html lang="vi" class="h-100">
+	 <head>
+	  <meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	  <title>Social Memory</title>
+	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+	  <style>
+	  
+		@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+		
+		body {
+		  box-sizing: border-box;
+		  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+		}
+		
+		:root {
+			--primary-color: #4ade80;
+			--primary-dark: #22c55e;
+			--secondary-color: #f0fdf4;
+			--text-dark: #1f2937;
+			--text-light: #6b7280;
+			--bg-color: #f3f4f6;
+			--card-bg: #ffffff;
+			
+			/* 2. Cấu hình font chữ mới ở đây */
+			--font-family: 'Patrick Hand', cursive; 
+			
+			--shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+			--shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+			--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+			--radius: 1rem;
+		}
+		
+		html, body {
+		  height: 100%;
+		  margin: 0;
+		  padding: 0;
+		}
+		
+		#app {
+		  display: flex;
+		  flex-direction: column;
+		  height: 100%;
+		  width: 100%;
+		  background-color: var(--bg-color);
+		}
+		
+		.app-header {
+		  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+		  color: white;
+		  padding: 1rem;
+		  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+		}
+		
+		.main-content {
+		  flex: 1;
+		  overflow-y: auto;
+		  overflow-x: hidden;
+		}
+		
+		.bottom-nav {
+		  background: var(--surface-color);
+		  border-top: 1px solid #dee2e6;
+		  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+		}
+		
+		.nav-link {
+		  color: #6c757d;
+		  transition: color 0.2s;
+		}
+		
+		.nav-link.active {
+		  color: var(--primary-color);
+		}
+		
+		.stat-card {
+		  background: var(--surface-color);
+		  border-radius: 1rem;
+		  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+		  transition: transform 0.2s;
+		  position: relative;
+		}
+		
+		.stat-card:active {
+		  transform: scale(0.98);
+		}
+		
+		.post-card, .memory-card, .album-card {
+		  background: var(--surface-color);
+		  border-radius: 1rem;
+		  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+		  margin-bottom: 1rem;
+		}
+		
+		.btn-primary {
+		  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+		  border: none;
+		}
+		
+		.btn-primary:hover {
+		  opacity: 0.9;
+		}
+		
+		.fab-btn {
+		  position: fixed;
+		  bottom: 80px;
+		  right: 20px;
+		  width: 56px;
+		  height: 56px;
+		  border-radius: 50%;
+		  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+		  color: white;
+		  border: none;
+		  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+		  z-index: 1000;
+		}
+		
+		.fab-btn:active {
+		  transform: scale(0.9);
+		}
+		
+		.modal-content {
+		  border-radius: 1.5rem;
+		  border: none;
+		}
+		
+		.modal-header {
+		  border-bottom: 1px solid #dee2e6;
+		  border-radius: 1.5rem 1.5rem 0 0;
+		}
+		
+		.avatar-circle {
+		  width: 48px;
+		  height: 48px;
+		  border-radius: 50%;
+		  border: 3px solid var(--primary-color);
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  background: white;
+		  overflow: hidden;
+		}
+		
+		.avatar-circle-sm {
+		  width: 40px;
+		  height: 40px;
+		}
+		
+		.avatar-circle-lg {
+		  width: 96px;
+		  height: 96px;
+		}
+		
+		.theme-bg-primary {
+		  background-color: var(--primary-color);
+		}
+		
+		.theme-bg-secondary {
+		  background-color: var(--secondary-color);
+		}
+		
+		.theme-text-primary {
+		  color: var(--primary-color);
+		}
+		
+		.theme-text-secondary {
+		  color: var(--secondary-color);
+		}
+		
+		.icon-box {
+		  width: 56px;
+		  height: 56px;
+		  border-radius: 50%;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		}
+		
+		.icon-box-sm {
+		  width: 48px;
+		  height: 48px;
+		}
+		
+		.post-image-grid {
+		  display: grid;
+		  gap: 0.5rem;
+		  border-radius: 1rem;
+		  overflow: hidden;
+		}
+		
+		.post-image-grid.grid-1 {
+		  grid-template-columns: 1fr;
+		}
+		
+		.post-image-grid.grid-2 {
+		  grid-template-columns: 1fr 1fr;
+		}
+		
+		.post-image-grid.grid-3 {
+		  grid-template-columns: repeat(2, 1fr);
+		  grid-template-rows: repeat(2, 150px);
+		}
+		
+		.post-image-grid.grid-3 img:first-child {
+		  grid-column: span 2;
+		}
+		
+		.post-image-grid.grid-4 {
+		  grid-template-columns: repeat(2, 1fr);
+		  grid-template-rows: repeat(2, 150px);
+		}
+		
+		.post-image-grid.grid-5plus {
+		  grid-template-columns: repeat(3, 1fr);
+		  grid-template-rows: repeat(2, 150px);
+		}
+		
+		.post-image-grid.grid-5plus img:first-child {
+		  grid-column: span 2;
+		  grid-row: span 2;
+		}
+		
+		.post-image-grid img {
+		  width: 100%;
+		  height: 100%;
+		  object-fit: cover;
+		}
+		
+		.image-counter-overlay {
+		  position: absolute;
+		  inset: 0;
+		  background: rgba(0,0,0,0.6);
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  color: white;
+		  font-size: 2rem;
+		  font-weight: bold;
+		}
+		
+		.theme-option {
+		  width: 120px;
+		  height: 30px;
+		  border-radius: 0.5rem;
+		  border: 3px solid transparent;
+		  cursor: pointer;
+		  transition: all 0.2s;
+		}
+		
+		.theme-option.selected {
+		  border-color: var(--primary-color);
+		}
+		
+		.layout-preview-box {
+		  padding: 0.5rem;
+		  border: 2px solid #dee2e6;
+		  border-radius: 0.5rem;
+		  cursor: pointer;
+		  transition: all 0.2s;
+		}
+		
+		.layout-preview-box.selected {
+		  border-color: var(--primary-color);
+		  background: rgba(0, 107, 104, 0.05);
+		}
+		
+		.layout-grid-visual {
+		  height: 80px;
+		  display: grid;
+		  gap: 4px;
+		  background: #e9ecef;
+		  border-radius: 0.25rem;
+		  padding: 4px;
+		}
+		
+		.layout-grid-visual > div {
+		  background: #6c757d;
+		  border-radius: 0.25rem;
+		}
+		
+		.edit-mode-banner {
+		  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+		  color: white;
+		  padding: 1rem;
+		  text-align: center;
+		}
+		
+		.drag-handle {
+		  position: absolute;
+		  top: 0.5rem;
+		  left: 0.5rem;
+		  width: 32px;
+		  height: 32px;
+		  background: var(--primary-color);
+		  border-radius: 0.5rem;
+		  color: white;
+		  display: none;
+		  align-items: center;
+		  justify-content: center;
+		  cursor: move;
+		  z-index: 10;
+		}
+		
+		.size-toggle {
+		  position: absolute;
+		  bottom: 0.5rem;
+		  right: 0.5rem;
+		  width: 32px;
+		  height: 32px;
+		  background: #6f42c1;
+		  border-radius: 0.5rem;
+		  color: white;
+		  display: none;
+		  align-items: center;
+		  justify-content: center;
+		  cursor: pointer;
+		  z-index: 10;
+		}
+		
+		.layout-edit-mode .drag-handle,
+		.layout-edit-mode .size-toggle {
+		  display: flex;
+		}
+		
+		.stat-card.dragging {
+		  opacity: 0.5;
+		}
+		
+		.stat-card.size-small {
+		  transform: scale(0.85);
+		  margin: -0.5rem 0;
+		}
+		
+		.stat-card.size-medium {
+		  transform: scale(1);
+		}
+		
+		.stat-card.size-large {
+		  transform: scale(1.15);
+		  margin: 1rem 0;
+		}
+		
+		.stats-container {
+		  display: grid;
+		  grid-template-columns: 1fr;
+		  gap: 1rem;
+		}
+		
+		.stats-container.two-columns {
+		  grid-template-columns: 1fr 1fr;
+		  gap: 0.75rem;
+		}
+		
+		.like-btn.active {
+		  color: #dc3545;
+		}
+		
+		@keyframes heartBeat {
+		  0%, 100% { transform: scale(1); }
+		  25% { transform: scale(1.2); }
+		  50% { transform: scale(1.1); }
+		}
+		
+		.like-btn.active {
+		  animation: heartBeat 0.3s ease;
+		}
+		
+		.notification-item {
+		  border-bottom: 1px solid #dee2e6;
+		  transition: background 0.2s;
+		}
+		
+		.notification-item:hover {
+		  background: #f8f9fa;
+		}
+		
+		.notification-item.unread {
+		  background: #e7f3ff;
+		}
+		
+		.notification-dot {
+		  width: 8px;
+		  height: 8px;
+		  background: #dc3545;
+		  border-radius: 50%;
+		}
+		
+		
+		/* --- SỬA LỖI MODAL CHỒNG NHAU (FINAL FIX) --- */
 
-function doPost(e) {
-  var lock = LockService.getScriptLock();
-  // Thử khóa trong 10s để tránh xung đột khi ghi dữ liệu
-  if (lock.tryLock(10000)) {
-    try {
-      var data = JSON.parse(e.postData.contents);
-      var action = data.action;
-      var ss = SpreadsheetApp.getActiveSpreadsheet();
-      var result = {};
-
-      switch (action) {
-        // --- NHÓM 1: PROFILE ---
-        case 'get_profile':
-          result = handleGetProfile(ss, data);
-          break;
-        case 'save_profile':
-          result = handleSaveProfile(ss, data);
-          break;
-        case 'get_profile_by_username':
-          result = handleGetProfileByUsername(ss, data);
-          break;
-
-        // --- NHÓM 2: BABY RUN & STATS ---
-        case 'get_babyrun_count':
-          result = handleGetBabyRunCount(ss, data);
-          break;
-        case 'log_babyrun':
-          result = handleLogBabyRun(ss, data);
-          break;
-        case 'get_bike_stats':
-          result = handleGetBikeStats(ss, data); // <--- ĐÃ SỬA HÀM NÀY
-          break;
-
-        // --- NHÓM 3: FEED ---
-        case 'feed_action':
-          result = handleFeedAction(ss, data);
-          break;
-        case 'get_feed':
-          result = handleGetFeed(ss);
-          break;
-          
-        // --- NHÓM 4: GOLD ---
-        case 'gold_entry':
-          result = handleCreateGoldEntry(ss, data);
-          break;
-
-        default:
-          result = { status: 'error', message: 'Unknown action: ' + action };
-      }
-      
-      return responseJSON(result);
-      
-    } catch (err) {
-      return responseJSON({ status: 'error', message: err.toString() });
-    } finally {
-      lock.releaseLock();
-    }
-  } else {
-    return responseJSON({ status: 'error', message: 'Server busy, try again.' });
-  }
+/* 1. CẤU HÌNH CHO LỚP NỀN ĐẦU TIÊN (MẶC ĐỊNH) */
+/* Áp dụng cho Modal Full màn hình -> KHÔNG MỜ, KHÔNG CHE NỘI DUNG */
+.modal-backdrop.show {
+    opacity: 0.5 !important;           /* Độ tối bình thường */
+    background-color: #000 !important;
+    z-index: 1050 !important;          /* Nằm dưới Modal Full (1055) */
+    backdrop-filter: none !important;  /* TẮT HOÀN TOÀN HIỆU ỨNG MỜ */
+    -webkit-backdrop-filter: none !important;
 }
 
-// --- CORE FUNCTIONS ---
-
-function handleGetProfile(ss, data) {
-  var sheet = getSheet(ss, "profiles");
-  var rows = sheet.getDataRange().getValues();
-  for (var i = rows.length - 1; i >= 1; i--) {
-    if (rows[i][0] == data.fingerprint) {
-      return {
-        status: 'success',
-        data: {
-          username: rows[i][1], fullname: rows[i][2],
-          theme: rows[i][3], avaurl: rows[i][4]
-        }
-      };
-    }
-  }
-  return { status: 'not_found' };
+/* 2. CẤU HÌNH CHO LỚP NỀN THỨ 2 TRỞ ĐI (QUAN TRỌNG) */
+/* Dùng dấu ~ để chọn "lớp nền nằm sau một lớp nền khác" -> Chính là cái thứ 2 */
+.modal-backdrop.show ~ .modal-backdrop.show {
+    z-index: 1060 !important;          /* Đè lên Modal Full (1055) */
+    opacity: 0.9 !important;           /* Tối đen hơn để nổi bật Modal nhỏ */
+    backdrop-filter: blur(5px) !important; /* LÀM MỜ NỘI DUNG BÊN DƯỚI */
+    -webkit-backdrop-filter: blur(5px);
 }
 
-function handleSaveProfile(ss, data) {
-  var sheet = getSheet(ss, "profiles");
-  var rows = sheet.getDataRange().getValues();
-  var rowIndex = -1;
-  
-  for (var i = 1; i < rows.length; i++) {
-    // Tìm theo Username (ưu tiên) hoặc Fingerprint
-    if (String(rows[i][1]) == String(data.username)) { 
-      rowIndex = i + 1; 
-      break; 
-    }
-  }
-  
-  var time = new Date();
-  if (rowIndex > 0) {
-    // Update
-    sheet.getRange(rowIndex, 1).setValue(data.fingerprint);
-    sheet.getRange(rowIndex, 3).setValue(data.fullname);
-    sheet.getRange(rowIndex, 4).setValue(data.theme);
-    sheet.getRange(rowIndex, 5).setValue(data.avaurl);
-    sheet.getRange(rowIndex, 6).setValue(time);
-  } else {
-    // Insert
-    sheet.appendRow([data.fingerprint, data.username, data.fullname, data.theme, data.avaurl, time]);
-  }
-  return { status: 'success' };
+/* 3. ĐƯA MODAL NHỎ (THÊM LƯỢT ĐẠP) LÊN CAO NHẤT */
+#addBikeEntryModal {
+    z-index: 1070 !important;          /* Cao hơn lớp nền thứ 2 (1060) */
 }
 
-// --- HÀM LẤY THỐNG KÊ BIKE (QUAN TRỌNG: FIX LỖI CHART & TODAY) ---
-function handleGetBikeStats(ss, data) {
-  // 1. Lấy dữ liệu tổng hợp từ sheet 'totalbabyrun'
-  var sheetTotal = ss.getSheetByName("totalbabyrun");
-  var stats = { today: 0, week: 0, month: 0 };
-  var chartHistory = [];
-
-  // Lấy ngày hiện tại theo giờ Việt Nam (GMT+7) để so sánh chính xác
-  var now = new Date();
-  var todayStr = Utilities.formatDate(now, "GMT+7", "dd/MM/yyyy");
-  var currentMonthStr = Utilities.formatDate(now, "GMT+7", "MM/yyyy");
-
-  if (sheetTotal) {
-    // Lấy dữ liệu dạng hiển thị (String) để tránh lỗi format ngày
-    var rows = sheetTotal.getDataRange().getDisplayValues(); 
-    
-    // Duyệt qua từng dòng (Bỏ qua header dòng 0)
-    for (var i = 1; i < rows.length; i++) {
-      var dateStr = rows[i][0]; // Cột A: Ngày
-      var count = parseInt(rows[i][1]); // Cột B: Số lượng
-
-      // Bỏ qua dòng trống hoặc số lượng = 0 (nếu muốn)
-      if (!dateStr || isNaN(count)) continue;
-
-      // 1. Tính toán thống kê Stats
-      // So sánh chuỗi ngày (dd/MM/yyyy) trực tiếp -> Chính xác tuyệt đối
-      if (dateStr === todayStr) {
-        stats.today = count;
-      }
-      
-      // So sánh tháng (lấy phần MM/yyyy)
-      var monthPart = dateStr.substring(3); // Cắt bỏ 'dd/' -> còn 'MM/yyyy'
-      if (monthPart === currentMonthStr) {
-        stats.month += count;
-      }
-      
-      // 2. Thêm vào mảng lịch sử vẽ biểu đồ
-      if (count > 0) {
-        chartHistory.push({ date: dateStr, count: count });
-      }
-    }
-
-    // 3. SẮP XẾP LẠI MẢNG THEO NGÀY TĂNG DẦN (QUAN TRỌNG)
-    // Để biểu đồ vẽ từ Cũ -> Mới
-    chartHistory.sort(function(a, b) {
-       return parseDateToTime(a.date) - parseDateToTime(b.date);
-    });
-  }
-
-  // 2. Lấy dữ liệu chi tiết logs (nếu cần hiển thị list bên dưới)
-  var detailLogs = [];
-  var sheetRaw = ss.getSheetByName("babyrun");
-  if (sheetRaw) {
-    var lastRow = sheetRaw.getLastRow();
-    var numRows = Math.min(lastRow - 1, 50); // Lấy 50 dòng cuối
-    if (numRows > 0) {
-      var startRow = lastRow - numRows + 1;
-      var rawData = sheetRaw.getRange(startRow, 1, numRows, 4).getDisplayValues();
-      
-      // Map lại dữ liệu và đảo ngược để mới nhất lên đầu
-      detailLogs = rawData.reverse().map(function(r) {
-        return { username: r[1], date: r[2], time: r[3] };
-      });
-    }
-  }
-
-  return {
-    status: 'success',
-    stats: stats,
-    history: chartHistory, // Đã được sắp xếp Tăng dần
-    logs: detailLogs
-  };
+/* 4. TRANG TRÍ MODAL NHỎ (VIỀN & BÓNG) */
+#addBikeEntryModal .modal-content {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8) !important;
 }
 
-// Hàm phụ trợ: Chuyển chuỗi "dd/MM/yyyy" thành timestamp để so sánh
-function parseDateToTime(dateStr) {
-  if (!dateStr) return 0;
-  var parts = dateStr.split('/'); // [dd, MM, yyyy]
-  if (parts.length < 3) return 0;
-  // Lưu ý: Month trong JS bắt đầu từ 0 (Tháng 1 là 0)
-  return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0])).getTime();
-}
+		
+	  </style>
+	  <style>@view-transition { navigation: auto; }</style>
+	  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+	 </head>
+	 <body class="h-100">
+	  <div id="app"><header class="app-header">
+		<div class="d-flex align-items-center justify-content-between">
+		 <div>
+		  <h5 id="app-title" class="mb-0 fw-bold">Love Story</h5><small id="welcome-message" class="opacity-75">Lưu giữ kỷ niệm đẹp</small>
+		 </div>
+		 <div class="d-flex align-items-center gap-3"><button class="btn btn-link text-white p-0 position-relative" id="notification-btn"> <i class="bi bi-bell-fill fs-4"></i> <span id="notification-badge" class="position-absolute badge rounded-pill bg-danger d-none" style="font-size: 0.65rem; top: -5px; right: -8px;">0</span> </button> <button class="btn btn-link text-white p-0" id="profile-btn">
+		   <div class="avatar-circle">
+			<div id="header-avatar" class="w-100 h-100 d-flex align-items-center justify-content-center"><i class="bi bi-person-fill theme-text-primary fs-4"></i>
+			</div>
+		   </div></button>
+		 </div>
+		</div>
+	   </header><div id="edit-mode-banner" class="edit-mode-banner d-none">
+		<div class="fw-bold">
+		 <i class="bi bi-pencil-fill me-2"></i>Chế độ chỉnh sửa bố cục
+		</div><small class="d-block mt-1">Kéo <i class="bi bi-arrows-move"></i> để di chuyển • Nhấn <i class="bi bi-arrows-fullscreen"></i> để đổi kích thước</small>
+		<div class="mt-2"><button class="btn btn-light btn-sm" id="exit-edit-mode">Xong</button>
+		</div>
+	   </div><main class="main-content"><div id="tab-feed" class="tab-pane h-100 d-none">
+		 <div class="container py-3" id="posts-container">
+		  <div class="text-center py-5"><i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
+		   <p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
+		   <p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
+		  </div>
+		 </div>
+		</div><div id="tab-home" class="tab-pane h-100">
+		 <div class="container py-3">
+		  <div id="stats-container" class="stats-container pb-5"></div>
+		 </div>
+		</div><div id="tab-albums" class="tab-pane h-100 d-none">
+		 <div class="container py-3">
+		  <div class="row g-3 pb-5" id="albums-container">
+		   <div class="col-12 text-center py-5"><i class="bi bi-folder theme-text-primary" style="font-size: 4rem;"></i>
+			<p class="fw-semibold fs-5 mt-3">Chưa có album</p>
+			<p class="text-muted">Tạo album để sắp xếp ảnh</p>
+		   </div>
+		  </div>
+		 </div>
+		</div>
+	   </main><button class="fab-btn d-none" id="fab-btn"> <i class="bi bi-plus-lg fs-4"></i> </button> <nav class="bottom-nav">
+		<div class="d-flex justify-content-around py-2"><button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center" data-tab="feed"> <i class="bi bi-grid-3x3-gap fs-4"></i> <small class="fw-semibold">Bảng tin</small> </button> <button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center active" data-tab="home"> <i class="bi bi-house-fill fs-4"></i> <small class="fw-semibold">Home</small> </button> <button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center" data-tab="albums"> <i class="bi bi-folder-fill fs-4"></i> <small class="fw-semibold">Album</small> </button>
+		</div>
+	   </nav><div class="modal fade" id="notificationsModal" tabindex="-1">
+		<div class="modal-dialog modal-fullscreen">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold"><i class="bi bi-bell-fill me-2"></i>Thông báo</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body p-0">
+		   <div class="d-flex justify-content-between align-items-center p-3 border-bottom"><button class="btn btn-sm btn-outline-primary" id="mark-all-read"> <i class="bi bi-check-all me-1"></i>Đánh dấu đã đọc </button> <button class="btn btn-sm btn-outline-danger" id="clear-all-notifications"> <i class="bi bi-trash me-1"></i>Xóa tất cả </button>
+		   </div>
+		   <div id="notifications-list"></div>
+		  </div>
+		 </div>
+		</div>
+	   </div>
+	    
+	   <div class="modal fade" id="createMemoryModal" tabindex="-1">
+		<div class="modal-dialog modal-fullscreen">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold">Tạo kỷ niệm</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body">
+		   <div class="mb-3"><input type="text" class="form-control" id="memory-title" placeholder="Tiêu đề kỷ niệm">
+		   </div>
+		   <div class="mb-3"><input type="date" class="form-control" id="memory-date">
+		   </div>
+		   <div class="mb-3"><textarea class="form-control" id="memory-content" rows="4" placeholder="Kể về kỷ niệm của bạn..."></textarea>
+		   </div>
+		   <div id="memory-image-preview-container" class="d-none mb-3">
+			<div class="position-relative"><img id="memory-image-preview" class="w-100 rounded" style="max-height: 300px; object-fit: cover;" src="" alt="Preview"> <button class="btn btn-danger position-absolute top-0 end-0 m-2" id="remove-memory-image"> <i class="bi bi-x-lg"></i> </button>
+			</div>
+		   </div>
+		   <div class="mb-3"><label class="btn btn-outline-primary w-100"> <i class="bi bi-image me-2"></i>Thêm ảnh <input type="file" id="memory-image-input" accept="image/*" class="d-none"> </label>
+		   </div><button class="btn btn-primary w-100 py-3" id="create-memory-btn"> <i class="bi bi-save me-2"></i>Lưu kỷ niệm </button>
+		  </div>
+		 </div>
+		</div>
+	   </div><div class="modal fade" id="createAlbumModal" tabindex="-1">
+		<div class="modal-dialog">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold">Tạo album mới</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body">
+		   <div class="mb-3"><input type="text" class="form-control" id="album-name" placeholder="Tên album">
+		   </div><button class="btn btn-primary w-100" id="create-album-btn"> <i class="bi bi-plus-circle me-2"></i>Tạo album </button>
+		  </div>
+		 </div>
+		</div>
+	   </div><div class="modal fade" id="albumDetailModal" tabindex="-1">
+		<div class="modal-dialog modal-fullscreen">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold" id="album-detail-title">Album</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body">
+		   <div class="mb-3"><label class="btn btn-outline-primary w-100"> <i class="bi bi-plus-circle me-2"></i>Thêm ảnh <input type="file" id="album-image-input" accept="image/*" class="d-none"> </label>
+		   </div>
+		   <div class="row g-2" id="album-photos">
+			<div class="col-12 text-center py-5 text-muted"><i class="bi bi-camera" style="font-size: 3rem;"></i>
+			 <p class="mt-2">Chưa có ảnh</p>
+			</div>
+		   </div>
+		  </div>
+		 </div>
+		</div>
+	   </div><div class="modal fade" id="commentModal" tabindex="-1">
+		<div class="modal-dialog modal-fullscreen">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold">Bình luận</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body d-flex flex-column">
+		   <div class="flex-grow-1 overflow-auto mb-3" id="comments-list">
+			<p class="text-center text-muted py-5">Chưa có bình luận</p>
+		   </div>
+		   <div class="input-group"><input type="text" class="form-control" id="comment-input" placeholder="Viết bình luận..."> <button class="btn btn-primary" id="send-comment"> <i class="bi bi-send"></i> </button>
+		   </div>
+		  </div>
+		 </div>
+		</div>
+	   </div><div class="modal fade" id="profileModal" tabindex="-1">
+		<div class="modal-dialog modal-fullscreen">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold">Hồ sơ cá nhân</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body"><div class="text-center mb-4">
+			<div class="avatar-circle avatar-circle-lg mx-auto mb-3" style="border: 4px solid var(--primary-color);">
+			 <div id="profile-avatar" class="w-100 h-100 d-flex align-items-center justify-content-center"><i class="bi bi-person-fill theme-text-primary" style="font-size: 3rem;"></i>
+			 </div>
+			</div><label class="btn btn-sm btn-outline-primary"> <i class="bi bi-camera me-1"></i> Đổi ảnh đại diện <input type="file" id="avatar-input" accept="image/*" class="d-none"> </label>
+		   </div>
+		   <div class="mb-3"><label class="form-label fw-semibold"> <i class="bi bi-person me-2"></i>Tên người dùng </label> <input type="text" class="form-control" id="profile-username" placeholder="username">
+		   </div>
+		   <div class="mb-4"><label class="form-label fw-semibold"> <i class="bi bi-card-text me-2"></i>Tên hiển thị </label> <input type="text" class="form-control" id="profile-fullname" placeholder="Tên của bạn">
+		   </div><div class="border-top pt-4">
+			<h6 class="fw-bold theme-text-primary mb-3"><i class="bi bi-gear me-2"></i>Cài đặt</h6><div class="card mb-3">
+			 <div class="card-body">
+			  <div class="d-flex align-items-center mb-3">
+			   <div class="icon-box icon-box-sm theme-bg-primary text-white me-3"><i class="bi bi-palette-fill"></i>
+			   </div>
+			   <div>
+				<h6 class="mb-0 fw-bold">Giao diện</h6><small class="text-muted">Chọn màu sắc cho ứng dụng</small>
+			   </div>
+			  </div>
+			  <div class="d-flex gap-2 justify-content-between">
+			   <div class="theme-option flex-fill" data-theme="green" style="background: linear-gradient(135deg, #006B68 0%, #FFC62F 100%);"></div>
+			   <div class="theme-option flex-fill" data-theme="purple" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+			   <div class="theme-option flex-fill" data-theme="blue" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);"></div>
+			   <div class="theme-option flex-fill" data-theme="red" style="background: linear-gradient(135deg, #dc2626 0%, #fb923c 100%);"></div>
+			  </div>
+			 </div>
+			</div><div class="card mb-3">
+			 <div class="card-body">
+			  <div class="d-flex align-items-center mb-3">
+			   <div class="icon-box icon-box-sm text-white me-3" style="background: #6f42c1;"><i class="bi bi-grid-3x3"></i>
+			   </div>
+			   <div>
+				<h6 class="mb-0 fw-bold">Chỉnh sửa bố cục</h6><small class="text-muted">Sắp xếp và thay đổi kích thước khối dữ liệu</small>
+			   </div>
+			  </div><button class="btn btn-outline-primary w-100" id="enter-layout-edit"> <i class="bi bi-pencil-square me-2"></i>Chỉnh sửa bố cục </button>
+			 </div>
+			</div>
+		   </div><button class="btn btn-primary w-100 py-3 mt-3" id="save-profile"> <i class="bi bi-check-circle me-2"></i>Lưu thay đổi </button>
+		  </div>
+		 </div>
+		</div>
+	   </div>
+	   
+	   <div class="modal fade" id="postOptionsModal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+		 <div class="modal-content">
+		  <div class="list-group list-group-flush"><button class="list-group-item list-group-item-action" id="edit-post-option"> <i class="bi bi-pencil theme-text-primary me-2"></i> <span class="fw-semibold">Chỉnh sửa bài viết</span> </button> <button class="list-group-item list-group-item-action text-danger" id="delete-post-option"> <i class="bi bi-trash me-2"></i> <span class="fw-semibold">Xóa bài viết</span> </button> <button class="list-group-item list-group-item-action" data-bs-dismiss="modal"> Hủy </button>
+		  </div>
+		 </div>
+		</div>
+	   </div>
+	   <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered">
+		 <div class="modal-content text-center p-3">
+		  <div class="modal-body"><i class="bi bi-trash text-danger" style="font-size: 3rem;"></i>
+		   <h5 class="mt-3 mb-2">Xác nhận xóa?</h5>
+		   <p class="text-muted">Bạn có chắc muốn xóa không?</p>
+		   <div class="d-flex gap-2"><button class="btn btn-secondary flex-fill" data-bs-dismiss="modal">Hủy</button> <button class="btn btn-danger flex-fill" id="confirm-delete">Xóa</button>
+		   </div>
+		  </div>
+		 </div>
+		</div>
+	   </div>
+	    
+	   
+	   <div class="modal fade" id="bikeStatsModal" tabindex="-1">
+		<div class="modal-dialog modal-fullscreen">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold"><i class="bi bi-bar-chart-fill me-2"></i>Thống kê lượt đạp</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body"><div class="row g-3 mb-4">
+			<div class="col-4">
+			 <div class="card text-center p-3"><i class="bi bi-calendar-day theme-text-primary fs-3"></i>
+			  <p class="small text-muted mb-1 mt-2">Hôm nay</p>
+			  <p id="stats-today" class="fs-4 fw-bold theme-text-primary mb-0">0</p>
+			 </div>
+			</div>
+			<div class="col-4">
+			 <div class="card text-center p-3"><i class="bi bi-calendar-week text-success fs-3"></i>
+			  <p class="small text-muted mb-1 mt-2">Tuần này</p>
+			  <p id="stats-week" class="fs-4 fw-bold text-success mb-0">0</p>
+			 </div>
+			</div>
+			<div class="col-4">
+			 <div class="card text-center p-3"><i class="bi bi-calendar-month text-warning fs-3"></i>
+			  <p class="small text-muted mb-1 mt-2">Tháng này</p>
+			  <p id="stats-month" class="fs-4 fw-bold text-warning mb-0">0</p>
+			 </div>
+			</div>
+		   </div>
+		   
+		   <!--div class="card p-3 mb-3">
+			<h6 class="fw-bold mb-3">Biểu đồ</h6>
+			<div id="bike-chart" style="height: 250px;"></div>
+		   </div---->
+		   
+		   
+		   <div class="p-3 bg-white mb-2">
+				<h6 class="fw-bold mb-3 small text-muted text-uppercase">Biểu đồ Lịch sử (Toàn thời gian)</h6>
+				
+				<div style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; -webkit-overflow-scrolling: touch;">
+					<div id="bike-chart" style="height: 200px; min-width: 100%;">
+						 <div class="d-flex align-items-center justify-content-center h-100 text-muted small">
+							 Đang tải biểu đồ...
+						 </div>
+					</div>
+				</div>
+				<div class="text-center small text-muted mt-1">Lướt sang ngang để xem thêm &larr; &rarr;</div>
+			</div>
+		   
+		   <div class="card p-3">
+			<div class="d-flex justify-content-between align-items-center mb-3">
+			 <h6 class="fw-bold mb-0">Lịch sử</h6><button class="btn btn-sm btn-outline-primary" id="add-bike-entry"> <i class="bi bi-plus-circle me-1"></i>Thêm </button>
+			</div>
+			<div id="bike-history-list"></div>
+		   </div>
+		  </div>
+		 </div>
+		</div>
+	   </div>
+	   
+	   
+	   <div class="modal fade" id="addBikeEntryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"> 
+        <div class="modal-content"> 
+            
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold theme-text-primary">Thêm lượt đạp</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
-function handleGetBabyRunCount(ss, data) {
-  // Hàm này dùng để lấy số liệu nhanh cho Home Screen
-  var dateStr = data.date; // Client gửi lên dd/MM/yyyy
-  var sheet = ss.getSheetByName("totalbabyrun");
-  if (!sheet) return { status: 'success', count: 0 };
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Chọn Ngày</label>
+                    <input type="date" id="manual-bike-date" class="form-control form-control-lg">
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Chọn Giờ</label>
+                    <input type="time" id="manual-bike-time" class="form-control form-control-lg">
+                </div>
 
-  var rows = sheet.getDataRange().getDisplayValues();
-  for (var i = 1; i < rows.length; i++) {
-    if (rows[i][0] === dateStr) {
-      return { status: 'success', count: parseInt(rows[i][1]) || 0 };
-    }
-  }
-  return { status: 'success', count: 0 };
-}
+                <div class="text-center text-muted small">
+                    Lượt đạp sẽ được lưu vào lịch sử với thời gian bạn chọn.
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary theme-bg-primary border-0" onclick="saveManualBikeEntry()">Lưu</button>
+            </div>
 
-function handleLogBabyRun(ss, data) {
-  var sheet = getSheet(ss, "babyrun");
-  var id = Utilities.getUuid();
-  var dateLog, timeLog;
+        </div> </div> </div>
+   
+	   
 
-  // Xử lý ngày giờ
-  if (data.customDate && data.customTime) {
-    dateLog = data.customDate;
-    timeLog = data.customTime;
-  } else {
-    var now = new Date();
-    dateLog = Utilities.formatDate(now, "GMT+7", "dd/MM/yyyy");
-    timeLog = Utilities.formatDate(now, "GMT+7", "HH:mm:ss");
-  }
+	<div class="modal fade" id="goldStatsModal" tabindex="-1">
+		<div class="modal-dialog modal-fullscreen">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold"><i class="bi bi-bar-chart-fill me-2"></i>Thống kê giá vàng</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body"><div class="row g-3 mb-4">
+			<div class="col-6">
+			 <div class="card text-center p-3"><i class="bi bi-arrow-up-circle text-success fs-3"></i>
+			  <p class="small text-muted mb-1 mt-2">Cao nhất</p>
+			  <p id="gold-highest-price" class="fs-5 fw-bold text-success mb-0">-</p><small id="gold-highest-date" class="text-muted">-</small>
+			 </div>
+			</div>
+			<div class="col-6">
+			 <div class="card text-center p-3"><i class="bi bi-arrow-down-circle text-danger fs-3"></i>
+			  <p class="small text-muted mb-1 mt-2">Thấp nhất</p>
+			  <p id="gold-lowest-price" class="fs-5 fw-bold text-danger mb-0">-</p><small id="gold-lowest-date" class="text-muted">-</small>
+			 </div>
+			</div>
+		   </div><div class="card p-3 mb-3">
+			<h6 class="fw-bold mb-3">Biểu đồ 7 ngày gần nhất</h6>
+			<div id="gold-chart" style="height: 250px;"></div>
+		   </div><div class="card p-3">
+			<div class="d-flex justify-content-between align-items-center mb-3">
+			 <h6 class="fw-bold mb-0">Lịch sử</h6><button class="btn btn-sm btn-outline-primary" id="add-gold-entry"> <i class="bi bi-plus-circle me-1"></i>Thêm </button>
+			</div>
+			<div id="gold-history-list"></div>
+		   </div>
+		  </div>
+		 </div>
+		</div>
+	   </div><div class="modal fade" id="addGoldEntryModal" tabindex="-1">
+		<div class="modal-dialog">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold">Thêm giá vàng</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body">
+		   <div class="mb-3"><label class="form-label fw-semibold">Giá mua</label> <input type="number" class="form-control" id="gold-entry-buy" placeholder="15700" step="1">
+		   </div>
+		   <div class="mb-3"><label class="form-label fw-semibold">Giá bán</label> <input type="number" class="form-control" id="gold-entry-sell" placeholder="16000" step="1">
+		   </div>
+		   <div class="mb-3"><label class="form-label fw-semibold">Ngày</label> <input type="date" class="form-control" id="gold-entry-date">
+		   </div>
+		   <div class="mb-3"><label class="form-label fw-semibold">Ghi chú (không bắt buộc)</label> <textarea class="form-control" id="gold-entry-note" rows="2"></textarea>
+		   </div><button class="btn btn-primary w-100" id="save-gold-entry"> <i class="bi bi-check-circle me-2"></i>Lưu </button>
+		  </div>
+		 </div>
+		</div>
+	   </div><div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+		<div id="loadingToast" class="toast" role="alert">
+		 <div class="toast-body d-flex align-items-center">
+		  <div class="spinner-border spinner-border-sm me-2" role="status"></div> Đang xử lý...
+		 </div>
+		</div>
+	   </div><div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 9999;">
+		<div id="successToast" class="toast" role="alert">
+		 <div class="toast-body bg-success text-white rounded"><i class="bi bi-check-circle me-2"></i> <span id="toast-message">Thành công!</span>
+		 </div>
+		</div>
+	   </div>
+	  </div>
+	   
+	   <div class="modal fade" id="createPostModal" tabindex="-1">
+		<div class="modal-dialog modal-fullscreen">
+		 <div class="modal-content">
+		  <div class="modal-header">
+		   <h5 class="modal-title theme-text-primary fw-bold">Tạo bài viết</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+		  </div>
+		  <div class="modal-body">
+		   <div class="mb-3"><textarea class="form-control" id="post-input" rows="4" placeholder="Bạn đang nghĩ gì?"></textarea>
+		   </div>
+		   <div id="image-preview-container" class="d-none mb-3">
+			<div class="d-flex justify-content-between align-items-center mb-2"><span class="text-muted"><span id="image-count">0</span> ảnh</span> <button class="btn btn-sm btn-outline-danger" id="clear-all-images"> <i class="bi bi-trash"></i> Xóa tất cả </button>
+			</div>
+			<div id="images-preview-grid" class="row g-2"></div>
+		   </div>
+		   <div id="layout-selector" class="d-none mb-3"><label class="form-label fw-bold">Chọn bố cục hiển thị</label>
+			<div class="row g-2">
+			 <div class="col-6">
+			  <div class="layout-preview-box" data-layout="grid-2x2">
+			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			   </div>
+			   <p class="text-center small fw-semibold mt-2 mb-0">Lưới 2x2</p>
+			  </div>
+			 </div>
+			 <div class="col-6">
+			  <div class="layout-preview-box" data-layout="1-wide">
+			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+				<div style="grid-column: span 2;"></div>
+				<div></div>
+				<div></div>
+			   </div>
+			   <p class="text-center small fw-semibold mt-2 mb-0">1 ngang + 3</p>
+			  </div>
+			 </div>
+			 <div class="col-6">
+			  <div class="layout-preview-box" data-layout="1-tall">
+			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+				<div style="grid-row: span 2;"></div>
+				<div></div>
+				<div></div>
+			   </div>
+			   <p class="text-center small fw-semibold mt-2 mb-0">1 dọc + 3</p>
+			  </div>
+			 </div>
+			 <div class="col-6">
+			  <div class="layout-preview-box" data-layout="auto">
+			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+				<div style="grid-row: span 2;"></div>
+				<div></div>
+				<div></div>
+			   </div>
+			   <p class="text-center small fw-semibold mt-2 mb-0">Tự động</p>
+			  </div>
+			 </div>
+			</div>
+		   </div>
+		   <div class="mb-3"><label class="btn btn-outline-primary w-100"> <i class="bi bi-image me-2"></i>Thêm ảnh <input type="file" id="image-input" accept="image/*" multiple class="d-none"> </label>
+		   </div>
+				<button class="btn btn-primary w-100 py-3" id="post-btn" onclick="handlePostSubmit()" disabled> 
+					<i class="bi bi-send me-2"></i>Đăng bài 
+				</button>
+		  </div>
+		 </div>
+		</div>
+	   </div>
+	   
+	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	  <script>
+		// --- CẤU HÌNH KẾT NỐI ---
+		const API_URL = 'https://script.google.com/macros/s/AKfycby6LJihpK4WHrtLjN1rXQbIGwmduy2m_0DOji60NrF_dVVjsx_XkZ6RT0y1A6qfC_Q-Xg/exec';
+		
+		let userFingerprint = null;
 
-  // Ghi log chi tiết
-  sheet.appendRow([id, data.username, dateLog, timeLog]);
-  
-  // NOTE: Bạn cần có Trigger hoặc công thức trong Sheet để tự cập nhật vào 'totalbabyrun'
-  // Script này chỉ ghi vào 'babyrun' (log thô) và đọc từ 'totalbabyrun' (log tổng).
-  
-  return { status: 'success', id: id };
-}
+		// --- CÁC HÀM TIỆN ÍCH (ĐẶT LÊN ĐẦU) ---
+		
+		// 5. Quản lý LocalStorage
+		const STORAGE_KEY = 'social_memory_profile';
 
-function handleCreateGoldEntry(ss, data) {
-  var sheet = getSheet(ss, "gold_entries");
-  sheet.appendRow([Utilities.getUuid(), data.buyPrice, data.sellPrice, data.date, data.note, new Date()]);
-  return { status: 'success' };
-}
+		function saveLocalData(data) {
+		  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+		}
 
-// --- FEED HANDLERS ---
-function handleFeedAction(ss, data) {
-  var sheet = getSheet(ss, "feed");
-  var type = data.type;
+		function getLocalData() {
+		  const data = localStorage.getItem(STORAGE_KEY);
+		  return data ? JSON.parse(data) : null;
+		}
 
-  if (type === 'create') {
-    var id = Utilities.getUuid();
-    var nowStr = Utilities.formatDate(new Date(), "GMT+7", "dd/MM/yyyy HH:mm:ss");
-    sheet.appendRow([id, nowStr, data.username, data.content, data.image]);
-    return { status: 'success', id: id, time: nowStr };
-  }
+		// 1. Tạo Fingerprint (Định danh thiết bị)
+		async function getBrowserFingerprint() {
+			const str = navigator.userAgent + navigator.language + screen.width + 'x' + screen.height;
+			const msgBuffer = new TextEncoder().encode(str);
+			const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+			return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+		}
 
-  var dataRange = sheet.getDataRange();
-  var values = dataRange.getDisplayValues();
-  var rowIndex = -1;
+		// 2. Nén ảnh (<20KB để lưu Sheet)
+		function compressImageTo20KB(file) {
+			return new Promise((resolve) => {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = (e) => {
+					const img = new Image();
+					img.src = e.target.result;
+					img.onload = () => {
+						const canvas = document.createElement('canvas');
+						let w = img.width, h = img.height;
+						const MAX = 600; // Resize nhỏ lại trước
+						if(w > h && w > MAX) { h *= MAX/w; w = MAX; }
+						else if(h > MAX) { w *= MAX/h; h = MAX; }
+						
+						canvas.width = w; canvas.height = h;
+						const ctx = canvas.getContext('2d');
+						ctx.drawImage(img, 0, 0, w, h);
+						
+						let quality = 0.8;
+						let dataUrl = canvas.toDataURL('image/jpeg', quality);
+						while(dataUrl.length > 20000 && quality > 0.1) { // Giới hạn 20KB
+							quality -= 0.1;
+							dataUrl = canvas.toDataURL('image/jpeg', quality);
+						}
+						resolve(dataUrl);
+					}
+				}
+			});
+		}
 
-  // Tìm dòng cần sửa/xóa
-  for (var i = values.length - 1; i >= 1; i--) {
-    if (values[i][0] == data.id) { rowIndex = i + 1; break; }
-  }
+		// 3. Hàm gửi dữ liệu chung (Router Client) 
+		async function sendToServer(payload) {
+			try {
+				const res = await fetch(API_URL, {
+					method: 'POST',
+					// THÊM DÒNG NÀY: Giúp bỏ qua bước kiểm duyệt CORS phức tạp của Google
+					headers: {
+						"Content-Type": "text/plain;charset=utf-8",
+					},
+					body: JSON.stringify(payload)
+				});
+				return await res.json();
+			} catch (e) {
+				console.error("Lỗi API:", e);
+				return { status: 'error', message: e.message };
+			}
+		}
 
-  if (rowIndex === -1) return { status: 'error', message: 'Not found' };
+		// 4. Hàm sinh tên ngẫu nhiên
+		function generateIdentity() {
+			const animal = randomAnimals[Math.floor(Math.random() * randomAnimals.length)];
+			const color = randomColors[Math.floor(Math.random() * randomColors.length)];
+			const fullname = `${animal} ${color}`;
+			// Tạo username không dấu: Gấu Đỏ -> gaudo123
+			const username = fullname.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+							 .replace(/\s/g, '').toLowerCase() + Math.floor(Math.random()*999);
+			return { fullname, username };
+		}
 
-  if (type === 'update') {
-    sheet.getRange(rowIndex, 4).setValue(data.content);
-    if (data.image) sheet.getRange(rowIndex, 5).setValue(data.image);
-    return { status: 'success' };
-  }
+		// --- DỮ LIỆU RANDOM ---
+		const randomAnimals = ['Gấu', 'Hổ', 'Sư Tử', 'Voi', 'Hươu', 'Cá', 'Vẹt', 'Mèo', 'Chó', 'Rùa', 'Khỉ', 'Thỏ', 'Sói', 'Cáo', 'Heo', 'Bò', 'Gà', 'Vịt', 'Cú', 'Dê', 'Cừu', 'Kiến', 'Tép', 'Tôm'];
+		const randomColors = ['Xanh', 'Đỏ', 'Tím', 'Vàng', 'Cam', 'Hồng', 'Đen', 'Trắng'];
 
-  if (type === 'delete') {
-    sheet.deleteRow(rowIndex);
-    return { status: 'success' };
-  }
-}
+		const defaultConfig = {
+		  app_title: 'Love Story',
+		  welcome_message: 'Lưu giữ kỷ niệm đẹp'
+		};
 
-function handleGetFeed(ss) {
-  var feedSheet = ss.getSheetByName("feed");
-  if (!feedSheet) return { status: 'success', data: [] };
+		const themes = {
+		  green: { primary: '#006B68', secondary: '#FFC62F', text: '#212529', bg: '#f8f9fa', surface: '#ffffff' },
+		  purple: { primary: '#667eea', secondary: '#764ba2', text: '#1f2937', bg: '#f8f9fa', surface: '#ffffff' },
+		  blue: { primary: '#1e3a8a', secondary: '#3b82f6', text: '#000000', bg: '#f0f9ff', surface: '#ffffff' },
+		  red: { primary: '#dc2626', secondary: '#fb923c', text: '#000000', bg: '#fef2f2', surface: '#ffffff' }
+		};
 
-  var profileSheet = ss.getSheetByName("profiles");
-  var profileMap = {};
-  if (profileSheet) {
-    var pRows = profileSheet.getDataRange().getValues();
-    for (var i = 1; i < pRows.length; i++) {
-      var uName = String(pRows[i][1]).toLowerCase();
-      profileMap[uName] = { fullname: pRows[i][2], avatar: pRows[i][4] };
-    }
-  }
+		const defaultStatsLayout = [
+		  { id: 'bike', column: 0, size: 'medium' },
+		  { id: 'days', column: 0, size: 'medium' },
+		  { id: 'memory', column: 0, size: 'medium' },
+		  { id: 'event', column: 0, size: 'medium' },
+		  { id: 'gold', column: 0, size: 'medium' }
+		];
 
-  var rows = feedSheet.getDataRange().getDisplayValues();
-  var posts = [];
-  for (var i = rows.length - 1; i >= 1; i--) {
-    if (rows[i][0]) {
-      var uName = String(rows[i][2]).toLowerCase();
-      var info = profileMap[uName] || {};
-      posts.push({
-        __backendId: rows[i][0],
-        createdAt: rows[i][1],
-        username: rows[i][2],
-        fullname: info.fullname || rows[i][2],
-        avatar: info.avatar || '',
-        content: rows[i][3],
-        imageData: rows[i][4],
-        comments: '[]', likes: 0, liked: false
-      });
-    }
-  }
-  return { status: 'success', data: posts };
-}
+		let allData = [];
+		let currentProfile = null;
+		let currentTab = 'home';
+		let currentAlbumId = null;
+		let currentPostId = null;
+		let pendingDeleteId = null;
+		let pendingDeleteType = null;
+		let currentImages = [];
+		let memoryImageData = null;
+		let recordCount = 0;
+		let currentTheme = 'green';
+		let selectedLayout = 'grid-2x2';
+		let isEditMode = false;
+		let statsLayout = [...defaultStatsLayout];
+		let draggedElement = null;
+		let draggedId = null;
 
-function handleGetProfileByUsername(ss, data) {
-  var sheet = getSheet(ss, "profiles");
-  var rows = sheet.getDataRange().getValues();
-  for (var i = 1; i < rows.length; i++) {
-    if (String(rows[i][1]).toLowerCase() == String(data.username).toLowerCase()) {
-      return {
-        status: 'success',
-        data: {
-          username: rows[i][1], fullname: rows[i][2],
-          theme: rows[i][3], avaurl: rows[i][4]
-        }
-      };
-    }
-  }
-  return { status: 'not_found' };
-}
+		let serverFeedData = []; // Biến chứa dữ liệu tải từ sheet feed
+		
+		let loadingToast, successToast;
+		let createPostModal, createMemoryModal, createAlbumModal, albumDetailModal, commentModal, profileModal, postOptionsModal, deleteConfirmModal, bikeStatsModal, addBikeEntryModal, goldStatsModal, addGoldEntryModal, notificationsModal;
 
-// --- UTILS ---
-function getSheet(ss, name) {
-  var sheet = ss.getSheetByName(name);
-  if (!sheet) {
-    sheet = ss.insertSheet(name);
-    // Tạo header cơ bản nếu chưa có
-    if (name === 'feed') sheet.appendRow(["ID", "Time", "Username", "Content", "Image"]);
-    if (name === 'babyrun') sheet.appendRow(["ID", "Username", "Date", "Time"]);
-    if (name === 'profiles') sheet.appendRow(["Fingerprint", "Username", "Fullname", "Theme", "Avatar", "Updated"]);
-  }
-  return sheet;
-}
+		let isEditingPost = false;
+		let currentEditPostId = null;
 
-function responseJSON(data) {
-  return ContentService.createTextOutput(JSON.stringify(data))
-    .setMimeType(ContentService.MimeType.JSON);
-}
+		function applyTheme(themeName) {
+		  const theme = themes[themeName];
+		  if (!theme) return;
+		  
+		  document.documentElement.style.setProperty('--primary-color', theme.primary);
+		  document.documentElement.style.setProperty('--secondary-color', theme.secondary);
+		  document.documentElement.style.setProperty('--text-color', theme.text);
+		  document.documentElement.style.setProperty('--bg-color', theme.bg);
+		  document.documentElement.style.setProperty('--surface-color', theme.surface);
+		  
+		  document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('selected'));
+		  const selected = document.querySelector(`[data-theme="${themeName}"]`);
+		  if (selected) selected.classList.add('selected');
+		  
+		  currentTheme = themeName;
+		}
+
+		if (window.elementSdk) {
+		  window.elementSdk.init({
+			defaultConfig,
+			onConfigChange: async (config) => {
+			  document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+			  document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
+			},
+			mapToCapabilities: () => ({ recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined }),
+			mapToEditPanelValues: (config) => new Map([
+			  ['app_title', config.app_title || defaultConfig.app_title],
+			  ['welcome_message', config.welcome_message || defaultConfig.welcome_message]
+			])
+		  });
+		}
+
+		const dataHandler = {
+		  onDataChanged(data) {
+			allData = data;
+			recordCount = data.length;
+			
+			currentProfile = data.find(d => d.type === 'profile');
+			if (currentProfile) {
+			  if (currentProfile.themeName) applyTheme(currentProfile.themeName);
+			  if (currentProfile.statsLayout) {
+				try {
+				  statsLayout = JSON.parse(currentProfile.statsLayout);
+				} catch {
+				  statsLayout = [...defaultStatsLayout];
+				}
+			  }
+			}
+			
+			updateAvatarDisplays();
+			updateNotificationBadge();
+			
+			if (currentTab === 'feed') renderPosts();
+			else if (currentTab === 'home') { renderStats(); updateStats(); }
+			else if (currentTab === 'albums') renderAlbums();
+			
+			if (currentAlbumId && albumDetailModal && albumDetailModal._isShown) renderAlbumPhotos();
+		  }
+		};
+
+		// --- KHỞI TẠO ỨNG DỤNG ---_-----------------------------------------------------------------------------------------------------------
+		
+		// Hàm 1: Đồng bộ Profile (Xử lý định danh)
+		async function syncUserProfile() {
+			try {
+				// Lấy Fingerprint thiết bị
+				userFingerprint = await getBrowserFingerprint();
+				console.log("Fingerprint:", userFingerprint);
+
+				// Gọi server kiểm tra
+				const res = await sendToServer({
+					action: 'get_profile',
+					fingerprint: userFingerprint
+				});
+
+				if (res && (res.status === 'success' || res.result === 'success') && res.data) {
+					// TRƯỜNG HỢP 1: Server CÓ dữ liệu
+					console.log("Server found profile:", res.data);
+					
+					// Cập nhật Local
+					currentProfile = {
+						username: res.data.username,
+						fullName: res.data.fullname,
+						avatarData: res.data.avaurl,
+						themeName: res.data.theme
+					};
+					saveLocalData(currentProfile);
+					
+					// Cập nhật UI
+					applyTheme(currentProfile.themeName);
+					updateAvatarDisplays();
+					
+					// Nếu đây là lần đầu mở máy (chưa có local) -> Chào mừng
+					const localCheck = getLocalData();
+					if(!localCheck) showToast(`Đồng bộ thành công: ${res.data.fullname}`);
+
+				} else {
+					// 2B: Máy TRẮNG (User mới tinh) -> Tạo mới Local -> Lưu lên Server
+					console.log("New User -> Creating identity...");
+					const identity = generateIdentity();
+					currentProfile = {
+						username: identity.username,
+						fullName: identity.fullname,
+						avatarData: '',
+						themeName: 'green'
+					};
+					saveLocalData(currentProfile);
+					applyTheme(currentProfile.themeName);
+					updateAvatarDisplays();
+					showToast(`Chào bạn mới: ${identity.fullname}`);
+
+				}
+			} catch (err) {
+				console.error("Lỗi sync profile:", err);
+				// Nếu lỗi mạng, vẫn dùng LocalProfile (đã load ở đầu hàm initApp)
+			}
+		}
+
+		// Hàm 2: Đồng bộ Baby Run (Xử lý số liệu)
+		async function syncBabyRunStats() {
+
+			try {
+				const now = new Date();
+				const dateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+
+				const res = await sendToServer({
+					action: 'get_babyrun_count',
+					date: dateStr
+				});
+
+				if (res && (res.status === 'success' || res.result === 'success')) {
+					console.log("BabyRun count:", res.count);
+					const bikeCountEl = document.getElementById('bike-count');
+					if (bikeCountEl) {
+						bikeCountEl.textContent = res.count;
+						// Lưu Cache Local
+						localStorage.setItem('cached_babyrun_count', res.count);
+					}
+				}
+			} catch (err) {
+				console.error("Lỗi sync babyrun:", err);
+			}
+		}
+
+		// --- MAIN INITIALIZATION ---
+		(async () => {
+			// 1. Khởi tạo UI/Modal (Giữ nguyên)
+			loadingToast = new bootstrap.Toast(document.getElementById('loadingToast'));
+			successToast = new bootstrap.Toast(document.getElementById('successToast'));
+			createPostModal = new bootstrap.Modal(document.getElementById('createPostModal'));
+			createMemoryModal = new bootstrap.Modal(document.getElementById('createMemoryModal'));
+			createAlbumModal = new bootstrap.Modal(document.getElementById('createAlbumModal'));
+			albumDetailModal = new bootstrap.Modal(document.getElementById('albumDetailModal'));
+			commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
+			profileModal = new bootstrap.Modal(document.getElementById('profileModal'));
+			postOptionsModal = new bootstrap.Modal(document.getElementById('postOptionsModal'));
+			deleteConfirmModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+			bikeStatsModal = new bootstrap.Modal(document.getElementById('bikeStatsModal'));
+			addBikeEntryModal = new bootstrap.Modal(document.getElementById('addBikeEntryModal'));
+			goldStatsModal = new bootstrap.Modal(document.getElementById('goldStatsModal'));
+			addGoldEntryModal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
+			notificationsModal = new bootstrap.Modal(document.getElementById('notificationsModal'));
+
+			if (window.dataSdk) await window.dataSdk.init(dataHandler);
+
+			// 2. LOAD OFFLINE FIRST (Hiển thị ngay lập tức)
+			const localData = getLocalData();
+			if (localData) {
+				currentProfile = localData;
+				applyTheme(currentProfile.themeName);
+				updateAvatarDisplays();
+			}
+
+			const cachedRun = localStorage.getItem('cached_babyrun_count');
+			if (cachedRun && document.getElementById('bike-count')) {
+				document.getElementById('bike-count').textContent = cachedRun;
+			}
+
+			if (currentTab === 'home') { renderStats(); updateStats(); }
+			
+			// Set ngày mặc định
+			const today = new Date();
+			if(document.getElementById('bike-entry-date')) document.getElementById('bike-entry-date').valueAsDate = today;
+			if(document.getElementById('gold-entry-date')) document.getElementById('gold-entry-date').valueAsDate = today;
+
+			// 3. GỌI CÁC HÀM ĐỒNG BỘ RIÊNG BIỆT (KHÔNG DÙNG PROMISE.ALL)
+			// Profile chạy trước để đảm bảo có Username
+			syncUserProfile();
+			
+			// Sau đó chạy BabyRun (nếu Profile ok)
+			// Không await để nó chạy ngầm, không chặn giao diện
+			syncBabyRunStats();
+			
+		})();
+
+		function showToast(message) {
+		  document.getElementById('toast-message').textContent = message;
+		  successToast.show();
+		}
+
+		function showLoading() {
+		  loadingToast.show();
+		}
+
+		function hideLoading() {
+		  loadingToast.hide();
+		}
+
+		function updateNotificationBadge() {
+		  const notifications = allData.filter(d => d.type === 'notification');
+		  const unreadCount = notifications.filter(n => !n.isRead).length;
+		  const badge = document.getElementById('notification-badge');
+		  
+		  if (unreadCount > 0) {
+			badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+			badge.classList.remove('d-none');
+		  } else {
+			badge.classList.add('d-none');
+		  }
+		}
+
+		function renderNotifications() {
+		  const notifications = allData.filter(d => d.type === 'notification').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+		  const container = document.getElementById('notifications-list');
+		  
+		  if (notifications.length === 0) {
+			container.innerHTML = `
+			  <div class="text-center py-5">
+				<i class="bi bi-bell-slash theme-text-primary" style="font-size: 4rem;"></i>
+				<p class="fw-semibold fs-5 mt-3">Chưa có thông báo</p>
+				<p class="text-muted">Các thông báo mới sẽ hiển thị ở đây</p>
+			  </div>
+			`;
+			return;
+		  }
+
+		  container.innerHTML = notifications.map(notif => {
+			const iconMap = {
+			  like: 'heart-fill text-danger',
+			  comment: 'chat-fill text-primary',
+			  memory: 'star-fill text-warning',
+			  album: 'folder-fill text-info',
+			  system: 'info-circle-fill theme-text-primary'
+			};
+			
+			const icon = iconMap[notif.notifType] || iconMap.system;
+			
+			return `
+			  <div class="notification-item p-3 ${notif.isRead ? '' : 'unread'}" data-id="${notif.__backendId}">
+				<div class="d-flex align-items-start">
+				  <div class="me-3">
+					<i class="bi bi-${icon} fs-4"></i>
+				  </div>
+				  <div class="flex-grow-1">
+					<p class="mb-1 fw-semibold">${notif.title}</p>
+					<p class="mb-1 text-muted small">${notif.message}</p>
+					<small class="text-muted">${formatDate(notif.createdAt)}</small>
+				  </div>
+				  ${!notif.isRead ? '<div class="notification-dot ms-2"></div>' : ''}
+				  <button class="btn btn-sm btn-link text-danger delete-notification" data-id="${notif.__backendId}">
+					<i class="bi bi-x-lg"></i>
+				  </button>
+				</div>
+			  </div>
+			`;
+		  }).join('');
+		}
+
+		async function createNotification(type, title, message) {
+		  if (recordCount >= 999) return;
+		  
+		  await window.dataSdk.create({
+			type: 'notification',
+			notifType: type,
+			title: title,
+			message: message,
+			isRead: false,
+			createdAt: new Date().toISOString()
+		  });
+		}
+
+		function updateAvatarDisplays() {
+		  const avatarText = currentProfile?.fullName?.[0]?.toUpperCase() || currentProfile?.username?.[0]?.toUpperCase() || 'U';
+		  const avatarImg = currentProfile?.avatarData;
+		  
+		  ['header-avatar', 'profile-avatar'].forEach(id => {
+			const container = document.getElementById(id);
+			if (avatarImg) {
+			  container.innerHTML = `<img src="${avatarImg}" class="w-100 h-100 object-fit-cover" alt="Avatar">`;
+			} else {
+			  container.innerHTML = `<i class="bi bi-person-fill theme-text-primary ${id === 'profile-avatar' ? 'fs-1' : 'fs-4'}"></i>`;
+			}
+		  });
+		  
+		  if (currentProfile) {
+			document.getElementById('profile-username').value = currentProfile.username || '';
+			document.getElementById('profile-fullname').value = currentProfile.fullName || '';
+		  }
+		}
+
+		function formatDate(dateStr) {
+		  const date = new Date(dateStr);
+		  const now = new Date();
+		  const diff = now - date;
+		  const mins = Math.floor(diff / 60000);
+		  const hours = Math.floor(diff / 3600000);
+		  const days = Math.floor(diff / 86400000);
+		  
+		  if (mins < 1) return 'Vừa xong';
+		  if (mins < 60) return `${mins} phút`;
+		  if (hours < 24) return `${hours} giờ`;
+		  if (days < 7) return `${days} ngày`;
+		  return date.toLocaleDateString('vi-VN');
+		}
+
+		function parseComments(commentsStr) {
+		  if (!commentsStr) return [];
+		  try { return JSON.parse(commentsStr); } catch { return []; }
+		}
+
+		function parseImages(imageStr) {
+		  if (!imageStr) return [];
+		  try { return JSON.parse(imageStr); } catch { return imageStr ? [imageStr] : []; }
+		}
+
+		function updateStats() {
+		  const startDate = new Date('2022-02-22');
+		  const today = new Date();
+		  const diffTime = Math.abs(today - startDate);
+		  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+		  
+		  const daysEl = document.getElementById('days-together');
+		  if (daysEl) daysEl.textContent = `${diffDays} ngày`;
+		  
+		  const memoryCount = allData.filter(d => d.type === 'memory').length;
+		  const memoryEl = document.getElementById('memory-count');
+		  if (memoryEl) memoryEl.textContent = memoryCount;
+		  
+		  const bikeEntries = allData.filter(d => d.type === 'bike_entry');
+		  const todayStr = new Date().toISOString().split('T')[0];
+		  const todayCount = bikeEntries.filter(e => e.date === todayStr).reduce((sum, e) => sum + (e.count || 0), 0);
+		  
+		  const bikeEl = document.getElementById('bike-count');
+		  if (bikeEl) bikeEl.textContent = todayCount;
+		  
+		  const goldEntries = allData.filter(d => d.type === 'gold_entry').sort((a, b) => new Date(b.date) - new Date(a.date));
+		  const latestGold = goldEntries[0];
+		  
+		  const goldBuyEl = document.getElementById('gold-buy');
+		  const goldSellEl = document.getElementById('gold-sell');
+		  if (goldBuyEl && latestGold) goldBuyEl.textContent = latestGold.buyPrice?.toLocaleString('vi-VN') || '-';
+		  if (goldSellEl && latestGold) goldSellEl.textContent = latestGold.sellPrice?.toLocaleString('vi-VN') || '-';
+		}
+
+		function calculateBikeStats() {
+		  const bikeEntries = allData.filter(d => d.type === 'bike_entry');
+		  const today = new Date();
+		  const todayStr = today.toISOString().split('T')[0];
+		  
+		  const todayCount = bikeEntries.filter(e => e.date === todayStr).reduce((sum, e) => sum + (e.count || 0), 0);
+		  
+		  const weekStart = new Date(today);
+		  weekStart.setDate(today.getDate() - today.getDay());
+		  weekStart.setHours(0, 0, 0, 0);
+		  const weekCount = bikeEntries.filter(e => {
+			const entryDate = new Date(e.date);
+			return entryDate >= weekStart;
+		  }).reduce((sum, e) => sum + (e.count || 0), 0);
+		  
+		  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+		  const monthCount = bikeEntries.filter(e => {
+			const entryDate = new Date(e.date);
+			return entryDate >= monthStart;
+		  }).reduce((sum, e) => sum + (e.count || 0), 0);
+		  
+		  return { todayCount, weekCount, monthCount };
+		}
+
+		function renderBikeChart() {
+		  const bikeEntries = allData.filter(d => d.type === 'bike_entry');
+		  const chartContainer = document.getElementById('bike-chart');
+		  
+		  const days = [];
+		  for (let i = 6; i >= 0; i--) {
+			const date = new Date();
+			date.setDate(date.getDate() - i);
+			days.push(date.toISOString().split('T')[0]);
+		  }
+		  
+		  const counts = days.map(day => {
+			return bikeEntries.filter(e => e.date === day).reduce((sum, e) => sum + (e.count || 0), 0);
+		  });
+		  
+		  const maxCount = Math.max(...counts, 1);
+		  
+		  chartContainer.innerHTML = `
+			<div class="d-flex align-items-end justify-content-between" style="height: 100%;">
+			  ${days.map((day, i) => {
+				const height = (counts[i] / maxCount) * 100;
+				const date = new Date(day);
+				const dayName = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'][date.getDay()];
+				return `
+				  <div class="d-flex flex-column align-items-center" style="flex: 1;">
+					<div class="mb-2 small fw-bold theme-text-primary">${counts[i]}</div>
+					<div class="w-100 theme-bg-primary rounded-top" style="height: ${height}%; min-height: 5px; max-width: 40px; margin: 0 auto;"></div>
+					<div class="mt-2 small text-muted">${dayName}</div>
+				  </div>
+				`;
+			  }).join('')}
+			</div>
+		  `;
+		}
+
+		function renderBikeHistory() {
+		  const bikeEntries = allData.filter(d => d.type === 'bike_entry').sort((a, b) => new Date(b.date) - new Date(a.date));
+		  const container = document.getElementById('bike-history-list');
+		  
+		  if (bikeEntries.length === 0) {
+			container.innerHTML = '<p class="text-center text-muted py-3">Chưa có dữ liệu</p>';
+			return;
+		  }
+		  
+		  container.innerHTML = bikeEntries.map(entry => {
+			const date = new Date(entry.date);
+			const dateStr = date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+			return `
+			  <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+				<div>
+				  <p class="mb-0 fw-semibold">${entry.count} lượt</p>
+				  <small class="text-muted">${dateStr}</small>
+				  ${entry.note ? `<p class="small text-muted mb-0 mt-1">${entry.note}</p>` : ''}
+				</div>
+				<button class="btn btn-sm btn-outline-danger delete-bike-entry" data-id="${entry.__backendId}">
+				  <i class="bi bi-trash"></i>
+				</button>
+			  </div>
+			`;
+		  }).join('');
+		}
+
+		// --- HÀM CHÍNH: HIỂN THỊ THỐNG KÊ ---
+		async function showBikeStats() {
+			// 1. Hiển thị Modal
+			bikeStatsModal.show();
+			
+			// 2. Reset giao diện về trạng thái Loading
+			document.getElementById('stats-today').textContent = '...';
+			document.getElementById('stats-week').textContent = '...';
+			document.getElementById('stats-month').textContent = '...';
+			
+			// Loading cho biểu đồ
+			const chartContainer = document.getElementById('bike-chart');
+			if (chartContainer) {
+				chartContainer.innerHTML = '<div class="d-flex align-items-center justify-content-center h-100"><div class="spinner-border text-primary spinner-border-sm" role="status"></div></div>';
+			}
+			
+			// Loading cho danh sách lịch sử
+			const historyContainer = document.getElementById('bike-history-list');
+			if (historyContainer) {
+				historyContainer.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div></div>';
+			}
+
+			try {
+				// 3. Gọi API lấy dữ liệu từ Server
+				const res = await sendToServer({ action: 'get_bike_stats' });
+
+				if (res.status === 'success' || res.result === 'success') {
+					// A. Cập nhật số liệu tổng quan (Header)
+					if(res.stats) {
+						document.getElementById('stats-today').textContent = res.stats.today;
+						document.getElementById('stats-week').textContent = res.stats.week;
+						document.getElementById('stats-month').textContent = res.stats.month;
+					}
+
+					// B. Vẽ biểu đồ (Dùng dữ liệu tổng hợp 'history' - dd/mm/yyyy và số tổng)
+					if (res.history) {
+						renderBikeChartFromServer(res.history); 
+					}
+
+					// C. Vẽ danh sách chi tiết (Dùng dữ liệu 'logs' - có giờ:phút:giây)
+					if (res.logs && res.logs.length > 0) {
+						 renderBikeHistoryFromServer(res.logs);
+					} else {
+						 // Fallback: Nếu không có logs chi tiết thì báo trống
+						 if(historyContainer) historyContainer.innerHTML = '<p class="text-center text-muted py-3 small">Chưa có dữ liệu chi tiết</p>';
+					}
+
+				} else {
+					showToast('Lỗi tải dữ liệu: ' + res.message);
+				}
+			} catch (e) {
+				console.error("Lỗi showBikeStats:", e);
+				if(chartContainer) chartContainer.innerHTML = '<div class="text-center text-danger small py-5">Lỗi kết nối</div>';
+			}
+		}
+
+		// --- HÀM VẼ BIỂU ĐỒ (Đã sửa sắp xếp Tăng dần chuẩn xác) ---
+		function renderBikeChartFromServer(historyData) {
+			const chartContainer = document.getElementById('bike-chart');
+			if (!chartContainer) return;
+
+			if (!historyData || historyData.length === 0) {
+				chartContainer.innerHTML = '<div class="text-center py-5 text-muted small">Chưa có dữ liệu biểu đồ</div>';
+				return;
+			}
+
+			// 1. Sắp xếp dữ liệu TĂNG DẦN (Cũ -> Mới)
+			// Sử dụng hàm helper để parse ngày an toàn
+			const parseDateVal = (dateStr) => {
+				if (!dateStr) return 0;
+				try {
+					// dateStr dạng "15/01/2026"
+					const parts = dateStr.trim().split('/'); 
+					if (parts.length < 3) return 0;
+					// Trả về Timestamp: Năm, Tháng (0-11), Ngày
+					return new Date(parts[2], parseInt(parts[1]) - 1, parts[0]).getTime();
+				} catch (e) { return 0; }
+			};
+
+			const sortedData = [...historyData].sort((a, b) => {
+				return parseDateVal(a.date) - parseDateVal(b.date);
+			});
+
+			// 2. Cấu hình kích thước
+			const itemWidth = 60; 
+			const chartHeight = 160; 
+			// Độ rộng tổng = số lượng cột * 60px (hoặc tối thiểu bằng chiều rộng màn hình)
+			const totalWidth = Math.max(chartContainer.parentElement.offsetWidth, sortedData.length * itemWidth);
+			
+			const counts = sortedData.map(d => parseInt(d.count) || 0);
+			// Tính giá trị lớn nhất để chia tỉ lệ chiều cao (thêm 20% đệm cho đẹp)
+			const maxVal = Math.max(...counts, 5) * 1.2; 
+
+			// 3. Tính tọa độ X, Y cho từng điểm
+			const points = sortedData.map((d, i) => {
+				const x = (i * itemWidth) + (itemWidth / 2); 
+				const count = parseInt(d.count) || 0;
+				const y = chartHeight - ((count / maxVal) * chartHeight);
+				return { x, y, count, date: d.date };
+			});
+
+			// 4. Tạo đường cong mềm mại (Bezier Curve)
+			const getControlPoint = (current, previous, next, reverse) => {
+				const p = previous || current;
+				const n = next || current;
+				const smoothing = 0.2;
+				const oX = n.x - p.x;
+				const oY = n.y - p.y;
+				const length = Math.sqrt(Math.pow(oX, 2) + Math.pow(oY, 2)) * smoothing;
+				const angle = Math.atan2(oY, oX) + (reverse ? Math.PI : 0);
+				return { x: current.x + Math.cos(angle) * length, y: current.y + Math.sin(angle) * length };
+			};
+
+			let pathD = `M ${points[0].x} ${points[0].y}`;
+			for (let i = 0; i < points.length - 1; i++) {
+				const p0 = points[i - 1];
+				const p1 = points[i];
+				const p2 = points[i + 1];
+				const p3 = points[i + 2];
+				const cp1 = getControlPoint(p1, p0, p2, false);
+				const cp2 = getControlPoint(p2, p1, p3, true);
+				pathD += ` C ${cp1.x} ${cp1.y}, ${cp2.x} ${cp2.y}, ${p2.x} ${p2.y}`;
+			}
+
+			// Tạo vùng màu bên dưới đường biểu đồ
+			const areaPathD = `${pathD} L ${points[points.length - 1].x} ${chartHeight} L ${points[0].x} ${chartHeight} Z`;
+
+			const strokeColor = 'var(--primary-color)'; 
+			const circleColor = 'var(--surface-color, #fff)';
+
+			// 5. Render SVG
+			chartContainer.innerHTML = `
+				<svg width="${totalWidth}" height="200" xmlns="http://www.w3.org/2000/svg">
+					<defs>
+						<linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+							<stop offset="0%" stop-color="${strokeColor}" stop-opacity="0.4"/>
+							<stop offset="100%" stop-color="${strokeColor}" stop-opacity="0.0"/>
+						</linearGradient>
+						<filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+							<feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="${strokeColor}" flood-opacity="0.3"/>
+						</filter>
+					</defs>
+
+					<line x1="0" y1="${chartHeight}" x2="${totalWidth}" y2="${chartHeight}" stroke="#eee" stroke-width="1" />
+					<line x1="0" y1="${chartHeight/2}" x2="${totalWidth}" y2="${chartHeight/2}" stroke="#eee" stroke-width="1" stroke-dasharray="4" />
+
+					<path d="${areaPathD}" fill="url(#chartGradient)" stroke="none" style="transition: fill 0.3s;" />
+
+					<path d="${pathD}" fill="none" stroke="${strokeColor}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#shadow)" style="transition: stroke 0.3s;" />
+
+					${points.map((p, i) => `
+						<g class="chart-point">
+							${ (p.count > 0) ? 
+								`<text x="${p.x}" y="${p.y - 12}" fill="${strokeColor}" font-size="11" text-anchor="middle" font-weight="bold">${p.count}</text>` 
+								: '' 
+							}
+							<circle cx="${p.x}" cy="${p.y}" r="5" fill="${strokeColor}" stroke="${circleColor}" stroke-width="2" />
+							<text x="${p.x}" y="${chartHeight + 25}" fill="#999" font-size="10" text-anchor="middle">${p.date.substring(0, 5)}</text>
+						</g>
+					`).join('')}
+				</svg>
+			`;
+
+			// 6. Tự động cuộn sang phải (Right) để xem ngày mới nhất
+			setTimeout(() => {
+				const wrapper = chartContainer.parentElement; // div cha có overflow-x: auto
+				if(wrapper) {
+					wrapper.scrollLeft = wrapper.scrollWidth; // Cuộn hết cỡ sang phải
+				}
+			}, 100);
+		}
+
+		// --- HÀM RENDER LỊCH SỬ (GROUP BY DATE) ---
+		function renderBikeHistoryFromServer(logsData) {
+			const container = document.getElementById('bike-history-list');
+			if (!container) return;
+
+			if (!logsData || logsData.length === 0) {
+				container.innerHTML = '<p class="text-center text-muted py-3 small">Chưa có dữ liệu chi tiết gần đây</p>';
+				return;
+			}
+
+			// 1. Nhóm dữ liệu theo ngày
+			const groups = {};
+			logsData.forEach(item => {
+				if (!item.date) return;
+				if (!groups[item.date]) groups[item.date] = [];
+				groups[item.date].push(item);
+			});
+
+			// 2. Tạo HTML
+			let htmlContent = '';
+			const dates = Object.keys(groups); // Danh sách các ngày
+			
+			// Lưu ý: logsData từ server thường đã được sort mới nhất -> cũ nhất
+			// nên keys(groups) cũng sẽ theo thứ tự đó.
+
+			dates.forEach(date => {
+				const items = groups[date];
+				
+				// Header Ngày
+				htmlContent += `
+					<div class="mb-3">
+						<div class="d-flex align-items-center justify-content-between bg-light px-3 py-2 rounded mb-2 shadow-sm sticky-top" style="top: 0px; z-index: 5;">
+							<span class="fw-bold text-dark small"><i class="bi bi-calendar-check me-1"></i> ${date}</span>
+							<span class="badge theme-bg-primary rounded-pill" style="font-weight: normal;">${items.length} lượt</span>
+						</div>
+						<div class="list-group list-group-flush px-2">
+				`;
+				
+				// Items trong ngày
+				items.forEach(log => {
+					// Lấy chữ cái đầu của tên để làm Avatar
+					const firstLetter = log.username ? log.username.charAt(0).toUpperCase() : '?';
+					
+					htmlContent += `
+						<div class="list-group-item border-0 p-2 d-flex justify-content-between align-items-center mb-1 rounded hover-bg-light">
+							<div class="d-flex align-items-center">
+								 <div class="rounded-circle theme-bg-primary d-flex align-items-center justify-content-center text-white me-2 shadow-sm" style="width: 32px; height: 32px; font-size: 12px; font-weight: bold;">
+									${firstLetter}
+								 </div>
+								 <div class="d-flex flex-column">
+									 <span class="small fw-bold text-dark">${log.username || 'Ẩn danh'}</span>
+								 </div>
+							</div>
+							<div class="text-end">
+								<span class="badge bg-light text-secondary border fw-normal font-monospace">${log.time || '--:--'}</span>
+							</div>
+						</div>
+					`;
+				});
+				
+				htmlContent += `
+						</div>
+					</div>
+				`;
+			});
+
+			container.innerHTML = htmlContent;
+		}
+
+		function calculateGoldStats() {
+		  const goldEntries = allData.filter(d => d.type === 'gold_entry');
+		  
+		  if (goldEntries.length === 0) {
+			return { highest: null, lowest: null, highestDate: null, lowestDate: null };
+		  }
+		  
+		  let highest = goldEntries[0];
+		  let lowest = goldEntries[0];
+		  
+		  goldEntries.forEach(entry => {
+			if (entry.sellPrice > highest.sellPrice) highest = entry;
+			if (entry.buyPrice < lowest.buyPrice) lowest = entry;
+		  });
+		  
+		  return {
+			highest: highest.sellPrice,
+			highestDate: highest.date,
+			lowest: lowest.buyPrice,
+			lowestDate: lowest.date
+		  };
+		}
+
+		function renderGoldChart() {
+		  const goldEntries = allData.filter(d => d.type === 'gold_entry');
+		  const chartContainer = document.getElementById('gold-chart');
+		  
+		  const days = [];
+		  for (let i = 6; i >= 0; i--) {
+			const date = new Date();
+			date.setDate(date.getDate() - i);
+			days.push(date.toISOString().split('T')[0]);
+		  }
+		  
+		  const buyPrices = days.map(day => {
+			const entry = goldEntries.find(e => e.date === day);
+			return entry ? entry.buyPrice : null;
+		  });
+		  
+		  const sellPrices = days.map(day => {
+			const entry = goldEntries.find(e => e.date === day);
+			return entry ? entry.sellPrice : null;
+		  });
+		  
+		  const allPrices = [...buyPrices, ...sellPrices].filter(p => p !== null);
+		  const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 1;
+		  const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
+		  const range = maxPrice - minPrice || 1;
+		  
+		  chartContainer.innerHTML = `
+			<div class="position-relative" style="height: 100%;">
+			  <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0;">
+				${days.map((day, i) => {
+				  const x = (i / (days.length - 1)) * 100;
+				  const buyY = buyPrices[i] ? 100 - ((buyPrices[i] - minPrice) / range * 80) : null;
+				  const sellY = sellPrices[i] ? 100 - ((sellPrices[i] - minPrice) / range * 80) : null;
+				  const nextBuyY = buyPrices[i + 1] ? 100 - ((buyPrices[i + 1] - minPrice) / range * 80) : null;
+				  const nextSellY = sellPrices[i + 1] ? 100 - ((sellPrices[i + 1] - minPrice) / range * 80) : null;
+				  const nextX = ((i + 1) / (days.length - 1)) * 100;
+				  
+				  let lines = '';
+				  if (buyY !== null && nextBuyY !== null && i < days.length - 1) {
+					lines += `<line x1="${x}%" y1="${buyY}%" x2="${nextX}%" y2="${nextBuyY}%" stroke="#198754" stroke-width="2"/>`;
+				  }
+				  if (sellY !== null && nextSellY !== null && i < days.length - 1) {
+					lines += `<line x1="${x}%" y1="${sellY}%" x2="${nextX}%" y2="${nextSellY}%" stroke="#dc3545" stroke-width="2"/>`;
+				  }
+				  
+				  let circles = '';
+				  if (buyY !== null) {
+					circles += `<circle cx="${x}%" cy="${buyY}%" r="4" fill="#198754"/>`;
+				  }
+				  if (sellY !== null) {
+					circles += `<circle cx="${x}%" cy="${sellY}%" r="4" fill="#dc3545"/>`;
+				  }
+				  
+				  return lines + circles;
+				}).join('')}
+			  </svg>
+			  <div class="d-flex justify-content-between position-absolute w-100" style="bottom: 0;">
+				${days.map(day => {
+				  const date = new Date(day);
+				  const dayName = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'][date.getDay()];
+				  return `<small class="text-muted">${dayName}</small>`;
+				}).join('')}
+			  </div>
+			</div>
+			<div class="mt-3 d-flex gap-3 justify-content-center">
+			  <div><span class="badge bg-success">●</span> Giá mua</div>
+			  <div><span class="badge bg-danger">●</span> Giá bán</div>
+			</div>
+		  `;
+		}
+
+		function renderGoldHistory() {
+		  const goldEntries = allData.filter(d => d.type === 'gold_entry').sort((a, b) => new Date(b.date) - new Date(a.date));
+		  const container = document.getElementById('gold-history-list');
+		  
+		  if (goldEntries.length === 0) {
+			container.innerHTML = '<p class="text-center text-muted py-3">Chưa có dữ liệu</p>';
+			return;
+		  }
+		  
+		  container.innerHTML = goldEntries.map(entry => {
+			const date = new Date(entry.date);
+			const dateStr = date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+			return `
+			  <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+				<div>
+				  <div class="d-flex gap-3 mb-1">
+					<span class="text-success fw-semibold">${entry.buyPrice?.toLocaleString('vi-VN')}</span>
+					<span class="text-danger fw-semibold">${entry.sellPrice?.toLocaleString('vi-VN')}</span>
+				  </div>
+				  <small class="text-muted">${dateStr}</small>
+				  ${entry.note ? `<p class="small text-muted mb-0 mt-1">${entry.note}</p>` : ''}
+				</div>
+				<button class="btn btn-sm btn-outline-danger delete-gold-entry" data-id="${entry.__backendId}">
+				  <i class="bi bi-trash"></i>
+				</button>
+			  </div>
+			`;
+		  }).join('');
+		}
+
+		function showGoldStats() {
+		  const stats = calculateGoldStats();
+		  
+		  if (stats.highest !== null) {
+			document.getElementById('gold-highest-price').textContent = stats.highest.toLocaleString('vi-VN');
+			document.getElementById('gold-highest-date').textContent = new Date(stats.highestDate).toLocaleDateString('vi-VN');
+		  } else {
+			document.getElementById('gold-highest-price').textContent = '-';
+			document.getElementById('gold-highest-date').textContent = '-';
+		  }
+		  
+		  if (stats.lowest !== null) {
+			document.getElementById('gold-lowest-price').textContent = stats.lowest.toLocaleString('vi-VN');
+			document.getElementById('gold-lowest-date').textContent = new Date(stats.lowestDate).toLocaleDateString('vi-VN');
+		  } else {
+			document.getElementById('gold-lowest-price').textContent = '-';
+			document.getElementById('gold-lowest-date').textContent = '-';
+		  }
+		  
+		  renderGoldChart();
+		  renderGoldHistory();
+		  goldStatsModal.show();
+		}
+
+		function renderStats() {
+		  const container = document.getElementById('stats-container');
+		  const leftColumn = statsLayout.filter(s => s.column === 0);
+		  const rightColumn = statsLayout.filter(s => s.column === 1);
+		  const hasRightColumn = rightColumn.length > 0;
+		  
+		  if (hasRightColumn) container.classList.add('two-columns');
+		  else container.classList.remove('two-columns');
+		  
+		  const renderCard = (stat) => {
+			const sizeClass = `size-${stat.size}`;
+			
+			if (stat.id === 'bike') {
+			  return `
+				<div class="stat-card p-3 ${sizeClass}" data-stat-id="bike" draggable="${isEditMode}">
+				  <div class="drag-handle"><i class="bi bi-arrows-move"></i></div>
+				  <div class="size-toggle"><i class="bi bi-arrows-fullscreen"></i></div>
+				  <button class="btn btn-link p-0 position-absolute top-0 end-0 m-2 text-muted bike-chart-btn" style="z-index: 5;">
+					<i class="bi bi-bar-chart-fill fs-5"></i>
+				  </button>
+				  <div class="text-center">
+					<div class="icon-box theme-bg-primary text-white mx-auto mb-2 baby-run-btn" style="cursor: pointer; transition: transform 0.1s;">
+					  <span style="font-size: 32px; filter: brightness(0) invert(1);">👣</span>
+					</div>
+					<p class="text-muted small mb-1">Lượt đạp hôm nay</p>
+					<p id="bike-count" class="fs-2 fw-bold theme-text-primary mb-0">0</p>
+				  </div>
+				</div>
+			  `;
+			} else if (stat.id === 'days') {
+			  return `
+				<div class="stat-card p-3 ${sizeClass}" data-stat-id="days" draggable="${isEditMode}">
+				  <div class="drag-handle"><i class="bi bi-arrows-move"></i></div>
+				  <div class="size-toggle"><i class="bi bi-arrows-fullscreen"></i></div>
+				  <div class="d-flex align-items-center">
+					<div class="icon-box theme-bg-secondary text-white me-3">
+					  <i class="bi bi-heart-fill fs-4"></i>
+					</div>
+					<div>
+					  <p class="text-muted small mb-1">Ngày bên nhau</p>
+					  <p id="days-together" class="fs-4 fw-bold theme-text-secondary mb-0">0 ngày</p>
+					</div>
+				  </div>
+				</div>
+			  `;
+			} else if (stat.id === 'memory') {
+			  return `
+				<div class="stat-card p-3 ${sizeClass}" data-stat-id="memory" draggable="${isEditMode}">
+				  <div class="drag-handle"><i class="bi bi-arrows-move"></i></div>
+				  <div class="size-toggle"><i class="bi bi-arrows-fullscreen"></i></div>
+				  <div class="d-flex align-items-center">
+					<div class="icon-box text-white me-3" style="background: #6f42c1;">
+					  <i class="bi bi-star-fill fs-4"></i>
+					</div>
+					<div>
+					  <p class="text-muted small mb-1">Kỷ niệm</p>
+					  <p id="memory-count" class="fs-4 fw-bold mb-0" style="color: #6f42c1;">0</p>
+					</div>
+				  </div>
+				</div>
+			  `;
+			} else if (stat.id === 'event') {
+			  return `
+				<div class="stat-card p-3 ${sizeClass}" data-stat-id="event" draggable="${isEditMode}">
+				  <div class="drag-handle"><i class="bi bi-arrows-move"></i></div>
+				  <div class="size-toggle"><i class="bi bi-arrows-fullscreen"></i></div>
+				  <div class="d-flex align-items-center mb-2">
+					<div class="icon-box text-white me-3" style="background: #e91e63;">
+					  <i class="bi bi-calendar-heart fs-4"></i>
+					</div>
+					<div>
+					  <p class="text-muted small mb-1">Sự kiện tiếp theo</p>
+					  <p id="next-event-countdown" class="fs-5 fw-bold mb-0" style="color: #e91e63;">Còn 39 ngày</p>
+					</div>
+				  </div>
+				  <p id="next-event-name" class="small fw-semibold theme-text-primary ms-5 ps-2 mb-0">First day of love</p>
+				</div>
+			  `;
+			} else if (stat.id === 'gold') {
+			  return `
+				<div class="stat-card p-3 ${sizeClass}" data-stat-id="gold" draggable="${isEditMode}">
+				  <div class="drag-handle"><i class="bi bi-arrows-move"></i></div>
+				  <div class="size-toggle"><i class="bi bi-arrows-fullscreen"></i></div>
+				  <button class="btn btn-link p-0 position-absolute top-0 end-0 m-2 text-muted gold-chart-btn" style="z-index: 5;">
+					<i class="bi bi-bar-chart-fill fs-5"></i>
+				  </button>
+				  <div class="d-flex align-items-center mb-2">
+					<div class="icon-box text-white me-3" style="background: #f59e0b;">
+					  <i class="bi bi-coin fs-4"></i>
+					</div>
+					<div>
+					  <p class="text-muted small mb-1">Giá vàng</p>
+					</div>
+				  </div>
+				  <div class="row g-2 ms-5 ps-2">
+					<div class="col-6">
+					  <small class="text-muted">Giá mua</small>
+					  <p id="gold-buy" class="fs-5 fw-bold text-success mb-0">-</p>
+					</div>
+					<div class="col-6">
+					  <small class="text-muted">Giá bán</small>
+					  <p id="gold-sell" class="fs-5 fw-bold text-danger mb-0">-</p>
+					</div>
+				  </div>
+				</div>
+			  `;
+			}
+			return '';
+		  };
+		  
+		  if (hasRightColumn) {
+			container.innerHTML = leftColumn.map(renderCard).join('') + rightColumn.map(renderCard).join('');
+		  } else {
+			container.innerHTML = leftColumn.map(renderCard).join('');
+		  }
+		  
+		  if (isEditMode) {
+			container.classList.add('layout-edit-mode');
+			setupDragAndDrop();
+		  } else {
+			container.classList.remove('layout-edit-mode');
+		  }
+		}
+
+		function setupDragAndDrop() {
+		  const cards = document.querySelectorAll('.stat-card');
+		  
+		  cards.forEach(card => {
+			card.addEventListener('dragstart', (e) => {
+			  draggedElement = card;
+			  draggedId = card.dataset.statId;
+			  card.classList.add('dragging');
+			  e.dataTransfer.effectAllowed = 'move';
+			});
+			
+			card.addEventListener('dragend', () => {
+			  card.classList.remove('dragging');
+			  document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('border', 'border-primary'));
+			  draggedElement = null;
+			  draggedId = null;
+			});
+			
+			card.addEventListener('dragover', (e) => {
+			  e.preventDefault();
+			  if (draggedElement === card) return;
+			  card.classList.add('border', 'border-primary');
+			});
+			
+			card.addEventListener('dragleave', () => {
+			  card.classList.remove('border', 'border-primary');
+			});
+			
+			card.addEventListener('drop', (e) => {
+			  e.preventDefault();
+			  if (!draggedId || draggedElement === card) return;
+			  
+			  const targetId = card.dataset.statId;
+			  const draggedStat = statsLayout.find(s => s.id === draggedId);
+			  const targetStat = statsLayout.find(s => s.id === targetId);
+			  
+			  if (!draggedStat || !targetStat) return;
+			  
+			  const rect = card.getBoundingClientRect();
+			  const midX = rect.left + rect.width / 2;
+			  let newColumn = targetStat.column;
+			  
+			  if (e.clientX < midX && targetStat.column === 1) newColumn = 0;
+			  else if (e.clientX >= midX && targetStat.column === 0) newColumn = 1;
+			  
+			  statsLayout = statsLayout.filter(s => s.id !== draggedId);
+			  draggedStat.column = newColumn;
+			  
+			  const newTargetIndex = statsLayout.indexOf(targetStat);
+			  if (newTargetIndex >= 0) {
+				if (e.clientX < midX) statsLayout.splice(newTargetIndex, 0, draggedStat);
+				else statsLayout.splice(newTargetIndex + 1, 0, draggedStat);
+			  } else {
+				statsLayout.push(draggedStat);
+			  }
+			  
+			  card.classList.remove('border', 'border-primary');
+			  renderStats();
+			  updateStats();
+			});
+			
+			const sizeToggle = card.querySelector('.size-toggle');
+			sizeToggle.addEventListener('click', (e) => {
+			  e.stopPropagation();
+			  const statId = card.dataset.statId;
+			  const stat = statsLayout.find(s => s.id === statId);
+			  if (!stat) return;
+			  
+			  const sizes = ['small', 'medium', 'large'];
+			  const currentIndex = sizes.indexOf(stat.size);
+			  stat.size = sizes[(currentIndex + 1) % sizes.length];
+			  
+			  renderStats();
+			  updateStats();
+			});
+		  });
+		}
+
+		function enterEditMode() {
+		  isEditMode = true;
+		  document.getElementById('edit-mode-banner').classList.remove('d-none');
+		  profileModal.hide();
+		  
+		  currentTab = 'home';
+		  document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+		  document.querySelector('[data-tab="home"]').classList.add('active');
+		  
+		  document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('d-none'));
+		  document.getElementById('tab-home').classList.remove('d-none');
+		  
+		  renderStats();
+		  updateStats();
+		}
+
+		function exitEditMode() {
+		  isEditMode = false;
+		  document.getElementById('edit-mode-banner').classList.add('d-none');
+		  renderStats();
+		  updateStats();
+		  saveLayoutToProfile();
+		}
+
+		async function saveLayoutToProfile() {
+		  if (!currentProfile) {
+			if (recordCount >= 999) {
+			  showToast('Đã đạt giới hạn 999 mục!');
+			  return;
+			}
+			
+			const result = await window.dataSdk.create({
+			  type: 'profile',
+			  username: '',
+			  fullName: '',
+			  avatarData: '',
+			  themeName: currentTheme,
+			  statsLayout: JSON.stringify(statsLayout),
+			  createdAt: new Date().toISOString()
+			});
+			
+			if (result.isOk) showToast('Đã lưu bố cục!');
+		  } else {
+			await window.dataSdk.update({
+			  ...currentProfile,
+			  statsLayout: JSON.stringify(statsLayout)
+			});
+			showToast('Đã lưu bố cục!');
+		  }
+		}
+
+		function renderPostImages(images, layout) {
+		  if (!images || images.length === 0) return '';
+		  
+		  const count = images.length;
+		  let gridClass = 'grid-1';
+		  let html = '<div class="post-image-grid';
+		  
+		  if (count === 1) gridClass = 'grid-1';
+		  else if (count === 2) gridClass = 'grid-2';
+		  else if (count === 3) gridClass = 'grid-3';
+		  else if (count === 4) gridClass = 'grid-4';
+		  else gridClass = 'grid-5plus';
+		  
+		  html += ` ${gridClass} mb-3">`;
+		  
+		  const displayCount = Math.min(count, 5);
+		  for (let i = 0; i < displayCount; i++) {
+			html += `<div class="position-relative">`;
+			html += `<img src="${images[i]}" alt="Post image" style="max-height: ${count === 1 ? '400px' : '200px'};">`;
+			if (i === 4 && count > 5) {
+			  html += `<div class="image-counter-overlay">+${count - 5}</div>`;
+			}
+			html += `</div>`;
+		  }
+		  
+		  html += '</div>';
+		  return html;
+		} 
+		
+		// --- HÀM RENDER POSTS (Đã thêm Sắp xếp Mới -> Cũ) ---
+		function renderPosts() {
+			const container = document.getElementById('posts-container');
+			
+			// 1. Lấy dữ liệu
+			let posts = serverFeedData || []; 
+
+			// 2. Hàm hỗ trợ đổi chuỗi "dd/MM/yyyy HH:mm" thành đối tượng Date để so sánh
+			const parsePostDate = (dateStr) => {
+				if (!dateStr) return 0;
+				if (dateStr === "Vừa xong") return new Date().getTime() + 10000; // Ưu tiên số 1
+
+				try {
+					// Tách ngày và giờ (VD: 15/01/2026 14:30)
+					const parts = dateStr.split(' ');
+					if (parts.length < 2) return 0;
+
+					const dateParts = parts[0].split('/'); // [15, 01, 2026]
+					const timeParts = parts[1].split(':'); // [14, 30]
+
+					// Tạo Date(năm, tháng - 1, ngày, giờ, phút)
+					return new Date(
+						dateParts[2], 
+						dateParts[1] - 1, 
+						dateParts[0], 
+						timeParts[0], 
+						timeParts[1]
+					).getTime();
+				} catch (e) {
+					return 0;
+				}
+			};
+
+			// 3. THỰC HIỆN SẮP XẾP: Mới nhất (Time lớn) lên đầu
+			posts.sort((a, b) => {
+				return parsePostDate(b.createdAt) - parsePostDate(a.createdAt);
+			});
+			
+			// 4. Kiểm tra dữ liệu rỗng
+			if (posts.length === 0) {
+				container.innerHTML = `
+					<div class="text-center py-5">
+						<i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
+						<p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
+						<p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
+					</div>
+				`;
+				return;
+			}
+
+			// 5. Render HTML
+			container.innerHTML = posts.map(post => {
+				const safeContent = encodeURIComponent(post.content || '');
+				const displayName = post.fullname || post.username || 'Người dùng ẩn danh';
+				const avatarUrl = post.avatar; 
+				const images = parseImages(post.imageData);
+
+				// HTML Avatar
+				const avatarHtml = avatarUrl 
+					? `<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">`
+					: `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold" style="font-size: 1.2rem;">${displayName.charAt(0).toUpperCase()}</div>`;
+				
+				// HTML Nút sửa (chỉ hiện nếu là bài của mình)
+				const editButtonHtml = (currentProfile && currentProfile.username === post.username) 
+					? `<button class="btn btn-sm btn-link text-muted post-menu-btn" data-id="${post.__backendId}">
+							<i class="bi bi-three-dots-vertical"></i>
+					   </button>` 
+					: '';
+
+				return `
+					<div class="post-card p-3 mb-3" id="post-${post.__backendId}">
+						<div class="d-flex align-items-center justify-content-between mb-3">
+							<div class="d-flex align-items-center">
+								<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
+									${avatarHtml}
+								</div>
+								<div>
+									<p class="fw-bold mb-0 text-dark">${displayName}</p>
+									<small class="text-muted" style="font-size: 0.8rem;">
+										<i class="bi bi-clock me-1"></i>${post.createdAt}
+									</small>
+								</div>
+							</div>
+							${editButtonHtml}
+						</div>
+						
+						${post.content ? `<div class="mb-3" style="white-space: pre-wrap; font-size: 1rem; color: #374151;">${post.content}</div>` : ''}
+						
+						${renderPostImages(images, post.layout || 'grid-2x2')}
+						
+						<div class="d-flex gap-4 pt-2 border-top mt-2">
+							<button class="btn btn-sm btn-link text-decoration-none like-btn text-muted" data-id="${post.__backendId}">
+								<i class="bi bi-heart${post.liked ? '-fill text-danger' : ''} fs-5"></i>
+								<span class="ms-1">${post.likes > 0 ? post.likes : 'Thích'}</span>
+							</button>
+							<button class="btn btn-sm btn-link text-decoration-none text-muted comment-btn" data-id="${post.__backendId}">
+								<i class="bi bi-chat fs-5"></i>
+								<span class="ms-1">Bình luận</span>
+							</button>
+						</div>
+					</div>
+				`;
+			}).join('');
+		}
+
+		function renderAlbums() {
+		  const container = document.getElementById('albums-container');
+		  const albums = allData.filter(d => d.type === 'album').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+		  
+		  if (albums.length === 0) {
+			container.innerHTML = `
+			  <div class="col-12 text-center py-5">
+				<i class="bi bi-folder theme-text-primary" style="font-size: 4rem;"></i>
+				<p class="fw-semibold fs-5 mt-3">Chưa có album</p>
+				<p class="text-muted">Tạo album để sắp xếp ảnh</p>
+			  </div>
+			`;
+			return;
+		  }
+
+		  container.innerHTML = albums.map(album => {
+			const photos = allData.filter(d => d.type === 'album_photo' && d.albumId === album.__backendId);
+			const coverImg = photos[0]?.imageData;
+			
+			return `
+			  <div class="col-6">
+				<div class="album-card album-item" data-album-id="${album.__backendId}" style="cursor: pointer;">
+				  <div class="ratio ratio-1x1 bg-light rounded-top overflow-hidden">
+					${coverImg 
+					  ? `<img src="${coverImg}" class="object-fit-cover" alt="Album">`
+					  : `<div class="d-flex align-items-center justify-content-center"><i class="bi bi-folder theme-text-primary" style="font-size: 3rem;"></i></div>`
+					}
+				  </div>
+				  <div class="p-2">
+					<p class="fw-bold mb-0 text-truncate">${album.albumName}</p>
+					<small class="text-muted">${photos.length} ảnh</small>
+				  </div>
+				</div>
+			  </div>
+			`;
+		  }).join('');
+		}
+
+		function renderAlbumPhotos() {
+		  const container = document.getElementById('album-photos');
+		  const photos = allData.filter(d => d.type === 'album_photo' && d.albumId === currentAlbumId);
+		  
+		  if (photos.length === 0) {
+			container.innerHTML = `
+			  <div class="col-12 text-center py-5 text-muted">
+				<i class="bi bi-camera" style="font-size: 3rem;"></i>
+				<p class="mt-2">Chưa có ảnh</p>
+			  </div>
+			`;
+			return;
+		  }
+
+		  container.innerHTML = photos.map(photo => `
+			<div class="col-4">
+			  <div class="position-relative">
+				<img src="${photo.imageData}" class="w-100 rounded ratio ratio-1x1 object-fit-cover" alt="Photo">
+				<button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 delete-photo-btn" data-id="${photo.__backendId}">
+				  <i class="bi bi-x-lg"></i>
+				</button>
+			  </div>
+			</div>
+		  `).join('');
+		}
+
+		function renderComments(postId) {
+		  const post = allData.find(d => d.__backendId === postId);
+		  if (!post) return;
+		  
+		  const comments = parseComments(post.comments);
+		  const container = document.getElementById('comments-list');
+		  
+		  if (comments.length === 0) {
+			container.innerHTML = `<p class="text-center text-muted py-5">Chưa có bình luận</p>`;
+			return;
+		  }
+
+		  container.innerHTML = comments.map(comment => `
+			<div class="card mb-2">
+			  <div class="card-body p-3">
+				<div class="d-flex align-items-center mb-2">
+				  <div class="avatar-circle avatar-circle-sm me-2" style="width: 32px; height: 32px;">
+					<span class="small theme-text-primary fw-bold">${comment.author?.[0]?.toUpperCase() || 'U'}</span>
+				  </div>
+				  <div>
+					<p class="fw-bold small mb-0">${comment.author || 'Người dùng'}</p>
+					<small class="text-muted">${formatDate(comment.time)}</small>
+				  </div>
+				</div>
+				<p class="mb-0 ms-5">${comment.text}</p>
+			  </div>
+			</div>
+		  `).join('');
+		}
+
+		function updateImagePreview() {
+		  const container = document.getElementById('images-preview-grid');
+		  const previewContainer = document.getElementById('image-preview-container');
+		  const layoutSelector = document.getElementById('layout-selector');
+		  const postBtn = document.getElementById('post-btn');
+		  const imageCount = document.getElementById('image-count');
+		  
+		  if (currentImages.length === 0) {
+			previewContainer.classList.add('d-none');
+			layoutSelector.classList.add('d-none');
+			postBtn.disabled = !document.getElementById('post-input').value.trim();
+			return;
+		  }
+		  
+		  previewContainer.classList.remove('d-none');
+		  imageCount.textContent = currentImages.length;
+		  postBtn.disabled = false;
+		  
+		  if (currentImages.length >= 3) layoutSelector.classList.remove('d-none');
+		  else layoutSelector.classList.add('d-none');
+		  
+		  container.innerHTML = currentImages.map((img, index) => `
+			<div class="col-4">
+			  <div class="position-relative">
+				<img src="${img}" class="w-100 rounded ratio ratio-1x1 object-fit-cover" alt="Preview">
+				<button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 remove-preview-img" data-index="${index}">
+				  <i class="bi bi-x-lg"></i>
+				</button>
+			  </div>
+			</div>
+		  `).join('');
+		}
+
+		function compressImage(file, maxWidth = 800, quality = 0.7) {
+		  return new Promise((resolve) => {
+			const reader = new FileReader();
+			reader.onload = (e) => {
+			  const img = new Image();
+			  img.onload = () => {
+				const canvas = document.createElement('canvas');
+				let width = img.width;
+				let height = img.height;
+				
+				if (width > maxWidth) {
+				  height = (height * maxWidth) / width;
+				  width = maxWidth;
+				}
+				
+				canvas.width = width;
+				canvas.height = height;
+				const ctx = canvas.getContext('2d');
+				ctx.drawImage(img, 0, 0, width, height);
+				
+				resolve(canvas.toDataURL('image/jpeg', quality));
+			  };
+			  img.src = e.target.result;
+			};
+			reader.readAsDataURL(file);
+		  });
+		}
+
+		// Notifications
+		document.getElementById('notification-btn').addEventListener('click', () => {
+		  renderNotifications();
+		  notificationsModal.show();
+		});
+
+		document.getElementById('mark-all-read').addEventListener('click', async () => {
+		  const unreadNotifications = allData.filter(d => d.type === 'notification' && !d.isRead);
+		  
+		  showLoading();
+		  for (const notif of unreadNotifications) {
+			await window.dataSdk.update({
+			  ...notif,
+			  isRead: true
+			});
+		  }
+		  hideLoading();
+		  renderNotifications();
+		  showToast('Đã đánh dấu tất cả!');
+		});
+
+		document.getElementById('clear-all-notifications').addEventListener('click', async () => {
+		  const notifications = allData.filter(d => d.type === 'notification');
+		  
+		  if (notifications.length === 0) return;
+		  
+		  showLoading();
+		  for (const notif of notifications) {
+			await window.dataSdk.delete(notif);
+		  }
+		  hideLoading();
+		  renderNotifications();
+		  showToast('Đã xóa tất cả thông báo!');
+		});
+
+		document.getElementById('notifications-list').addEventListener('click', async (e) => {
+		  const notifItem = e.target.closest('.notification-item');
+		  if (notifItem && !e.target.closest('.delete-notification')) {
+			const notifId = notifItem.dataset.id;
+			const notif = allData.find(d => d.__backendId === notifId);
+			
+			if (notif && !notif.isRead) {
+			  await window.dataSdk.update({
+				...notif,
+				isRead: true
+			  });
+			  renderNotifications();
+			}
+		  }
+		  
+		  const deleteBtn = e.target.closest('.delete-notification');
+		  if (deleteBtn) {
+			const notifId = deleteBtn.dataset.id;
+			const notif = allData.find(d => d.__backendId === notifId);
+			
+			if (notif) {
+			  showLoading();
+			  await window.dataSdk.delete(notif);
+			  hideLoading();
+			  renderNotifications();
+			  showToast('Đã xóa thông báo!');
+			}
+		  }
+		});
+
+ 
+		// Navigation điều hướng 
+		document.querySelectorAll('.nav-link').forEach(btn => {
+		  btn.addEventListener('click', () => {
+			if (isEditMode) {
+			  showToast('Vui lòng thoát chế độ chỉnh sửa trước!');
+			  return;
+			}
+			
+			currentTab = btn.dataset.tab;
+			document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+			
+			document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('d-none'));
+			document.getElementById(`tab-${currentTab}`).classList.remove('d-none');
+			
+			const fabBtn = document.getElementById('fab-btn');
+			if (currentTab === 'home') fabBtn.classList.add('d-none');
+			else fabBtn.classList.remove('d-none');
+			
+			// --- SỬA Ở ĐÂY ---
+			if (currentTab === 'feed') {
+				loadFeedData(); // Gọi hàm tải dữ liệu từ server
+			}
+			else if (currentTab === 'home') {
+				renderStats(); updateStats(); 
+			}
+			else if (currentTab === 'albums') {
+				renderAlbums();
+			}
+		  });
+		});
+
+		// Layout Edit Mode
+		document.getElementById('enter-layout-edit').addEventListener('click', enterEditMode);
+		document.getElementById('exit-edit-mode').addEventListener('click', exitEditMode);
+
+		// FAB Button
+		document.getElementById('fab-btn').addEventListener('click', () => {
+		  if (currentTab === 'feed') createPostModal.show();
+		  else if (currentTab === 'albums') createAlbumModal.show();
+		});
+
+		// Theme Selection
+		document.querySelectorAll('.theme-option').forEach(opt => {
+		  opt.addEventListener('click', () => applyTheme(opt.dataset.theme));
+		});
+
+		// Layout Selection
+		document.querySelectorAll('.layout-preview-box').forEach(opt => {
+		  opt.addEventListener('click', () => {
+			selectedLayout = opt.dataset.layout;
+			document.querySelectorAll('.layout-preview-box').forEach(o => o.classList.remove('selected'));
+			opt.classList.add('selected');
+		  });
+		});
+
+		// Create Post
+		const postInput = document.getElementById('post-input');
+		const postBtn = document.getElementById('post-btn');
+		const imageInput = document.getElementById('image-input');
+
+		postInput.addEventListener('input', () => {
+		  postBtn.disabled = !postInput.value.trim() && currentImages.length === 0;
+		});
+
+		imageInput.addEventListener('change', async (e) => {
+		  const files = Array.from(e.target.files);
+		  if (files.length === 0) return;
+		  
+		  showLoading();
+		  for (const file of files) {
+			const compressed = await compressImage(file);
+			currentImages.push(compressed);
+		  }
+		  hideLoading();
+		  updateImagePreview();
+		  e.target.value = '';
+		});
+
+		document.getElementById('images-preview-grid').addEventListener('click', (e) => {
+		  const removeBtn = e.target.closest('.remove-preview-img');
+		  if (removeBtn) {
+			const index = parseInt(removeBtn.dataset.index);
+			currentImages.splice(index, 1);
+			updateImagePreview();
+		  }
+		});
+
+		document.getElementById('clear-all-images').addEventListener('click', () => {
+		  currentImages = [];
+		  updateImagePreview();
+		});
+ 
+
+		// Reset lại modal về chế độ "Tạo mới" khi đóng
+		document.getElementById('createPostModal').addEventListener('hidden.bs.modal', function () {
+			isEditingPost = false;
+			currentEditPostId = null;
+			
+			// SỬA 1: Dùng đúng ID 'post-input' thay vì 'post-content'
+			const postInputEl = document.getElementById('post-input');
+			if(postInputEl) postInputEl.value = ''; 
+
+			// SỬA 2: Gọi hàm updateImagePreview() để reset ảnh thay vì gọi ID sai
+			currentImages = []; // Xóa dữ liệu ảnh
+			updateImagePreview(); // Hàm này sẽ tự động ẩn container ảnh
+
+			// Reset text tiêu đề và nút bấm
+			document.querySelector('#createPostModal .modal-title').textContent = "Tạo bài viết";
+			
+			// Reset nút đăng (giữ lại icon)
+			const postBtn = document.getElementById('post-btn');
+			if(postBtn) postBtn.innerHTML = '<i class="bi bi-send me-2"></i>Đăng bài';
+		});
+
+		// Create Memory
+		const memoryImageInput = document.getElementById('memory-image-input');
+		const memoryImagePreview = document.getElementById('memory-image-preview');
+		const memoryImagePreviewContainer = document.getElementById('memory-image-preview-container');
+
+		memoryImageInput.addEventListener('change', async (e) => {
+		  const file = e.target.files[0];
+		  if (file) {
+			showLoading();
+			memoryImageData = await compressImage(file);
+			memoryImagePreview.src = memoryImageData;
+			memoryImagePreviewContainer.classList.remove('d-none');
+			hideLoading();
+		  }
+		});
+
+		document.getElementById('remove-memory-image').addEventListener('click', () => {
+		  memoryImageData = null;
+		  memoryImagePreviewContainer.classList.add('d-none');
+		  memoryImageInput.value = '';
+		});
+
+		document.getElementById('create-memory-btn').addEventListener('click', async () => {
+		  if (recordCount >= 999) {
+			showToast('Đã đạt giới hạn 999 mục!');
+			return;
+		  }
+		  
+		  const title = document.getElementById('memory-title').value.trim();
+		  const date = document.getElementById('memory-date').value;
+		  const content = document.getElementById('memory-content').value.trim();
+		  
+		  if (!title && !content && !memoryImageData) return;
+		  
+		  showLoading();
+		  const result = await window.dataSdk.create({
+			type: 'memory',
+			memoryTitle: title || 'Kỷ niệm',
+			memoryDate: date || new Date().toISOString().split('T')[0],
+			content: content,
+			imageData: memoryImageData || '',
+			createdAt: new Date().toISOString()
+		  });
+		  hideLoading();
+		  
+		  if (result.isOk) {
+			document.getElementById('memory-title').value = '';
+			document.getElementById('memory-date').value = '';
+			document.getElementById('memory-content').value = '';
+			memoryImageData = null;
+			memoryImagePreviewContainer.classList.add('d-none');
+			memoryImageInput.value = '';
+			createMemoryModal.hide();
+			showToast('Đã lưu kỷ niệm!');
+			await createNotification('memory', 'Kỷ niệm mới', `Đã thêm kỷ niệm: ${title || 'Kỷ niệm'}`);
+		  } else {
+			showToast('Lỗi: ' + result.error.message);
+		  }
+		});
+
+		// Create Album
+		document.getElementById('create-album-btn').addEventListener('click', async () => {
+		  if (recordCount >= 999) {
+			showToast('Đã đạt giới hạn 999 mục!');
+			return;
+		  }
+		  
+		  const name = document.getElementById('album-name').value.trim();
+		  if (!name) return;
+		  
+		  showLoading();
+		  const result = await window.dataSdk.create({
+			type: 'album',
+			albumName: name,
+			createdAt: new Date().toISOString()
+		  });
+		  hideLoading();
+		  
+		  if (result.isOk) {
+			document.getElementById('album-name').value = '';
+			createAlbumModal.hide();
+			showToast('Đã tạo album!');
+			await createNotification('album', 'Album mới', `Đã tạo album: ${name}`);
+		  } else {
+			showToast('Lỗi: ' + result.error.message);
+		  }
+		});
+
+		// Album Detail
+		document.getElementById('albums-container').addEventListener('click', (e) => {
+		  const albumCard = e.target.closest('.album-item');
+		  if (albumCard) {
+			currentAlbumId = albumCard.dataset.albumId;
+			const album = allData.find(d => d.__backendId === currentAlbumId);
+			document.getElementById('album-detail-title').textContent = album?.albumName || 'Album';
+			renderAlbumPhotos();
+			albumDetailModal.show();
+		  }
+		});
+
+		document.getElementById('albumDetailModal').addEventListener('hidden.bs.modal', () => {
+		  currentAlbumId = null;
+		});
+
+		document.getElementById('album-image-input').addEventListener('change', async (e) => {
+		  if (recordCount >= 999) {
+			showToast('Đã đạt giới hạn 999 mục!');
+			return;
+		  }
+		  
+		  const file = e.target.files[0];
+		  if (file && currentAlbumId) {
+			showLoading();
+			const compressed = await compressImage(file);
+			const result = await window.dataSdk.create({
+			  type: 'album_photo',
+			  albumId: currentAlbumId,
+			  imageData: compressed,
+			  createdAt: new Date().toISOString()
+			});
+			hideLoading();
+			if (result.isOk) {
+			  showToast('Đã thêm ảnh!');
+			} else {
+			  showToast('Lỗi: ' + result.error.message);
+			}
+		  }
+		  e.target.value = '';
+		});
+
+		document.getElementById('album-photos').addEventListener('click', (e) => {
+		  const deleteBtn = e.target.closest('.delete-photo-btn');
+		  if (deleteBtn) {
+			e.stopPropagation();
+			showDeleteConfirm('Xóa ảnh này?', deleteBtn.dataset.id, 'photo');
+		  }
+		});
+
+		// Profile
+		document.getElementById('profile-btn').addEventListener('click', () => profileModal.show());
+
+		// 3. Đổi Ảnh Đại Diện (Sửa: Chỉ Preview, KHÔNG lưu server ngay)
+		document.getElementById('avatar-input').addEventListener('change', async (e) => {
+		  const file = e.target.files[0];
+		  if (file) {
+			  showLoading();
+			  try {
+				  // 1. Nén ảnh xuống < 20KB
+				  const avatarData = await compressImageTo20KB(file);
+				  
+				  // 2. Cập nhật biến local 'currentProfile' để hiển thị preview ngay lập tức
+				  
+				currentProfile = {
+					username: '',
+					fullName: '',
+					avatarData: '', 
+					themeName: currentProfile.themeName
+				};
+				  
+				currentProfile.avatarData = avatarData;
+				currentProfile.username = document.getElementById('profile-username').value.trim()||'';
+				currentProfile.fullName = document.getElementById('profile-fullname').value.trim()||'';
+
+				// 3. Vẽ lại ảnh lên giao diện (Header và Modal)
+				updateAvatarDisplays(); 
+
+				// 4. Thông báo (Không gọi sendToServer ở đây nữa)
+				showToast('Đã tải ảnh (Nhấn "Lưu thay đổi" để hoàn tất)');
+			  } catch (err) {
+				  console.error(err);
+				  showToast('Lỗi xử lý ảnh');
+			  } finally {
+				  hideLoading();
+			  }
+		  }
+		});
+
+		// 4. Lưu Thông Tin Profile (Cập nhật LocalStorage)
+		// Xử lý nút LƯU trong Modal Hồ sơ (OPTIMISTIC UI)
+		const saveProfileBtn = document.getElementById('save-profile');
+		if (saveProfileBtn) {
+			saveProfileBtn.addEventListener('click', () => {
+				const fullnameInput = document.getElementById('profile-fullname');
+				const usernameInput = document.getElementById('profile-username');
+				
+				// 1. Validate dữ liệu
+				const newUsername = usernameInput.value.trim();
+				const newFullname = fullnameInput.value.trim();
+
+				if (!newUsername) {
+					showToast('Vui lòng nhập Username!');
+					return;
+				}
+
+				// --- BẮT ĐẦU OPTIMISTIC UI UPDATE ---
+				
+				// 2. Cập nhật ngay lập tức vào biến cục bộ
+				const previousProfile = { ...currentProfile }; // Lưu lại đề phòng lỗi
+				
+				// Tạo object profile mới
+				currentProfile = {
+					...currentProfile,
+					username: newUsername,
+					fullName: newFullname || newUsername,
+					themeName: currentTheme,
+					avatarData: currentProfile.avatarData || ''
+				};
+
+				// 3. Lưu ngay vào LocalStorage
+				saveLocalData(currentProfile);
+
+				// 4. Cập nhật giao diện ngay lập tức (Header, Avatar...)
+				updateAvatarDisplays();
+				const appTitle = document.getElementById('app-title');
+				if(appTitle) appTitle.textContent = currentProfile.fullName;
+
+				// 5. Đóng Modal NGAY LẬP TỨC
+				const modalEl = document.getElementById('profileModal');
+				const modalInstance = bootstrap.Modal.getInstance(modalEl);
+				if (modalInstance) modalInstance.hide();
+				
+				// 6. Báo thành công ngay
+				showToast('Đã cập nhật hồ sơ!');
+
+				// --- XỬ LÝ NGẦM (BACKGROUND SYNC) ---
+				// Gửi lên server sau, không bắt người dùng chờ
+				sendToServer({
+					action: 'save_profile',
+					username: currentProfile.username,
+					fullname: currentProfile.fullName,
+					avaurl: currentProfile.avatarData || '',
+					theme: currentProfile.themeName || 'green',
+					fingerprint: userFingerprint || 'unknown'
+				}).then(res => {
+					if (res.status === 'success') {
+						console.log('Đồng bộ Server thành công');
+					} else {
+						console.warn('Server chưa lưu được, nhưng Local đã lưu');
+					}
+				}).catch(err => {
+					console.error('Lỗi đồng bộ server:', err);
+					// Tùy chọn: Có thể revert lại profile cũ nếu muốn chặt chẽ
+					// currentProfile = previousProfile;
+					// saveLocalData(currentProfile);
+					// showToast('Lỗi kết nối! Đã hoàn tác.');
+				});
+			});
+		}
+
+		// Post interactions
+		document.getElementById('posts-container').addEventListener('click', async (e) => {
+		  const likeBtn = e.target.closest('.like-btn');
+		  if (likeBtn) {
+			const postId = likeBtn.dataset.id;
+			const post = allData.find(d => d.__backendId === postId);
+			if (post) {
+			  const newLiked = !post.liked;
+			  const newLikes = newLiked ? (post.likes || 0) + 1 : Math.max(0, (post.likes || 0) - 1);
+			  
+			  await window.dataSdk.update({
+				...post,
+				liked: newLiked,
+				likes: newLikes
+			  });
+			  
+			  if (newLiked) {
+				await createNotification('like', 'Yêu thích', 'Bạn đã thích một bài viết');
+			  }
+			}
+			return;
+		  }
+		  
+		  const commentBtn = e.target.closest('.comment-btn');
+		  if (commentBtn) {
+			currentPostId = commentBtn.dataset.id;
+			renderComments(currentPostId);
+			commentModal.show();
+			return;
+		  }
+		  
+		  const menuBtn = e.target.closest('.post-menu-btn');
+		  if (menuBtn) {
+			currentPostId = menuBtn.dataset.id;
+			postOptionsModal.show();
+		  }
+		});
+
+		// Post Options
+		document.getElementById('edit-post-option').addEventListener('click', () => {
+		  // 1. Tìm bài viết trong serverFeedData (Ưu tiên) hoặc allData
+		  let post = null;
+		  if (typeof serverFeedData !== 'undefined' && serverFeedData.length > 0) {
+			  post = serverFeedData.find(d => d.__backendId === currentPostId);
+		  }
+		  // Fallback nếu không tìm thấy trong feed thì tìm trong allData cũ
+		  if (!post) {
+			  post = allData.find(d => d.__backendId === currentPostId);
+		  }
+
+		  if (!post) {
+			  showToast("Không tìm thấy dữ liệu bài viết!");
+			  return;
+		  }
+		  
+		  // 2. Điền dữ liệu vào form
+		  document.getElementById('post-input').value = post.content || '';
+		  currentImages = parseImages(post.imageData); // Hoặc post.image tùy cấu trúc data của bạn
+		  selectedLayout = post.layout || 'grid-2x2';
+		  
+		  // 3. Highlight layout đang chọn
+		  if (currentImages.length >= 3) { // Logic cũ của bạn là >=4, nhưng layout hiển thị từ 3 ảnh
+			document.querySelectorAll('.layout-preview-box').forEach(opt => {
+			  opt.classList.remove('selected');
+			  if (opt.dataset.layout === selectedLayout) opt.classList.add('selected');
+			});
+		  }
+		  
+		  // 4. Cập nhật ảnh preview và chuyển đổi Modal
+		  updateImagePreview();
+		  
+		  // Quan trọng: Gọi hàm openEditPost để set cờ isEditingPost = true
+		  // Nhưng ta cần sửa hàm openEditPost một chút hoặc set thủ công ở đây:
+		  isEditingPost = true;
+		  currentEditPostId = currentPostId;
+
+		  // Cập nhật giao diện Modal sang chế độ "Sửa"
+		  document.querySelector('#createPostModal .modal-title').textContent = "Chỉnh sửa bài viết";
+		  const modalBtn = document.querySelector('#createPostModal .btn-primary');
+		  if(modalBtn) modalBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Lưu thay đổi';
+
+		  // Chuyển Modal
+		  postOptionsModal.hide();
+		  createPostModal.show();
+		});
+
+		document.getElementById('delete-post-option').addEventListener('click', () => {
+		  postOptionsModal.hide();
+		  showDeleteConfirm('Xóa bài đăng này?', currentPostId, 'post');
+		});
+
+		// Comments
+		document.getElementById('commentModal').addEventListener('hidden.bs.modal', () => {
+		  currentPostId = null;
+		});
+
+		document.getElementById('send-comment').addEventListener('click', async () => {
+		  const input = document.getElementById('comment-input');
+		  const text = input.value.trim();
+		  if (!text || !currentPostId) return;
+		  
+		  const post = allData.find(d => d.__backendId === currentPostId);
+		  if (!post) return;
+		  
+		  const comments = parseComments(post.comments);
+		  comments.push({
+			text: text,
+			author: currentProfile?.fullName || currentProfile?.username || 'Người dùng',
+			time: new Date().toISOString()
+		  });
+		  
+		  showLoading();
+		  await window.dataSdk.update({
+			...post,
+			comments: JSON.stringify(comments)
+		  });
+		  hideLoading();
+		  
+		  input.value = '';
+		  renderComments(currentPostId);
+		  showToast('Đã bình luận!');
+		  await createNotification('comment', 'Bình luận mới', 'Bạn đã bình luận trên một bài viết');
+		});
+
+		// Delete confirmation
+		function showDeleteConfirm(message, id, type) {
+		  pendingDeleteId = id;
+		  pendingDeleteType = type;
+		  deleteConfirmModal.show();
+		}
+
+		// Bike stats
+		document.getElementById('stats-container').addEventListener('click', (e) => {
+		  const chartBtn = e.target.closest('.bike-chart-btn');
+		  if (chartBtn) {
+			e.stopPropagation();
+			showBikeStats();
+		  }
+		  
+		  const goldChartBtn = e.target.closest('.gold-chart-btn');
+		  if (goldChartBtn) {
+			e.stopPropagation();
+			showGoldStats();
+		  }
+		});
+
+		document.getElementById('add-bike-entry').addEventListener('click', () => {
+		  //document.getElementById('bike-entry-count').value = 1;
+		  //document.getElementById('bike-entry-date').valueAsDate = new Date();
+		  //document.getElementById('bike-entry-note').value = '';
+		  addBikeEntryModal.show();
+		});
+ 
+		document.getElementById('bike-history-list').addEventListener('click', async (e) => {
+		  const deleteBtn = e.target.closest('.delete-bike-entry');
+		  if (deleteBtn) {
+			const entryId = deleteBtn.dataset.id;
+			const entry = allData.find(d => d.__backendId === entryId);
+			if (entry) {
+			  showLoading();
+			  await window.dataSdk.delete(entry);
+			  hideLoading();
+			  showToast('Đã xóa!');
+			  showBikeStats();
+			}
+		  }
+		});
+
+		// Gold stats
+		document.getElementById('add-gold-entry').addEventListener('click', () => {
+		  document.getElementById('gold-entry-buy').value = '';
+		  document.getElementById('gold-entry-sell').value = '';
+		  document.getElementById('gold-entry-date').valueAsDate = new Date();
+		  document.getElementById('gold-entry-note').value = '';
+		  addGoldEntryModal.show();
+		});
+
+		document.getElementById('save-gold-entry').addEventListener('click', async () => {
+		  if (recordCount >= 999) {
+			showToast('Đã đạt giới hạn 999 mục!');
+			return;
+		  }
+		  
+		  const buyPrice = parseInt(document.getElementById('gold-entry-buy').value);
+		  const sellPrice = parseInt(document.getElementById('gold-entry-sell').value);
+		  const date = document.getElementById('gold-entry-date').value;
+		  const note = document.getElementById('gold-entry-note').value.trim();
+		  
+		  if (!buyPrice || !sellPrice || !date) {
+			showToast('Vui lòng nhập đầy đủ thông tin!');
+			return;
+		  }
+		  
+		  showLoading();
+		  const result = await window.dataSdk.create({
+			type: 'gold_entry',
+			buyPrice: buyPrice,
+			sellPrice: sellPrice,
+			date: date,
+			note: note,
+			createdAt: new Date().toISOString()
+		  });
+		  hideLoading();
+		  
+		  if (result.isOk) {
+			addGoldEntryModal.hide();
+			showToast('Đã thêm giá vàng!');
+			showGoldStats();
+		  } else {
+			showToast('Lỗi: ' + result.error.message);
+		  }
+		});
+
+		document.getElementById('gold-history-list').addEventListener('click', async (e) => {
+		  const deleteBtn = e.target.closest('.delete-gold-entry');
+		  if (deleteBtn) {
+			const entryId = deleteBtn.dataset.id;
+			const entry = allData.find(d => d.__backendId === entryId);
+			if (entry) {
+			  showLoading();
+			  await window.dataSdk.delete(entry);
+			  hideLoading();
+			  showToast('Đã xóa!');
+			  showGoldStats();
+			}
+		  }
+		});
+
+		document.getElementById('confirm-delete').addEventListener('click', async () => {
+		  if (!pendingDeleteId) {
+			deleteConfirmModal.hide();
+			return;
+		  }
+		  
+		  showLoading();
+		  
+		  try {
+			  // Nếu là xóa bài viết (Post)
+			  if (pendingDeleteType === 'post') {
+				  await sendToServer({
+					  action: 'feed_action',
+					  type: 'delete',
+					  id: pendingDeleteId
+				  });
+				  showToast('Đã xóa bài viết!');
+				  setTimeout(() => location.reload(), 1000);
+			  } 
+			  // Các loại xóa khác (Album, Memory...) nếu chưa chuyển sang Sheet thì giữ nguyên hoặc cập nhật tương tự
+			  else {
+				  // Code cũ cho các loại khác
+				  const item = allData.find(d => d.__backendId === pendingDeleteId);
+				  if (item) await window.dataSdk.delete(item);
+				  showToast('Đã xóa!');
+			  }
+		  } catch (e) {
+			  console.error(e);
+			  showToast('Lỗi khi xóa!');
+		  } finally {
+			  hideLoading();
+			  deleteConfirmModal.hide();
+			  pendingDeleteId = null;
+			  pendingDeleteType = null;
+		  }
+		});
+
+		document.getElementById('deleteConfirmModal').addEventListener('hidden.bs.modal', () => {
+		  pendingDeleteId = null;
+		  pendingDeleteType = null;
+		});
+		
+		// --- XỬ LÝ: TỰ ĐỘNG LOAD THÔNG TIN KHI NHẬP USERNAME ---
+		const usernameInput = document.getElementById('profile-username');
+
+		usernameInput.addEventListener('blur', async () => {
+			const inputVal = usernameInput.value.trim();
+
+			// 1. Nếu ô trống hoặc giống tên hiện tại thì bỏ qua
+			if (!inputVal || (currentProfile && inputVal === currentProfile.username)) {
+				return;
+			}
+
+			showLoading();
+
+			try {
+				// 2. Gọi API kiểm tra username
+				const res = await sendToServer({
+					action: 'get_profile_by_username',
+					username: inputVal
+				});
+
+				// 3. Nếu User tồn tại -> Load thông tin
+				if (res.status === 'success' && res.data) {
+					console.log("Tìm thấy user cũ:", res.data);
+
+					// Cập nhật biến local
+					currentProfile = {
+						username: res.data.username,
+						fullName: res.data.fullname,
+						avatarData: res.data.avaurl,
+						themeName: res.data.theme
+					};
+
+					// LƯU LOCAL STORAGE LUÔN
+					saveLocalData(currentProfile);
+			
+					// Cập nhật giao diện (Avatar, Tên hiển thị, Màu sắc)
+					updateAvatarDisplays();
+					applyTheme(currentProfile.themeName);
+					
+					showToast(`Đã tải hồ sơ của: ${res.data.fullname}`);
+				} else {
+					// 4. Nếu chưa có -> Không làm gì cả (như yêu cầu)
+					console.log("Username mới, chưa có dữ liệu.");
+				}
+			} catch (e) {
+				console.error(e);
+			} finally {
+				hideLoading();
+			}
+		});
+		
+		// --- XỬ LÝ CLICK BABY RUN (OPTIMISTIC UPDATE) ---
+		document.getElementById('stats-container').addEventListener('click', async (e) => {
+			// --- XỬ LÝ CLICK BABY RUN (OPTIMISTIC UPDATE) ---
+			const btn = e.target.closest('.baby-run-btn');
+			if (btn) {
+				// 1. Hiệu ứng click (Thu nhỏ nhẹ tạo cảm giác bấm thật)
+				btn.style.transition = "transform 0.1s";
+				btn.style.transform = "scale(0.85)";
+				setTimeout(() => btn.style.transform = "scale(1)", 150);
+
+				// 2. Cập nhật UI ngay lập tức
+				const countEl = document.getElementById('bike-count');
+				const currentVal = parseInt(countEl.textContent) || 0;
+				countEl.textContent = currentVal + 1;
+				
+				// Rung nhẹ số đếm
+				countEl.style.transition = "color 0.2s";
+				countEl.style.color = "var(--secondary-color)"; // Đổi màu chớp nhoáng
+				setTimeout(() => countEl.style.color = "", 300);
+
+				// 3. Gửi Server (Background)
+				const username = currentProfile ? currentProfile.username : 'anonymous';
+				
+				// Không dùng await để không chặn luồng
+				sendToServer({
+					action: 'log_babyrun',
+					username: username,
+					fingerprint: userFingerprint
+				}).then(res => {
+					if (res.status !== 'success' && res.result !== 'success') {
+						throw new Error('Lỗi server');
+					}
+				}).catch(err => {
+					console.error('Lỗi babyrun:', err);
+					// Hoàn tác nếu lỗi
+					countEl.textContent = currentVal;
+					showToast('Lỗi mạng! Không lưu được.');
+				});
+				
+				return; // Dừng xử lý sự kiện click
+			}
+		});
+		
+		// --- HÀM LƯU LƯỢT ĐẠP THỦ CÔNG --- 
+		async function saveManualBikeEntry() {
+			// 1. Lấy dữ liệu Input
+			const dateInput = document.getElementById('manual-bike-date');
+			const timeInput = document.getElementById('manual-bike-time');
+			
+			if (!dateInput || !timeInput || !dateInput.value || !timeInput.value) {
+				showToast('Vui lòng chọn đầy đủ Ngày và Giờ');
+				return;
+			}
+
+			// 2. Chuẩn bị dữ liệu
+			const [year, month, day] = dateInput.value.split('-');
+			const formattedDate = `${day}/${month}/${year}`; // dd/MM/yyyy
+			const formattedTime = timeInput.value + ':00';   // HH:mm:ss
+
+			// --- BƯỚC QUAN TRỌNG: UI PHẢN HỒI NGAY LẬP TỨC ---
+			
+			// A. Đóng Modal ngay (Không chờ server)
+			const modalEl = document.getElementById('addBikeEntryModal');
+			const modalInstance = bootstrap.Modal.getInstance(modalEl);
+			if (modalInstance) modalInstance.hide();
+
+			// B. Hiển thị thông báo thành công ngay ("Giả vờ" là đã xong)
+			showToast('Đã ghi nhận lượt đạp!');
+
+			// C. Cập nhật số liệu trên giao diện NGAY (Nếu ngày chọn là "Hôm nay")
+			const today = new Date();
+			const isToday = (parseInt(day) === today.getDate() && 
+							 parseInt(month) === (today.getMonth() + 1) && 
+							 parseInt(year) === today.getFullYear());
+
+			let oldTodayCount = 0; // Lưu lại để rollback nếu lỗi
+			const countEl = document.getElementById('bike-count'); // Số ở màn hình chính
+			const statsTodayEl = document.getElementById('stats-today'); // Số ở trong Modal thống kê
+
+			if (isToday) {
+				// Cập nhật màn hình chính
+				if (countEl) {
+					oldTodayCount = parseInt(countEl.textContent) || 0;
+					countEl.textContent = oldTodayCount + 1;
+					
+					// Hiệu ứng nhún nhảy cho số
+					countEl.style.transition = "transform 0.2s";
+					countEl.style.transform = "scale(1.3)";
+					setTimeout(() => countEl.style.transform = "scale(1)", 200);
+				}
+				// Cập nhật modal thống kê (nếu đang mở)
+				if (statsTodayEl) {
+					const val = parseInt(statsTodayEl.textContent) || 0;
+					statsTodayEl.textContent = val + 1;
+				}
+			}
+
+			// --- BƯỚC 3: GỬI SERVER (CHẠY NGẦM - BACKGROUND) ---
+			try {
+				const res = await sendToServer({
+					action: 'log_babyrun',
+					username: currentProfile ? currentProfile.username : 'anonymous',
+					customDate: formattedDate,
+					customTime: formattedTime
+				});
+
+				if (res.status !== 'success' && res.result !== 'success') {
+					throw new Error(res.message || 'Lỗi server');
+				}
+				
+				// Nếu thành công thật sự: Reload ngầm lại thống kê để đảm bảo đồng bộ
+				// (Không gọi showBikeStats() vì nó sẽ bật modal lên, chỉ gọi cập nhật ngầm nếu cần)
+				// Ở đây ta tin tưởng vào Optimistic UI nên không cần reload lại ngay.
+
+			} catch (e) {
+				console.error("Lỗi lưu server:", e);
+				
+				// --- ROLLBACK (NẾU LỖI) ---
+				// Trả lại số cũ nếu nãy lỡ cộng
+				if (isToday && countEl) countEl.textContent = oldTodayCount;
+				if (isToday && statsTodayEl) statsTodayEl.textContent = parseInt(statsTodayEl.textContent) - 1;
+				
+				showToast('Lỗi kết nối! Đã hoàn tác dữ liệu.');
+			}
+		}
+
+		// Kiểm tra phần tử tồn tại trước khi gắn sự kiện
+		const addBikeModalEl = document.getElementById('addBikeEntryModal');
+		if (addBikeModalEl) {
+			addBikeModalEl.addEventListener('show.bs.modal', function () {
+				const now = new Date();
+				
+				// Set Date: YYYY-MM-DD
+				const yyyy = now.getFullYear();
+				const mm = String(now.getMonth() + 1).padStart(2, '0');
+				const dd = String(now.getDate()).padStart(2, '0');
+				
+				const dateInput = document.getElementById('manual-bike-date');
+				if(dateInput) dateInput.value = `${yyyy}-${mm}-${dd}`;
+				
+				// Set Time: HH:mm
+				const hh = String(now.getHours()).padStart(2, '0');
+				const min = String(now.getMinutes()).padStart(2, '0');
+				
+				const timeInput = document.getElementById('manual-bike-time');
+				if(timeInput) timeInput.value = `${hh}:${min}`;
+			});
+		}
+	  
+		// --- HÀM XỬ LÝ ĐĂNG / CẬP NHẬT BÀI VIẾT (ĐÃ SỬA) ---
+		// Xử lý Đăng bài / Lưu bài viết (OPTIMISTIC UI)
+		async function handlePostSubmit() {
+			const contentInput = document.getElementById('post-input');
+			const content = contentInput.value;
+			
+			// 1. Validate dữ liệu
+			if (!content && currentImages.length === 0) {
+				showToast('Vui lòng viết gì đó hoặc thêm ảnh!');
+				return;
+			}
+
+			// 2. Chuẩn bị dữ liệu cho UI Lạc quan
+			const now = new Date();
+			const timeString = "Vừa xong"; // Hiển thị ngay lập tức
+			
+			// Đảm bảo serverFeedData là mảng
+			if (!serverFeedData) serverFeedData = [];
+
+			// --- TRƯỜNG HỢP: SỬA BÀI VIẾT ---
+			if (isEditingPost && currentEditPostId) {
+				// Cập nhật ngay vào mảng dữ liệu cục bộ
+				const postIndex = serverFeedData.findIndex(p => p.__backendId === currentEditPostId);
+				
+				if (postIndex !== -1) {
+					// Update dữ liệu trong mảng
+					serverFeedData[postIndex] = {
+						...serverFeedData[postIndex],
+						content: content,
+						imageData: JSON.stringify(currentImages), // Cập nhật ảnh mới
+						layout: selectedLayout
+					};
+					
+					// Vẽ lại giao diện ngay lập tức
+					renderPosts();
+					showToast('Đã cập nhật bài viết!');
+				}
+
+				// Gửi yêu cầu cập nhật ngầm lên Server
+				sendToServer({
+					action: 'feed_action',
+					type: 'update',
+					id: currentEditPostId,
+					content: content,
+					image: JSON.stringify(currentImages)
+				}).catch(console.error);
+			} 
+			
+			// --- TRƯỜNG HỢP: ĐĂNG BÀI MỚI ---
+			else {
+				// Tạo ID tạm thời (để render được ngay)
+				const tempId = 'temp_' + Date.now();
+				
+				// Tạo object bài viết giả lập
+				const newOptimisticPost = {
+					__backendId: tempId,
+					username: currentProfile ? currentProfile.username : 'AnDanh',
+                    // THÊM 2 DÒNG NÀY:
+                    fullname: currentProfile ? currentProfile.fullName : 'Ẩn Danh',
+                    avatar: currentProfile ? currentProfile.avatarData : '',
+                    // ----------------
+					content: content,
+					imageData: JSON.stringify(currentImages),
+					createdAt: timeString,
+					layout: selectedLayout,
+					likes: 0,
+					liked: false,
+					comments: '[]'
+				};
+
+				// Chèn bài mới lên đầu danh sách
+				serverFeedData.unshift(newOptimisticPost);
+				
+				// Vẽ lại giao diện ngay lập tức
+				renderPosts();
+				
+				// Chuyển tab sang Feed nếu đang ở tab khác
+				if (currentTab !== 'feed') {
+					document.querySelector('[data-tab="feed"]').click();
+				}
+				
+				// Scroll nhẹ lên đầu để thấy bài mới
+				const container = document.getElementById('posts-container');
+				if(container) container.scrollTop = 0;
+				
+				showToast('Đã đăng bài viết!');
+
+				// Gửi dữ liệu thật lên Server (Chạy ngầm)
+				sendToServer({
+					action: 'feed_action',
+					type: 'create',
+					username: currentProfile ? currentProfile.username : 'Anonymous',
+					content: content,
+					image: JSON.stringify(currentImages),
+					layout: selectedLayout, // Gửi thêm layout nếu server có cột lưu layout
+					fingerprint: userFingerprint
+				}).then(res => {
+					// Khi Server trả về ID thật, cập nhật lại ID tạm
+					if (res.status === 'success' && res.id) {
+						const tempPost = serverFeedData.find(p => p.__backendId === tempId);
+						if (tempPost) {
+							tempPost.__backendId = res.id;
+							tempPost.createdAt = res.time || "Vừa xong"; // Cập nhật giờ server
+							// Không cần render lại để tránh giật, lần sau reload sẽ tự khớp
+						}
+					}
+				}).catch(err => {
+					console.error("Lỗi đăng bài:", err);
+					// Nếu lỗi thì xóa bài tạm đi và báo lỗi (Undo UI)
+					serverFeedData = serverFeedData.filter(p => p.__backendId !== tempId);
+					renderPosts();
+					showToast('Lỗi kết nối! Bài viết chưa được lưu.');
+				});
+			}
+
+			// 3. Đóng Modal & Reset Form ngay lập tức
+			const modalEl = document.getElementById('createPostModal');
+			const modalInstance = bootstrap.Modal.getInstance(modalEl);
+			if (modalInstance) modalInstance.hide();
+
+			// Reset form (Code trong sự kiện hidden.bs.modal sẽ lo phần còn lại)
+			const postInput = document.getElementById('post-input');
+			if(postInput) postInput.value = '';
+			currentImages = [];
+			updateImagePreview();
+		}
+		
+		// --- HÀM XÓA BÀI VIẾT ---
+		async function deletePost(postId) {
+			if (!confirm('Bạn có chắc chắn muốn xóa bài viết này?')) return;
+
+			// 1. Ẩn bài viết trên giao diện NGAY LẬP TỨC (Optimistic UI)
+			const postEl = document.getElementById(`post-${postId}`);
+			if (postEl) {
+				postEl.style.transition = "opacity 0.5s";
+				postEl.style.opacity = "0";
+				setTimeout(() => postEl.remove(), 500);
+			}
+
+			try {
+				// 2. Gửi lệnh xóa lên Server
+				const res = await sendToServer({
+					action: 'feed_action',
+					type: 'delete',
+					id: postId
+				});
+
+				if (res.status === 'success' || res.result === 'success') {
+					showToast('Đã xóa bài viết');
+				} else {
+					showToast('Lỗi xóa server: ' + res.message);
+					// Nếu lỗi thì reload lại feed để hiện lại bài
+					loadFeedData(); 
+				}
+			} catch (e) {
+				console.error(e);
+				showToast('Lỗi kết nối!');
+			}
+		}
+		 
+		// --- 2. HÀM CHUẨN BỊ FORM ĐỂ SỬA (FIX LỖI ID) ---
+		function openEditPost(id, currentContent, currentImage) {
+			isEditingPost = true;
+			currentEditPostId = id;
+
+			// QUAN TRỌNG: Dùng đúng ID 'post-input'
+			const contentInput = document.getElementById('post-input');
+			if(contentInput) contentInput.value = currentContent;
+			
+			// Reset ảnh cũ và cập nhật giao diện
+			currentImages = []; 
+			updateImagePreview();
+
+			// Đổi giao diện Modal sang chế độ "Sửa"
+			const modalTitle = document.querySelector('#createPostModal .modal-title');
+			if(modalTitle) modalTitle.textContent = "Chỉnh sửa bài viết";
+			
+			const modalBtn = document.querySelector('#createPostModal .btn-primary');
+			if(modalBtn) modalBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Lưu thay đổi';
+
+			// Mở Modal
+			const modalEl = document.getElementById('createPostModal');
+			const modal = new bootstrap.Modal(modalEl);
+			modal.show();
+		}
+
+		// --- 3. SỬA LỖI RESET FORM KHI ĐÓNG MODAL (FIX LỖI NULL) ---
+		const createPostModalEl = document.getElementById('createPostModal');
+		if (createPostModalEl) {
+			createPostModalEl.addEventListener('hidden.bs.modal', function () {
+				isEditingPost = false;
+				currentEditPostId = null;
+				
+				// QUAN TRỌNG: Dùng đúng ID 'post-input' để xóa trắng
+				const contentInput = document.getElementById('post-input');
+				if(contentInput) contentInput.value = '';
+				
+				// Reset ảnh và giao diện về mặc định
+				currentImages = [];
+				updateImagePreview();
+				
+				document.querySelector('#createPostModal .modal-title').textContent = "Tạo bài viết";
+				const modalBtn = document.querySelector('#createPostModal .btn-primary');
+				if(modalBtn) modalBtn.innerHTML = '<i class="bi bi-send me-2"></i>Đăng bài';
+				
+				selectedLayout = 'grid-2x2';
+			});
+		}
+		
+		async function loadFeedData() {
+			const container = document.getElementById('posts-container');
+			// Hiển thị loading trong lúc tải
+			container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Đang tải bảng tin...</p></div>';
+
+			try {
+				const res = await sendToServer({ action: 'get_feed' });
+
+				if (res.status === 'success') {
+					serverFeedData = res.data; // Lưu dữ liệu vào biến toàn cục
+					renderPosts(); // Gọi hàm vẽ giao diện
+				} else {
+					container.innerHTML = '<div class="text-center py-5 text-danger">Lỗi tải dữ liệu</div>';
+				}
+			} catch (e) {
+				console.error(e);
+				container.innerHTML = '<div class="text-center py-5 text-muted">Không có kết nối mạng</div>';
+			}
+		}
+
+	  </script>
+	 </body>
+	</html>
