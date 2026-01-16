@@ -1,30 +1,16 @@
 [
   {
-    "timestamp": "2026-01-16T06:19:25.545Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
+    "timestamp": "2026-01-16T06:26:50.947Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1768539434066",
     "saved": true
   },
   {
-    "timestamp": "2026-01-16T05:52:55.323Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-16T05:39:26.367Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
-    "saved": true
-  },
-  {
-    "timestamp": "2026-01-16T05:00:47.058Z",
-    "action": "Hệ thống",
-    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
-    "username": "GitHub Actions",
+    "timestamp": "2026-01-16T06:26:48.829Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1768539434066",
     "saved": true
   },
   {
