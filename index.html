@@ -520,6 +520,19 @@
 		  animation: pulse-opacity 1.5s infinite;
 		}
 
+		/* Layout visual nhỏ gọn hơn */
+		.layout-grid-visual.small-visual {
+			height: 50px; /* Giảm chiều cao */
+			gap: 2px;
+		}
+		.layout-preview-box {
+			border: 1px solid #dee2e6; /* Viền mảnh hơn */
+		}
+		.layout-preview-box.selected {
+			border-color: var(--primary-color);
+			background-color: var(--secondary-color);
+			box-shadow: 0 0 0 1px var(--primary-color);
+		}
 
 	  </style>
 	  <style>@view-transition { navigation: auto; }</style>
@@ -890,51 +903,53 @@
 			</div>
 			<div id="images-preview-grid" class="row g-2"></div>
 		   </div>
-		   <div id="layout-selector" class="d-none mb-3"><label class="form-label fw-bold">Chọn bố cục hiển thị</label>
-			<div class="row g-2">
-			 <div class="col-6">
-			  <div class="layout-preview-box" data-layout="grid-2x2">
-			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
-			   </div>
-			   <p class="text-center small fw-semibold mt-2 mb-0">Lưới 2x2</p>
-			  </div>
-			 </div>
-			 <div class="col-6">
-			  <div class="layout-preview-box" data-layout="1-wide">
-			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-				<div style="grid-column: span 2;"></div>
-				<div></div>
-				<div></div>
-			   </div>
-			   <p class="text-center small fw-semibold mt-2 mb-0">1 ngang + 3</p>
-			  </div>
-			 </div>
-			 <div class="col-6">
-			  <div class="layout-preview-box" data-layout="1-tall">
-			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-				<div style="grid-row: span 2;"></div>
-				<div></div>
-				<div></div>
-			   </div>
-			   <p class="text-center small fw-semibold mt-2 mb-0">1 dọc + 3</p>
-			  </div>
-			 </div>
-			 <div class="col-6">
-			  <div class="layout-preview-box" data-layout="auto">
-			   <div class="layout-grid-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-				<div style="grid-row: span 2;"></div>
-				<div></div>
-				<div></div>
-			   </div>
-			   <p class="text-center small fw-semibold mt-2 mb-0">Tự động</p>
-			  </div>
-			 </div>
+		   
+		   <div id="image-options" class="d-none mb-2 d-flex justify-content-end border-bottom pb-2">
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="hd-quality-switch">
+					<label class="form-check-label small fw-semibold" for="hd-quality-switch">Chất lượng HD</label>
+				</div>
 			</div>
-		   </div>
+
+			<div id="layout-selector" class="d-none mb-3">
+				<label class="form-label fw-bold mb-2 small text-muted text-uppercase">Chọn bố cục hiển thị</label>
+				
+				<div class="row g-2">
+					<div class="col-3">
+						<div class="layout-preview-box p-1 selected" data-layout="grid-2x2">
+							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+								<div></div><div></div><div></div><div></div>
+							</div>
+							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">Lưới 2x2</p>
+						</div>
+					</div>
+					<div class="col-3">
+						<div class="layout-preview-box p-1" data-layout="1-wide">
+							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+								<div style="grid-column: span 2;"></div><div></div><div></div>
+							</div>
+							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">1 Ngang</p>
+						</div>
+					</div>
+					<div class="col-3">
+						<div class="layout-preview-box p-1" data-layout="1-tall">
+							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+								<div style="grid-row: span 2;"></div><div></div><div></div>
+							</div>
+							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">1 Dọc</p>
+						</div>
+					</div>
+					<div class="col-3">
+						<div class="layout-preview-box p-1" data-layout="auto">
+							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+								<div style="grid-row: span 2;"></div><div></div><div></div>
+							</div>
+							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">Auto</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		   <div class="mb-3"><label class="btn btn-outline-primary w-100"> <i class="bi bi-image me-2"></i>Thêm ảnh <input type="file" id="image-input" accept="image/*" multiple class="d-none"> </label>
 		   </div>
 				<button class="btn btn-primary w-100 py-3" id="post-btn" onclick="handlePostSubmit()" disabled> 
@@ -964,7 +979,7 @@
 	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	  <script>
 		// --- CẤU HÌNH KẾT NỐI ---
-		const API_URL = 'https://script.google.com/macros/s/AKfycbwmBE3S5OsjH6g-J--5QbXyamEla2y0AAbx1j1k64YQ29LR2JEQbMceSS9vbi6hKsyCRQ/exec';
+		const API_URL = 'https://script.google.com/macros/s/AKfycbzVfzSAWPJ2mIyAQKhv78X-DG__X8vINzvQE-HTtuij3RwkCkiLeU665Dh5NT7N-QZ_Ow/exec';
 		
 		let userFingerprint = null;
 
@@ -1081,7 +1096,8 @@
 		let currentPostId = null;
 		let pendingDeleteId = null;
 		let pendingDeleteType = null;
-		let currentImages = [];
+		let currentImages = []; // Bây giờ mảng này sẽ chứa File Object (nhẹ), không chứa Base64 (nặng)
+		let currentImagePreviews = []; // Mảng này chứa Base64 nhỏ xíu chỉ để hiển thị Preview cho đẹp
 		let memoryImageData = null;
 		let recordCount = 0;
 		let currentTheme = 'green';
@@ -2461,11 +2477,14 @@
 			// [MỚI] Logic hiển thị Note trạng thái
 			let statusBadge = '';
 			if (post.isUploading) {
-				// Đang upload: Hiện badge vàng + Icon xoay
+				// [CẬP NHẬT] Lấy nội dung tiến trình từ biến uploadStatus (nếu có)
+				const statusText = post.uploadStatus || 'Đang đăng...';
+				
+				// Thêm ID: id="status-badge-${post.__backendId}" để dễ cập nhật
 				statusBadge = `
-					<span class="badge bg-warning text-dark ms-auto animate-pulse">
+					<span id="status-badge-${post.__backendId}" class="badge bg-warning text-dark ms-auto animate-pulse">
 						<span class="spinner-border spinner-border-sm me-1" style="width: 0.7rem; height: 0.7rem;"></span>
-						Đang đăng...
+						${statusText}
 					</span>`;
 			} else {
 				// Đã xong: Hiện nút menu 3 chấm (như cũ)
@@ -2665,34 +2684,44 @@
 
 		function updateImagePreview() {
 			const previewContainer = document.getElementById('image-preview-container');
+			const imageOptions = document.getElementById('image-options'); // [MỚI]
 			const layoutSelector = document.getElementById('layout-selector');
 			const postBtn = document.getElementById('post-btn');
 			const imageCount = document.getElementById('image-count');
-			const gridContainer = document.getElementById('images-preview-grid'); // Container chứa ảnh
+			const gridContainer = document.getElementById('images-preview-grid');
 
 			if (currentImages.length === 0) {
 				previewContainer.classList.add('d-none');
-				layoutSelector.classList.add('d-none');
+				imageOptions.classList.add('d-none');   // Ẩn nút HD
+				layoutSelector.classList.add('d-none'); // Ẩn Layout
 				postBtn.disabled = !document.getElementById('post-input').value.trim();
 				return;
 			}
 
-			// Hiển thị container
+			// Hiển thị container ảnh
 			previewContainer.classList.remove('d-none');
 			imageCount.textContent = currentImages.length;
 			postBtn.disabled = false;
 
-			// Hiển thị chọn Layout nếu >= 3 ảnh
+			// [LOGIC MỚI] Hiển thị nút HD ngay khi có ảnh
+			imageOptions.classList.remove('d-none');
+
+			// [LOGIC MỚI] Chỉ hiển thị chọn Layout nếu >= 3 ảnh
 			if (currentImages.length >= 3) {
 				layoutSelector.classList.remove('d-none');
 			} else {
 				layoutSelector.classList.add('d-none');
 			}
 
-			// [QUAN TRỌNG] Render Preview GIỐNG HỆT hiển thị trên Feed
-			// Không hiện nút xóa từng ảnh nữa vì đã gộp layout, chỉ giữ nút "Xóa tất cả"
-			gridContainer.innerHTML = renderPostImages(currentImages, selectedLayout);
+			gridContainer.innerHTML = renderPostImages(currentImagePreviews, selectedLayout);
 		}
+		
+		// Sửa thêm: Nút xóa tất cả
+		document.getElementById('clear-all-images').addEventListener('click', () => {
+		  currentImages = [];
+		  currentImagePreviews = [];
+		  updateImagePreview();
+		});
 
 		function compressImage(file, maxWidth = 1920, quality = 0.8) {
 		  return new Promise((resolve) => {
@@ -3109,29 +3138,34 @@
 		  postBtn.disabled = !postInput.value.trim() && currentImages.length === 0;
 		});
 
+		// --- SỬA LẠI SỰ KIỆN CHỌN ẢNH ---
 		imageInput.addEventListener('change', async (e) => {
 			const files = Array.from(e.target.files);
 			if (files.length === 0) return;
 
-			showLoading();
-			for (const file of files) {
-				const compressed = await compressImage(file);
-				currentImages.push(compressed);
-			}
-			
-			// [LOGIC MỚI] Tự động set 1-wide nếu > 2 ảnh
-			if (currentImages.length > 2) {
-				selectedLayout = '1-wide';
-				
-				// Cập nhật UI highlight ô chọn layout
-				document.querySelectorAll('.layout-preview-box').forEach(opt => {
-					opt.classList.remove('selected');
-					if (opt.dataset.layout === '1-wide') opt.classList.add('selected');
-				});
+			// Giới hạn 20 ảnh
+			if (currentImages.length + files.length > 20) {
+				showToast('Chỉ được chọn tối đa 20 ảnh!');
+				return;
 			}
 
+			showLoading();
+			
+			for (const file of files) {
+				// 1. Lưu file gốc vào mảng (để dành tí nữa upload)
+				currentImages.push(file);
+
+				// 2. Tạo bản Preview nhẹ (resize nhỏ xíu chỉ để xem trên web)
+				// Dùng hàm nén cũ để tạo thumbnail hiển thị cho đỡ lag máy
+				const previewBase64 = await compressImage(file, 300, 0.6); 
+				currentImagePreviews.push(previewBase64);
+			}
+			
+			// Tự động chọn layout
+			if (currentImages.length > 2) selectedLayout = '1-wide';
+
 			hideLoading();
-			updateImagePreview();
+			updateImagePreview(); // Hàm này cần sửa lại chút ở bước dưới
 			e.target.value = '';
 		});
 
@@ -3989,180 +4023,185 @@
 		// --- HÀM XỬ LÝ ĐĂNG / CẬP NHẬT BÀI VIẾT (ĐÃ SỬA) ---
 		// Xử lý Đăng bài / Lưu bài viết (OPTIMISTIC UI)
 		// --- HÀM XỬ LÝ ĐĂNG / CẬP NHẬT BÀI VIẾT (FULL) ---
+		// --- HÀM XỬ LÝ ĐĂNG BÀI (LOGIC KÉP: HD & STANDARD) ---
+		// --- HÀM XỬ LÝ ĐĂNG BÀI (ĐÃ FIX LỖI MẤT ẢNH KHI ĐÓNG MODAL) ---
 		async function handlePostSubmit() {
-			lastUserActionTime = Date.now(); // [MỚI] Đánh dấu hành động
 			const contentInput = document.getElementById('post-input');
 			const content = contentInput.value;
+			const postBtn = document.getElementById('post-btn');
 			
-			// 1. Validate dữ liệu đầu vào
+			// Lấy trạng thái nút HD
+			const isHD = document.getElementById('hd-quality-switch').checked;
+
+			// 1. Validate
 			if (!content && currentImages.length === 0) {
 				showToast('Vui lòng viết gì đó hoặc thêm ảnh!');
 				return;
 			}
 
-			// Đảm bảo biến chứa dữ liệu không bị null
-			if (!serverFeedData) serverFeedData = [];
-
 			// ============================================================
-			// TRƯỜNG HỢP 1: SỬA BÀI VIẾT (UPDATE)
+			// [FIX QUAN TRỌNG] SAO CHÉP MẢNG ẢNH RA BIẾN CỤC BỘ
 			// ============================================================
-			if (isEditingPost && currentEditPostId) {
-				// A. Cập nhật lạc quan (Optimistic Update)
-				const postIndex = serverFeedData.findIndex(p => p.__backendId === currentEditPostId);
-				
-				if (postIndex !== -1) {
-					// Cập nhật dữ liệu ngay lập tức vào mảng local
-					serverFeedData[postIndex] = {
-						...serverFeedData[postIndex],
-						content: content,
-						imageData: JSON.stringify(currentImages),
-						layout: selectedLayout,
-						isUploading: true // Bật trạng thái đang xử lý để hiện badge
-					};
-					
-					// Vẽ lại giao diện ngay
-					renderPosts();
-					showToast('Đang lưu thay đổi...');
-				}
+			// Lý do: Khi đóng Modal, sự kiện 'hidden.bs.modal' sẽ xóa biến toàn cục currentImages.
+			// Ta cần clone nó ra một biến riêng (imagesToProcess) để vòng lặp bên dưới
+			// vẫn có dữ liệu để chạy dù Modal đã đóng và currentImages đã bị xóa.
+			const imagesToProcess = [...currentImages]; 
+			const previewsToSave = [...currentImagePreviews];
+			// ============================================================
 
-				// B. Đánh dấu tác vụ đang chạy (Chặn tắt trình duyệt)
-				pendingTasksCount++;
+			// --- CHUẨN BỊ ---
+			lastUserActionTime = Date.now();
+			pendingTasksCount++; 
+			postBtn.disabled = true;
 
-				// C. Gửi dữ liệu lên Server (Chạy ngầm)
-				// Lưu ý: Đóng modal ngay lập tức ở cuối hàm, không chờ await
-				sendToServer({
-					action: 'feed_action',
-					type: 'update',
-					id: currentEditPostId,
-					content: content,
-					image: JSON.stringify(currentImages),
-					layout: selectedLayout
-				}).then(res => {
-					if (res.status === 'success') {
-						// Update thành công -> Tắt trạng thái loading
-						const pIndex = serverFeedData.findIndex(p => p.__backendId === currentEditPostId);
-						if (pIndex !== -1) {
-							delete serverFeedData[pIndex].isUploading; // Xóa cờ đang upload
-							renderPosts(); // Vẽ lại để mất badge "Đang đăng..."
-							showToast('Đã cập nhật xong!');
-						}
-					} else {
-						showToast('Lỗi Server: ' + res.message);
-					}
-				}).catch(err => {
-					console.error("Lỗi update:", err);
-					showToast('Lỗi kết nối! Thay đổi chưa được lưu.');
-				}).finally(() => {
-					pendingTasksCount--; // Giảm tác vụ -> Cho phép tắt trình duyệt
-				});
-			} 
+			// --- TẠO BÀI VIẾT LẠC QUAN (Optimistic UI) ---
+			const tempId = 'temp_' + Date.now();
+			const now = new Date();
+			const newOptimisticPost = {
+				__backendId: tempId,
+				username: currentProfile ? currentProfile.username : 'AnDanh',
+				fullname: currentProfile ? currentProfile.fullName : 'Ẩn Danh',
+				avatar: currentProfile ? currentProfile.avatarData : '',
+				content: content,
+				// Dùng biến previewsToSave thay vì currentImagePreviews
+				imageData: JSON.stringify(previewsToSave.length > 0 ? previewsToSave : []), 
+				createdAt: "Vừa xong",
+				timestamp: now.getTime(),
+				layout: selectedLayout,
+				likes: 0,
+				liked: false,
+				comments: '[]',
+				isUploading: true,
+				uploadStatus: 'Đang xử lý...' 
+			};
+
+			serverFeedData.unshift(newOptimisticPost);
+			renderPosts();
+
+			if (currentTab !== 'feed') document.querySelector('[data-tab="feed"]').click();
+			const container = document.getElementById('posts-container');
+			if(container) container.scrollTop = 0;
+
+			// Đóng modal (Lệnh này sẽ kích hoạt việc xóa currentImages sau vài trăm ms)
+			const modalEl = document.getElementById('createPostModal');
+			const modalInstance = bootstrap.Modal.getInstance(modalEl);
+			if (modalInstance) modalInstance.hide();
 			
-			// ============================================================
-			// TRƯỜNG HỢP 2: ĐĂNG BÀI MỚI (CREATE)
-			// ============================================================
-			else {
-				// A. Tạo dữ liệu giả lập (Optimistic Data)
-				const tempId = 'temp_' + Date.now();
-				const now = new Date();
-				// Format giờ giả lập giống server (để hiển thị đẹp ngay)
-				const timeString = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+			try {
+				let finalImageData = []; 
 
-				const newOptimisticPost = {
-					__backendId: tempId,
-					username: currentProfile ? currentProfile.username : 'AnDanh',
-					fullname: currentProfile ? currentProfile.fullName : 'Ẩn Danh',
-					avatar: currentProfile ? currentProfile.avatarData : '',
-					content: content,
-					imageData: JSON.stringify(currentImages), // Dùng ảnh Base64 hiển thị tạm
-					createdAt: "Vừa xong",
-					timestamp: now.getTime(), // Để sort lên đầu
-					layout: selectedLayout,
-					likes: 0,
-					liked: false,
-					comments: '[]',
-					
-					// [QUAN TRỌNG] Cờ đánh dấu đang upload (để hiện Note vàng)
-					isUploading: true 
-				};
+				// ============================================================
+				// TRƯỜNG HỢP 1: CHẾ ĐỘ HD -> UPLOAD TỪNG ẢNH
+				// ============================================================
+				// [FIX] Sử dụng imagesToProcess thay vì currentImages trong vòng lặp
+				if (imagesToProcess.length > 0 && isHD) {
+					for (let i = 0; i < imagesToProcess.length; i++) {
+						const file = imagesToProcess[i];
+						const progressText = `Đang tải ảnh HD ${i + 1}/${imagesToProcess.length}...`;
+						
+						updatePostStatus(tempId, progressText);
 
-				// B. Cập nhật UI ngay lập tức
-				serverFeedData.unshift(newOptimisticPost);
-				renderPosts();
-				
-				// Chuyển tab sang Feed và cuộn lên đầu
-				if (currentTab !== 'feed') {
-					const feedTabBtn = document.querySelector('[data-tab="feed"]');
-					if(feedTabBtn) feedTabBtn.click();
+						// Delay nhẹ
+						if (i > 0) await new Promise(r => setTimeout(r, 500));
+
+						const base64Data = await readFileAsBase64(file);
+						const fileName = new Date().getTime() + "_" + i;
+
+						const res = await sendToServer({
+							action: 'upload_single_image', 
+							image: base64Data,
+							name: fileName
+						});
+
+						if (res.status === 'success') {
+							finalImageData.push(res.url);
+						} else {
+							throw new Error("Lỗi ảnh số " + (i+1));
+						}
+					}
+				} 
+				// ============================================================
+				// TRƯỜNG HỢP 2: CHẾ ĐỘ THƯỜNG -> GOM TẤT CẢ GỬI 1 LẦN
+				// ============================================================
+				// [FIX] Sử dụng imagesToProcess thay vì currentImages
+				else if (imagesToProcess.length > 0 && !isHD) {
+					for (let i = 0; i < imagesToProcess.length; i++) {
+						const file = imagesToProcess[i];
+						
+						updatePostStatus(tempId, `Đang xử lý ảnh ${i + 1}/${imagesToProcess.length}...`);
+
+						const compressedBase64 = await compressImage(file, 1920, 0.8);
+						finalImageData.push(compressedBase64);
+					}
 				}
-				const container = document.getElementById('posts-container');
-				if(container) container.scrollTop = 0;
-				
-				showToast('Đang đăng bài viết...');
 
-				// C. Đánh dấu tác vụ đang chạy (Chặn tắt trình duyệt)
-				pendingTasksCount++;
+				// ============================================================
+				// BƯỚC CUỐI: GỬI LỆNH TẠO BÀI VIẾT
+				// ============================================================
+				updatePostStatus(tempId, isHD ? 'Đang lưu bài...' : 'Đang đăng bài...');
 
-				// D. Gửi dữ liệu thật lên Server (Background)
-				sendToServer({
+				const res = await sendToServer({
 					action: 'feed_action',
 					type: 'create',
 					username: currentProfile ? currentProfile.username : 'Anonymous',
 					content: content,
-					image: JSON.stringify(currentImages),
+					image: JSON.stringify(finalImageData), 
 					layout: selectedLayout,
 					fingerprint: userFingerprint
-				}).then(res => {
-					// --- KHI THÀNH CÔNG ---
-					if (res.status === 'success' && res.id) {
-						// Tìm lại bài viết tạm trong mảng
-						const tempPost = serverFeedData.find(p => p.__backendId === tempId);
-						if (tempPost) {
-							// 1. Cập nhật ID thật và Thời gian thật từ Server
-							tempPost.__backendId = res.id;
-							tempPost.createdAt = res.time || timeString;
-							
-							// 2. Cập nhật Link ảnh Drive (Thay thế Base64 nặng nề)
-							if (res.images && res.images.length > 0) {
-								 tempPost.imageData = JSON.stringify(res.images);
-							}
-							
-							// 3. [QUAN TRỌNG] Tắt trạng thái đang upload
-							delete tempPost.isUploading; 
-							
-							// 4. Vẽ lại giao diện (Sẽ mất Note "Đang đăng...", hiện nút Menu)
-							renderPosts();
-							// showToast('Đã đăng thành công!'); // Không cần thiết lắm vì đã mất note
-						}
-					} else {
-						throw new Error(res.message || 'Lỗi không xác định');
-					}
-				}).catch(err => {
-					// --- KHI CÓ LỖI ---
-					console.error("Lỗi đăng bài:", err);
-					showToast('Lỗi kết nối! Bài viết chưa được lưu.');
-					
-					// Xóa bài viết tạm khỏi giao diện để tránh hiểu nhầm
-					serverFeedData = serverFeedData.filter(p => p.__backendId !== tempId);
-					renderPosts();
-					
-				}).finally(() => {
-					// --- KẾT THÚC TIẾN TRÌNH ---
-					pendingTasksCount--; // Giảm biến đếm -> Cho phép tắt trình duyệt
 				});
+
+				if (res.status === 'success' && res.id) {
+					const finalPost = serverFeedData.find(p => p.__backendId === tempId);
+					if (finalPost) {
+						finalPost.__backendId = res.id;
+						finalPost.createdAt = res.time || "Vừa xong";
+						if (res.images && res.images.length > 0) {
+							 finalPost.imageData = JSON.stringify(res.images);
+						}
+						delete finalPost.isUploading;
+						delete finalPost.uploadStatus;
+						renderPosts();
+						showToast('Đã đăng thành công!');
+					}
+				} else {
+					throw new Error(res.message);
+				}
+
+			} catch (err) {
+				console.error("Lỗi đăng bài:", err);
+				showToast('Lỗi: ' + err.message);
+				
+				const badgeEl = document.getElementById(`status-badge-${tempId}`);
+				if (badgeEl) {
+					badgeEl.className = "badge bg-danger text-white ms-auto";
+					badgeEl.innerHTML = `<i class="bi bi-exclamation-triangle me-1"></i> Lỗi`;
+				}
+			} finally {
+				postBtn.disabled = false;
+				postBtn.innerHTML = '<i class="bi bi-send me-2"></i>Đăng bài';
+				pendingTasksCount--; 
+				
+				// Form và biến toàn cục đã được reset bởi sự kiện 'hidden.bs.modal'
+				// Nhưng để chắc chắn, ta reset lại lần nữa cũng không sao
+				if(contentInput) contentInput.value = '';
+				currentImages = [];
+				currentImagePreviews = [];
+				// updateImagePreview(); // Không cần gọi lại vì modal đóng đã gọi rồi
 			}
+		}
 
-			// ============================================================
-			// CLEANUP: Đóng Modal & Reset Form ngay lập tức
-			// ============================================================
-			const modalEl = document.getElementById('createPostModal');
-			const modalInstance = bootstrap.Modal.getInstance(modalEl);
-			if (modalInstance) modalInstance.hide();
+		// Hàm phụ trợ cập nhật trạng thái UI cho gọn code
+		function updatePostStatus(tempId, text) {
+			const tempPost = serverFeedData.find(p => p.__backendId === tempId);
+			if (tempPost) tempPost.uploadStatus = text;
 
-			// Reset Form (Code reset chi tiết nằm trong sự kiện hidden.bs.modal)
-			// Nhưng ta clear sơ bộ để tránh lag
-			if(contentInput) contentInput.value = '';
-			currentImages = [];
-			updateImagePreview();
+			const badgeEl = document.getElementById(`status-badge-${tempId}`);
+			if (badgeEl) {
+				badgeEl.innerHTML = `
+					<span class="spinner-border spinner-border-sm me-1" style="width: 0.7rem; height: 0.7rem;"></span>
+					${text}
+				`;
+			}
 		}
 		
 		// --- HÀM XÓA BÀI VIẾT ---
@@ -4370,6 +4409,16 @@
 
 			// 4. Hiển thị Modal
 			imageViewerModal.show();
+		}
+		
+		// Thêm vào vùng Utils
+		function readFileAsBase64(file) {
+			return new Promise((resolve, reject) => {
+				const reader = new FileReader();
+				reader.onload = () => resolve(reader.result);
+				reader.onerror = error => reject(error);
+				reader.readAsDataURL(file);
+			});
 		}
 
 		// Xử lý khi đóng modal để xóa sạch dữ liệu (tiết kiệm bộ nhớ)
