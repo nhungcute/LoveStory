@@ -50,7 +50,7 @@
 		.app-header {
 		  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
 		  color: white;
-		  padding: 1rem;
+		  padding: 0.5rem;
 		  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 		}
 		
@@ -426,7 +426,8 @@
 	  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
 	 </head>
 	 <body class="h-100">
-	  <div id="app"><header class="app-header">
+	  <div id="app">
+	  <header class="app-header">
 		<div class="d-flex align-items-center justify-content-between">
 		 <div>
 		  <h5 id="app-title" class="mb-0 fw-bold">Love Story</h5><small id="welcome-message" class="opacity-75">Lưu giữ kỷ niệm đẹp</small>
@@ -466,7 +467,7 @@
 		 </div>
 		</div>
 	   </main><button class="fab-btn d-none" id="fab-btn"> <i class="bi bi-plus-lg fs-4"></i> </button> <nav class="bottom-nav">
-		<div class="d-flex justify-content-around py-2"><button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center" data-tab="feed"> <i class="bi bi-grid-3x3-gap fs-4"></i> <small class="fw-semibold">Bảng tin</small> </button> <button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center active" data-tab="home"> <i class="bi bi-house-fill fs-4"></i> <small class="fw-semibold">Home</small> </button> <button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center" data-tab="albums"> <i class="bi bi-folder-fill fs-4"></i> <small class="fw-semibold">Album</small> </button>
+		<div class="d-flex justify-content-around py-1"><button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center" data-tab="feed"> <i class="bi bi-grid-3x3-gap fs-4"></i> <small class="fw-semibold">Bảng tin</small> </button> <button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center active" data-tab="home"> <i class="bi bi-house-fill fs-4"></i> <small class="fw-semibold">Home</small> </button> <button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center" data-tab="albums"> <i class="bi bi-folder-fill fs-4"></i> <small class="fw-semibold">Album</small> </button>
 		</div>
 	   </nav><div class="modal fade" id="notificationsModal" tabindex="-1">
 		<div class="modal-dialog modal-fullscreen">
@@ -847,7 +848,7 @@
 	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	  <script>
 		// --- CẤU HÌNH KẾT NỐI ---
-		const API_URL = 'https://script.google.com/macros/s/AKfycbyd1fk-Vu9Xv69SiE5JiKr6g39R-zSG0PcplcJIqLzZjtUsBsD6RpXVQec3bWYozXP-uQ/exec';
+		const API_URL = 'https://script.google.com/macros/s/AKfycbwnpKnE9v10-9X68r0mK4giz-5zBEVuCKVHRyln8VYdWcoT3JOwjF0hyXfRZM8HHiKMWg/exec';
 		
 		let userFingerprint = null;
 
@@ -986,6 +987,12 @@
 		let bikeHistoryPage = 1;
 		let bikeHistoryLoading = false;
 		let bikeHistoryHasMore = true;
+		
+		// --- BIẾN QUẢN LÝ PHÂN TRANG FEED ---
+		let feedPage = 1;
+		let feedLoading = false;
+		let feedHasMore = true;
+
 
 		function applyTheme(themeName) {
 		  const theme = themes[themeName];
@@ -1008,7 +1015,7 @@
 		  window.elementSdk.init({
 			defaultConfig,
 			onConfigChange: async (config) => {
-			  document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+			  //document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
 			  document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
 			},
 			mapToCapabilities: () => ({ recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined }),
@@ -2249,108 +2256,114 @@
 		} 
 		
 		// --- HÀM RENDER POSTS (Đã thêm Sắp xếp Mới -> Cũ) ---
-		function renderPosts() {
+		// Hàm tạo HTML cho 1 bài viết (Tách ra để tái sử dụng)
+		function createPostHtml(post) {
+			const safeContent = encodeURIComponent(post.content || '');
+			const displayName = post.fullname || post.username || 'Người dùng ẩn danh';
+			const avatarUrl = post.avatar; 
+			const images = parseImages(post.imageData);
+
+			const avatarHtml = avatarUrl 
+				? `<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">`
+				: `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold" style="font-size: 1.2rem;">${displayName.charAt(0).toUpperCase()}</div>`;
+			
+			const editButtonHtml = (currentProfile && currentProfile.username === post.username) 
+				? `<button class="btn btn-sm btn-link text-muted post-menu-btn" data-id="${post.__backendId}">
+						<i class="bi bi-three-dots-vertical"></i>
+				   </button>` 
+				: '';
+
+			return `
+				<div class="post-card p-3 mb-3 fade-in" id="post-${post.__backendId}">
+					<div class="d-flex align-items-center justify-content-between mb-3">
+						<div class="d-flex align-items-center">
+							<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
+								${avatarHtml}
+							</div>
+							<div>
+								<p class="fw-bold mb-0 text-dark">${displayName}</p>
+								<small class="text-muted" style="font-size: 0.8rem;">
+									<i class="bi bi-clock me-1"></i>${post.createdAt}
+								</small>
+							</div>
+						</div>
+						${editButtonHtml}
+					</div>
+					
+					${post.content ? `<div class="mb-3" style="white-space: pre-wrap; font-size: 1rem; color: #374151;">${post.content}</div>` : ''}
+					
+					${renderPostImages(images, post.layout || 'grid-2x2')}
+					
+					<div class="d-flex gap-4 pt-2 border-top mt-2">
+						<button class="btn btn-sm btn-link text-decoration-none like-btn text-muted" data-id="${post.__backendId}">
+							<i class="bi bi-heart${post.liked ? '-fill text-danger' : ''} fs-5"></i>
+							<span class="ms-1">${post.likes > 0 ? post.likes : 'Thích'}</span>
+						</button>
+						<button class="btn btn-sm btn-link text-decoration-none text-muted comment-btn" data-id="${post.__backendId}">
+							<i class="bi bi-chat fs-5"></i>
+							<span class="ms-1">Bình luận</span>
+						</button>
+					</div>
+				</div>
+			`;
+		}
+
+		// Hàm Render chính (Hỗ trợ Append)
+		function renderPostsPaged(newPosts, page) {
 			const container = document.getElementById('posts-container');
 			
-			// 1. Lấy dữ liệu
-			let posts = serverFeedData || []; 
+			// Xóa trigger cũ
+			const oldTrigger = document.getElementById('feed-load-more');
+			if(oldTrigger) oldTrigger.remove();
 
-			// 2. Hàm hỗ trợ đổi chuỗi "dd/MM/yyyy HH:mm" thành đối tượng Date để so sánh
-			const parsePostDate = (dateStr) => {
-				if (!dateStr) return 0;
-				if (dateStr === "Vừa xong") return new Date().getTime() + 10000; // Ưu tiên số 1
-
-				try {
-					// Tách ngày và giờ (VD: 15/01/2026 14:30)
-					const parts = dateStr.split(' ');
-					if (parts.length < 2) return 0;
-
-					const dateParts = parts[0].split('/'); // [15, 01, 2026]
-					const timeParts = parts[1].split(':'); // [14, 30]
-
-					// Tạo Date(năm, tháng - 1, ngày, giờ, phút)
-					return new Date(
-						dateParts[2], 
-						dateParts[1] - 1, 
-						dateParts[0], 
-						timeParts[0], 
-						timeParts[1]
-					).getTime();
-				} catch (e) {
-					return 0;
+			// Nếu trang 1: Xóa trắng container và check rỗng
+			if (page === 1) {
+				container.innerHTML = '';
+				if (!newPosts || newPosts.length === 0) {
+					container.innerHTML = `
+						<div class="text-center py-5">
+							<i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
+							<p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
+							<p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
+						</div>
+					`;
+					return;
 				}
-			};
-
-			// 3. THỰC HIỆN SẮP XẾP: Mới nhất (Time lớn) lên đầu
-			posts.sort((a, b) => {
-				return parsePostDate(b.createdAt) - parsePostDate(a.createdAt);
-			});
-			
-			// 4. Kiểm tra dữ liệu rỗng
-			if (posts.length === 0) {
-				container.innerHTML = `
-					<div class="text-center py-5">
-						<i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
-						<p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
-						<p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
-					</div>
-				`;
-				return;
 			}
 
-			// 5. Render HTML
-			container.innerHTML = posts.map(post => {
-				const safeContent = encodeURIComponent(post.content || '');
-				const displayName = post.fullname || post.username || 'Người dùng ẩn danh';
-				const avatarUrl = post.avatar; 
-				const images = parseImages(post.imageData);
+			// Append bài mới
+			let html = newPosts.map(post => createPostHtml(post)).join('');
+			container.insertAdjacentHTML('beforeend', html);
 
-				// HTML Avatar
-				const avatarHtml = avatarUrl 
-					? `<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">`
-					: `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold" style="font-size: 1.2rem;">${displayName.charAt(0).toUpperCase()}</div>`;
+			// Thêm Trigger Load More nếu còn dữ liệu
+			if (feedHasMore) {
+				const trigger = document.createElement('div');
+				trigger.id = 'feed-load-more';
+				trigger.className = 'py-4 text-center text-muted small';
+				trigger.innerHTML = `<div class="spinner-border spinner-border-sm text-secondary" role="status"></div> Đang tải thêm tin...`;
 				
-				// HTML Nút sửa (chỉ hiện nếu là bài của mình)
-				const editButtonHtml = (currentProfile && currentProfile.username === post.username) 
-					? `<button class="btn btn-sm btn-link text-muted post-menu-btn" data-id="${post.__backendId}">
-							<i class="bi bi-three-dots-vertical"></i>
-					   </button>` 
-					: '';
+				container.appendChild(trigger);
+				
+				// Setup Infinite Scroll
+				const observer = new IntersectionObserver((entries) => {
+					if (entries[0].isIntersecting && !feedLoading) {
+						feedPage++; // Tăng số trang
+						loadFeedData(feedPage); // Gọi API trang tiếp theo
+					}
+				}, { threshold: 0.1 });
+				
+				observer.observe(trigger);
+			} else if (page > 1) {
+				// Đã hết tin để load
+				container.insertAdjacentHTML('beforeend', '<div class="text-center py-4 text-muted small">--- Bạn đã xem hết tin ---</div>');
+			}
+		}
 
-				return `
-					<div class="post-card p-3 mb-3" id="post-${post.__backendId}">
-						<div class="d-flex align-items-center justify-content-between mb-3">
-							<div class="d-flex align-items-center">
-								<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
-									${avatarHtml}
-								</div>
-								<div>
-									<p class="fw-bold mb-0 text-dark">${displayName}</p>
-									<small class="text-muted" style="font-size: 0.8rem;">
-										<i class="bi bi-clock me-1"></i>${post.createdAt}
-									</small>
-								</div>
-							</div>
-							${editButtonHtml}
-						</div>
-						
-						${post.content ? `<div class="mb-3" style="white-space: pre-wrap; font-size: 1rem; color: #374151;">${post.content}</div>` : ''}
-						
-						${renderPostImages(images, post.layout || 'grid-2x2')}
-						
-						<div class="d-flex gap-4 pt-2 border-top mt-2">
-							<button class="btn btn-sm btn-link text-decoration-none like-btn text-muted" data-id="${post.__backendId}">
-								<i class="bi bi-heart${post.liked ? '-fill text-danger' : ''} fs-5"></i>
-								<span class="ms-1">${post.likes > 0 ? post.likes : 'Thích'}</span>
-							</button>
-							<button class="btn btn-sm btn-link text-decoration-none text-muted comment-btn" data-id="${post.__backendId}">
-								<i class="bi bi-chat fs-5"></i>
-								<span class="ms-1">Bình luận</span>
-							</button>
-						</div>
-					</div>
-				`;
-			}).join('');
+		// Giữ lại hàm renderPosts cũ (nhưng gọi sang hàm mới) để tương thích với các đoạn code khác gọi nó
+		function renderPosts() {
+			// Hàm này chủ yếu dùng khi Create/Edit post xong muốn vẽ lại tất cả
+			// Trong logic mới, tốt nhất là chỉ render lại từ đầu mảng serverFeedData
+			renderPostsPaged(serverFeedData, 1);
 		}
 
 		function renderAlbums() {
@@ -2509,38 +2522,72 @@
 		}
 
 		// Notifications
-		document.getElementById('notification-btn').addEventListener('click', () => {
-		  renderNotifications();
-		  notificationsModal.show();
-		});
+		// --- XỬ LÝ THÔNG BÁO (NOTIFICATIONS) ---
 
+		// 1. Nút Đánh dấu tất cả đã đọc
 		document.getElementById('mark-all-read').addEventListener('click', async () => {
-		  const unreadNotifications = allData.filter(d => d.type === 'notification' && !d.isRead);
-		  
-		  showLoading();
-		  for (const notif of unreadNotifications) {
-			await window.dataSdk.update({
-			  ...notif,
-			  isRead: true
-			});
-		  }
-		  hideLoading();
-		  renderNotifications();
-		  showToast('Đã đánh dấu tất cả!');
+			showLoading();
+			try {
+				const res = await sendToServer({
+					action: 'notification_action',
+					type: 'mark_all_read'
+				});
+
+				if (res.status === 'success') {
+					// Cập nhật giao diện Local ngay lập tức
+					const badges = document.querySelectorAll('.notification-item.unread');
+					badges.forEach(el => {
+						el.classList.remove('unread');
+						const dot = el.querySelector('.notification-dot');
+						if(dot) dot.remove();
+					});
+					
+					// Ẩn badge đỏ trên header
+					document.getElementById('notification-badge').classList.add('d-none');
+					
+					showToast('Đã đánh dấu tất cả đã đọc!');
+				} else {
+					showToast('Lỗi: ' + res.message);
+				}
+			} catch (e) {
+				console.error(e);
+				showToast('Lỗi kết nối server');
+			} finally {
+				hideLoading();
+			}
 		});
 
+		// 2. Nút Xóa tất cả thông báo
 		document.getElementById('clear-all-notifications').addEventListener('click', async () => {
-		  const notifications = allData.filter(d => d.type === 'notification');
-		  
-		  if (notifications.length === 0) return;
-		  
-		  showLoading();
-		  for (const notif of notifications) {
-			await window.dataSdk.delete(notif);
-		  }
-		  hideLoading();
-		  renderNotifications();
-		  showToast('Đã xóa tất cả thông báo!');
+			if(!confirm("Bạn có chắc muốn xóa sạch lịch sử thông báo không?")) return;
+
+			showLoading();
+			try {
+				const res = await sendToServer({
+					action: 'notification_action',
+					type: 'delete_all'
+				});
+
+				if (res.status === 'success') {
+					// Xóa sạch list trên giao diện
+					document.getElementById('notifications-list').innerHTML = `
+					  <div class="text-center py-5">
+						<i class="bi bi-bell-slash theme-text-primary" style="font-size: 4rem;"></i>
+						<p class="fw-semibold fs-5 mt-3">Chưa có thông báo</p>
+						<p class="text-muted">Các thông báo mới sẽ hiển thị ở đây</p>
+					  </div>
+					`;
+					document.getElementById('notification-badge').classList.add('d-none');
+					showToast('Đã xóa tất cả thông báo!');
+				} else {
+					showToast('Lỗi: ' + res.message);
+				}
+			} catch (e) {
+				console.error(e);
+				showToast('Lỗi kết nối server');
+			} finally {
+				hideLoading();
+			}
 		});
 
 		document.getElementById('notifications-list').addEventListener('click', async (e) => {
@@ -2595,7 +2642,11 @@
 			
 			// --- SỬA Ở ĐÂY ---
 			if (currentTab === 'feed') {
-				loadFeedData(); // Gọi hàm tải dữ liệu từ server
+				// Reset phân trang khi bấm vào tab Bảng tin
+				feedPage = 1;
+				feedHasMore = true;
+				serverFeedData = []; // Xóa cache cũ
+				loadFeedData();
 			}
 			else if (currentTab === 'home') {
 				renderStats(); updateStats(); 
@@ -2902,8 +2953,8 @@
 
 				// 4. Cập nhật giao diện ngay lập tức (Header, Avatar...)
 				updateAvatarDisplays();
-				const appTitle = document.getElementById('app-title');
-				if(appTitle) appTitle.textContent = currentProfile.fullName;
+				//const appTitle = document.getElementById('app-title');
+				//if(appTitle) appTitle.textContent = currentProfile.fullName;
 
 				// 5. Đóng Modal NGAY LẬP TỨC
 				const modalEl = document.getElementById('profileModal');
@@ -3617,23 +3668,46 @@
 			});
 		}
 		
-		async function loadFeedData() {
+		async function loadFeedData(page = 1) {
 			const container = document.getElementById('posts-container');
-			// Hiển thị loading trong lúc tải
-			container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Đang tải bảng tin...</p></div>';
+			
+			// Chặn gọi trùng lặp
+			if (feedLoading) return;
+			feedLoading = true;
+
+			// UI Loading: Trang 1 thì hiện giữa màn hình, trang sau thì hiện ở đáy (đã có trigger lo)
+			if (page === 1) {
+				container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Đang tải bảng tin...</p></div>';
+			}
 
 			try {
-				const res = await sendToServer({ action: 'get_feed' });
+				// Gọi Server với tham số phân trang
+				const res = await sendToServer({ 
+					action: 'get_feed', 
+					page: page, 
+					limit: 10 // Tải 10 bài mỗi lần
+				});
 
 				if (res.status === 'success') {
-					serverFeedData = res.data; // Lưu dữ liệu vào biến toàn cục
-					renderPosts(); // Gọi hàm vẽ giao diện
+					// Cập nhật dữ liệu vào biến toàn cục
+					if (page === 1) {
+						serverFeedData = res.data;
+					} else {
+						serverFeedData = serverFeedData.concat(res.data);
+					}
+					
+					feedHasMore = res.hasMore;
+					
+					// Gọi hàm render mới (có tham số page)
+					renderPostsPaged(res.data, page);
 				} else {
-					container.innerHTML = '<div class="text-center py-5 text-danger">Lỗi tải dữ liệu</div>';
+					if (page === 1) container.innerHTML = '<div class="text-center py-5 text-danger">Lỗi tải dữ liệu</div>';
 				}
 			} catch (e) {
 				console.error(e);
-				container.innerHTML = '<div class="text-center py-5 text-muted">Không có kết nối mạng</div>';
+				if (page === 1) container.innerHTML = '<div class="text-center py-5 text-muted">Không có kết nối mạng</div>';
+			} finally {
+				feedLoading = false;
 			}
 		}
 
