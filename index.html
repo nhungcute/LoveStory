@@ -847,7 +847,7 @@
 	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	  <script>
 		// --- CẤU HÌNH KẾT NỐI ---
-		const API_URL = 'https://script.google.com/macros/s/AKfycbyxPiVarFCDSIWxdfMhcRfRFl9feyHmiHYh94RmCXxvEuhk3q0z4DbjV5keKPgfGo9zNA/exec';
+		const API_URL = 'https://script.google.com/macros/s/AKfycbyd1fk-Vu9Xv69SiE5JiKr6g39R-zSG0PcplcJIqLzZjtUsBsD6RpXVQec3bWYozXP-uQ/exec';
 		
 		let userFingerprint = null;
 
@@ -981,6 +981,11 @@
 
 		let isEditingPost = false;
 		let currentEditPostId = null;
+		
+		// --- BIẾN QUẢN LÝ PHÂN TRANG HISTORY ---
+		let bikeHistoryPage = 1;
+		let bikeHistoryLoading = false;
+		let bikeHistoryHasMore = true;
 
 		function applyTheme(themeName) {
 		  const theme = themes[themeName];
@@ -1424,58 +1429,208 @@
 
 		// --- HÀM CHÍNH: HIỂN THỊ THỐNG KÊ ---
 		async function showBikeStats() {
-			// 1. Hiển thị Modal
 			bikeStatsModal.show();
 			
-			// 2. Reset giao diện về trạng thái Loading
+			// Reset trạng thái phân trang
+			bikeHistoryPage = 1;
+			bikeHistoryHasMore = true;
+			bikeHistoryLoading = false;
+
+			// Reset UI Loading
 			document.getElementById('stats-today').textContent = '...';
 			document.getElementById('stats-week').textContent = '...';
 			document.getElementById('stats-month').textContent = '...';
 			
-			// Loading cho biểu đồ
-			const chartContainer = document.getElementById('bike-chart');
-			if (chartContainer) {
-				chartContainer.innerHTML = '<div class="d-flex align-items-center justify-content-center h-100"><div class="spinner-border text-primary spinner-border-sm" role="status"></div></div>';
-			}
-			
-			// Loading cho danh sách lịch sử
 			const historyContainer = document.getElementById('bike-history-list');
 			if (historyContainer) {
-				historyContainer.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div></div>';
+				historyContainer.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div><div class="small text-muted mt-1">Đang tải dữ liệu mới nhất...</div></div>';
 			}
+
+			// Gọi API TRANG 1 (Limit 15 dòng - Đủ cho 1 ngày)
+			loadBikeHistoryData(1);
+		}
+		
+		async function loadBikeHistoryData(page) {
+			if (bikeHistoryLoading) return;
+			bikeHistoryLoading = true;
 
 			try {
-				// 3. Gọi API lấy dữ liệu từ Server
-				const res = await sendToServer({ action: 'get_bike_stats' });
+				const res = await sendToServer({ 
+					action: 'get_bike_stats',
+					page: page,
+					limit: 15 // Chỉ tải 15 dòng mỗi lần -> Rất nhanh
+				});
 
-				if (res.status === 'success' || res.result === 'success') {
-					// A. Cập nhật số liệu tổng quan (Header)
-					if(res.stats) {
-						document.getElementById('stats-today').textContent = res.stats.today;
-						document.getElementById('stats-week').textContent = res.stats.week;
-						document.getElementById('stats-month').textContent = res.stats.month;
+				if (res.status === 'success') {
+					// 1. Nếu là trang 1: Cập nhật Stats & Chart
+					if (page === 1) {
+						if(res.stats) {
+							document.getElementById('stats-today').textContent = res.stats.today;
+							document.getElementById('stats-week').textContent = res.stats.week;
+							document.getElementById('stats-month').textContent = res.stats.month;
+						}
+						if (res.history) renderBikeChartFromServer(res.history);
 					}
 
-					// B. Vẽ biểu đồ (Dùng dữ liệu tổng hợp 'history' - dd/mm/yyyy và số tổng)
-					if (res.history) {
-						renderBikeChartFromServer(res.history); 
-					}
-
-					// C. Vẽ danh sách chi tiết (Dùng dữ liệu 'logs' - có giờ:phút:giây)
-					if (res.logs && res.logs.length > 0) {
-						 renderBikeHistoryFromServer(res.logs);
-					} else {
-						 // Fallback: Nếu không có logs chi tiết thì báo trống
-						 if(historyContainer) historyContainer.innerHTML = '<p class="text-center text-muted py-3 small">Chưa có dữ liệu chi tiết</p>';
-					}
-
-				} else {
-					showToast('Lỗi tải dữ liệu: ' + res.message);
+					// 2. Render Danh sách Log
+					bikeHistoryHasMore = res.hasMore; // Server báo còn dữ liệu ko
+					renderBikeHistoryPaged(res.logs, page);
 				}
 			} catch (e) {
-				console.error("Lỗi showBikeStats:", e);
-				if(chartContainer) chartContainer.innerHTML = '<div class="text-center text-danger small py-5">Lỗi kết nối</div>';
+				console.error("Lỗi tải lịch sử:", e);
+			} finally {
+				bikeHistoryLoading = false;
 			}
+		}
+		
+		// --- HÀM PHỤ TRỢ: TẠO HTML CHO 1 DÒNG LOG ---
+		function createLogItemHtml(log) {
+			const firstLetter = log.username ? log.username.charAt(0).toUpperCase() : '?';
+			return `
+				<div class="list-group-item border-0 p-2 d-flex justify-content-between align-items-center mb-1 rounded hover-bg-light">
+					<div class="d-flex align-items-center">
+						 <div class="rounded-circle theme-bg-primary d-flex align-items-center justify-content-center text-white me-2 shadow-sm" style="width: 32px; height: 32px; font-size: 12px; font-weight: bold;">
+							${firstLetter}
+						 </div>
+						 <div class="d-flex flex-column">
+							 <span class="small fw-bold text-dark">${log.username || 'Ẩn danh'}</span>
+						 </div>
+					</div>
+					<div class="text-end">
+						<span class="badge bg-light text-secondary border fw-normal font-monospace">${log.time || '--:--'}</span>
+					</div>
+				</div>
+			`;
+		}
+
+		// --- HÀM RENDER CHÍNH (ĐÃ FIX LỖI TRÙNG GROUP NGÀY) ---
+		function renderBikeHistoryPaged(logsData, page) {
+			const container = document.getElementById('bike-history-list');
+			if (!container) return;
+
+			// 1. Xóa nút Load More cũ trước khi thêm dữ liệu mới
+			const oldTrigger = document.getElementById('load-more-trigger');
+			if(oldTrigger) oldTrigger.remove();
+
+			// 2. Nếu là trang 1 thì reset toàn bộ
+			if (page === 1) {
+				container.innerHTML = '';
+				if (!logsData || logsData.length === 0) {
+					container.innerHTML = '<p class="text-center text-muted py-3 small">Chưa có dữ liệu chi tiết</p>';
+					return;
+				}
+			}
+
+			// 3. Gom nhóm dữ liệu mới theo ngày
+			const groups = {};
+			logsData.forEach(item => {
+				if (!item.date) return;
+				if (!groups[item.date]) groups[item.date] = [];
+				groups[item.date].push(item);
+			});
+
+			// Lấy danh sách các ngày trong lô dữ liệu mới (Thứ tự: Mới -> Cũ)
+			const dates = Object.keys(groups);
+
+			// 4. XỬ LÝ GỘP (MERGE) NẾU TRÙNG NGÀY
+			if (page > 1 && dates.length > 0) {
+				// Lấy ngày đầu tiên của lô mới
+				const firstDateOfNewBatch = dates[0];
+				
+				// Tìm nhóm ngày cuối cùng đang hiển thị trên màn hình
+				const lastRenderedGroup = container.querySelector('.history-group:last-child');
+				
+				if (lastRenderedGroup) {
+					const lastRenderedDate = lastRenderedGroup.getAttribute('data-date');
+					
+					// Nếu ngày cuối cùng của lô cũ TRÙNG với ngày đầu tiên của lô mới
+					if (lastRenderedDate === firstDateOfNewBatch) {
+						// -> GỘP VÀO
+						const itemsToAppend = groups[firstDateOfNewBatch];
+						const listGroup = lastRenderedGroup.querySelector('.list-group');
+						const badge = lastRenderedGroup.querySelector('.badge');
+						
+						// a. Thêm các dòng log mới vào nhóm cũ
+						let itemsHtml = '';
+						itemsToAppend.forEach(log => {
+							itemsHtml += createLogItemHtml(log);
+						});
+						listGroup.insertAdjacentHTML('beforeend', itemsHtml);
+						
+						// b. Cập nhật số lượng trên Badge (Số cũ + Số mới thêm)
+						if(badge) {
+							// Lấy số từ text "15 lượt" -> 15
+							const currentCount = parseInt(badge.textContent) || 0; 
+							badge.textContent = `${currentCount + itemsToAppend.length} lượt`;
+						}
+
+						// c. Xóa ngày này khỏi danh sách cần render mới (để không bị lặp lại header)
+						delete groups[firstDateOfNewBatch];
+						const idx = dates.indexOf(firstDateOfNewBatch);
+						if (idx > -1) dates.splice(idx, 1);
+					}
+				}
+			}
+
+			// 5. RENDER CÁC NHÓM CÒN LẠI (BÌNH THƯỜNG)
+			let htmlContent = '';
+			dates.forEach(date => {
+				const items = groups[date];
+				// Thêm class 'history-group' và thuộc tính 'data-date' để hỗ trợ việc tìm kiếm sau này
+				htmlContent += `
+					<div class="mb-3 history-group fade-in" data-date="${date}">
+						<div class="d-flex align-items-center justify-content-between bg-light px-3 py-2 rounded mb-2 shadow-sm sticky-top" style="top: -1px; z-index: 5;">
+							<span class="fw-bold text-dark small"><i class="bi bi-calendar-check me-1"></i> ${date}</span>
+							<span class="badge theme-bg-primary rounded-pill" style="font-weight: normal;">${items.length} lượt</span>
+						</div>
+						<div class="list-group list-group-flush px-2">
+							${items.map(log => createLogItemHtml(log)).join('')}
+						</div>
+					</div>
+				`;
+			});
+
+			// Chèn HTML mới vào cuối container
+			container.insertAdjacentHTML('beforeend', htmlContent);
+
+			// 6. TẠO LẠI NÚT LOAD MORE (NẾU CÒN DỮ LIỆU)
+			if (bikeHistoryHasMore) {
+				const trigger = document.createElement('div');
+				trigger.id = 'load-more-trigger';
+				trigger.className = 'py-3 text-center text-muted small cursor-pointer';
+				trigger.innerHTML = `<span class="spinner-border spinner-border-sm me-1 d-none" id="load-spinner"></span> <span id="load-text">Vuốt lên hoặc nhấn để xem thêm cũ hơn</span>`;
+				
+				trigger.addEventListener('click', () => triggerLoadMore());
+				container.appendChild(trigger);
+				
+				// Auto Scroll
+				setupInfiniteScroll(trigger);
+			} else {
+				const endMsg = document.createElement('div');
+				endMsg.className = 'text-center py-3 text-muted small';
+				endMsg.innerHTML = '--- Hết lịch sử ---';
+				container.appendChild(endMsg);
+			}
+		}
+
+		function triggerLoadMore() {
+			if(bikeHistoryLoading || !bikeHistoryHasMore) return;
+			
+			// Hiệu ứng loading
+			const spinner = document.getElementById('load-spinner');
+			if(spinner) spinner.classList.remove('d-none');
+			
+			bikeHistoryPage++;
+			loadBikeHistoryData(bikeHistoryPage);
+		}
+
+		function setupInfiniteScroll(target) {
+			const observer = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting) {
+					triggerLoadMore();
+				}
+			}, { threshold: 0.1 });
+			observer.observe(target);
 		}
 
 		// --- HÀM VẼ BIỂU ĐỒ (Đã sửa sắp xếp Tăng dần chuẩn xác) ---
