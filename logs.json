@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-16T04:57:55.988Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1768539434066",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-16T04:57:14.066Z",
     "action": "Điều hướng",
     "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
