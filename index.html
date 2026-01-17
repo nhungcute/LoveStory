@@ -3143,9 +3143,9 @@
 			const files = Array.from(e.target.files);
 			if (files.length === 0) return;
 
-			// Giới hạn 20 ảnh
-			if (currentImages.length + files.length > 20) {
-				showToast('Chỉ được chọn tối đa 20 ảnh!');
+			// Giới hạn 50 ảnh
+			if (currentImages.length + files.length > 50) {
+				showToast('Chỉ được chọn tối đa 50 ảnh!');
 				return;
 			}
 
