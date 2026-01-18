@@ -533,6 +533,59 @@
 			background-color: var(--secondary-color);
 			box-shadow: 0 0 0 1px var(--primary-color);
 		}
+		
+		/* --- CSS PULL TO REFRESH --- */
+		.ptr-element {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 0; /* Mặc định ẩn */
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: transparent;
+			overflow: hidden;
+			z-index: 900; /* Nằm trên nội dung nhưng dưới Header */
+			transition: height 0.2s ease; /* Hiệu ứng mượt khi nhả tay */
+		}
+
+		.ptr-icon {
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			background: white;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--primary-color);
+			transform: scale(0); /* Mặc định thu nhỏ */
+			transition: transform 0.2s;
+		}
+
+		.ptr-icon.ptr-visible {
+			transform: scale(1); /* Hiện ra khi kéo */
+		}
+
+		.ptr-icon.ptr-loading {
+			animation: ptr-spin 1s infinite linear;
+		}
+
+		@keyframes ptr-spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
+		/* Đảm bảo Main Content có vị trí tương đối để icon bám theo */
+		.main-content {
+			position: relative; 
+			/* Giữ nguyên các thuộc tính cũ của bạn */
+			flex: 1;
+			overflow-y: auto;
+			overflow-x: hidden;
+			overscroll-behavior-y: contain; /* Ngăn trình duyệt refresh mặc định */
+		}
 
 	  </style>
 	  <style>@view-transition { navigation: auto; }</style>
@@ -558,7 +611,15 @@
 		</div><small class="d-block mt-1">Kéo <i class="bi bi-arrows-move"></i> để di chuyển • Nhấn <i class="bi bi-arrows-fullscreen"></i> để đổi kích thước</small>
 		<div class="mt-2"><button class="btn btn-light btn-sm" id="exit-edit-mode">Xong</button>
 		</div>
-	   </div><main class="main-content"><div id="tab-feed" class="tab-pane h-100 d-none">
+	   </div>
+	   <main class="main-content">
+	   <div id="ptr-element" class="ptr-element">
+        <div class="ptr-icon">
+            <i class="bi bi-arrow-clockwise fs-5"></i>
+        </div>
+		</div> 
+	   
+	   <div id="tab-feed" class="tab-pane h-100 d-none">
 		 <div class="container py-3" id="posts-container">
 		  <div class="text-center py-5"><i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
 		   <p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
@@ -973,7 +1034,7 @@
 	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	  <script>
 		// --- CẤU HÌNH KẾT NỐI ---
-		const API_URL = 'https://script.google.com/macros/s/AKfycbzVfzSAWPJ2mIyAQKhv78X-DG__X8vINzvQE-HTtuij3RwkCkiLeU665Dh5NT7N-QZ_Ow/exec';
+		const API_URL = 'https://script.google.com/macros/s/AKfycbyPytL6pXpN5QPY6yySxREiemxVBOKN3e6rBxZoPUE3NmA_Z5HhXl1rAUe2ZJTqB_SFjA/exec';
 		
 		let userFingerprint = null;
 
@@ -1330,6 +1391,8 @@
 			if(document.getElementById('bike-entry-date')) document.getElementById('bike-entry-date').valueAsDate = today;
 			if(document.getElementById('gold-entry-date')) document.getElementById('gold-entry-date').valueAsDate = today;
 
+
+			setupPullToRefresh(); // <--- KÍCH HOẠT KÉO ĐỂ LOAD
 			// 3. GỌI CÁC HÀM ĐỒNG BỘ RIÊNG BIỆT (KHÔNG DÙNG PROMISE.ALL)
 			// Profile chạy trước để đảm bảo có Username
 			syncUserProfile();
@@ -4616,6 +4679,126 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 					opt.classList.add('selected');
 				}
 			});
+		}
+		
+		// --- HÀM XỬ LÝ KÉO ĐỂ LÀM MỚI (PULL TO REFRESH) ---
+		function setupPullToRefresh() {
+			const container = document.querySelector('.main-content');
+			const ptrElement = document.getElementById('ptr-element');
+			const ptrIcon = ptrElement.querySelector('.ptr-icon');
+			const iconEl = ptrIcon.querySelector('i');
+
+			let startY = 0;
+			let dist = 0;
+			let isPulling = false;
+			const threshold = 80; // Khoảng cách kéo tối thiểu để kích hoạt (pixel)
+
+			// 1. BẮT ĐẦU CHẠM
+			container.addEventListener('touchstart', (e) => {
+				// Chỉ kích hoạt khi đang ở đầu trang (scrollTop = 0)
+				if (container.scrollTop === 0) {
+					startY = e.touches[0].clientY;
+					isPulling = true;
+					// Reset icon
+					iconEl.className = 'bi bi-arrow-down fs-5';
+					ptrIcon.classList.remove('ptr-loading');
+				} else {
+					isPulling = false;
+				}
+			}, { passive: true });
+
+			// 2. ĐANG KÉO
+			container.addEventListener('touchmove', (e) => {
+				if (!isPulling) return;
+
+				const currentY = e.touches[0].clientY;
+				dist = currentY - startY;
+
+				// Chỉ xử lý khi kéo xuống (dist > 0) và chưa cuộn xuống dưới
+				if (dist > 0 && container.scrollTop === 0) {
+					// Ngăn chặn hành động mặc định (scroll) để ko bị giật
+					if (e.cancelable) e.preventDefault();
+
+					// Hiệu ứng "Kháng lực" (Kéo càng dài càng nặng)
+					const resistance = 0.4; 
+					const moveDist = Math.min(dist * resistance, 150); // Max 150px
+
+					// Cập nhật giao diện
+					ptrElement.style.height = moveDist + 'px';
+					ptrIcon.classList.add('ptr-visible');
+					
+					// Xoay icon theo độ kéo
+					iconEl.style.transform = `rotate(${moveDist * 2}deg)`;
+
+					if (moveDist >= threshold * resistance) {
+						iconEl.className = 'bi bi-arrow-up fs-5 text-primary'; // Đổi mũi tên lên báo hiệu đã đạt ngưỡng
+					}
+				}
+			}, { passive: false });
+
+			// 3. NHẢ TAY RA
+			container.addEventListener('touchend', async () => {
+				if (!isPulling) return;
+				isPulling = false;
+				iconEl.style.transform = ''; // Reset xoay
+
+				// Nếu kéo chưa đủ ngưỡng -> Đóng lại
+				if (parseInt(ptrElement.style.height) < (threshold * 0.4)) {
+					ptrElement.style.height = '0px';
+					ptrIcon.classList.remove('ptr-visible');
+					return;
+				}
+
+				// Nếu kéo ĐỦ ngưỡng -> Bắt đầu Refresh
+				ptrElement.style.height = '60px'; // Giữ độ cao loading
+				ptrIcon.classList.add('ptr-loading'); // Hiệu ứng xoay tròn
+				iconEl.className = 'bi bi-arrow-clockwise fs-5'; // Icon loading
+
+				// GỌI HÀM LÀM MỚI DỮ LIỆU TÙY THEO TAB
+				await handlePageRefresh();
+
+				// Sau khi load xong -> Đóng lại
+				setTimeout(() => {
+					ptrElement.style.height = '0px';
+					ptrIcon.classList.remove('ptr-loading', 'ptr-visible');
+				}, 500); // Đợi 0.5s cho mượt
+			});
+		}
+
+		// Hàm điều phối làm mới dữ liệu
+		async function handlePageRefresh() {
+			console.log("Đang làm mới trang:", currentTab);
+			
+			try {
+				if (currentTab === 'feed') {
+					// Reset về trang 1 và tải lại
+					feedPage = 1;
+					serverFeedData = []; // Xóa cache cũ
+					await loadFeedData(1); 
+					// loadFeedData đã có sẵn logic cập nhật UI
+				} 
+				else if (currentTab === 'home') {
+					// Tải lại thống kê & Profile
+					await Promise.all([
+						syncBabyRunStats(),
+						syncUnreadCount(),
+						syncUserProfile() // Check lại theme/avatar
+					]);
+					// Cập nhật lại biểu đồ và số liệu
+					renderStats();
+					updateStats();
+				}
+				else if (currentTab === 'albums') {
+					 // Album ít thay đổi nhưng cứ vẽ lại nếu cần
+					 renderAlbums();
+				}
+				
+				showToast('Đã làm mới dữ liệu!');
+				
+			} catch (e) {
+				console.error("Lỗi refresh:", e);
+				showToast('Lỗi khi làm mới');
+			}
 		}
 
 		// KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
