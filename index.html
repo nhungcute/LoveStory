@@ -915,15 +915,16 @@
 				<label class="form-label fw-bold mb-2 small text-muted text-uppercase">Chọn bố cục hiển thị</label>
 				
 				<div class="row g-2">
-					<div class="col-3">
-						<div class="layout-preview-box p-1 selected" data-layout="grid-2x2">
+					<div class="col-4">
+						<div class="layout-preview-box p-1" data-layout="grid-2x2">
 							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
 								<div></div><div></div><div></div><div></div>
 							</div>
 							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">Lưới 2x2</p>
 						</div>
 					</div>
-					<div class="col-3">
+					
+					<div class="col-4">
 						<div class="layout-preview-box p-1" data-layout="1-wide">
 							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
 								<div style="grid-column: span 2;"></div><div></div><div></div>
@@ -931,20 +932,13 @@
 							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">1 Ngang</p>
 						</div>
 					</div>
-					<div class="col-3">
+
+					<div class="col-4">
 						<div class="layout-preview-box p-1" data-layout="1-tall">
 							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
 								<div style="grid-row: span 2;"></div><div></div><div></div>
 							</div>
 							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">1 Dọc</p>
-						</div>
-					</div>
-					<div class="col-3">
-						<div class="layout-preview-box p-1" data-layout="auto">
-							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-								<div style="grid-row: span 2;"></div><div></div><div></div>
-							</div>
-							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">Auto</p>
 						</div>
 					</div>
 				</div>
@@ -3115,16 +3109,13 @@
 		  opt.addEventListener('click', () => applyTheme(opt.dataset.theme));
 		});
 
-		// Layout Selection
+		// Layout Selection 
 		document.querySelectorAll('.layout-preview-box').forEach(opt => {
 			opt.addEventListener('click', () => {
-				selectedLayout = opt.dataset.layout;
+				const layout = opt.dataset.layout;
+				updateLayoutSelectionUI(layout); // Dùng hàm mới để đồng bộ
 				
-				// Highlight lựa chọn
-				document.querySelectorAll('.layout-preview-box').forEach(o => o.classList.remove('selected'));
-				opt.classList.add('selected');
-
-				// [MỚI] Render lại ảnh preview ngay lập tức để người dùng thấy thay đổi
+				// Render lại ảnh preview ngay lập tức
 				updateImagePreview();
 			});
 		});
@@ -3164,8 +3155,13 @@
 				currentImagePreviews.push(previewBase64);
 			}
 			
-			// Tự động chọn layout
-			if (currentImages.length > 2) selectedLayout = '1-wide';
+			if (currentImages.length >= 3) {
+				// Mặc định chọn 1 Ngang
+				updateLayoutSelectionUI('1-wide');
+			} else {
+				// Nếu ít ảnh, mặc định về lưới cơ bản
+				updateLayoutSelectionUI('grid-2x2');
+			}
 
 			hideLoading();
 			updateImagePreview(); // Hàm này cần sửa lại chút ở bước dưới
@@ -3208,6 +3204,8 @@
 			if(postBtn) postBtn.innerHTML = '<i class="bi bi-send me-2"></i>Đăng bài';
 			// [THÊM DÒNG NÀY] Đảm bảo lần sau mở lên nút vẫn Bật
 			document.getElementById('hd-quality-switch').checked = true;
+			// Reset layout về mặc định
+			updateLayoutSelectionUI('grid-2x2');
 		});
 
 		// Create Memory
@@ -4241,17 +4239,20 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			currentImagePreviews = [...currentImages];
 
 			// 4. Xử lý Layout
-			selectedLayout = post.layout || 'grid-2x2';
+			// Nếu layout cũ là 'auto' (do dữ liệu cũ) hoặc null -> ép về 'grid-2x2'
+			let postLayout = post.layout;
+			if (!postLayout || postLayout === 'auto') postLayout = 'grid-2x2';
+	
+			selectedLayout = postLayout;
 			
 			if (currentImages.length >= 3) {
 				document.getElementById('layout-selector').classList.remove('d-none');
-				// Highlight layout đang chọn
-				document.querySelectorAll('.layout-preview-box').forEach(opt => {
-					opt.classList.remove('selected');
-					if (opt.dataset.layout === selectedLayout) opt.classList.add('selected');
-				});
+				// Gọi hàm update UI để highlight đúng ô đang lưu
+				updateLayoutSelectionUI(selectedLayout);
 			} else {
 				document.getElementById('layout-selector').classList.add('d-none');
+				// Reset về mặc định nếu ẩn
+				updateLayoutSelectionUI('grid-2x2');
 			}
 			
 			// 5. Cập nhật giao diện Preview
@@ -4601,6 +4602,20 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 					}
 				}
 			}
+		}
+		
+		// Hàm cập nhật giao diện ô chọn Layout (Highlight ô được chọn)
+		function updateLayoutSelectionUI(layoutName) {
+			// Cập nhật biến toàn cục
+			selectedLayout = layoutName;
+
+			// Cập nhật giao diện (xóa class selected cũ, thêm vào ô mới)
+			document.querySelectorAll('.layout-preview-box').forEach(opt => {
+				opt.classList.remove('selected');
+				if (opt.dataset.layout === layoutName) {
+					opt.classList.add('selected');
+				}
+			});
 		}
 
 		// KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
