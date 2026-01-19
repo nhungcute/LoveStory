@@ -22,5 +22,13 @@
     "price_per_chi": 11350000,
     "notes": "",
     "id": "1762263718511"
+  },
+  {
+    "date": "19-01-2026",
+    "type": "sell",
+    "quantity_chi": 2,
+    "price_per_chi": 15000000,
+    "notes": "",
+    "id": "1768808213415"
   }
 ]
