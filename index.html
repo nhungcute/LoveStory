@@ -1060,7 +1060,7 @@
 	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	  <script>
 		// --- CẤU HÌNH KẾT NỐI ---
-		const API_URL = 'https://script.google.com/macros/s/AKfycbwq8EKpBwNoj1RMekHy8MtRlSVIwByk72DMM1o1q7w_z6KBJQ8oBr3aSxStCi5C14S6-A/exec';
+		const API_URL = 'https://script.google.com/macros/s/AKfycbyYML5NAag7g6LPII0j1FFOXfL0LruaY-WQbEPZIf0IBRAMVVpzzwLyLf536j1ErEjA3w/exec';
 		
 		let userFingerprint = null;
 
@@ -1213,7 +1213,9 @@
 		// [MỚI] Thời điểm cuối cùng người dùng thực hiện thao tác ghi
 		let pendingTasksCount = 0; 
 		let lastUserActionTime = 0; 
-
+		
+		let isEditingGold = false;      // Đang ở chế độ sửa hay thêm?
+		let currentEditGoldId = null;   // ID của giao dịch đang sửa
 		// Thêm dòng này vào danh sách biến global (cùng chỗ với createPostModal...)
 		let imageViewerModal;
 		
@@ -2444,7 +2446,14 @@
 									<span class="fw-bold ${titleClass}"><i class="bi ${icon} me-1"></i>${titleText}</span>
 									<span class="text-muted small ms-2">${dateStr}</span>
 								</div>
-								<button class="btn btn-sm text-danger p-0" onclick="deleteGoldTx('${tx.id}')"><i class="bi bi-trash"></i></button>
+								<div class="d-flex gap-3">
+									<button class="btn btn-sm text-warning p-0" onclick="openEditGoldTx('${tx.id}')">
+										<i class="bi bi-pencil-square"></i>
+									</button>
+									<button class="btn btn-sm text-danger p-0" onclick="deleteGoldTx('${tx.id}')">
+										<i class="bi bi-trash"></i>
+									</button>
+								</div>
 							</div>
 
 							<div class="row g-0">
@@ -3923,75 +3932,82 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 
 		// Gold stats
 		document.getElementById('add-gold-entry').addEventListener('click', () => {
-		  // Reset form sử dụng ID MỚI đúng với HTML
-		  document.getElementById('gold-trans-qty').value = '';
-		  document.getElementById('gold-trans-price').value = '';
-		  document.getElementById('gold-trans-note').value = '';
-		  
-		  // Set ngày mặc định là hôm nay
-		  document.getElementById('gold-trans-date').valueAsDate = new Date();
-		  
-		  // Mở modal
-		  const modal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
-		  modal.show();
+			// 1. Reset trạng thái về Thêm Mới
+			isEditingGold = false;
+			currentEditGoldId = null;
+
+			// 2. Reset Form
+			document.getElementById('gold-trans-qty').value = '';
+			document.getElementById('gold-trans-price').value = '';
+			document.getElementById('gold-trans-note').value = '';
+			document.getElementById('gold-trans-date').valueAsDate = new Date();
+
+			// 3. Đổi lại tiêu đề Modal về mặc định
+			document.querySelector('#addGoldEntryModal .modal-title').innerHTML = '<i class="bi bi-plus-lg me-2"></i>Thêm Giao Dịch Mới';
+			document.getElementById('save-gold-transaction').textContent = 'Lưu Giao Dịch';
+
+			// 4. Mở Modal
+			const modal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
+			modal.show();
 		});
 
 		// --- XỬ LÝ LƯU GIAO DỊCH VÀNG (CẬP NHẬT LẠC QUAN) ---
+		// --- XỬ LÝ LƯU HOẶC CẬP NHẬT GIAO DỊCH VÀNG ---
 		document.getElementById('save-gold-transaction').addEventListener('click', async () => {
-			// 1. Lấy dữ liệu từ Form
-			const dateInput = document.getElementById('gold-trans-date');
-			const typeInput = document.getElementById('gold-trans-type');
-			const qtyInput = document.getElementById('gold-trans-qty');
-			const priceInput = document.getElementById('gold-trans-price');
-			const noteInput = document.getElementById('gold-trans-note');
-
-			const date = dateInput.value;
-			const type = typeInput.value;
-			const qty = parseFloat(qtyInput.value);
-			const price = parseFloat(priceInput.value);
-			const note = noteInput.value;
+			// 1. Lấy dữ liệu
+			const date = document.getElementById('gold-trans-date').value;
+			const type = document.getElementById('gold-trans-type').value;
+			const qty = parseFloat(document.getElementById('gold-trans-qty').value);
+			const price = parseFloat(document.getElementById('gold-trans-price').value);
+			const note = document.getElementById('gold-trans-note').value;
 
 			if (!date || !qty || !price) {
 				showToast('Vui lòng nhập đủ thông tin!');
 				return;
 			}
 
-			// 2. Đóng Modal NGAY LẬP TỨC
+			// Đóng Modal
 			const modalEl = document.getElementById('addGoldEntryModal');
 			const modalInstance = bootstrap.Modal.getInstance(modalEl);
 			if (modalInstance) modalInstance.hide();
 
-			// 3. [OPTIMISTIC UPDATE] Cập nhật giao diện giả lập ngay
-			const tempId = 'temp_' + Date.now(); // Tạo ID tạm
-			
-			// Tạo object giao dịch mới (Lưu ý: dùng key khớp với logic hiển thị cũ)
-			const newTx = {
-				id: tempId,
+			// --- LOGIC PHÂN CHIA (THÊM hay SỬA) ---
+			const isEdit = isEditingGold; // Lưu lại biến này vì async có thể làm thay đổi context
+			const targetId = isEdit ? currentEditGoldId : ('temp_' + Date.now());
+
+			// 2. [OPTIMISTIC UI] Cập nhật mảng cục bộ NGAY LẬP TỨC
+			const newTxData = {
+				id: targetId,
 				date: date,
 				type: type,
-				quantity_chi: qty,      // Key hiển thị là quantity_chi
-				price_per_chi: price,   // Key hiển thị là price_per_chi
-				note: note,
-				isOptimistic: true      // Cờ đánh dấu (để debug nếu cần)
+				quantity_chi: qty,
+				price_per_chi: price,
+				note: note
 			};
 
-			// Thêm vào dữ liệu cục bộ
-			goldPortfolioData.push(newTx);
-			
-			// Tính toán lại P&L và Vẽ lại danh sách ngay lập tức
-			loadGoldPortfolio();
-			
-			// Reset Form ngay để người dùng có thể nhập tiếp nếu muốn
-			qtyInput.value = '';
-			priceInput.value = '';
-			noteInput.value = '';
-			
-			showToast('Đã lưu giao dịch (Đang đồng bộ...)');
+			if (isEdit) {
+				// Sửa: Tìm và thay thế trong mảng
+				const index = goldPortfolioData.findIndex(x => x.id === targetId);
+				if (index !== -1) {
+					goldPortfolioData[index] = { ...goldPortfolioData[index], ...newTxData };
+				}
+				showToast('Đã cập nhật (Đang đồng bộ...)');
+			} else {
+				// Thêm: Push vào mảng
+				goldPortfolioData.push(newTxData);
+				showToast('Đã thêm mới (Đang đồng bộ...)');
+			}
 
-			// 4. GỬI SERVER (CHẠY NGẦM)
+			// Vẽ lại giao diện ngay
+			loadGoldPortfolio();
+
+			// 3. GỬI SERVER (BACKGROUND SYNC)
 			try {
+				const actionName = isEdit ? 'update_gold_transaction' : 'log_gold_transaction';
+				
 				const res = await sendToServer({
-					action: 'log_gold_transaction',
+					action: actionName,
+					id: isEdit ? targetId : undefined, // Nếu sửa thì gửi ID
 					date: date,
 					type: type,
 					quantity: qty,
@@ -4000,25 +4016,31 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 				});
 
 				if (res.status === 'success') {
-					// Thành công: Cập nhật ID thật từ Server cho item tạm
-					const item = goldPortfolioData.find(x => x.id === tempId);
-					if (item) {
-						item.id = res.id; // Gán ID thật để sau này xóa được
-						delete item.isOptimistic;
+					console.log('Đồng bộ thành công');
+					// Nếu là Thêm mới -> Cập nhật ID thật từ server trả về
+					if (!isEdit && res.id) {
+						const tempItem = goldPortfolioData.find(x => x.id === targetId);
+						if (tempItem) tempItem.id = res.id;
 					}
-					console.log('Đồng bộ vàng thành công:', res.id);
 				} else {
-					throw new Error(res.message || 'Lỗi Server');
+					throw new Error(res.message);
 				}
 			} catch (e) {
-				console.error("Lỗi lưu vàng:", e);
-				showToast('Lỗi kết nối! Đang hoàn tác...');
-
-				// 5. ROLLBACK (NẾU LỖI): Xóa item tạm và vẽ lại
-				const idx = goldPortfolioData.findIndex(x => x.id === tempId);
-				if (idx > -1) {
-					goldPortfolioData.splice(idx, 1); // Xóa khỏi mảng
-					loadGoldPortfolio(); // Vẽ lại giao diện cũ
+				console.error(e);
+				showToast('Lỗi đồng bộ! Đang hoàn tác...');
+				
+				// 4. HOÀN TÁC NẾU LỖI (ROLLBACK)
+				if (isEdit) {
+					// Sửa lỗi thì khó hoàn tác chính xác nếu không backup, 
+					// nhưng reload lại từ server là an toàn nhất
+					showGoldStats(); 
+				} else {
+					// Thêm lỗi thì xóa dòng tạm đi
+					const idx = goldPortfolioData.findIndex(x => x.id === targetId);
+					if (idx > -1) {
+						goldPortfolioData.splice(idx, 1);
+						loadGoldPortfolio();
+					}
 				}
 			}
 		});
@@ -5153,6 +5175,34 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 				console.error("Lỗi refresh:", e);
 				showToast('Lỗi khi làm mới');
 			}
+		}
+		
+		// Hàm mở form sửa giao dịch
+		function openEditGoldTx(id) {
+			const tx = goldPortfolioData.find(t => t.id === id);
+			if (!tx) {
+				showToast("Không tìm thấy dữ liệu!");
+				return;
+			}
+
+			// 1. Set trạng thái sang Sửa
+			isEditingGold = true;
+			currentEditGoldId = id;
+
+			// 2. Điền dữ liệu cũ vào Form
+			document.getElementById('gold-trans-date').value = tx.date; // yyyy-MM-dd
+			document.getElementById('gold-trans-type').value = tx.type;
+			document.getElementById('gold-trans-qty').value = tx.quantity_chi;
+			document.getElementById('gold-trans-price').value = tx.price_per_chi;
+			document.getElementById('gold-trans-note').value = tx.note || '';
+
+			// 3. Đổi tiêu đề Modal và Nút bấm cho dễ hiểu
+			document.querySelector('#addGoldEntryModal .modal-title').innerHTML = '<i class="bi bi-pencil-square me-2"></i>Sửa Giao Dịch';
+			document.getElementById('save-gold-transaction').textContent = 'Cập nhật';
+
+			// 4. Mở Modal
+			const modal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
+			modal.show();
 		}
 
 		// KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
