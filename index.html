@@ -536,9 +536,8 @@
 		
 		/* --- CSS PULL TO REFRESH --- */
 		.ptr-element {
-			position: absolute;
-			top: 0;
-			left: 0;
+			position: relative; /* [SỬA] Đổi thành relative để đẩy nội dung xuống */
+			/* Xóa bỏ top: 0 và left: 0 vì không cần thiết với relative */
 			width: 100%;
 			height: 0; /* Mặc định ẩn */
 			display: flex;
@@ -546,8 +545,8 @@
 			justify-content: center;
 			background: transparent;
 			overflow: hidden;
-			z-index: 900; /* Nằm trên nội dung nhưng dưới Header */
-			transition: height 0.2s ease; /* Hiệu ứng mượt khi nhả tay */
+			z-index: 900; 
+			transition: height 0.2s ease;
 		}
 
 		.ptr-icon {
@@ -4362,44 +4361,57 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			});
 		}
 		
-		async function loadFeedData(page = 1) {
+		// [SỬA LẠI] Hàm tải Feed hỗ trợ chế độ làm mới ngầm (Background Refresh)
+		async function loadFeedData(page = 1, isBackgroundRefresh = false) {
 			const container = document.getElementById('posts-container');
 			
 			// Chặn gọi trùng lặp
 			if (feedLoading) return;
 			feedLoading = true;
 
-			// UI Loading: Trang 1 thì hiện giữa màn hình, trang sau thì hiện ở đáy (đã có trigger lo)
-			if (page === 1) {
+			// [LOGIC MỚI] UI Loading: 
+			// Chỉ hiện Spinner to giữa màn hình nếu ĐÂY KHÔNG PHẢI LÀ LÀM MỚI NGẦM
+			// (Tức là lần đầu tiên mở app thì hiện, còn kéo tay để refresh thì không hiện)
+			if (page === 1 && !isBackgroundRefresh) {
 				container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Đang tải bảng tin...</p></div>';
 			}
 
 			try {
-				// Gọi Server với tham số phân trang
+				// Gọi Server
 				const res = await sendToServer({ 
 					action: 'get_feed', 
 					page: page, 
-					limit: 10 // Tải 10 bài mỗi lần
+					limit: 10 
 				});
 
 				if (res.status === 'success') {
-					// Cập nhật dữ liệu vào biến toàn cục
+					// [QUAN TRỌNG] Khi dữ liệu đã về thành công, lúc này mới thay thế dữ liệu cũ
 					if (page === 1) {
-						serverFeedData = res.data;
+						serverFeedData = res.data; // Gán đè toàn bộ dữ liệu mới
 					} else {
 						serverFeedData = serverFeedData.concat(res.data);
 					}
 					
 					feedHasMore = res.hasMore;
 					
-					// Gọi hàm render mới (có tham số page)
+					// Hàm này sẽ tự động xóa HTML cũ và vẽ HTML mới ngay lập tức
+					// Tạo cảm giác "nháy" màn hình mượt mà
 					renderPostsPaged(res.data, page);
 				} else {
-					if (page === 1) container.innerHTML = '<div class="text-center py-5 text-danger">Lỗi tải dữ liệu</div>';
+					// Nếu lỗi server và đang refresh, giữ nguyên bài cũ, chỉ báo toast
+					if (isBackgroundRefresh) {
+						showToast('Không tải được tin mới');
+					} else if (page === 1) {
+						container.innerHTML = '<div class="text-center py-5 text-danger">Lỗi tải dữ liệu</div>';
+					}
 				}
 			} catch (e) {
 				console.error(e);
-				if (page === 1) container.innerHTML = '<div class="text-center py-5 text-muted">Không có kết nối mạng</div>';
+				if (isBackgroundRefresh) {
+					showToast('Lỗi kết nối mạng');
+				} else if (page === 1) {
+					container.innerHTML = '<div class="text-center py-5 text-muted">Không có kết nối mạng</div>';
+				}
 			} finally {
 				feedLoading = false;
 			}
@@ -4764,36 +4776,39 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 				}, 500); // Đợi 0.5s cho mượt
 			});
 		}
-
+ 
 		// Hàm điều phối làm mới dữ liệu
 		async function handlePageRefresh() {
 			console.log("Đang làm mới trang:", currentTab);
 			
 			try {
 				if (currentTab === 'feed') {
-					// Reset về trang 1 và tải lại
+					// [SỬA ĐOẠN NÀY]
+					// 1. Reset về trang 1
 					feedPage = 1;
-					serverFeedData = []; // Xóa cache cũ
-					await loadFeedData(1); 
-					// loadFeedData đã có sẵn logic cập nhật UI
+					
+					// 2. QUAN TRỌNG: KHÔNG ĐƯỢC XÓA DỮ LIỆU CŨ NGAY LẬP TỨC
+					// serverFeedData = []; <--- Xóa dòng này đi hoặc comment lại
+					
+					// 3. Gọi hàm tải với tham số isBackgroundRefresh = true
+					// Tham số thứ 2 là true nghĩa là "đang làm mới ngầm, đừng hiện spinner to"
+					await loadFeedData(1, true); 
 				} 
 				else if (currentTab === 'home') {
-					// Tải lại thống kê & Profile
+					// Home tải nhanh nên giữ nguyên cũng được
 					await Promise.all([
 						syncBabyRunStats(),
 						syncUnreadCount(),
-						syncUserProfile() // Check lại theme/avatar
+						syncUserProfile()
 					]);
-					// Cập nhật lại biểu đồ và số liệu
 					renderStats();
 					updateStats();
 				}
 				else if (currentTab === 'albums') {
-					 // Album ít thay đổi nhưng cứ vẽ lại nếu cần
 					 renderAlbums();
 				}
 				
-				showToast('Đã làm mới dữ liệu!');
+				showToast('Đã cập nhật!');
 				
 			} catch (e) {
 				console.error("Lỗi refresh:", e);
