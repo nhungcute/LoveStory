@@ -666,67 +666,158 @@
 		
 		/* --- CẤU HÌNH MODAL NẰM GỌN GIỮA HEADER & MENU DƯỚI --- */
 
-/* 1. Đưa Header và Menu dưới lên lớp cao nhất (Cao hơn Modal) */
-.app-header, .bottom-nav {
-    z-index: 1100 !important; /* Bootstrap modal là 1055, ta đặt 1100 để đè lên */
-    position: relative;       /* Bắt buộc phải có để z-index hoạt động */
-}
+		/* 1. Đưa Header và Menu dưới lên lớp cao nhất (Cao hơn Modal) */
+		.app-header, .bottom-nav {
+			z-index: 1100 !important; /* Bootstrap modal là 1055, ta đặt 1100 để đè lên */
+			position: relative;       /* Bắt buộc phải có để z-index hoạt động */
+		}
 
-.modal {
-    top: 62px !important;      
-    
-    /* Sửa từ 70px -> 50px (bằng đúng chiều cao menu) */
-    bottom: 50px !important;   
-    
-    height: auto !important;   
-    padding: 0 !important;     
-    overflow: hidden !important; 
-}
+		.modal {
+			top: 62px !important;      
+			
+			/* Sửa từ 70px -> 50px (bằng đúng chiều cao menu) */
+			bottom: 50px !important;   
+			
+			height: auto !important;   
+			padding: 0 !important;     
+			overflow: hidden !important; 
+		}
 
-/* 2. Co vùng nền đen mờ (Backdrop) theo Modal */
-.modal-backdrop {
-    top: 62px !important;     
-    
-    /* Sửa từ 70px -> 50px cho khớp */
-    bottom: 50px !important;  
-    
-    height: auto !important;
-    z-index: 1040 !important; 
-}
+		/* 2. Co vùng nền đen mờ (Backdrop) theo Modal */
+		.modal-backdrop {
+			top: 62px !important;     
+			
+			/* Sửa từ 70px -> 50px cho khớp */
+			bottom: 50px !important;  
+			
+			height: auto !important;
+			z-index: 1040 !important; 
+		}
 
-/* 4. Ép nội dung Modal bung Full khoảng trống còn lại */
-.modal-dialog {
-    margin: 0 !important;
-    height: 100% !important;
-    width: 100% !important;
-    max-width: none !important; /* Bỏ giới hạn chiều rộng */
-}
+		/* 4. Ép nội dung Modal bung Full khoảng trống còn lại */
+		.modal-dialog {
+			margin: 0 !important;
+			height: 100% !important;
+			width: 100% !important;
+			max-width: none !important; /* Bỏ giới hạn chiều rộng */
+		}
 
-.modal-content {
-    height: 100% !important;     
-    border-radius: 0 !important; 
-    border: none !important;     
-    box-shadow: none !important;
-}
+		.modal-content {
+			height: 100% !important;     
+			border-radius: 0 !important; 
+			border: none !important;     
+			box-shadow: none !important;
+		}
 
-/* 5. Xử lý thanh cuộn bên trong Modal Body */
-.modal-body {
-    overflow-y: auto !important; 
-    height: 100% !important;
-}
+		/* 5. Xử lý thanh cuộn bên trong Modal Body */
+		.modal-body {
+			overflow-y: auto !important; 
+			height: 100% !important;
+		}
 
-/* --- (TÙY CHỌN) RIÊNG MODAL XEM ẢNH FULL (Lightbox) THÌ VẪN NÊN TRÀN MÀN HÌNH --- */
-/* Nếu bạn muốn modal xem ảnh đen sì vẫn phủ kín toàn bộ thì bỏ comment đoạn dưới này: */
-/*
-#imageViewerModal.modal, 
-#imageViewerModal ~ .modal-backdrop {
+		/* --- (TÙY CHỌN) RIÊNG MODAL XEM ẢNH FULL (Lightbox) THÌ VẪN NÊN TRÀN MÀN HÌNH --- */
+		/* Nếu bạn muốn modal xem ảnh đen sì vẫn phủ kín toàn bộ thì bỏ comment đoạn dưới này: */
+		/*
+		#imageViewerModal.modal, 
+		#imageViewerModal ~ .modal-backdrop {
+			top: 0 !important;
+			bottom: 0 !important;
+		}
+		#imageViewerModal .modal-dialog {
+			height: 100% !important;
+		}
+		*/
+		/* --- TINH CHỈNH KHOẢNG CÁCH BẢNG TIN (FEED) --- */
+
+		/* 1. Cấu hình khung bao ngoài (posts-container) */
+		#posts-container {
+			/* Yêu cầu: Giảm 1/2 khoảng cách với tab-feed (Padding trên) */
+			/* Mặc định py-3 là 16px -> Giảm còn 8px */
+			padding-top: 8px !important;
+
+			/* Yêu cầu: Giảm 2/3 khoảng cách với post-card (Padding trái/phải) */
+			/* Mặc định .container là 12px -> Giảm 2/3 còn 4px */
+			padding-left: 4px !important;
+			padding-right: 4px !important;
+
+			/* Padding dưới giữ nguyên hoặc tăng nhẹ để không bị Menu dưới che mất bài cuối */
+			padding-bottom: 80px !important; 
+			
+			/* Mở rộng khung để sát lề hơn */
+			max-width: 100% !important; 
+		}
+
+		/* 2. Cấu hình từng bài viết (post-card) */
+		.post-card {
+			/* Yêu cầu: Giảm 2/3 khoảng cách giữa các bài viết */
+			/* Mặc định mb-3 là 16px -> Giảm 2/3 còn khoảng 5px */
+			margin-bottom: 5px !important;
+			
+			/* (Tùy chọn) Bạn có thể giảm bo góc một chút cho hợp với khoảng cách hẹp */
+			/* border-radius: 12px !important; */
+		}
+		
+		/* --- SỬA MODAL TÙY CHỌN (3 CHẤM) --- */
+
+		/* 1. Ghi đè lại kích thước khung Dialog */
+		/* --- CẤU HÌNH CÁC MODAL DẠNG POPUP (NHỎ GỌN & CĂN GIỮA) --- */
+		/* Danh sách: Tùy chọn bài viết, Xóa, Thêm Vàng, Thêm Lượt đạp */
+		/* --- CẤU HÌNH CÁC MODAL DẠNG POPUP (NHỎ GỌN & CĂN GIỮA) --- */
+/* Danh sách: Tùy chọn bài viết, Tùy chọn bình luận, Xóa, Thêm Vàng, Thêm Lượt đạp */
+#postOptionsModal, 
+#commentOptionsModal, /* <--- THÊM CÁI NÀY */
+#deleteConfirmModal, 
+#addBikeEntryModal, 
+#addGoldEntryModal,
+#editCommentContentModal { /* <--- Thêm cả cái sửa bình luận cho đẹp */
     top: 0 !important;
     bottom: 0 !important;
-}
-#imageViewerModal .modal-dialog {
     height: 100% !important;
+    padding: 0 !important;
+    z-index: 1150 !important;
 }
-*/
+
+/* 2. Chỉnh kích thước khung dialog: Nhỏ, Căn giữa */
+#postOptionsModal .modal-dialog, 
+#commentOptionsModal .modal-dialog, /* <--- THÊM CÁI NÀY */
+#deleteConfirmModal .modal-dialog,
+#addBikeEntryModal .modal-dialog,
+#addGoldEntryModal .modal-dialog,
+#editCommentContentModal .modal-dialog {
+    width: 85% !important;
+    max-width: 350px !important;
+    margin: auto !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 3. Trang trí khung nội dung (Bo góc, đổ bóng) */
+#postOptionsModal .modal-content, 
+#commentOptionsModal .modal-content, /* <--- THÊM CÁI NÀY */
+#deleteConfirmModal .modal-content,
+#addBikeEntryModal .modal-content,
+#addGoldEntryModal .modal-content,
+#editCommentContentModal .modal-content {
+    height: auto !important;
+    max-height: 85vh !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
+    overflow: hidden !important;
+    border: none !important;
+}
+
+/* 4. CĂN GIỮA CHỮ VÀ ICON CHO CÁC MENU TÙY CHỌN */
+#postOptionsModal .list-group-item,
+#commentOptionsModal .list-group-item { /* <--- THÊM CÁI NÀY */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 10px;
+    padding: 1rem !important;
+}
 
 	  </style>
 	  <style>@view-transition { navigation: auto; }</style>
@@ -928,7 +1019,6 @@
 		 <div class="modal-content text-center p-3">
 		  <div class="modal-body"><i class="bi bi-trash text-danger" style="font-size: 3rem;"></i>
 		   <h5 class="mt-3 mb-2">Xác nhận xóa?</h5>
-		   <p class="text-muted">Bạn có chắc muốn xóa không?</p>
 		   <div class="d-flex gap-2"><button class="btn btn-secondary flex-fill" data-bs-dismiss="modal">Hủy</button> <button class="btn btn-danger flex-fill" id="confirm-delete">Xóa</button>
 		   </div>
 		  </div>
@@ -1199,11 +1289,45 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="modal fade" id="commentOptionsModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="list-group list-group-flush">
+						<button class="list-group-item list-group-item-action" id="edit-comment-btn">
+							<i class="bi bi-pencil theme-text-primary me-2"></i>Chỉnh sửa bình luận
+						</button>
+						<button class="list-group-item list-group-item-action text-danger" id="delete-comment-btn">
+							<i class="bi bi-trash me-2"></i>Xóa bình luận
+						</button>
+						<button class="list-group-item list-group-item-action" data-bs-dismiss="modal">Hủy</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="editCommentContentModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					 <div class="modal-header">
+						<h5 class="modal-title fw-bold">Sửa bình luận</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+					<div class="modal-body">
+						<input type="text" id="edit-comment-input" class="form-control" placeholder="Nhập nội dung mới...">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+						<button type="button" class="btn btn-primary" id="save-edit-comment">Lưu</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	   
 	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	  <script>
 		// --- CẤU HÌNH KẾT NỐI ---
-		const API_URL = 'https://script.google.com/macros/s/AKfycbyYML5NAag7g6LPII0j1FFOXfL0LruaY-WQbEPZIf0IBRAMVVpzzwLyLf536j1ErEjA3w/exec';
+		const API_URL = 'https://script.google.com/macros/s/AKfycbwQo45DmEuJbgjgeWQ4hBRxjco-qhqv0dEr2dK9Oivecgw7dvZnJDmXITeX_HUqAauHeQ/exec';
 		
 		let userFingerprint = null;
 
@@ -1365,6 +1489,11 @@
 		// Biến toàn cục lưu dữ liệu vàng
 		let goldMarketData = [];
 		let goldPortfolioData = [];
+		// --- BIẾN TOÀN CỤC MỚI CHO COMMENT ---
+		let currentCommentId = null;
+		let currentCommentContent = '';
+		let commentOptionsModal = new bootstrap.Modal(document.getElementById('commentOptionsModal'));
+		let editCommentContentModal = new bootstrap.Modal(document.getElementById('editCommentContentModal'));
 
 		// Trong hàm initApp hoặc (async () => { ... })();
 		// Thêm dòng này vào phần khởi tạo:
@@ -1725,19 +1854,42 @@
 		  }
 		}
 
-		function formatDate(dateStr) {
-		  const date = new Date(dateStr);
-		  const now = new Date();
-		  const diff = now - date;
-		  const mins = Math.floor(diff / 60000);
-		  const hours = Math.floor(diff / 3600000);
-		  const days = Math.floor(diff / 86400000);
-		  
-		  if (mins < 1) return 'Vừa xong';
-		  if (mins < 60) return `${mins} phút`;
-		  if (hours < 24) return `${hours} giờ`;
-		  if (days < 7) return `${days} ngày`;
-		  return date.toLocaleDateString('vi-VN');
+		// --- HÀM XỬ LÝ THỜI GIAN THÔNG MINH (MỚI) ---
+		function formatTimeSmart(dateStr) {
+			if (!dateStr) return '';
+			const date = new Date(dateStr);
+			const now = new Date();
+			const diffMs = now - date;
+			const diffSeconds = Math.floor(diffMs / 1000);
+			
+			// Xử lý logic hiển thị
+			if (diffSeconds < 60) {
+				return `${Math.max(1, diffSeconds)} giây`;
+			}
+			
+			const diffMinutes = Math.floor(diffSeconds / 60);
+			if (diffMinutes < 60) {
+				return `${diffMinutes} phút`;
+			}
+			
+			const diffHours = Math.floor(diffMinutes / 60);
+			if (diffHours < 24) {
+				return `${diffHours} giờ`;
+			}
+			
+			const diffDays = Math.floor(diffHours / 24);
+			if (diffDays <= 7) {
+				return `${diffDays} ngày`;
+			}
+			
+			// Quá 7 ngày -> Hiện Full: 14:42 21/01/2026
+			const hh = String(date.getHours()).padStart(2, '0');
+			const mm = String(date.getMinutes()).padStart(2, '0');
+			const dd = String(date.getDate()).padStart(2, '0');
+			const mo = String(date.getMonth() + 1).padStart(2, '0');
+			const yyyy = date.getFullYear();
+			
+			return `${hh}:${mm} ${dd}/${mo}/${yyyy}`;
 		}
 
 		function parseComments(commentsStr) {
@@ -2945,66 +3097,96 @@
 		
 		// --- HÀM RENDER POSTS (Đã thêm Sắp xếp Mới -> Cũ) ---
 		// Hàm tạo HTML cho 1 bài viết (Tách ra để tái sử dụng)
+		// --- HÀM TẠO HTML CHO 1 BÀI VIẾT (FULL) ---
+		// --- HÀM TẠO HTML BÀI VIẾT (FULL VỚI COMMENT) ---
+		// --- HÀM TẠO HTML BÀI VIẾT (CẬP NHẬT HEADER: TÊN · THỜI GIAN) ---
+		// --- HÀM TẠO HTML BÀI VIẾT (ĐÃ SỬA: NGÀY GIỜ XUỐNG DÒNG NHƯ CŨ) ---
 		function createPostHtml(post) {
-			const safeContent = encodeURIComponent(post.content || '');
-			const displayName = post.fullname || post.username || 'Người dùng ẩn danh';
+			const displayName = post.fullname || post.username || 'Người dùng';
 			const avatarUrl = post.avatar; 
 			const images = parseImages(post.imageData);
+			const isOwner = currentProfile && currentProfile.username === post.username;
 
+			const verifiedIcon = isOwner ? `<i class="bi bi-patch-check-fill text-primary ms-1"></i>` : '';
 			const avatarHtml = avatarUrl 
 				? `<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">`
-				: `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold" style="font-size: 1.2rem;">${displayName.charAt(0).toUpperCase()}</div>`;
+				: `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold fs-5">${displayName.charAt(0).toUpperCase()}</div>`;
 			
-			// [MỚI] Logic hiển thị Note trạng thái
-			let statusBadge = '';
-			if (post.isUploading) {
-				// [CẬP NHẬT] Lấy nội dung tiến trình từ biến uploadStatus (nếu có)
-				const statusText = post.uploadStatus || 'Đang đăng...';
-				
-				// Thêm ID: id="status-badge-${post.__backendId}" để dễ cập nhật
-				statusBadge = `
-					<span id="status-badge-${post.__backendId}" class="badge bg-warning text-dark ms-auto animate-pulse">
-						<span class="spinner-border spinner-border-sm me-1" style="width: 0.7rem; height: 0.7rem;"></span>
-						${statusText}
-					</span>`;
+			// Nút 3 chấm của bài viết
+			const statusBadge = isOwner 
+				? `<button class="btn btn-sm btn-link text-muted post-menu-btn ms-auto" data-id="${post.__backendId}"><i class="bi bi-three-dots"></i></button>` 
+				: '<div class="ms-auto"></div>';
+
+			const heartIconClass = post.liked ? 'bi-heart-fill text-danger' : 'bi-heart';
+			const likeCountText = post.likes > 0 ? post.likes : 'Thích';
+			const likeBtnClass = post.liked ? 'active' : '';
+
+			// Thời gian (Dùng hàm format thông minh)
+			const timeDisplay = formatTimeSmart(post.timestamp || post.createdAt);
+
+			// Xử lý comment (Giữ nguyên logic ẩn/hiện)
+			let commentsHtml = '';
+			const comments = post.commentsData || []; 
+			if (comments.length > 0) {
+				const visibleComments = comments.slice(0, 2);
+				const hiddenComments = comments.slice(2);
+				let commentListHtml = visibleComments.map(c => createCommentHtml(c)).join('');
+
+				if (hiddenComments.length > 0) {
+					const hiddenHtml = hiddenComments.map(c => createCommentHtml(c)).join('');
+					commentListHtml += `
+						<div id="hidden-comments-${post.__backendId}" class="d-none fade-in">${hiddenHtml}</div>
+						<div class="text-start ms-5">
+							<button class="btn btn-link btn-sm p-0 text-decoration-none text-muted fw-bold" style="font-size: 0.8rem;"
+									onclick="document.getElementById('hidden-comments-${post.__backendId}').classList.remove('d-none'); this.remove();">
+								Xem thêm ${hiddenComments.length} bình luận khác...
+							</button>
+						</div>`;
+				}
+				commentsHtml = `<div class="comments-section mt-3 fade-in"><div id="comments-container-${post.__backendId}">${commentListHtml}</div></div>`;
 			} else {
-				// Đã xong: Hiện nút menu 3 chấm (như cũ)
-				statusBadge = (currentProfile && currentProfile.username === post.username) 
-					? `<button class="btn btn-sm btn-link text-muted post-menu-btn ms-auto" data-id="${post.__backendId}">
-							<i class="bi bi-three-dots-vertical"></i>
-					   </button>` 
-					: '<div class="ms-auto"></div>';
+				commentsHtml = `<div class="comments-section mt-2" id="comments-container-${post.__backendId}"></div>`;
 			}
 
 			return `
 				<div class="post-card p-3 mb-3 fade-in" id="post-${post.__backendId}">
 					<div class="d-flex align-items-center mb-3">
-						<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
-							${avatarHtml}
-						</div>
+						<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">${avatarHtml}</div>
 						<div>
-							<p class="fw-bold mb-0 text-dark">${displayName}</p>
+							<p class="fw-bold mb-0 text-dark d-flex align-items-center">
+								${displayName} ${verifiedIcon}
+							</p>
 							<small class="text-muted" style="font-size: 0.8rem;">
-								<i class="bi bi-clock me-1"></i>${post.createdAt}
+								<i class="bi bi-clock me-1"></i>${timeDisplay}
 							</small>
 						</div>
-						
 						${statusBadge}
-						
 					</div>
 					
-					${post.content ? `<div class="mb-3" style="white-space: pre-wrap; font-size: 1rem; color: #374151;">${post.content}</div>` : ''}
-					
+					${post.content ? `<div class="mb-3" style="white-space: pre-wrap; font-size: 0.9rem; color: #374151;">${post.content}</div>` : ''}
 					${renderPostImages(images, post.layout || 'grid-2x2')}
 					
-					<div class="d-flex gap-4 pt-2 border-top mt-2">
-						<button class="btn btn-sm btn-link text-decoration-none like-btn text-muted" data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
-							<i class="bi bi-heart${post.liked ? '-fill text-danger' : ''} fs-5"></i>
-							<span class="ms-1">${post.likes > 0 ? post.likes : 'Thích'}</span>
+					<div class="d-flex gap-2 pt-2 border-top mt-2">
+						<button class="btn btn-sm btn-link text-decoration-none text-muted flex-grow-1 d-flex align-items-center justify-content-center gap-2 like-btn ${likeBtnClass}" 
+								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
+							<i class="bi ${heartIconClass} fs-5"></i>
+							<span>${likeCountText}</span>
 						</button>
-						<button class="btn btn-sm btn-link text-decoration-none text-muted comment-btn" data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
+						
+						<button class="btn btn-sm btn-link text-decoration-none text-muted flex-grow-1 d-flex align-items-center justify-content-center gap-2 show-comment-input-btn" 
+								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
 							<i class="bi bi-chat fs-5"></i>
-							<span class="ms-1">Bình luận</span>
+							<span>Bình luận</span>
+						</button>
+					</div>
+
+					${commentsHtml}
+
+					<div class="d-flex align-items-center mt-2 gap-2 d-none" id="comment-input-box-${post.__backendId}">
+						<input type="text" class="form-control form-control-sm rounded-pill bg-light border-0" 
+							   id="input-cmt-${post.__backendId}" placeholder="Viết bình luận...">
+						<button class="btn btn-sm btn-primary rounded-circle send-inline-cmt-btn" data-id="${post.__backendId}">
+							<i class="bi bi-send-fill"></i>
 						</button>
 					</div>
 				</div>
@@ -3273,37 +3455,7 @@
 
 		// 2. Nút Xóa tất cả thông báo
 		document.getElementById('clear-all-notifications').addEventListener('click', async () => {
-			if(!confirm("Bạn có chắc muốn xóa sạch lịch sử thông báo không?")) return;
-
-			const list = document.getElementById('notifications-list');
-			const originalContent = list.innerHTML; // Backup để hoàn tác nếu lỗi
-
-			// 1. OPTIMISTIC UPDATE
-			list.innerHTML = `
-			  <div class="text-center py-5">
-				<i class="bi bi-bell-slash theme-text-primary" style="font-size: 3rem;"></i>
-				<p class="fw-semibold mt-3">Chưa có thông báo</p>
-			  </div>
-			`;
-			document.getElementById('notification-badge').classList.add('d-none');
-			showToast('Đã xóa tất cả thông báo');
-
-			// 2. BACKGROUND SYNC
-			try {
-				const res = await sendToServer({
-					action: 'notification_action',
-					type: 'delete_all'
-				});
-				if (res.status !== 'success') throw new Error(res.message);
-				
-				// Xóa cache local
-				serverNotifications = [];
-				
-			} catch (e) {
-				console.error(e);
-				showToast('Lỗi kết nối! Đang khôi phục...');
-				list.innerHTML = originalContent; // Hoàn tác giao diện
-			}
+			showDeleteConfirm('Bạn có chắc muốn xóa sạch lịch sử thông báo không?', null, 'all-notifications');
 		});
 
 		document.getElementById('notifications-list').addEventListener('click', async (e) => {
@@ -3933,7 +4085,8 @@
 				
 				// 6. Báo thành công ngay
 				showToast('Đã cập nhật hồ sơ!');
-
+	
+				renderPosts(); // Cập nhật lại tên và tích xanh trên bài viết cũ ngay lập tức
 				// --- XỬ LÝ NGẦM (BACKGROUND SYNC) ---
 				// Gửi lên server sau, không bắt người dùng chờ
 				sendToServer({
@@ -3960,50 +4113,91 @@
 		}
 
 		// Post interactions
+		// --- SỰ KIỆN TƯƠNG TÁC BÀI VIẾT (LIKE, COMMENT, MENU) ---
 		document.getElementById('posts-container').addEventListener('click', async (e) => {
-		  const likeBtn = e.target.closest('.like-btn');
-		  if (likeBtn) {
-			lastUserActionTime = Date.now(); // <--- THÊM VÀO ĐÂY
-			const postId = likeBtn.dataset.id;
-			const post = allData.find(d => d.__backendId === postId);
-			if (post) {
-			  const newLiked = !post.liked;
-			  const newLikes = newLiked ? (post.likes || 0) + 1 : Math.max(0, (post.likes || 0) - 1);
-			  
-			  await window.dataSdk.update({
-				...post,
-				liked: newLiked,
-				likes: newLikes
-			  });
-			  
-			  if (newLiked) {
-				await createNotification('like', 'Yêu thích', 'Bạn đã thích một bài viết');
-			  }
+			
+			// A. XỬ LÝ LIKE (CẬP NHẬT LẠC QUAN)
+			const likeBtn = e.target.closest('.like-btn');
+			if (likeBtn) {
+				// Chặn click liên tục
+				if (likeBtn.disabled) return;
+
+				// 1. Lấy trạng thái hiện tại từ giao diện
+				const icon = likeBtn.querySelector('i');
+				const textSpan = likeBtn.querySelector('span');
+				const isCurrentlyLiked = icon.classList.contains('bi-heart-fill');
+				const postId = likeBtn.dataset.id;
+				
+				// 2. Cập nhật UI NGAY LẬP TỨC (Không chờ Server)
+				if (isCurrentlyLiked) {
+					// Đang thích -> Bỏ thích
+					icon.className = 'bi bi-heart fs-5'; // Trái tim rỗng
+					icon.classList.remove('text-danger');
+					
+					let currentCount = parseInt(textSpan.textContent) || 0;
+					// Nếu đang là chữ 'Thích' thì coi là 0
+					if (isNaN(currentCount)) currentCount = 0;
+					
+					const newCount = Math.max(0, currentCount - 1);
+					textSpan.textContent = newCount > 0 ? newCount : 'Thích';
+					
+					likeBtn.classList.remove('active');
+				} else {
+					// Chưa thích -> Thích
+					icon.className = 'bi bi-heart-fill text-danger fs-5'; // Trái tim đặc đỏ
+					
+					let currentCount = parseInt(textSpan.textContent) || 0;
+					if (isNaN(currentCount)) currentCount = 0;
+					
+					textSpan.textContent = currentCount + 1;
+					
+					// Thêm hiệu ứng nhún nhảy
+					likeBtn.classList.add('active');
+				}
+
+				// 3. Gửi lệnh lên Server (Chạy ngầm)
+				try {
+					const username = currentProfile ? currentProfile.username : 'anonymous';
+					const res = await sendToServer({
+						action: 'like_post',
+						postId: postId,
+						username: username
+					});
+					
+					// Nếu server trả về số lượng chính xác, cập nhật lại cho chuẩn
+					if (res.status === 'success' && res.newCount !== undefined) {
+						textSpan.textContent = res.newCount > 0 ? res.newCount : 'Thích';
+					}
+				} catch (e) {
+					console.error("Lỗi like:", e);
+					// Nếu lỗi mạng nghiêm trọng thì có thể revert UI lại ở đây (tùy chọn)
+				}
+				return;
 			}
-			return;
-		  }
-		  
-		  const commentBtn = e.target.closest('.comment-btn');
-		  if (commentBtn) {
-			currentPostId = commentBtn.dataset.id;
-			renderComments(currentPostId);
-			commentModal.show();
-			return;
-		  }
-		  
-		  const menuBtn = e.target.closest('.post-menu-btn');
-		  if (menuBtn) {
-			currentPostId = menuBtn.dataset.id;
-			postOptionsModal.show();
-		  }
+
+			// B. XỬ LÝ MỞ COMMENT
+			const commentBtn = e.target.closest('.comment-btn');
+			if (commentBtn) {
+				currentPostId = commentBtn.dataset.id;
+				// Load comment từ server thay vì từ dữ liệu post cũ
+				loadCommentsForPost(currentPostId);
+				commentModal.show();
+				return;
+			}
+
+			// C. XỬ LÝ MENU 3 CHẤM (Sửa/Xóa)
+			const menuBtn = e.target.closest('.post-menu-btn');
+			if (menuBtn) {
+				currentPostId = menuBtn.dataset.id;
+				postOptionsModal.show();
+			}
 		});
 
-		// Post Options
-		// Post Options - Sửa bài viết
-document.getElementById('edit-post-option').addEventListener('click', () => {
-  // Gọi hàm openEditPost đã sửa ở trên
-  openEditPost(currentPostId);
-});
+		// Post Options 
+		document.getElementById('edit-post-option').addEventListener('click', () => {
+		  // Gọi hàm openEditPost đã sửa ở trên
+		  openEditPost(currentPostId);
+		});
 
 		document.getElementById('delete-post-option').addEventListener('click', () => {
 		  postOptionsModal.hide();
@@ -4015,32 +4209,123 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 		  currentPostId = null;
 		});
 
+		// --- GỬI COMMENT ---
+		// --- GỬI COMMENT (CẬP NHẬT LẠC QUAN) ---
 		document.getElementById('send-comment').addEventListener('click', async () => {
-		  const input = document.getElementById('comment-input');
-		  const text = input.value.trim();
-		  if (!text || !currentPostId) return;
-		  
-		  const post = allData.find(d => d.__backendId === currentPostId);
-		  if (!post) return;
-		  
-		  const comments = parseComments(post.comments);
-		  comments.push({
-			text: text,
-			author: currentProfile?.fullName || currentProfile?.username || 'Người dùng',
-			time: new Date().toISOString()
-		  });
-		  
-		  showLoading();
-		  await window.dataSdk.update({
-			...post,
-			comments: JSON.stringify(comments)
-		  });
-		  hideLoading();
-		  
-		  input.value = '';
-		  renderComments(currentPostId);
-		  showToast('Đã bình luận!');
-		  await createNotification('comment', 'Bình luận mới', 'Bạn đã bình luận trên một bài viết');
+			const input = document.getElementById('comment-input');
+			const text = input.value.trim();
+			if (!text || !currentPostId) return;
+			
+			const container = document.getElementById('comments-list');
+			
+			// 1. Tạo dữ liệu giả lập (Optimistic Data)
+			const tempId = 'temp_' + Date.now();
+			const tempComment = {
+				id: tempId,
+				username: currentProfile.username,
+				fullname: currentProfile.fullName,
+				avatar: currentProfile.avatarData,
+				content: text,
+				formattedTime: "Đang gửi..."
+			};
+
+			// 2. Hiển thị ngay lập tức
+			// Nếu đang hiện "Chưa có bình luận" thì xóa đi
+			if (container.querySelector('.bi-chat-dots')) {
+				container.innerHTML = '';
+			}
+			
+			const html = createCommentHtml(tempComment);
+			container.insertAdjacentHTML('beforeend', html);
+			
+			// Cuộn xuống cuối
+			const newItem = document.getElementById(`comment-${tempId}`);
+			if (newItem) newItem.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+			// Xóa ô nhập liệu ngay
+			input.value = '';
+
+			// 3. Gửi Server (Background)
+			try {
+                const res = await sendToServer({
+                    action: 'comment_action',
+                    type: 'add',
+                    postId: currentPostId,
+                    username: currentProfile.username,
+                    content: text
+                });
+                
+                if (res.status === 'success') {
+                    if (newItem) {
+                        // 1. SỬA LỖI HIỂN THỊ: Cập nhật text thời gian
+                        // Dùng 'small.text-muted' (Thẻ small có class text-muted) thay vì '.text-muted.small'
+                        const timeEl = newItem.querySelector('small.text-muted');
+                        if (timeEl) timeEl.textContent = "Vừa xong";
+
+                        // 2. CẬP NHẬT ID THẬT (Quan trọng để Xóa/Sửa được ngay)
+                        // Nếu không cập nhật ID, khi bấm xóa ngay lập tức sẽ bị lỗi vì ID vẫn là temp_...
+                        if (res.id) {
+                            // Đổi ID của dòng comment
+                            newItem.id = `comment-${res.id}`;
+                            
+                            // Cập nhật data-id cho nút 3 chấm (Menu tùy chọn)
+                            const optionBtn = newItem.querySelector('.comment-options-btn');
+                            if (optionBtn) {
+                                optionBtn.dataset.id = res.id;
+                                // Cập nhật lại nội dung gốc vào data-content để tính năng Sửa hoạt động đúng
+                                optionBtn.dataset.content = text; 
+                            }
+                        }
+                    }
+                } else {
+                    throw new Error("Server error");
+                }
+            } catch (e) {
+				// Lỗi: Xóa comment giả đi và báo lỗi, trả lại nội dung vào ô nhập
+				if (newItem) newItem.remove();
+				input.value = text;
+				showToast('Lỗi gửi bình luận! Vui lòng thử lại.');
+			}
+		});
+
+		// --- XÓA COMMENT (Dùng Event Delegation) ---
+		// --- XÓA COMMENT (CẬP NHẬT LẠC QUAN) ---
+		document.getElementById('comments-list').addEventListener('click', async (e) => {
+			const deleteBtn = e.target.closest('.delete-comment-btn');
+			if (deleteBtn) {
+				if(!confirm("Xóa bình luận này?")) return;
+				
+				const cmtId = deleteBtn.dataset.id;
+				const commentItem = document.getElementById(`comment-${cmtId}`);
+				
+				// 1. Ẩn ngay lập tức (UI)
+				if (commentItem) {
+					commentItem.style.transition = "opacity 0.3s, height 0.3s";
+					commentItem.style.opacity = "0";
+					setTimeout(() => commentItem.style.display = "none", 300);
+				}
+				
+				// 2. Gửi Server (Background)
+				try {
+					const res = await sendToServer({
+						action: 'comment_action',
+						type: 'delete',
+						commentId: cmtId,
+						username: currentProfile.username
+					});
+					
+					if (res.status !== 'success') {
+						throw new Error("Lỗi xóa");
+					}
+				} catch(e) {
+					// Lỗi: Hiện lại comment
+					if (commentItem) {
+						commentItem.style.display = "flex";
+						setTimeout(() => commentItem.style.opacity = "1", 50);
+					}
+					showToast('Không thể xóa bình luận!');
+				}
+			}
 		});
 
 		// Delete confirmation
@@ -4225,8 +4510,11 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 		});
 
 		// --- XỬ LÝ XÓA (OPTIMISTIC UPDATE CHO BÀI VIẾT) ---
+		// --- SỰ KIỆN NÚT XÁC NHẬN XÓA (CONFIRM DELETE) - BẢN FULL ---
 		document.getElementById('confirm-delete').addEventListener('click', async () => {
-			if (!pendingDeleteId) {
+			
+			// 1. Kiểm tra hợp lệ (Sửa lại điều kiện để chấp nhận trường hợp xóa tất cả thông báo - id là null)
+			if (!pendingDeleteId && pendingDeleteType !== 'all-notifications') {
 				deleteConfirmModal.hide();
 				return;
 			}
@@ -4238,7 +4526,7 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 				const postId = pendingDeleteId;
 				const postEl = document.getElementById(`post-${postId}`);
 
-				// 1. Đóng Modal xác nhận ngay lập tức
+				// 1. Đóng Modal ngay lập tức
 				deleteConfirmModal.hide();
 
 				// 2. Backup dữ liệu (để hoàn tác nếu lỗi)
@@ -4253,13 +4541,11 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 
 				// B. Tạo hiệu ứng biến mất trên giao diện
 				if (postEl) {
-					// Thêm style transition để bài viết mờ dần và trượt sang phải
 					postEl.style.transition = "all 0.4s ease-out";
 					postEl.style.opacity = "0";
 					postEl.style.transform = "translateX(50px)";
-					postEl.style.height = postEl.offsetHeight + 'px'; // Cố định chiều cao để animation mượt
+					postEl.style.height = postEl.offsetHeight + 'px';
 					
-					// Sau 400ms (khi hiệu ứng xong) thì xóa hẳn khỏi DOM
 					setTimeout(() => {
 						postEl.style.height = '0';
 						postEl.style.margin = '0';
@@ -4268,7 +4554,6 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 						
 						setTimeout(() => {
 							postEl.remove();
-							// Nếu xóa hết sạch bài thì hiện thông báo "Chưa có bài đăng"
 							if(serverFeedData.length === 0) renderPosts(); 
 						}, 200);
 					}, 400);
@@ -4276,10 +4561,10 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 
 				showToast('Đã xóa bài viết');
 
-				// 4. Gửi lệnh xuống Server (Chạy ngầm - Background)
+				// 4. Gửi Server (Chạy ngầm)
 				try {
 					const res = await sendToServer({
-						action: 'feed_action', // Đảm bảo action đúng với code server
+						action: 'feed_action',
 						type: 'delete',
 						id: postId
 					});
@@ -4287,19 +4572,11 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 					if (res.status !== 'success') {
 						throw new Error(res.message || 'Lỗi từ server');
 					}
-					
-					// Thành công: Không cần làm gì thêm vì giao diện đã xóa rồi
-
 				} catch (e) {
 					console.error("Lỗi xóa post:", e);
-					
-					// 5. HOÀN TÁC (ROLLBACK) NẾU LỖI
+					// 5. Hoàn tác nếu lỗi
 					showToast('Lỗi kết nối! Đang khôi phục bài viết...');
-					
-					// Khôi phục dữ liệu
 					serverFeedData = originalFeedData;
-					
-					// Vẽ lại giao diện để bài viết hiện lại
 					renderPosts();
 				}
 
@@ -4310,24 +4587,104 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			}
 
 			// ===============================================
-			// TRƯỜNG HỢP 2: CÁC LOẠI XÓA KHÁC (ALBUM, ẢNH...) -> LOGIC CŨ
+			// TRƯỜNG HỢP 2: XÓA TẤT CẢ THÔNG BÁO -> CẬP NHẬT LẠC QUAN
+			// ===============================================
+			if (pendingDeleteType === 'all-notifications') {
+				const list = document.getElementById('notifications-list');
+				const originalContent = list.innerHTML;
+
+				// 1. UI Lạc quan (Xóa ngay)
+				list.innerHTML = `
+				  <div class="text-center py-5">
+					<i class="bi bi-bell-slash theme-text-primary" style="font-size: 3rem;"></i>
+					<p class="fw-semibold mt-3">Chưa có thông báo</p>
+				  </div>
+				`;
+				document.getElementById('notification-badge').classList.add('d-none');
+				showToast('Đã xóa tất cả thông báo');
+
+				// 2. Đóng Modal
+				deleteConfirmModal.hide();
+
+				// 3. Gửi Server
+				try {
+					const res = await sendToServer({
+						action: 'notification_action',
+						type: 'delete_all'
+					});
+					if (res.status === 'success') serverNotifications = [];
+				} catch (e) {
+					console.error(e);
+					showToast('Lỗi kết nối! Đang hoàn tác...');
+					list.innerHTML = originalContent;
+				}
+				
+				// Reset biến tạm
+				pendingDeleteId = null;
+				pendingDeleteType = null;
+				return;
+			}
+			
+			// ===============================================
+			// --> THÊM ĐOẠN NÀY VÀO ĐÂY <--
+			// TRƯỜNG HỢP 3: XÓA BÌNH LUẬN (COMMENT)
+			// ===============================================
+			if (pendingDeleteType === 'comment') {
+				const cmtId = pendingDeleteId;
+				const commentItem = document.getElementById(`comment-${cmtId}`);
+
+				// 1. Đóng Modal
+				deleteConfirmModal.hide();
+
+				// 2. UI Lạc quan: Ẩn comment ngay lập tức
+				if (commentItem) {
+					commentItem.style.transition = "all 0.3s ease";
+					commentItem.style.opacity = "0";
+					commentItem.style.height = "0";
+					commentItem.style.margin = "0";
+					commentItem.style.padding = "0";
+					setTimeout(() => commentItem.remove(), 300);
+				}
+
+				// 3. Gửi Server (Chạy ngầm)
+				try {
+					const res = await sendToServer({
+						action: 'comment_action',
+						type: 'delete',
+						commentId: cmtId,
+						username: currentProfile.username
+					});
+					
+					if (res.status !== 'success') {
+						throw new Error("Lỗi từ server");
+					}
+				} catch(e) {
+					console.error(e);
+					showToast('Không thể xóa bình luận! Đang khôi phục...');
+					// Nếu lỗi thì vẽ lại comment (hoặc reload) - ở đây reload cho đơn giản
+					if (currentPostId) loadCommentsForPost(currentPostId);
+				}
+
+				// Reset biến tạm
+				pendingDeleteId = null;
+				pendingDeleteType = null;
+				return;
+			}
+
+			// ===============================================
+			// TRƯỜNG HỢP 4: CÁC LOẠI KHÁC (ALBUM, ẢNH...) -> LOGIC CŨ (Loading)
 			// ===============================================
 			
-			// Hiện loading vì các tác vụ này chưa làm lạc quan
 			showLoading();
 			
 			try {
 				if (pendingDeleteType === 'photo') {
-					 // Logic xóa ảnh trong album (nếu có API)
-					 // await sendToServer(...)
-					 // Tạm thời dùng logic cũ của bạn hoặc bổ sung sau
 					 const item = allData.find(d => d.__backendId === pendingDeleteId);
-					 if (item) await window.dataSdk.delete(item); // Fallback logic cũ
+					 if (item) await window.dataSdk.delete(item);
 					 showToast('Đã xóa ảnh!');
-					 if(currentAlbumId) renderAlbumPhotos(); // Refresh album
+					 if(currentAlbumId) renderAlbumPhotos();
 				} 
 				else if (pendingDeleteType === 'album') {
-					 // Logic xóa album
 					 const item = allData.find(d => d.__backendId === pendingDeleteId);
 					 if (item) await window.dataSdk.delete(item);
 					 showToast('Đã xóa album!');
@@ -4362,44 +4719,41 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 
 		usernameInput.addEventListener('blur', async () => {
 			const inputVal = usernameInput.value.trim();
-			// Bỏ qua nếu rỗng hoặc trùng tên hiện tại
 			if (!inputVal || (currentProfile && inputVal === currentProfile.username)) return;
 
 			showLoading();
 
 			try {
-				// 1. Hỏi Server xem Username này có ai dùng chưa
 				const res = await sendToServer({
 					action: 'get_profile_by_username',
 					username: inputVal
 				});
 
 				if (res.status === 'success' && res.data) {
-					// --- TÌM THẤY USER CŨ ---
 					console.log("Phát hiện User cũ, đang liên kết thiết bị...", res.data);
 
-					// 2. Cập nhật vào biến Local
 					currentProfile = {
 						username: res.data.username,
 						fullName: res.data.fullname,
 						avatarData: res.data.avaurl,
 						themeName: res.data.theme
 					};
-					saveLocalData(currentProfile); // Lưu Local ngay
+					saveLocalData(currentProfile);
 
-					// 3. Cập nhật UI
 					updateAvatarDisplays();
 					applyTheme(currentProfile.themeName);
 					
-					// 4. [QUAN TRỌNG] GỌI SAVE ĐỂ GẮN FINGERPRINT MỚI VÀO USER NÀY
-					// Đây chính là bước "Đăng nhập"
+					// --- THÊM DÒNG NÀY: VẼ LẠI BẢNG TIN NGAY LẬP TỨC ---
+					if(serverFeedData.length > 0) renderPosts(); 
+					// ----------------------------------------------------
+
 					await sendToServer({
 						action: 'save_profile',
 						username: currentProfile.username,
 						fullname: currentProfile.fullName,
 						avaurl: currentProfile.avatarData,
 						theme: currentProfile.themeName,
-						fingerprint: userFingerprint // <--- Gửi Fingerprint máy hiện tại lên
+						fingerprint: userFingerprint
 					});
 
 					showToast(`Đã khôi phục & Liên kết thiết bị: ${res.data.fullname}`);
@@ -4575,12 +4929,16 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			const postBtn = document.getElementById('post-btn');
 			const isHD = document.getElementById('hd-quality-switch').checked;
 
-			// 1. Sao chép dữ liệu để tránh lỗi khi đóng Modal (QUAN TRỌNG)
+			// --- [FIX QUAN TRỌNG] LƯU LAYOUT VÀO BIẾN CỤC BỘ NGAY LẬP TỨC ---
+			// Phải lưu ngay ở đây, vì nếu để xuống dưới sau khi gọi modal.hide()
+			// thì biến toàn cục selectedLayout sẽ bị reset về 'grid-2x2'
+			const finalLayout = selectedLayout; 
+			// ---------------------------------------------------------------
+
+			// 1. Sao chép dữ liệu để tránh lỗi khi đóng Modal
 			const imagesToProcess = [...currentImages]; 
 			const previewsToSave = [...currentImagePreviews];
 			
-			// [FIX] LƯU TRẠNG THÁI SỬA BÀI VÀO BIẾN CỤC BỘ NGAY LẬP TỨC
-			// Để dù Modal có đóng và reset biến toàn cục thì ta vẫn còn giữ ID này
 			const isUpdateMode = isEditingPost; 
 			const postIdToUpdate = currentEditPostId; 
 
@@ -4589,7 +4947,6 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 				return;
 			}
 
-			// --- CHUẨN BỊ ---
 			lastUserActionTime = Date.now();
 			pendingTasksCount++; 
 			postBtn.disabled = true;
@@ -4598,7 +4955,6 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			let tempId;
 
 			if (isUpdateMode && postIdToUpdate) {
-				// TRƯỜNG HỢP SỬA: Cập nhật trực tiếp vào bài cũ
 				tempId = postIdToUpdate;
 				const postIndex = serverFeedData.findIndex(p => p.__backendId === tempId);
 				if (postIndex !== -1) {
@@ -4606,13 +4962,12 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 						...serverFeedData[postIndex],
 						content: content,
 						imageData: JSON.stringify(previewsToSave),
-						layout: selectedLayout,
+						layout: finalLayout, // <--- SỬA: Dùng biến cục bộ
 						isUploading: true,
 						uploadStatus: 'Đang lưu...'
 					};
 				}
 			} else {
-				// TRƯỜNG HỢP MỚI: Tạo bài tạm
 				tempId = 'temp_' + Date.now();
 				const now = new Date();
 				const newOptimisticPost = {
@@ -4624,7 +4979,7 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 					imageData: JSON.stringify(previewsToSave), 
 					createdAt: "Vừa xong",
 					timestamp: now.getTime(),
-					layout: selectedLayout,
+					layout: finalLayout, // <--- SỬA: Dùng biến cục bộ
 					likes: 0,
 					liked: false,
 					comments: '[]',
@@ -4638,29 +4993,23 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 
 			if (currentTab !== 'feed') document.querySelector('[data-tab="feed"]').click();
 			
-			// Đóng Modal (Việc này sẽ reset biến toàn cục isEditingPost & currentEditPostId)
+			// Đóng Modal (Lệnh này sẽ kích hoạt sự kiện reset selectedLayout về mặc định)
 			createPostModal.hide();
 			
 			try {
 				let finalImageData = []; 
 
-				// ============================================================
-				// VÒNG LẶP XỬ LÝ ẢNH
-				// ============================================================
+				// ... (Đoạn xử lý upload ảnh giữ nguyên) ...
 				if (imagesToProcess.length > 0) {
 					for (let i = 0; i < imagesToProcess.length; i++) {
 						const item = imagesToProcess[i];
-						
-						// Link ảnh cũ -> Giữ nguyên
 						if (typeof item === 'string') {
 							finalImageData.push(item); 
 							continue; 
 						}
-
-						// File mới -> Upload
 						const file = item;
 						const qualityText = isHD ? "HD" : "SD";
-						updatePostStatus(tempId, `Đang tải ảnh ${i + 1}/${imagesToProcess.length} (${qualityText})...`);
+						updatePostStatus(tempId, `Send ${i + 1}/${imagesToProcess.length} (${qualityText})...`);
 
 						if (isHD) {
 							if (i > 0) await new Promise(r => setTimeout(r, 500));
@@ -4684,17 +5033,16 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 				// ============================================================
 				// GỬI LỆNH LÊN SERVER
 				// ============================================================
-				updatePostStatus(tempId, 'Đang hoàn tất...');
+				updatePostStatus(tempId, 'Post...');
 
-				// [FIX] Sử dụng biến cục bộ postIdToUpdate thay vì currentEditPostId
 				const res = await sendToServer({
 					action: 'feed_action',
 					type: isUpdateMode ? 'update' : 'create',
-					id: isUpdateMode ? postIdToUpdate : undefined, // <--- QUAN TRỌNG NHẤT
+					id: isUpdateMode ? postIdToUpdate : undefined,
 					username: currentProfile ? currentProfile.username : 'Anonymous',
 					content: content,
 					image: JSON.stringify(finalImageData),
-					layout: selectedLayout,
+					layout: finalLayout, // <--- SỬA: Dùng biến cục bộ thay vì selectedLayout
 					fingerprint: userFingerprint
 				});
 
@@ -4733,10 +5081,7 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 				if(contentInput) contentInput.value = '';
 				currentImages = [];
 				currentImagePreviews = [];
-				// Không cần reset isEditingPost ở đây vì sự kiện đóng modal đã làm rồi
-				// [SỬA DÒNG NÀY] Đổi false thành true
 				document.getElementById('hd-quality-switch').checked = true;
-				
 			}
 		}
 
@@ -4894,7 +5239,8 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 				const res = await sendToServer({ 
 					action: 'get_feed', 
 					page: page, 
-					limit: 10 
+					limit: 10,
+					username: currentProfile ? currentProfile.username : '' // <--- THÊM DÒNG NÀY
 				});
 
 				if (res.status === 'success') {
@@ -5368,6 +5714,201 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 				document.body.classList.remove('modal-open');
 				document.body.style = ''; // Reset style của body
 			}, 150); // Đợi một chút cho hiệu ứng ẩn modal chạy xong
+		}
+		 
+		// --- HÀM HELPER: TẠO HTML CHO 1 BÌNH LUẬN (GIAO DIỆN MỚI) ---
+		// --- HÀM TẠO HTML BÌNH LUẬN (GIAO DIỆN MỚI: TÊN + TIME + MENU CÙNG DÒNG) ---
+		// --- HÀM TẠO HTML BÌNH LUẬN (ĐÃ SỬA: NÚT 3 CHẤM CĂN SÁT MÉP PHẢI) ---
+		function createCommentHtml(cmt) {
+			const currentUser = currentProfile ? currentProfile.username : '';
+			const isOwner = (currentUser && cmt.username === currentUser);
+			
+			const menuHtml = isOwner 
+				? `<button class="btn btn-sm text-muted p-0 comment-options-btn" 
+						   style="line-height: 1;"
+						   data-id="${cmt.id}" data-content="${cmt.content}" data-post-id="${cmt.postId || ''}">
+					 <i class="bi bi-three-dots"></i>
+				   </button>` 
+				: '';
+
+			const avatarHtml = cmt.avatar 
+				? `<img src="${cmt.avatar}" class="w-100 h-100 object-fit-cover">`
+				: `<span class="small fw-bold">${cmt.fullname.charAt(0).toUpperCase()}</span>`;
+
+			const timeDisplay = formatTimeSmart(cmt.time || cmt.formattedTime || new Date());
+
+			return `
+				<div class="d-flex mb-2 comment-item" id="comment-${cmt.id}">
+					<div class="avatar-circle avatar-circle-sm me-2 flex-shrink-0" style="width: 32px; height: 32px;">
+						${avatarHtml}
+					</div>
+					
+					<div class="flex-grow-1" style="min-width: 0;">
+						<div class="bg-light rounded-3 p-2 px-3 d-inline-block position-relative" style="width: 100%;">
+							
+							<div class="d-flex align-items-center justify-content-between mb-1">
+								
+								<div class="d-flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+									<span class="fw-bold small me-1 text-dark">${cmt.fullname}</span>
+									<span class="text-muted mx-1" style="font-size: 0.6rem;">●</span>
+									<small class="text-muted" style="font-size: 0.75rem;">${timeDisplay}</small>
+								</div>
+								
+								<div class="ms-2">
+									 ${menuHtml}
+								</div>
+							</div>
+
+							<p class="mb-0 text-dark small content-text" style="word-wrap: break-word; word-break: break-word; white-space: pre-wrap;">${cmt.content}</p>
+						</div>
+					</div>
+				</div>
+			`;
+		}
+		
+		// 1. SỰ KIỆN CLICK TRONG POST CONTAINER
+		document.getElementById('posts-container').addEventListener('click', async (e) => {
+			
+			// A. BẤM NÚT "BÌNH LUẬN" (Hiện ô nhập)
+			const showInputBtn = e.target.closest('.show-comment-input-btn');
+			if (showInputBtn) {
+				const pid = showInputBtn.dataset.id;
+				const box = document.getElementById(`comment-input-box-${pid}`);
+				box.classList.toggle('d-none');
+				if (!box.classList.contains('d-none')) {
+					document.getElementById(`input-cmt-${pid}`).focus();
+				}
+				return;
+			}
+
+			// B. BẤM GỬI BÌNH LUẬN (INLINE)
+			const sendBtn = e.target.closest('.send-inline-cmt-btn');
+			if (sendBtn) {
+				const pid = sendBtn.dataset.id;
+				const input = document.getElementById(`input-cmt-${pid}`);
+				const content = input.value.trim();
+				if (!content) return;
+
+				// UI Lạc quan: Thêm ngay vào danh sách
+				const container = document.getElementById(`comments-container-${pid}`);
+				const tempId = 'temp_' + Date.now();
+				const tempCmt = {
+					id: tempId,
+					username: currentProfile.username,
+					fullname: currentProfile.fullName,
+					avatar: currentProfile.avatarData,
+					content: content,
+					formattedTime: "Đang gửi..."
+				};
+				
+				// Nếu chưa có class padding thì thêm vào cho đẹp
+				if (!container.parentElement.classList.contains('bg-light')) {
+					 container.parentElement.className = "comments-section bg-light rounded-3 p-2 mt-3 fade-in";
+				}
+
+				container.insertAdjacentHTML('beforeend', createCommentHtml(tempCmt));
+				input.value = ''; // Xóa ô nhập
+
+				// Gửi Server
+				try {
+					await sendToServer({
+						action: 'comment_action',
+						type: 'add',
+						postId: pid,
+						username: currentProfile.username,
+						content: content
+					});
+					// Update lại thời gian nếu cần (bỏ qua cho đơn giản)
+				} catch(e) { console.error(e); }
+				return;
+			}
+
+			// C. BẤM MENU 3 CHẤM CỦA COMMENT
+			const optBtn = e.target.closest('.comment-options-btn');
+			if (optBtn) {
+				currentCommentId = optBtn.dataset.id;
+				currentCommentContent = optBtn.dataset.content;
+				commentOptionsModal.show();
+			}
+		});
+
+		// 2. XỬ LÝ TRONG MODAL TÙY CHỌN COMMENT
+
+		// Nút Xóa
+		// --- SỬA LẠI: NÚT XÓA TRONG MENU BÌNH LUẬN ---
+		document.getElementById('delete-comment-btn').addEventListener('click', () => {
+			if (!currentCommentId) return;
+			
+			// 1. Đóng modal tùy chọn (3 chấm)
+			commentOptionsModal.hide();
+
+			// 2. Mở modal xác nhận xóa chung
+			// type: 'comment' để phân biệt
+			showDeleteConfirm('Bạn có chắc muốn xóa bình luận này?', currentCommentId, 'comment');
+		});
+
+		// Nút Sửa (Mở modal nhập liệu)
+		document.getElementById('edit-comment-btn').addEventListener('click', () => {
+			commentOptionsModal.hide();
+			document.getElementById('edit-comment-input').value = currentCommentContent;
+			editCommentContentModal.show();
+		});
+
+		// Nút Lưu (Trong modal sửa)
+		document.getElementById('save-edit-comment').addEventListener('click', async () => {
+			const newContent = document.getElementById('edit-comment-input').value.trim();
+			if (!newContent || !currentCommentId) return;
+
+			editCommentContentModal.hide();
+
+			// UI Lạc quan: Cập nhật text ngay
+			const el = document.getElementById(`comment-${currentCommentId}`);
+			if (el) {
+				el.querySelector('.content-text').textContent = newContent;
+				// Cập nhật lại data-content cho nút 3 chấm để lần sau sửa tiếp
+				const btn = el.querySelector('.comment-options-btn');
+				if (btn) btn.dataset.content = newContent;
+			}
+
+			// Gửi Server
+			await sendToServer({
+				action: 'comment_action',
+				type: 'edit',
+				commentId: currentCommentId,
+				username: currentProfile.username,
+				content: newContent
+			});
+		});
+		
+		// --- HÀM TẢI COMMENT TỪ SERVER ---
+		async function loadCommentsForPost(postId) {
+			const container = document.getElementById('comments-list');
+			container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+			
+			try {
+				const res = await sendToServer({
+					action: 'get_post_comments',
+					postId: postId
+				});
+
+				if (res.status === 'success') {
+					const comments = res.data;
+					if (!comments || comments.length === 0) {
+						container.innerHTML = `<div class="text-center py-5">
+							<i class="bi bi-chat-dots text-muted" style="font-size: 3rem;"></i>
+							<p class="text-muted mt-2">Chưa có bình luận nào. Hãy là người đầu tiên!</p>
+						</div>`;
+					} else {
+						// Sử dụng hàm helper đã tạo ở trên
+						container.innerHTML = comments.map(cmt => createCommentHtml(cmt)).join('');
+					}
+				} else {
+					container.innerHTML = '<p class="text-center text-muted py-5">Lỗi tải bình luận</p>';
+				}
+			} catch (e) {
+				console.error(e);
+				container.innerHTML = '<p class="text-center text-muted py-5">Lỗi kết nối</p>';
+			}
 		}
 
 		// KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
