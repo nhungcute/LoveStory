@@ -595,6 +595,7 @@
 			width: 41px !important;
 			height: 41px !important;
 			flex-shrink: 0; 
+			border-width: 1px !important; /* <--- Thêm dòng này: Giảm từ 3px xuống 1px */
 		}
 
 		/* 2. Giảm chiều cao Top Menu (Header) */
@@ -5794,7 +5795,7 @@
 
 			return `
 				<div class="d-flex mb-2 comment-item" id="comment-${cmt.id}">
-					<div class="avatar-circle avatar-circle-sm me-2 flex-shrink-0" style="width: 32px; height: 32px;">
+					<div class="avatar-circle avatar-circle-sm me-1 flex-shrink-0 overflow-hidden border" style="width: 32px; height: 32px;">
 						${avatarHtml}
 					</div>
 					
