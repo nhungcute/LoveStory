@@ -1061,7 +1061,7 @@
 		   
 		   
 		   <div class="p-3 bg-white mb-2">
-				<h6 class="fw-bold mb-3 small text-muted text-uppercase">Biểu đồ Lịch sử (Toàn thời gian)</h6>
+				<h6 class="fw-bold mb-3 small text-muted text-uppercase">Biểu đồ</h6>
 				
 				<div style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; -webkit-overflow-scrolling: touch;">
 					<div id="bike-chart" style="height: 200px; min-width: 100%;">
@@ -1139,7 +1139,7 @@
 			 </div>
 			</div>
 		   </div><div class="card p-3 mb-3">
-			<h6 class="fw-bold mb-3">Biểu đồ 7 ngày gần nhất</h6>
+			<h6 class="fw-bold mb-3">Biểu đồ</h6>
 			<div id="gold-chart" style="height: 250px;"></div>
 		   </div><div class="card p-3">
 			<div class="d-flex justify-content-between align-items-center mb-3">
@@ -1855,9 +1855,17 @@
 		}
 
 		// --- HÀM XỬ LÝ THỜI GIAN THÔNG MINH (MỚI) ---
+		// --- SỬA LẠI HÀM NÀY ĐỂ HẾT LỖI NaNaNa ---
 		function formatTimeSmart(dateStr) {
 			if (!dateStr) return '';
+			
+			// 1. Kiểm tra xem có phải ngày tháng hợp lệ không
 			const date = new Date(dateStr);
+			if (isNaN(date.getTime())) {
+				// Nếu không phải ngày (ví dụ: "Đang gửi..."), trả về nguyên văn text đó
+				return dateStr;
+			}
+
 			const now = new Date();
 			const diffMs = now - date;
 			const diffSeconds = Math.floor(diffMs / 1000);
@@ -2566,6 +2574,8 @@
 		
 		
 		// --- HÀM VẼ BIỂU ĐỒ 2 ĐƯỜNG (Xanh/Đỏ) ---
+		// --- HÀM VẼ BIỂU ĐỒ 2 ĐƯỜNG (CÓ TOOLTIP TƯƠNG TÁC) ---
+		// --- HÀM VẼ BIỂU ĐỒ 2 ĐƯỜNG (FIX: CAO/THẤP THEO GIÁ BÁN) ---
 		function renderDoubleLineGoldChart(data) {
 			const chartContainer = document.getElementById('gold-chart');
 			if (!data || data.length === 0) {
@@ -2573,40 +2583,48 @@
 				return;
 			}
 
-			// Lấy 30 ngày gần nhất
+			// Lấy 30 ngày gần nhất để vẽ
 			const limit = 30;
 			const chartData = data.slice(-limit);
 
-			// Tìm Min/Max
+			// 1. TÍNH TOÁN HIỂN THỊ TEXT (CAO/THẤP THEO GIÁ BÁN)
+			const sellPrices = chartData.map(d => d.sell);
+			const maxSell = Math.max(...sellPrices);
+			const minSell = Math.min(...sellPrices);
+			
+			// Tìm ngày tương ứng
+			const maxItem = chartData.find(d => d.sell === maxSell);
+			const minItem = chartData.find(d => d.sell === minSell);
+
+			document.getElementById('gold-highest-price').textContent = formatCurrency(maxSell);
+			document.getElementById('gold-highest-date').textContent = maxItem ? maxItem.date : '-';
+			
+			document.getElementById('gold-lowest-price').textContent = formatCurrency(minSell);
+			document.getElementById('gold-lowest-date').textContent = minItem ? minItem.date : '-';
+
+			// 2. TÍNH TOÁN VẼ BIỂU ĐỒ (Vẫn dùng cả Buy/Sell để scale cho đẹp)
 			const allPrices = [...chartData.map(d => d.buy), ...chartData.map(d => d.sell)];
 			const minVal = Math.min(...allPrices);
 			const maxVal = Math.max(...allPrices);
-			// [FIX] Nếu min == max (chỉ 1 giá) thì range = 0 -> Lỗi chia cho 0 -> Cần set mặc định
 			const padding = (maxVal - minVal) * 0.1 || (maxVal * 0.1); 
 			const chartMin = minVal - padding;
 			const chartMax = maxVal + padding;
-			const chartRange = chartMax - chartMin || 1; // Tránh chia cho 0
-
-			// Cập nhật thống kê
-			document.getElementById('gold-highest-price').textContent = formatCurrency(maxVal);
-			document.getElementById('gold-lowest-price').textContent = formatCurrency(minVal);
+			const chartRange = chartMax - chartMin || 1;
 
 			// Kích thước SVG
 			const width = chartContainer.offsetWidth || 350;
 			const height = 250;
 			
-			// [FIX QUAN TRỌNG] Xử lý StepX khi chỉ có 1 điểm dữ liệu
 			let stepX = 0;
 			if (chartData.length > 1) {
 				stepX = width / (chartData.length - 1);
 			} else {
-				stepX = width / 2; // Nếu chỉ 1 điểm, vẽ nó ở giữa
+				stepX = width / 2;
 			}
 
-			// Hàm tính tọa độ Y
 			const getY = (price) => height - ((price - chartMin) / chartRange * height);
 
-			// Tạo Path
+			// Tạo đường Path
 			let pathBuy = `M 0 ${getY(chartData[0].buy)}`;
 			let pathSell = `M 0 ${getY(chartData[0].sell)}`;
 
@@ -2614,37 +2632,67 @@
 				chartData.forEach((d, i) => { pathBuy += ` L ${i * stepX} ${getY(d.buy)}`; });
 				chartData.forEach((d, i) => { pathSell += ` L ${i * stepX} ${getY(d.sell)}`; });
 			} else {
-				// Nếu chỉ 1 điểm, vẽ đường thẳng ngang
 				pathBuy += ` L ${width} ${getY(chartData[0].buy)}`;
 				pathSell += ` L ${width} ${getY(chartData[0].sell)}`;
 			}
 
-			// Tính tọa độ điểm cuối (dùng cho dấu chấm tròn)
-			const lastX = (chartData.length > 1) ? (chartData.length - 1) * stepX : width / 2;
-
-			// Render SVG
+			// --- HTML MỚI: SVG + TOOLTIP ---
 			chartContainer.innerHTML = `
-				<svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
-					<line x1="0" y1="${height/2}" x2="${width}" y2="${height/2}" stroke="#eee" stroke-dasharray="4"/>
-					<line x1="0" y1="${height*0.25}" x2="${width}" y2="${height*0.25}" stroke="#f8f9fa" stroke-dasharray="4"/>
-					<line x1="0" y1="${height*0.75}" x2="${width}" y2="${height*0.75}" stroke="#f8f9fa" stroke-dasharray="4"/>
+				<div class="position-relative" style="height: 100%;">
+					<div id="chart-tooltip-box" class="position-absolute start-50 translate-middle-x bg-white shadow-sm border rounded px-2 py-1 text-center d-none" 
+						 style="top: -30px; z-index: 10; min-width: 120px; white-space: nowrap;">
+						 <small class="d-block fw-bold text-dark" id="tt-date">--/--</small>
+						 <div class="d-flex gap-2 justify-content-center" style="font-size: 0.75rem;">
+							<span class="text-success fw-bold" id="tt-buy">-</span>
+							<span class="text-danger fw-bold" id="tt-sell">-</span>
+						 </div>
+					</div>
 
-					<path d="${pathSell}" fill="none" stroke="#dc3545" stroke-width="2" />
-					<path d="${pathBuy}" fill="none" stroke="#198754" stroke-width="2" />
+					<svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
+						<line x1="0" y1="${height/2}" x2="${width}" y2="${height/2}" stroke="#eee" stroke-dasharray="4"/>
+						<line x1="0" y1="${height*0.25}" x2="${width}" y2="${height*0.25}" stroke="#f8f9fa" stroke-dasharray="4"/>
+						<line x1="0" y1="${height*0.75}" x2="${width}" y2="${height*0.75}" stroke="#f8f9fa" stroke-dasharray="4"/>
 
-					<circle cx="${lastX}" cy="${getY(chartData[chartData.length-1].buy)}" r="3" fill="#198754" />
-					<circle cx="${lastX}" cy="${getY(chartData[chartData.length-1].sell)}" r="3" fill="#dc3545" />
-				</svg>
-				<div class="d-flex justify-content-center gap-3 mt-2 small">
-					<span class="text-success fw-bold">● Giá Mua: ${formatCurrency(chartData[chartData.length-1].buy)}</span>
-					<span class="text-danger fw-bold">● Giá Bán: ${formatCurrency(chartData[chartData.length-1].sell)}</span>
+						<path d="${pathSell}" fill="none" stroke="#dc3545" stroke-width="2" />
+						<path d="${pathBuy}" fill="none" stroke="#198754" stroke-width="2" />
+
+						${chartData.map((d, i) => {
+							const cx = (chartData.length > 1) ? i * stepX : width / 2;
+							const cyBuy = getY(d.buy);
+							const cySell = getY(d.sell);
+							
+							return `
+							<g onclick="updateChartTooltip('${d.date}', ${d.buy}, ${d.sell})" 
+							   style="cursor: pointer;">
+								<rect x="${cx - 10}" y="0" width="20" height="${height}" fill="transparent" />
+								<circle cx="${cx}" cy="${cyBuy}" r="3" fill="#198754" />
+								<circle cx="${cx}" cy="${cySell}" r="3" fill="#dc3545" />
+							</g>
+							`;
+						}).join('')}
+					</svg>
 				</div>
 			`;
+			
+			const last = chartData[chartData.length-1];
+			updateChartTooltip(last.date, last.buy, last.sell);
+		}
+
+		// Hàm cập nhật nội dung Tooltip
+		function updateChartTooltip(date, buy, sell) {
+			const box = document.getElementById('chart-tooltip-box');
+			if(box) {
+				box.classList.remove('d-none');
+				document.getElementById('tt-date').textContent = date;
+				document.getElementById('tt-buy').textContent = `M: ${formatCurrency(buy)}`;
+				document.getElementById('tt-sell').textContent = `B: ${formatCurrency(sell)}`;
+			}
 		}
 		
 		// --- LOGIC TÍNH TOÁN PORTFOLIO & HIỂN THỊ ---
+		// --- LOGIC TÍNH TOÁN PORTFOLIO (CẬP NHẬT: FONT SIZE 0.8REM, BỎ BOLD) ---
 		function loadGoldPortfolio() {
-			const listEl = document.getElementById('gold-history-list'); // Đã sửa ID khớp với HTML cũ
+			const listEl = document.getElementById('gold-history-list');
 			listEl.innerHTML = '';
 
 			if (goldPortfolioData.length === 0) {
@@ -2652,11 +2700,8 @@
 				return;
 			}
 
-			// --- Sắp xếp lại theo ngày (Tăng dần) ---
-			const transactions = [...goldPortfolioData].sort((a, b) => {
-				// format date của bạn: yyyy-MM-dd (từ input date)
-				return new Date(a.date) - new Date(b.date);
-			});
+			// 1. Sắp xếp giao dịch
+			const transactions = [...goldPortfolioData].sort((a, b) => new Date(a.date) - new Date(b.date));
 
 			let totalHolding = 0;        
 			let avgCost = 0;             
@@ -2664,7 +2709,7 @@
 			
 			const enrichedTransactions = [];
 
-			// --- PASS 1: Tính toán P&L ---
+			// 2. PASS 1: Tính toán
 			for (let i = 0; i < transactions.length; i++) {
 				const tx = {
 					...transactions[i],
@@ -2692,21 +2737,36 @@
 				});
 			}
 
-			// --- PASS 2: Cập nhật giá vốn hiển thị (Backward pass) ---
+			// 3. PASS 2: Backward pass
 			let currentBlockAvgCost = 0;
 			if (enrichedTransactions.length > 0) {
 				currentBlockAvgCost = enrichedTransactions[enrichedTransactions.length - 1].avgCostAtTx;
 			}
-
 			for (let i = enrichedTransactions.length - 1; i >= 0; i--) {
 				const tx = enrichedTransactions[i];
-				if (tx.type === 'sell') {
-					currentBlockAvgCost = tx.avgCostAtTx;
-				}
+				if (tx.type === 'sell') currentBlockAvgCost = tx.avgCostAtTx;
 				tx.avgCostAtTx = currentBlockAvgCost;
 			}
 
-			// --- HIỂN THỊ (Đảo ngược để cái mới nhất lên đầu danh sách) ---
+			// 4. TÍNH CHỈ SỐ TỔNG KẾT
+			// a. Tổng vốn mua (Capital)
+			const totalInvestedCapital = totalHolding * avgCost;
+
+			// b. Lãi hiện tại (Unrealized PNL) - SỬA ĐỔI Ở ĐÂY
+			let currentMarketBuyPrice = 0;
+			if (typeof goldMarketData !== 'undefined' && goldMarketData.length > 0) {
+				// Lấy giá MUA (buy) của ngày mới nhất
+				// (Đây là giá tiệm vàng mua vào -> Tức là giá mình có thể bán ra để chốt lời)
+				currentMarketBuyPrice = goldMarketData[goldMarketData.length - 1].buy;
+			}
+			
+			let unrealizedPNL = 0;
+			if (totalHolding > 0 && currentMarketBuyPrice > 0) {
+				// Công thức: (Giá trị thị trường hiện tại - Tổng vốn bỏ ra)
+				unrealizedPNL = (currentMarketBuyPrice * 1000 * totalHolding) - totalInvestedCapital;
+			}
+
+			// 5. HIỂN THỊ DANH SÁCH (ĐÃ SỬA CSS TẠI ĐÂY)
 			enrichedTransactions.reverse().forEach(tx => {
 				const isBuy = tx.type === 'buy';
 				const titleClass = isBuy ? 'text-success' : 'text-danger';
@@ -2714,25 +2774,21 @@
 				const titleText = isBuy ? 'MUA' : 'BÁN';
 				const dateStr = new Date(tx.date).toLocaleDateString('vi-VN');
 
-				// Cột 4: Nếu bán thì hiện Lãi/Lỗ, Mua thì trống
 				let col4Html = '';
 				if (!isBuy) {
+					// [SỬA]: Bỏ fw-bold, thêm font-size: 0.8rem
 					col4Html = `
 						<div class="text-center border-start">
 							<span class="text-muted" style="font-size: 0.65rem;">Lãi/Lỗ</span>
-							<p class="mb-0 fw-bold small ${tx.realizedPNL_for_this_tx >= 0 ? 'text-success' : 'text-danger'}">
+							<p class="mb-0 ${tx.realizedPNL_for_this_tx >= 0 ? 'text-success' : 'text-danger'}" style="font-size: 0.8rem;">
 								${formatPNL(tx.realizedPNL_for_this_tx)}
 							</p>
-						</div>
-					`;
+						</div>`;
 				} else {
-					 col4Html = `
-						<div class="text-center border-start">
-							<span class="text-muted" style="font-size: 0.65rem;">-</span>
-						</div>
-					`;
+					 col4Html = `<div class="text-center border-start"><span class="text-muted" style="font-size: 0.65rem;">-</span></div>`;
 				}
 
+				// [SỬA]: Bỏ fw-bold, thêm font-size: 0.8rem cho các cột giá trị
 				listEl.innerHTML += `
 					<div class="card mb-2 shadow-sm border-0">
 						<div class="card-body p-2">
@@ -2742,31 +2798,24 @@
 									<span class="text-muted small ms-2">${dateStr}</span>
 								</div>
 								<div class="d-flex gap-3">
-									<button class="btn btn-sm text-warning p-0" onclick="openEditGoldTx('${tx.id}')">
-										<i class="bi bi-pencil-square"></i>
-									</button>
-									<button class="btn btn-sm text-danger p-0" onclick="deleteGoldTx('${tx.id}')">
-										<i class="bi bi-trash"></i>
-									</button>
+									<button class="btn btn-sm text-warning p-0" onclick="openEditGoldTx('${tx.id}')"><i class="bi bi-pencil-square"></i></button>
+									<button class="btn btn-sm text-danger p-0" onclick="deleteGoldTx('${tx.id}')"><i class="bi bi-trash"></i></button>
 								</div>
 							</div>
-
 							<div class="row g-0">
 								<div class="col-3 text-center">
 									<span class="text-muted" style="font-size: 0.65rem;">Số lượng</span>
-									<p class="mb-0 fw-bold small text-dark">${tx.quantity_chi} chỉ</p>
+									<p class="mb-0 text-dark" style="font-size: 0.8rem;">${tx.quantity_chi} chỉ</p>
 								</div>
 								<div class="col-3 text-center border-start">
 									<span class="text-muted" style="font-size: 0.65rem;">Giá GD</span>
-									<p class="mb-0 fw-bold small text-dark">${formatCurrency(tx.price_per_chi)}</p>
+									<p class="mb-0 text-dark" style="font-size: 0.8rem;">${formatCurrency(tx.price_per_chi)}</p>
 								</div>
 								<div class="col-3 text-center border-start">
 									<span class="text-muted" style="font-size: 0.65rem;">Giá Vốn</span>
-									<p class="mb-0 fw-bold small text-dark">${formatCurrency(tx.avgCostAtTx)}</p>
+									<p class="mb-0 text-dark" style="font-size: 0.8rem;">${formatCurrency(tx.avgCostAtTx)}</p>
 								</div>
-								<div class="col-3">
-									${col4Html}
-								</div>
+								<div class="col-3">${col4Html}</div>
 							</div>
 							${tx.note ? `<div class="mt-2 small text-muted fst-italic border-top pt-1">${tx.note}</div>` : ''}
 						</div>
@@ -2774,22 +2823,28 @@
 				`;
 			});
 
-			// Thêm phần Tổng kết ở đầu danh sách (Hoặc bạn có thể tạo div riêng)
+			// 6. SUMMARY CARD
 			const summaryHtml = `
-				<div class="card bg-light mb-3 border-primary">
+				<div class="card bg-light mb-3 border-primary shadow-sm">
 					<div class="card-body p-2">
-						<div class="row text-center">
-							<div class="col-4">
-								<small class="text-muted">Đang giữ</small>
-								<div class="fw-bold theme-text-primary">${totalHolding.toFixed(1)} chỉ</div>
+						<div class="row text-center mb-2">
+							<div class="col-6 border-end">
+								<small class="text-muted text-uppercase" style="font-size: 0.7rem;">Tổng số lượng</small>
+								<div class="fw-bold theme-text-primary fs-5">${totalHolding.toFixed(2)} chỉ</div>
 							</div>
-							<div class="col-4 border-start">
-								<small class="text-muted">Đã chốt lãi</small>
-								<div class="fw-bold">${formatPNL(totalRealizedPNL)}</div>
+							<div class="col-6">
+								 <small class="text-muted text-uppercase" style="font-size: 0.7rem;">Tổng vốn mua</small>
+								 <div class="fw-bold text-dark fs-5">${formatCurrency(totalInvestedCapital)}</div>
 							</div>
-							<div class="col-4 border-start">
-								 <small class="text-muted">Giá vốn TB</small>
-								 <div class="fw-bold text-dark">${formatCurrency(totalHolding > 0 ? avgCost : 0)}</div>
+						</div>
+						<div class="row text-center border-top pt-2">
+							<div class="col-6 border-end">
+								<small class="text-muted text-uppercase" style="font-size: 0.7rem;">Lãi hiện tại</small>
+								<div class="fw-bold fs-6">${formatPNL(unrealizedPNL)}</div>
+							</div>
+							<div class="col-6">
+								<small class="text-muted text-uppercase" style="font-size: 0.7rem;">Lãi đã chốt</small>
+								<div class="fw-bold fs-6">${formatPNL(totalRealizedPNL)}</div>
 							</div>
 						</div>
 					</div>
@@ -5789,7 +5844,7 @@
 				const content = input.value.trim();
 				if (!content) return;
 
-				// UI Lạc quan: Thêm ngay vào danh sách
+				// UI Lạc quan: Thêm ngay vào danh sách với ID tạm
 				const container = document.getElementById(`comments-container-${pid}`);
 				const tempId = 'temp_' + Date.now();
 				const tempCmt = {
@@ -5809,17 +5864,46 @@
 				container.insertAdjacentHTML('beforeend', createCommentHtml(tempCmt));
 				input.value = ''; // Xóa ô nhập
 
-				// Gửi Server
+				// --- [PHẦN SỬA LẠI] Xử lý cập nhật sau khi gửi thành công ---
 				try {
-					await sendToServer({
+					const res = await sendToServer({
 						action: 'comment_action',
 						type: 'add',
 						postId: pid,
 						username: currentProfile.username,
 						content: content
 					});
-					// Update lại thời gian nếu cần (bỏ qua cho đơn giản)
-				} catch(e) { console.error(e); }
+					
+					if (res.status === 'success') {
+						// 1. Tìm lại dòng bình luận vừa thêm bằng ID tạm
+						const newItem = document.getElementById(`comment-${tempId}`);
+						if (newItem) {
+							// 2. Cập nhật thời gian: "Đang gửi..." -> "Vừa xong"
+							// Tìm thẻ small có class text-muted chứa thời gian
+							const timeEl = newItem.querySelector('small.text-muted');
+							if (timeEl) timeEl.textContent = "Vừa xong";
+
+							// 3. Cập nhật ID thật từ Server trả về (để có thể Sửa/Xóa ngay lập tức)
+							if (res.id) {
+								newItem.id = `comment-${res.id}`; // Đổi ID của thẻ cha
+								
+								// Cập nhật data-id cho nút 3 chấm (Menu tùy chọn)
+								const optionBtn = newItem.querySelector('.comment-options-btn');
+								if (optionBtn) {
+									optionBtn.dataset.id = res.id;
+									// Cập nhật lại nội dung gốc vào data-content để tính năng Sửa hoạt động đúng
+									optionBtn.dataset.content = content;
+								}
+							}
+						}
+					}
+				} catch(e) { 
+					console.error(e);
+					// Nếu lỗi: Có thể hiện thông báo hoặc xóa comment tạm đi
+					const newItem = document.getElementById(`comment-${tempId}`);
+					if (newItem) newItem.remove(); // Xóa comment tạm nếu lỗi
+					showToast('Lỗi gửi bình luận!');
+				}
 				return;
 			}
 
