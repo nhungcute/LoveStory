@@ -31,6 +31,8 @@
 			--shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 			--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 			--radius: 1rem;
+			/* --- THÊM DÒNG NÀY VÀO ĐÂY --- */
+			--header-spacing: 10px;  /* <-- Bạn chỉnh khoảng cách chung ở đây */
 		}
 		
 		html, body {
@@ -534,12 +536,11 @@
 			box-shadow: 0 0 0 1px var(--primary-color);
 		}
 		
-		/* --- CSS PULL TO REFRESH --- */
+		/* --- CSS PULL TO REFRESH (CẬP NHẬT) --- */
 		.ptr-element {
-			position: relative; /* [SỬA] Đổi thành relative để đẩy nội dung xuống */
-			/* Xóa bỏ top: 0 và left: 0 vì không cần thiết với relative */
+			position: relative;
 			width: 100%;
-			height: 0; /* Mặc định ẩn */
+			height: 0;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -550,32 +551,31 @@
 		}
 
 		.ptr-icon {
-			width: 30px;
-			height: 30px;
-			border-radius: 50%;
-			background: white;
-			box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+			width: 40px;
+			height: 40px;
+			
+			/* --- SỬA Ở ĐÂY --- */
+			background: transparent !important; /* Đổi nền trắng thành trong suốt */
+			box-shadow: none !important;        /* Xóa bóng đổ/viền mờ */
+			/* ---------------- */
+
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			color: var(--primary-color);
-			transform: scale(0); /* Mặc định thu nhỏ */
-			transition: transform 0.2s;
+			
+			transform: scale(0);
+			transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 		}
 
 		.ptr-icon.ptr-visible {
 			transform: scale(1); /* Hiện ra khi kéo */
 		}
-
-		.ptr-icon.ptr-loading {
-			animation: ptr-spin 1s infinite linear;
+		
+		/* Spinner luôn xoay nhẹ, không cần animation start/stop phức tạp */
+		.ptr-icon .spinner-border {
+			animation-duration: 0.75s; /* Tốc độ xoay */
 		}
-
-		@keyframes ptr-spin {
-			0% { transform: rotate(0deg); }
-			100% { transform: rotate(360deg); }
-		}
-
+ 
 		/* Đảm bảo Main Content có vị trí tương đối để icon bám theo */
 		.main-content {
 			position: relative; 
@@ -585,6 +585,148 @@
 			overflow-x: hidden;
 			overscroll-behavior-y: contain; /* Ngăn trình duyệt refresh mặc định */
 		}
+		
+		/* --- CẬP NHẬT KÍCH THƯỚC GIAO DIỆN (GIẢM 15%) --- */
+
+		/* 1. Giảm kích thước nút Profile (Avatar trên Header) */
+		/* Cũ: 48px -> Mới: ~41px */
+		/* Giữ avatar tròn không bị méo */
+		.app-header .avatar-circle {
+			width: 41px !important;
+			height: 41px !important;
+			flex-shrink: 0; 
+		}
+
+		/* 2. Giảm chiều cao Top Menu (Header) */
+		.app-header {
+			/* Giảm padding trên dưới từ 0.5rem (8px) xuống 0.25rem (4px) */
+			padding: var(--header-spacing) !important; 
+			height: auto !important;
+		}
+		/* Chỉnh khoảng cách giữa Icon chuông và Avatar */
+		.app-header .d-flex.align-items-center.gap-3 {
+			gap: var(--header-spacing) !important;
+		}
+
+		/* Thu nhỏ nhẹ các thành phần bên trong header để cân đối */
+		#app-title {
+		  font-size: 1.1rem !important; /* Giảm font tiêu đề */
+		}
+		#welcome-message {
+		  font-size: 0.75rem !important;
+		}
+		#notification-btn i {
+		  font-size: 1.3rem !important; /* Giảm icon chuông */
+		}
+
+		/* 3. Giảm chiều cao Menu dưới (Bottom Nav) */
+		/* Khung bao ngoài: Chỉnh khoảng cách Cạnh Trên và Cạnh Dưới */
+		.bottom-nav > div {
+		  /* Ghi đè class py-1 của bootstrap */
+		  padding-top: 6px !important;    /* 1. Khoảng cách từ Cạnh Trên đến Icon */
+		  padding-bottom: 6px !important; /* 2. Khoảng cách từ Cạnh Dưới đến Chữ */
+		  display: flex !important;
+		  align-items: center !important;
+		}
+		
+		/* Nút bấm (Icon + Chữ): Chỉnh khoảng cách giữa Icon và Chữ */
+		.bottom-nav .nav-link {
+		  display: flex !important;
+		  flex-direction: column !important;
+		  align-items: center !important;
+		  justify-content: center !important;
+		  
+		  /* 3. Khoảng cách giữa Icon và Chữ (bằng với padding trên dưới) */
+		  gap: 6px !important; 
+		  
+		  padding: 0 !important; /* Xóa padding mặc định của nút */
+		  height: auto !important;
+		}
+
+		/* Giảm kích thước Icon và Chữ trong menu dưới */
+		/* Icon: Reset margin cũ để tính toán cho chuẩn */
+		.bottom-nav .nav-link i {
+		  font-size: 1.25rem !important; /* Kích thước icon */
+		  margin-bottom: 0 !important;    /* QUAN TRỌNG: Xóa margin cũ để dùng gap */
+		  line-height: 1 !important;      /* Loại bỏ khoảng trắng thừa do dòng */
+		  display: block;
+		}
+
+		/* Chữ: Reset line-height */
+		.bottom-nav .nav-link small {
+		  font-size: 0.75rem !important; /* Kích thước chữ */
+		  line-height: 1 !important;      /* Loại bỏ khoảng trắng thừa do dòng */
+		  display: block;
+		}
+
+		/* Điều chỉnh lại vị trí nút tròn (+ FAB) thấp xuống một chút cho khớp với menu mới */
+		.fab-btn {
+		  bottom: 70px !important; /* Cũ là 80px */
+		}
+		
+		/* --- CẤU HÌNH MODAL NẰM GỌN GIỮA HEADER & MENU DƯỚI --- */
+
+/* 1. Đưa Header và Menu dưới lên lớp cao nhất (Cao hơn Modal) */
+.app-header, .bottom-nav {
+    z-index: 1100 !important; /* Bootstrap modal là 1055, ta đặt 1100 để đè lên */
+    position: relative;       /* Bắt buộc phải có để z-index hoạt động */
+}
+
+.modal {
+    top: 62px !important;      
+    
+    /* Sửa từ 70px -> 50px (bằng đúng chiều cao menu) */
+    bottom: 50px !important;   
+    
+    height: auto !important;   
+    padding: 0 !important;     
+    overflow: hidden !important; 
+}
+
+/* 2. Co vùng nền đen mờ (Backdrop) theo Modal */
+.modal-backdrop {
+    top: 62px !important;     
+    
+    /* Sửa từ 70px -> 50px cho khớp */
+    bottom: 50px !important;  
+    
+    height: auto !important;
+    z-index: 1040 !important; 
+}
+
+/* 4. Ép nội dung Modal bung Full khoảng trống còn lại */
+.modal-dialog {
+    margin: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+    max-width: none !important; /* Bỏ giới hạn chiều rộng */
+}
+
+.modal-content {
+    height: 100% !important;     
+    border-radius: 0 !important; 
+    border: none !important;     
+    box-shadow: none !important;
+}
+
+/* 5. Xử lý thanh cuộn bên trong Modal Body */
+.modal-body {
+    overflow-y: auto !important; 
+    height: 100% !important;
+}
+
+/* --- (TÙY CHỌN) RIÊNG MODAL XEM ẢNH FULL (Lightbox) THÌ VẪN NÊN TRÀN MÀN HÌNH --- */
+/* Nếu bạn muốn modal xem ảnh đen sì vẫn phủ kín toàn bộ thì bỏ comment đoạn dưới này: */
+/*
+#imageViewerModal.modal, 
+#imageViewerModal ~ .modal-backdrop {
+    top: 0 !important;
+    bottom: 0 !important;
+}
+#imageViewerModal .modal-dialog {
+    height: 100% !important;
+}
+*/
 
 	  </style>
 	  <style>@view-transition { navigation: auto; }</style>
@@ -595,7 +737,7 @@
 	  <header class="app-header">
 		<div class="d-flex align-items-center justify-content-between">
 		 <div>
-		  <h5 id="app-title" class="mb-0 fw-bold">Love Story</h5><small id="welcome-message" class="opacity-75">Lưu giữ kỷ niệm đẹp</small>
+		  <h5 id="app-title" class="mb-0 fw-bold">Love Story</h5><!-------small id="welcome-message" class="opacity-75">Lưu giữ kỷ niệm đẹp</small----->
 		 </div>
 		 <div class="d-flex align-items-center gap-3"><button class="btn btn-link text-white p-0 position-relative" id="notification-btn"> <i class="bi bi-bell-fill fs-4"></i> <span id="notification-badge" class="position-absolute badge rounded-pill bg-danger d-none" style="font-size: 0.65rem; top: -5px; right: -8px;">0</span> </button> <button class="btn btn-link text-white p-0" id="profile-btn">
 		   <div class="avatar-circle">
@@ -612,11 +754,12 @@
 		</div>
 	   </div>
 	   <main class="main-content">
+	   
 	   <div id="ptr-element" class="ptr-element">
-        <div class="ptr-icon">
-            <i class="bi bi-arrow-clockwise fs-5"></i>
-        </div>
-		</div> 
+			<div class="ptr-icon">
+				<div class="spinner-border text-primary" style="width: 1.5rem; height: 1.5rem; border-width: 0.2em;" role="status"></div>
+			</div>
+		</div>
 	   
 	   <div id="tab-feed" class="tab-pane h-100 d-none">
 		 <div class="container py-3" id="posts-container">
@@ -1743,7 +1886,7 @@
 			
 			const historyContainer = document.getElementById('bike-history-list');
 			if (historyContainer) {
-				historyContainer.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div><div class="small text-muted mt-1">Đang tải dữ liệu mới nhất...</div></div>';
+				historyContainer.innerHTML = '<div class="d-flex justify-content-center align-items-center py-3"><div class="spinner-border text-primary spinner-border-sm" role="status"></div></div>';
 			}
 
 			// Gọi API TRANG 1 (Limit 15 dòng - Đủ cho 1 ngày)
@@ -3238,10 +3381,14 @@
 		// --- SỬA LẠI LOGIC CHUYỂN TAB ---
 		document.querySelectorAll('.nav-link').forEach(btn => {
 		  btn.addEventListener('click', () => {
+		   
 			if (isEditMode) {
 			  showToast('Vui lòng thoát chế độ chỉnh sửa trước!');
 			  return;
 			}
+			
+			// --> THÊM DÒNG NÀY: Đóng mọi modal đang mở trước khi chuyển tab
+			closeAllModals();
 			
 			const targetTab = btn.dataset.tab; // feed, home, albums
 			
@@ -3281,6 +3428,10 @@
 		// --- 3. CẬP NHẬT SỰ KIỆN CLICK NÚT CHUÔNG ---
 		// Khi ấn vào chuông -> Ẩn số đỏ đi (Giả định người dùng đã xem)
 		document.getElementById('notification-btn').addEventListener('click', () => {
+		
+			// --> THÊM DÒNG NÀY
+			closeAllModals();
+	
 			notificationsModal.show();
 			
 			// 1. Ẩn badge đỏ ngay (UI phản hồi tức thì)
@@ -3297,7 +3448,7 @@
 				renderNotificationsPaged(serverNotifications, container);
 			} else {
 				// Nếu chưa có gì (mới mở web), hiện Spinner quay
-				container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div><p class="mt-2 small text-muted">Đang tải thông báo...</p></div>';
+				container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
 			}
 
 			// 3. LUÔN GỌI SERVER ĐỂ LẤY TIN MỚI NHẤT (Silent Refresh)
@@ -3315,7 +3466,8 @@
 			const isModalOpen = document.getElementById('notificationsModal').classList.contains('show');
 
 			if (isModalOpen && page === 1 && serverNotifications.length === 0) {
-				container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div><p class="mt-2 small text-muted">Đang tải thông báo...</p></div>';
+				// Thay đoạn HTML cũ
+				container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
 			}
 
 			notifLoading = true;
@@ -3691,7 +3843,12 @@
 		});
 
 		// Profile
-		document.getElementById('profile-btn').addEventListener('click', () => profileModal.show());
+		document.getElementById('profile-btn').addEventListener('click', () => {
+			// --> THÊM DÒNG NÀY
+			closeAllModals();
+
+			profileModal.show();
+		});
 
 		// 3. Đổi Ảnh Đại Diện (Sửa: Chỉ Preview, KHÔNG lưu server ngay)
 		document.getElementById('avatar-input').addEventListener('change', async (e) => {
@@ -4482,9 +4639,7 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			if (currentTab !== 'feed') document.querySelector('[data-tab="feed"]').click();
 			
 			// Đóng Modal (Việc này sẽ reset biến toàn cục isEditingPost & currentEditPostId)
-			const modalEl = document.getElementById('createPostModal');
-			const modalInstance = bootstrap.Modal.getInstance(modalEl);
-			if (modalInstance) modalInstance.hide();
+			createPostModal.hide();
 			
 			try {
 				let finalImageData = []; 
@@ -4689,14 +4844,10 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			if(modalBtn) modalBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Lưu thay đổi';
 
 			// 7. Mở Modal
-			const modalEl = document.getElementById('createPostModal');
-			const modal = new bootstrap.Modal(modalEl);
-			modal.show();
+			createPostModal.show();
 			
 			// Ẩn modal tùy chọn cũ
-			const optionsModalEl = document.getElementById('postOptionsModal');
-			const optionsModal = bootstrap.Modal.getInstance(optionsModalEl);
-			if (optionsModal) optionsModal.hide();
+			postOptionsModal.hide();
 		}
 
 		// --- 3. SỬA LỖI RESET FORM KHI ĐÓNG MODAL (FIX LỖI NULL) ---
@@ -4734,7 +4885,8 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			// Chỉ hiện Spinner to giữa màn hình nếu ĐÂY KHÔNG PHẢI LÀ LÀM MỚI NGẦM
 			// (Tức là lần đầu tiên mở app thì hiện, còn kéo tay để refresh thì không hiện)
 			if (page === 1 && !isBackgroundRefresh) {
-				container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-2 text-muted">Đang tải bảng tin...</p></div>';
+				// Thay đoạn HTML cũ bằng đoạn này
+				container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
 			}
 
 			try {
@@ -5054,27 +5206,26 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			});
 		}
 		
-		// --- HÀM XỬ LÝ KÉO ĐỂ LÀM MỚI (PULL TO REFRESH) ---
+		// --- HÀM XỬ LÝ KÉO ĐỂ LÀM MỚI (PULL TO REFRESH) --- 
 		function setupPullToRefresh() {
 			const container = document.querySelector('.main-content');
 			const ptrElement = document.getElementById('ptr-element');
 			const ptrIcon = ptrElement.querySelector('.ptr-icon');
-			const iconEl = ptrIcon.querySelector('i');
+			// Không cần lấy iconEl (thẻ i) nữa vì ta dùng spinner tĩnh
 
 			let startY = 0;
 			let dist = 0;
 			let isPulling = false;
-			const threshold = 80; // Khoảng cách kéo tối thiểu để kích hoạt (pixel)
+			
+			// Yêu cầu: Tăng khoảng cách tối thiểu 15% (Cũ 80 -> Mới 92)
+			const threshold = 92; 
 
 			// 1. BẮT ĐẦU CHẠM
 			container.addEventListener('touchstart', (e) => {
-				// Chỉ kích hoạt khi đang ở đầu trang (scrollTop = 0)
 				if (container.scrollTop === 0) {
 					startY = e.touches[0].clientY;
 					isPulling = true;
-					// Reset icon
-					iconEl.className = 'bi bi-arrow-down fs-5';
-					ptrIcon.classList.remove('ptr-loading');
+					// Không cần reset icon class nữa
 				} else {
 					isPulling = false;
 				}
@@ -5087,25 +5238,17 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 				const currentY = e.touches[0].clientY;
 				dist = currentY - startY;
 
-				// Chỉ xử lý khi kéo xuống (dist > 0) và chưa cuộn xuống dưới
 				if (dist > 0 && container.scrollTop === 0) {
-					// Ngăn chặn hành động mặc định (scroll) để ko bị giật
 					if (e.cancelable) e.preventDefault();
 
-					// Hiệu ứng "Kháng lực" (Kéo càng dài càng nặng)
 					const resistance = 0.4; 
-					const moveDist = Math.min(dist * resistance, 150); // Max 150px
+					const moveDist = Math.min(dist * resistance, 150);
 
-					// Cập nhật giao diện
+					// Cập nhật chiều cao
 					ptrElement.style.height = moveDist + 'px';
-					ptrIcon.classList.add('ptr-visible');
 					
-					// Xoay icon theo độ kéo
-					iconEl.style.transform = `rotate(${moveDist * 2}deg)`;
-
-					if (moveDist >= threshold * resistance) {
-						iconEl.className = 'bi bi-arrow-up fs-5 text-primary'; // Đổi mũi tên lên báo hiệu đã đạt ngưỡng
-					}
+					// Chỉ cần hiện icon ra (scale lên), không cần xoay mũi tên
+					ptrIcon.classList.add('ptr-visible');
 				}
 			}, { passive: false });
 
@@ -5113,28 +5256,26 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			container.addEventListener('touchend', async () => {
 				if (!isPulling) return;
 				isPulling = false;
-				iconEl.style.transform = ''; // Reset xoay
 
-				// Nếu kéo chưa đủ ngưỡng -> Đóng lại
-				if (parseInt(ptrElement.style.height) < (threshold * 0.4)) {
+				// Nếu kéo chưa đủ ngưỡng (92px) -> Đóng lại
+				if (parseInt(ptrElement.style.height) < threshold) {
 					ptrElement.style.height = '0px';
 					ptrIcon.classList.remove('ptr-visible');
 					return;
 				}
 
-				// Nếu kéo ĐỦ ngưỡng -> Bắt đầu Refresh
-				ptrElement.style.height = '60px'; // Giữ độ cao loading
-				ptrIcon.classList.add('ptr-loading'); // Hiệu ứng xoay tròn
-				iconEl.className = 'bi bi-arrow-clockwise fs-5'; // Icon loading
+				// Kéo đủ -> Giữ nguyên để loading
+				ptrElement.style.height = '60px'; 
+				// Spinner mặc định đã xoay nên không cần add class ptr-loading
 
-				// GỌI HÀM LÀM MỚI DỮ LIỆU TÙY THEO TAB
+				// Gọi hàm làm mới
 				await handlePageRefresh();
 
-				// Sau khi load xong -> Đóng lại
+				// Xong -> Đóng lại
 				setTimeout(() => {
 					ptrElement.style.height = '0px';
-					ptrIcon.classList.remove('ptr-loading', 'ptr-visible');
-				}, 500); // Đợi 0.5s cho mượt
+					ptrIcon.classList.remove('ptr-visible');
+				}, 300);
 			});
 		}
  
@@ -5203,6 +5344,30 @@ document.getElementById('edit-post-option').addEventListener('click', () => {
 			// 4. Mở Modal
 			const modal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
 			modal.show();
+		}
+		
+		// --- HÀM TIỆN ÍCH: ĐÓNG TẤT CẢ MODAL ---
+		function closeAllModals() {
+			// 1. Danh sách tất cả các biến Modal đang dùng
+			const allModals = [
+				createPostModal, createMemoryModal, createAlbumModal, albumDetailModal,
+				commentModal, profileModal, postOptionsModal, deleteConfirmModal,
+				bikeStatsModal, addBikeEntryModal, goldStatsModal, addGoldEntryModal,
+				notificationsModal, imageViewerModal
+			];
+
+			// 2. Duyệt qua và ẩn từng cái nếu nó đang tồn tại
+			allModals.forEach(modal => {
+				if (modal) modal.hide();
+			});
+
+			// 3. Dọn dẹp sạch sẽ các lớp nền đen (backdrop) nếu còn sót lại
+			// (Phòng trường hợp bấm nhanh quá Bootstrap chưa kịp xóa DOM)
+			setTimeout(() => {
+				document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+				document.body.classList.remove('modal-open');
+				document.body.style = ''; // Reset style của body
+			}, 150); // Đợi một chút cho hiệu ứng ẩn modal chạy xong
 		}
 
 		// KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
