@@ -731,31 +731,26 @@
 		/* --- TINH CHỈNH KHOẢNG CÁCH BẢNG TIN (FEED) --- */
 
 		/* 1. Cấu hình khung bao ngoài (posts-container) */
+		/* 1. Cấu hình khung bao ngoài (posts-container) */
 		#posts-container {
-			/* Yêu cầu: Giảm 1/2 khoảng cách với tab-feed (Padding trên) */
-			/* Mặc định py-3 là 16px -> Giảm còn 8px */
-			padding-top: 8px !important;
+			/* GIẢM TIẾP 1/2: Từ 8px xuống 4px */
+			padding-top: 4px !important;
 
-			/* Yêu cầu: Giảm 2/3 khoảng cách với post-card (Padding trái/phải) */
-			/* Mặc định .container là 12px -> Giảm 2/3 còn 4px */
-			padding-left: 4px !important;
-			padding-right: 4px !important;
+			/* GIẢM TIẾP 1/2: Từ 4px xuống 2px (Sát viền màn hình) */
+			padding-left: 2px !important;
+			padding-right: 2px !important;
 
-			/* Padding dưới giữ nguyên hoặc tăng nhẹ để không bị Menu dưới che mất bài cuối */
 			padding-bottom: 80px !important; 
-			
-			/* Mở rộng khung để sát lề hơn */
 			max-width: 100% !important; 
 		}
 
 		/* 2. Cấu hình từng bài viết (post-card) */
 		.post-card {
-			/* Yêu cầu: Giảm 2/3 khoảng cách giữa các bài viết */
-			/* Mặc định mb-3 là 16px -> Giảm 2/3 còn khoảng 5px */
-			margin-bottom: 5px !important;
+			/* GIẢM TIẾP 1/2: Từ 5px xuống 2-3px để cân đối với lề mới */
+			margin-bottom: 3px !important;
 			
-			/* (Tùy chọn) Bạn có thể giảm bo góc một chút cho hợp với khoảng cách hẹp */
-			/* border-radius: 12px !important; */
+			/* (Tùy chọn) Giảm bo góc nhẹ để hợp với giao diện sát lề */
+			/* border-radius: 8px !important; */ 
 		}
 		
 		/* --- SỬA MODAL TÙY CHỌN (3 CHẤM) --- */
@@ -3206,7 +3201,7 @@
 
 			return `
 				<div class="post-card p-3 mb-3 fade-in" id="post-${post.__backendId}">
-					<div class="d-flex align-items-center mb-3">
+					<div class="d-flex align-items-center mb-2">
 						<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">${avatarHtml}</div>
 						<div>
 							<p class="fw-bold mb-0 text-dark d-flex align-items-center">
@@ -3219,10 +3214,10 @@
 						${statusBadge}
 					</div>
 					
-					${post.content ? `<div class="mb-3" style="white-space: pre-wrap; font-size: 0.9rem; color: #374151;">${post.content}</div>` : ''}
+					${post.content ? `<div class="mb-2" style="white-space: pre-wrap; font-size: 0.9rem; color: #374151;">${post.content}</div>` : ''}
 					${renderPostImages(images, post.layout || 'grid-2x2')}
 					
-					<div class="d-flex gap-2 pt-2 border-top mt-2">
+					<div class="d-flex gap-2 mt-2">
 						<button class="btn btn-sm btn-link text-decoration-none text-muted flex-grow-1 d-flex align-items-center justify-content-center gap-2 like-btn ${likeBtnClass}" 
 								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
 							<i class="bi ${heartIconClass} fs-5"></i>
