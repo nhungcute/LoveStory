@@ -897,6 +897,58 @@ body, #app {
     padding-bottom: 10px !important;
 }
 
+/* 1. Đẩy nội dung khối (Feed/Stats) xuống dưới Header để thoáng hơn */
+.main-content {
+    /* Tăng khoảng cách từ mép trên để không bị dính vào Header */
+    padding-top: 20px !important; 
+}
+
+/* 2. Cấu hình Modal xem ảnh: "Kẹp" vào giữa Header và Menu dưới */
+#imageViewerModal .modal-dialog {
+    /* margin-top = Chiều cao Header (khoảng 65px) -> Để né Header ra */
+    margin-top: 65px !important; 
+    
+    /* margin-bottom = Chiều cao Menu dưới (khoảng 70px) -> Để né Menu dưới ra */
+    margin-bottom: 70px !important; 
+    
+    /* Chiều cao còn lại = 100% - (Header + Footer) */
+    height: calc(100% - 135px) !important;
+    
+    /* Xóa margin mặc định để căn chuẩn */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: none !important; /* Full chiều ngang */
+}
+
+/* 3. Đảm bảo khung nội dung Modal lấp đầy vùng không gian đã định nghĩa ở trên */
+#imageViewerModal .modal-content {
+    height: 100% !important;
+    border-radius: 0 !important; /* Bỏ bo góc để khớp với giao diện */
+    border: none !important;
+    background-color: #000 !important; /* Nền đen */
+}
+
+/* 4. Căn chỉnh thanh tiêu đề (Nút Back & Counter) bên trong Modal */
+#imageViewerModal .modal-header {
+    position: absolute !important; /* Dính chặt lên đỉnh của Modal (Lúc này đã nằm dưới App Header) */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background: rgba(0,0,0,0.8) !important; /* Nền đen mờ */
+    border-bottom: 1px solid #333;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+/* 5. Vùng chứa danh sách ảnh */
+#full-image-list {
+    /* Đẩy nội dung xuống để không bị nút Back che mất */
+    padding-top: 60px !important; 
+    height: 100% !important;
+    overflow-y: auto !important; /* Cho phép cuộn */
+}
+
 	  </style>
 	  <style>@view-transition { navigation: auto; }</style>
 	  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
