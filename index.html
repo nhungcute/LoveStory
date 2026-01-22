@@ -12,7 +12,7 @@
 		
 		body {
 		  box-sizing: border-box;
-		  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+		  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 		}
 		
 		:root {
@@ -813,6 +813,56 @@
     text-align: center !important;
     gap: 10px;
     padding: 1rem !important;
+}
+
+/* --- CẬP NHẬT GIAO DIỆN MỚI (THEO YÊU CẦU) --- */
+
+/* 1. Font chữ & Nền toàn trang */
+body, #app {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    background-color: #ffffff !important;
+}
+
+/* Cập nhật biến màu nền gốc để tránh xung đột */
+:root {
+    --bg-color: #ffffff;
+    --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* 2. Tên người đăng (Full Name) */
+.post-author-name {
+    font-size: 16.5px !important;
+    font-weight: 600 !important;
+    color: #000000 !important; /* Màu xanh Facebook */
+    line-height: 1.2;
+}
+
+/* 3. Thời gian đăng bài */
+.post-timestamp {
+    font-size: 12.5px !important;
+    color: #65676B !important;
+    font-weight: 400;
+}
+
+/* 4. Nội dung bài viết */
+.post-content-text {
+    font-size: 15.5px !important;
+    line-height: 1.55 !important;
+    color: #050505 !important;
+    white-space: pre-wrap; /* Giữ xuống dòng */
+    margin-bottom: 10px;
+    margin-top: 6px;
+	
+	margin-left: 15px !important;
+}
+
+/* Tinh chỉnh lại Card bài viết cho hợp nền trắng */
+.post-card {
+    box-shadow: none !important; /* Bỏ bóng đổ cũ cho phẳng */
+    border-bottom: 8px solid #f0f2f5 !important; /* Tạo vạch ngăn cách xám giống Facebook */
+    border-radius: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 10px !important;
 }
 
 	  </style>
@@ -3152,6 +3202,7 @@
 		// --- HÀM TẠO HTML BÀI VIẾT (FULL VỚI COMMENT) ---
 		// --- HÀM TẠO HTML BÀI VIẾT (CẬP NHẬT HEADER: TÊN · THỜI GIAN) ---
 		// --- HÀM TẠO HTML BÀI VIẾT (ĐÃ SỬA: NGÀY GIỜ XUỐNG DÒNG NHƯ CŨ) ---
+		// --- HÀM TẠO HTML BÀI VIẾT (ĐÃ CĂN CHỈNH NÚT LIKE THẲNG HÀNG) ---
 		function createPostHtml(post) {
 			const displayName = post.fullname || post.username || 'Người dùng';
 			const avatarUrl = post.avatar; 
@@ -3163,7 +3214,7 @@
 				? `<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">`
 				: `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold fs-5">${displayName.charAt(0).toUpperCase()}</div>`;
 			
-			// Nút 3 chấm của bài viết
+			// Nút 3 chấm
 			const statusBadge = isOwner 
 				? `<button class="btn btn-sm btn-link text-muted post-menu-btn ms-auto" data-id="${post.__backendId}"><i class="bi bi-three-dots"></i></button>` 
 				: '<div class="ms-auto"></div>';
@@ -3172,10 +3223,9 @@
 			const likeCountText = post.likes > 0 ? post.likes : 'Thích';
 			const likeBtnClass = post.liked ? 'active' : '';
 
-			// Thời gian (Dùng hàm format thông minh)
 			const timeDisplay = formatTimeSmart(post.timestamp || post.createdAt);
 
-			// Xử lý comment (Giữ nguyên logic ẩn/hiện)
+			// Xử lý comment
 			let commentsHtml = '';
 			const comments = post.commentsData || []; 
 			if (comments.length > 0) {
@@ -3194,7 +3244,7 @@
 							</button>
 						</div>`;
 				}
-				commentsHtml = `<div class="comments-section mt-3 fade-in"><div id="comments-container-${post.__backendId}">${commentListHtml}</div></div>`;
+				commentsHtml = `<div class="comments-section mt-0 fade-in"><div id="comments-container-${post.__backendId}">${commentListHtml}</div></div>`;
 			} else {
 				commentsHtml = `<div class="comments-section mt-2" id="comments-container-${post.__backendId}"></div>`;
 			}
@@ -3204,27 +3254,25 @@
 					<div class="d-flex align-items-center mb-2">
 						<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">${avatarHtml}</div>
 						<div>
-							<p class="fw-bold mb-0 text-dark d-flex align-items-center">
-								${displayName} ${verifiedIcon}
+							<p class="mb-0 d-flex align-items-center post-author-name"> ${displayName} ${verifiedIcon}
 							</p>
-							<small class="text-muted" style="font-size: 0.8rem;">
-								<i class="bi bi-clock me-1"></i>${timeDisplay}
-							</small>
+							<div class="post-timestamp"> ${timeDisplay}
+							</div>
 						</div>
 						${statusBadge}
 					</div>
 					
-					${post.content ? `<div class="mb-2" style="white-space: pre-wrap; font-size: 0.9rem; color: #374151;">${post.content}</div>` : ''}
+					${post.content ? `<div class="post-content-text">${post.content}</div>` : ''}
 					${renderPostImages(images, post.layout || 'grid-2x2')}
 					
-					<div class="d-flex gap-2 mt-2">
-						<button class="btn btn-sm btn-link text-decoration-none text-muted flex-grow-1 d-flex align-items-center justify-content-center gap-2 like-btn ${likeBtnClass}" 
+					<div class="d-flex gap-4 my-2" style="margin-left: 15px !important;">
+						<button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
 								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
 							<i class="bi ${heartIconClass} fs-5"></i>
 							<span>${likeCountText}</span>
 						</button>
 						
-						<button class="btn btn-sm btn-link text-decoration-none text-muted flex-grow-1 d-flex align-items-center justify-content-center gap-2 show-comment-input-btn" 
+						<button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
 								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
 							<i class="bi bi-chat fs-5"></i>
 							<span>Bình luận</span>
@@ -5801,8 +5849,8 @@
 								
 								<div class="d-flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
 									<span class="fw-bold small me-1 text-dark">${cmt.fullname}</span>
-									<span class="text-muted mx-1" style="font-size: 0.6rem;">●</span>
-									<small class="text-muted" style="font-size: 0.75rem;">${timeDisplay}</small>
+									<span class="text-muted mx-1" style="font-size: 0.3rem;">●</span>
+									<small class="text-muted" style="font-size: 0.6rem;">${timeDisplay}</small>
 								</div>
 								
 								<div class="ms-2">
