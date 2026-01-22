@@ -487,56 +487,37 @@
 			font-weight: bold;
 		}
 		
-		/* --- CSS CHO LIGHTBOX (XEM ẢNH FULL) --- */
-		.lightbox-item {
-			width: 100%;
-			background-color: #000; /* Nền đen để ảnh nổi bật */
-			margin-bottom: 20px;    /* Khoảng cách giữa các ảnh */
-			padding-bottom: 20px;   /* Khoảng đệm bên dưới */
-			border-bottom: 1px solid #333; /* VIỀN NGĂN CÁCH MÀU XÁM */
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+		/* ------------------ CSS CHO LIGHTBOX (XEM ẢNH FULL) ------------------- */
+		 
 
-		/* Bỏ viền cho ảnh cuối cùng */
-		.lightbox-item:last-child {
-			border-bottom: none;
-			margin-bottom: 0;
-		}
+/* 5. Tinh chỉnh từng ảnh trong danh sách */
+.lightbox-item {
+    position: relative;
+    width: 100%;
+    /* Min-height để căn giữa nếu ảnh nhỏ */
+    min-height: 100%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px; /* Khe hở nhỏ giữa các ảnh */
+    background: #000;
+}
 
-		.lightbox-image {
-			width: 100%;       /* Luôn rộng full màn hình */
-			height: auto;      /* Chiều cao tự động theo tỉ lệ (không bị méo) */
-			object-fit: contain; /* Đảm bảo ảnh hiển thị trọn vẹn */
-			display: block;
-			max-height: unset; /* Cho phép ảnh dài thoải mái để vuốt xem */
-		}
+/* Ảnh hiển thị */
+.lightbox-image {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important; /* Cho phép ảnh dài hiển thị hết */
+    object-fit: contain;
+    display: block;
+}
+
+
+
+
+
 		
-		@keyframes pulse-opacity {
-		  0% { opacity: 1; }
-		  50% { opacity: 0.6; }
-		  100% { opacity: 1; }
-		}
-		.animate-pulse {
-		  animation: pulse-opacity 1.5s infinite;
-		}
-
-		/* Layout visual nhỏ gọn hơn */
-		.layout-grid-visual.small-visual {
-			height: 50px; /* Giảm chiều cao */
-			gap: 2px;
-		}
-		.layout-preview-box {
-			border: 1px solid #dee2e6; /* Viền mảnh hơn */
-		}
-		.layout-preview-box.selected {
-			border-color: var(--primary-color);
-			background-color: var(--secondary-color);
-			box-shadow: 0 0 0 1px var(--primary-color);
-		}
-		
-		/* --- CSS PULL TO REFRESH (CẬP NHẬT) --- */
+		/* ------------- CSS PULL TO REFRESH (CẬP NHẬT) -------------------- */
 		.ptr-element {
 			position: relative;
 			width: 100%;
@@ -707,6 +688,7 @@
 		.app-header, .bottom-nav {
 			z-index: 1100 !important; /* Bootstrap modal là 1055, ta đặt 1100 để đè lên */
 			position: relative;       /* Bắt buộc phải có để z-index hoạt động */
+			background-color: var(--bg-color);
 		}
 
 		.modal {
@@ -755,10 +737,7 @@
 			bottom: 0 !important;
 			z-index: 2000 !important; /* Cao hơn cả Header App (1100) */
 		}
-		#imageViewerModal .modal-dialog {
-			height: 100% !important;
-			margin: 0 !important;
-		}
+		 
 		*/
 		/* --- TINH CHỈNH KHOẢNG CÁCH BẢNG TIN (FEED) --- */
 
@@ -903,52 +882,63 @@ body, #app {
     padding-top: 20px !important; 
 }
 
-/* 2. Cấu hình Modal xem ảnh: "Kẹp" vào giữa Header và Menu dưới */
-#imageViewerModal .modal-dialog {
-    /* margin-top = Chiều cao Header (khoảng 65px) -> Để né Header ra */
-    margin-top: 65px !important; 
-    
-    /* margin-bottom = Chiều cao Menu dưới (khoảng 70px) -> Để né Menu dưới ra */
-    margin-bottom: 70px !important; 
-    
-    /* Chiều cao còn lại = 100% - (Header + Footer) */
-    height: calc(100% - 135px) !important;
-    
-    /* Xóa margin mặc định để căn chuẩn */
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    max-width: none !important; /* Full chiều ngang */
+/* --- ĐOẠN CODE SỬA LỖI (Thay thế vào vị trí trên) --- */
+
+/* Đưa Modal xem ảnh lên lớp cao nhất (Cao hơn Header App 1100) */
+#imageViewerModal {
+    z-index: 2000 !important; 
 }
 
-/* 3. Đảm bảo khung nội dung Modal lấp đầy vùng không gian đã định nghĩa ở trên */
+/* Cấu hình Full màn hình tuyệt đối */
+#imageViewerModal .modal-dialog {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    
+    /* Reset lại vị trí để phủ kín */
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/* Đảm bảo nội dung bên trong cũng full chiều cao */
 #imageViewerModal .modal-content {
     height: 100% !important;
-    border-radius: 0 !important; /* Bỏ bo góc để khớp với giao diện */
-    border: none !important;
-    background-color: #000 !important; /* Nền đen */
-}
+    border-radius: 0 !important;
+    background-color: #000 !important; /* Nền đen tuyệt đối */
+} 
 
-/* 4. Căn chỉnh thanh tiêu đề (Nút Back & Counter) bên trong Modal */
+/* Header con: "Chi tiết (5 ảnh)" - Bám dính vào đỉnh của vùng đen */
 #imageViewerModal .modal-header {
-    position: absolute !important; /* Dính chặt lên đỉnh của Modal (Lúc này đã nằm dưới App Header) */
+    position: absolute !important; /* Dùng absolute để tính từ mép trên vùng đen */
     top: 0;
     left: 0;
     width: 100%;
     z-index: 10;
-    background: rgba(0,0,0,0.8) !important; /* Nền đen mờ */
-    border-bottom: 1px solid #333;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
+    /* Nền đen mờ dần xuống trong suốt */
+    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%) !important;
+    border-bottom: none !important;
+    padding: 10px 15px !important;
 }
 
-/* 5. Vùng chứa danh sách ảnh */
+/* Vùng chứa danh sách ảnh: Cho phép cuộn */
 #full-image-list {
-    /* Đẩy nội dung xuống để không bị nút Back che mất */
-    padding-top: 60px !important; 
-    height: 100% !important;
-    overflow-y: auto !important; /* Cho phép cuộn */
+    flex: 1 !important;
+    width: 100% !important;
+    overflow-y: auto !important;
+    /* Đẩy nội dung xuống để không bị chữ "Chi tiết" che mất ảnh đầu tiên */
+    padding-top: 50px !important; 
+    padding-bottom: 20px !important;
+    background-color: #000;
 }
-
+/* Ẩn lớp nền mờ mặc định của Bootstrap cho Modal này */
+#imageViewerModal ~ .modal-backdrop {
+    display: none !important;
+}
 	  </style>
 	  <style>@view-transition { navigation: auto; }</style>
 	  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
