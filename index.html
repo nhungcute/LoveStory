@@ -541,39 +541,75 @@
 			position: relative;
 			width: 100%;
 			height: 0;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			background: transparent;
 			overflow: hidden;
-			z-index: 900; 
-			transition: height 0.2s ease;
+			background: #f8f9fa; /* Màu nền nhẹ để tách biệt khi kéo */
+			display: flex;
+			align-items: flex-end; /* Để icon nằm dưới đáy khi kéo ra */
+			justify-content: center;
+			/* Mặc định có transition để lúc thả tay nó thu lại mượt */
+			transition: height 0.3s cubic-bezier(0.25, 0.8, 0.5, 1); 
+			z-index: 900;
 		}
 
-		.ptr-icon {
-			width: 40px;
-			height: 40px;
-			
-			/* --- SỬA Ở ĐÂY --- */
-			background: transparent !important; /* Đổi nền trắng thành trong suốt */
-			box-shadow: none !important;        /* Xóa bóng đổ/viền mờ */
-			/* ---------------- */
+		/* Class này sẽ được JS thêm vào khi bắt đầu kéo -> TẮT transition để không bị lag */
+		.ptr-element.is-pulling {
+			transition: none !important; 
+		}
 
+		.ptr-content {
+			padding-bottom: 15px; /* Tăng nhẹ để vòng tròn không sát đáy quá */
 			display: flex;
+			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			
-			transform: scale(0);
-			transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+			opacity: 0;
+			transition: opacity 0.2s;
+		}
+		/* --- THÊM CLASS NÀY ĐỂ ẨN TUYỆT ĐỐI CHỮ --- */
+		#ptr-text {
+			display: none !important;
+		}
+		.ptr-element.is-pulling .ptr-content,
+		.ptr-element.ptr-loading .ptr-content {
+			opacity: 1;
 		}
 
-		.ptr-icon.ptr-visible {
-			transform: scale(1); /* Hiện ra khi kéo */
+		/* SVG Vòng tròn */
+		.ptr-circle-svg {
+			width: 30px;
+			height: 30px;
+			transform: rotate(-90deg); /* Xoay để bắt đầu vẽ từ đỉnh 12h */
 		}
-		
-		/* Spinner luôn xoay nhẹ, không cần animation start/stop phức tạp */
-		.ptr-icon .spinner-border {
-			animation-duration: 0.75s; /* Tốc độ xoay */
+
+		.ptr-circle-bg {
+			stroke: #e5e7eb; /* Màu vòng tròn mờ phía sau */
+			stroke-width: 3;
+			fill: none;
+		}
+		 
+		.ptr-circle-progress {
+			stroke: red !important; /* <-- Đổi thành màu đỏ */
+			stroke-width: 3;
+			fill: none;
+			stroke-linecap: round;
+			stroke-dasharray: 76; 
+			stroke-dashoffset: 76; 
+			transition: stroke-dashoffset 0.1s, stroke 0.3s;
+		}
+		/* 2. Khi đang Loading (Quay tròn): Đổi sang màu XANH #006b68 */
+		.ptr-loading .ptr-circle-progress {
+			stroke: #006b68 !important; /* <-- Màu xanh bạn yêu cầu */
+		}
+
+		/* 1. Quay tròn cả cụm SVG */
+		.ptr-loading .ptr-circle-svg {
+			animation: ptr-spin 0.6s linear infinite; /* Tốc độ quay */
+			transform-origin: center;
+		}
+
+		@keyframes ptr-spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
 		}
  
 		/* Đảm bảo Main Content có vị trí tương đối để icon bám theo */
@@ -889,8 +925,12 @@ body, #app {
 	   <main class="main-content">
 	   
 	   <div id="ptr-element" class="ptr-element">
-			<div class="ptr-icon">
-				<div class="spinner-border text-primary" style="width: 1.5rem; height: 1.5rem; border-width: 0.2em;" role="status"></div>
+			<div class="ptr-content">
+				<svg class="ptr-circle-svg" viewBox="0 0 30 30">
+					<circle class="ptr-circle-bg" cx="15" cy="15" r="12"></circle>
+					<circle id="ptr-progress-circle" class="ptr-circle-progress" cx="15" cy="15" r="12"></circle>
+				</svg>
+				<div id="ptr-text" class="small text-muted fw-bold mt-1" style="font-size: 10px;"> </div>
 			</div>
 		</div>
 	   
@@ -5649,72 +5689,109 @@ body, #app {
 		function setupPullToRefresh() {
 			const container = document.querySelector('.main-content');
 			const ptrElement = document.getElementById('ptr-element');
-			const ptrIcon = ptrElement.querySelector('.ptr-icon');
-			// Không cần lấy iconEl (thẻ i) nữa vì ta dùng spinner tĩnh
-
-			let startY = 0;
-			let dist = 0;
-			let isPulling = false;
+			const progressCircle = document.getElementById('ptr-progress-circle');
 			
-			// Yêu cầu: Tăng khoảng cách tối thiểu 15% (Cũ 80 -> Mới 92)
-			const threshold = 92; 
+			// Cấu hình
+			const threshold = 100; 
+			const maxPull = 160;   
+			const circumference = 76; 
+			
+			let startY = 0;
+			let isPulling = false;
+			let isReadyToRefresh = false;
 
-			// 1. BẮT ĐẦU CHẠM
+			// 1. CHẠM TAY (TOUCH START)
 			container.addEventListener('touchstart', (e) => {
-				if (container.scrollTop === 0) {
+				if (container.scrollTop <= 0) {
 					startY = e.touches[0].clientY;
 					isPulling = true;
-					// Không cần reset icon class nữa
-				} else {
-					isPulling = false;
+					isReadyToRefresh = false;
+					
+					ptrElement.classList.add('is-pulling');
+					ptrElement.classList.remove('ptr-loading');
+					
+					// Reset về trạng thái ban đầu
+					progressCircle.style.strokeDashoffset = circumference;
+					
+					// [QUAN TRỌNG] Reset về màu ĐỎ khi bắt đầu kéo lại
+					progressCircle.style.stroke = 'red'; 
 				}
 			}, { passive: true });
 
-			// 2. ĐANG KÉO
+			// 2. KÉO TAY (TOUCH MOVE)
 			container.addEventListener('touchmove', (e) => {
 				if (!isPulling) return;
 
 				const currentY = e.touches[0].clientY;
-				dist = currentY - startY;
+				const diff = currentY - startY;
 
-				if (dist > 0 && container.scrollTop === 0) {
+				if (diff > 0 && container.scrollTop <= 0) {
 					if (e.cancelable) e.preventDefault();
 
-					const resistance = 0.4; 
-					const moveDist = Math.min(dist * resistance, 150);
+					let pullDistance = diff * 0.5;
+					if (pullDistance > maxPull) pullDistance = maxPull;
 
-					// Cập nhật chiều cao
-					ptrElement.style.height = moveDist + 'px';
-					
-					// Chỉ cần hiện icon ra (scale lên), không cần xoay mũi tên
-					ptrIcon.classList.add('ptr-visible');
+					ptrElement.style.height = `${pullDistance}px`;
+
+					let progress = pullDistance / threshold;
+					if (progress > 1) progress = 1; 
+
+					const offset = circumference - (progress * circumference);
+					progressCircle.style.strokeDashoffset = offset;
+
+					// Xử lý logic đạt ngưỡng (Chỉ rung, không đổi màu ở đây nữa để giữ màu đỏ)
+					if (progress >= 1 && !isReadyToRefresh) {
+						isReadyToRefresh = true;
+						if (navigator.vibrate) navigator.vibrate(15);
+					} else if (progress < 1 && isReadyToRefresh) {
+						isReadyToRefresh = false;
+					}
+				} else {
+					isPulling = false;
+					ptrElement.style.height = '0px';
+					ptrElement.classList.remove('is-pulling');
 				}
 			}, { passive: false });
 
-			// 3. NHẢ TAY RA
+			// 3. THẢ TAY (TOUCH END)
 			container.addEventListener('touchend', async () => {
 				if (!isPulling) return;
+				
 				isPulling = false;
+				ptrElement.classList.remove('is-pulling');
 
-				// Nếu kéo chưa đủ ngưỡng (92px) -> Đóng lại
-				if (parseInt(ptrElement.style.height) < threshold) {
+				if (isReadyToRefresh) {
+					// A. ĐÃ ĐẠT NGƯỠNG -> BẮT ĐẦU LOAD
+					ptrElement.style.height = '60px'; 
+					ptrElement.classList.add('ptr-loading'); 
+					
+					// [QUAN TRỌNG] Đổi sang màu XANH #006b68 khi bắt đầu quay
+					progressCircle.style.stroke = '#006b68';
+					
+					// Tạo hình chữ C quay tròn
+					progressCircle.style.strokeDashoffset = '20'; 
+					
+					// Gọi hàm refresh
+					await handlePageRefresh();
+
+					// B. LOAD XONG -> ĐÓNG LẠI
+					setTimeout(() => {
+						ptrElement.style.height = '0px';
+						setTimeout(() => {
+							ptrElement.classList.remove('ptr-loading');
+							progressCircle.style.strokeDashoffset = circumference; 
+							// Reset lại màu đỏ cho lần sau (đề phòng)
+							progressCircle.style.stroke = 'red';
+						}, 300);
+					}, 500);
+				} else {
+					// C. HỦY BỎ
 					ptrElement.style.height = '0px';
-					ptrIcon.classList.remove('ptr-visible');
-					return;
+					setTimeout(() => {
+						 progressCircle.style.strokeDashoffset = circumference;
+						 progressCircle.style.stroke = 'red';
+					}, 300);
 				}
-
-				// Kéo đủ -> Giữ nguyên để loading
-				ptrElement.style.height = '60px'; 
-				// Spinner mặc định đã xoay nên không cần add class ptr-loading
-
-				// Gọi hàm làm mới
-				await handlePageRefresh();
-
-				// Xong -> Đóng lại
-				setTimeout(() => {
-					ptrElement.style.height = '0px';
-					ptrIcon.classList.remove('ptr-visible');
-				}, 300);
 			});
 		}
  
