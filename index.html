@@ -731,8 +731,7 @@
 		/* --- (TÙY CHỌN) RIÊNG MODAL XEM ẢNH FULL (Lightbox) THÌ VẪN NÊN TRÀN MÀN HÌNH --- */
 		/* Nếu bạn muốn modal xem ảnh đen sì vẫn phủ kín toàn bộ thì bỏ comment đoạn dưới này: */
 		/*
-		#imageViewerModal.modal, 
-		#imageViewerModal ~ .modal-backdrop {
+		#imageViewerModal.modal {
 			top: 0 !important;
 			bottom: 0 !important;
 			z-index: 2000 !important; /* Cao hơn cả Header App (1100) */
@@ -891,25 +890,34 @@ body, #app {
 
 /* Cấu hình Full màn hình tuyệt đối */
 #imageViewerModal .modal-dialog {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    max-width: none !important;
+    position: fixed !important; 
     
-    /* Reset lại vị trí để phủ kín */
-    position: fixed !important;
-    top: 0 !important;
-    bottom: 0 !important;
+    /* Top = Chiều cao Header (~60px) -> Né Header ra */
+    top: 60px !important;       
+    
+    /* Bottom = Chiều cao Menu dưới (~60px) -> Né Menu dưới ra */
+    bottom: 60px !important;    
+    
     left: 0 !important;
     right: 0 !important;
+    
+    /* Reset các thuộc tính mặc định để nó bung full khoảng trống ở giữa */
+    width: 100% !important;
+    height: auto !important;    
+    margin: 0 !important;       
+    padding: 0 !important;
+    max-width: none !important; 
+    
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 /* Đảm bảo nội dung bên trong cũng full chiều cao */
 #imageViewerModal .modal-content {
+    background-color: #000 !important; /* Nền đen */
     height: 100% !important;
-    border-radius: 0 !important;
-    background-color: #000 !important; /* Nền đen tuyệt đối */
+    border-radius: 0 !important;       /* Vuông góc */
+    border: none !important;
 } 
 
 /* Header con: "Chi tiết (5 ảnh)" - Bám dính vào đỉnh của vùng đen */
@@ -1399,18 +1407,19 @@ body, #app {
 	   </div>
 	   
 	   <div class="modal fade" id="imageViewerModal" tabindex="-1" aria-hidden="true">
-			<div class="modal-dialog modal-fullscreen">
-				<div class="modal-content" style="background-color: black;">
-					<div class="modal-header border-0 position-fixed w-100 p-3" style="z-index: 1060; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); top: 0;">
-						<button type="button" class="btn btn-link text-white p-0" data-bs-dismiss="modal">
-							<i class="bi bi-arrow-left fs-3"></i> </button>
-						<span class="text-white ms-3 fw-bold" id="viewer-counter">Ảnh chi tiết</span> </div>
-					
-					<div class="modal-body p-0 overflow-auto d-flex flex-column align-items-center" id="full-image-list" ...>
-						</div>
-				</div>
-			</div>
-		</div>
+    <div class="modal-dialog"> <div class="modal-content">
+            <div class="modal-header border-0 position-absolute w-100 p-3" style="z-index: 10; top: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);">
+                <button type="button" class="btn btn-link text-white p-0" data-bs-dismiss="modal">
+                    <i class="bi bi-arrow-left fs-3"></i> 
+                </button>
+                <span class="text-white ms-3 fw-bold" id="viewer-counter">Ảnh chi tiết</span> 
+            </div>
+            
+            <div class="modal-body p-0 d-flex flex-column align-items-center justify-content-center" id="full-image-list" style="overflow-y: auto;">
+                </div>
+        </div>
+    </div>
+</div>
 		
 		<div class="modal fade" id="commentOptionsModal" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
