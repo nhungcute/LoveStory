@@ -674,11 +674,8 @@
 		}
 
 		.modal {
-			top: 62px !important;      
-			
-			/* Sửa từ 70px -> 50px (bằng đúng chiều cao menu) */
-			bottom: 50px !important;   
-			
+			top: 62px !important;       
+			bottom: 50px !important;  
 			height: auto !important;   
 			padding: 0 !important;     
 			overflow: hidden !important; 
@@ -686,11 +683,8 @@
 
 		/* 2. Co vùng nền đen mờ (Backdrop) theo Modal */
 		.modal-backdrop {
-			top: 62px !important;     
-			
-			/* Sửa từ 70px -> 50px cho khớp */
-			bottom: 50px !important;  
-			
+			top: 62px !important; 
+			bottom: 50px !important;   
 			height: auto !important;
 			z-index: 1040 !important; 
 		}
@@ -723,9 +717,11 @@
 		#imageViewerModal ~ .modal-backdrop {
 			top: 0 !important;
 			bottom: 0 !important;
+			z-index: 2000 !important; /* Cao hơn cả Header App (1100) */
 		}
 		#imageViewerModal .modal-dialog {
 			height: 100% !important;
+			margin: 0 !important;
 		}
 		*/
 		/* --- TINH CHỈNH KHOẢNG CÁCH BẢNG TIN (FEED) --- */
@@ -1325,12 +1321,10 @@ body, #app {
 				<div class="modal-content" style="background-color: black;">
 					<div class="modal-header border-0 position-fixed w-100 p-3" style="z-index: 1060; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); top: 0;">
 						<button type="button" class="btn btn-link text-white p-0" data-bs-dismiss="modal">
-							<i class="bi bi-arrow-left fs-3"></i>
-						</button>
-						<span class="text-white ms-3 fw-bold" id="viewer-counter">Ảnh chi tiết</span>
-					</div>
+							<i class="bi bi-arrow-left fs-3"></i> </button>
+						<span class="text-white ms-3 fw-bold" id="viewer-counter">Ảnh chi tiết</span> </div>
 					
-					<div class="modal-body p-0 overflow-auto d-flex flex-column align-items-center" id="full-image-list" style="padding-top: 60px !important; padding-bottom: 60px !important;">
+					<div class="modal-body p-0 overflow-auto d-flex flex-column align-items-center" id="full-image-list" ...>
 						</div>
 				</div>
 			</div>
