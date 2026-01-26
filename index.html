@@ -126,7 +126,6 @@ body, #app {
 
 /* Cards & common components */
 .stat-card,
-.post-card,
 .memory-card,
 .album-card {
   background: var(--card-bg);
@@ -574,13 +573,14 @@ body, #app {
 
 /* Post card tweaks for white background feed */
 .post-card {
-  box-shadow: none;
-  border-bottom: 8px solid #f0f2f5;
+  background: white;
   border-radius: 0;
+  box-shadow: none; /* Đảm bảo không có bóng */
   margin-bottom: 0;
-  padding-bottom: 10px;
-  padding-left: 8px;
-  padding-right: 8px;
+  border: none;
+  /* Chỉ tạo 1 đường kẻ xám ở bên dưới mỗi bài */
+  border-bottom: 1px solid #e0e0e0; 
+  padding: 0;
 }
 
 /* Drag handles / size toggle (shown only in edit mode) */
@@ -1317,6 +1317,9 @@ body, #app {
 		let feedPage = 1;
 		let feedLoading = false;
 		let feedHasMore = true;
+		// --- HASHTAG LOGIC START ---
+
+		let currentHashFilter = null; // <--- XÓA DÒNG NÀY Ở ĐÂY
 		// --- BIẾN QUẢN LÝ PHÂN TRANG notifPage ---
 		let notifPage = 1;
 		let notifLoading = false;
@@ -5878,9 +5881,7 @@ body, #app {
 		}
 		
 		// --- HASHTAG LOGIC START ---
-
-		let currentHashFilter = null; // Biến lưu tag đang lọc
-
+  
 		// Hàm 1: Convert text thường thành text có link hashtag
 		function processTextWithHashtags(text) {
 			if (!text) return '';
