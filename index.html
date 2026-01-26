@@ -3236,94 +3236,142 @@
       // --- HÀM TẠO HTML BÀI VIẾT (CẬP NHẬT HEADER: TÊN · THỜI GIAN) ---
       // --- HÀM TẠO HTML BÀI VIẾT (ĐÃ SỬA: NGÀY GIỜ XUỐNG DÒNG NHƯ CŨ) ---
       // --- HÀM TẠO HTML BÀI VIẾT (ĐÃ CĂN CHỈNH NÚT LIKE THẲNG HÀNG) ---
-      function createPostHtml(post) {
-         const displayName = post.fullname || post.username || 'Người dùng';
-         const avatarUrl = post.avatar;
-         const images = parseImages(post.imageData);
-         const isOwner = currentProfile && currentProfile.username === post.username;
-      
-         const verifiedIcon = isOwner ? `<i class="bi bi-patch-check-fill text-primary ms-1"></i>` : '';
-         const avatarHtml = avatarUrl ?
-            `<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">` :
-            `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold fs-5">${displayName.charAt(0).toUpperCase()}</div>`;
-      
-         // Nút 3 chấm
-         const statusBadge = isOwner ?
-            `<button class="btn btn-sm btn-link text-muted post-menu-btn ms-auto" data-id="${post.__backendId}"><i class="bi bi-three-dots"></i></button>` :
-            '<div class="ms-auto"></div>';
-      
-         const heartIconClass = post.liked ? 'bi-heart-fill text-danger' : 'bi-heart';
-         const likeCountText = post.likes > 0 ? post.likes : 'Thích';
-         const likeBtnClass = post.liked ? 'active' : '';
-      
-         const timeDisplay = formatTimeSmart(post.timestamp || post.createdAt);
-      
-         // Xử lý comment
-         let commentsHtml = '';
-         const comments = post.commentsData || [];
-         if (comments.length > 0) {
-            const visibleComments = comments.slice(0, 2);
-            const hiddenComments = comments.slice(2);
-            let commentListHtml = visibleComments.map(c => createCommentHtml(c)).join('');
-      
-            if (hiddenComments.length > 0) {
-               const hiddenHtml = hiddenComments.map(c => createCommentHtml(c)).join('');
-               commentListHtml += `
-      						<div id="hidden-comments-${post.__backendId}" class="d-none fade-in">${hiddenHtml}</div>
-      						<div class="text-start ms-5">
-      							<button class="btn btn-link btn-sm p-0 text-decoration-none text-muted fw-bold" style="font-size: 0.8rem;"
-      									onclick="document.getElementById('hidden-comments-${post.__backendId}').classList.remove('d-none'); this.remove();">
-      								Xem thêm ${hiddenComments.length} bình luận khác...
-      							</button>
-      						</div>`;
-            }
-            commentsHtml = `<div class="comments-section mt-0 fade-in"><div id="comments-container-${post.__backendId}">${commentListHtml}</div></div>`;
-         } else {
-            commentsHtml = `<div class="comments-section mt-2" id="comments-container-${post.__backendId}"></div>`;
-         }
-      
-         return `
-      				<div class="post-card p-3 fade-in" id="post-${post.__backendId}">
-      					<div class="d-flex align-items-center mb-2">
-      						<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">${avatarHtml}</div>
-      						<div>
-      							<p class="mb-0 d-flex align-items-center post-author-name"> ${displayName} ${verifiedIcon}
-      							</p>
-      							<div class="post-timestamp"> ${timeDisplay}
-      							</div>
-      						</div>
-      						${statusBadge}
-      					</div>
-      					
-      					${post.content ? `<div class="post-content-text">${processTextWithHashtags(post.content)}</div>` : ''}
-      					${renderPostImages(images, post.layout || 'grid-2x2')}
-      					
-      					<div class="d-flex gap-4 my-2" style="margin-left: 15px !important;">
-      						<button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
-      								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
-      							<i class="bi ${heartIconClass} fs-5"></i>
-      							<span>${likeCountText}</span>
-      						</button>
-      						
-      						<button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
-      								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
-      							<i class="bi bi-chat fs-5"></i>
-      							<span>Bình luận</span>
-      						</button>
-      					</div>
-      
-      					${commentsHtml}
-      
-      					<div class="d-flex align-items-center mt-2 gap-2 d-none" id="comment-input-box-${post.__backendId}">
-      						<input type="text" class="form-control form-control-sm rounded-pill bg-light border-0" 
-      							   id="input-cmt-${post.__backendId}" placeholder="Viết bình luận...">
-      						<button class="btn btn-sm btn-primary rounded-circle send-inline-cmt-btn" data-id="${post.__backendId}">
-      							<i class="bi bi-send-fill"></i>
-      						</button>
-      					</div>
-      				</div>
-      			`;
-      }
+      // --- HÀM TẠO HTML CHO 1 BÀI VIẾT (FULL) ---
+		function createPostHtml(post) {
+			// 1. Chuẩn bị dữ liệu cơ bản
+			const displayName = post.fullname || post.username || 'Người dùng';
+			const avatarUrl = post.avatar;
+			const images = parseImages(post.imageData);
+			
+			// Kiểm tra xem người đang xem có phải chủ bài viết không
+			const isOwner = currentProfile && currentProfile.username === post.username;
+
+			// Icon tích xanh (chỉ hiện cho chủ sở hữu - tùy chỉnh logic của bạn)
+			const verifiedIcon = isOwner ? `<i class="bi bi-patch-check-fill text-primary ms-1"></i>` : '';
+
+			// Xử lý Avatar (Ảnh hoặc Chữ cái đầu)
+			const avatarHtml = avatarUrl ?
+				`<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">` :
+				`<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold fs-5">${displayName.charAt(0).toUpperCase()}</div>`;
+
+			// -----------------------------------------------------------
+			// [QUAN TRỌNG] Xử lý góc trên bên phải (Trạng thái Upload / Menu)
+			// -----------------------------------------------------------
+			let statusBadge = '';
+
+			if (post.isUploading) {
+				// TRƯỜNG HỢP 1: Đang đăng bài -> Hiện Spinner + Text trạng thái
+				// ID này (status-badge-...) sẽ được hàm updatePostStatus tìm để cập nhật chữ
+				statusBadge = `
+				   <div id="status-badge-${post.__backendId}" class="ms-auto d-flex align-items-center text-muted small">
+					  <span class="spinner-border spinner-border-sm me-1" style="width: 0.8rem; height: 0.8rem;"></span>
+					  ${post.uploadStatus || 'Đang xử lý...'}
+				   </div>
+				`;
+			} else if (isOwner) {
+				// TRƯỜNG HỢP 2: Bài đã đăng & Là chủ bài viết -> Hiện nút 3 chấm
+				statusBadge = `
+					<button class="btn btn-sm btn-link text-muted post-menu-btn ms-auto" data-id="${post.__backendId}">
+						<i class="bi bi-three-dots"></i>
+					</button>
+				`;
+			} else {
+				// TRƯỜNG HỢP 3: Bài người khác -> Để trống
+				statusBadge = '<div class="ms-auto"></div>';
+			}
+			// -----------------------------------------------------------
+
+			// Xử lý nút Like (Tim đỏ hay Tim rỗng)
+			const heartIconClass = post.liked ? 'bi-heart-fill text-danger' : 'bi-heart';
+			const likeCountText = post.likes > 0 ? post.likes : 'Thích';
+			const likeBtnClass = post.liked ? 'active' : '';
+
+			// Xử lý thời gian hiển thị
+			const timeDisplay = formatTimeSmart(post.timestamp || post.createdAt);
+
+			// -----------------------------------------------------------
+			// Xử lý hiển thị Bình luận (Hiện 2 cái đầu, còn lại ẩn)
+			// -----------------------------------------------------------
+			let commentsHtml = '';
+			const comments = post.commentsData || []; // Dữ liệu comment đính kèm (nếu có)
+			
+			if (comments.length > 0) {
+				const visibleComments = comments.slice(0, 2);
+				const hiddenComments = comments.slice(2);
+				
+				// Tạo HTML cho các comment hiển thị
+				let commentListHtml = visibleComments.map(c => createCommentHtml(c)).join('');
+
+				// Nếu còn comment ẩn -> Tạo nút "Xem thêm"
+				if (hiddenComments.length > 0) {
+					const hiddenHtml = hiddenComments.map(c => createCommentHtml(c)).join('');
+					commentListHtml += `
+						<div id="hidden-comments-${post.__backendId}" class="d-none fade-in">
+							${hiddenHtml}
+						</div>
+						<div class="text-start ms-5">
+							<button class="btn btn-link btn-sm p-0 text-decoration-none text-muted fw-bold" style="font-size: 0.8rem;"
+									onclick="document.getElementById('hidden-comments-${post.__backendId}').classList.remove('d-none'); this.remove();">
+								Xem thêm ${hiddenComments.length} bình luận khác...
+							</button>
+						</div>`;
+				}
+				commentsHtml = `<div class="comments-section mt-0 fade-in"><div id="comments-container-${post.__backendId}">${commentListHtml}</div></div>`;
+			} else {
+				// Nếu chưa có comment, tạo container rỗng để chờ append
+				commentsHtml = `<div class="comments-section mt-2" id="comments-container-${post.__backendId}"></div>`;
+			}
+
+			// -----------------------------------------------------------
+			// TRẢ VỀ HTML FULL
+			// -----------------------------------------------------------
+			return `
+				<div class="post-card p-3 fade-in" id="post-${post.__backendId}">
+					
+					<div class="d-flex align-items-center mb-2">
+						<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
+							${avatarHtml}
+						</div>
+						<div>
+							<p class="mb-0 d-flex align-items-center post-author-name"> 
+								${displayName} ${verifiedIcon}
+							</p>
+							<div class="post-timestamp"> 
+								${timeDisplay}
+							</div>
+						</div>
+						${statusBadge}
+					</div>
+					
+					${post.content ? `<div class="post-content-text">${processTextWithHashtags(post.content)}</div>` : ''}
+					${renderPostImages(images, post.layout || 'grid-2x2')}
+					
+					<div class="d-flex gap-4 my-2" style="margin-left: 15px !important;">
+						<button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
+								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
+							<i class="bi ${heartIconClass} fs-5"></i>
+							<span>${likeCountText}</span>
+						</button>
+						
+						<button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
+								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
+							<i class="bi bi-chat fs-5"></i>
+							<span>Bình luận</span>
+						</button>
+					</div>
+
+					${commentsHtml}
+
+					<div class="d-flex align-items-center mt-2 gap-2 d-none" id="comment-input-box-${post.__backendId}">
+						<input type="text" class="form-control form-control-sm rounded-pill bg-light border-0" 
+							   id="input-cmt-${post.__backendId}" placeholder="Viết bình luận...">
+						<button class="btn btn-sm btn-primary rounded-circle send-inline-cmt-btn" data-id="${post.__backendId}">
+							<i class="bi bi-send-fill"></i>
+						</button>
+					</div>
+				</div>
+			`;
+		}
       
       // Hàm Render chính (Hỗ trợ Append)
       function renderPostsPaged(newPosts, page) {
