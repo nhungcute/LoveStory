@@ -7,962 +7,662 @@
 	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
 	  <style>
-	  
-		@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
-		
-		body {
-		  box-sizing: border-box;
-		  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-		}
-		
-		:root {
-			--primary-color: #4ade80;
-			--primary-dark: #22c55e;
-			--secondary-color: #f0fdf4;
-			--text-dark: #1f2937;
-			--text-light: #6b7280;
-			--bg-color: #f3f4f6;
-			--card-bg: #ffffff;
-			
-			/* 2. Cấu hình font chữ mới ở đây */
-			--font-family: 'Patrick Hand', cursive; 
-			
-			--shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-			--shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-			--shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-			--radius: 1rem;
-			/* --- THÊM DÒNG NÀY VÀO ĐÂY --- */
-			--header-spacing: 10px;  /* <-- Bạn chỉnh khoảng cách chung ở đây */
-		}
-		
-		html, body {
-		  height: 100%;
-		  margin: 0;
-		  padding: 0;
-		}
-		
-		#app {
-		  display: flex;
-		  flex-direction: column;
-		  height: 100%;
-		  width: 100%;
-		  background-color: var(--bg-color);
-		}
-		
-		.app-header {
-		  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-		  color: white;
-		  padding: 0.5rem;
-		  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-		}
-		
-		.main-content {
-		  flex: 1;
-		  overflow-y: auto;
-		  overflow-x: hidden;
-		}
-		
-		.bottom-nav {
-		  background: var(--surface-color);
-		  border-top: 1px solid #dee2e6;
-		  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-		}
-		
-		.nav-link {
-		  color: #6c757d;
-		  transition: color 0.2s;
-		}
-		
-		.nav-link.active {
-		  color: var(--primary-color);
-		}
-		
-		.stat-card {
-		  background: var(--surface-color);
-		  border-radius: 1rem;
-		  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-		  transition: transform 0.2s;
-		  position: relative;
-		}
-		
-		.stat-card:active {
-		  transform: scale(0.98);
-		}
-		
-		.post-card, .memory-card, .album-card {
-		  background: var(--surface-color);
-		  border-radius: 1rem;
-		  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-		  margin-bottom: 1rem;
-		}
-		
-		.btn-primary {
-		  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-		  border: none;
-		}
-		
-		.btn-primary:hover {
-		  opacity: 0.9;
-		}
-		
-		.fab-btn {
-		  position: fixed;
-		  bottom: 80px;
-		  right: 20px;
-		  width: 56px;
-		  height: 56px;
-		  border-radius: 50%;
-		  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-		  color: white;
-		  border: none;
-		  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-		  z-index: 1000;
-		}
-		
-		.fab-btn:active {
-		  transform: scale(0.9);
-		}
-		
-		.modal-content {
-		  border-radius: 1.5rem;
-		  border: none;
-		}
-		
-		.modal-header {
-		  border-bottom: 1px solid #dee2e6;
-		  border-radius: 1.5rem 1.5rem 0 0;
-		}
-		
-		.avatar-circle {
-		  width: 48px;
-		  height: 48px;
-		  border-radius: 50%;
-		  border: 3px solid var(--primary-color);
-		  display: flex;
-		  align-items: center;
-		  justify-content: center;
-		  background: white;
-		  overflow: hidden;
-		}
-		
-		.avatar-circle-sm {
-		  width: 40px;
-		  height: 40px;
-		}
-		
-		.avatar-circle-lg {
-		  width: 96px;
-		  height: 96px;
-		}
-		
-		.theme-bg-primary {
-		  background-color: var(--primary-color);
-		}
-		
-		.theme-bg-secondary {
-		  background-color: var(--secondary-color);
-		}
-		
-		.theme-text-primary {
-		  color: var(--primary-color);
-		}
-		
-		.theme-text-secondary {
-		  color: var(--secondary-color);
-		}
-		
-		.icon-box {
-		  width: 56px;
-		  height: 56px;
-		  border-radius: 50%;
-		  display: flex;
-		  align-items: center;
-		  justify-content: center;
-		}
-		
-		.icon-box-sm {
-		  width: 48px;
-		  height: 48px;
-		}
-		
-		.post-image-grid {
-		  display: grid;
-		  gap: 0.5rem;
-		  border-radius: 1rem;
-		  overflow: hidden;
-		}
-		
-		.post-image-grid.grid-1 {
-		  grid-template-columns: 1fr;
-		}
-		
-		.post-image-grid.grid-2 {
-		  grid-template-columns: 1fr 1fr;
-		}
-		
-		.post-image-grid.grid-3 {
-		  grid-template-columns: repeat(2, 1fr);
-		  grid-template-rows: repeat(2, 150px);
-		}
-		
-		.post-image-grid.grid-3 img:first-child {
-		  grid-column: span 2;
-		}
-		
-		.post-image-grid.grid-4 {
-		  grid-template-columns: repeat(2, 1fr);
-		  grid-template-rows: repeat(2, 150px);
-		}
-		
-		.post-image-grid.grid-5plus {
-		  grid-template-columns: repeat(3, 1fr);
-		  grid-template-rows: repeat(2, 150px);
-		}
-		
-		.post-image-grid.grid-5plus img:first-child {
-		  grid-column: span 2;
-		  grid-row: span 2;
-		}
-		
-		.post-image-grid img {
-		  width: 100%;
-		  height: 100%;
-		  object-fit: cover;
-		}
-		
-		.image-counter-overlay {
-		  position: absolute;
-		  inset: 0;
-		  background: rgba(0,0,0,0.6);
-		  display: flex;
-		  align-items: center;
-		  justify-content: center;
-		  color: white;
-		  font-size: 2rem;
-		  font-weight: bold;
-		}
-		
-		.theme-option {
-		  width: 120px;
-		  height: 30px;
-		  border-radius: 0.5rem;
-		  border: 3px solid transparent;
-		  cursor: pointer;
-		  transition: all 0.2s;
-		}
-		
-		.theme-option.selected {
-		  border-color: var(--primary-color);
-		}
-		
-		.layout-preview-box {
-		  padding: 0.5rem;
-		  border: 2px solid #dee2e6;
-		  border-radius: 0.5rem;
-		  cursor: pointer;
-		  transition: all 0.2s;
-		}
-		
-		.layout-preview-box.selected {
-		  border-color: var(--primary-color);
-		  background: rgba(0, 107, 104, 0.05);
-		}
-		
-		.layout-grid-visual {
-		  height: 80px;
-		  display: grid;
-		  gap: 4px;
-		  background: #e9ecef;
-		  border-radius: 0.25rem;
-		  padding: 4px;
-		}
-		
-		.layout-grid-visual > div {
-		  background: #6c757d;
-		  border-radius: 0.25rem;
-		}
-		
-		.edit-mode-banner {
-		  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-		  color: white;
-		  padding: 1rem;
-		  text-align: center;
-		}
-		
-		.drag-handle {
-		  position: absolute;
-		  top: 0.5rem;
-		  left: 0.5rem;
-		  width: 32px;
-		  height: 32px;
-		  background: var(--primary-color);
-		  border-radius: 0.5rem;
-		  color: white;
-		  display: none;
-		  align-items: center;
-		  justify-content: center;
-		  cursor: move;
-		  z-index: 10;
-		}
-		
-		.size-toggle {
-		  position: absolute;
-		  bottom: 0.5rem;
-		  right: 0.5rem;
-		  width: 32px;
-		  height: 32px;
-		  background: #6f42c1;
-		  border-radius: 0.5rem;
-		  color: white;
-		  display: none;
-		  align-items: center;
-		  justify-content: center;
-		  cursor: pointer;
-		  z-index: 10;
-		}
-		
-		.layout-edit-mode .drag-handle,
-		.layout-edit-mode .size-toggle {
-		  display: flex;
-		}
-		
-		.stat-card.dragging {
-		  opacity: 0.5;
-		}
-		
-		.stat-card.size-small {
-		  transform: scale(0.85);
-		  margin: -0.5rem 0;
-		}
-		
-		.stat-card.size-medium {
-		  transform: scale(1);
-		}
-		
-		.stat-card.size-large {
-		  transform: scale(1.15);
-		  margin: 1rem 0;
-		}
-		
-		.stats-container {
-		  display: grid;
-		  grid-template-columns: 1fr;
-		  gap: 1rem;
-		}
-		
-		.stats-container.two-columns {
-		  grid-template-columns: 1fr 1fr;
-		  gap: 0.75rem;
-		}
-		
-		.like-btn.active {
-		  color: #dc3545;
-		}
-		
-		@keyframes heartBeat {
-		  0%, 100% { transform: scale(1); }
-		  25% { transform: scale(1.2); }
-		  50% { transform: scale(1.1); }
-		}
-		
-		.like-btn.active {
-		  animation: heartBeat 0.3s ease;
-		}
-		
-		.notification-item {
-		  border-bottom: 1px solid #dee2e6;
-		  transition: background 0.2s;
-		}
-		
-		.notification-item:hover {
-		  background: #f8f9fa;
-		}
-		
-		.notification-item.unread {
-		  background: #e7f3ff;
-		}
-		
-		.notification-dot {
-		  width: 8px;
-		  height: 8px;
-		  background: #dc3545;
-		  border-radius: 50%;
-		}
-		
-		
-		/* --- SỬA LỖI MODAL CHỒNG NHAU (FINAL FIX) --- */
+	   
+/* ===============================
+   Optimized CSS (no !important)
+   Namespace: #app (increase specificity)
+   Load this after Bootstrap / library CSS
+   =============================== */
 
-		/* 1. CẤU HÌNH CHO LỚP NỀN ĐẦU TIÊN (MẶC ĐỊNH) */
-		/* Áp dụng cho Modal Full màn hình -> KHÔNG MỜ, KHÔNG CHE NỘI DUNG */
-		.modal-backdrop.show {
-			opacity: 0.5 !important;           /* Độ tối bình thường */
-			background-color: #000 !important;
-			z-index: 1050 !important;          /* Nằm dưới Modal Full (1055) */
-			backdrop-filter: none !important;  /* TẮT HOÀN TOÀN HIỆU ỨNG MỜ */
-			-webkit-backdrop-filter: none !important;
-		}
+/* Root variables (colors, sizes, z-index) */
+:root {
+  --primary-color: #4ade80;
+  --primary-dark: #22c55e;
+  --secondary-color: #f0fdf4;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-color: #ffffff; /* updated background default */
+  --card-bg: #ffffff;
 
-		/* 2. CẤU HÌNH CHO LỚP NỀN THỨ 2 TRỞ ĐI (QUAN TRỌNG) */
-		/* Dùng dấu ~ để chọn "lớp nền nằm sau một lớp nền khác" -> Chính là cái thứ 2 */
-		.modal-backdrop.show ~ .modal-backdrop.show {
-			z-index: 1060 !important;          /* Đè lên Modal Full (1055) */
-			opacity: 0.9 !important;           /* Tối đen hơn để nổi bật Modal nhỏ */
-			backdrop-filter: blur(5px) !important; /* LÀM MỜ NỘI DUNG BÊN DƯỚI */
-			-webkit-backdrop-filter: blur(5px);
-		}
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-		/* 3. ĐƯA MODAL NHỎ (THÊM LƯỢT ĐẠP & VÀNG) LÊN CAO NHẤT */
-		#addBikeEntryModal, #addGoldEntryModal {
-			z-index: 1070 !important;          /* Cao hơn lớp nền thứ 2 (1060) */
-		}
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --radius: 1rem;
 
-		/* 4. TRANG TRÍ MODAL NHỎ (VIỀN & BÓNG) */
-		#addBikeEntryModal .modal-content, #addGoldEntryModal .modal-content {
-			border: 1px solid rgba(255, 255, 255, 0.2);
-			box-shadow: 0 20px 60px rgba(0,0,0,0.8) !important;
-		}
+  /* Spacing / UI sizes */
+  --header-spacing: 10px;
+  --avatar-size: 41px;
 
-		/* --- CSS BỐ CỤC ẢNH (MỚI) --- */
-		.post-image-grid {
-			display: grid;
-			gap: 4px;
-			width: 100%;
-			border-radius: 12px;
-			overflow: hidden;
-		}
-
-		/* 1 ảnh: Full */
-		.post-image-grid.layout-1 { grid-template-columns: 1fr; }
-
-		/* 2 ảnh: Chia đôi */
-		.post-image-grid.layout-2 { grid-template-columns: 1fr 1fr; height: 250px; }
-
-		/* Bố cục: 1 NGANG (1-wide) - Dùng cho 3 ảnh trở lên */
-		.post-image-grid.layout-1-wide {
-			grid-template-columns: repeat(2, 1fr);
-			grid-template-rows: 200px 150px; /* Hàng trên to, hàng dưới nhỏ */
-		}
-		.post-image-grid.layout-1-wide .img-box:first-child {
-			grid-column: span 2; /* Ảnh đầu nằm ngang hết 2 cột */
-		}
-
-		/* Bố cục: 1 DỌC (1-tall) - Dùng cho 3 ảnh trở lên */
-		.post-image-grid.layout-1-tall {
-			grid-template-columns: 2fr 1fr; /* Cột trái to gấp đôi cột phải */
-			grid-template-rows: repeat(2, 150px);
-		}
-		.post-image-grid.layout-1-tall .img-box:first-child {
-			grid-row: span 2; /* Ảnh đầu nằm dọc hết 2 hàng */
-			height: 100%;
-		}
-
-		/* Bố cục: LƯỚI ĐỀU (2x2) */
-		.post-image-grid.layout-grid-2x2 {
-			grid-template-columns: repeat(2, 1fr);
-			grid-template-rows: 200px 200px;
-		}
-
-		/* Style chung cho ảnh */
-		.post-image-grid .img-box {
-			position: relative;
-			overflow: hidden;
-			width: 100%;
-			height: 100%;
-		}
-		.post-image-grid img {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			display: block;
-		}
-		.image-overlay {
-			position: absolute;
-			inset: 0;
-			background: rgba(0,0,0,0.5);
-			color: white;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 2rem;
-			font-weight: bold;
-		}
-		
-		/* ------------------ CSS CHO LIGHTBOX (XEM ẢNH FULL) ------------------- */
-		 
-
-/* 5. Tinh chỉnh từng ảnh trong danh sách */
-/* 5. Tinh chỉnh từng ảnh trong danh sách */
-.lightbox-item {
-    position: relative;
-    width: 100%;
-    min-height: auto !important; /* Để chiều cao co giãn theo ảnh */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-
-    /* --- CẤU HÌNH MỚI THEO YÊU CẦU --- */
-    
-    /* 1. Viền đen 2px ở 2 bên trái/phải */
-    border-left: 2px solid #000;
-    border-right: 2px solid #000;
-
-    /* 2. Đường kẻ trắng 2px ở dưới để ngăn cách */
-    border-bottom: 2px solid #fff;
-    
-    /* Xóa margin cũ vì giờ ta dùng border để tạo khoảng cách */
-    margin-bottom: 0 !important;
+  /* z-index stack (tweak as needed) */
+  --z-backdrop-base: 1040;
+  --z-modal-full: 1055;
+  --z-backdrop-2: 1060;
+  --z-popup: 1150;
+  --z-header: 1100;
+  --z-imageViewer: 2000;
 }
 
-/* 3. Xóa đường kẻ trắng ở ảnh cuối cùng (để phía dưới cùng không bị thừa vạch trắng) */
-.lightbox-item:last-child {
-    border-bottom: none;
+.theme-bg-primary {
+  background-color: var(--primary-color);
 }
 
-/* Ảnh hiển thị */
-.lightbox-image {
-    width: 100% !important;
-    height: auto !important;
-    max-height: none !important; /* Cho phép ảnh dài hiển thị hết */
-    object-fit: contain;
-    display: block;
+.theme-bg-secondary {
+  background-color: var(--secondary-color);
 }
 
+.theme-text-primary {
+  color: var(--primary-color);
+}
 
+.theme-text-secondary {
+  color: var(--secondary-color);
+}
 
+/* Basic layout & typography */
+body, #app {
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+}
 
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--bg-color);
+}
 
-		
-		/* ------------- CSS PULL TO REFRESH (CẬP NHẬT) -------------------- */
-		/* Tối ưu lại phần tử Pull to Refresh */
-		.ptr-element {
-			position: relative !important; 
-			width: 100%;
-			height: 0; /* Mặc định ẩn hoàn toàn */
-			overflow: hidden;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: height 0.2s ease; /* Hiệu ứng đẩy mượt mà */
-			z-index: 10;
-			background-color: transparent;
-		}
-		/* Khi đang loading, cho phép nó có chiều cao cố định để thấy icon */
-		.ptr-element.ptr-loading {
-			height: 60px !important;
-		}
-		/* Class này sẽ được JS thêm vào khi bắt đầu kéo -> TẮT transition để không bị lag */
-		.ptr-element.is-pulling {
-			transition: none !important; 
-		}
+/* Header / bottom nav stack: use namespace to override libs */
+.app-header,
+.bottom-nav {
+  position: relative;
+  z-index: var(--z-header);
+  background-color: var(--bg-color);
+}
 
-		.ptr-content {
-			padding-bottom: 15px; /* Tăng nhẹ để vòng tròn không sát đáy quá */
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			opacity: 0;
-			transition: opacity 0.2s;
-		}
-		/* --- THÊM CLASS NÀY ĐỂ ẨN TUYỆT ĐỐI CHỮ --- */
-		#ptr-text {
-			display: none !important;
-		}
-		.ptr-element.is-pulling .ptr-content,
-		.ptr-element.ptr-loading .ptr-content {
-			opacity: 1;
-		}
+/* Header compacting */
+.app-header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  padding: var(--header-spacing);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  height: auto;
+}
+.app-header .avatar-circle {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  border: 1px solid var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
 
-		/* SVG Vòng tròn */
-		.ptr-circle-svg {
-			width: 30px;
-			height: 30px;
-			transform: rotate(-90deg); /* Xoay để bắt đầu vẽ từ đỉnh 12h */
-		}
+/* Main content & feed */
+.main-content {
+  position: relative;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+}
 
-		.ptr-circle-bg {
-			stroke: #e5e7eb; /* Màu vòng tròn mờ phía sau */
-			stroke-width: 3;
-			fill: none;
-		}
-		 
-		.ptr-circle-progress {
-			stroke: red !important; /* <-- Đổi thành màu đỏ */
-			stroke-width: 3;
-			fill: none;
-			stroke-linecap: round;
-			stroke-dasharray: 76; 
-			stroke-dashoffset: 76; 
-			transition: stroke-dashoffset 0.1s, stroke 0.3s;
-		}
-		/* 2. Khi đang Loading (Quay tròn): Đổi sang màu XANH #006b68 */
-		.ptr-loading .ptr-circle-progress {
-			stroke: #006b68 !important; /* <-- Màu xanh bạn yêu cầu */
-		}
+/* Posts container compacting */
+#posts-container {
+  padding-top: 4px;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 80px;
+  max-width: 100%;
+}
 
-		/* 1. Quay tròn cả cụm SVG */
-		.ptr-loading .ptr-circle-svg {
-			animation: ptr-spin 0.6s linear infinite; /* Tốc độ quay */
-			transform-origin: center;
-		}
+/* Cards & common components */
+.stat-card,
+.post-card,
+.memory-card,
+.album-card {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.2s;
+  position: relative;
+}
 
-		@keyframes ptr-spin {
-			0% { transform: rotate(0deg); }
-			100% { transform: rotate(360deg); }
-		}
- 
-		/* Đảm bảo Main Content có vị trí tương đối để icon bám theo */
-		.main-content {
-			position: relative;
-			flex: 1;
-			overflow-y: auto;
-			overflow-x: hidden;
-			overscroll-behavior-y: contain;
-			/* CŨ: 20px -> MỚI: 0px hoặc 5px (Để sát lên trên) */
-			padding-top: 0px !important;
-		}
-		
-		/* --- CẬP NHẬT KÍCH THƯỚC GIAO DIỆN (GIẢM 15%) --- */
+/* Buttons / FAB */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  border: none;
+  color: #fff;
+}
+.fab-btn {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
 
-		/* 1. Giảm kích thước nút Profile (Avatar trên Header) */
-		/* Cũ: 48px -> Mới: ~41px */
-		/* Giữ avatar tròn không bị méo */
-		.app-header .avatar-circle {
-			width: 41px !important;
-			height: 41px !important;
-			flex-shrink: 0; 
-			border-width: 1px !important; /* <--- Thêm dòng này: Giảm từ 3px xuống 1px */
-		}
+.avatar-circle {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  overflow: hidden; /* <--- QUAN TRỌNG: Cắt ảnh thành hình tròn */
+}
 
-		/* 2. Giảm chiều cao Top Menu (Header) */
-		.app-header {
-			/* Giảm padding trên dưới từ 0.5rem (8px) xuống 0.25rem (4px) */
-			padding: var(--header-spacing) !important; 
-			height: auto !important;
-		}
-		/* Chỉnh khoảng cách giữa Icon chuông và Avatar */
-		.app-header .d-flex.align-items-center.gap-3 {
-			gap: var(--header-spacing) !important;
-		}
+/* Avatar sizes */
+.avatar-circle-sm 
+{ width: 40px; height: 40px; 
+}
+.avatar-circle-lg { width: 96px; height: 96px; }
 
-		/* Thu nhỏ nhẹ các thành phần bên trong header để cân đối */
-		#app-title {
-		  font-size: 1.1rem !important; /* Giảm font tiêu đề */
-		}
-		#welcome-message {
-		  font-size: 0.75rem !important;
-		}
-		#notification-btn i {
-		  font-size: 1.3rem !important; /* Giảm icon chuông */
-		}
+/* Icons & small UI helpers */
+.icon-box { width: 56px; height: 56px; border-radius: 50%; display:flex; align-items:center; justify-content:center; }
+.icon-box-sm { width: 48px; height: 48px; }
 
-		/* 3. Giảm chiều cao Menu dưới (Bottom Nav) */
-		/* Khung bao ngoài: Chỉnh khoảng cách Cạnh Trên và Cạnh Dưới */
-		.bottom-nav > div {
-		  /* Ghi đè class py-1 của bootstrap */
-		  padding-top: 6px !important;    /* 1. Khoảng cách từ Cạnh Trên đến Icon */
-		  padding-bottom: 6px !important; /* 2. Khoảng cách từ Cạnh Dưới đến Chữ */
-		  display: flex !important;
-		  align-items: center !important;
-		}
-		
-		/* Nút bấm (Icon + Chữ): Chỉnh khoảng cách giữa Icon và Chữ */
-		.bottom-nav .nav-link {
-		  display: flex !important;
-		  flex-direction: column !important;
-		  align-items: center !important;
-		  justify-content: center !important;
-		  
-		  /* 3. Khoảng cách giữa Icon và Chữ (bằng với padding trên dưới) */
-		  gap: 6px !important; 
-		  
-		  padding: 0 !important; /* Xóa padding mặc định của nút */
-		  height: auto !important;
-		}
+/* Like animation */
+@keyframes heartBeat { 0%,100%{transform:scale(1);} 25%{transform:scale(1.2);} 50%{transform:scale(1.1);} }
+.like-btn.active { color: #dc3545; animation: heartBeat 0.3s ease; }
 
-		/* Giảm kích thước Icon và Chữ trong menu dưới */
-		/* Icon: Reset margin cũ để tính toán cho chuẩn */
-		.bottom-nav .nav-link i {
-		  font-size: 1.25rem !important; /* Kích thước icon */
-		  margin-bottom: 0 !important;    /* QUAN TRỌNG: Xóa margin cũ để dùng gap */
-		  line-height: 1 !important;      /* Loại bỏ khoảng trắng thừa do dòng */
-		  display: block;
-		}
+/* Notifications */
+.notification-item { border-bottom: 1px solid #dee2e6; transition: background 0.2s; }
+.notification-item.unread { background: #e7f3ff; }
 
-		/* Chữ: Reset line-height */
-		.bottom-nav .nav-link small {
-		  font-size: 0.75rem !important; /* Kích thước chữ */
-		  line-height: 1 !important;      /* Loại bỏ khoảng trắng thừa do dòng */
-		  display: block;
-		}
+/* -----------------------
+   Modal stacking & sizing
+   Use namespace so we can override Bootstrap when loaded after it.
+   ----------------------- */
 
-		/* Điều chỉnh lại vị trí nút tròn (+ FAB) thấp xuống một chút cho khớp với menu mới */
-		.fab-btn {
-		  bottom: 70px !important; /* Cũ là 80px */
-		}
-		
-		/* --- CẤU HÌNH MODAL NẰM GỌN GIỮA HEADER & MENU DƯỚI --- */
+/* Backdrop 1 (under full modal) */
+.modal-backdrop.show {
+  opacity: 0.5;
+  background-color: #000;
+  z-index: var(--z-backdrop-base);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 
-		/* 1. Đưa Header và Menu dưới lên lớp cao nhất (Cao hơn Modal) */
-		.app-header, .bottom-nav {
-			z-index: 1100 !important; /* Bootstrap modal là 1055, ta đặt 1100 để đè lên */
-			position: relative;       /* Bắt buộc phải có để z-index hoạt động */
-			background-color: var(--bg-color);
-		}
+/* Backdrop 2 (when multiple backdrops stacked) */
+.modal-backdrop.show ~ .modal-backdrop.show {
+  z-index: var(--z-backdrop-2);
+  opacity: 0.9;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
 
-		.modal {
-			top: 62px !important;       
-			bottom: 50px !important;  
-			height: auto !important;   
-			padding: 0 !important;     
-			overflow: hidden !important; 
-		}
+/* Put specific popups above backdrop 2 */
+#addBikeEntryModal,
+#addGoldEntryModal {
+  z-index: calc(var(--z-backdrop-2) + 10);
+}
 
-		/* 2. Co vùng nền đen mờ (Backdrop) theo Modal */
-		.modal-backdrop {
-			top: 62px !important; 
-			bottom: 50px !important;   
-			height: auto !important;
-			z-index: 1040 !important; 
-		}
+/* Header & bottom-nav should remain above normal modals */
+.app-header,
+.bottom-nav {
+  z-index: var(--z-header);
+}
 
-		/* 4. Ép nội dung Modal bung Full khoảng trống còn lại */
-		.modal-dialog {
-			margin: 0 !important;
-			height: 100% !important;
-			width: 100% !important;
-			max-width: none !important; /* Bỏ giới hạn chiều rộng */
-		}
+/* Constrain modal area between header and bottom nav without !important */
+.modal {
+  top: 62px;
+  bottom: 50px;
+  height: auto;
+  padding: 0;
+  overflow: hidden;
+}
 
-		.modal-content {
-			height: 100% !important;     
-			border-radius: 0 !important; 
-			border: none !important;     
-			box-shadow: none !important;
-		}
+/* Backdrop constrained similarly */
+.modal-backdrop {
+  top: 62px;
+  bottom: 50px;
+  height: auto;
+  z-index: var(--z-backdrop-base);
+}
 
-		/* 5. Xử lý thanh cuộn bên trong Modal Body */
-		.modal-body {
-			overflow-y: auto !important; 
-			height: 100% !important;
-		}
+/* Modal dialog fills remaining area */
+.modal-dialog {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  max-width: none;
+}
 
-		/* --- (TÙY CHỌN) RIÊNG MODAL XEM ẢNH FULL (Lightbox) THÌ VẪN NÊN TRÀN MÀN HÌNH --- */
-		/* Nếu bạn muốn modal xem ảnh đen sì vẫn phủ kín toàn bộ thì bỏ comment đoạn dưới này: */
-		/*
-		#imageViewerModal.modal, 
-		#imageViewerModal ~ .modal-backdrop {
-			top: 0 !important;
-			bottom: 0 !important;
-			z-index: 2000 !important; /* Cao hơn cả Header App (1100) */
-		}
-		 
-		*/
-		/* --- TINH CHỈNH KHOẢNG CÁCH BẢNG TIN (FEED) --- */
+/* Modal content full height */
+.modal-content {
+  height: 100%;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  background-color: var(--card-bg);
+}
 
-		/* 1. Cấu hình khung bao ngoài (posts-container) */
-		/* 1. Cấu hình khung bao ngoài (posts-container) */
-		#posts-container {
-			/* GIẢM TIẾP 1/2: Từ 8px xuống 4px */
-			padding-top: 4px !important;
+/* Modal body uses internal scroll */
+.modal-body {
+  overflow-y: auto;
+  height: 100%;
+}
 
-			/* GIẢM TIẾP 1/2: Từ 4px xuống 2px (Sát viền màn hình) */
-			padding-left: 0px !important;
-			padding-right: 0px !important;
-
-			padding-bottom: 80px !important; 
-			max-width: 100% !important; 
-		}
-  
-		/* --- SỬA MODAL TÙY CHỌN (3 CHẤM) --- */
-
-		/* 1. Ghi đè lại kích thước khung Dialog */
-		/* --- CẤU HÌNH CÁC MODAL DẠNG POPUP (NHỎ GỌN & CĂN GIỮA) --- */
-		/* Danh sách: Tùy chọn bài viết, Xóa, Thêm Vàng, Thêm Lượt đạp */
-		/* --- CẤU HÌNH CÁC MODAL DẠNG POPUP (NHỎ GỌN & CĂN GIỮA) --- */
-/* Danh sách: Tùy chọn bài viết, Tùy chọn bình luận, Xóa, Thêm Vàng, Thêm Lượt đạp */
-#postOptionsModal, 
-#commentOptionsModal, /* <--- THÊM CÁI NÀY */
-#deleteConfirmModal, 
-#addBikeEntryModal, 
+/* Small popups (post options / confirm / comment options etc.) */
+#postOptionsModal,
+#commentOptionsModal,
+#deleteConfirmModal,
+#addBikeEntryModal,
 #addGoldEntryModal,
-#editCommentContentModal { /* <--- Thêm cả cái sửa bình luận cho đẹp */
-    top: 0 !important;
-    bottom: 0 !important;
-    height: 100% !important;
-    padding: 0 !important;
-    z-index: 1150 !important;
+#editCommentContentModal {
+  /* keep full-height container so dialog can be vertically centered */
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  padding: 0;
+  z-index: var(--z-popup);
 }
 
-/* 2. Chỉnh kích thước khung dialog: Nhỏ, Căn giữa */
-#postOptionsModal .modal-dialog, 
-#commentOptionsModal .modal-dialog, /* <--- THÊM CÁI NÀY */
+#postOptionsModal .modal-dialog,
+#commentOptionsModal .modal-dialog,
 #deleteConfirmModal .modal-dialog,
 #addBikeEntryModal .modal-dialog,
 #addGoldEntryModal .modal-dialog,
 #editCommentContentModal .modal-dialog {
-    width: 85% !important;
-    max-width: 350px !important;
-    margin: auto !important;
-    height: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+  width: 85%;
+  max-width: 350px;
+  margin: auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* 3. Trang trí khung nội dung (Bo góc, đổ bóng) */
-#postOptionsModal .modal-content, 
-#commentOptionsModal .modal-content, /* <--- THÊM CÁI NÀY */
+#postOptionsModal .modal-content,
+#commentOptionsModal .modal-content,
 #deleteConfirmModal .modal-content,
 #addBikeEntryModal .modal-content,
 #addGoldEntryModal .modal-content,
 #editCommentContentModal .modal-content {
-    height: auto !important;
-    max-height: 85vh !important;
-    border-radius: 20px !important;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
-    overflow: hidden !important;
-    border: none !important;
+  height: auto;
+  max-height: 85vh;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  overflow: hidden;
+  border: none;
 }
 
-/* 4. CĂN GIỮA CHỮ VÀ ICON CHO CÁC MENU TÙY CHỌN */
+/* Center list items in option menus */
 #postOptionsModal .list-group-item,
-#commentOptionsModal .list-group-item { /* <--- THÊM CÁI NÀY */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    gap: 10px;
-    padding: 1rem !important;
+#commentOptionsModal .list-group-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  padding: 1rem;
 }
 
-/* --- CẬP NHẬT GIAO DIỆN MỚI (THEO YÊU CẦU) --- */
-
-/* 1. Font chữ & Nền toàn trang */
-body, #app {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-    background-color: #ffffff !important;
-}
-
-/* Cập nhật biến màu nền gốc để tránh xung đột */
-:root {
-    --bg-color: #ffffff;
-    --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-/* 2. Tên người đăng (Full Name) */
-.post-author-name {
-    font-size: 16.5px !important;
-    font-weight: 600 !important;
-    color: #000000 !important; /* Màu xanh Facebook */
-    line-height: 1.2;
-}
-
-/* 3. Thời gian đăng bài */
-.post-timestamp {
-    font-size: 12.5px !important;
-    color: #65676B !important;
-    font-weight: 400;
-}
-
-/* 4. Nội dung bài viết */
-.post-content-text {
-    font-size: 14px !important;
-    line-height: 1.55 !important;
-    color: #050505 !important;
-    white-space: pre-wrap; /* Giữ xuống dòng */
-    margin-bottom: 10px;
-    margin-top: 6px;
-	margin-left: 15px !important;
-}
-
-/* Tinh chỉnh lại Card bài viết cho hợp nền trắng */
-.post-card {
-    box-shadow: none !important; 
-    border-bottom: 8px solid #f0f2f5 !important; 
-    border-radius: 0 !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 10px !important;
-
-    /* --- THÊM 2 DÒNG NÀY (Để giảm khoảng cách ảnh với viền) --- */
-    padding-left: 8px !important;  
-    padding-right: 8px !important;
-}
-
-/* 1. Đẩy nội dung khối (Feed/Stats) xuống dưới Header để thoáng hơn */
-.main-content {
-    /* Tăng khoảng cách từ mép trên để không bị dính vào Header */
-    padding-top: 20px !important; 
-}
-
-/* --- ĐOẠN CODE SỬA LỖI (Thay thế vào vị trí trên) --- */
-
-/* Đưa Modal xem ảnh lên lớp cao nhất (Cao hơn Header App 1100) */
+/* Image viewer (lightbox) - full screen override */
 #imageViewerModal {
-    z-index: 2000 !important; 
+  z-index: var(--z-imageViewer);
 }
-
-/* Cấu hình Full màn hình tuyệt đối */
 #imageViewerModal .modal-dialog {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    max-width: none !important;
-    
-    /* Reset lại vị trí để phủ kín */
-    position: fixed !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
-
-/* Đảm bảo nội dung bên trong cũng full chiều cao */
 #imageViewerModal .modal-content {
-    height: 100% !important;
-    border-radius: 0 !important;
-    background-color: #000 !important; /* Nền đen tuyệt đối */
-} 
-
-/* Header con: "Chi tiết (5 ảnh)" - Bám dính vào đỉnh của vùng đen */
+  height: 100%;
+  border-radius: 0;
+  background-color: #000;
+}
 #imageViewerModal .modal-header {
-    position: absolute !important; /* Dùng absolute để tính từ mép trên vùng đen */
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 10;
-    /* Nền đen mờ dần xuống trong suốt */
-    background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%) !important;
-    border-bottom: none !important;
-    padding: 10px 15px !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+  border-bottom: none;
+  padding: 10px 15px;
+}
+#full-image-list {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  padding-top: 50px;
+  padding-bottom: 20px;
+  background-color: #000;
+}
+/* Hide the backdrop for imageViewer (we rely on the modal covering all) */
+#imageViewerModal ~ .modal-backdrop {
+  display: none;
 }
 
-/* Vùng chứa danh sách ảnh: Cho phép cuộn */
-#full-image-list {
-    flex: 1 !important;
-    width: 100% !important;
-    overflow-y: auto !important;
-    /* Đẩy nội dung xuống để không bị chữ "Chi tiết" che mất ảnh đầu tiên */
-    padding-top: 50px !important; 
-    padding-bottom: 20px !important;
-    background-color: #000;
+/* -----------------------
+   Post image grid layouts (grouped + compact)
+   ----------------------- */
+.post-image-grid {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-sizing: border-box;
 }
-/* Ẩn lớp nền mờ mặc định của Bootstrap cho Modal này */
-#imageViewerModal ~ .modal-backdrop {
-    display: none !important;
+
+/* Layout variants */
+.post-image-grid.layout-1 { grid-template-columns: 1fr; }
+.post-image-grid.layout-2 { grid-template-columns: 1fr 1fr; height: 250px; }
+.post-image-grid.layout-1-wide {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 200px 150px;
 }
+.post-image-grid.layout-1-wide .img-box:first-child { grid-column: span 2; }
+
+.post-image-grid.layout-1-tall {
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: repeat(2,150px);
+}
+.post-image-grid.layout-1-tall .img-box:first-child { grid-row: span 2; height: 100%; }
+
+.post-image-grid.layout-grid-2x2 {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 200px 200px;
+}
+
+/* Generic img box */
+.post-image-grid .img-box { position: relative; overflow: hidden; width: 100%; height: 100%; }
+.post-image-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.image-overlay { position:absolute; inset:0; background: rgba(0,0,0,0.5); color:#fff; display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:700; }
+
+/* Lightbox item tweaks (display long images correctly + side borders + bottom separator) */
+.lightbox-item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  border-left: 2px solid #000;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #fff;
+  margin-bottom: 0;
+}
+.lightbox-item:last-child { border-bottom: none; }
+.lightbox-image { width: 100%; height: auto; max-height: none; object-fit: contain; display:block; }
+
+/* --- TRANG TRÍ LAYOUT SELECTOR --- */
+.layout-preview-box {
+  border: 2px solid #e5e7eb; /* Màu viền mặc định nhạt */
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background: #fff;
+  opacity: 0.8;
+  position: relative;
+  overflow: hidden;
+}
+
+.layout-preview-box:hover {
+  border-color: #b0b3b8;
+  transform: translateY(-2px);
+  opacity: 1;
+}
+
+/* Trạng thái được chọn */
+.layout-preview-box.selected {
+  border-color: var(--primary-color);
+  background-color: var(--secondary-color);
+  opacity: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.layout-preview-box.selected p {
+  color: var(--primary-dark);
+  font-weight: 800 !important;
+}
+
+/* Icon check mark khi chọn (trang trí thêm) */
+.layout-preview-box.selected::after {
+  content: "\F26E"; /* Bootstrap icon check code */
+  font-family: "bootstrap-icons";
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: var(--primary-color);
+  color: white;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Phần hiển thị các ô vuông mô phỏng */
+.layout-grid-visual {
+  display: grid;
+  gap: 3px;
+  height: 60px; /* Chiều cao cố định cho khung review */
+  width: 100%;
+  margin-bottom: 6px;
+  pointer-events: none;
+}
+
+.layout-grid-visual div {
+  background-color: #d1d5db; /* Màu xám của các ô ảnh giả lập */
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.layout-preview-box.selected .layout-grid-visual div {
+  background-color: var(--primary-color); /* Đổi màu ô ảnh khi được chọn */
+  opacity: 0.6;
+}
+
+/* --- TRANG TRÍ THEME SELECTOR (Profile) --- */
+.theme-option {
+  height: 20px; /* Bắt buộc phải có chiều cao */
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.theme-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Trạng thái đang được chọn */
+.theme-option.selected {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* --- CÁC KIỂU GRID CỤ THỂ --- */
+
+/* Lưới 2x2 (Đều nhau) */
+.layout-grid-visual.visual-2x2 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+/* 1 Ngang (Trên to, dưới nhỏ) */
+.layout-grid-visual.visual-1-wide {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1.6fr 1fr; /* Tỷ lệ hàng trên to hơn */
+}
+.layout-grid-visual.visual-1-wide div:first-child {
+  grid-column: span 2;
+}
+
+/* 1 Dọc (Trái to, phải nhỏ) */
+.layout-grid-visual.visual-1-tall {
+  grid-template-columns: 1.6fr 1fr; /* Tỷ lệ cột trái to hơn */
+  grid-template-rows: 1fr 1fr;
+}
+.layout-grid-visual.visual-1-tall div:first-child {
+  grid-row: span 2;
+}
+
+/* -----------------------
+   Pull-to-refresh (PTR) optimized
+   ----------------------- */
+.ptr-element {
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: height 0.2s ease;
+  z-index: 10;
+  background-color: transparent;
+}
+.ptr-element.ptr-loading { height: 60px; }
+.ptr-element.is-pulling { transition: none; }
+
+.ptr-content {
+  padding-bottom: 15px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+#ptr-text { display: none; }
+.ptr-element.is-pulling .ptr-content,
+.ptr-element.ptr-loading .ptr-content { opacity: 1; }
+
+.ptr-circle-svg { width: 30px; height: 30px; transform: rotate(-90deg); }
+.ptr-circle-bg { stroke: #e5e7eb; stroke-width: 3; fill: none; }
+.ptr-circle-progress { stroke: red; stroke-width: 3; fill: none; stroke-linecap: round; stroke-dasharray: 76; stroke-dashoffset: 76; transition: stroke-dashoffset 0.1s, stroke 0.3s; }
+.ptr-loading .ptr-circle-progress { stroke: #006b68; }
+.ptr-loading .ptr-circle-svg { animation: ptr-spin 0.6s linear infinite; transform-origin: center; }
+@keyframes ptr-spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+
+/* -----------------------
+   Compact feed visual tweaks
+   ----------------------- */
+.post-author-name { font-size: 16.5px; font-weight: 600; color: #000; line-height: 1.2; }
+.post-timestamp { font-size: 12.5px; color: #65676B; font-weight: 400; }
+.post-content-text { font-size: 14px; line-height: 1.55; color: #050505; white-space: pre-wrap; margin: 6px 0 10px 15px; }
+
+/* Post card tweaks for white background feed */
+.post-card {
+  box-shadow: none;
+  border-bottom: 8px solid #f0f2f5;
+  border-radius: 0;
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* Drag handles / size toggle (shown only in edit mode) */
+.drag-handle,
+.size-toggle { position: absolute; display: none; align-items:center; justify-content:center; z-index:10; }
+.layout-edit-mode .drag-handle,
+.layout-edit-mode .size-toggle { display: flex; }
+
+/* Stats container responsive columns */
+.stats-container { display:grid; grid-template-columns:1fr; gap:1rem; }
+.stats-container.two-columns { grid-template-columns: 1fr 1fr; gap:0.75rem; }
+
+/* --- HASHTAG SYSTEM --- */
+/* --- HASHTAG SYSTEM (FACEBOOK STYLE) --- */
+.hashtag {
+  color: #1877F2; /* Màu xanh Facebook */
+  font-weight: 500; /* Giảm độ đậm một chút cho giống FB */
+  cursor: pointer;
+  text-decoration: none;
+  background-color: transparent; /* FB không có màu nền cho tag trong bài viết */
+  transition: all 0.2s;
+}
+
+.hashtag:hover {
+  text-decoration: underline;
+  background-color: rgba(24, 119, 242, 0.1); /* Hover mới hiện nền nhẹ */
+  border-radius: 2px;
+}
+
+/* Khu vực Trending (Chip) */
+.trending-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: #EBF5FF; /* Nền xanh rất nhạt */
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #1877F2; /* Chữ xanh */
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.trending-tag-chip:hover, .trending-tag-chip.active {
+  background: #1877F2;
+  color: white;
+  border-color: #1877F2;
+}
+
+/* Thanh trạng thái đang lọc */
+#active-filter-bar {
+  background: #F0F2F5;
+  color: #050505;
+  padding-top: 10px;
+}
+/* Spinner khi đang tải thêm hashtag từ server */
+.hashtag-loader {
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.9rem;
+  background: transparent;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* End of optimized.css */
+
 	  </style>
 	  <style>@view-transition { navigation: auto; }</style>
-	  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
 	 </head>
 	 <body class="h-100">
 	  <div id="app">
 	  <header class="app-header">
 		<div class="d-flex align-items-center justify-content-between">
 		 <div>
-		  <h5 id="app-title" class="mb-0 fw-bold">Love Story</h5><!-------small id="welcome-message" class="opacity-75">Lưu giữ kỷ niệm đẹp</small----->
+		  <h5 id="app-title" class="mb-0 fw-bold">Love Story</h5>
 		 </div>
 		 <div class="d-flex align-items-center gap-3"><button class="btn btn-link text-white p-0 position-relative" id="notification-btn"> <i class="bi bi-bell-fill fs-4"></i> <span id="notification-badge" class="position-absolute badge rounded-pill bg-danger d-none" style="font-size: 0.65rem; top: -5px; right: -8px;">0</span> </button> <button class="btn btn-link text-white p-0" id="profile-btn">
 		   <div class="avatar-circle">
@@ -991,13 +691,21 @@ body, #app {
 		</div>
 	   
 	   <div id="tab-feed" class="tab-pane h-100 d-none">
-		<div class="container pt-2 pb-5" id="posts-container">
-		  <div class="text-center py-5"><i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
-		   <p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
-		   <p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
-		  </div>
-		 </div>
+    
+		<div id="active-filter-bar" class="d-none fade-in">
+				<span class="fw-bold theme-text-primary">
+					<i class="bi bi-hash me-1"></i>Đang lọc: <span id="current-filter-name">#tag</span>
+				</span>
+				<button class="btn btn-sm btn-outline-danger rounded-pill" onclick="clearHashtagFilter()">
+					<i class="bi bi-x-lg"></i> Bỏ lọc
+				</button>
+			</div>
+
+
+			<div class="container pt-2 pb-5" id="posts-container">
+				</div>
 		</div>
+
 		<div id="tab-home" class="tab-pane h-100">
 		 <div class="container pt-2 pb-5">
 		  <div id="stats-container" class="stats-container"></div>
@@ -1360,7 +1068,7 @@ body, #app {
 		   <div id="image-preview-container" class="d-none mb-3">
 			<div class="d-flex justify-content-between align-items-center mb-2"><span class="text-muted"><span id="image-count">0</span> ảnh</span> <button class="btn btn-sm btn-outline-danger" id="clear-all-images"> <i class="bi bi-trash"></i> Xóa tất cả </button>
 			</div>
-			<div id="images-preview-grid" class="row g-2"></div>
+			<div id="images-preview-grid" class="mt-2"></div>
 		   </div>
 		   
 		   <div id="image-options" class="d-none mb-2 d-flex justify-content-end border-bottom pb-2">
@@ -1370,34 +1078,34 @@ body, #app {
 				</div>
 			</div>
 
-			<div id="layout-selector" class="d-none mb-3">
-				<label class="form-label fw-bold mb-2 small text-muted text-uppercase">Chọn bố cục hiển thị</label>
+			<div id="layout-selector" class="d-none mb-3 fade-in">
+				<div class="d-flex align-items-center justify-content-between mb-2">
+					<p class="form-label fw-bold small text-muted text-uppercase mb-0">
+						<i class="bi bi-grid-1x2 me-1"></i>Chọn bố cục
+					</p>
+					<span class="badge bg-light text-secondary border">Tự động đề xuất</span>
+				</div>
 				
 				<div class="row g-2">
 					<div class="col-4">
-						<div class="layout-preview-box p-1" data-layout="grid-2x2">
-							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
+						<div class="layout-preview-box p-2 text-center" data-layout="grid-2x2">
+							<div class="layout-grid-visual visual-2x2">
 								<div></div><div></div><div></div><div></div>
-							</div>
-							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">Lưới 2x2</p>
+							</div> 
 						</div>
 					</div>
 					
 					<div class="col-4">
-						<div class="layout-preview-box p-1" data-layout="1-wide">
-							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-								<div style="grid-column: span 2;"></div><div></div><div></div>
-							</div>
-							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">1 Ngang</p>
+						<div class="layout-preview-box p-2 text-center" data-layout="1-wide">
+							<div class="layout-grid-visual visual-1-wide">
+								<div></div><div></div><div></div> </div> 
 						</div>
 					</div>
 
 					<div class="col-4">
-						<div class="layout-preview-box p-1" data-layout="1-tall">
-							<div class="layout-grid-visual small-visual" style="grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;">
-								<div style="grid-row: span 2;"></div><div></div><div></div>
-							</div>
-							<p class="text-center small fw-semibold mt-1 mb-0" style="font-size: 0.7rem;">1 Dọc</p>
+						<div class="layout-preview-box p-2 text-center" data-layout="1-tall">
+							<div class="layout-grid-visual visual-1-tall">
+								<div></div><div></div><div></div> </div> 
 						</div>
 					</div>
 				</div>
@@ -1464,7 +1172,7 @@ body, #app {
 	  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 	  <script>
 		// --- CẤU HÌNH KẾT NỐI ---
-		const API_URL = 'https://script.google.com/macros/s/AKfycbwQo45DmEuJbgjgeWQ4hBRxjco-qhqv0dEr2dK9Oivecgw7dvZnJDmXITeX_HUqAauHeQ/exec';
+		const API_URL = 'https://script.google.com/macros/s/AKfycbwVyxElxxqgmxn_x0-kCmO78zuaypzzW2SoOdL2xXW6y9o8Kf1NuDtZYN6GhIOv_-uabg/exec';
 		
 		let userFingerprint = null;
 
@@ -3353,7 +3061,7 @@ body, #app {
 						${statusBadge}
 					</div>
 					
-					${post.content ? `<div class="post-content-text">${post.content}</div>` : ''}
+					${post.content ? `<div class="post-content-text">${processTextWithHashtags(post.content)}</div>` : ''}
 					${renderPostImages(images, post.layout || 'grid-2x2')}
 					
 					<div class="d-flex gap-4 my-2" style="margin-left: 15px !important;">
@@ -5411,56 +5119,58 @@ body, #app {
 		// [SỬA LẠI] Hàm tải Feed hỗ trợ chế độ làm mới ngầm (Background Refresh)
 		async function loadFeedData(page = 1, isBackgroundRefresh = false) {
 			const container = document.getElementById('posts-container');
-			
-			// Chặn gọi trùng lặp
 			if (feedLoading) return;
 			feedLoading = true;
 
-			// [LOGIC MỚI] UI Loading: 
-			// Chỉ hiện Spinner to giữa màn hình nếu ĐÂY KHÔNG PHẢI LÀ LÀM MỚI NGẦM
-			// (Tức là lần đầu tiên mở app thì hiện, còn kéo tay để refresh thì không hiện)
+			// UI Loading
 			if (page === 1 && !isBackgroundRefresh) {
-				// Thay đoạn HTML cũ bằng đoạn này
 				container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
 			}
 
 			try {
-				// Gọi Server
-				const res = await sendToServer({ 
+				// --- [SỬA ĐOẠN NÀY] ---
+				const payload = { 
 					action: 'get_feed', 
 					page: page, 
 					limit: 10,
-					username: currentProfile ? currentProfile.username : '' // <--- THÊM DÒNG NÀY
-				});
+					username: currentProfile ? currentProfile.username : ''
+				};
+
+				// Nếu đang có filter hashtag, gửi kèm lên server
+				if (currentHashFilter) {
+					payload.hashtag = currentHashFilter;
+				}
+				
+				// Gọi Server
+				const res = await sendToServer(payload);
+				// ----------------------
 
 				if (res.status === 'success') {
-					// [QUAN TRỌNG] Khi dữ liệu đã về thành công, lúc này mới thay thế dữ liệu cũ
 					if (page === 1) {
-						serverFeedData = res.data; // Gán đè toàn bộ dữ liệu mới
+						serverFeedData = res.data;
 					} else {
 						serverFeedData = serverFeedData.concat(res.data);
 					}
-					
 					feedHasMore = res.hasMore;
-					
-					// Hàm này sẽ tự động xóa HTML cũ và vẽ HTML mới ngay lập tức
-					// Tạo cảm giác "nháy" màn hình mượt mà
 					renderPostsPaged(res.data, page);
-				} else {
-					// Nếu lỗi server và đang refresh, giữ nguyên bài cũ, chỉ báo toast
-					if (isBackgroundRefresh) {
-						showToast('Không tải được tin mới');
-					} else if (page === 1) {
-						container.innerHTML = '<div class="text-center py-5 text-danger">Lỗi tải dữ liệu</div>';
+					
+					// [Quan trọng] Nếu đang lọc mà server trả về rỗng
+					if (page === 1 && res.data.length === 0) {
+						 container.innerHTML = `<div class="text-center py-5 text-muted">
+							<i class="bi bi-search" style="font-size: 2rem;"></i>
+							<p class="mt-2">Không tìm thấy bài nào với tag <b>${currentHashFilter}</b></p>
+						 </div>`;
 					}
+
+					// Chỉ render trending khi KHÔNG lọc (để giữ danh sách top tag)
+					if (!currentHashFilter) renderTrendingTags();
+				} else {
+					 // Xử lý lỗi...
+					 if(page === 1 && !isBackgroundRefresh) container.innerHTML = '<div class="text-center py-5">Lỗi tải dữ liệu</div>';
 				}
 			} catch (e) {
 				console.error(e);
-				if (isBackgroundRefresh) {
-					showToast('Lỗi kết nối mạng');
-				} else if (page === 1) {
-					container.innerHTML = '<div class="text-center py-5 text-muted">Không có kết nối mạng</div>';
-				}
+				if(page === 1 && !isBackgroundRefresh) container.innerHTML = '<div class="text-center py-5">Lỗi kết nối</div>';
 			} finally {
 				feedLoading = false;
 			}
@@ -6166,6 +5876,169 @@ body, #app {
 				container.innerHTML = '<p class="text-center text-muted py-5">Lỗi kết nối</p>';
 			}
 		}
+		
+		// --- HASHTAG LOGIC START ---
+
+		let currentHashFilter = null; // Biến lưu tag đang lọc
+
+		// Hàm 1: Convert text thường thành text có link hashtag
+		function processTextWithHashtags(text) {
+			if (!text) return '';
+			// Regex tìm hashtag (hỗ trợ tiếng Việt)
+			// Cấu trúc: # + (chữ cái/số/gạch dưới)
+			return text.replace(/(^|\s)(#[\w\p{L}]+)/gu, '$1<span class="hashtag" onclick="filterByHashtag(\'$2\')">$2</span>');
+		}
+
+		// Hàm 2: Thống kê Hashtag từ dữ liệu feed
+		function renderTrendingTags() {
+			if (!serverFeedData || serverFeedData.length === 0) return;
+
+			const tagCounts = {};
+			
+			// Quét toàn bộ bài viết để đếm tag
+			serverFeedData.forEach(post => {
+				if (!post.content) return;
+				// Tìm tất cả các tag trong nội dung
+				const matches = post.content.match(/#[\w\p{L}]+(?=\s|$)/gu);
+				if (matches) {
+					matches.forEach(tag => {
+						const cleanTag = tag.trim(); // Bỏ khoảng trắng thừa
+						tagCounts[cleanTag] = (tagCounts[cleanTag] || 0) + 1;
+					});
+				}
+			});
+
+			// Chuyển thành mảng và sắp xếp giảm dần theo số lượng
+			const sortedTags = Object.entries(tagCounts)
+				.sort((a, b) => b[1] - a[1]) // Sắp xếp count giảm dần
+				.slice(0, 10); // Lấy top 10
+
+			const container = document.getElementById('trending-tags-container');
+			if (!container) return;
+
+			if (sortedTags.length === 0) {
+				container.style.display = 'none'; // Ẩn nếu không có tag nào
+				return;
+			} else {
+				container.style.display = 'flex';
+			}
+
+			// Render HTML
+			container.innerHTML = sortedTags.map(([tag, count]) => `
+				<div class="trending-tag-chip" onclick="filterByHashtag('${tag}')">
+					${tag} <span class="ms-1 badge bg-secondary rounded-pill" style="font-size: 0.6rem;">${count}</span>
+				</div>
+			`).join('');
+		}
+
+		// Hàm 3: Thực hiện lọc bài viết
+		function filterByHashtag(tag) {
+			// 1. Lưu trạng thái
+			currentHashFilter = tag;
+			
+			// 2. Hiện thanh thông báo
+			document.getElementById('active-filter-bar').classList.remove('d-none');
+			document.getElementById('current-filter-name').textContent = tag;
+			
+			const container = document.getElementById('posts-container');
+			container.innerHTML = ''; // Xóa trắng màn hình cũ
+
+			// 3. LỌC CLIENT: Lấy ngay bài có sẵn trong máy
+			const localMatches = serverFeedData.filter(post => {
+				return post.content && post.content.includes(tag);
+			});
+
+			// 4. Render bài Client ngay lập tức
+			if (localMatches.length > 0) {
+				const html = localMatches.map(post => createPostHtml(post)).join('');
+				container.insertAdjacentHTML('beforeend', html);
+			} 
+
+			// 5. Hiện Spinner "Đang tìm thêm..." ở dưới cùng
+			const loaderHtml = `
+				<div id="hashtag-server-loader" class="hashtag-loader">
+					<div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+					Đang tìm thêm các bài cũ hơn...
+				</div>
+			`;
+			container.insertAdjacentHTML('beforeend', loaderHtml);
+			
+			// 6. Ẩn nút Load More mặc định của Feed (để tránh xung đột)
+			const feedLoadMore = document.getElementById('feed-load-more');
+			if(feedLoadMore) feedLoadMore.style.display = 'none';
+
+			// Scroll lên đầu
+			document.querySelector('.main-content').scrollTop = 0;
+
+			// 7. GỌI SERVER (Bước xử lý tiếp theo)
+			// Truyền danh sách ID đã hiển thị để server (hoặc client) biết đường loại trừ
+			const existingIds = localMatches.map(p => p.__backendId);
+			loadServerHashtagResults(tag, existingIds);
+		}
+
+		// Hàm 4: Hủy lọc
+		function clearHashtagFilter() {
+			currentHashFilter = null;
+			document.getElementById('active-filter-bar').classList.add('d-none');
+			
+			// Render lại toàn bộ feed gốc
+			renderPosts(); // Hàm cũ của bạn
+		}
+		
+		async function loadServerHashtagResults(tag, existingIds) {
+			try {
+				// Gửi yêu cầu lên server: "Tìm cho tôi bài viết có tag này, lấy nhiều nhiều chút (ví dụ 50 bài)"
+				const res = await sendToServer({
+					action: 'get_feed',
+					page: 1,      // Luôn lấy từ trang 1 của kết quả lọc
+					limit: 50,    // Lấy số lượng lớn để quét được nhiều bài cũ
+					hashtag: tag, // Server sẽ lọc theo cái này
+					username: currentProfile ? currentProfile.username : ''
+				});
+
+				// Xóa Spinner loading
+				const loader = document.getElementById('hashtag-server-loader');
+				if (loader) loader.remove();
+
+				if (res.status === 'success') {
+					const serverPosts = res.data;
+					const container = document.getElementById('posts-container');
+
+					// 8. LỌC TRÙNG: Chỉ lấy những bài Server trả về mả Client CHƯA CÓ
+					const newPosts = serverPosts.filter(p => !existingIds.includes(p.__backendId));
+
+					if (newPosts.length > 0) {
+						// Vẽ thêm bài mới vào dưới cùng
+						const html = newPosts.map(post => createPostHtml(post)).join('');
+						container.insertAdjacentHTML('beforeend', html);
+						
+						// Hiệu ứng báo hiệu có bài mới
+						showToast(`Đã tìm thấy thêm ${newPosts.length} bài cũ`);
+					} else {
+						// Nếu server trả về toàn bài trùng với client
+						if (existingIds.length > 0) {
+							container.insertAdjacentHTML('beforeend', 
+								'<div class="text-center py-4 text-muted small">--- Đã hiển thị hết bài viết ---</div>'
+							);
+						} else {
+							// Trường hợp cả Client và Server đều không có bài nào
+							container.innerHTML = `<div class="text-center py-5 text-muted">
+								<i class="bi bi-search" style="font-size: 2rem;"></i>
+								<p class="mt-2">Không tìm thấy bài viết nào chứa tag <b>${tag}</b></p>
+							</div>`;
+						}
+					}
+				}
+			} catch (e) {
+				console.error(e);
+				const loader = document.getElementById('hashtag-server-loader');
+				if (loader) {
+					loader.innerHTML = '<span class="text-danger">Lỗi tải thêm dữ liệu</span>';
+				}
+			}
+		}
+
+		// --- HASHTAG LOGIC END ---
 
 		// KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
 		setInterval(runBackgroundSync, 60000);
