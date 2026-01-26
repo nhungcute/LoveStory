@@ -1,5 +1,12 @@
 [
   {
+    "timestamp": "2026-01-26T09:43:23.289Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1768793374695",
+    "saved": true
+  },
+  {
     "timestamp": "2026-01-19T07:36:53.417Z",
     "action": "Quản lý vàng",
     "details": "Thêm giao dịch sell (SL: 2 chỉ)",
