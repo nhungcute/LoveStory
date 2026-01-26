@@ -5201,7 +5201,7 @@
                   }
                   const file = item;
                   const qualityText = isHD ? "HD" : "SD";
-                  updatePostStatus(tempId, `Send ${i + 1}/${imagesToProcess.length} (${qualityText})...`);
+                  updatePostStatus(tempId, `Send ${i + 1}/${imagesToProcess.length} (${qualityText})`);
       
                   if (isHD) {
                      if (i > 0) await new Promise(r => setTimeout(r, 500));
