@@ -491,16 +491,32 @@
 		 
 
 /* 5. Tinh chỉnh từng ảnh trong danh sách */
+/* 5. Tinh chỉnh từng ảnh trong danh sách */
 .lightbox-item {
     position: relative;
     width: 100%;
-    /* Min-height để căn giữa nếu ảnh nhỏ */
-    min-height: 100%; 
+    min-height: auto !important; /* Để chiều cao co giãn theo ảnh */
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 5px; /* Khe hở nhỏ giữa các ảnh */
     background: #000;
+
+    /* --- CẤU HÌNH MỚI THEO YÊU CẦU --- */
+    
+    /* 1. Viền đen 2px ở 2 bên trái/phải */
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+
+    /* 2. Đường kẻ trắng 2px ở dưới để ngăn cách */
+    border-bottom: 2px solid #fff;
+    
+    /* Xóa margin cũ vì giờ ta dùng border để tạo khoảng cách */
+    margin-bottom: 0 !important;
+}
+
+/* 3. Xóa đường kẻ trắng ở ảnh cuối cùng (để phía dưới cùng không bị thừa vạch trắng) */
+.lightbox-item:last-child {
+    border-bottom: none;
 }
 
 /* Ảnh hiển thị */
@@ -852,13 +868,12 @@ body, #app {
 
 /* 4. Nội dung bài viết */
 .post-content-text {
-    font-size: 15.5px !important;
+    font-size: 14px !important;
     line-height: 1.55 !important;
     color: #050505 !important;
     white-space: pre-wrap; /* Giữ xuống dòng */
     margin-bottom: 10px;
     margin-top: 6px;
-	
 	margin-left: 15px !important;
 }
 
