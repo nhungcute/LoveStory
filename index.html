@@ -739,6 +739,77 @@
 		font-weight: normal !important; /* Bỏ in đậm (ghi đè class fw-semibold) */
 		font-size: 13px !important;     /* Cố định cỡ chữ 13px */
 	}
+
+/* --- CSS CHO THÔNG BÁO & SWIPE --- */
+
+/* 1. Chấm đỏ thông báo (Bị thiếu trước đây) */
+.notification-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #dc3545; /* Màu đỏ */
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* 2. Container cho hiệu ứng vuốt */
+.notification-swipe-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #dee2e6;
+    background-color: #fff; /* Đảm bảo nền wrapper là trắng */
+}
+
+/* 3. Phần nội dung chính (Sẽ trượt sang trái) */
+.notification-content-box {
+    position: relative;
+    background: #fff;
+    z-index: 10;
+    transition: transform 0.2s ease-out;
+    width: 100%;
+    box-shadow: -1px 0 0 0 #fff; 
+}
+/* Màu nền khi chưa đọc (Cập nhật cả shadow để che viền) */
+.notification-content-box.unread {
+    background-color: #e7f3ff;
+    box-shadow: -1px 0 0 0 #e7f3ff; 
+}
+/* 4. Khu vực chứa 3 nút thao tác (Nằm chìm bên dưới) */
+.notification-actions {
+    position: absolute; 
+    top: 1px;
+    bottom: 1px;
+    right: 0;    
+    display: flex;
+    z-index: 0;  
+    opacity: 0;  
+    transition: opacity 0.2s; 
+}
+/* Class này sẽ được JS thêm vào khi bắt đầu chạm tay */
+.notification-actions.active {
+    opacity: 1;
+}
+/* Style chung cho các nút vuốt */
+.notif-action-btn {
+    width: 60px;
+    height: 100%;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.notif-action-btn i {
+    font-size: 1.3rem !important;  
+}
+
+.btn-mark-read { background-color: #096f40; }   /* Xanh lá: Đã đọc */
+.btn-mark-unread { background-color: #0768f5;} /* Vàng: Chưa đọc */
+.btn-delete-swipe { background-color: #ff1f34; } /* Đỏ: Xóa */
+
       /* End of optimized.css */
     </style>
     <style>@view-transition { navigation: auto; }</style>
@@ -1281,7 +1352,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       // --- CẤU HÌNH KẾT NỐI ---
-      const API_URL = 'https://script.google.com/macros/s/AKfycbwVyxElxxqgmxn_x0-kCmO78zuaypzzW2SoOdL2xXW6y9o8Kf1NuDtZYN6GhIOv_-uabg/exec';
+      const API_URL = 'https://script.google.com/macros/s/AKfycbyweVlTQnOjUOObcG1QHB31VkYyPd0YoZFod1PwZ63cC8oFKCOEs9gzB9CWg-DWxjv5NQ/exec';
       
       let userFingerprint = null;
       
@@ -1507,12 +1578,16 @@
       let currentCommentContent = '';
       let commentOptionsModal = new bootstrap.Modal(document.getElementById('commentOptionsModal'));
       let editCommentContentModal = new bootstrap.Modal(document.getElementById('editCommentContentModal'));
-      
+       
       // Trong hàm initApp hoặc (async () => { ... })();
       // Thêm dòng này vào phần khởi tạo:
       imageViewerModal = new bootstrap.Modal(document.getElementById('imageViewerModal'));
       // --- BIẾN QUẢN LÝ TIẾN TRÌNH UPLOAD ---
-      
+      // --- LOGIC XỬ LÝ VUỐT (SWIPE) & CLICK THÔNG MINH ---
+	let touchStartX = 0;
+	let currentSwipedId = null; 
+	let isSwiping = false; // Biến cờ để chặn click nhầm khi đang vuốt
+
       // Lắng nghe sự kiện tắt trình duyệt/tab
       window.addEventListener('beforeunload', (e) => {
          if (pendingTasksCount > 0) {
@@ -1859,6 +1934,7 @@
             isRead: false,
             createdAt: new Date().toISOString()
          });
+		
       }
       
       function updateAvatarDisplays() {
@@ -3611,113 +3687,41 @@
       // --- XỬ LÝ THÔNG BÁO (NOTIFICATIONS) ---
       
       // 1. Nút Đánh dấu tất cả đã đọc
-      document.getElementById('mark-all-read').addEventListener('click', async () => {
-         // 1. OPTIMISTIC UPDATE (Cập nhật giao diện ngay lập tức)
-         const badges = document.querySelectorAll('.notification-item.unread');
-         badges.forEach(el => {
-            el.classList.remove('unread');
-            // Tìm và xóa chấm đỏ
-            const dot = el.querySelector('.notification-dot');
-            if (dot) dot.remove();
-         });
-      
-         // Ẩn badge đỏ trên header
-         document.getElementById('notification-badge').classList.add('d-none');
-      
-         // Thông báo cho người dùng cảm thấy nhanh
-         showToast('Đã đánh dấu tất cả đã đọc');
-      
-         // 2. BACKGROUND SYNC (Gửi lệnh lên server chạy ngầm)
-         try {
-            await sendToServer({
-               action: 'notification_action',
-               type: 'mark_all_read'
-            });
-            // Không cần làm gì thêm nếu thành công vì giao diện đã xong rồi
-         } catch (e) {
-            console.error("Lỗi sync:", e);
-            // Nếu lỗi quá nghiêm trọng mới cần báo, còn không thì bỏ qua để trải nghiệm mượt
-         }
-      });
+		document.getElementById('mark-all-read').addEventListener('click', async () => {
+			// [SỬA] Chọn đúng class mới là .notification-content-box
+			const unreadItems = document.querySelectorAll('.notification-content-box.unread');
+			
+			unreadItems.forEach(el => {
+			   // 1. Bỏ class unread (để đổi màu nền)
+			   el.classList.remove('unread');
+			   
+			   // 2. Tìm và xóa chấm đỏ bên trong
+			   const dot = el.querySelector('.notification-dot');
+			   if (dot) dot.remove();
+			});
+		 
+			// 3. Ẩn số đỏ trên thanh Header
+			const badge = document.getElementById('notification-badge');
+			if (badge) badge.classList.add('d-none');
+		 
+			showToast('Đã đánh dấu tất cả đã đọc');
+		 
+			// 4. Gửi lên Server (Giữ nguyên)
+			try {
+			   await sendToServer({
+				  action: 'notification_action',
+				  type: 'mark_all_read'
+			   });
+			} catch (e) {
+			   console.error("Lỗi sync:", e);
+			}
+		 });
       
       // 2. Nút Xóa tất cả thông báo
       document.getElementById('clear-all-notifications').addEventListener('click', async () => {
          showDeleteConfirm('Bạn có chắc muốn xóa sạch lịch sử thông báo không?', null, 'all-notifications');
       });
-      
-      document.getElementById('notifications-list').addEventListener('click', async (e) => {
-         // 1. XỬ LÝ TOGGLE TRẠNG THÁI (Đọc <-> Chưa đọc)
-         const notifItem = e.target.closest('.notification-item');
-      
-         // Chỉ xử lý nếu click vào item và KHÔNG phải click vào nút xóa
-         if (notifItem && !e.target.closest('.delete-notification')) {
-            const notifId = notifItem.dataset.id;
-      
-            // Kiểm tra trạng thái hiện tại trên giao diện
-            const isCurrentlyUnread = notifItem.classList.contains('unread');
-      
-            // Logic mới: Nếu đang "Chưa đọc" -> Thành "Đã đọc" (True)
-            //            Nếu đang "Đã đọc"   -> Thành "Chưa đọc" (False)
-            const nextStateIsRead = isCurrentlyUnread;
-      
-            // --- A. OPTIMISTIC UI UPDATE ---
-            if (nextStateIsRead) {
-               // Chuyển thành ĐÃ ĐỌC
-               notifItem.classList.remove('unread');
-               const dot = notifItem.querySelector('.notification-dot');
-               if (dot) dot.remove();
-            } else {
-               // Chuyển thành CHƯA ĐỌC
-               notifItem.classList.add('unread');
-               // Thêm chấm đỏ nếu chưa có
-               if (!notifItem.querySelector('.notification-dot')) {
-                  const flexContainer = notifItem.querySelector('.d-flex');
-                  const dotHtml = `<div class="notification-dot ms-auto me-3" style="flex-shrink: 0;"></div>`;
-                  flexContainer.insertAdjacentHTML('beforeend', dotHtml);
-               }
-            }
-      
-            // --- B. CẬP NHẬT CACHE LOCAL ---
-            const cachedItem = serverNotifications.find(n => n.__backendId === notifId);
-            if (cachedItem) cachedItem.isRead = nextStateIsRead;
-      
-            // --- C. GỬI SERVER (BACKGROUND) ---
-            sendToServer({
-               action: 'notification_action',
-               type: 'toggle_read',
-               id: notifId,
-               status: nextStateIsRead
-            }).catch(err => {
-               console.error("Lỗi toggle:", err);
-               // Có thể revert lại UI ở đây nếu muốn chặt chẽ
-            });
-      
-            return; // Dừng xử lý để không chạy tiếp logic khác
-         }
-      
-         // 2. XỬ LÝ NÚT XÓA 1 THÔNG BÁO (Logic cũ giữ nguyên hoặc update lạc quan tương tự)
-         const deleteBtn = e.target.closest('.delete-notification');
-         if (deleteBtn) {
-            if (!confirm('Xóa thông báo này?')) return;
-      
-            const notifItem = deleteBtn.closest('.notification-item');
-            const notifId = deleteBtn.dataset.id;
-      
-            // Optimistic Remove
-            if (notifItem) {
-               notifItem.style.transition = "opacity 0.3s";
-               notifItem.style.opacity = "0";
-               setTimeout(() => notifItem.remove(), 300);
-            }
-      
-            sendToServer({
-                  action: 'notification_action',
-                  type: 'delete_one',
-                  id: notifId
-               }) // Bạn cần thêm case 'delete_one' ở server nếu chưa có, hoặc dùng logic cũ
-               .catch(console.error);
-         }
-      });
+       
       
       
       // Navigation điều hướng 
@@ -3851,87 +3855,105 @@
       }
       
       // --- HÀM RENDER THÔNG BÁO (ĐÚNG FORMAT & CHẤM ĐỎ) ---
-      function renderNotificationsPaged(newNotifs, container) {
-         if (serverNotifications.length === 0) {
-            container.innerHTML = `
-      				  <div class="text-center py-5">
-      					<i class="bi bi-bell-slash theme-text-primary" style="font-size: 3rem;"></i>
-      					<p class="fw-semibold mt-3">Chưa có thông báo</p>
-      				  </div>
-      				`;
-            return;
-         }
-      
-         const html = newNotifs.map(notif => {
-            // Map Icon
-            const iconMap = {
-               like: 'heart-fill text-danger',
-               comment: 'chat-fill text-primary',
-               memory: 'star-fill text-warning',
-               album: 'folder-fill text-info',
-               system: 'info-circle-fill theme-text-primary',
-               create_post: 'pencil-square text-success',
-               update_post: 'pencil-fill text-warning',
-               delete_post: 'trash-fill text-danger'
-            };
-      
-            let iconClass = iconMap.system;
-            if (notif.action) {
-               if (notif.action.includes('create')) iconClass = iconMap.create_post;
-               else if (notif.action.includes('update')) iconClass = iconMap.update_post;
-               else if (notif.action.includes('delete')) iconClass = iconMap.delete_post;
-               else iconClass = iconMap[notif.action] || iconMap.system;
-            }
-      
-            // Logic chấm đỏ: Chỉ hiện khi chưa đọc
-            // Dùng ms-auto để đẩy sang phải cùng, me-3 để cách nút xóa ra một chút
-            const dotHtml = !notif.isRead ?
-               `<div class="notification-dot ms-auto me-3" style="flex-shrink: 0;"></div>` :
-               `<div class="ms-auto me-3"></div>`; // Div rỗng để giữ layout nếu cần, hoặc bỏ đi
-      
-            return `
-      				  <div class="notification-item p-2 ${notif.isRead ? '' : 'unread'}" data-id="${notif.__backendId}">
-      					<div class="d-flex align-items-center">
-      					  
-      					  <div class="me-3">
-      						<i class="bi bi-${iconClass} fs-4"></i>
-      					  </div>
-      
-      					  <div class="flex-grow-1" style="font-size: 0.75rem; line-height: 1.2;">
-      						<strong>${notif.fullname}</strong> ${notif.title} vào lúc ${notif.formattedTime}
-      						${notif.message ? `<div class="text-muted small text-truncate" style="max-width: 250px;">${notif.message}</div>` : ''}
-      					  </div>
-      
-      					  ${dotHtml}
-      
-      					  </div>
-      				  </div>
-      				`;
-         }).join('');
-      
-         container.insertAdjacentHTML('beforeend', html);
-      
-         // Load More Logic (Giữ nguyên)
-         if (notifHasMore) {
-            const trigger = document.createElement('div');
-            trigger.id = 'notif-load-more';
-            trigger.className = 'py-3 text-center text-muted small cursor-pointer';
-            trigger.innerHTML = '<span>Đang tải thêm...</span>';
-            container.appendChild(trigger);
-      
-            const observer = new IntersectionObserver((entries) => {
-               if (entries[0].isIntersecting && !notifLoading) {
-                  notifPage++;
-                  loadNotifications(notifPage);
-               }
-            }, {
-               threshold: 0.1
-            });
-            observer.observe(trigger);
-         } else if (serverNotifications.length > 5) {
-            container.insertAdjacentHTML('beforeend', '<div class="text-center py-3 text-muted small">--- Hết thông báo ---</div>');
-         }
-      }
+      // --- HÀM RENDER THÔNG BÁO (CÓ SWIPE & DOT ĐỎ) ---
+	function renderNotificationsPaged(newNotifs, container) {
+		if (serverNotifications.length === 0) {
+			container.innerHTML = `
+				<div class="text-center py-5">
+					<i class="bi bi-bell-slash theme-text-primary" style="font-size: 3rem;"></i>
+					<p class="fw-semibold mt-3">Chưa có thông báo</p>
+				</div>`;
+			return;
+		}
+
+		const html = newNotifs.map(notif => {
+			// Map Icon tương ứng loại thông báo
+			const iconMap = {
+				like: 'heart-fill text-danger',
+				comment: 'chat-fill text-primary',
+				memory: 'star-fill text-warning',
+				album: 'folder-fill text-info',
+				system: 'info-circle-fill theme-text-primary',
+				create_post: 'pencil-square text-success',
+				update_post: 'pencil-fill text-warning',
+				delete_post: 'trash-fill text-danger'
+			};
+
+			let iconClass = iconMap.system;
+			if (notif.action) {
+				if (notif.action.includes('create')) iconClass = iconMap.create_post;
+				else if (notif.action.includes('update')) iconClass = iconMap.update_post;
+				else if (notif.action.includes('delete')) iconClass = iconMap.delete_post;
+				else iconClass = iconMap[notif.action] || iconMap.system;
+			}
+
+			// Kiểm tra xem có chấm đỏ không
+			const dotHtml = !notif.isRead ?
+            `<div class="notification-dot ms-auto me-2" style="flex-shrink: 0;"></div>` :
+            `<div class="ms-auto me-2"></div>`;
+
+			const relatedPostId = notif.relatedId || notif.postId || ''; 
+
+			return `
+				<div class="notification-swipe-wrapper" id="notif-wrap-${notif.__backendId}">
+					<div class="notification-actions">
+						<button class="notif-action-btn btn-mark-unread" onclick="handleSwipeAction('${notif.__backendId}', 'unread')">
+							<i class="bi bi-envelope"></i>
+						</button>
+						<button class="notif-action-btn btn-mark-read" onclick="handleSwipeAction('${notif.__backendId}', 'read')">
+							<i class="bi bi-envelope-open"></i>
+						</button>
+						<button class="notif-action-btn btn-delete-swipe" onclick="handleSwipeAction('${notif.__backendId}', 'delete')">
+							<i class="bi bi-trash"></i>
+						</button>
+					</div>
+
+					<div class="notification-content-box p-3 ${notif.isRead ? '' : 'unread'}" 
+						 data-id="${notif.__backendId}" 
+						 data-post-id="${relatedPostId}"
+						 onclick="if(!isSwiping) handleNotificationClick('${notif.__backendId}')"
+						 ontouchstart="handleTouchStart(event, '${notif.__backendId}')"
+						 ontouchmove="handleTouchMove(event)"
+						 ontouchend="handleTouchEnd(event)">
+						
+						<div class="d-flex align-items-center pointer-event-none">
+							<div class="me-3">
+								<i class="bi bi-${iconClass} fs-4"></i>
+							</div>
+							<div class="flex-grow-1" style="font-size: 0.9rem; line-height: 1.3;">
+								<strong>${notif.fullname || 'Hệ thống'}</strong> ${notif.title}
+								<div class="text-muted small">${notif.formattedTime || formatTimeSmart(notif.createdAt)}</div>
+								${notif.message ? `<div class="text-muted small text-truncate" style="max-width: 220px;">${notif.message}</div>` : ''}
+							</div>
+							${dotHtml}
+							<i class="bi bi-chevron-left text-black-50 small ms-2" style="font-size: 0.7rem;"></i>
+						</div>
+					</div>
+				</div>
+			`;
+		}).join('');
+
+		container.insertAdjacentHTML('beforeend', html);
+
+		// Logic Load More (Giữ nguyên của bạn)
+		if (notifHasMore) {
+			const trigger = document.createElement('div');
+			trigger.id = 'notif-load-more';
+			trigger.className = 'py-3 text-center text-muted small cursor-pointer';
+			trigger.innerHTML = '<span>Đang tải thêm...</span>';
+			container.appendChild(trigger);
+
+			const observer = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting && !notifLoading) {
+					notifPage++;
+					loadNotifications(notifPage);
+				}
+			}, { threshold: 0.1 });
+			observer.observe(trigger);
+		} else if (serverNotifications.length > 5) {
+			container.insertAdjacentHTML('beforeend', '<div class="text-center py-3 text-muted small">--- Hết thông báo ---</div>');
+		}
+	}
       
       // Layout Edit Mode
       document.getElementById('enter-layout-edit').addEventListener('click', enterEditMode);
@@ -6362,6 +6384,259 @@
       document.getElementById('successToast').addEventListener('click', function() {
          successToast.hide();
       });
+
+// --- CẬP NHẬT LOGIC VUỐT (Thêm class active để hiện nút) ---
+ 
+// --- XỬ LÝ 3 NÚT: UNREAD / READ / DELETE ---
+async function handleSwipeAction(id, action) {
+    const contentBox = document.querySelector(`#notif-wrap-${id} .notification-content-box`);
+    const wrapBox = document.getElementById(`notif-wrap-${id}`);
+    
+    // Đóng swipe lại trước cho đẹp
+    if(contentBox) contentBox.style.transform = `translateX(0px)`;
+    currentSwipedId = null;
+
+    if (action === 'delete') {
+        if (!confirm('Xóa thông báo này?')) return;
+        
+        // UI Lạc quan: Xóa dòng đó đi
+        if (wrapBox) {
+            wrapBox.style.transition = 'height 0.3s, opacity 0.3s';
+            wrapBox.style.height = '0px';
+            wrapBox.style.opacity = '0';
+            setTimeout(() => wrapBox.remove(), 300);
+        }
+        
+        // Gửi Server
+        await sendToServer({ action: 'notification_action', type: 'delete_one', id: id });
+    } 
+    else if (action === 'read' || action === 'unread') {
+        const isRead = (action === 'read');
+        
+        // UI Lạc quan: Cập nhật màu nền và chấm đỏ
+        if (contentBox) {
+            if (isRead) {
+                contentBox.classList.remove('unread');
+                const dot = contentBox.querySelector('.notification-dot');
+                if (dot) dot.remove();
+            } else {
+                contentBox.classList.add('unread');
+                // Thêm chấm đỏ nếu chưa có
+                if (!contentBox.querySelector('.notification-dot')) {
+                    const flexDiv = contentBox.querySelector('.d-flex');
+                    const dotHtml = `<div class="notification-dot ms-auto me-2" style="flex-shrink: 0;"></div>`;
+                    // Chèn vào trước icon mũi tên (lastChild)
+                    flexDiv.insertBefore(createRange(dotHtml), flexDiv.lastElementChild);
+                }
+            }
+        }
+        
+        // Gửi Server
+        await sendToServer({ action: 'notification_action', type: 'toggle_read', id: id, status: isRead });
+        // Update lại cache cục bộ
+        const cachedItem = serverNotifications.find(n => n.__backendId === id);
+        if(cachedItem) cachedItem.isRead = isRead;
+    }
+}
+
+// Helper tạo DOM từ string
+function createRange(html) {
+    const tpl = document.createElement('template');
+    tpl.innerHTML = html;
+    return tpl.content.firstChild;
+}
+ 
+
+function handleTouchStart(e, id) {
+    touchStartX = e.touches[0].clientX;
+    isSwiping = false; // Reset trạng thái
+    
+    // Hiện nút actions bên dưới
+    const wrap = document.getElementById(`notif-wrap-${id}`);
+    if (wrap) {
+        const actions = wrap.querySelector('.notification-actions');
+        if (actions) actions.classList.add('active');
+    }
+
+    // Đóng item cũ nếu có
+    if (currentSwipedId && currentSwipedId !== id) {
+        const oldWrap = document.getElementById(`notif-wrap-${currentSwipedId}`);
+        if (oldWrap) {
+            const oldContent = oldWrap.querySelector('.notification-content-box');
+            if (oldContent) oldContent.style.transform = `translateX(0px)`;
+            // Ẩn actions cũ
+            const oldActions = oldWrap.querySelector('.notification-actions');
+            if (oldActions) setTimeout(() => oldActions.classList.remove('active'), 200);
+        }
+        currentSwipedId = null;
+    }
+}
+
+function handleTouchMove(e) {
+    const touchCurrentX = e.touches[0].clientX;
+    const diff = touchCurrentX - touchStartX;
+
+    // Nếu vuốt sang trái
+    if (diff < -5) {
+        isSwiping = true; // Đánh dấu là đang vuốt -> Không kích hoạt click
+        const el = e.currentTarget;
+        if (diff > -200) el.style.transform = `translateX(${diff}px)`;
+    }
+}
+
+function handleTouchEnd(e) {
+    const el = e.currentTarget;
+    const notifId = el.getAttribute('data-id');
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchEndX - touchStartX;
+
+    // Nếu chỉ chạm nhẹ (không di chuyển nhiều) -> COI LÀ CLICK
+    if (Math.abs(diff) < 5 && !isSwiping) {
+        // Chặn sự kiện click mặc định của trình duyệt để tránh double-click trên mobile
+        e.preventDefault(); 
+        handleNotificationClick(notifId);
+        
+        // Reset vị trí
+        el.style.transform = `translateX(0px)`;
+        return;
+    }
+
+    // Xử lý Vuốt xong
+    if (diff < -60) { 
+        el.style.transform = `translateX(-180px)`; // Mở ra
+        currentSwipedId = notifId;
+    } else {
+        el.style.transform = `translateX(0px)`; // Đóng lại
+        if (currentSwipedId === notifId) currentSwipedId = null;
+    }
+    
+    // Reset biến sau 1 chút
+    setTimeout(() => { isSwiping = false; }, 100);
+}
+
+	// --- HÀM CLICK: ĐỌC THÔNG BÁO & MỞ BÀI VIẾT (ĐÃ KIỂM TRA LOGIC) ---
+	// --- HÀM CLICK: ĐỌC THÔNG BÁO & MỞ BÀI VIẾT (ĐÃ FIX LỖI KHÔNG CHUYỂN TRANG) ---
+async function handleNotificationClick(notifId) {
+    console.log("Click notif:", notifId);
+
+    // 1. Tìm phần tử trong DOM để lấy thông tin
+    const el = document.querySelector(`#notif-wrap-${notifId} .notification-content-box`);
+    
+    // Lấy ID bài viết từ data attribute
+    const postId = el ? el.getAttribute('data-post-id') : null;
+    console.log("Target Post ID:", postId);
+
+    // 2. UI LẠC QUAN: Đánh dấu là đã đọc ngay lập tức (đổi màu nền)
+    if (el && el.classList.contains('unread')) {
+        handleSwipeAction(notifId, 'read');
+    }
+
+    // 3. KIỂM TRA DỮ LIỆU:
+    // Nếu không có ID bài viết (ví dụ thông báo hệ thống, hoặc lỗi dữ liệu)
+    if (!postId || postId === 'undefined' || postId === 'null' || postId === '') {
+        // [QUAN TRỌNG] Báo cho người dùng biết thay vì im lặng
+        // Nếu là thông báo hệ thống bình thường thì không cần báo, nhưng để debug thì cứ hiện toast
+        // showToast('Thông báo này không có liên kết bài viết'); 
+        return;
+    }
+
+    // --- BẮT ĐẦU QUY TRÌNH MỞ BÀI VIẾT ---
+
+    // A. ĐÓNG MODAL THÔNG BÁO (Dùng cách mạnh nhất để đảm bảo đóng được)
+    const modalEl = document.getElementById('notificationsModal');
+    const modalInstance = bootstrap.Modal.getInstance(modalEl);
+    if (modalInstance) {
+        modalInstance.hide();
+    } else {
+        // Fallback nếu chưa lấy được instance
+        new bootstrap.Modal(modalEl).hide();
+    }
+    
+    // Xóa backdrop (màn hình đen) thủ công nếu nó bị kẹt
+    document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
+    document.body.classList.remove('modal-open');
+    document.body.style = '';
+
+    // B. CHUYỂN TAB SANG BẢNG TIN (FEED)
+    const feedTabBtn = document.querySelector('[data-tab="feed"]');
+    if (feedTabBtn) {
+        feedTabBtn.click();
+    }
+
+    // C. TÌM VÀ CUỘN TỚI BÀI VIẾT
+    // Delay 300ms để đảm bảo Modal đã đóng và Tab Feed đã hiện ra
+    setTimeout(async () => {
+        let postEl = document.getElementById(`post-${postId}`);
+        
+        if (postEl) {
+            // TRƯỜNG HỢP 1: Bài viết ĐANG CÓ trên màn hình -> Cuộn tới
+            console.log("Bài viết đã có sẵn, cuộn tới...");
+            postEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            highlightPost(postEl);
+        } else {
+            // TRƯỜNG HỢP 2: Bài viết KHÔNG CÓ (Bài cũ chưa load tới) -> Tải từ Server
+            console.log("Bài viết chưa có, đang tải từ server...", postId);
+            showToast('Đang tải bài viết liên quan...');
+            
+            try {
+                // Gọi API lấy bài viết cụ thể
+                const res = await sendToServer({ 
+                    action: 'get_feed', 
+                    postId: postId, 
+                    page: 1, 
+                    limit: 1 
+                });
+
+                if (res.status === 'success' && res.data && res.data.length > 0) {
+                    const postData = res.data[0];
+                    
+                    // Kiểm tra xem đã có chưa (tránh trùng lặp do mạng lag)
+                    const existIndex = serverFeedData.findIndex(p => p.__backendId === postData.__backendId);
+                    
+                    if (existIndex === -1) {
+                        // Chèn vào đầu danh sách dữ liệu Feed
+                        serverFeedData.unshift(postData);
+                        // Vẽ lại Bảng tin ngay lập tức
+                        renderPosts(); 
+                    }
+
+                    // Đợi 1 chút cho DOM vẽ xong rồi cuộn tới
+                    setTimeout(() => {
+                        const newEl = document.getElementById(`post-${postId}`);
+                        if (newEl) {
+                            newEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            highlightPost(newEl);
+                        } else {
+                             showToast('Không thể hiển thị bài viết');
+                        }
+                    }, 500);
+
+                } else {
+                    showToast('Bài viết này có thể đã bị xóa');
+                }
+            } catch (e) {
+                console.error("Lỗi tải bài viết:", e);
+                showToast('Lỗi kết nối khi tải bài viết');
+            }
+        }
+    }, 300); 
+}
+
+	// Helper: Hiệu ứng nháy sáng bài viết để gây chú ý
+	function highlightPost(element) {
+		// Lưu lại màu nền cũ
+		const originalBg = element.style.backgroundColor;
+		
+		element.style.transition = "box-shadow 0.5s, background-color 0.5s";
+		element.style.boxShadow = "0 0 15px rgba(34, 197, 94, 0.5)"; // Shadow xanh
+		element.style.backgroundColor = "#f0fdf4"; // Nền xanh nhạt
+		
+		// Sau 2 giây thì trả về bình thường
+		setTimeout(() => {
+			element.style.boxShadow = "";
+			element.style.backgroundColor = originalBg || "";
+		}, 2000);
+	}
       
       // KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
       setInterval(runBackgroundSync, 60000);
