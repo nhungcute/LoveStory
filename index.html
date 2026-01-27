@@ -6913,6 +6913,79 @@ async function searchServerSide(query, existingIds, loaderId) {
         }
     }
 }
+// ==========================================================================
+// TÍNH NĂNG: VUỐT TỪ TRÁI SANG ĐỂ ĐÓNG (SWIPE TO BACK)
+// ==========================================================================
+
+(function setupSwipeToClose() {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    
+    // Chỉ kích hoạt nếu vuốt từ vùng mép trái (tạo cảm giác như nút Back)
+    // Ví dụ: 50px từ mép trái màn hình
+    const EDGE_ZONE = 50; 
+    
+    // Khoảng cách tối thiểu để tính là vuốt
+    const MIN_SWIPE_DISTANCE = 100;
+
+    document.addEventListener('touchstart', (e) => {
+        // Chỉ xử lý khi có Modal đang mở
+        const openModal = document.querySelector('.modal.show');
+        if (!openModal) return;
+
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, {passive: true});
+
+    document.addEventListener('touchend', (e) => {
+        // Kiểm tra lại xem có modal nào đang mở không
+        const openModal = document.querySelector('.modal.show');
+        if (!openModal) return;
+
+        const touchEndX = e.changedTouches[0].screenX;
+        const touchEndY = e.changedTouches[0].screenY;
+
+        // Tính toán khoảng cách
+        const diffX = touchEndX - touchStartX;
+        const diffY = touchEndY - touchStartY;
+
+        // LOGIC KIỂM TRA ĐIỀU KIỆN ĐÓNG:
+        
+        // 1. Phải là vuốt từ mép trái (để tránh vuốt nhầm khi đang xem ảnh slide ngang)
+        const isFromEdge = touchStartX < EDGE_ZONE;
+
+        // 2. Phải vuốt sang phải (diffX > 0) và đủ xa
+        const isSwipeRight = diffX > MIN_SWIPE_DISTANCE;
+
+        // 3. Phải là vuốt ngang (X) nhiều hơn vuốt dọc (Y) để tránh nhầm với cuộn trang
+        const isHorizontal = Math.abs(diffX) > Math.abs(diffY) * 2;
+
+        if (isFromEdge && isSwipeRight && isHorizontal) {
+            
+            // XỬ LÝ ĐÓNG MODAL
+            // Tìm instance Bootstrap của modal đó để gọi hide() chuẩn
+            const modalInstance = bootstrap.Modal.getInstance(openModal);
+            if (modalInstance) {
+                
+                // (Tùy chọn) Thêm hiệu ứng trượt sang phải cho đẹp trước khi đóng
+                const dialog = openModal.querySelector('.modal-dialog');
+                if(dialog) {
+                    dialog.style.transition = 'transform 0.2s ease-out';
+                    dialog.style.transform = 'translateX(100%)'; // Trượt ra khỏi màn hình
+                }
+
+                // Đợi 200ms cho hiệu ứng chạy xong rồi mới đóng thật (hoặc đóng luôn cũng được)
+                setTimeout(() => {
+                    modalInstance.hide();
+                    // Reset style sau khi đóng để lần sau mở lại không bị lỗi vị trí
+                    setTimeout(() => {
+                         if(dialog) dialog.style.transform = '';
+                    }, 300);
+                }, 150);
+            }
+        }
+    }, {passive: true});
+})();
 
       
       // KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
