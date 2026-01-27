@@ -867,23 +867,47 @@
             <div id="stats-container" class="stats-container"></div>
           </div>
         </div>
-        <div id="tab-albums" class="tab-pane h-100 d-none">
-          <div class="container py-3">
-            <div class="row g-3 pb-5" id="albums-container">
-              <div class="col-12 text-center py-5">
-                <i class="bi bi-folder theme-text-primary" style="font-size: 4rem;"></i>
-                <p class="fw-semibold fs-5 mt-3">Chưa có album</p>
-                <p class="text-muted">Tạo album để sắp xếp ảnh</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div id="tab-search" class="tab-pane h-100 d-none">
+		  <div class="container pt-3 pb-5">
+			<div class="card shadow-sm border-0 mb-3">
+			  <div class="card-body p-2 d-flex align-items-center">
+				<i class="bi bi-search text-muted ms-2 fs-5"></i>
+				<input type="text" id="smart-search-input" class="form-control border-0 shadow-none" placeholder="Hỏi tôi về kỷ niệm...">
+				<button class="btn btn-sm btn-light rounded-circle" id="clear-search" style="display:none;">
+				  <i class="bi bi-x"></i>
+				</button>
+			  </div>
+			</div>
+
+			<div id="search-suggestions" class="d-flex gap-2 overflow-auto pb-2 mb-2 no-scrollbar">
+			  <span class="badge bg-light text-dark border p-2 fw-normal cursor-pointer" onclick="triggerSearch('nhiều like nhất')">❤️ Nhiều like nhất</span>
+			  <span class="badge bg-light text-dark border p-2 fw-normal cursor-pointer" onclick="triggerSearch('sinh nhật')">🎂 Sinh nhật</span>
+			  <span class="badge bg-light text-dark border p-2 fw-normal cursor-pointer" onclick="triggerSearch('thống kê')">📊 Thống kê</span>
+			</div>
+
+			<div id="search-results-area">
+			  <div class="text-center py-5 text-muted">
+				 <i class="bi bi-robot theme-text-primary" style="font-size: 3rem;"></i>
+				 <p class="mt-3">Nhập từ khóa hoặc câu hỏi.<br>Ví dụ: "Hôm nay ăn gì", "Ngày kỷ niệm"...</p>
+			  </div>
+			</div>
+		  </div>
+		</div>
       </main>
       <button class="fab-btn d-none" id="fab-btn"> <i class="bi bi-plus-lg fs-4"></i> </button> 
       <nav class="bottom-nav">
-        <div class="d-flex justify-content-around py-1"><button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center" data-tab="feed"> <i class="bi bi-globe2 fs-4"></i> <small class="fw-semibold">Bảng tin</small> </button> <button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center active" data-tab="home"> <i class="bi bi-house-fill fs-4"></i> <small class="fw-semibold">Home</small> </button> <button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center" data-tab="albums"> <i class="bi bi-folder-fill fs-4"></i> <small class="fw-semibold">Album</small> </button>
-        </div>
-      </nav>
+		  <div class="d-flex justify-content-around py-1">
+			<button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center" data-tab="feed"> 
+			  <i class="bi bi-globe2 fs-4"></i> <small class="fw-semibold">Bảng tin</small> 
+			</button> 
+			<button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center active" data-tab="home"> 
+			  <i class="bi bi-house-fill fs-4"></i> <small class="fw-semibold">Home</small> 
+			</button> 
+			<button class="nav-link border-0 bg-transparent d-flex flex-column align-items-center" data-tab="search"> 
+			  <i class="bi bi-search fs-4"></i> <small class="fw-semibold">Tìm kiếm</small> 
+			</button>
+		  </div>
+		</nav>
       <div class="modal fade" id="notificationsModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
@@ -1352,7 +1376,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       // --- CẤU HÌNH KẾT NỐI ---
-      const API_URL = 'https://script.google.com/macros/s/AKfycbyv32l-ACuyG5I3-8FeZMBvhpcJVkDwNVzaGmHF85-wAUcvfJTGWAosIAq7Nh1Y1NZ17A/exec';
+      const API_URL = 'https://script.google.com/macros/s/AKfycbw0RbtvHworFhx-iVHR_o5rtI-EdGZBgAyDdh1H-US8TuI7JY6DRdbjQRkJdWsJPS5TNA/exec';
       
       let userFingerprint = null;
       
@@ -3754,8 +3778,8 @@
       
             // 3. Xử lý nút FAB (Nút tròn +)
             const fabBtn = document.getElementById('fab-btn');
-            if (currentTab === 'home') fabBtn.classList.add('d-none');
-            else fabBtn.classList.remove('d-none');
+            if (currentTab === 'feed') fabBtn.classList.remove('d-none');
+            else fabBtn.classList.add('d-none');
       
             // 4. [TỐI ƯU] KHÔNG RESET DỮ LIỆU KHI CHUYỂN TAB
             // Chỉ tải lần đầu tiên nếu chưa có dữ liệu
@@ -3764,11 +3788,13 @@
             } else if (currentTab === 'home') {
                // Home thì có thể update nhẹ số liệu nếu muốn
                updateStats();
-            } else if (currentTab === 'albums') {
-               // Album ít thay đổi, chỉ load nếu chưa có
-               const albumsContainer = document.getElementById('albums-container');
-               if (albumsContainer.children.length <= 1) renderAlbums();
-            }
+            } else if (currentTab === 'search') {
+				// Focus vào ô tìm kiếm khi mở tab
+				setTimeout(() => {
+					const input = document.getElementById('smart-search-input');
+					if(input) input.focus();
+				}, 100);
+			}
          });
       });
       
@@ -4159,56 +4185,8 @@
             showToast('Lỗi: ' + result.error.message);
          }
       });
-      
-      // Album Detail
-      document.getElementById('albums-container').addEventListener('click', (e) => {
-         const albumCard = e.target.closest('.album-item');
-         if (albumCard) {
-            currentAlbumId = albumCard.dataset.albumId;
-            const album = allData.find(d => d.__backendId === currentAlbumId);
-            document.getElementById('album-detail-title').textContent = album?.albumName || 'Album';
-            renderAlbumPhotos();
-            albumDetailModal.show();
-         }
-      });
-      
-      document.getElementById('albumDetailModal').addEventListener('hidden.bs.modal', () => {
-         currentAlbumId = null;
-      });
-      
-      document.getElementById('album-image-input').addEventListener('change', async (e) => {
-         if (recordCount >= 999) {
-            showToast('Đã đạt giới hạn 999 mục!');
-            return;
-         }
-      
-         const file = e.target.files[0];
-         if (file && currentAlbumId) {
-            showLoading();
-            const compressed = await compressImage(file);
-            const result = await window.dataSdk.create({
-               type: 'album_photo',
-               albumId: currentAlbumId,
-               imageData: compressed,
-               createdAt: new Date().toISOString()
-            });
-            hideLoading();
-            if (result.isOk) {
-               showToast('Đã thêm ảnh!');
-            } else {
-               showToast('Lỗi: ' + result.error.message);
-            }
-         }
-         e.target.value = '';
-      });
-      
-      document.getElementById('album-photos').addEventListener('click', (e) => {
-         const deleteBtn = e.target.closest('.delete-photo-btn');
-         if (deleteBtn) {
-            e.stopPropagation();
-            showDeleteConfirm('Xóa ảnh này?', deleteBtn.dataset.id, 'photo');
-         }
-      });
+       
+       
       
       // Profile
       document.getElementById('profile-btn').addEventListener('click', () => {
@@ -6690,6 +6668,252 @@ async function handleNotificationClick(notifId) {
 			element.style.backgroundColor = originalBg || "";
 		}, 2000);
 	}
+
+// --- SMART SEARCH ENGINE ---
+
+// 1. Hàm chuẩn hóa tiếng Việt (Để tìm kiếm không dấu)
+function normalizeStr(str) {
+    if (!str) return '';
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+              .replace(/đ/g, "d").replace(/Đ/g, "D")
+              .toLowerCase().trim();
+}
+
+// 2. Xử lý sự kiện nhập liệu
+const searchInput = document.getElementById('smart-search-input');
+const clearSearchBtn = document.getElementById('clear-search');
+
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        clearSearchBtn.style.display = query ? 'block' : 'none';
+        
+        // Debounce: Đợi người dùng dừng gõ 300ms mới tìm
+        if (window.searchTimeout) clearTimeout(window.searchTimeout);
+        window.searchTimeout = setTimeout(() => {
+            handleSmartSearch(query);
+        }, 300);
+    });
+
+    clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        handleSmartSearch('');
+        clearSearchBtn.style.display = 'none';
+    });
+}
+
+// Hàm hỗ trợ click vào chip gợi ý
+function triggerSearch(text) {
+    if(!searchInput) return;
+    searchInput.value = text;
+    clearSearchBtn.style.display = 'block';
+    handleSmartSearch(text);
+}
+
+	// 3. LOGIC TÌM KIẾM THÔNG MINH (CORE)
+	// --- 3. LOGIC TÌM KIẾM THÔNG MINH (HYBRID: LOCAL + SERVER) ---
+	async function handleSmartSearch(query) {
+		const container = document.getElementById('search-results-area');
+		
+		// Nếu ô tìm kiếm rỗng, hiện hướng dẫn
+		if (!query || !query.trim()) {
+			container.innerHTML = `
+				<div class="text-center py-5 text-muted">
+				   <i class="bi bi-robot theme-text-primary" style="font-size: 3rem;"></i>
+				   <p class="mt-3">Nhập từ khóa hoặc câu hỏi.<br>Ví dụ: "ảnh nhiều like", "sinh nhật"...</p>
+				</div>`;
+			return;
+		}
+
+		const rawQuery = query.toLowerCase();
+		const cleanQuery = normalizeStr(query); // Đảm bảo bạn đã có hàm normalizeStr
+		let resultsHtml = '';
+		let foundAnswer = false; // Cờ đánh dấu nếu đã tìm thấy câu trả lời dạng "Thống kê/Hỏi đáp"
+
+		// --- A. PHÂN TÍCH INTENT (HỎI ĐÁP THÔNG MINH) ---
+		
+		// 1. Hỏi về bài viết nhiều Like nhất
+		if (cleanQuery.includes('nhieu like') || cleanQuery.includes('thich nhat') || cleanQuery.includes('hot nhat')) {
+			const sortedPosts = [...serverFeedData].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+			if (sortedPosts.length > 0) {
+				resultsHtml += `<div class="alert alert-success mb-3"><i class="bi bi-trophy-fill me-2"></i>Bài viết được yêu thích nhất (trong dữ liệu đã tải):</div>`;
+				resultsHtml += createPostHtml(sortedPosts[0]);
+				foundAnswer = true;
+			}
+		}
+		
+		// 2. Hỏi về bài viết nhiều Comment nhất
+		else if (cleanQuery.includes('nhieu comment') || cleanQuery.includes('nhieu binh luan') || cleanQuery.includes('soi noi')) {
+			const getCmtCount = (p) => parseComments(p.comments).length;
+			const sortedPosts = [...serverFeedData].sort((a, b) => getCmtCount(b) - getCmtCount(a));
+			if (sortedPosts.length > 0) {
+				resultsHtml += `<div class="alert alert-info mb-3"><i class="bi bi-chat-quote-fill me-2"></i>Bài viết sôi nổi nhất (${getCmtCount(sortedPosts[0])} bình luận)</div>`;
+				resultsHtml += createPostHtml(sortedPosts[0]);
+				foundAnswer = true;
+			}
+		}
+
+		// 3. Hỏi Thống kê tổng quan
+		else if (cleanQuery.includes('thong ke') || cleanQuery.includes('tong so')) {
+			const totalPosts = serverFeedData.length;
+			const totalLikes = serverFeedData.reduce((sum, p) => sum + (p.likes || 0), 0);
+			// Đếm sơ bộ số ảnh
+			const totalPhotos = serverFeedData.reduce((sum, p) => {
+				 const imgs = parseImages(p.imageData); 
+				 return sum + (Array.isArray(imgs) ? imgs.length : 0);
+			}, 0);
+			
+			resultsHtml += `
+				<div class="card theme-bg-primary text-white mb-3">
+					<div class="card-body">
+						<h5 class="fw-bold"><i class="bi bi-bar-chart-line me-2"></i>Thống kê (Dữ liệu hiển thị)</h5>
+						<div class="row text-center mt-3">
+							<div class="col-4"><h3>${totalPosts}</h3><small>Bài viết</small></div>
+							<div class="col-4"><h3>${totalLikes}</h3><small>Lượt thích</small></div>
+							<div class="col-4"><h3>${totalPhotos}</h3><small>Bức ảnh</small></div>
+						</div>
+						<small class="d-block mt-2 text-white-50 fst-italic">* Số liệu dựa trên các bài viết đã tải về máy.</small>
+					</div>
+				</div>
+			`;
+			foundAnswer = true;
+		}
+
+		// 4. Hỏi Ngày sinh nhật / Kỷ niệm
+		else if (cleanQuery.includes('sinh nhat') || cleanQuery.includes('ngay sinh')) {
+			 const memories = allData.filter(d => d.type === 'memory' && normalizeStr(d.memoryTitle).includes('sinh nhat'));
+			 
+			 if (memories.length > 0) {
+				 resultsHtml += `<h6 class="fw-bold theme-text-primary mb-3">📅 Sự kiện tìm thấy:</h6>`;
+				 memories.forEach(mem => {
+					 resultsHtml += `
+						<div class="card mb-2 border-warning shadow-sm">
+							<div class="card-body p-3">
+								<h6 class="fw-bold mb-1 text-dark">${mem.memoryTitle}</h6>
+								<p class="text-muted small mb-0"><i class="bi bi-calendar-event me-1"></i>${formatDate(mem.memoryDate)}</p>
+							</div>
+						</div>`;
+				 });
+				 foundAnswer = true;
+			 }
+		}
+
+		// --- B. TÌM KIẾM NỘI DUNG LOCAL (TÌM TRONG FEED ĐANG CÓ) ---
+		
+		// Luôn thực hiện tìm kiếm text, trừ khi người dùng hỏi thống kê chung chung
+		let localMatches = [];
+		
+		// Lọc bài viết chứa từ khóa (có dấu hoặc không dấu)
+		localMatches = serverFeedData.filter(post => {
+			const contentNorm = normalizeStr(post.content);
+			const authorNorm = normalizeStr(post.fullname || post.username);
+			return contentNorm.includes(cleanQuery) || authorNorm.includes(cleanQuery);
+		});
+
+		if (localMatches.length > 0) {
+			// Chỉ hiện tiêu đề nếu có kết quả đặc biệt ở trên
+			if (foundAnswer) {
+				 resultsHtml += `<h6 class="fw-bold text-muted mt-4 mb-3 border-top pt-3">Bài viết liên quan (${localMatches.length}):</h6>`;
+			} else {
+				 resultsHtml += `<h6 class="fw-bold text-muted mb-3"><i class="bi bi-phone me-2"></i>Kết quả có sẵn trong máy (${localMatches.length}):</h6>`;
+			}
+
+			localMatches.forEach(post => {
+				resultsHtml += createPostHtml(post);
+			});
+		} else if (!foundAnswer) {
+			// Nếu không tìm thấy gì ở Local và cũng không phải câu hỏi thống kê
+			resultsHtml += `
+				<div class="text-center py-4 text-muted small">
+					Chưa tìm thấy kết quả phù hợp trong dữ liệu đã tải...
+				</div>`;
+		}
+
+		// Cập nhật DOM lần 1: Hiển thị ngay kết quả Local
+		container.innerHTML = resultsHtml;
+
+		// --- C. TÌM KIẾM SERVER (FULL DATABASE) ---
+		// Chỉ gọi server nếu từ khóa có ý nghĩa (> 1 ký tự)
+		if (cleanQuery.length >= 2) {
+			// Tạo Loader Spinner
+			const loaderId = 'server-search-loader';
+			const loaderHtml = `
+				<div id="${loaderId}" class="text-center py-3 text-muted small fade-in mt-2 border-top pt-2">
+					<div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+					Đang tìm thêm trên máy chủ...
+				</div>
+			`;
+			container.insertAdjacentHTML('beforeend', loaderHtml);
+
+			// Lấy danh sách ID đã hiển thị để Server/Client loại trừ trùng lặp
+			// Bao gồm cả bài local vừa tìm được và các bài đặc biệt (nếu có)
+			const displayedIds = localMatches.map(p => p.__backendId);
+			
+			// Gọi hàm tìm kiếm server (định nghĩa bên dưới)
+			await searchServerSide(query, displayedIds, loaderId);
+		}
+	}
+	// --- HÀM PHỤ TRỢ: GỌI SERVER TÌM KIẾM ---
+async function searchServerSide(query, existingIds, loaderId) {
+    const container = document.getElementById('search-results-area');
+    const loader = document.getElementById(loaderId);
+
+    try {
+        // Gửi request tìm kiếm lên Server
+        // Reuse action 'get_feed' nhưng thêm tham số 'searchQuery'
+        const res = await sendToServer({
+            action: 'get_feed', 
+            page: 1,
+            limit: 20,          // Lấy tối đa 20 kết quả từ server
+            searchQuery: query, // Từ khóa tìm kiếm
+            username: currentProfile ? currentProfile.username : ''
+        });
+
+        // Xóa Loader sau khi có phản hồi
+        if (loader) loader.remove();
+
+        if (res.status === 'success') {
+            const serverPosts = res.data;
+
+            // QUAN TRỌNG: Lọc trùng (Chỉ lấy bài mà Client CHƯA hiển thị)
+            const newMatches = serverPosts.filter(p => !existingIds.includes(p.__backendId));
+
+            if (newMatches.length > 0) {
+                let serverHtml = `<h6 class="fw-bold theme-text-primary mt-3 mb-3 border-top pt-3 fade-in"><i class="bi bi-cloud-check me-2"></i>Tìm thấy thêm từ máy chủ (${newMatches.length}):</h6>`;
+                
+                newMatches.forEach(post => {
+                    serverHtml += createPostHtml(post);
+                });
+
+                container.insertAdjacentHTML('beforeend', serverHtml);
+                
+                // Cuộn nhẹ xuống để người dùng biết có thêm kết quả
+                // container.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            } else {
+                // Server tìm được nhưng trùng hết với Local, hoặc Server cũng không tìm thấy
+                if (existingIds.length === 0) {
+                     container.innerHTML = `
+                        <div class="text-center py-5 text-muted">
+                            <i class="bi bi-search" style="font-size: 2rem;"></i>
+                            <p class="mt-3">Không tìm thấy kết quả nào cho "<b>${query}</b>"</p>
+                        </div>`;
+                } else {
+                    container.insertAdjacentHTML('beforeend', `
+                        <div class="text-center py-3 text-muted small fade-in">
+                            Đã hiển thị tất cả kết quả liên quan.
+                        </div>
+                    `);
+                }
+            }
+        }
+    } catch (e) {
+        console.error("Lỗi tìm kiếm server:", e);
+        if (loader) {
+            loader.innerHTML = '<span class="text-danger small"><i class="bi bi-exclamation-circle me-1"></i>Lỗi kết nối tới máy chủ</span>';
+        }
+    }
+}
+
       
       // KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
       setInterval(runBackgroundSync, 60000);
