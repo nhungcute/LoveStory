@@ -618,19 +618,19 @@
       Compact feed visual tweaks
       ----------------------- */
       .post-author-name {
-      font-size: 16.5px;
+      font-size: 14.5px;
       font-weight: 600;
       color: #000;
       line-height: 1.2;
       }
       .post-timestamp {
-      font-size: 12.5px;
+      font-size: 11.5px;
       color: #65676B;
       font-weight: 400;
       }
       .post-content-text {
-      font-size: 14px;
-      line-height: 1.55;
+      font-size: 13px;
+      line-height: 1.2;
       color: #050505;
       white-space: pre-wrap;
       margin: 6px 0 10px 15px;
@@ -734,6 +734,11 @@
       opacity: 1;
       }
       }
+		/* --- CHỈNH SỬA MENU DƯỚI ĐÁY --- */
+	.bottom-nav .nav-link small {
+		font-weight: normal !important; /* Bỏ in đậm (ghi đè class fw-semibold) */
+		font-size: 13px !important;     /* Cố định cỡ chữ 13px */
+	}
       /* End of optimized.css */
     </style>
     <style>@view-transition { navigation: auto; }</style>
@@ -1823,10 +1828,10 @@
             const icon = iconMap[notif.notifType] || iconMap.system;
       
             return `
-      			  <div class="notification-item p-3 ${notif.isRead ? '' : 'unread'}" data-id="${notif.__backendId}">
+      			  <div class="notification-item p-2 ${notif.isRead ? '' : 'unread'}" data-id="${notif.__backendId}">
       				<div class="d-flex align-items-start">
       				  <div class="me-3">
-      					<i class="bi bi-${icon} fs-4"></i>
+      					<i class="bi bi-${icon} fs-6"></i>
       				  </div>
       				  <div class="flex-grow-1">
       					<p class="mb-1 fw-semibold">${notif.title}</p>
@@ -3885,14 +3890,14 @@
                `<div class="ms-auto me-3"></div>`; // Div rỗng để giữ layout nếu cần, hoặc bỏ đi
       
             return `
-      				  <div class="notification-item p-3 ${notif.isRead ? '' : 'unread'}" data-id="${notif.__backendId}">
+      				  <div class="notification-item p-2 ${notif.isRead ? '' : 'unread'}" data-id="${notif.__backendId}">
       					<div class="d-flex align-items-center">
       					  
       					  <div class="me-3">
       						<i class="bi bi-${iconClass} fs-4"></i>
       					  </div>
       
-      					  <div class="flex-grow-1" style="font-size: 0.95rem; line-height: 1.5;">
+      					  <div class="flex-grow-1" style="font-size: 0.75rem; line-height: 1.2;">
       						<strong>${notif.fullname}</strong> ${notif.title} vào lúc ${notif.formattedTime}
       						${notif.message ? `<div class="text-muted small text-truncate" style="max-width: 250px;">${notif.message}</div>` : ''}
       					  </div>
@@ -5963,7 +5968,7 @@
       
          const menuHtml = isOwner ?
             `<button class="btn btn-sm text-muted p-0 comment-options-btn" 
-      						   style="line-height: 1;"
+      						   style="line-height: 1.2;"
       						   data-id="${cmt.id}" data-content="${cmt.content}" data-post-id="${cmt.postId || ''}">
       					 <i class="bi bi-three-dots"></i>
       				   </button>` :
