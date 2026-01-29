@@ -26,12 +26,15 @@
       --header-spacing: 10px;
       --avatar-size: 41px;
       /* z-index stack (tweak as needed) */
-      --z-backdrop-base: 1040;
-      --z-modal-full: 1055;
-      --z-backdrop-2: 1060;
-      --z-popup: 1150;
-      --z-header: 1100;
-      --z-imageViewer: 2000;
+      /* HỆ THỐNG Z-INDEX CHUẨN HÓA */
+	--z-base: 1;
+    --z-fab: 1000;
+    --z-header: 1030;       /* Bootstrap default navbar is 1030 */
+    --z-backdrop-custom: 1040;
+    --z-modal-layout: 1050; /* Các modal chính */
+    --z-modal-popup: 1060;  /* Các popup nhỏ (Confirm, Option) */
+    --z-toast: 1090;
+    --z-viewer: 2000;       /* Xem ảnh full màn hình cao nhất */
       }
       .theme-bg-primary {
       background-color: var(--primary-color);
@@ -55,6 +58,7 @@
       padding: 0;
       background-color: var(--bg-color);
       color: var(--text-dark);
+	  overscroll-behavior-y: none;
       }
       #app {
       display: flex;
@@ -64,11 +68,11 @@
       background-color: var(--bg-color);
       }
       /* Header / bottom nav stack: use namespace to override libs */
-      .app-header,
-      .bottom-nav {
-      position: relative;
-      z-index: var(--z-header);
-      background-color: var(--bg-color);
+      .app-header, .bottom-nav 
+	  {
+		  position: relative;
+		  z-index: var(--z-header);
+		  background-color: var(--bg-color);
       }
       /* Header compacting */
       .app-header {
@@ -98,12 +102,8 @@
       }
       /* Posts container compacting */
       #posts-container {
-      padding-top: 4px;
-      padding-left: 0;
-      padding-right: 0;
-      padding-bottom: 80px;
-      max-width: 100%;
-      }
+		content-visibility: auto; 
+		contain-intrinsic-size: 1000px; /* Ước lượng chiều cao danh sách */      }
       /* Cards & common components */
       .stat-card,
       .memory-card,
@@ -131,7 +131,7 @@
       color: white;
       border: none;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
+      z-index: var(--z-fab);
       }
       .avatar-circle {
       width: var(--avatar-size);
@@ -262,13 +262,14 @@
       #deleteConfirmModal,
       #addBikeEntryModal,
       #addGoldEntryModal,
-      #editCommentContentModal {
-      /* keep full-height container so dialog can be vertically centered */
-      top: 0;
-      bottom: 0;
-      height: 100%;
-      padding: 0;
-      z-index: var(--z-popup);
+      #editCommentContentModal 
+	  {
+		  /* keep full-height container so dialog can be vertically centered */
+		  top: 0;
+		  bottom: 0;
+		  height: 100%;
+		  padding: 0;
+		  z-index: var(--z-modal-popup);
       }
       #postOptionsModal .modal-dialog,
       #commentOptionsModal .modal-dialog,
@@ -309,7 +310,7 @@
       }
       /* Image viewer (lightbox) - full screen override */
       #imageViewerModal {
-      z-index: var(--z-imageViewer);
+      z-index: var(--z-viewer);
       }
       #imageViewerModal .modal-dialog {
       margin: 0;
@@ -761,12 +762,10 @@
 
 /* 3. Phần nội dung chính (Sẽ trượt sang trái) */
 .notification-content-box {
-    position: relative;
-    background: #fff;
-    z-index: 10;
+    /* Báo trước cho trình duyệt để tối ưu GPU */
+    will-change: transform; 
+    /* Giữ nguyên các thuộc tính khác */
     transition: transform 0.2s ease-out;
-    width: 100%;
-    box-shadow: -1px 0 0 0 #fff; 
 }
 /* Màu nền khi chưa đọc (Cập nhật cả shadow để che viền) */
 .notification-content-box.unread {
@@ -810,6 +809,34 @@
 .btn-mark-unread { background-color: #0768f5;} /* Vàng: Chưa đọc */
 .btn-delete-swipe { background-color: #ff1f34; } /* Đỏ: Xóa */
 
+/* Các popup nhỏ phải nổi lên trên modal chính */
+.modal-popup-style { z-index: var(--z-modal-popup); }
+/* Class chung cho các Popup nhỏ (Option, Confirm, Edit) */
+.modal-popup-style .modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    margin: 0 auto;
+    width: 85%;
+    max-width: 350px;
+}
+
+.modal-popup-style .modal-content {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+.modal-popup-style .list-group-item {
+    text-align: center;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+/* Viewer ảnh đè lên tất cả */
+.app-layout-modal { z-index: var(--z-modal-layout); }
       /* End of optimized.css */
     </style>
     <style>@view-transition { navigation: auto; }</style>
@@ -822,8 +849,11 @@
             <h5 id="app-title" class="mb-0 fw-bold">Love Story</h5>
           </div>
           <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-link text-white p-0 position-relative" id="notification-btn"> <i class="bi bi-bell-fill fs-4"></i> <span id="notification-badge" class="position-absolute badge rounded-pill bg-danger d-none" style="font-size: 0.65rem; top: -5px; right: -8px;">0</span> </button> 
-            <button class="btn btn-link text-white p-0" id="profile-btn">
+            <button class="btn btn-link text-white p-0 position-relative" id="notification-btn" aria-label="Mở thông báo"> 
+			<i class="bi bi-bell-fill fs-4"></i> 
+			<span id="notification-badge" class="position-absolute badge rounded-pill bg-danger d-none" style="font-size: 0.65rem; top: -5px; right: -8px;">0</span> 
+			</button> 
+            <button class="btn btn-link text-white p-0" id="profile-btn" aria-label="Trang cá nhân">
               <div class="avatar-circle">
                 <div id="header-avatar" class="w-100 h-100 d-flex align-items-center justify-content-center"><i class="bi bi-person-fill theme-text-primary fs-4"></i>
                 </div>
@@ -913,7 +943,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title theme-text-primary fw-bold"><i class="bi bi-bell-fill me-2"></i>Thông báo</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
             <div class="modal-body p-0">
               <div class="d-flex justify-content-between align-items-center p-3 border-bottom"><button class="btn btn-sm btn-outline-primary" id="mark-all-read"> <i class="bi bi-check-all me-1"></i>Đánh dấu đã đọc </button> <button class="btn btn-sm btn-outline-danger" id="clear-all-notifications"> <i class="bi bi-trash me-1"></i>Xóa tất cả </button>
@@ -923,7 +953,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="createMemoryModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="createMemoryModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -963,7 +993,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="albumDetailModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="albumDetailModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -983,7 +1013,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="commentModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="commentModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -1000,7 +1030,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="profileModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="profileModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -1058,7 +1088,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="postOptionsModal" tabindex="-1">
+      <div class="modal fade modal-popup-style" id="postOptionsModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="list-group list-group-flush"><button class="list-group-item list-group-item-action" id="edit-post-option"> <i class="bi bi-pencil theme-text-primary me-2"></i> <span class="fw-semibold">Chỉnh sửa bài viết</span> </button> <button class="list-group-item list-group-item-action text-danger" id="delete-post-option"> <i class="bi bi-trash me-2"></i> <span class="fw-semibold">Xóa bài viết</span> </button> <button class="list-group-item list-group-item-action" data-bs-dismiss="modal"> Hủy </button>
@@ -1066,7 +1096,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+      <div class="modal fade modal-popup-style" id="deleteConfirmModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content text-center p-3">
             <div class="modal-body">
@@ -1078,7 +1108,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="bikeStatsModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="bikeStatsModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -1135,7 +1165,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="addBikeEntryModal" tabindex="-1" aria-hidden="true">
+      <div class="modal fade modal-popup-style" id="addBikeEntryModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -1162,7 +1192,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="goldStatsModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="goldStatsModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -1614,7 +1644,20 @@
 	// --- LOGIC XỬ LÝ VUỐT (SWIPE) & CLICK THÔNG MINH (ĐÃ FIX LỖI CUỘN TRANG) ---
 	let touchStartY = 0; // [MỚI] Thêm biến lưu tọa độ Y
 	let isScrolling = false; // [MỚI] Biến cờ xác định đang cuộn trang
-
+	// --- BIẾN QUẢN LÝ PHÂN TRANG FEED ---
+  
+	// [MỚI] Observer toàn cục dùng chung
+	const globalScrollObserver = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				// Lấy hàm callback từ thuộc tính của phần tử
+				const callback = entry.target._onIntersect;
+				if (typeof callback === 'function') {
+					callback();
+				}
+			}
+		});
+	}, { threshold: 0.1 });
       // Lắng nghe sự kiện tắt trình duyệt/tab
       window.addEventListener('beforeunload', (e) => {
          if (pendingTasksCount > 0) {
@@ -3509,26 +3552,26 @@
          container.insertAdjacentHTML('beforeend', html);
       
          // Thêm Trigger Load More nếu còn dữ liệu
-         if (feedHasMore) {
-            const trigger = document.createElement('div');
-            trigger.id = 'feed-load-more';
-            trigger.className = 'py-4 text-center text-muted small';
-            trigger.innerHTML = `<div class="spinner-border spinner-border-sm text-secondary" role="status"></div> Đang tải thêm tin...`;
-      
-            container.appendChild(trigger);
-      
-            // Setup Infinite Scroll
-            const observer = new IntersectionObserver((entries) => {
-               if (entries[0].isIntersecting && !feedLoading) {
-                  feedPage++; // Tăng số trang
-                  loadFeedData(feedPage); // Gọi API trang tiếp theo
-               }
-            }, {
-               threshold: 0.1
-            });
-      
-            observer.observe(trigger);
-         } else if (page > 1) {
+         // Thêm Trigger Load More nếu còn dữ liệu
+		if (feedHasMore) {
+			const trigger = document.createElement('div');
+			trigger.id = 'feed-load-more';
+			trigger.className = 'py-4 text-center text-muted small';
+			trigger.innerHTML = `<div class="spinner-border spinner-border-sm text-secondary" role="status"></div> Đang tải thêm tin...`;
+
+			// Gán hàm callback trực tiếp vào element
+			trigger._onIntersect = () => {
+				if (!feedLoading) {
+					feedPage++;
+					loadFeedData(feedPage);
+				}
+			};
+
+			container.appendChild(trigger);
+			
+			// Yêu cầu Observer toàn cục theo dõi phần tử này
+			globalScrollObserver.observe(trigger);
+		} else if (page > 1) {
             // Đã hết tin để load
             container.insertAdjacentHTML('beforeend', '<div class="text-center py-4 text-muted small">--- Bạn đã xem hết tin ---</div>');
          }
@@ -4571,26 +4614,31 @@
          }
       });
       
-      // Gold stats
-      document.getElementById('add-gold-entry').addEventListener('click', () => {
-         // 1. Reset trạng thái về Thêm Mới
-         isEditingGold = false;
-         currentEditGoldId = null;
-      
-         // 2. Reset Form
-         document.getElementById('gold-trans-qty').value = '';
-         document.getElementById('gold-trans-price').value = '';
-         document.getElementById('gold-trans-note').value = '';
-         document.getElementById('gold-trans-date').valueAsDate = new Date();
-      
-         // 3. Đổi lại tiêu đề Modal về mặc định
-         document.querySelector('#addGoldEntryModal .modal-title').innerHTML = '<i class="bi bi-plus-lg me-2"></i>Thêm Giao Dịch Mới';
-         document.getElementById('save-gold-transaction').textContent = 'Lưu Giao Dịch';
-      
-         // 4. Mở Modal
-         const modal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
-         modal.show();
-      });
+      // Gold stats 
+		document.getElementById('add-gold-entry').addEventListener('click', () => {
+			// 1. Reset trạng thái về Thêm Mới
+			isEditingGold = false;
+			currentEditGoldId = null;
+
+			// 2. Reset Form
+			document.getElementById('gold-trans-qty').value = '';
+			document.getElementById('gold-trans-price').value = '';
+			document.getElementById('gold-trans-note').value = '';
+			document.getElementById('gold-trans-date').valueAsDate = new Date();
+
+			// 3. Đổi lại tiêu đề Modal về mặc định
+			document.querySelector('#addGoldEntryModal .modal-title').innerHTML = '<i class="bi bi-plus-lg me-2"></i>Thêm Giao Dịch Mới';
+			document.getElementById('save-gold-transaction').textContent = 'Lưu Giao Dịch';
+
+			// 4. Mở Modal (Dùng biến toàn cục đã khai báo ở đầu script)
+			if (addGoldEntryModal) {
+				addGoldEntryModal.show();
+			} else {
+				// Fallback nếu chưa khởi tạo (ít khi xảy ra)
+				const modal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
+				modal.show();
+			}
+		});
       
       // --- XỬ LÝ LƯU GIAO DỊCH VÀNG (CẬP NHẬT LẠC QUAN) ---
       // --- XỬ LÝ LƯU HOẶC CẬP NHẬT GIAO DỊCH VÀNG ---
@@ -6224,13 +6272,25 @@
       
       // --- HASHTAG LOGIC START ---
       
-      // Hàm 1: Convert text thường thành text có link hashtag
-      function processTextWithHashtags(text) {
-         if (!text) return '';
-         // Regex tìm hashtag (hỗ trợ tiếng Việt)
-         // Cấu trúc: # + (chữ cái/số/gạch dưới)
-         return text.replace(/(^|\s)(#[\w\p{L}]+)/gu, '$1<span class="hashtag" onclick="filterByHashtag(\'$2\')">$2</span>');
-      }
+      // Thêm hàm này vào phần Utils
+		function escapeHtml(text) {
+			if (!text) return text;
+			return text
+				.replace(/&/g, "&amp;")
+				.replace(/</g, "&lt;")
+				.replace(/>/g, "&gt;")
+				.replace(/"/g, "&quot;")
+				.replace(/'/g, "&#039;");
+		}
+
+		// Sửa lại hàm này
+		function processTextWithHashtags(text) {
+		   if (!text) return '';
+		   // BƯỚC 1: LÀM SẠCH CODE HTML TRƯỚC
+		   const safeText = escapeHtml(text); 
+		   // BƯỚC 2: MỚI GẮN LINK HASHTAG
+		   return safeText.replace(/(^|\s)(#[\w\p{L}]+)/gu, '$1<span class="hashtag" onclick="filterByHashtag(\'$2\')">$2</span>');
+		}
       
       // Hàm 2: Thống kê Hashtag từ dữ liệu feed
       function renderTrendingTags() {
@@ -6479,7 +6539,6 @@ function handleTouchStart(e, id) {
 }
 
 function handleTouchMove(e) {
-    // Nếu đã xác định là đang cuộn dọc thì bỏ qua logic vuốt ngang
     if (isScrolling) return;
 
     const touchCurrentX = e.touches[0].clientX;
@@ -6488,23 +6547,24 @@ function handleTouchMove(e) {
     const diffX = touchCurrentX - touchStartX;
     const diffY = touchCurrentY - touchStartY;
 
-    // [QUAN TRỌNG] Kiểm tra hướng kéo
-    // Nếu kéo dọc nhiều hơn kéo ngang -> ĐÂY LÀ CUỘN TRANG
+    // Kiểm tra xem người dùng đang cố tình cuộn dọc hay vuốt ngang
+    // Nếu chênh lệch Y lớn hơn X => Đang cuộn trang
     if (Math.abs(diffY) > Math.abs(diffX)) {
-        isScrolling = true; // Khóa logic vuốt ngang
-        return; // Để trình duyệt tự xử lý việc cuộn
+        isScrolling = true;
+        return; 
     }
 
-    // Nếu kéo ngang -> XỬ LÝ VUỐT MENU
-    // Chỉ xử lý nếu vuốt sang trái (diffX < 0)
-    if (diffX < -5) {
-        // Chặn cuộn trang của trình duyệt để vuốt mượt hơn
-        if (e.cancelable) e.preventDefault(); 
+    // Nếu vuốt ngang (trái hoặc phải)
+    // Thêm điều kiện: Chỉ chặn mặc định (preventDefault) nếu vuốt ngang rõ ràng
+    if (Math.abs(diffX) > 10) {
+        if (e.cancelable) e.preventDefault(); // Chặn cuộn trang
         
-        isSwiping = true; 
-        const el = e.currentTarget;
-        // Giới hạn kéo tối đa -200px
-        if (diffX > -200) el.style.transform = `translateX(${diffX}px)`;
+        // Chỉ xử lý logic vuốt menu khi vuốt sang trái (diffX < 0)
+        if (diffX < -5) {
+            isSwiping = true; 
+            const el = e.currentTarget;
+            if (diffX > -200) el.style.transform = `translateX(${diffX}px)`;
+        }
     }
 }
 
@@ -6986,6 +7046,26 @@ async function searchServerSide(query, existingIds, loaderId) {
         }
     }, {passive: true});
 })();
+
+	// Dọn dẹp nội dung nặng khi đóng Modal để giải phóng RAM
+const heavyModals = ['imageViewerModal', 'albumDetailModal'];
+
+heavyModals.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+        el.addEventListener('hidden.bs.modal', function () {
+            // Tìm container chứa ảnh và xóa sạch con của nó
+            const contentContainers = el.querySelectorAll('.modal-body, #full-image-list, #album-photos');
+            contentContainers.forEach(container => {
+                // Giữ lại cấu trúc loading hoặc placeholder nếu cần, hoặc xóa sạch
+                // Ở đây ta xóa sạch để browser thu hồi bộ nhớ ảnh
+                while (container.firstChild) {
+                    container.removeChild(container.firstChild);
+                }
+            });
+        });
+    }
+});
 
       
       // KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
