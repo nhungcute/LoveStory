@@ -27,13 +27,14 @@
       --avatar-size: 41px;
       /* z-index stack (tweak as needed) */
       /* HỆ THỐNG Z-INDEX CHUẨN HÓA */
-  --z-base: 1;
-  --z-header: 1000;      /* Header & Bottom Nav */
-  --z-backdrop: 1040;    /* Nền đen mờ */
-  --z-modal: 1050;       /* Modal chính */
-  --z-modal-top: 1060;   /* Modal nằm trên Modal (Confirm, Option) */
-  --z-imageViewer: 2000; /* Xem ảnh full màn hình */
-  --z-toast: 9999;       /* Thông báo góc màn hình */
+	--z-base: 1;
+    --z-fab: 1000;
+    --z-header: 1030;       /* Bootstrap default navbar is 1030 */
+    --z-backdrop-custom: 1040;
+    --z-modal-layout: 1050; /* Các modal chính */
+    --z-modal-popup: 1060;  /* Các popup nhỏ (Confirm, Option) */
+    --z-toast: 1090;
+    --z-viewer: 2000;       /* Xem ảnh full màn hình cao nhất */
       }
       .theme-bg-primary {
       background-color: var(--primary-color);
@@ -67,11 +68,11 @@
       background-color: var(--bg-color);
       }
       /* Header / bottom nav stack: use namespace to override libs */
-      .app-header,
-      .bottom-nav {
-      position: relative;
-      z-index: var(--z-header);
-      background-color: var(--bg-color);
+      .app-header, .bottom-nav 
+	  {
+		  position: relative;
+		  z-index: var(--z-header);
+		  background-color: var(--bg-color);
       }
       /* Header compacting */
       .app-header {
@@ -101,12 +102,8 @@
       }
       /* Posts container compacting */
       #posts-container {
-      padding-top: 4px;
-      padding-left: 0;
-      padding-right: 0;
-      padding-bottom: 80px;
-      max-width: 100%;
-      }
+		content-visibility: auto; 
+		contain-intrinsic-size: 1000px; /* Ước lượng chiều cao danh sách */      }
       /* Cards & common components */
       .stat-card,
       .memory-card,
@@ -134,7 +131,7 @@
       color: white;
       border: none;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
+      z-index: var(--z-fab);
       }
       .avatar-circle {
       width: var(--avatar-size);
@@ -312,7 +309,7 @@
       }
       /* Image viewer (lightbox) - full screen override */
       #imageViewerModal {
-      z-index: var(--z-imageViewer);
+      z-index: var(--z-viewer);
       }
       #imageViewerModal .modal-dialog {
       margin: 0;
@@ -764,12 +761,10 @@
 
 /* 3. Phần nội dung chính (Sẽ trượt sang trái) */
 .notification-content-box {
-    position: relative;
-    background: #fff;
-    z-index: 10;
+    /* Báo trước cho trình duyệt để tối ưu GPU */
+    will-change: transform; 
+    /* Giữ nguyên các thuộc tính khác */
     transition: transform 0.2s ease-out;
-    width: 100%;
-    box-shadow: -1px 0 0 0 #fff; 
 }
 /* Màu nền khi chưa đọc (Cập nhật cả shadow để che viền) */
 .notification-content-box.unread {
@@ -813,6 +808,34 @@
 .btn-mark-unread { background-color: #0768f5;} /* Vàng: Chưa đọc */
 .btn-delete-swipe { background-color: #ff1f34; } /* Đỏ: Xóa */
 
+/* Các popup nhỏ phải nổi lên trên modal chính */
+.modal-popup-style { z-index: var(--z-modal-popup); }
+/* Class chung cho các Popup nhỏ (Option, Confirm, Edit) */
+.modal-popup-style .modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    margin: 0 auto;
+    width: 85%;
+    max-width: 350px;
+}
+
+.modal-popup-style .modal-content {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+.modal-popup-style .list-group-item {
+    text-align: center;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+/* Viewer ảnh đè lên tất cả */
+.app-layout-modal { z-index: var(--z-modal-layout); }
       /* End of optimized.css */
     </style>
     <style>@view-transition { navigation: auto; }</style>
@@ -825,8 +848,11 @@
             <h5 id="app-title" class="mb-0 fw-bold">Love Story</h5>
           </div>
           <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-link text-white p-0 position-relative" id="notification-btn"> <i class="bi bi-bell-fill fs-4"></i> <span id="notification-badge" class="position-absolute badge rounded-pill bg-danger d-none" style="font-size: 0.65rem; top: -5px; right: -8px;">0</span> </button> 
-            <button class="btn btn-link text-white p-0" id="profile-btn">
+            <button class="btn btn-link text-white p-0 position-relative" id="notification-btn" aria-label="Mở thông báo"> 
+			<i class="bi bi-bell-fill fs-4"></i> 
+			<span id="notification-badge" class="position-absolute badge rounded-pill bg-danger d-none" style="font-size: 0.65rem; top: -5px; right: -8px;">0</span> 
+			</button> 
+            <button class="btn btn-link text-white p-0" id="profile-btn" aria-label="Trang cá nhân">
               <div class="avatar-circle">
                 <div id="header-avatar" class="w-100 h-100 d-flex align-items-center justify-content-center"><i class="bi bi-person-fill theme-text-primary fs-4"></i>
                 </div>
@@ -916,7 +942,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title theme-text-primary fw-bold"><i class="bi bi-bell-fill me-2"></i>Thông báo</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
             <div class="modal-body p-0">
               <div class="d-flex justify-content-between align-items-center p-3 border-bottom"><button class="btn btn-sm btn-outline-primary" id="mark-all-read"> <i class="bi bi-check-all me-1"></i>Đánh dấu đã đọc </button> <button class="btn btn-sm btn-outline-danger" id="clear-all-notifications"> <i class="bi bi-trash me-1"></i>Xóa tất cả </button>
@@ -926,7 +952,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="createMemoryModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="createMemoryModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -966,7 +992,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="albumDetailModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="albumDetailModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -986,7 +1012,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="commentModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="commentModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -1003,7 +1029,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="profileModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="profileModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -1061,7 +1087,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="postOptionsModal" tabindex="-1">
+      <div class="modal fade modal-popup-style" id="postOptionsModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="list-group list-group-flush"><button class="list-group-item list-group-item-action" id="edit-post-option"> <i class="bi bi-pencil theme-text-primary me-2"></i> <span class="fw-semibold">Chỉnh sửa bài viết</span> </button> <button class="list-group-item list-group-item-action text-danger" id="delete-post-option"> <i class="bi bi-trash me-2"></i> <span class="fw-semibold">Xóa bài viết</span> </button> <button class="list-group-item list-group-item-action" data-bs-dismiss="modal"> Hủy </button>
@@ -1069,7 +1095,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+      <div class="modal fade modal-popup-style" id="deleteConfirmModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content text-center p-3">
             <div class="modal-body">
@@ -1081,7 +1107,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="bikeStatsModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="bikeStatsModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -1138,7 +1164,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="addBikeEntryModal" tabindex="-1" aria-hidden="true">
+      <div class="modal fade modal-popup-style" id="addBikeEntryModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -1165,7 +1191,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="goldStatsModal" tabindex="-1">
+      <div class="modal fade app-layout-modal" id="goldStatsModal" tabindex="-1">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
             <div class="modal-header">
@@ -7014,6 +7040,26 @@ async function searchServerSide(query, existingIds, loaderId) {
         }
     }, {passive: true});
 })();
+
+	// Dọn dẹp nội dung nặng khi đóng Modal để giải phóng RAM
+const heavyModals = ['imageViewerModal', 'albumDetailModal'];
+
+heavyModals.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+        el.addEventListener('hidden.bs.modal', function () {
+            // Tìm container chứa ảnh và xóa sạch con của nó
+            const contentContainers = el.querySelectorAll('.modal-body, #full-image-list, #album-photos');
+            contentContainers.forEach(container => {
+                // Giữ lại cấu trúc loading hoặc placeholder nếu cần, hoặc xóa sạch
+                // Ở đây ta xóa sạch để browser thu hồi bộ nhớ ảnh
+                while (container.firstChild) {
+                    container.removeChild(container.firstChild);
+                }
+            });
+        });
+    }
+});
 
       
       // KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
