@@ -105,7 +105,7 @@
 		  justify-content: center;
 		  background: white;
 		}
-		/* Main content & feed */
+
 		.main-content {
 		  position: relative;
 		  flex: 1;
@@ -113,12 +113,15 @@
 		  overflow-x: hidden;
 		  overscroll-behavior-y: contain;
 		}
-		/* Posts container compacting */
+
 		#posts-container {
 		  content-visibility: auto;
-		  contain-intrinsic-size: 1000px; /* Ước lượng chiều cao danh sách */
+		  contain-intrinsic-size: 1000px;
+		  padding-left: 1px !important;
+		  padding-right: 1px !important;
+		  max-width: 100% !important;
 		}
-		/* Cards & common components */
+
 		.stat-card,
 		.memory-card,
 		.album-card {
@@ -128,7 +131,7 @@
 		  transition: transform 0.2s;
 		  position: relative;
 		}
-		/* Buttons / FAB */
+
 		.btn-primary {
 		  background: linear-gradient(
 			135deg,
@@ -375,7 +378,7 @@
 			  ----------------------- */
 		.post-image-grid {
 		  display: grid;
-		  gap: 4px;
+		  gap: 2px;
 		  width: 100%;
 		  border-radius: 5px;
 		  overflow: hidden;
