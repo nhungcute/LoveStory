@@ -1988,6 +1988,23 @@
          if (cachedRun && document.getElementById('bike-count')) {
             document.getElementById('bike-count').textContent = cachedRun;
          }
+		 
+		// D. Load Bảng tin từ Cache (HIỂN THỊ NGAY LẬP TỨC)
+		let hasCacheData = false;
+		const cachedFeed = localStorage.getItem('cached_feed_data');
+		if (cachedFeed) {
+		   try {
+			   const parsedFeed = JSON.parse(cachedFeed);
+			   if (parsedFeed && parsedFeed.length > 0) {
+				   serverFeedData = parsedFeed; // Gán vào biến toàn cục
+				   renderPostsPaged(serverFeedData, 1); // Vẽ ra màn hình ngay
+				   hasCacheData = true;
+				   //console.log("Đã load Feed từ Cache:", parsedFeed.length, "bài");
+			   }
+		   } catch (e) {
+			   console.error("Lỗi đọc cache feed");
+		   }
+		}
       
          if (currentTab === 'home') {
             renderStats();
@@ -1999,10 +2016,11 @@
          if (document.getElementById('bike-entry-date')) document.getElementById('bike-entry-date').valueAsDate = today;
          if (document.getElementById('gold-entry-date')) document.getElementById('gold-entry-date').valueAsDate = today;
       
+		setupPullToRefresh(); // <--- KÍCH HOẠT KÉO ĐỂ LOAD
 		// ============================================================
 		// BƯỚC 2: GỌI SERVER THEO THỨ TỰ ƯU TIÊN
 		// ============================================================
-
+		
 		// A. Tải số liệu quan trọng nhất (Baby Run & Vàng) - Chạy trước
 		// Dùng await để đảm bảo số liệu mới nhất về trước khi làm việc khác
 		await loadCriticalStats(); 
@@ -2010,25 +2028,10 @@
 		// B. Tải thông tin nền (Profile & Badge Notification) - Chạy sau/song song
 		// Không dùng await để không chặn việc tải Feed
 		loadBackgroundInfo(); 
-		
-		
+		 
 		// C. Tải Bảng tin (Nặng nhất) - Chạy cuối cùng
-		// D. Load Bảng tin từ Cache (HIỂN THỊ NGAY LẬP TỨC)
-		const cachedFeed = localStorage.getItem('cached_feed_data');
-		if (cachedFeed) {
-		   try {
-			   const parsedFeed = JSON.parse(cachedFeed);
-			   if (parsedFeed && parsedFeed.length > 0) {
-				   serverFeedData = parsedFeed; // Gán vào biến toàn cục
-				   renderPostsPaged(serverFeedData, 1); // Vẽ ra màn hình ngay
-				   console.log("Đã load Feed từ Cache:", parsedFeed.length, "bài");
-			   }
-		   } catch (e) {
-			   console.error("Lỗi đọc cache feed");
-		   }
-		}
-   
-		loadFeedData(1);
+		 
+		loadFeedData(1, hasCacheData)
 
 		// D. Tải danh sách thông báo (Để sẵn đó)
 		loadNotifications(1);
@@ -5693,68 +5696,168 @@ async function loadBackgroundInfo() {
          });
       }
       
-      // [SỬA LẠI] Hàm tải Feed hỗ trợ chế độ làm mới ngầm (Background Refresh)
-      async function loadFeedData(page = 1, isBackgroundRefresh = false) {
-         const container = document.getElementById('posts-container');
-         if (feedLoading) return;
-         feedLoading = true;
-       
-         if (page === 1 && !isBackgroundRefresh) {
-            container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
-         }
-      
-         try {
-            const payload = {
-               action: 'get_feed',
-               page: page,
-               limit: 10,
-               username: currentProfile ? currentProfile.username : ''
-            };
-      
-            // Nếu đang có filter hashtag, gửi kèm lên server
-            if (currentHashFilter) {
-               payload.hashtag = currentHashFilter;
-            } 
-            const res = await sendToServer(payload); 
-      
-            if (res.status === 'success') {
-               if (page === 1) {
-                  serverFeedData = res.data;
-               } else {
-                  serverFeedData = serverFeedData.concat(res.data);
-               }
-               feedHasMore = res.hasMore;
-               renderPostsPaged(res.data, page);
-			   
-			   try {
-                    // Lấy 20 bài đầu tiên
-                    const cacheData = res.data.slice(0, 20);
-                    // Lưu vào LocalStorage
-                    localStorage.setItem('cached_feed_data', JSON.stringify(cacheData));
-                } catch (e) {
-                    console.warn("LocalStorage bị đầy, không lưu được cache Feed", e);
-                }
-      
-               // [Quan trọng] Nếu đang lọc mà server trả về rỗng
-               if (page === 1 && res.data.length === 0) {
-                  container.innerHTML = `<div class="text-center py-5 text-muted">
-      							<i class="bi bi-search" style="font-size: 2rem;"></i>
-      							<p class="mt-2">Không có dữ liệu tag <b>${currentHashFilter}</b></p>
-      						 </div>`;
-               }
-       
-               if (!currentHashFilter) 
-					renderTrendingTags();
-            } else { 
-               if (page === 1 && !isBackgroundRefresh) container.innerHTML = '<div class="text-center py-5">Lỗi tải dữ liệu</div>';
-            }
-         } catch (e) {
-            console.error(e);
-            if (page === 1 && !isBackgroundRefresh) container.innerHTML = '<div class="text-center py-5">Lỗi kết nối</div>';
-         } finally {
-            feedLoading = false;
-         }
-      }
+      // --- HÀM TẢI FEED (PHIÊN BẢN SMART MERGE) ---
+		async function loadFeedData(page = 1, isBackgroundRefresh = false) {
+			const container = document.getElementById('posts-container');
+			
+			// 1. Chặn gọi chồng chéo
+			if (feedLoading) return;
+			feedLoading = true;
+
+			// 2. Chỉ hiện Spinner to đùng KHI VÀ CHỈ KHI chưa có dữ liệu nào (Màn hình trắng trơn)
+			// Nếu đã có cache hoặc đang chạy ngầm thì KHÔNG hiện, giữ nguyên giao diện cũ cho người dùng đọc
+			if (page === 1 && !isBackgroundRefresh && (!serverFeedData || serverFeedData.length === 0)) {
+				container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
+			}
+
+			try {
+				// 3. Chuẩn bị dữ liệu gửi lên Server
+				const payload = {
+					action: 'get_feed',
+					page: page,
+					limit: 10,
+					username: currentProfile ? currentProfile.username : ''
+				};
+
+				// Nếu đang lọc theo hashtag
+				if (typeof currentHashFilter !== 'undefined' && currentHashFilter) {
+					payload.hashtag = currentHashFilter;
+				}
+
+				// 4. Gọi API
+				const res = await sendToServer(payload);
+
+				if (res.status === 'success') {
+					// ---------------------------------------------------------
+					// XỬ LÝ DỮ LIỆU TRẢ VỀ
+					// ---------------------------------------------------------
+					
+					if (page === 1) {
+						// TRANG 1: Dùng logic "Trộn thông minh" để không bị giật
+						// Hàm này sẽ tự động cập nhật serverFeedData và DOM
+						mergeServerDataToView(res.data);
+
+						// Lưu Cache (chỉ lưu 20 bài đầu để lần sau mở cho nhanh)
+						try {
+							localStorage.setItem('cached_feed_data', JSON.stringify(serverFeedData.slice(0, 20)));
+						} catch (e) {
+							console.warn("Cache đầy, bỏ qua lưu feed");
+						}
+
+						// Nếu tải xong mà vẫn không có bài nào (Kể cả cache lẫn server đều rỗng)
+						if (serverFeedData.length === 0) {
+							 container.innerHTML = `
+								<div class="text-center py-5">
+									<i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
+									<p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
+									<p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
+								</div>`;
+						}
+
+					} else {
+						// TRANG 2, 3...: Cứ nối đuôi vào bình thường (Append)
+						// Lọc bài trùng để an toàn (đề phòng server trả lại bài cuối của trang trước)
+						const newItems = res.data.filter(newItem => 
+							!serverFeedData.some(existing => existing.__backendId === newItem.__backendId)
+						);
+						
+						serverFeedData = serverFeedData.concat(newItems);
+						renderPostsPaged(newItems, page);
+					}
+
+					// Cập nhật trạng thái "Còn dữ liệu không?"
+					feedHasMore = res.hasMore;
+
+					// Xử lý Trending Tags (nếu không đang lọc)
+					if (typeof currentHashFilter === 'undefined' || !currentHashFilter) {
+						if (typeof renderTrendingTags === 'function') renderTrendingTags();
+					}
+
+				} else {
+					// Lỗi từ Server trả về
+					if (page === 1 && serverFeedData.length === 0) {
+						container.innerHTML = '<div class="text-center py-5 text-muted">Không tải được dữ liệu</div>';
+					}
+				}
+			} catch (e) {
+				console.error("Lỗi tải feed:", e);
+				if (page === 1 && serverFeedData.length === 0) {
+					container.innerHTML = '<div class="text-center py-5 text-danger">Lỗi kết nối mạng</div>';
+				}
+			} finally {
+				feedLoading = false;
+				
+				// Ẩn spinner "Pull to refresh" nếu có
+				const ptrElement = document.getElementById('ptr-element');
+				if(ptrElement && ptrElement.classList.contains('ptr-loading')) {
+					 // Logic đóng ptr nằm ở event listener, nhưng ta đảm bảo trạng thái ở đây
+					 // (Code UI PullToRefresh sẽ tự đóng khi thấy xong)
+				}
+			}
+		}
+
+		// --- HÀM PHỤ TRỢ: TRỘN DỮ LIỆU THÔNG MINH (SMART MERGE) ---
+		function mergeServerDataToView(newServerPosts) {
+			const container = document.getElementById('posts-container');
+			if (!newServerPosts || newServerPosts.length === 0) return;
+
+			// 1. Tạo Map dữ liệu cũ để tra cứu nhanh (Tăng tốc độ)
+			const localMap = new Map(serverFeedData.map(p => [p.__backendId, p]));
+
+			// 2. Duyệt ngược (Mới -> Cũ) để chèn lên đầu đúng thứ tự
+			// (Duyệt xuôi cũng được nhưng duyệt ngược dễ xử lý prepend hơn)
+			for (let i = newServerPosts.length - 1; i >= 0; i--) {
+				const serverPost = newServerPosts[i];
+				const localPost = localMap.get(serverPost.__backendId);
+
+				if (localPost) {
+					// A. ĐÃ CÓ -> CẬP NHẬT (UPDATE)
+					// Chỉ cập nhật nếu có thay đổi quan trọng
+					const isChanged = 
+						localPost.content !== serverPost.content || 
+						localPost.imageData !== serverPost.imageData ||
+						localPost.likes !== serverPost.likes ||
+						localPost.comments !== serverPost.comments;
+
+					if (isChanged) {
+						// Update dữ liệu trong bộ nhớ
+						Object.assign(localPost, serverPost);
+
+						// Update giao diện (DOM)
+						const existingEl = document.getElementById(`post-${serverPost.__backendId}`);
+						if (existingEl) {
+							// Tạo HTML mới
+							const tempDiv = document.createElement('div');
+							tempDiv.innerHTML = createPostHtml(serverPost);
+							const newContent = tempDiv.firstElementChild.innerHTML;
+
+							// Thay ruột, giữ vỏ (để không mất vị trí cuộn)
+							existingEl.innerHTML = newContent;
+						}
+					}
+				} else {
+					// B. CHƯA CÓ -> THÊM MỚI (INSERT)
+					// Thêm vào đầu mảng dữ liệu
+					serverFeedData.unshift(serverPost);
+
+					// Thêm vào đầu giao diện
+					const html = createPostHtml(serverPost);
+					
+					// Xóa thông báo "Chưa có bài đăng" nếu đang hiện
+					const emptyMsg = container.querySelector('.text-center.py-5');
+					if (emptyMsg && emptyMsg.innerText.includes('Chưa có bài')) emptyMsg.remove();
+
+					container.insertAdjacentHTML('afterbegin', html);
+
+					// Hiệu ứng highlight bài mới
+					const newEl = document.getElementById(`post-${serverPost.__backendId}`);
+					if (newEl) {
+						newEl.style.backgroundColor = '#f0fdf4';
+						setTimeout(() => newEl.style.backgroundColor = '', 2000);
+					}
+				}
+			}
+		}
       
       // --- 1. THÊM HÀM ĐỒNG BỘ SỐ LƯỢNG CHƯA ĐỌC ---
       async function syncUnreadCount() {
