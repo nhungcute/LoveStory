@@ -1297,10 +1297,18 @@
                   </div>
                 </div>
               </div>
-              <div class="card p-3 mb-3">
-                <h6 class="fw-bold mb-3">Biểu đồ</h6>
-                <div id="gold-chart" style="height: 250px;"></div>
-              </div>
+               
+			  <div class="p-3 bg-white mb-2 border rounded-3 shadow-sm">
+				  <h6 class="fw-bold mb-3 small text-muted text-uppercase">Biểu đồ</h6>
+				  <div style="overflow-x: auto; overflow-y: hidden; white-space: nowrap; -webkit-overflow-scrolling: touch;">
+					<div id="gold-chart" style="height: 300px; min-width: 100%;">
+					  <div class="d-flex align-items-center justify-content-center h-100 text-muted small">
+						Đang tải biểu đồ...
+					  </div>
+					</div>
+				  </div>
+				</div>
+			   
               <div class="card p-3">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h6 class="fw-bold mb-0">Lịch sử</h6>
@@ -1485,7 +1493,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       // --- CẤU HÌNH KẾT NỐI ---
-      const API_URL = 'https://script.google.com/macros/s/AKfycbyfT9ypOwVBJT7uKLBa6HwDPZnsV5T2A-8Jp19h2KNE_KWHF884YiQjSzgfnpcrxfSzMA/exec';
+      const API_URL = 'https://script.google.com/macros/s/AKfycbyDvd5qSvcIoOkEPryxZRzO1AY9Z7dyosQmao1BGm9Gapc1DkRprD01qQl0TTAldw0_oQ/exec';
       
       let userFingerprint = null;
       
@@ -2842,88 +2850,186 @@ async function loadBackgroundInfo() {
             lowestDate: lowest.date
          };
       }
-      
-      function renderGoldChart() {
-         const goldEntries = allData.filter(d => d.type === 'gold_entry');
-         const chartContainer = document.getElementById('gold-chart');
-      
-         const days = [];
-         for (let i = 6; i >= 0; i--) {
-            const date = new Date();
-            date.setDate(date.getDate() - i);
-            days.push(date.toISOString().split('T')[0]);
-         }
-      
-         const buyPrices = days.map(day => {
-            const entry = goldEntries.find(e => e.date === day);
-            return entry ? entry.buyPrice : null;
-         });
-      
-         const sellPrices = days.map(day => {
-            const entry = goldEntries.find(e => e.date === day);
-            return entry ? entry.sellPrice : null;
-         });
-      
-         const allPrices = [...buyPrices, ...sellPrices].filter(p => p !== null);
-         const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 1;
-         const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
-         const range = maxPrice - minPrice || 1;
-      
-         chartContainer.innerHTML = `
-      			<div class="position-relative" style="height: 100%;">
-      			  <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0;">
-      				${days.map((day, i) => {
-      				  const x = (i / (days.length - 1)) * 100;
-      				  const buyY = buyPrices[i] ? 100 - ((buyPrices[i] - minPrice) / range * 80) : null;
-      				  const sellY = sellPrices[i] ? 100 - ((sellPrices[i] - minPrice) / range * 80) : null;
-      				  const nextBuyY = buyPrices[i + 1] ? 100 - ((buyPrices[i + 1] - minPrice) / range * 80) : null;
-      				  const nextSellY = sellPrices[i + 1] ? 100 - ((sellPrices[i + 1] - minPrice) / range * 80) : null;
-      				  const nextX = ((i + 1) / (days.length - 1)) * 100;
-      				  
-      				  let lines = '';
-      				  if (buyY !== null && nextBuyY !== null && i < days.length - 1) {
-      					lines += `<line x1="${x}%" y1="${buyY}%" x2="${nextX}%" y2="${nextBuyY}%" stroke="#198754" stroke-width="2"/>`;
-      				  }
-      				  if (sellY !== null && nextSellY !== null && i < days.length - 1) {
-      					lines += ` < line x1 = "${x}%"
-         y1 = "${sellY}%"
-         x2 = "${nextX}%"
-         y2 = "${nextSellY}%"
-         stroke = "#dc3545"
-         stroke - width = "2" / > `;
-      				  }
-      				  
-      				  let circles = '';
-      				  if (buyY !== null) {
-      					circles += ` < circle cx = "${x}%"
-         cy = "${buyY}%"
-         r = "4"
-         fill = "#198754" / > `;
-      				  }
-      				  if (sellY !== null) {
-      					circles += ` < circle cx = "${x}%"
-         cy = "${sellY}%"
-         r = "4"
-         fill = "#dc3545" / > `;
-      				  }
-      				  
-      				  return lines + circles;
-      				}).join('')}
-      			  </svg>
-      			  <div class="d-flex justify-content-between position-absolute w-100" style="bottom: 0;">
-      				${days.map(day => {
-      				  const date = new Date(day);
-      				  const dayName = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'][date.getDay()];
-      				  return `<small class="text-muted">${dayName}</small>`;
-      				}).join('')}
-      			  </div>
-      			</div>
-      			<div class="mt-3 d-flex gap-3 justify-content-center">
-      			  <div><span class="badge bg-success">●</span> Giá mua</div>
-      			  <div><span class="badge bg-danger">●</span> Giá bán</div>
-      			</div>
-      		  `;
+	  
+	  function updateGoldStats(historyData) {
+         if (!historyData || historyData.length === 0) return;
+         
+         // Filter valid sell prices
+         const sellData = historyData.filter(d => Number(d.sell) > 0);
+         if (sellData.length === 0) return;
+
+         // Find Max
+         const maxEntry = sellData.reduce((prev, curr) => Number(curr.sell) > Number(prev.sell) ? curr : prev);
+         // Find Min
+         const minEntry = sellData.reduce((prev, curr) => Number(curr.sell) < Number(prev.sell) ? curr : prev);
+
+         // Helper to format currency
+         const fmt = (val) => Number(val).toLocaleString('vi-VN');
+
+         // Update DOM
+         const maxPriceEl = document.getElementById('gold-highest-price');
+         const maxDateEl = document.getElementById('gold-highest-date');
+         const minPriceEl = document.getElementById('gold-lowest-price');
+         const minDateEl = document.getElementById('gold-lowest-date');
+
+         if (maxPriceEl) maxPriceEl.innerText = fmt(maxEntry.sell);
+         if (maxDateEl) maxDateEl.innerText = maxEntry.date;
+         
+         if (minPriceEl) minPriceEl.innerText = fmt(minEntry.sell);
+         if (minDateEl) minDateEl.innerText = minEntry.date;
       }
+	  
+function renderGoldChart(historyData) {
+         const chartContainer = document.getElementById('gold-chart');
+         if (!chartContainer) return;
+
+         if (!historyData || historyData.length === 0) {
+            chartContainer.innerHTML = '<div class="text-center py-5 text-muted small">Chưa có dữ liệu biểu đồ</div>';
+            return;
+         }
+
+         // 1. Parse Data
+         const parseDateVal = (dateStr) => {
+            if (!dateStr) return 0;
+            try {
+               const parts = dateStr.trim().split('/');
+               if (parts.length < 3) return 0;
+               return new Date(parts[2], parseInt(parts[1]) - 1, parts[0]).getTime();
+            } catch (e) { return 0; }
+         };
+
+         const sortedData = [...historyData].sort((a, b) => parseDateVal(a.date) - parseDateVal(b.date));
+         const validData = sortedData.filter(d => (Number(d.buy) > 0 || Number(d.sell) > 0));
+
+         if (validData.length === 0) {
+             chartContainer.innerHTML = '<div class="text-center py-5 text-muted small">Dữ liệu giá không hợp lệ</div>';
+             return;
+         }
+
+         // 2. Cấu hình kích thước
+         const itemWidth = 70; 
+         const chartHeight = 300; // Tăng chiều cao lên 300px cho thoáng
+         const totalWidth = Math.max(chartContainer.parentElement.offsetWidth, validData.length * itemWidth);
+         
+         // 3. Tính toán tỷ lệ (Scale)
+         let allPrices = [];
+         validData.forEach(d => {
+             if (Number(d.buy) > 0) allPrices.push(Number(d.buy));
+             if (Number(d.sell) > 0) allPrices.push(Number(d.sell));
+         });
+
+         if (allPrices.length === 0) return;
+
+         let minVal = Math.min(...allPrices);
+         let maxVal = Math.max(...allPrices);
+         
+         // Padding 5% (Giảm xuống để Zoom vào biến động giá kỹ hơn)
+         const paddingVal = (maxVal - minVal) * 0.05 || (minVal * 0.005) || 50; 
+         minVal = minVal - paddingVal;
+         maxVal = maxVal + paddingVal;
+         const range = maxVal - minVal || 1;
+
+         // Padding vẽ (pixel)
+         const padTop = 40;    
+         const padBottom = 50; 
+         const effectiveHeight = chartHeight - padTop - padBottom;
+
+         const getY = (val) => {
+             return padTop + effectiveHeight - ((val - minVal) / range) * effectiveHeight;
+         };
+
+         // 4. Map Points
+         const points = validData.map((d, i) => {
+            const x = (i * itemWidth) + (itemWidth / 2);
+            return {
+               x,
+               date: d.date,
+               buy: Number(d.buy),
+               sell: Number(d.sell),
+               yBuy: Number(d.buy) > 0 ? getY(Number(d.buy)) : null,
+               ySell: Number(d.sell) > 0 ? getY(Number(d.sell)) : null
+            };
+         });
+
+         // 5. Bezier
+         const getControlPoint = (p_curr, p_prev, p_next, reverse, key) => {
+             const getCoord = (p) => p ? {x: p.x, y: p[key]} : null;
+             const current = getCoord(p_curr);
+             const previous = getCoord(p_prev) || current;
+             const next = getCoord(p_next) || current;
+             if (!current || !previous || !next) return current; 
+             const smoothing = 0.2;
+             const oX = next.x - previous.x;
+             const oY = next.y - previous.y;
+             const length = Math.sqrt(Math.pow(oX, 2) + Math.pow(oY, 2)) * smoothing;
+             const angle = Math.atan2(oY, oX) + (reverse ? Math.PI : 0);
+             return {
+                x: current.x + Math.cos(angle) * length,
+                y: current.y + Math.sin(angle) * length
+             };
+         };
+
+         const generatePath = (key) => {
+             const validPoints = points.filter(p => p[key] !== null);
+             if (validPoints.length < 2) return "";
+             let d = `M ${validPoints[0].x} ${validPoints[0][key]}`;
+             for (let i = 0; i < validPoints.length - 1; i++) {
+                const p0 = validPoints[i - 1];
+                const p1 = validPoints[i];
+                const p2 = validPoints[i + 1];
+                const p3 = validPoints[i + 2];
+                const cp1 = getControlPoint(p1, p0, p2, false, key);
+                const cp2 = getControlPoint(p2, p1, p3, true, key);
+                d += ` C ${cp1.x} ${cp1.y}, ${cp2.x} ${cp2.y}, ${p2.x} ${p2[key]}`;
+             }
+             return d;
+         };
+
+         const pathBuy = generatePath('yBuy');
+         const pathSell = generatePath('ySell');
+         const colorBuy = '#006B68'; // Xanh lá
+         const colorSell = '#ff0000'; // Đỏ
+
+         // 6. Render SVG
+         chartContainer.innerHTML = `
+            <svg width="${totalWidth}" height="${chartHeight}" xmlns="http://www.w3.org/2000/svg">
+               <defs>
+                  <filter id="shadowBuy" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="${colorBuy}" flood-opacity="0.3"/></filter>
+                  <filter id="shadowSell" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="${colorSell}" flood-opacity="0.3"/></filter>
+               </defs>
+               
+               <line x1="0" y1="${padTop}" x2="${totalWidth}" y2="${padTop}" stroke="#eee" stroke-width="1" stroke-dasharray="4"/>
+               <line x1="0" y1="${chartHeight - padBottom}" x2="${totalWidth}" y2="${chartHeight - padBottom}" stroke="#eee" stroke-width="1" />
+
+               ${pathBuy ? `<path d="${pathBuy}" fill="none" stroke="${colorBuy}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" filter="url(#shadowBuy)" />` : ''}
+               ${pathSell ? `<path d="${pathSell}" fill="none" stroke="${colorSell}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" filter="url(#shadowSell)" />` : ''}
+
+               ${points.map(p => p.yBuy !== null ? `
+                  <g class="chart-point">
+                     <text x="${p.x}" y="${p.yBuy + 20}" fill="${colorBuy}" font-size="10" text-anchor="middle" font-weight="bold">${(p.buy/1000).toFixed(2)}</text>
+                     <circle cx="${p.x}" cy="${p.yBuy}" r="3" fill="#fff" stroke="${colorBuy}" stroke-width="2" />
+                  </g>
+               ` : '').join('')}
+
+               ${points.map(p => p.ySell !== null ? `
+                  <g class="chart-point">
+                     <text x="${p.x}" y="${p.ySell - 15}" fill="${colorSell}" font-size="10" text-anchor="middle" font-weight="bold">${(p.sell/1000).toFixed(2)}</text>
+                     <circle cx="${p.x}" cy="${p.ySell}" r="3" fill="#fff" stroke="${colorSell}" stroke-width="2" />
+                  </g>
+               ` : '').join('')}
+
+               ${points.map(p => `
+                   <text x="${p.x}" y="${chartHeight - 15}" fill="#999" font-size="10" text-anchor="middle">${p.date.substring(0, 5)}</text>
+               `).join('')}
+            </svg>
+         `;
+         
+         setTimeout(() => {
+            const wrapper = chartContainer.parentElement;
+            if (wrapper) wrapper.scrollLeft = wrapper.scrollWidth;
+         }, 100);
+      }
+ 
       
       function renderGoldHistory() {
          const goldEntries = allData.filter(d => d.type === 'gold_entry').sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -2963,7 +3069,6 @@ async function loadBackgroundInfo() {
          goldStatsModal.show();
       
          // Hiện loading
-         document.getElementById('gold-chart').innerHTML = '<div class="d-flex justify-content-center align-items-center h-100"><div class="spinner-border text-primary"></div></div>';
          document.getElementById('gold-history-list').innerHTML = '<div class="text-center py-3 text-muted">Đang tải dữ liệu...</div>';
       
          try {
@@ -2973,12 +3078,13 @@ async function loadBackgroundInfo() {
             });
       
             if (res.status === 'success') {
-               goldMarketData = res.chartData; // Dữ liệu biểu đồ giá
-               goldPortfolioData = res.portfolio; // Dữ liệu giao dịch cá nhân
-      
-               // 1. Vẽ biểu đồ 2 đường (Mua/Bán)
-               renderDoubleLineGoldChart(goldMarketData);
-      
+               
+               goldPortfolioData = res.portfolio; // Dữ liệu giao dịch cá nhân 
+			   
+			   if (res.chartData) 
+					renderGoldChart(res.chartData);
+					updateGoldStats(res.chartData); 
+			   
                // 2. Tính toán P&L và vẽ danh sách giao dịch (Logic phức tạp của bạn)
                loadGoldPortfolio();
             }
@@ -2987,127 +3093,7 @@ async function loadBackgroundInfo() {
             showToast('Lỗi tải dữ liệu vàng');
          }
       }
-      
-      
-      // --- HÀM VẼ BIỂU ĐỒ 2 ĐƯỜNG (Xanh/Đỏ) ---
-      // --- HÀM VẼ BIỂU ĐỒ 2 ĐƯỜNG (CÓ TOOLTIP TƯƠNG TÁC) ---
-      // --- HÀM VẼ BIỂU ĐỒ 2 ĐƯỜNG (FIX: CAO/THẤP THEO GIÁ BÁN) ---
-      function renderDoubleLineGoldChart(data) {
-         const chartContainer = document.getElementById('gold-chart');
-         if (!data || data.length === 0) {
-            chartContainer.innerHTML = '<p class="text-center text-muted small pt-5">Chưa có dữ liệu giá</p>';
-            return;
-         }
-      
-         // Lấy 30 ngày gần nhất để vẽ
-         const limit = 30;
-         const chartData = data.slice(-limit);
-      
-         // 1. TÍNH TOÁN HIỂN THỊ TEXT (CAO/THẤP THEO GIÁ BÁN)
-         const sellPrices = chartData.map(d => d.sell);
-         const maxSell = Math.max(...sellPrices);
-         const minSell = Math.min(...sellPrices);
-      
-         // Tìm ngày tương ứng
-         const maxItem = chartData.find(d => d.sell === maxSell);
-         const minItem = chartData.find(d => d.sell === minSell);
-      
-         document.getElementById('gold-highest-price').textContent = formatCurrency(maxSell);
-         document.getElementById('gold-highest-date').textContent = maxItem ? maxItem.date : '-';
-      
-         document.getElementById('gold-lowest-price').textContent = formatCurrency(minSell);
-         document.getElementById('gold-lowest-date').textContent = minItem ? minItem.date : '-';
-      
-         // 2. TÍNH TOÁN VẼ BIỂU ĐỒ (Vẫn dùng cả Buy/Sell để scale cho đẹp)
-         const allPrices = [...chartData.map(d => d.buy), ...chartData.map(d => d.sell)];
-         const minVal = Math.min(...allPrices);
-         const maxVal = Math.max(...allPrices);
-         const padding = (maxVal - minVal) * 0.1 || (maxVal * 0.1);
-         const chartMin = minVal - padding;
-         const chartMax = maxVal + padding;
-         const chartRange = chartMax - chartMin || 1;
-      
-         // Kích thước SVG
-         const width = chartContainer.offsetWidth || 350;
-         const height = 250;
-      
-         let stepX = 0;
-         if (chartData.length > 1) {
-            stepX = width / (chartData.length - 1);
-         } else {
-            stepX = width / 2;
-         }
-      
-         const getY = (price) => height - ((price - chartMin) / chartRange * height);
-      
-         // Tạo đường Path
-         let pathBuy = `M 0 ${getY(chartData[0].buy)}`;
-         let pathSell = `M 0 ${getY(chartData[0].sell)}`;
-      
-         if (chartData.length > 1) {
-            chartData.forEach((d, i) => {
-               pathBuy += ` L ${i * stepX} ${getY(d.buy)}`;
-            });
-            chartData.forEach((d, i) => {
-               pathSell += ` L ${i * stepX} ${getY(d.sell)}`;
-            });
-         } else {
-            pathBuy += ` L ${width} ${getY(chartData[0].buy)}`;
-            pathSell += ` L ${width} ${getY(chartData[0].sell)}`;
-         }
-      
-         // --- HTML MỚI: SVG + TOOLTIP ---
-         chartContainer.innerHTML = `
-      				<div class="position-relative" style="height: 100%;">
-      					<div id="chart-tooltip-box" class="position-absolute start-50 translate-middle-x bg-white shadow-sm border rounded px-2 py-1 text-center d-none" 
-      						 style="top: -30px; z-index: 10; min-width: 120px; white-space: nowrap;">
-      						 <small class="d-block fw-bold text-dark" id="tt-date">--/--</small>
-      						 <div class="d-flex gap-2 justify-content-center" style="font-size: 0.75rem;">
-      							<span class="text-success fw-bold" id="tt-buy">-</span>
-      							<span class="text-danger fw-bold" id="tt-sell">-</span>
-      						 </div>
-      					</div>
-      
-      					<svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
-      						<line x1="0" y1="${height/2}" x2="${width}" y2="${height/2}" stroke="#eee" stroke-dasharray="4"/>
-      						<line x1="0" y1="${height*0.25}" x2="${width}" y2="${height*0.25}" stroke="#f8f9fa" stroke-dasharray="4"/>
-      						<line x1="0" y1="${height*0.75}" x2="${width}" y2="${height*0.75}" stroke="#f8f9fa" stroke-dasharray="4"/>
-      
-      						<path d="${pathSell}" fill="none" stroke="#dc3545" stroke-width="2" />
-      						<path d="${pathBuy}" fill="none" stroke="#198754" stroke-width="2" />
-      
-      						${chartData.map((d, i) => {
-      							const cx = (chartData.length > 1) ? i * stepX : width / 2;
-      							const cyBuy = getY(d.buy);
-      							const cySell = getY(d.sell);
-      							
-      							return `
-      							<g onclick="updateChartTooltip('${d.date}', ${d.buy}, ${d.sell})" 
-      							   style="cursor: pointer;">
-      								<rect x="${cx - 10}" y="0" width="20" height="${height}" fill="transparent" />
-      								<circle cx="${cx}" cy="${cyBuy}" r="3" fill="#198754" />
-      								<circle cx="${cx}" cy="${cySell}" r="3" fill="#dc3545" />
-      							</g>
-      							`;
-      						}).join('')}
-      					</svg>
-      				</div>
-      			`;
-      
-         const last = chartData[chartData.length - 1];
-         updateChartTooltip(last.date, last.buy, last.sell);
-      }
-      
-      // Hàm cập nhật nội dung Tooltip
-      function updateChartTooltip(date, buy, sell) {
-         const box = document.getElementById('chart-tooltip-box');
-         if (box) {
-            box.classList.remove('d-none');
-            document.getElementById('tt-date').textContent = date;
-            document.getElementById('tt-buy').textContent = `M: ${formatCurrency(buy)}`;
-            document.getElementById('tt-sell').textContent = `B: ${formatCurrency(sell)}`;
-         }
-      }
+       
       
       // --- LOGIC TÍNH TOÁN PORTFOLIO & HIỂN THỊ ---
       // --- LOGIC TÍNH TOÁN PORTFOLIO (CẬP NHẬT: FONT SIZE 0.8REM, BỎ BOLD) ---
@@ -7400,4 +7386,5 @@ heavyModals.forEach(id => {
     </script>
   </body>
 </html>
+
 
