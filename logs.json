@@ -1,0 +1,4580 @@
+[
+  {
+    "timestamp": "2026-02-02T06:06:05.220Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1768793374695",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-26T09:43:23.289Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1768793374695",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-19T07:36:53.417Z",
+    "action": "Quản lý vàng",
+    "details": "Thêm giao dịch sell (SL: 2 chỉ)",
+    "username": "1768793374695",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-19T05:39:15.137Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1768793374695",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-19T05:24:44.449Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1768793374695",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-19T05:13:27.681Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1768793374695",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-19T03:29:34.694Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1768793374695",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-19T03:25:07.215Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T06:04:19.798Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T05:20:47.597Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T04:59:57.220Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T04:59:54.660Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T04:59:46.989Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Trang chủ\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T04:59:45.020Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T03:14:16.008Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 10",
+    "username": "1768360020626",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T03:14:15.474Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 9",
+    "username": "1768360020626",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T03:14:13.520Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 8",
+    "username": "1768360020626",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T03:14:13.011Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 1",
+    "username": "1768360020626",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T03:07:01.272Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 9",
+    "username": "1768360020626",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T03:07:00.626Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 5",
+    "username": "1768360020626",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T03:02:34.869Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T02:48:48.170Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 7",
+    "username": "1768358928170",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T02:26:06.814Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 3",
+    "username": "1768357566814",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T01:59:06.609Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T01:51:14.624Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T01:50:47.049Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-14T01:47:10.848Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T10:07:41.405Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T10:07:19.654Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Khoảnh khắc\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T09:47:37.221Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T09:47:23.597Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T09:47:21.565Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T09:47:11.525Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T09:41:10.108Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T09:18:49.314Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T08:59:21.436Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 23",
+    "username": "1768294652249",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T08:59:19.362Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 1",
+    "username": "1768294652249",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T08:52:05.738Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T08:41:51.270Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 2",
+    "username": "1768293338192",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T08:35:38.191Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 19",
+    "username": "1768293338192",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T08:24:46.742Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 18",
+    "username": "1768291570675",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T08:06:10.674Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 18",
+    "username": "1768291570675",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T07:51:48.557Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T07:42:47.752Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T07:39:09.207Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 19",
+    "username": "1768289949207",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T07:29:47.287Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 16",
+    "username": "1768289386914",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T07:29:46.913Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 15",
+    "username": "1768289386914",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T07:17:20.065Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T06:55:03.882Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T06:40:57.842Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 12",
+    "username": "1768286457480",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T06:40:57.480Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 11",
+    "username": "1768286457480",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T06:19:07.685Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T05:53:04.276Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T05:39:32.023Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T05:02:24.365Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T04:37:36.980Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T03:58:04.310Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T03:54:54.982Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Khoảnh khắc\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T03:54:42.461Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"Tôi muốn xây dựng 1 trang web mạng xã hội\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T03:54:32.412Z",
+    "action": "Chat AI",
+    "details": "Đã gửi tin nhắn: \"Tôi muốn xây dựng 1 trang web mạng xã hội\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T03:53:52.782Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Chat AI\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T02:50:54.304Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T00:52:22.385Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-13T00:52:21.504Z",
+    "action": "Cập nhật giá vàng",
+    "details": "Giá vàng thay đổi: Mua 15600, Bán 15900",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T23:47:55.482Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T23:37:05.112Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T23:27:01.015Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T23:09:29.340Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T22:50:27.743Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T22:32:43.496Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T22:11:01.138Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T21:50:21.713Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T21:32:51.622Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T21:11:17.459Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T20:53:22.274Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T20:38:14.347Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T20:13:54.809Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T19:47:27.201Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T19:31:03.164Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T19:13:49.096Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T18:53:33.307Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T18:18:12.099Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T17:51:11.816Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T17:42:26.033Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T17:15:11.989Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T16:50:32.007Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T16:16:25.888Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T15:46:41.574Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T15:16:00.750Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T14:50:46.908Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 24",
+    "username": "1768229446908",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T14:50:36.447Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T14:16:29.460Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T13:52:22.660Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T13:12:55.004Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T12:25:04.959Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T11:49:44.908Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T11:32:11.175Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T11:11:53.427Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T10:47:58.247Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T10:42:27.226Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 19",
+    "username": "1768214547226",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T10:15:14.026Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T09:51:36.996Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T09:22:04.570Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:53:34.214Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:32:10.550Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:32:08.694Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Bé con 22w01d\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:32:08.694Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:32:00.277Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:31:58.133Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:31:54.142Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:20:13.157Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:20:00.286Z",
+    "action": "Chế độ xem",
+    "details": "Đổi sang xem nhóm (Sự kiện)",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:19:58.750Z",
+    "action": "Mở modal",
+    "details": "Mở bộ lọc sự kiện (dropdown)",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:19:49.173Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T08:19:47.950Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T07:52:19.192Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T07:37:53.151Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T07:03:12.449Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T06:35:01.186Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T05:58:36.264Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T05:45:08.136Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T05:03:15.434Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T04:17:59.954Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T03:05:04.575Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T01:37:30.557Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T01:33:45.348Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 7",
+    "username": "1768181625348",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T00:59:02.480Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T00:59:01.940Z",
+    "action": "Cập nhật giá vàng",
+    "details": "Giá vàng thay đổi: Mua 15450, Bán 15750",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-12T00:47:52.026Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 5",
+    "username": "1768178872027",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T23:49:25.721Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T23:41:31.495Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T23:29:49.853Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T23:10:38.880Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T22:50:13.486Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T22:33:21.449Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T22:10:28.056Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T21:47:14.288Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T21:40:01.839Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T21:28:56.413Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T21:09:53.795Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T20:50:35.129Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T20:34:42.094Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T20:12:16.486Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T19:46:23.580Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T19:33:52.096Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T19:25:37.201Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T19:08:32.525Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T18:47:59.321Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T18:15:55.281Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T17:47:32.787Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T17:30:20.577Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T17:09:31.704Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T16:53:29.079Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T16:39:12.988Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T16:13:00.877Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T15:48:13.823Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T15:32:13.667Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 33",
+    "username": "1768145532115",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T15:32:12.115Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 32",
+    "username": "1768145532115",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T15:30:58.167Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T15:10:30.078Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T14:49:47.034Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T14:39:13.118Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 35",
+    "username": "1768142351891",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T14:39:11.891Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 7",
+    "username": "1768142351891",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T14:32:16.457Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T14:26:46.173Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 33",
+    "username": "1768141606184",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T14:10:07.115Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T13:50:50.880Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T13:39:59.851Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T13:05:07.685Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T12:20:36.868Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T11:46:31.973Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T11:36:55.061Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T11:26:45.833Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T11:09:13.069Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T10:51:14.678Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T10:47:16.323Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 20",
+    "username": "1768128423301",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T10:47:05.395Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 2",
+    "username": "1768128423301",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T10:35:57.040Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T10:11:31.284Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T09:49:07.072Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T09:32:43.891Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T09:11:53.737Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T08:55:09.174Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T08:42:06.488Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T08:14:57.846Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T07:48:02.796Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T07:32:35.607Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T07:13:36.338Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T06:51:46.727Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T06:17:22.783Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T05:52:59.192Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 14",
+    "username": "1768110779192",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T05:52:48.575Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T05:38:20.062Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T05:04:00.312Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T04:30:23.867Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T04:10:51.562Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 10",
+    "username": "1768104651562",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T03:17:40.066Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T03:10:47.077Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 10",
+    "username": "1768101047078",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T02:18:45.541Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 11",
+    "username": "1768097925541",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T01:50:10.701Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 6",
+    "username": "1768096188923",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T01:50:10.384Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 5",
+    "username": "1768096188923",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T01:50:09.616Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 4",
+    "username": "1768096188923",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T01:50:09.195Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 3",
+    "username": "1768096188923",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T01:49:48.923Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 2",
+    "username": "1768096188923",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T01:01:30.936Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-11T01:01:30.443Z",
+    "action": "Cập nhật giá vàng",
+    "details": "Giá vàng thay đổi: Mua 15450, Bán 15750",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T23:48:52.639Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T23:41:14.749Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T23:29:36.040Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T23:10:58.255Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T22:50:14.485Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T22:33:37.932Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T22:10:36.507Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T21:47:01.621Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T21:39:34.232Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T21:28:50.788Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T21:09:58.994Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T20:50:33.012Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T20:33:48.811Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T20:12:04.129Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T19:47:03.538Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T19:32:37.713Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T19:25:11.356Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T19:08:10.751Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T18:48:35.383Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T18:16:13.784Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T17:47:12.314Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T17:30:19.396Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T17:09:33.849Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T16:52:53.025Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T16:38:38.832Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T16:12:39.688Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T15:48:01.006Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T15:30:32.524Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T15:19:39.623Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 39",
+    "username": "1768058379623",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T15:02:57.210Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 38",
+    "username": "1768057040533",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T14:58:21.155Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 37",
+    "username": "1768057040533",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T14:57:20.533Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 36",
+    "username": "1768057040533",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T14:57:20.533Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 36",
+    "username": "1768057040533",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T14:49:27.621Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T14:32:26.664Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T14:10:34.460Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T13:49:57.543Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T13:38:16.603Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T13:04:02.325Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T12:19:58.131Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:54:53.770Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 31",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:54:01.150Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 30",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:49:31.604Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 29",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:49:31.174Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 28",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:45:55.879Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 27",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:45:55.879Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 27",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:45:39.804Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 26",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:45:28.562Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 22",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:45:26.037Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 21",
+    "username": "1768045285308",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:36:00.670Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:26:33.940Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T11:09:07.442Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T10:49:56.220Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T10:34:55.583Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T10:11:30.272Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T09:48:08.320Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T09:31:48.904Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T09:11:23.359Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T08:55:04.779Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T08:41:55.037Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T08:14:20.613Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T07:50:39.280Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 20",
+    "username": "1768031439280",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T07:46:44.659Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T07:40:06.643Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T07:29:53.108Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T07:11:25.161Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T06:50:01.151Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T06:16:57.317Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T05:50:50.451Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T05:35:42.232Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T05:13:37.371Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T04:51:04.039Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T04:47:36.986Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 11",
+    "username": "1768020298517",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T04:47:33.949Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 10",
+    "username": "1768020298517",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T04:25:17.400Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T03:52:05.767Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T03:28:39.498Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 13",
+    "username": "1768015719499",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T02:46:21.989Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T01:31:11.449Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T01:30:36.483Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T01:30:29.938Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T00:54:45.310Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-10T00:54:44.793Z",
+    "action": "Cập nhật giá vàng",
+    "details": "Giá vàng thay đổi: Mua 15400, Bán 15700",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T23:48:58.225Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T23:31:05.786Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T23:11:32.633Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T22:51:52.128Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T22:35:52.931Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T22:11:25.375Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T21:49:40.053Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T21:32:01.515Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T21:11:35.063Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T20:52:51.705Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T20:37:28.604Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T20:13:47.149Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T19:47:00.961Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T19:30:49.166Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T19:13:04.527Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T18:52:24.641Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T18:17:39.222Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T17:54:14.430Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T17:44:11.337Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T17:15:18.321Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T16:46:13.470Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T16:14:47.548Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T16:10:38.580Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 48",
+    "username": "1767975038582",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:53:03.000Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:40:01.050Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:39:17.638Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 41",
+    "username": "1767972830526",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:39:16.509Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 40",
+    "username": "1767972830526",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:37:17.826Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 41",
+    "username": "1767972830526",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:33:50.525Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 40",
+    "username": "1767972830526",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:17:27.634Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 38",
+    "username": "1767971111312",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:16:29.103Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 37",
+    "username": "1767971111312",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:16:26.434Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 37",
+    "username": "1767971111312",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:15:48.040Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 36",
+    "username": "1767971111312",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:12:25.980Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 35",
+    "username": "1767971111312",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:12:25.980Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 35",
+    "username": "1767971111312",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:12:08.107Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 34",
+    "username": "1767971111312",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:09:23.756Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 33",
+    "username": "1767971111312",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T15:05:11.312Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 32",
+    "username": "1767971111312",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T14:56:04.626Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T14:42:29.228Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T14:15:19.255Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 28",
+    "username": "1767968117940",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T14:15:17.940Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp. Tổng hôm nay: 27",
+    "username": "1767968117940",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T14:14:15.959Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T13:48:06.084Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T13:10:38.699Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T12:22:50.573Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T11:48:34.616Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T11:31:01.380Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T11:12:15.518Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T10:55:35.227Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T10:42:14.269Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T10:13:06.982Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T09:47:12.195Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T09:44:16.902Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 29",
+    "username": "1767951856613",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T09:44:16.611Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 28",
+    "username": "1767951856613",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T09:24:10.877Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 26",
+    "username": "1767950537450",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T09:22:34.393Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 25",
+    "username": "1767950537450",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T09:22:17.449Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 27",
+    "username": "1767950537450",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T09:18:22.674Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T08:51:01.332Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T08:35:54.352Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 19",
+    "username": "1767947578573",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T08:32:58.573Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 18",
+    "username": "1767947578573",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T08:17:05.367Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T08:06:37.620Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 16",
+    "username": "1767945643050",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T08:06:07.656Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 15",
+    "username": "1767945643050",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T08:05:54.464Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 14",
+    "username": "1767945643050",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T08:05:54.464Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 14",
+    "username": "1767945643050",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T08:05:02.489Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 13",
+    "username": "1767945643050",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T08:00:43.050Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 12",
+    "username": "1767945643050",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:52:26.601Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:43:09.648Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:29:26.508Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:29:18.611Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:28:46.259Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:21:40.677Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:20:19.985Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:20:18.388Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:15:17.372Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:15:16.067Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:08:26.576Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:08:21.860Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:01:41.863Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T07:01:38.436Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T06:54:50.611Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T06:47:09.006Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T06:47:03.156Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T06:19:05.636Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:53:24.441Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:52:40.789Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767937922602",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:52:38.726Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767937922602",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:52:06.314Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767937922602",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:52:02.599Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767937922602",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:42:50.050Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:42:48.521Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:37:17.075Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:37:15.569Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767936896474",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:30:33.787Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:30:05.033Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:29:17.098Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:29:11.145Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:23:07.434Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:23:04.033Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T05:01:59.278Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T04:38:02.700Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T03:58:08.757Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T02:55:09.051Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T01:55:34.524Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1767868524891",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T00:57:02.479Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-09T00:57:01.795Z",
+    "action": "Cập nhật giá vàng",
+    "details": "Giá vàng thay đổi: Mua 15300, Bán 15600",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T23:48:54.247Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T23:38:11.154Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T23:27:33.474Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T23:10:55.635Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T22:52:34.071Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T22:36:34.480Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T22:12:03.534Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T21:50:09.250Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T21:33:49.355Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T21:12:02.144Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T20:53:01.000Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T20:38:01.219Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T20:13:15.701Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T19:48:01.607Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T19:30:48.543Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T19:12:30.466Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T18:50:06.267Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T18:15:45.292Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T17:48:20.907Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T17:18:54.168Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T16:53:03.748Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T16:16:17.423Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T15:46:19.771Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T15:15:19.344Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:49:03.819Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:38:22.462Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 44",
+    "username": "1767883102463",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:30:50.449Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 41",
+    "username": "1767882616524",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:30:42.356Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 40",
+    "username": "1767882616524",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:30:34.273Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 39",
+    "username": "1767882616524",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:22:52.507Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 37",
+    "username": "1767881680961",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:22:51.868Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 36",
+    "username": "1767881680961",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:22:31.080Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 37",
+    "username": "1767881680961",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:22:30.729Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 36",
+    "username": "1767881680961",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:21:19.110Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 35",
+    "username": "1767881680961",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:21:19.110Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 35",
+    "username": "1767881680961",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:21:00.364Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 25",
+    "username": "1767881680961",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T14:15:53.311Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T13:51:13.745Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T13:23:42.648Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 17",
+    "username": "1767878421049",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T13:12:00.919Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T12:24:07.777Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T11:50:07.115Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T11:33:22.130Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T11:15:05.743Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T10:56:34.395Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T10:44:01.645Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T10:35:24.889Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Khoảnh khắc\"",
+    "username": "1767868524891",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T10:14:05.501Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T10:01:59.680Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 17",
+    "username": "1767866518718",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T10:01:58.718Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 1",
+    "username": "1767866518718",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T09:47:23.248Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T09:18:53.241Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T08:51:15.558Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T08:41:05.767Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T08:41:03.439Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T08:16:57.630Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T07:51:25.373Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T07:49:47.431Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 18",
+    "username": "1767858587432",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T07:42:03.577Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T07:21:00.321Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 15",
+    "username": "1767856859704",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T07:20:59.704Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 14",
+    "username": "1767856859704",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T07:17:04.437Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T06:54:16.018Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T06:29:50.812Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 15",
+    "username": "1767853790812",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T06:19:06.921Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T05:53:24.049Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T05:51:19.372Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 12",
+    "username": "1767850482153",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T05:38:42.810Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T05:34:42.152Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 11",
+    "username": "1767850482153",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T05:01:04.186Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T04:48:05.866Z",
+    "action": "Tương tác",
+    "details": "Đã thêm 1 đạp (waiting). Tổng: 10",
+    "username": "1767847685869",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T04:36:36.017Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T04:04:58.234Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 8)",
+    "username": "1767844658427",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T04:04:56.269Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 1)",
+    "username": "1767844658427",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T03:58:51.124Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 6)",
+    "username": "1767844658427",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T03:57:48.385Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Hồ sơ cá nhân\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T03:25:33.273Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T03:25:27.401Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T03:25:25.569Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T03:25:24.185Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1767842724186",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T02:53:01.926Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T00:56:03.418Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T00:56:02.769Z",
+    "action": "Cập nhật giá vàng",
+    "details": "Giá vàng thay đổi: Mua 15350, Bán 15650",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T00:15:20.391Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 4)",
+    "username": "1767831320221",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T00:15:20.221Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 3)",
+    "username": "1767831320221",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T00:06:24.816Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 2)",
+    "username": "1767830783955",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-08T00:06:23.954Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 1)",
+    "username": "1767830783955",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T23:49:08.323Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T23:31:34.895Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T23:12:03.049Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T22:52:22.929Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T22:35:28.082Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T22:11:39.388Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T21:49:44.271Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T21:32:10.203Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T21:11:18.347Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T20:54:18.790Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T20:39:18.686Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T20:13:31.993Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T19:48:05.935Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T19:31:13.640Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T19:13:32.977Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T18:53:40.604Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T18:18:36.092Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T17:47:11.512Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T17:17:40.595Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T16:53:12.062Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T16:17:18.439Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T15:45:29.184Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T15:19:28.332Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T14:58:31.243Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 30)",
+    "username": "1767796269349",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T14:39:52.824Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 29)",
+    "username": "1767796269349",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T14:38:50.620Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 26)",
+    "username": "1767796269349",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T14:32:27.550Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 27)",
+    "username": "1767796269349",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T14:31:51.024Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 22)",
+    "username": "1767796269349",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T14:31:09.348Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 21)",
+    "username": "1767796269349",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T14:15:01.442Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T13:49:49.541Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T13:10:52.999Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T12:23:51.648Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T11:48:54.699Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T11:31:57.183Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T11:13:04.120Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T10:59:54.670Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 20)",
+    "username": "1767783594671",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T10:55:48.456Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T10:42:52.595Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T10:14:12.026Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T09:46:49.193Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T09:36:14.856Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 12)",
+    "username": "1767778574583",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T09:36:14.581Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 11)",
+    "username": "1767778574583",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T09:19:02.431Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T08:58:05.564Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 12)",
+    "username": "1767774275004",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T08:58:04.361Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 11)",
+    "username": "1767774275004",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T08:58:04.208Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 10)",
+    "username": "1767774275004",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T08:51:37.115Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T08:26:15.891Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 7)",
+    "username": "1767774275004",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T08:25:15.796Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 7)",
+    "username": "1767774275004",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T08:25:15.796Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 7)",
+    "username": "1767774275004",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T08:24:35.003Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng số lượt đạp trong ngày: 9)",
+    "username": "1767774275004",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T08:17:09.956Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T07:52:57.426Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T07:42:59.637Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T07:17:27.246Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T06:54:34.484Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T06:19:04.900Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T05:52:58.752Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T05:39:32.732Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T05:39:18.936Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Nhật ký hoạt động\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T05:39:14.264Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Cài đặt\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T05:02:24.524Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T04:38:14.016Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T03:58:02.585Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T03:15:38.285Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh chi tiết\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T03:15:26.255Z",
+    "action": "Xem ảnh sự kiện",
+    "details": "Đã xem ảnh của sự kiện \"Bé con 22w01d\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T03:15:26.255Z",
+    "action": "Mở modal",
+    "details": "Đã mở \"Xem ảnh sự kiện\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T03:15:19.764Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Trang chủ\" sang \"Timeline\"",
+    "username": "1764131826018",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T02:54:00.859Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T00:56:26.496Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-07T00:56:26.061Z",
+    "action": "Cập nhật giá vàng",
+    "details": "Giá vàng thay đổi: Mua 15250, Bán 15550",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T23:47:18.845Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T23:31:32.396Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T23:11:26.454Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T22:52:36.183Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T22:36:14.289Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T22:11:59.365Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T21:50:20.000Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T21:32:32.268Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T21:11:20.743Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T20:50:54.553Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T20:36:51.275Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T20:13:05.659Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T19:48:34.730Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T19:38:29.950Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T19:27:50.744Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T19:09:00.214Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T18:50:49.649Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T18:17:08.947Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T17:54:56.978Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T17:44:08.481Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T17:15:50.375Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T16:51:31.184Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T16:15:20.583Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T15:53:04.332Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T15:37:49.195Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T15:13:59.978Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T15:04:43.001Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 31)",
+    "username": "1767711732945",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T15:04:42.783Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 30)",
+    "username": "1767711732945",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T15:04:42.603Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 29)",
+    "username": "1767711732945",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T15:04:42.394Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 28)",
+    "username": "1767711732945",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T15:04:41.600Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 27)",
+    "username": "1767711732945",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:55:43.463Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:40:34.244Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:28:16.318Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 36)",
+    "username": "1767709292645",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:28:15.889Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 35)",
+    "username": "1767709292645",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:25:46.498Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 34)",
+    "username": "1767709292645",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:25:45.794Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 33)",
+    "username": "1767709292645",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:22:26.160Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 32)",
+    "username": "1767709292645",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:21:35.591Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 31)",
+    "username": "1767709292645",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:21:32.949Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 30)",
+    "username": "1767709292645",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:21:32.644Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 29)",
+    "username": "1767709292645",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:13:36.530Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:06:34.175Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 27)",
+    "username": "1767708392427",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:06:33.679Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 26)",
+    "username": "1767708392427",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:06:32.427Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 1)",
+    "username": "1767708392427",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:06:34.175Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 27)",
+    "username": "1767708392427",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:06:33.679Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 26)",
+    "username": "1767708392427",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:06:32.427Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 1)",
+    "username": "1767708392427",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T14:00:10.682Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 25)",
+    "username": "1767708010682",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T13:48:18.032Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T13:10:01.089Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:48:49.898Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 24)",
+    "username": "1767703073468",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:43:41.016Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 23)",
+    "username": "1767703073468",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:39:29.101Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 22)",
+    "username": "1767703073468",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:37:53.466Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 21)",
+    "username": "1767703073468",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:23:28.815Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:22:48.105Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 19)",
+    "username": "1767701990721",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:19:54.518Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 18)",
+    "username": "1767701990721",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:19:52.689Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 17)",
+    "username": "1767701990721",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:19:50.721Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 1)",
+    "username": "1767701990721",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:09:32.286Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 19)",
+    "username": "1767700828847",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:04:41.447Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 18)",
+    "username": "1767700828847",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:01:54.474Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 17)",
+    "username": "1767700828847",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:00:53.391Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 16)",
+    "username": "1767700828847",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:00:29.690Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 15)",
+    "username": "1767700828847",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T12:00:28.847Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 1)",
+    "username": "1767700828847",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T11:49:08.360Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T11:41:37.873Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T11:29:58.327Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T11:27:25.477Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...Tổng 13)",
+    "username": "1767698845479",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T11:11:09.964Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:55:16.792Z",
+    "action": "Hệ thống",
+    "details": "Cập nhật dữ liệu hệ thống thành công (Kỷ niệm, Media, GG Driver, Giá Vàng)",
+    "username": "GitHub Actions",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:42:51.387Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:42:44.360Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:41:57.547Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:41:57.387Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:41:44.235Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:41:44.073Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:35:50.463Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:32:18.243Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:32:17.908Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:28:35.967Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T10:28:24.493Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:40:11.401Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T08:40:11.209Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T07:48:45.442Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T07:09:36.943Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T07:09:36.752Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T06:38:24.409Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T06:38:24.233Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T06:38:23.927Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T06:38:13.233Z",
+    "action": "Tương tác",
+    "details": "Yêu thêm +1 (Đang chờ 5s để đồng bộ...)",
+    "username": "1767681493234",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T06:21:25.738Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Trang chủ\"",
+    "username": "1767680460649",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T06:21:23.410Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Khoảnh khắc\" sang \"Cài đặt\"",
+    "username": "1767680460649",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T06:21:21.455Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Timeline\" sang \"Khoảnh khắc\"",
+    "username": "1767680460649",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T06:21:19.854Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Chat AI\" sang \"Timeline\"",
+    "username": "1767680460649",
+    "saved": true
+  },
+  {
+    "timestamp": "2026-01-06T06:21:18.041Z",
+    "action": "Điều hướng",
+    "details": "Chuyển từ \"Cài đặt\" sang \"Chat AI\"",
+    "username": "1767680460649",
+    "saved": true
+  }
+]
