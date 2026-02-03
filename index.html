@@ -1607,9 +1607,7 @@
       const API_URL = 'https://script.google.com/macros/s/AKfycbxRQUX-pqR4Qyjei6ijyb7cjZzPS_a3daRJ8vdrbZfRHBbJKG0XckYS-caCfSqrVnFkDw/exec';
 
       let userFingerprint = null;
-
-      // --- CÁC HÀM TIỆN ÍCH (ĐẶT LÊN ĐẦU) ---
-
+ 
       // 5. Quản lý LocalStorage
       const STORAGE_KEY = 'social_memory_profile';
 
@@ -1776,8 +1774,8 @@
       let currentPostId = null;
       let pendingDeleteId = null;
       let pendingDeleteType = null;
-      let currentImages = []; // Bây giờ mảng này sẽ chứa File Object (nhẹ), không chứa Base64 (nặng)
-      let currentImagePreviews = []; // Mảng này chứa Base64 nhỏ xíu chỉ để hiển thị Preview cho đẹp
+      let currentImages = [];
+      let currentImagePreviews = [];
       let memoryImageData = null;
       let recordCount = 0;
       let currentTheme = 'green';
@@ -1787,7 +1785,7 @@
       let draggedElement = null;
       let draggedId = null;
 
-      let serverFeedData = []; // Biến chứa dữ liệu tải từ sheet feed
+      let serverFeedData = [];
 
       let loadingToast, successToast;
       let createPostModal,commentModal, profileModal, postOptionsModal, deleteConfirmModal, bikeStatsModal, addBikeEntryModal, goldStatsModal, addGoldEntryModal, notificationsModal;
@@ -1858,7 +1856,6 @@
       // Lắng nghe sự kiện tắt trình duyệt/tab
       window.addEventListener('beforeunload', (e) => {
          if (pendingTasksCount > 0) {
-            // Kích hoạt cảnh báo mặc định của trình duyệt
             e.preventDefault();
             e.returnValue = 'Dữ liệu đang được gửi lên máy chủ. Bạn có chắc muốn rời đi?';
             return 'Dữ liệu đang được gửi lên máy chủ. Bạn có chắc muốn rời đi?';
@@ -1886,7 +1883,6 @@
          window.elementSdk.init({
             defaultConfig,
             onConfigChange: async (config) => {
-               //document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
                document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
             },
             mapToCapabilities: () => ({
@@ -1948,25 +1944,21 @@
          let total = 0;
          for (let x in localStorage) {
             if (localStorage.hasOwnProperty(x)) {
-               // Tính dung lượng (khoảng x2 vì UTF-16)
                total += ((localStorage[x].length * 2) / 1024 / 1024);
             }
          }
          console.log(`Dung lượng LocalStorage đang dùng: ${total.toFixed(2)} MB`);
-
-         // Nếu dùng quá 4.5MB (gần mức giới hạn 5MB), hãy xóa bớt
+         // Nếu dùng quá 4.5MB (gần mức giới hạn 5MB), 
          if (total > 4.5) {
             console.warn("Bộ nhớ đầy, đang dọn dẹp...");
-            localStorage.removeItem('cached_feed_data'); // Xóa feed cũ vì nó nặng nhất
-            localStorage.removeItem('cached_notifications'); // Xóa thông báo cũ
+            localStorage.removeItem('cached_feed_data');
+            localStorage.removeItem('cached_notifications');
             // Giữ lại Profile và BabyRun vì nó quan trọng và nhẹ
          }
       }
 
       // --- KHỞI TẠO ỨNG DỤNG ---_-----------------------------------------------------------------------------------------------------------
-
-      // Hàm 1: Đồng bộ Profile (Xử lý định danh)
-      // Hàm 1: Đồng bộ Profile (Xử lý định danh - TỐI ƯU UX)
+ 
       async function syncUserProfile() {
          try {
             // 1. LẤY FINGERPRINT HIỆN TẠI
@@ -2026,12 +2018,10 @@
             }
          } catch (err) {
             console.error("Lỗi sync profile:", err);
-            // Nếu lỗi mạng, App vẫn chạy tốt nhờ dữ liệu Local đã load ở bước 2
          }
       }
 
-      // Hàm 2: Đồng bộ Baby Run (Xử lý số liệu)
-      // Hàm 2: Đồng bộ Baby Run & Giá Vàng cho Home
+      // Hàm 2: Đồng bộ Baby Run  
       async function syncBabyRunStats() {
          try {
             const now = new Date();
@@ -2083,7 +2073,6 @@
          addGoldEntryModal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
          notificationsModal = new bootstrap.Modal(document.getElementById('notificationsModal'));
 
-         // ===> [CHÈN HÀM GỌI Ở ĐÂY] <===
          // Kiểm tra và dọn dẹp bộ nhớ ngay khi mở app
          manageCacheSize();
 
@@ -2109,10 +2098,9 @@
             try {
                const parsedFeed = JSON.parse(cachedFeed);
                if (parsedFeed && parsedFeed.length > 0) {
-                  serverFeedData = parsedFeed; // Gán vào biến toàn cục
-                  renderPostsPaged(serverFeedData, 1); // Vẽ ra màn hình ngay
+                  serverFeedData = parsedFeed;
+                  renderPostsPaged(serverFeedData, 1);
                   hasCacheData = true;
-                  //console.log("Đã load Feed từ Cache:", parsedFeed.length, "bài");
                }
             } catch (e) {
                console.error("Lỗi đọc cache feed");
@@ -2130,22 +2118,12 @@
          if (document.getElementById('gold-entry-date')) document.getElementById('gold-entry-date').valueAsDate = today;
 
          setupPullToRefresh(); // <--- KÍCH HOẠT KÉO ĐỂ LOAD
-         // ============================================================
          // BƯỚC 2: GỌI SERVER THEO THỨ TỰ ƯU TIÊN
-         // ============================================================
-
-         // A. Tải số liệu quan trọng nhất (Baby Run & Vàng) - Chạy trước
-         // Dùng await để đảm bảo số liệu mới nhất về trước khi làm việc khác
          await loadCriticalStats();
-
-         // B. Tải thông tin nền (Profile & Badge Notification) - Chạy sau/song song
          // Không dùng await để không chặn việc tải Feed
          loadBackgroundInfo();
-
          // C. Tải Bảng tin (Nặng nhất) - Chạy cuối cùng
-
          loadFeedData(1, hasCacheData)
-
          // D. Tải danh sách thông báo (Để sẵn đó)
          loadNotifications(1);
 
@@ -2333,15 +2311,13 @@
          }
       }
 
-      // --- HÀM XỬ LÝ THỜI GIAN THÔNG MINH (MỚI) ---
-      // --- SỬA LẠI HÀM NÀY ĐỂ HẾT LỖI NaNaNa ---
+      // --- HÀM XỬ LÝ THỜI GIAN THÔNG MINH
       function formatTimeSmart(dateStr) {
          if (!dateStr) return '';
 
          // 1. Kiểm tra xem có phải ngày tháng hợp lệ không
          const date = new Date(dateStr);
          if (isNaN(date.getTime())) {
-            // Nếu không phải ngày (ví dụ: "Đang gửi..."), trả về nguyên văn text đó
             return dateStr;
          }
 
@@ -3664,13 +3640,7 @@
       }
 
       // --- HÀM RENDER POSTS (Đã thêm Sắp xếp Mới -> Cũ) ---
-      // Hàm tạo HTML cho 1 bài viết (Tách ra để tái sử dụng)
-      // --- HÀM TẠO HTML CHO 1 BÀI VIẾT (FULL) ---
-      // --- HÀM TẠO HTML BÀI VIẾT (FULL VỚI COMMENT) ---
-      // --- HÀM TẠO HTML BÀI VIẾT (CẬP NHẬT HEADER: TÊN · THỜI GIAN) ---
-      // --- HÀM TẠO HTML BÀI VIẾT (ĐÃ SỬA: NGÀY GIỜ XUỐNG DÒNG NHƯ CŨ) ---
-      // --- HÀM TẠO HTML BÀI VIẾT (ĐÃ CĂN CHỈNH NÚT LIKE THẲNG HÀNG) ---
-      // --- HÀM TẠO HTML CHO 1 BÀI VIẾT (FULL) ---
+ 
       function createPostHtml(post) {
          // 1. Chuẩn bị dữ liệu cơ bản
          const displayName = post.fullname || post.username || 'Người dùng';
@@ -3688,14 +3658,10 @@
             `<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">` :
             `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold fs-5">${displayName.charAt(0).toUpperCase()}</div>`;
 
-         // -----------------------------------------------------------
-         // [QUAN TRỌNG] Xử lý góc trên bên phải (Trạng thái Upload / Menu)
-         // -----------------------------------------------------------
          let statusBadge = '';
 
          if (post.isUploading) {
             // TRƯỜNG HỢP 1: Đang đăng bài -> Hiện Spinner + Text trạng thái
-            // ID này (status-badge-...) sẽ được hàm updatePostStatus tìm để cập nhật chữ
             statusBadge = `
 				   <div id="status-badge-${post.__backendId}" class="ms-auto d-flex align-items-center text-muted small">
 					  <span class="spinner-border spinner-border-sm me-1" style="width: 0.8rem; height: 0.8rem;"></span>
@@ -6611,9 +6577,7 @@
             }
          }
       }
-
-      // --- HASHTAG LOGIC END ---
-      // --- [MỚI] TÍNH NĂNG: ẤN VÀO NỀN TỰ ĐỘNG ẨN TOAST ---
+ 
       document.addEventListener('click', function (event) {
          const toastEl = document.getElementById('successToast');
 
@@ -6632,10 +6596,7 @@
       document.getElementById('successToast').addEventListener('click', function () {
          successToast.hide();
       });
-
-      // --- CẬP NHẬT LOGIC VUỐT (Thêm class active để hiện nút) ---
-
-      // --- XỬ LÝ 3 NÚT: UNREAD / READ / DELETE ---
+ 
       async function handleSwipeAction(id, action) {
          // 1. Lấy các phần tử DOM cần thiết
          const wrap = document.getElementById(`notif-wrap-${id}`);
@@ -6812,8 +6773,7 @@
          setTimeout(() => { isSwiping = false; }, 100);
       }
 
-      // --- HÀM CLICK: ĐỌC THÔNG BÁO & MỞ BÀI VIẾT (ĐÃ KIỂM TRA LOGIC) ---
-      // --- HÀM CLICK: ĐỌC THÔNG BÁO & MỞ BÀI VIẾT (ĐÃ FIX LỖI KHÔNG CHUYỂN TRANG) ---
+      // --- HÀM CLICK: ĐỌC THÔNG BÁO & MỞ BÀI VIẾT 
       async function handleNotificationClick(notifId) {
          console.log("Click notif:", notifId);
 
