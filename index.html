@@ -1117,13 +1117,25 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-              <div class="text-center mb-4">
-                <div class="avatar-circle avatar-circle-lg mx-auto mb-3" style="border: 1.5px solid var(--primary-color);">
-                  <div id="profile-avatar" class="w-100 h-100 d-flex align-items-center justify-content-center"><i class="bi bi-person-fill theme-text-primary" style="font-size: 3rem;"></i>
-                  </div>
+              
+			  <div class="text-center mb-4">
+                <div class="position-relative d-inline-block mb-3">
+                    <div class="avatar-circle avatar-circle-lg" style="border: 1.5px solid var(--primary-color);">
+                      <div id="profile-avatar" class="w-100 h-100 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-person-fill theme-text-primary" style="font-size: 3rem;"></i>
+                      </div>
+                    </div>
+                    
+                    <label for="avatar-input" 
+                           class="position-absolute bottom-0 end-0 bg-body-secondary rounded-circle shadow-sm d-flex align-items-center justify-content-center" 
+                           style="width: 32px; height: 32px; cursor: pointer; transition: transform 0.2s; border: 1.5px solid var(--primary-color);">
+                        <i class="bi bi-camera-fill text-dark" style="font-size: 14px;"></i>
+                    </label>
                 </div>
-                <label class="btn btn-sm btn-outline-primary"> <i class="bi bi-camera me-1"></i> Đổi ảnh đại diện <input type="file" id="avatar-input" accept="image/*" class="d-none"> </label>
+
+                <input type="file" id="avatar-input" accept="image/*" class="d-none"> 
               </div>
+			  
               <div class="mb-3"><label class="form-label fw-semibold"> <i class="bi bi-person me-2"></i>Tên người dùng </label> <input type="text" class="form-control" id="profile-username" placeholder="username">
               </div>
               <div class="mb-4"><label class="form-label fw-semibold"> <i class="bi bi-card-text me-2"></i>Tên hiển thị </label> <input type="text" class="form-control" id="profile-fullname" placeholder="Tên của bạn">
@@ -1493,7 +1505,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       // --- CẤU HÌNH KẾT NỐI ---
-      const API_URL = 'https://script.google.com/macros/s/AKfycbyDvd5qSvcIoOkEPryxZRzO1AY9Z7dyosQmao1BGm9Gapc1DkRprD01qQl0TTAldw0_oQ/exec';
+      const API_URL = 'https://script.google.com/macros/s/AKfycbxRQUX-pqR4Qyjei6ijyb7cjZzPS_a3daRJ8vdrbZfRHBbJKG0XckYS-caCfSqrVnFkDw/exec';
       
       let userFingerprint = null;
       
@@ -1732,7 +1744,7 @@
 	let touchStartY = 0; // [MỚI] Thêm biến lưu tọa độ Y
 	let isScrolling = false; // [MỚI] Biến cờ xác định đang cuộn trang
 	// --- BIẾN QUẢN LÝ PHÂN TRANG FEED ---
-  
+	let currentMarketPrice_GoldData = null;
 	// [MỚI] Observer toàn cục dùng chung
 	const globalScrollObserver = new IntersectionObserver((entries) => {
 		entries.forEach(entry => {
@@ -2134,80 +2146,82 @@
       }
       
 	  // --- [LUỒNG 1] TẢI SỐ LIỆU QUAN TRỌNG (Ưu tiên cao nhất) ---
-async function loadCriticalStats() {
-    try {
-        const now = new Date();
-        const dateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+	async function loadCriticalStats() {
+		try {
+			const now = new Date();
+			const dateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
 
-        // Gọi API nhẹ nhất có thể
-        const res = await sendToServer({
-            action: 'get_critical_stats',
-            date: dateStr
-        });
+			// Gọi API nhẹ nhất có thể
+			const res = await sendToServer({
+				action: 'get_critical_stats',
+				date: dateStr
+			});
 
-        if (res.status === 'success') {
-            // 1. Cập nhật Số lượt đạp
-            const bikeCountEl = document.getElementById('bike-count');
-            if (bikeCountEl) {
-                bikeCountEl.textContent = res.count;
-                // [QUAN TRỌNG] Lưu Cache để lần sau mở app là có ngay
-                localStorage.setItem('cached_babyrun_count', res.count); 
-            }
-            
-            // 2. Cập nhật Giá vàng
-            if (res.gold) {
-                const goldBuyEl = document.getElementById('gold-buy');
-                const goldSellEl = document.getElementById('gold-sell');
-                if (goldBuyEl) goldBuyEl.textContent = formatCurrency(res.gold.buy);
-                if (goldSellEl) goldSellEl.textContent = formatCurrency(res.gold.sell);
-            }
-        }
-    } catch (e) {
-        console.error("Lỗi tải Critical Stats:", e);
-    }
-}
+			if (res.status === 'success') {
+				// 1. Cập nhật Số lượt đạp
+				const bikeCountEl = document.getElementById('bike-count');
+				if (bikeCountEl) {
+					bikeCountEl.textContent = res.count;
+					// [QUAN TRỌNG] Lưu Cache để lần sau mở app là có ngay
+					localStorage.setItem('cached_babyrun_count', res.count); 
+				}
+				
+				// 2. Cập nhật Giá vàng
+				if (res.gold) {
+					const goldBuyEl = document.getElementById('gold-buy');
+					const goldSellEl = document.getElementById('gold-sell');
+					if (goldBuyEl) goldBuyEl.textContent = formatCurrency(res.gold.buy);
+					if (goldSellEl) goldSellEl.textContent = formatCurrency(res.gold.sell);
+					
+					currentMarketPrice_GoldData = res.gold.buy;
+				}
+			}
+		} catch (e) {
+			console.error("Lỗi tải Critical Stats:", e);
+		}
+	}
 
-// --- [LUỒNG 2] TẢI THÔNG TIN NỀN (Ưu tiên thấp hơn) ---
-async function loadBackgroundInfo() {
-    try {
-        const fingerprint = await getBrowserFingerprint();
-        const res = await sendToServer({
-            action: 'get_background_info',
-            fingerprint: fingerprint
-        });
+	// --- [LUỒNG 2] TẢI THÔNG TIN NỀN (Ưu tiên thấp hơn) ---
+	async function loadBackgroundInfo() {
+		try {
+			const fingerprint = await getBrowserFingerprint();
+			const res = await sendToServer({
+				action: 'get_background_info',
+				fingerprint: fingerprint
+			});
 
-        if (res.status === 'success') {
-            // 1. Cập nhật Profile (nếu có thay đổi)
-            if (res.profile) {
-                const localData = getLocalData();
-                // Chỉ cập nhật DOM nếu dữ liệu thực sự khác (tránh nháy hình)
-                if (!localData || localData.username !== res.profile.username || localData.avatarData !== res.profile.avaurl) {
-                    currentProfile = {
-                        username: res.profile.username,
-                        fullName: res.profile.fullname,
-                        avatarData: res.profile.avaurl,
-                        themeName: res.profile.theme
-                    };
-                    saveLocalData(currentProfile);
-                    applyTheme(currentProfile.themeName);
-                    updateAvatarDisplays();
-                }
-            }
+			if (res.status === 'success') {
+				// 1. Cập nhật Profile (nếu có thay đổi)
+				if (res.profile) {
+					const localData = getLocalData();
+					// Chỉ cập nhật DOM nếu dữ liệu thực sự khác (tránh nháy hình)
+					if (!localData || localData.username !== res.profile.username || localData.avatarData !== res.profile.avaurl) {
+						currentProfile = {
+							username: res.profile.username,
+							fullName: res.profile.fullname,
+							avatarData: res.profile.avaurl,
+							themeName: res.profile.theme
+						};
+						saveLocalData(currentProfile);
+						applyTheme(currentProfile.themeName);
+						updateAvatarDisplays();
+					}
+				}
 
-            // 2. Cập nhật Badge thông báo
-            const badge = document.getElementById('notification-badge');
-            const count = res.unreadCount || 0;
-            if (count > 0) {
-                badge.textContent = count > 99 ? '99+' : count;
-                badge.classList.remove('d-none');
-            } else {
-                badge.classList.add('d-none');
-            }
-        }
-    } catch (e) {
-        console.error("Lỗi tải Background Info:", e);
-    }
-}
+				// 2. Cập nhật Badge thông báo
+				const badge = document.getElementById('notification-badge');
+				const count = res.unreadCount || 0;
+				if (count > 0) {
+					badge.textContent = count > 99 ? '99+' : count;
+					badge.classList.remove('d-none');
+				} else {
+					badge.classList.add('d-none');
+				}
+			}
+		} catch (e) {
+			console.error("Lỗi tải Background Info:", e);
+		}
+	}
 
       function updateAvatarDisplays() {
          const avatarText = currentProfile?.fullName?.[0]?.toUpperCase() || currentProfile?.username?.[0]?.toUpperCase() || 'U';
@@ -3159,11 +3173,9 @@ function renderGoldChart(historyData) {
       
          // b. Lãi hiện tại (Unrealized PNL) - SỬA ĐỔI Ở ĐÂY
          let currentMarketBuyPrice = 0;
-         if (typeof goldMarketData !== 'undefined' && goldMarketData.length > 0) {
-            // Lấy giá MUA (buy) của ngày mới nhất
-            // (Đây là giá tiệm vàng mua vào -> Tức là giá mình có thể bán ra để chốt lời)
-            currentMarketBuyPrice = goldMarketData[goldMarketData.length - 1].buy;
-         }
+         if (currentMarketPrice_GoldData) {
+            currentMarketBuyPrice = parseInt(currentMarketPrice_GoldData);
+        }  
       
          let unrealizedPNL = 0;
          if (totalHolding > 0 && currentMarketBuyPrice > 0) {
@@ -7386,5 +7398,4 @@ heavyModals.forEach(id => {
     </script>
   </body>
 </html>
-
 
