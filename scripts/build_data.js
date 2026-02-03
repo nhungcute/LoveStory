@@ -47,7 +47,7 @@ async function main() {
         // BƯỚC 2: GỬI SANG GOOGLE SHEETS (APPS SCRIPT)
         console.log("🚀 Đang gửi dữ liệu sang Google Sheets...");
         
-        await axios.post(APPS_SCRIPT_URL, {
+        const sheetResponse = await axios.post(APPS_SCRIPT_URL, {
             action: 'update_gold_price',
             timestamp: now,
             buy: buyPrice,
@@ -57,10 +57,22 @@ async function main() {
             followRedirects: true
         });
 
-        console.log("✅ Thành công! Dữ liệu đã được cập nhật.");
+        // --- CẬP NHẬT LOGIC LOGGING ---
+        // Kiểm tra phản hồi từ Apps Script
+        if (sheetResponse.data && sheetResponse.data.status === 'skipped') {
+             console.log("⚠️ " + sheetResponse.data.message); // Log màu vàng hoặc thông báo bỏ qua
+        } else if (sheetResponse.data && sheetResponse.data.status === 'success') {
+             console.log("✅ " + sheetResponse.data.message);
+        } else {
+             // Trường hợp trả về data lạ hoặc lỗi
+             console.log("ℹ️ Server response:", JSON.stringify(sheetResponse.data));
+        }
 
-    } catch (err) {
-        console.error("❌ Có lỗi xảy ra:", err.message);
+    } catch (error) {
+        console.error("❌ Lỗi:", error.message);
+        if (error.response) {
+            console.error("Chi tiết lỗi server:", error.response.data);
+        }
         process.exit(1);
     }
 }
