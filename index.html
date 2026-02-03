@@ -128,9 +128,7 @@
          max-width: 100% !important;
       }
 
-      .stat-card,
-      .memory-card,
-      .album-card {
+      .stat-card {
          background: var(--card-bg);
          border-radius: 1rem;
          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -1159,77 +1157,7 @@
                </div>
             </div>
          </div>
-      </div>
-      <div class="modal fade app-layout-modal" id="createMemoryModal" tabindex="-1">
-         <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title theme-text-primary fw-bold">Tạo kỷ niệm</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-               </div>
-               <div class="modal-body">
-                  <div class="mb-3"><input type="text" class="form-control" id="memory-title"
-                        placeholder="Tiêu đề kỷ niệm">
-                  </div>
-                  <div class="mb-3"><input type="date" class="form-control" id="memory-date">
-                  </div>
-                  <div class="mb-3"><textarea class="form-control" id="memory-content" rows="4"
-                        placeholder="Kể về kỷ niệm của bạn..."></textarea>
-                  </div>
-                  <div id="memory-image-preview-container" class="d-none mb-3">
-                     <div class="position-relative"><img id="memory-image-preview" class="w-100 rounded"
-                           style="max-height: 300px; object-fit: cover;" src="" alt="Preview"> <button
-                           class="btn btn-danger position-absolute top-0 end-0 m-2" id="remove-memory-image"> <i
-                              class="bi bi-x-lg"></i> </button>
-                     </div>
-                  </div>
-                  <div class="mb-3"><label class="btn btn-outline-primary w-100"> <i class="bi bi-image me-2"></i>Thêm
-                        ảnh <input type="file" id="memory-image-input" accept="image/*" class="d-none"> </label>
-                  </div>
-                  <button class="btn btn-primary w-100 py-3" id="create-memory-btn"> <i class="bi bi-save me-2"></i>Lưu
-                     kỷ niệm </button>
-               </div>
-            </div>
-         </div>
-      </div>
-      <div class="modal fade" id="createAlbumModal" tabindex="-1">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title theme-text-primary fw-bold">Tạo album mới</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-               </div>
-               <div class="modal-body">
-                  <div class="mb-3"><input type="text" class="form-control" id="album-name" placeholder="Tên album">
-                  </div>
-                  <button class="btn btn-primary w-100" id="create-album-btn"> <i class="bi bi-plus-circle me-2"></i>Tạo
-                     album </button>
-               </div>
-            </div>
-         </div>
-      </div>
-      <div class="modal fade app-layout-modal" id="albumDetailModal" tabindex="-1">
-         <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title theme-text-primary fw-bold" id="album-detail-title">Album</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-               </div>
-               <div class="modal-body">
-                  <div class="mb-3"><label class="btn btn-outline-primary w-100"> <i
-                           class="bi bi-plus-circle me-2"></i>Thêm ảnh <input type="file" id="album-image-input"
-                           accept="image/*" class="d-none"> </label>
-                  </div>
-                  <div class="row g-2" id="album-photos">
-                     <div class="col-12 text-center py-5 text-muted">
-                        <i class="bi bi-camera" style="font-size: 3rem;"></i>
-                        <p class="mt-2">Chưa có ảnh</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
+      </div>   
       <div class="modal fade app-layout-modal" id="commentModal" tabindex="-1">
          <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
@@ -1391,10 +1319,7 @@
                         </div>
                      </div>
                   </div>
-                  <!--div class="card p-3 mb-3">
-                <h6 class="fw-bold mb-3">Biểu đồ</h6>
-                <div id="bike-chart" style="height: 250px;"></div>
-                  </div---->
+                  
                   <div class="p-3 bg-white mb-2">
                      <h6 class="fw-bold mb-3 small text-muted text-uppercase">Biểu đồ</h6>
                      <div
@@ -1848,7 +1773,6 @@
       let allData = [];
       let currentProfile = null;
       let currentTab = 'home';
-      let currentAlbumId = null;
       let currentPostId = null;
       let pendingDeleteId = null;
       let pendingDeleteType = null;
@@ -1866,7 +1790,7 @@
       let serverFeedData = []; // Biến chứa dữ liệu tải từ sheet feed
 
       let loadingToast, successToast;
-      let createPostModal, createMemoryModal, createAlbumModal, albumDetailModal, commentModal, profileModal, postOptionsModal, deleteConfirmModal, bikeStatsModal, addBikeEntryModal, goldStatsModal, addGoldEntryModal, notificationsModal;
+      let createPostModal,commentModal, profileModal, postOptionsModal, deleteConfirmModal, bikeStatsModal, addBikeEntryModal, goldStatsModal, addGoldEntryModal, notificationsModal;
 
       let isEditingPost = false;
       let currentEditPostId = null;
@@ -2016,9 +1940,7 @@
             else if (currentTab === 'home') {
                renderStats();
                updateStats();
-            } else if (currentTab === 'albums') renderAlbums();
-
-            if (currentAlbumId && albumDetailModal && albumDetailModal._isShown) renderAlbumPhotos();
+            }
          }
       };
 
@@ -2151,9 +2073,6 @@
          loadingToast = new bootstrap.Toast(document.getElementById('loadingToast'));
          successToast = new bootstrap.Toast(document.getElementById('successToast'));
          createPostModal = new bootstrap.Modal(document.getElementById('createPostModal'));
-         createMemoryModal = new bootstrap.Modal(document.getElementById('createMemoryModal'));
-         createAlbumModal = new bootstrap.Modal(document.getElementById('createAlbumModal'));
-         albumDetailModal = new bootstrap.Modal(document.getElementById('albumDetailModal'));
          commentModal = new bootstrap.Modal(document.getElementById('commentModal'));
          profileModal = new bootstrap.Modal(document.getElementById('profileModal'));
          postOptionsModal = new bootstrap.Modal(document.getElementById('postOptionsModal'));
@@ -2277,8 +2196,6 @@
             const iconMap = {
                like: 'heart-fill text-danger',
                comment: 'chat-fill text-primary',
-               memory: 'star-fill text-warning',
-               album: 'folder-fill text-info',
                system: 'info-circle-fill theme-text-primary'
             };
 
@@ -3949,71 +3866,7 @@
          // Trong logic mới, tốt nhất là chỉ render lại từ đầu mảng serverFeedData
          renderPostsPaged(serverFeedData, 1);
       }
-
-      function renderAlbums() {
-         const container = document.getElementById('albums-container');
-         const albums = allData.filter(d => d.type === 'album').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-         if (albums.length === 0) {
-            container.innerHTML = `
-      			  <div class="col-12 text-center py-5">
-      				<i class="bi bi-folder theme-text-primary" style="font-size: 4rem;"></i>
-      				<p class="fw-semibold fs-5 mt-3">Chưa có album</p>
-      				<p class="text-muted">Tạo album để sắp xếp ảnh</p>
-      			  </div>
-      			`;
-            return;
-         }
-
-         container.innerHTML = albums.map(album => {
-            const photos = allData.filter(d => d.type === 'album_photo' && d.albumId === album.__backendId);
-            const coverImg = photos[0]?.imageData;
-
-            return `
-      			  <div class="col-6">
-      				<div class="album-card album-item" data-album-id="${album.__backendId}" style="cursor: pointer;">
-      				  <div class="ratio ratio-1x1 bg-light rounded-top overflow-hidden">
-      					${coverImg
-                  ? `<img src="${coverImg}" class="object-fit-cover" alt="Album">`
-                  : `<div class="d-flex align-items-center justify-content-center"><i class="bi bi-folder theme-text-primary" style="font-size: 3rem;"></i></div>`
-               }
-      				  </div>
-      				  <div class="p-2">
-      					<p class="fw-bold mb-0 text-truncate">${album.albumName}</p>
-      					<small class="text-muted">${photos.length} ảnh</small>
-      				  </div>
-      				</div>
-      			  </div>
-      			`;
-         }).join('');
-      }
-
-      function renderAlbumPhotos() {
-         const container = document.getElementById('album-photos');
-         const photos = allData.filter(d => d.type === 'album_photo' && d.albumId === currentAlbumId);
-
-         if (photos.length === 0) {
-            container.innerHTML = `
-      			  <div class="col-12 text-center py-5 text-muted">
-      				<i class="bi bi-camera" style="font-size: 3rem;"></i>
-      				<p class="mt-2">Chưa có ảnh</p>
-      			  </div>
-      			`;
-            return;
-         }
-
-         container.innerHTML = photos.map(photo => `
-      			<div class="col-4">
-      			  <div class="position-relative">
-      				<img src="${photo.imageData}" class="w-100 rounded ratio ratio-1x1 object-fit-cover" alt="Photo">
-      				<button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 delete-photo-btn" data-id="${photo.__backendId}">
-      				  <i class="bi bi-x-lg"></i>
-      				</button>
-      			  </div>
-      			</div>
-      		  `).join('');
-      }
-
+  
       function renderComments(postId) {
          const post = allData.find(d => d.__backendId === postId);
          if (!post) return;
@@ -4173,7 +4026,7 @@
             // --> THÊM DÒNG NÀY: Đóng mọi modal đang mở trước khi chuyển tab
             closeAllModals();
 
-            const targetTab = btn.dataset.tab; // feed, home, albums
+            const targetTab = btn.dataset.tab; // feed, home
 
             // 1. Cập nhật UI Active cho nút bấm
             document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
@@ -4309,8 +4162,6 @@
             const iconMap = {
                like: 'heart-fill text-danger',
                comment: 'chat-fill text-primary',
-               memory: 'star-fill text-warning',
-               album: 'folder-fill text-info',
                system: 'info-circle-fill theme-text-primary',
                create_post: 'pencil-square text-success',
                update_post: 'pencil-fill text-warning',
@@ -4400,7 +4251,6 @@
       // FAB Button
       document.getElementById('fab-btn').addEventListener('click', () => {
          if (currentTab === 'feed') createPostModal.show();
-         else if (currentTab === 'albums') createAlbumModal.show();
       });
 
       // Theme Selection
@@ -4481,7 +4331,6 @@
          updateImagePreview();
       });
 
-
       // Reset lại modal về chế độ "Tạo mới" khi đóng
       document.getElementById('createPostModal').addEventListener('hidden.bs.modal', function () {
          isEditingPost = false;
@@ -4506,102 +4355,10 @@
          // Reset layout về mặc định
          updateLayoutSelectionUI('1-wide');
       });
-
-      // Create Memory
-      const memoryImageInput = document.getElementById('memory-image-input');
-      const memoryImagePreview = document.getElementById('memory-image-preview');
-      const memoryImagePreviewContainer = document.getElementById('memory-image-preview-container');
-
-      memoryImageInput.addEventListener('change', async (e) => {
-         const file = e.target.files[0];
-         if (file) {
-            showLoading();
-            memoryImageData = await compressImage(file);
-            memoryImagePreview.src = memoryImageData;
-            memoryImagePreviewContainer.classList.remove('d-none');
-            hideLoading();
-         }
-      });
-
-      document.getElementById('remove-memory-image').addEventListener('click', () => {
-         memoryImageData = null;
-         memoryImagePreviewContainer.classList.add('d-none');
-         memoryImageInput.value = '';
-      });
-
-      document.getElementById('create-memory-btn').addEventListener('click', async () => {
-         if (recordCount >= 999) {
-            showToast('Đã đạt giới hạn 999 mục!');
-            return;
-         }
-
-         const title = document.getElementById('memory-title').value.trim();
-         const date = document.getElementById('memory-date').value;
-         const content = document.getElementById('memory-content').value.trim();
-
-         if (!title && !content && !memoryImageData) return;
-
-         showLoading();
-         const result = await window.dataSdk.create({
-            type: 'memory',
-            memoryTitle: title || 'Kỷ niệm',
-            memoryDate: date || new Date().toISOString().split('T')[0],
-            content: content,
-            imageData: memoryImageData || '',
-            createdAt: new Date().toISOString()
-         });
-         hideLoading();
-
-         if (result.isOk) {
-            document.getElementById('memory-title').value = '';
-            document.getElementById('memory-date').value = '';
-            document.getElementById('memory-content').value = '';
-            memoryImageData = null;
-            memoryImagePreviewContainer.classList.add('d-none');
-            memoryImageInput.value = '';
-            createMemoryModal.hide();
-            showToast('Đã lưu kỷ niệm!');
-            await createNotification('memory', 'Kỷ niệm mới', `Đã thêm kỷ niệm: ${title || 'Kỷ niệm'}`);
-         } else {
-            showToast('Lỗi: ' + result.error.message);
-         }
-      });
-
-      // Create Album
-      document.getElementById('create-album-btn').addEventListener('click', async () => {
-         if (recordCount >= 999) {
-            showToast('Đã đạt giới hạn 999 mục!');
-            return;
-         }
-
-         const name = document.getElementById('album-name').value.trim();
-         if (!name) return;
-
-         showLoading();
-         const result = await window.dataSdk.create({
-            type: 'album',
-            albumName: name,
-            createdAt: new Date().toISOString()
-         });
-         hideLoading();
-
-         if (result.isOk) {
-            document.getElementById('album-name').value = '';
-            createAlbumModal.hide();
-            showToast('Đã tạo album!');
-            await createNotification('album', 'Album mới', `Đã tạo album: ${name}`);
-         } else {
-            showToast('Lỗi: ' + result.error.message);
-         }
-      });
-
-
-
+ 
       // Profile
       document.getElementById('profile-btn').addEventListener('click', () => {
-         // --> THÊM DÒNG NÀY
          closeAllModals();
-
          profileModal.show();
       });
 
@@ -4657,14 +4414,10 @@
             if (!newUsername) {
                showToast('Vui lòng nhập Username!');
                return;
-            }
-
-            // --- BẮT ĐẦU OPTIMISTIC UI UPDATE ---
-
-            // 2. Cập nhật ngay lập tức vào biến cục bộ
+            } 
             const previousProfile = {
                ...currentProfile
-            }; // Lưu lại đề phòng lỗi
+            };
 
             // Tạo object profile mới
             currentProfile = {
@@ -4691,9 +4444,7 @@
             // 6. Báo thành công ngay
             showToast('Đã cập nhật hồ sơ!');
 
-            renderPosts(); // Cập nhật lại tên và tích xanh trên bài viết cũ ngay lập tức
-            // --- XỬ LÝ NGẦM (BACKGROUND SYNC) ---
-            // Gửi lên server sau, không bắt người dùng chờ
+            renderPosts();
             sendToServer({
                action: 'save_profile',
                username: currentProfile.username,
@@ -4709,10 +4460,6 @@
                }
             }).catch(err => {
                console.error('Lỗi đồng bộ server:', err);
-               // Tùy chọn: Có thể revert lại profile cũ nếu muốn chặt chẽ
-               // currentProfile = previousProfile;
-               // saveLocalData(currentProfile);
-               // showToast('Lỗi kết nối! Đã hoàn tác.');
             });
          });
       }
@@ -5324,28 +5071,15 @@
          }
 
          // ===============================================
-         // TRƯỜNG HỢP 4: CÁC LOẠI KHÁC (ALBUM, ẢNH...) -> LOGIC CŨ (Loading)
+         // TRƯỜNG HỢP 4: CÁC LOẠI KHÁC -> LOGIC CŨ (Loading)
          // ===============================================
 
          showLoading();
 
          try {
-            if (pendingDeleteType === 'photo') {
-               const item = allData.find(d => d.__backendId === pendingDeleteId);
-               if (item) await window.dataSdk.delete(item);
-               showToast('Đã xóa ảnh!');
-               if (currentAlbumId) renderAlbumPhotos();
-            } else if (pendingDeleteType === 'album') {
-               const item = allData.find(d => d.__backendId === pendingDeleteId);
-               if (item) await window.dataSdk.delete(item);
-               showToast('Đã xóa album!');
-               renderAlbums();
-            } else {
-               // Fallback cho các loại khác
                const item = allData.find(d => d.__backendId === pendingDeleteId);
                if (item) await window.dataSdk.delete(item);
                showToast('Đã xóa!');
-            }
 
          } catch (e) {
             console.error(e);
@@ -6480,7 +6214,7 @@
       function closeAllModals() {
          // 1. Danh sách tất cả các biến Modal đang dùng
          const allModals = [
-            createPostModal, createMemoryModal, createAlbumModal, albumDetailModal,
+            createPostModal, 
             commentModal, profileModal, postOptionsModal, deleteConfirmModal,
             bikeStatsModal, addBikeEntryModal, goldStatsModal, addGoldEntryModal,
             notificationsModal, imageViewerModal
@@ -6499,11 +6233,7 @@
             document.body.style = ''; // Reset style của body
          }, 150); // Đợi một chút cho hiệu ứng ẩn modal chạy xong
       }
-
-      // --- HÀM HELPER: TẠO HTML CHO 1 BÌNH LUẬN (GIAO DIỆN MỚI) ---
-      // --- HÀM TẠO HTML BÌNH LUẬN (GIAO DIỆN MỚI: TÊN + TIME + MENU CÙNG DÒNG) ---
-      // --- HÀM TẠO HTML BÌNH LUẬN (ĐÃ SỬA: NÚT 3 CHẤM CĂN SÁT MÉP PHẢI) ---
-      // --- HÀM TẠO HTML CHO 1 BÌNH LUẬN (ĐÃ FIX KHOẢNG CÁCH AVATAR) ---
+ 
       function createCommentHtml(cmt) {
          const currentUser = currentProfile ? currentProfile.username : '';
          const isOwner = (currentUser && cmt.username === currentUser);
@@ -6530,7 +6260,7 @@
 				</div>
 				
 				<div class="flex-grow-1" style="min-width: 0;">
-				  <div class="bg-light rounded-3 p-2 px-3 d-inline-block position-relative" style="width: 100%;">
+				  <div class="bg-light rounded-3 p-2 d-inline-block position-relative" style="width: 100%;">
 					
 					<div class="d-flex align-items-center justify-content-between mb-1">
 					  <div class="d-flex align-items-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -6550,11 +6280,8 @@
 			  </div>
 			`;
       }
-
-      // 1. SỰ KIỆN CLICK TRONG POST CONTAINER
-      document.getElementById('posts-container').addEventListener('click', async (e) => {
-
-         // A. BẤM NÚT "BÌNH LUẬN" (Hiện ô nhập)
+ 
+      document.getElementById('posts-container').addEventListener('click', async (e) => { 
          const showInputBtn = e.target.closest('.show-comment-input-btn');
          if (showInputBtn) {
             const pid = showInputBtn.dataset.id;
@@ -6564,17 +6291,14 @@
                document.getElementById(`input-cmt-${pid}`).focus();
             }
             return;
-         }
-
-         // B. BẤM GỬI BÌNH LUẬN (INLINE)
+         } 
          const sendBtn = e.target.closest('.send-inline-cmt-btn');
          if (sendBtn) {
             const pid = sendBtn.dataset.id;
             const input = document.getElementById(`input-cmt-${pid}`);
             const content = input.value.trim();
             if (!content) return;
-
-            // UI Lạc quan: Thêm ngay vào danh sách với ID tạm
+ 
             const container = document.getElementById(`comments-container-${pid}`);
             const tempId = 'temp_' + Date.now();
             const tempCmt = {
@@ -6592,9 +6316,8 @@
             }
 
             container.insertAdjacentHTML('beforeend', createCommentHtml(tempCmt));
-            input.value = ''; // Xóa ô nhập
+            input.value = '';
 
-            // --- [PHẦN SỬA LẠI] Xử lý cập nhật sau khi gửi thành công ---
             try {
                const res = await sendToServer({
                   action: 'comment_action',
@@ -6613,15 +6336,11 @@
                      const timeEl = newItem.querySelector('small.text-muted');
                      if (timeEl) timeEl.textContent = "Vừa xong";
 
-                     // 3. Cập nhật ID thật từ Server trả về (để có thể Sửa/Xóa ngay lập tức)
                      if (res.id) {
-                        newItem.id = `comment-${res.id}`; // Đổi ID của thẻ cha
-
-                        // Cập nhật data-id cho nút 3 chấm (Menu tùy chọn)
+                        newItem.id = `comment-${res.id}`;
                         const optionBtn = newItem.querySelector('.comment-options-btn');
                         if (optionBtn) {
                            optionBtn.dataset.id = res.id;
-                           // Cập nhật lại nội dung gốc vào data-content để tính năng Sửa hoạt động đúng
                            optionBtn.dataset.content = content;
                         }
                      }
@@ -6629,9 +6348,8 @@
                }
             } catch (e) {
                console.error(e);
-               // Nếu lỗi: Có thể hiện thông báo hoặc xóa comment tạm đi
                const newItem = document.getElementById(`comment-${tempId}`);
-               if (newItem) newItem.remove(); // Xóa comment tạm nếu lỗi
+               if (newItem) newItem.remove();
                showToast('Lỗi gửi bình luận!');
             }
             return;
@@ -6648,16 +6366,11 @@
 
       // 2. XỬ LÝ TRONG MODAL TÙY CHỌN COMMENT
 
-      // Nút Xóa
-      // --- SỬA LẠI: NÚT XÓA TRONG MENU BÌNH LUẬN ---
       document.getElementById('delete-comment-btn').addEventListener('click', () => {
          if (!currentCommentId) return;
 
-         // 1. Đóng modal tùy chọn (3 chấm)
          commentOptionsModal.hide();
 
-         // 2. Mở modal xác nhận xóa chung
-         // type: 'comment' để phân biệt
          showDeleteConfirm('Bạn có chắc muốn xóa bình luận này?', currentCommentId, 'comment');
       });
 
@@ -6701,8 +6414,7 @@
          }
 
       });
-
-      // --- HÀM TẢI COMMENT TỪ SERVER ---
+ 
       async function loadCommentsForPost(postId) {
          const container = document.getElementById('comments-list');
          container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
@@ -6733,9 +6445,7 @@
          }
       }
 
-      // --- HASHTAG LOGIC START ---
-
-      // Thêm hàm này vào phần Utils
+      // --- HASHTAG LOGIC START --- 
       function escapeHtml(text) {
          if (!text) return text;
          return text
@@ -6748,10 +6458,8 @@
 
       // Sửa lại hàm này
       function processTextWithHashtags(text) {
-         if (!text) return '';
-         // BƯỚC 1: LÀM SẠCH CODE HTML TRƯỚC
-         const safeText = escapeHtml(text);
-         // BƯỚC 2: MỚI GẮN LINK HASHTAG
+         if (!text) return ''; 
+         const safeText = escapeHtml(text); 
          return safeText.replace(/(^|\s)(#[\w\p{L}]+)/gu, '$1<span class="hashtag" onclick="filterByHashtag(\'$2\')">$2</span>');
       }
 
@@ -7547,17 +7255,14 @@
       })();
 
       // Dọn dẹp nội dung nặng khi đóng Modal để giải phóng RAM
-      const heavyModals = ['imageViewerModal', 'albumDetailModal'];
+      const heavyModals = ['imageViewerModal'];
 
       heavyModals.forEach(id => {
          const el = document.getElementById(id);
          if (el) {
             el.addEventListener('hidden.bs.modal', function () {
-               // Tìm container chứa ảnh và xóa sạch con của nó
-               const contentContainers = el.querySelectorAll('.modal-body, #full-image-list, #album-photos');
+               const contentContainers = el.querySelectorAll('.modal-body');
                contentContainers.forEach(container => {
-                  // Giữ lại cấu trúc loading hoặc placeholder nếu cần, hoặc xóa sạch
-                  // Ở đây ta xóa sạch để browser thu hồi bộ nhớ ảnh
                   while (container.firstChild) {
                      container.removeChild(container.firstChild);
                   }
