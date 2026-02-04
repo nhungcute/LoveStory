@@ -351,7 +351,6 @@
          padding: 1rem;
       }
 
-      /* Image viewer (lightbox) - full screen override */
       #imageViewerModal {
          z-index: var(--z-viewer);
       }
@@ -397,14 +396,10 @@
          background-color: #000;
       }
 
-      /* Hide the backdrop for imageViewer (we rely on the modal covering all) */
       #imageViewerModal~.modal-backdrop {
          display: none;
       }
 
-      /* -----------------------
-			  Post image grid layouts (grouped + compact)
-			  ----------------------- */
       .post-image-grid {
          display: grid;
          gap: 2px;
@@ -504,7 +499,6 @@
       /* --- TRANG TRÍ LAYOUT SELECTOR --- */
       .layout-preview-box {
          border: 2px solid #e5e7eb;
-         /* Màu viền mặc định nhạt */
          border-radius: 12px;
          cursor: pointer;
          transition: all 0.2s ease-in-out;
@@ -520,7 +514,6 @@
          opacity: 1;
       }
 
-      /* Trạng thái được chọn */
       .layout-preview-box.selected {
          border-color: var(--primary-color);
          background-color: var(--secondary-color);
@@ -536,7 +529,6 @@
       /* Icon check mark khi chọn (trang trí thêm) */
       .layout-preview-box.selected::after {
          content: "\F26E";
-         /* Bootstrap icon check code */
          font-family: "bootstrap-icons";
          position: absolute;
          top: 4px;
@@ -1671,7 +1663,6 @@
          try {
             const res = await fetch(API_URL, {
                method: 'POST',
-               // THÊM DÒNG NÀY: Giúp bỏ qua bước kiểm duyệt CORS phức tạp của Google
                headers: {
                   "Content-Type": "text/plain;charset=utf-8",
                },
@@ -1786,36 +1777,39 @@
       let draggedId = null;
 
       let serverFeedData = [];
+	  let feedPage = 1;
+      let feedLoading = false;
+      let feedHasMore = true;
+		let isLoadingFeed = false;
+		let currentHashFilter = null;
+		let feedObserver = null;
 
       let loadingToast, successToast;
       let createPostModal,commentModal, profileModal, postOptionsModal, deleteConfirmModal, bikeStatsModal, addBikeEntryModal, goldStatsModal, addGoldEntryModal, notificationsModal;
 
       let isEditingPost = false;
       let currentEditPostId = null;
-
-      // --- BIẾN QUẢN LÝ PHÂN TRANG HISTORY ---
+ 
       let bikeHistoryPage = 1;
       let bikeHistoryLoading = false;
       let bikeHistoryHasMore = true;
 
       // --- BIẾN QUẢN LÝ PHÂN TRANG FEED ---
-      let feedPage = 1;
-      let feedLoading = false;
-      let feedHasMore = true;
+      
       // --- HASHTAG LOGIC START ---
 
-      let currentHashFilter = null; // <--- XÓA DÒNG NÀY Ở ĐÂY
+      
       // --- BIẾN QUẢN LÝ PHÂN TRANG notifPage ---
       let notifPage = 1;
       let notifLoading = false;
       let notifHasMore = true;
-      let serverNotifications = []; // Cache dữ liệu
+      let serverNotifications = []; 
       // [MỚI] Thời điểm cuối cùng người dùng thực hiện thao tác ghi
       let pendingTasksCount = 0;
       let lastUserActionTime = 0;
 
-      let isEditingGold = false; // Đang ở chế độ sửa hay thêm?
-      let currentEditGoldId = null; // ID của giao dịch đang sửa
+      let isEditingGold = false;
+      let currentEditGoldId = null;
       // Thêm dòng này vào danh sách biến global (cùng chỗ với createPostModal...)
       let imageViewerModal;
 
@@ -1898,7 +1892,7 @@
          });
       }
 
-      // Thêm vào vùng Utils hoặc đầu script
+      //Utils
       const formatCurrency = (value) => {
          return new Intl.NumberFormat('vi-VN', {
             style: 'currency',
@@ -1956,6 +1950,49 @@
             // Giữ lại Profile và BabyRun vì nó quan trọng và nhẹ
          }
       }
+
+	/**
+	 * Tạo HTML cho Avatar người dùng (Refactored)
+	 * @param {Object} entity - Đối tượng chứa thông tin (user, post, comment)
+	 * @param {string} sizeClass - Class kích thước (avatar-circle-sm, avatar-circle-lg...)
+	 * @returns {string} HTML string
+	 */
+	function createAvatarHtml(entity, sizeClass = 'avatar-circle-sm') {
+	   // 1. Xác định dữ liệu (Hỗ trợ nhiều tên trường khác nhau trong code cũ)
+	   // Ưu tiên avatar -> avatarData -> avaurl
+	   const imgUrl = entity.avatar || entity.avatarData || entity.avaurl || '';
+	   // Ưu tiên fullname -> fullName -> username
+	   const name = entity.fullname || entity.fullName || entity.username || '?';
+	   
+	   // 2. Nội dung bên trong (Ảnh hoặc Chữ cái đầu)
+	   const innerContent = (imgUrl && imgUrl.trim() !== '') 
+		  ? `<img src="${imgUrl}" class="w-100 h-100 object-fit-cover" loading="lazy" alt="${name}">`
+		  : `<span class="small fw-bold theme-text-primary" style="font-size: 1.2em;">${name.charAt(0).toUpperCase()}</span>`;
+
+	   // 3. Trả về khung HTML chuẩn
+	   return `
+		  <div class="avatar-circle ${sizeClass} flex-shrink-0 overflow-hidden border d-flex align-items-center justify-content-center bg-white" 
+			   style="cursor: pointer;">
+			 ${innerContent}
+		  </div>
+	   `;
+	}
+
+	/**
+	 * Tạo HTML cho Loader/Spinner (Refactored)
+	 * @param {string} id - ID của thẻ div loader (để tiện xóa sau này)
+	 * @param {string} text - Nội dung hiển thị (Mặc định: 'Đang tải...')
+	 * @param {string} extraClasses - Class CSS bổ sung (căn giữa, padding...)
+	 * @returns {string} HTML string
+	 */
+	function createLoaderHtml(id, text = 'Đang tải...', extraClasses = 'text-center py-3 text-muted small fade-in') {
+		return `
+			<div id="${id}" class="${extraClasses} w-100 d-flex align-items-center justify-content-center">
+				 <div class="spinner-border spinner-border-sm theme-text-primary me-2" role="status"></div>
+				 <span>${text}</span>
+			</div>
+		`;
+	}
 
       // --- KHỞI TẠO ỨNG DỤNG ---_-----------------------------------------------------------------------------------------------------------
  
@@ -2454,7 +2491,7 @@
 
          chartContainer.innerHTML = `
       			<div class="d-flex align-items-end justify-content-between" style="height: 100%;">
-      			  ${days.map((day, i) => {
+      	 ${days.map((day, i) => {
             const height = (counts[i] / maxCount) * 100;
             const date = new Date(day);
             const dayName = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'][date.getDay()];
@@ -2517,10 +2554,9 @@
 
          const historyContainer = document.getElementById('bike-history-list');
          if (historyContainer) {
-            historyContainer.innerHTML = '<div class="d-flex justify-content-center align-items-center py-3"><div class="spinner-border text-primary spinner-border-sm" role="status"></div></div>';
-         }
-
-         // Gọi API TRANG 1 (Limit 15 dòng - Đủ cho 1 ngày)
+            // Sử dụng hàm chung
+			historyContainer.innerHTML = createLoaderHtml('bike-history-loader', 'Đang tải lịch sử...', 'py-3');
+         } 
          loadBikeHistoryData(1);
       }
 
@@ -2532,11 +2568,10 @@
             const res = await sendToServer({
                action: 'get_bike_stats',
                page: page,
-               limit: 15 // Chỉ tải 15 dòng mỗi lần -> Rất nhanh
+               limit: 15
             });
 
             if (res.status === 'success') {
-               // 1. Nếu là trang 1: Cập nhật Stats & Chart
                if (page === 1) {
                   if (res.stats) {
                      document.getElementById('stats-today').textContent = res.stats.today;
@@ -2545,9 +2580,7 @@
                   }
                   if (res.history) renderBikeChartFromServer(res.history);
                }
-
-               // 2. Render Danh sách Log
-               bikeHistoryHasMore = res.hasMore; // Server báo còn dữ liệu ko
+               bikeHistoryHasMore = res.hasMore;
                renderBikeHistoryPaged(res.logs, page);
             }
          } catch (e) {
@@ -2559,23 +2592,25 @@
 
       // --- HÀM PHỤ TRỢ: TẠO HTML CHO 1 DÒNG LOG ---
       function createLogItemHtml(log) {
-         const firstLetter = log.username ? log.username.charAt(0).toUpperCase() : '?';
-         return `
-      				<div class="list-group-item border-0 p-2 d-flex justify-content-between align-items-center mb-1 rounded hover-bg-light">
-      					<div class="d-flex align-items-center">
-      						 <div class="rounded-circle theme-bg-primary d-flex align-items-center justify-content-center text-white me-2 shadow-sm" style="width: 32px; height: 32px; font-size: 12px; font-weight: bold;">
-      							${firstLetter}
-      						 </div>
-      						 <div class="d-flex flex-column">
-      							 <span class="small fw-bold text-dark">${log.username || 'Ẩn danh'}</span>
-      						 </div>
-      					</div>
-      					<div class="text-end">
-      						<span class="badge bg-light text-secondary border fw-normal font-monospace">${log.time || '--:--'}</span>
-      					</div>
-      				</div>
-      			`;
-      }
+		   // Sử dụng hàm chung, ép kiểu size nhỏ
+		   const avatarHtml = createAvatarHtml(log, 'avatar-circle-sm');
+		   
+		   return `
+				<div class="list-group-item border-0 p-2 d-flex justify-content-between align-items-center mb-1 rounded hover-bg-light">
+					<div class="d-flex align-items-center">
+						 <div class="me-2" style="width: 32px; height: 32px;">
+							${avatarHtml}
+						 </div>
+						 <div class="d-flex flex-column">
+							 <span class="small fw-bold text-dark">${log.username || 'Ẩn danh'}</span>
+						 </div>
+					</div>
+					<div class="text-end">
+						<span class="badge bg-light text-secondary border fw-normal font-monospace">${log.time || '--:--'}</span>
+					</div>
+				</div>
+			`;
+		}
 
       // --- HÀM RENDER CHÍNH (ĐÃ FIX LỖI TRÙNG GROUP NGÀY) ---
       function renderBikeHistoryPaged(logsData, page) {
@@ -3148,25 +3183,17 @@
 
       async function showGoldStats() {
          goldStatsModal.show();
-
-         // Hiện loading
-         document.getElementById('gold-history-list').innerHTML = '<div class="text-center py-3 text-muted">Đang tải dữ liệu...</div>';
-
+         document.getElementById('gold-history-list').innerHTML = createLoaderHtml('gold-history-loader', 'Đang tải giao dịch vàng...');
          try {
-            // Gọi API lấy dữ liệu mới nhất từ goldchart và goldmb
             const res = await sendToServer({
                action: 'get_gold_data'
             });
 
             if (res.status === 'success') {
-
-               goldPortfolioData = res.portfolio; // Dữ liệu giao dịch cá nhân 
-
+               goldPortfolioData = res.portfolio;
                if (res.chartData)
                   renderGoldChart(res.chartData);
                updateGoldStats(res.chartData);
-
-               // 2. Tính toán P&L và vẽ danh sách giao dịch (Logic phức tạp của bạn)
                loadGoldPortfolio();
             }
          } catch (e) {
@@ -3174,10 +3201,7 @@
             showToast('Lỗi tải dữ liệu vàng');
          }
       }
-
-
-      // --- LOGIC TÍNH TOÁN PORTFOLIO & HIỂN THỊ ---
-      // --- LOGIC TÍNH TOÁN PORTFOLIO (CẬP NHẬT: FONT SIZE 0.8REM, BỎ BOLD) ---
+      // --- LOGIC TÍNH TOÁN
       function loadGoldPortfolio() {
          const listEl = document.getElementById('gold-history-list');
          listEl.innerHTML = '';
@@ -3653,10 +3677,7 @@
          // Icon tích xanh (chỉ hiện cho chủ sở hữu - tùy chỉnh logic của bạn)
          const verifiedIcon = isOwner ? `<i class="bi bi-patch-check-fill text-primary ms-1"></i>` : '';
 
-         // Xử lý Avatar (Ảnh hoặc Chữ cái đầu)
-         const avatarHtml = avatarUrl ?
-            `<img src="${avatarUrl}" class="w-100 h-100 object-fit-cover" alt="Avatar">` :
-            `<div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light text-primary fw-bold fs-5">${displayName.charAt(0).toUpperCase()}</div>`;
+         const avatarHtml = createAvatarHtml(post, 'avatar-circle');
 
          let statusBadge = '';
 
@@ -3873,8 +3894,8 @@
 
          if (currentImages.length === 0) {
             previewContainer.classList.add('d-none');
-            imageOptions.classList.add('d-none'); // Ẩn nút HD
-            layoutSelector.classList.add('d-none'); // Ẩn Layout
+            imageOptions.classList.add('d-none');
+            layoutSelector.classList.add('d-none');
             postBtn.disabled = !document.getElementById('post-input').value.trim();
             return;
          }
@@ -3884,10 +3905,8 @@
          imageCount.textContent = currentImages.length;
          postBtn.disabled = false;
 
-         // [LOGIC MỚI] Hiển thị nút HD ngay khi có ảnh
          imageOptions.classList.remove('d-none');
 
-         // [LOGIC MỚI] Chỉ hiển thị chọn Layout nếu >= 3 ảnh
          if (currentImages.length >= 3) {
             layoutSelector.classList.remove('d-none');
          } else {
@@ -3939,13 +3958,8 @@
       }
 
       // Notifications
-      // --- XỬ LÝ THÔNG BÁO (NOTIFICATIONS) ---
-
-      // 1. Nút Đánh dấu tất cả đã đọc
       document.getElementById('mark-all-read').addEventListener('click', async () => {
-         // [SỬA] Chọn đúng class mới là .notification-content-box
          const unreadItems = document.querySelectorAll('.notification-content-box.unread');
-
          unreadItems.forEach(el => {
             // 1. Bỏ class unread (để đổi màu nền)
             el.classList.remove('unread');
@@ -3980,7 +3994,6 @@
 
 
       // Navigation điều hướng 
-      // --- SỬA LẠI LOGIC CHUYỂN TAB ---
       document.querySelectorAll('.nav-link').forEach(btn => {
          btn.addEventListener('click', () => {
 
@@ -4010,7 +4023,6 @@
             else fabBtn.classList.add('d-none');
 
             // 4. [TỐI ƯU] KHÔNG RESET DỮ LIỆU KHI CHUYỂN TAB
-            // Chỉ tải lần đầu tiên nếu chưa có dữ liệu
             if (currentTab === 'feed' && serverFeedData.length === 0) {
                loadFeedData(1);
             } else if (currentTab === 'home') {
@@ -4026,9 +4038,7 @@
          });
       });
 
-      // --- XỬ LÝ NÚT CHUÔNG (MỞ MODAL & LOAD DỮ LIỆU) ---
-      // --- 3. CẬP NHẬT SỰ KIỆN CLICK NÚT CHUÔNG ---
-      // Khi ấn vào chuông -> Ẩn số đỏ đi (Giả định người dùng đã xem)
+      // --- XỬ LÝ NÚT CHUÔNG
       document.getElementById('notification-btn').addEventListener('click', () => {
 
          // --> THÊM DÒNG NÀY
@@ -4111,8 +4121,7 @@
          }
       }
 
-      // --- HÀM RENDER THÔNG BÁO (ĐÚNG FORMAT & CHẤM ĐỎ) ---
-      // --- HÀM RENDER THÔNG BÁO (CÓ SWIPE & DOT ĐỎ) ---
+      // --- HÀM RENDER THÔNG BÁO 
       function renderNotificationsPaged(newNotifs, container) {
          if (serverNotifications.length === 0) {
             container.innerHTML = `
@@ -6212,9 +6221,7 @@
 			   </button>` :
             '';
 
-         const avatarHtml = cmt.avatar ?
-            `<img src="${cmt.avatar}" class="w-100 h-100 object-fit-cover">` :
-            `<span class="small fw-bold">${cmt.fullname.charAt(0).toUpperCase()}</span>`;
+         const avatarHtml = createAvatarHtml(cmt, 'avatar-circle-sm');
 
          const timeDisplay = formatTimeSmart(cmt.time || cmt.formattedTime || new Date());
 
@@ -6481,7 +6488,7 @@
          document.getElementById('current-filter-name').textContent = tag;
 
          const container = document.getElementById('posts-container');
-         container.innerHTML = ''; // Xóa trắng màn hình cũ
+         container.innerHTML = '';
 
          // 3. LỌC CLIENT: Lấy ngay bài có sẵn trong máy
          const localMatches = serverFeedData.filter(post => {
@@ -6495,13 +6502,8 @@
          }
 
          // 5. Hiện Spinner "Đang tìm thêm..." ở dưới cùng
-         const loaderHtml = `
-      				<div id="hashtag-server-loader" class="hashtag-loader">
-      					<div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
-      					Đang tìm thêm các bài cũ hơn...
-      				</div>
-      			`;
-         container.insertAdjacentHTML('beforeend', loaderHtml);
+         const loaderHtml = createLoaderHtml('hashtag-server-loader', 'Đang tìm thêm các bài cũ hơn...', 'hashtag-loader');
+		 container.insertAdjacentHTML('beforeend', loaderHtml);
 
          // 6. Ẩn nút Load More mặc định của Feed (để tránh xung đột)
          const feedLoadMore = document.getElementById('feed-load-more');
@@ -6510,8 +6512,7 @@
          // Scroll lên đầu
          document.querySelector('.main-content').scrollTop = 0;
 
-         // 7. GỌI SERVER (Bước xử lý tiếp theo)
-         // Truyền danh sách ID đã hiển thị để server (hoặc client) biết đường loại trừ
+         // 7. GỌI SERVER
          const existingIds = localMatches.map(p => p.__backendId);
          loadServerHashtagResults(tag, existingIds);
       }
@@ -6602,10 +6603,7 @@
          const wrap = document.getElementById(`notif-wrap-${id}`);
          const contentBox = wrap ? wrap.querySelector('.notification-content-box') : null;
          const actions = wrap ? wrap.querySelector('.notification-actions') : null;
-
-         // 2. [FIX QUAN TRỌNG] ẨN NÚT ACTIONS NGAY LẬP TỨC
-         // Không dùng setTimeout. Khi người dùng đã bấm chọn, nút phải biến mất ngay
-         // để tránh hiện tượng "bóng ma" khi nắp trượt đóng lại.
+ 
          if (actions) {
             actions.classList.remove('active');
          }
@@ -6732,7 +6730,6 @@
             isScrolling = false;
             return;
          }
-
          const el = e.currentTarget;
          const notifId = el.getAttribute('data-id');
          const touchEndX = e.changedTouches[0].clientX;
@@ -6789,12 +6786,8 @@
             handleSwipeAction(notifId, 'read');
          }
 
-         // 3. KIỂM TRA DỮ LIỆU:
-         // Nếu không có ID bài viết (ví dụ thông báo hệ thống, hoặc lỗi dữ liệu)
+         // 3. KIỂM TRA DỮ LIỆU
          if (!postId || postId === 'undefined' || postId === 'null' || postId === '') {
-            // [QUAN TRỌNG] Báo cho người dùng biết thay vì im lặng
-            // Nếu là thông báo hệ thống bình thường thì không cần báo, nhưng để debug thì cứ hiện toast
-            // showToast('Thông báo này không có liên kết bài viết'); 
             return;
          }
 
@@ -6809,7 +6802,6 @@
             // Fallback nếu chưa lấy được instance
             new bootstrap.Modal(modalEl).hide();
          }
-
          // Xóa backdrop (màn hình đen) thủ công nếu nó bị kẹt
          document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
          document.body.classList.remove('modal-open');
@@ -6822,7 +6814,6 @@
          }
 
          // C. TÌM VÀ CUỘN TỚI BÀI VIẾT
-         // Delay 300ms để đảm bảo Modal đã đóng và Tab Feed đã hiện ra
          setTimeout(async () => {
             let postEl = document.getElementById(`post-${postId}`);
 
@@ -6938,7 +6929,6 @@
       }
 
       // 3. LOGIC TÌM KIẾM THÔNG MINH (CORE)
-      // --- 3. LOGIC TÌM KIẾM THÔNG MINH (HYBRID: LOCAL + SERVER) ---
       async function handleSmartSearch(query) {
          const container = document.getElementById('search-results-area');
 
@@ -6953,13 +6943,11 @@
          }
 
          const rawQuery = query.toLowerCase();
-         const cleanQuery = normalizeStr(query); // Đảm bảo bạn đã có hàm normalizeStr
+         const cleanQuery = normalizeStr(query);
          let resultsHtml = '';
-         let foundAnswer = false; // Cờ đánh dấu nếu đã tìm thấy câu trả lời dạng "Thống kê/Hỏi đáp"
+         let foundAnswer = false; 
 
          // --- A. PHÂN TÍCH INTENT (HỎI ĐÁP THÔNG MINH) ---
-
-         // 1. Hỏi về bài viết nhiều Like nhất
          if (cleanQuery.includes('nhieu like') || cleanQuery.includes('thich nhat') || cleanQuery.includes('hot nhat')) {
             const sortedPosts = [...serverFeedData].sort((a, b) => (b.likes || 0) - (a.likes || 0));
             if (sortedPosts.length > 0) {
@@ -7087,37 +7075,28 @@
 
          try {
             // Gửi request tìm kiếm lên Server
-            // Reuse action 'get_feed' nhưng thêm tham số 'searchQuery'
             const res = await sendToServer({
                action: 'get_feed',
                page: 1,
-               limit: 20,          // Lấy tối đa 20 kết quả từ server
-               searchQuery: query, // Từ khóa tìm kiếm
+               limit: 20,    
+               searchQuery: query,
                username: currentProfile ? currentProfile.username : ''
             });
-
-            // Xóa Loader sau khi có phản hồi
             if (loader) loader.remove();
 
             if (res.status === 'success') {
                const serverPosts = res.data;
-
-               // QUAN TRỌNG: Lọc trùng (Chỉ lấy bài mà Client CHƯA hiển thị)
                const newMatches = serverPosts.filter(p => !existingIds.includes(p.__backendId));
 
                if (newMatches.length > 0) {
                   let serverHtml = `<h6 class="fw-bold theme-text-primary mt-3 mb-3 border-top pt-3 fade-in"><i class="bi bi-cloud-check me-2"></i>Tìm thấy thêm từ máy chủ (${newMatches.length}):</h6>`;
-
                   newMatches.forEach(post => {
                      serverHtml += createPostHtml(post);
                   });
 
                   container.insertAdjacentHTML('beforeend', serverHtml);
 
-                  // Cuộn nhẹ xuống để người dùng biết có thêm kết quả
-                  // container.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
                } else {
-                  // Server tìm được nhưng trùng hết với Local, hoặc Server cũng không tìm thấy
                   if (existingIds.length === 0) {
                      container.innerHTML = `
                         <div class="text-center py-5 text-muted">
