@@ -548,19 +548,27 @@
       </div>
    </div>
    <div class="modal fade" id="imageViewerModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen">
-         <div class="modal-content" style="background-color: black;">
-            <div class="modal-header border-0 position-fixed w-100 p-3"
-               style="z-index: 1060; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); top: 0;">
-               <button type="button" class="btn btn-link text-white p-0" data-bs-dismiss="modal">
-                  <i class="bi bi-arrow-left fs-3"></i> </button>
-               <span class="text-white ms-3 fw-bold" id="viewer-counter">Ảnh chi tiết</span>
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content bg-black">
+            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            
+            <div class="modal-body p-0 d-flex align-items-center justify-content-center w-100 h-100">
+                <div id="carouselImageViewer" class="carousel slide w-100 h-100" data-bs-ride="false"> <div class="carousel-inner h-100" id="carousel-items-container">
+                        </div>
+                    
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImageViewer" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselImageViewer" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
-            <div class="modal-body p-0 overflow-auto d-flex flex-column align-items-center" id="full-image-list" ...>
-            </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
+</div>
    <div class="modal fade" id="commentOptionsModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">

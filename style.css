@@ -206,6 +206,8 @@ body, #app {
   padding-left: 1px !important;
   padding-right: 1px !important;
   max-width: 100% !important;
+overflow-anchor: auto; 
+    min-height: 100vh;
 }
 
 /* Post Card */
@@ -221,7 +223,7 @@ body, #app {
 
 .post-author-name { font-size: 14.5px; font-weight: 600; color: #000; line-height: 1.2; }
 .post-timestamp { font-size: 11.5px; color: #65676b; font-weight: 400; }
-.post-content-text { font-size: 13px; line-height: 1.2; color: #050505; white-space: pre-wrap; margin: 5px 5px 10px 0px; }
+.post-content-text { font-size: 13.5px; line-height: 1.5; color: #050505; white-space: pre-wrap; margin: 5px 5px 10px 0px; }
 
 /* Post Image Grids */
 .post-image-grid {
@@ -257,23 +259,7 @@ body, #app {
   font-size: 2rem;
   font-weight: 700;
 }
-
-/* Lightbox Items */
-.lightbox-item {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #000;
-  border-left: 2px solid #000;
-  border-right: 2px solid #000;
-  border-bottom: 2px solid #fff;
-  margin-bottom: 0;
-}
-.lightbox-item:last-child { border-bottom: none; }
-.lightbox-image { width: 100%; height: auto; max-height: none; object-fit: contain; display: block; }
-
+ 
 /* Like Animation */
 @keyframes heartBeat {
   0%, 100% { transform: scale(1); }
@@ -485,20 +471,86 @@ body, #app {
   display: flex; align-items: center; justify-content: center;
   text-align: center; gap: 10px; padding: 1rem; cursor: pointer;
 }
+ 
+/* =========================================
+   10. SKELETON LOADING (THÊM MỚI)
+   ========================================= */
 
-/* --- IMAGE VIEWER (FULL SCREEN) --- */
-#imageViewerModal { z-index: var(--z-viewer); }
-#imageViewerModal .modal-dialog {
-  margin: 0; padding: 0; width: 100%; height: 100%; max-width: none;
-  position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+/* Hiệu ứng sóng ánh sáng chạy qua */
+@keyframes skeleton-loading {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
-#imageViewerModal .modal-content { height: 100%; border-radius: 0; background-color: #000; }
-#imageViewerModal .modal-header {
-  position: absolute; top: 0; left: 0; width: 100%; z-index: 10;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
-  border-bottom: none; padding: 10px 15px;
+
+/* Class gốc cho mọi khối skeleton */
+.skeleton {
+  background: #e0e0e0; /* Màu nền xám */
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
 }
-#full-image-list {
-  flex: 1; width: 100%; overflow-y: auto; padding-top: 50px; padding-bottom: 20px; background-color: #000;
+
+/* Lớp phủ tạo hiệu ứng sóng chạy */
+.skeleton::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; 
+  height: 100%; width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: skeleton-loading 1.2s infinite; /* Chạy lặp lại mỗi 1.2 giây */
 }
-#imageViewerModal ~ .modal-backdrop { display: none; }
+
+/* Cấu trúc khung xương của 1 bài post giả */
+.post-skeleton {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 1px; /* Khớp với margin của post thật */
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Hình tròn giả avatar */
+.skeleton-avatar { 
+  width: 40px; height: 40px; 
+  border-radius: 50%; 
+  float: left; 
+  margin-right: 10px; 
+}
+
+/* Các dòng kẻ ngang giả text */
+.skeleton-line { height: 12px; margin-bottom: 8px; margin-top: 5px;}
+.skeleton-line.short { width: 50%; } /* Dòng ngắn (tên user) */
+
+/* Khối vuông lớn giả ảnh bài đăng */
+.skeleton-img { 
+  height: 250px; 
+  width: 100%; 
+  margin-top: 15px; 
+  border-radius: 0; 
+}
+
+/* Nút Xem thêm / Thu gọn */
+.see-more-btn {
+    color: var(--primary-dark);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 5px;
+}
+.see-more-btn:hover {
+    text-decoration: underline;
+}
+
+/* Tùy chỉnh Carousel để ảnh nằm giữa nền đen */
+#imageViewerModal .carousel-item {
+    height: 100%;
+    transition: transform 0.3s ease-in-out; /* Vuốt mượt hơn */
+}
+#imageViewerModal .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Quan trọng: Giữ tỉ lệ ảnh */
+    background-color: #000;
+}
+/* Ẩn nút prev/next nếu chỉ có 1 ảnh (JS sẽ xử lý thêm class này) */
+.carousel-control-none { display: none !important; }

@@ -7,6 +7,157 @@
  * 2. Biến toàn cục 'API_URL' cần được định nghĩa trước khi gọi hàm sendToServer.
  * =============================================================================
  */
+// --- CẤU HÌNH KẾT NỐI ---
+const API_URL = 'https://script.google.com/macros/s/AKfycbxRQUX-pqR4Qyjei6ijyb7cjZzPS_a3daRJ8vdrbZfRHBbJKG0XckYS-caCfSqrVnFkDw/exec';
+
+let userFingerprint = null;
+
+// 5. Quản lý LocalStorage
+const STORAGE_KEY = 'social_memory_profile';
+
+// --- DỮ LIỆU RANDOM ---
+const randomAnimals = ['Gấu', 'Hổ', 'Sư Tử', 'Voi', 'Hươu', 'Cá', 'Vẹt', 'Mèo', 'Chó', 'Rùa', 'Khỉ', 'Thỏ', 'Sói', 'Cáo', 'Heo', 'Bò', 'Gà', 'Vịt', 'Cú', 'Dê', 'Cừu', 'Kiến', 'Tép', 'Tôm'];
+const randomColors = ['Xanh', 'Đỏ', 'Tím', 'Vàng', 'Cam', 'Hồng', 'Đen', 'Trắng'];
+
+const defaultConfig = {
+   app_title: 'Love Story',
+   welcome_message: 'Lưu giữ kỷ niệm đẹp'
+};
+
+const themes = {
+   green: {
+      primary: '#006B68',
+      secondary: '#FFC62F',
+      text: '#212529',
+      bg: '#f8f9fa',
+      surface: '#ffffff'
+   },
+   purple: {
+      primary: '#667eea',
+      secondary: '#764ba2',
+      text: '#1f2937',
+      bg: '#f8f9fa',
+      surface: '#ffffff'
+   },
+   blue: {
+      primary: '#1e3a8a',
+      secondary: '#3b82f6',
+      text: '#000000',
+      bg: '#f0f9ff',
+      surface: '#ffffff'
+   },
+   red: {
+      primary: '#dc2626',
+      secondary: '#fb923c',
+      text: '#000000',
+      bg: '#fef2f2',
+      surface: '#ffffff'
+   }
+};
+
+const defaultStatsLayout = [{
+   id: 'bike',
+   column: 0,
+   size: 'medium'
+},
+{
+   id: 'days',
+   column: 0,
+   size: 'medium'
+},
+{
+   id: 'memory',
+   column: 0,
+   size: 'medium'
+},
+{
+   id: 'event',
+   column: 0,
+   size: 'medium'
+},
+{
+   id: 'gold',
+   column: 0,
+   size: 'medium'
+}
+];
+
+let allData = [];
+let currentProfile = null;
+let currentTab = 'home';
+let currentPostId = null;
+let pendingDeleteId = null;
+let pendingDeleteType = null;
+let currentImages = [];
+let currentImagePreviews = [];
+let memoryImageData = null;
+let recordCount = 0;
+let currentTheme = 'green';
+let selectedLayout = 'grid-2x2';
+let isEditMode = false;
+let statsLayout = [...defaultStatsLayout];
+let draggedElement = null;
+let draggedId = null;
+
+let serverFeedData = [];
+let feedPage = 1;
+let feedLoading = false;
+let feedHasMore = true;
+let isLoadingFeed = false;
+let currentHashFilter = null;
+let feedObserver = null;
+
+let loadingToast, successToast;
+let createPostModal, commentModal, profileModal, postOptionsModal, deleteConfirmModal, bikeStatsModal, addBikeEntryModal, goldStatsModal, addGoldEntryModal, notificationsModal;
+
+let isEditingPost = false;
+let currentEditPostId = null;
+
+let bikeHistoryPage = 1;
+let bikeHistoryLoading = false;
+let bikeHistoryHasMore = true;
+
+// --- BIẾN QUẢN LÝ PHÂN TRANG FEED ---
+
+// --- HASHTAG LOGIC START ---
+
+
+// --- BIẾN QUẢN LÝ PHÂN TRANG notifPage ---
+let notifPage = 1;
+let notifLoading = false;
+let notifHasMore = true;
+let serverNotifications = [];
+// [MỚI] Thời điểm cuối cùng người dùng thực hiện thao tác ghi
+let pendingTasksCount = 0;
+let lastUserActionTime = 0;
+
+let isEditingGold = false;
+let currentEditGoldId = null;
+// Thêm dòng này vào danh sách biến global (cùng chỗ với createPostModal...)
+let imageViewerModal;
+
+// Biến toàn cục lưu dữ liệu vàng
+let goldMarketData = [];
+let goldPortfolioData = [];
+// --- BIẾN TOÀN CỤC MỚI CHO COMMENT ---
+let currentCommentId = null;
+let currentCommentContent = '';
+let commentOptionsModal = new bootstrap.Modal(document.getElementById('commentOptionsModal'));
+let editCommentContentModal = new bootstrap.Modal(document.getElementById('editCommentContentModal'));
+
+// Trong hàm initApp hoặc (async () => { ... })();
+// Thêm dòng này vào phần khởi tạo:
+imageViewerModal = new bootstrap.Modal(document.getElementById('imageViewerModal'));
+// --- BIẾN QUẢN LÝ TIẾN TRÌNH UPLOAD ---
+// --- LOGIC XỬ LÝ VUỐT (SWIPE) & CLICK THÔNG MINH ---
+let touchStartX = 0;
+let currentSwipedId = null;
+let isSwiping = false; // Biến cờ để chặn click nhầm khi đang vuốt
+// --- LOGIC XỬ LÝ VUỐT (SWIPE) & CLICK THÔNG MINH (ĐÃ FIX LỖI CUỘN TRANG) ---
+let touchStartY = 0; // [MỚI] Thêm biến lưu tọa độ Y
+let isScrolling = false; // [MỚI] Biến cờ xác định đang cuộn trang
+// --- BIẾN QUẢN LÝ PHÂN TRANG FEED ---
+let currentMarketPrice_GoldData = null;
 
 /* ==========================================================================
    1. XỬ LÝ CHUỖI & DỮ LIỆU CƠ BẢN (STRING & DATA PARSING)

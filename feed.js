@@ -4,8 +4,12 @@ async function loadFeedData(page = 1, isBackgroundRefresh = false) {
    const container = document.getElementById('posts-container');
    if (feedLoading) return;
    feedLoading = true;
+
+   // [THAY ĐỔI Ở ĐÂY] 
+   // Nếu là trang 1 và không phải chạy ngầm -> Hiện Skeleton thay vì Spinner quay quay
    if (page === 1 && !isBackgroundRefresh && (!serverFeedData || serverFeedData.length === 0)) {
-      container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
+      // Gọi hàm vừa tạo ở Bước A
+      container.innerHTML = createSkeletonHtml(3); 
    }
    try {
       const payload = {
@@ -77,47 +81,43 @@ async function loadFeedData(page = 1, isBackgroundRefresh = false) {
 }
 
 // --- HÀM PHỤ TRỢ: TRỘN DỮ LIỆU THÔNG MINH (SMART MERGE) ---
+// Trong feed.js - Thay thế hàm mergeServerDataToView cũ
 function mergeServerDataToView(newServerPosts) {
    const container = document.getElementById('posts-container');
    if (!newServerPosts || newServerPosts.length === 0) return;
 
-   // 1. Tạo Map dữ liệu cũ để tra cứu nhanh (Tăng tốc độ)
    const localMap = new Map(serverFeedData.map(p => [p.__backendId, p]));
+
    for (let i = newServerPosts.length - 1; i >= 0; i--) {
       const serverPost = newServerPosts[i];
       const localPost = localMap.get(serverPost.__backendId);
 
       if (localPost) {
-         // A. ĐÃ CÓ -> CẬP NHẬT (UPDATE)
-         // Chỉ cập nhật nếu có thay đổi quan trọng
-         const isChanged =
-            localPost.content !== serverPost.content ||
-            localPost.imageData !== serverPost.imageData ||
-            localPost.likes !== serverPost.likes ||
-            localPost.comments !== serverPost.comments;
+         // 1. CẬP NHẬT DỮ LIỆU GỐC
+         Object.assign(localPost, serverPost);
 
-         if (isChanged) {
-            Object.assign(localPost, serverPost);
-            const existingEl = document.getElementById(`post-${serverPost.__backendId}`);
-            if (existingEl) {
-               const tempDiv = document.createElement('div');
-               tempDiv.innerHTML = createPostHtml(serverPost);
-               const newContent = tempDiv.firstElementChild.innerHTML;
-               existingEl.innerHTML = newContent;
+         // 2. CẬP NHẬT DOM (Granular Update - Chỉ sửa chỗ cần sửa)
+         const postEl = document.getElementById(`post-${serverPost.__backendId}`);
+         if (postEl) {
+            // A. Cập nhật Like
+            const likeText = postEl.querySelector('.like-btn span');
+            if (likeText) likeText.textContent = serverPost.likes > 0 ? serverPost.likes : 'Thích';
+            
+            // B. Cập nhật Comment Count (nếu bạn hiện số comment)
+            // ...
+
+            // C. Cập nhật nội dung (chỉ khi khác biệt)
+            const contentEl = postEl.querySelector('.post-content-text');
+            // Cần hàm so sánh hoặc đơn giản là gán lại nếu text thay đổi
+            if (contentEl && localPost.content !== serverPost.content) {
+                 contentEl.innerHTML = processTextWithHashtags(serverPost.content);
             }
          }
       } else {
+         // Bài mới chưa có -> Thêm vào đầu
          serverFeedData.unshift(serverPost);
          const html = createPostHtml(serverPost);
-         const emptyMsg = container.querySelector('.text-center.py-5');
-         if (emptyMsg && emptyMsg.innerText.includes('Chưa có bài')) emptyMsg.remove();
-
          container.insertAdjacentHTML('afterbegin', html);
-         const newEl = document.getElementById(`post-${serverPost.__backendId}`);
-         if (newEl) {
-            newEl.style.backgroundColor = '#f0fdf4';
-            setTimeout(() => newEl.style.backgroundColor = '', 2000);
-         }
       }
    }
 }
@@ -211,7 +211,7 @@ async function handlePostSubmit() {
                if (res.status === 'success') finalImageData.push(res.url);
                else throw new Error("Lỗi ảnh số " + (i + 1));
             } else {
-               const compressedBase64 = await compressImage(file, 1920, 0.8);
+               const compressedBase64 = await compressImage(file, 1920, 0.7);
                finalImageData.push(compressedBase64);
             }
          }
@@ -366,32 +366,52 @@ if (createPostModalEl) {
    });
 }
 
-// Hàm Render chính (Hỗ trợ Append)
+// Hàm Render chính (Hỗ trợ Append và Tự động dọn dẹp DOM)
 function renderPostsPaged(newPosts, page) {
    const container = document.getElementById('posts-container');
 
-   // Xóa trigger cũ
+   // 1. Xóa trigger cũ (Nút loading cũ)
    const oldTrigger = document.getElementById('feed-load-more');
    if (oldTrigger) oldTrigger.remove();
 
-   // Nếu trang 1: Xóa trắng container và check rỗng
+   // 2. Nếu là trang 1: Reset toàn bộ
    if (page === 1) {
       container.innerHTML = '';
       if (!newPosts || newPosts.length === 0) {
          container.innerHTML = `
-      						<div class="text-center py-5">
-      							<i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
-      							<p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
-      							<p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
-      						</div>
-      					`;
+            <div class="text-center py-5">
+               <i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
+               <p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
+               <p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
+            </div>
+         `;
          return;
       }
    }
 
-   // Append bài mới
+   // 3. Append bài mới vào cuối danh sách
    let html = newPosts.map(post => createPostHtml(post)).join('');
    container.insertAdjacentHTML('beforeend', html);
+
+   // --- [ĐOẠN CODE MỚI] TỐI ƯU HÓA BỘ NHỚ ---
+   // Giới hạn chỉ giữ lại khoảng 50 bài viết (5 trang) trong DOM
+   const MAX_POSTS = 30; 
+   const allPosts = container.getElementsByClassName('post-card'); // Dùng getElementsByClassName để lấy danh sách "động" nhanh hơn
+
+   // Chỉ kích hoạt dọn dẹp khi số lượng bài vượt quá giới hạn VÀ người dùng đã cuộn xuống sâu
+   if (allPosts.length > MAX_POSTS && window.scrollY > 4000) {
+      const removeCount = allPosts.length - MAX_POSTS;
+      
+      // Xóa bớt các bài cũ nhất (nằm ở trên cùng)
+      for (let i = 0; i < removeCount; i++) {
+         // Luôn xóa phần tử đầu tiên (index 0) vì sau khi xóa, phần tử thứ 2 sẽ đẩy lên thành thứ 1
+         if (allPosts[0]) allPosts[0].remove();
+      }
+      console.log(`[System] Đã dọn dẹp ${removeCount} bài viết cũ để giảm tải RAM.`);
+   }
+   // ---------------------------------------------
+
+   // 4. Xử lý Trigger tải thêm (Infinite Scroll)
    if (feedHasMore) {
       const trigger = document.createElement('div');
       trigger.id = 'feed-load-more';
@@ -409,7 +429,9 @@ function renderPostsPaged(newPosts, page) {
       container.appendChild(trigger);
 
       // Yêu cầu Observer toàn cục theo dõi phần tử này
-      globalScrollObserver.observe(trigger);
+      if (globalScrollObserver) {
+          globalScrollObserver.observe(trigger);
+      }
    } else if (page > 1) {
       // Đã hết tin để load
       container.insertAdjacentHTML('beforeend', '<div class="text-center py-4 text-muted small">--- Bạn đã xem hết tin ---</div>');
@@ -521,7 +543,7 @@ imageInput.addEventListener('change', async (e) => {
       // 1. Lưu file gốc vào mảng
       currentImages.push(file);
       // Dùng hàm nén cũ để tạo thumbnail hiển thị cho đỡ lag máy
-      const previewBase64 = await compressImage(file, 300, 0.6);
+      const previewBase64 = await compressImage(file, 500, 0.6);
       currentImagePreviews.push(previewBase64);
    }
 
@@ -1261,17 +1283,23 @@ function highlightPost(element) {
 }
 
 
-function renderPostImages(images, layout) {
-   if (!images || images.length === 0) return '';
+// File: feed.js
+
+// 1. Thêm tham số postId = null
+function renderPostImages(images, layout, postId = null) {
+   if (!images || images.length === 0) 
+		return '';
+        
    const count = images.length;
    let layoutClass = '';
+   
+   // ... (Giữ nguyên logic chia layout cũ của bạn) ...
    if (count === 1) {
       layoutClass = 'layout-1';
    } else if (count === 2) {
       layoutClass = 'layout-2';
    } else {
       const validLayout = layout || 'grid-2x2';
-
       if (validLayout === '1-wide') {
          layoutClass = 'layout-1-wide';
       } else if (validLayout === '1-tall') {
@@ -1285,138 +1313,176 @@ function renderPostImages(images, layout) {
 
    let displayLimit = 4;
    if (layoutClass === 'layout-1-wide' || layoutClass === 'layout-1-tall') {
-      displayLimit = 3; // Layout này chỉ đẹp khi hiện 3 ảnh (1 to 2 nhỏ)
+      displayLimit = 3;
    }
 
    const showCount = Math.min(count, displayLimit);
 
    for (let i = 0; i < showCount; i++) {
+      // 2. [QUAN TRỌNG] Logic xử lý onclick an toàn
+      // Nếu có postId (ở Feed) -> Gán hàm mở Modal
+      // Nếu không có postId (ở Preview) -> Không gán onclick (hoặc làm việc khác tùy bạn)
+      const clickAttr = postId 
+          ? `onclick="openPostImages('${postId}', ${i})"` 
+          : ''; 
+
+      // 3. Chèn biến clickAttr vào thẻ img
       html += `<div class="img-box">`;
-      html += `<img src="${images[i]}" alt="Image">`;
+      html += `<img src="${images[i]}" 
+              loading="lazy" 
+              class="w-100 h-100 object-fit-cover cursor-pointer" 
+              ${clickAttr} 
+              alt="Image">`;
 
       if (i === showCount - 1 && count > displayLimit) {
          html += `<div class="image-overlay">+${count - displayLimit}</div>`;
       }
-
       html += `</div>`;
    }
-
    html += '</div>';
    return html;
 }
 
 // --- HÀM RENDER POSTS 
-
 function createPostHtml(post) {
    const displayName = post.fullname || post.username || 'Người dùng';
-   const avatarUrl = post.avatar;
+   const avatarUrl = post.avatar; // Biến này có vẻ chưa dùng, nhưng giữ lại theo code gốc
    const images = parseImages(post.imageData);
+   
+   // --- LOGIC 1: QUYỀN CHỦ SỞ HỮU ---
    const isOwner = currentProfile && currentProfile.username === post.username;
    const verifiedIcon = isOwner ? `<i class="bi bi-patch-check-fill text-primary ms-1"></i>` : '';
-   const avatarHtml = createAvatarHtml(post, 'avatar-circle');
+   const avatarHtml = createAvatarHtml(post, 'avatar-circle'); // Hàm này bạn đã có sẵn
+   
+   // --- LOGIC 2: TRẠNG THÁI (SPINNER / MENU 3 CHẤM) ---
    let statusBadge = '';
    if (post.isUploading) {
-      // TRƯỜNG HỢP 1: Đang đăng bài -> Hiện Spinner + Text trạng thái
       statusBadge = `
-				   <div id="status-badge-${post.__backendId}" class="ms-auto d-flex align-items-center text-muted small">
-					  <span class="spinner-border spinner-border-sm me-1" style="width: 0.8rem; height: 0.8rem;"></span>
-					  ${post.uploadStatus || 'Đang xử lý...'}
-				   </div>
-				`;
+         <div id="status-badge-${post.__backendId}" class="ms-auto d-flex align-items-center text-muted small">
+            <span class="spinner-border spinner-border-sm me-1" style="width: 0.8rem; height: 0.8rem;"></span>
+            ${post.uploadStatus || 'Đang xử lý...'}
+         </div>`;
    } else if (isOwner) {
-      // TRƯỜNG HỢP 2: Bài đã đăng & Là chủ bài viết -> Hiện nút 3 chấm
       statusBadge = `
-					<button class="btn btn-sm btn-link text-muted post-menu-btn ms-auto" data-id="${post.__backendId}">
-						<i class="bi bi-three-dots"></i>
-					</button>
-				`;
+         <button class="btn btn-sm btn-link text-muted post-menu-btn ms-auto" data-id="${post.__backendId}">
+            <i class="bi bi-three-dots"></i>
+         </button>`;
    } else {
-      // TRƯỜNG HỢP 3: Bài người khác -> Để trống
       statusBadge = '<div class="ms-auto"></div>';
    }
-   // -----------------------------------------------------------
 
-   // Xử lý nút Like (Tim đỏ hay Tim rỗng)
+   // --- LOGIC 3: NÚT LIKE ---
    const heartIconClass = post.liked ? 'bi-heart-fill text-danger' : 'bi-heart';
    const likeCountText = post.likes > 0 ? post.likes : 'Thích';
    const likeBtnClass = post.liked ? 'active' : '';
 
-   // Xử lý thời gian hiển thị
+   // --- LOGIC 4: XỬ LÝ NỘI DUNG DÀI (TÍNH NĂNG MỚI) ---
+   let contentHtml = '';
+   if (post.content) {
+       const contentRaw = post.content;
+       const MAX_LENGTH = 300; // Ngưỡng ký tự để cắt
+
+       if (contentRaw.length > MAX_LENGTH) {
+           // Tạo bản rút gọn và bản đầy đủ
+           const shortText = processTextWithHashtags(contentRaw.substring(0, MAX_LENGTH) + '...');
+           const fullText = processTextWithHashtags(contentRaw);
+           
+           contentHtml = `
+               <div class="post-content-text">
+                   <div id="content-short-${post.__backendId}">
+                       ${shortText}
+                       <span class="see-more-btn fw-bold text-primary cursor-pointer" onclick="togglePostContent(this, '${post.__backendId}')">Xem thêm</span>
+                   </div>
+                   <div id="content-full-${post.__backendId}" style="display: none;">
+                       ${fullText}
+                   </div>
+               </div>`;
+       } else {
+           // Nếu ngắn thì hiện bình thường
+           contentHtml = `<div class="post-content-text">${processTextWithHashtags(contentRaw)}</div>`;
+       }
+   }
+
+   // --- LOGIC 5: XỬ LÝ ẢNH (TÍNH NĂNG MỚI) ---
+   // Quan trọng: Truyền thêm post.__backendId vào tham số thứ 3
+   // để hàm renderPostImages gắn sự kiện onclick mở Modal Viewer
+   const imagesHtml = renderPostImages(images, post.layout || 'grid-2x2', post.__backendId);
+
+   // --- LOGIC 6: XỬ LÝ COMMENT ---
    const timeDisplay = formatTimeSmart(post.timestamp || post.createdAt);
-   // Xử lý hiển thị Bình luận (Hiện 2 cái đầu, còn lại ẩn)
    let commentsHtml = '';
-   const comments = post.commentsData || []; // Dữ liệu comment đính kèm (nếu có)
+   const comments = post.commentsData || [];
 
    if (comments.length > 0) {
       const visibleComments = comments.slice(0, 2);
       const hiddenComments = comments.slice(2);
-      // Tạo HTML cho các comment hiển thị
       let commentListHtml = visibleComments.map(c => createCommentHtml(c)).join('');
-      // Nếu còn comment ẩn -> Tạo nút "Xem thêm"
+      
       if (hiddenComments.length > 0) {
          const hiddenHtml = hiddenComments.map(c => createCommentHtml(c)).join('');
          commentListHtml += `
-						<div id="hidden-comments-${post.__backendId}" class="d-none fade-in">
-							${hiddenHtml}
-						</div>
-						<div class="text-start ms-5">
-							<button class="btn btn-link btn-sm p-0 text-decoration-none text-muted fw-bold" style="font-size: 0.8rem;"
-									onclick="document.getElementById('hidden-comments-${post.__backendId}').classList.remove('d-none'); this.remove();">
-								Xem thêm ${hiddenComments.length} bình luận khác...
-							</button>
-						</div>`;
+            <div id="hidden-comments-${post.__backendId}" class="d-none fade-in">
+               ${hiddenHtml}
+            </div>
+            <div class="text-start ms-5">
+               <button class="btn btn-link btn-sm p-0 text-decoration-none text-muted fw-bold" style="font-size: 0.8rem;"
+                     onclick="document.getElementById('hidden-comments-${post.__backendId}').classList.remove('d-none'); this.remove();">
+                  Xem thêm ${hiddenComments.length} bình luận khác...
+               </button>
+            </div>`;
       }
       commentsHtml = `<div class="comments-section mt-0 fade-in"><div id="comments-container-${post.__backendId}">${commentListHtml}</div></div>`;
    } else {
       commentsHtml = `<div class="comments-section mt-2" id="comments-container-${post.__backendId}"></div>`;
    }
 
+   // --- TRẢ VỀ HTML CUỐI CÙNG ---
    return `
-				<div class="post-card p-3 fade-in" id="post-${post.__backendId}">
-					
-					<div class="d-flex align-items-center mb-2">
-						<div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
-							${avatarHtml}
-						</div>
-						<div>
-							<p class="mb-0 d-flex align-items-center post-author-name"> 
-								${displayName} ${verifiedIcon}
-							</p>
-							<div class="post-timestamp"> 
-								${timeDisplay}
-							</div>
-						</div>
-						${statusBadge}
-					</div>
-					
-					${post.content ? `<div class="post-content-text">${processTextWithHashtags(post.content)}</div>` : ''}
-					${renderPostImages(images, post.layout || 'grid-2x2')}
-					
-					<div class="d-flex gap-4 my-2" style="margin-left: 15px !important;">
-						<button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
-								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
-							<i class="bi ${heartIconClass} fs-5"></i>
-							<span>${likeCountText}</span>
-						</button>
-						
-						<button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
-								data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
-							<i class="bi bi-chat fs-5"></i>
-							<span>Bình luận</span>
-						</button>
-					</div>
+      <div class="post-card p-3 fade-in" id="post-${post.__backendId}">
+         
+         <div class="d-flex align-items-center mb-2">
+            <div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
+               ${avatarHtml}
+            </div>
+            <div>
+               <p class="mb-0 d-flex align-items-center post-author-name"> 
+                  ${displayName} ${verifiedIcon}
+               </p>
+               <div class="post-timestamp"> 
+                  ${timeDisplay}
+               </div>
+            </div>
+            ${statusBadge}
+         </div>
+         
+         ${contentHtml} 
+         ${imagesHtml}
+         
+         <div class="d-flex gap-4 my-2" style="margin-left: 15px !important;">
+            <button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
+                  data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
+               <i class="bi ${heartIconClass} fs-5"></i>
+               <span>${likeCountText}</span>
+            </button>
+            
+            <button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
+                  data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
+               <i class="bi bi-chat fs-5"></i>
+               <span>Bình luận</span>
+            </button>
+         </div>
 
-					${commentsHtml}
+         ${commentsHtml}
 
-					<div class="d-flex align-items-center mt-2 gap-2 d-none" id="comment-input-box-${post.__backendId}">
-						<input type="text" class="form-control form-control-sm rounded-pill bg-light border-0" 
-							   id="input-cmt-${post.__backendId}" placeholder="Viết bình luận...">
-						<button class="btn btn-sm btn-primary rounded-circle send-inline-cmt-btn" data-id="${post.__backendId}">
-							<i class="bi bi-send-fill"></i>
-						</button>
-					</div>
-				</div>
-			`;
+         <div class="d-flex align-items-center mt-2 gap-2 d-none" id="comment-input-box-${post.__backendId}">
+            <input type="text" class="form-control form-control-sm rounded-pill bg-light border-0" 
+                  id="input-cmt-${post.__backendId}" placeholder="Viết bình luận...">
+            <button class="btn btn-sm btn-primary rounded-circle send-inline-cmt-btn" data-id="${post.__backendId}">
+               <i class="bi bi-send-fill"></i>
+            </button>
+         </div>
+      </div>
+   `;
 }
 
 function createCommentHtml(cmt) {
@@ -1462,4 +1528,27 @@ function createCommentHtml(cmt) {
 				</div>
 			  </div>
 			`;
+}
+
+// --- HÀM TẠO SKELETON (THÊM MỚI) ---
+function createSkeletonHtml(count = 3) {
+    let html = '';
+    for(let i=0; i<count; i++) {
+        html += `
+        <div class="post-skeleton fade-in">
+            <div class="d-flex align-items-center mb-3">
+                <div class="skeleton skeleton-avatar"></div>
+                <div style="flex: 1">
+                    <div class="skeleton skeleton-line short"></div>
+                    <div class="skeleton skeleton-line" style="width: 30%"></div>
+                </div>
+            </div>
+            
+            <div class="skeleton skeleton-line"></div>
+            <div class="skeleton skeleton-line" style="width: 80%"></div>
+            
+            <div class="skeleton skeleton-img"></div>
+        </div>`;
+    }
+    return html;
 }

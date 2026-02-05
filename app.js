@@ -1,10 +1,3 @@
-// --- CẤU HÌNH KẾT NỐI ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbxRQUX-pqR4Qyjei6ijyb7cjZzPS_a3daRJ8vdrbZfRHBbJKG0XckYS-caCfSqrVnFkDw/exec';
-
-let userFingerprint = null;
-
-// 5. Quản lý LocalStorage
-const STORAGE_KEY = 'social_memory_profile';
 
 function saveLocalData(data) {
    try {
@@ -54,150 +47,6 @@ function generateIdentity() {
       username
    };
 }
-
-// --- DỮ LIỆU RANDOM ---
-const randomAnimals = ['Gấu', 'Hổ', 'Sư Tử', 'Voi', 'Hươu', 'Cá', 'Vẹt', 'Mèo', 'Chó', 'Rùa', 'Khỉ', 'Thỏ', 'Sói', 'Cáo', 'Heo', 'Bò', 'Gà', 'Vịt', 'Cú', 'Dê', 'Cừu', 'Kiến', 'Tép', 'Tôm'];
-const randomColors = ['Xanh', 'Đỏ', 'Tím', 'Vàng', 'Cam', 'Hồng', 'Đen', 'Trắng'];
-
-const defaultConfig = {
-   app_title: 'Love Story',
-   welcome_message: 'Lưu giữ kỷ niệm đẹp'
-};
-
-const themes = {
-   green: {
-      primary: '#006B68',
-      secondary: '#FFC62F',
-      text: '#212529',
-      bg: '#f8f9fa',
-      surface: '#ffffff'
-   },
-   purple: {
-      primary: '#667eea',
-      secondary: '#764ba2',
-      text: '#1f2937',
-      bg: '#f8f9fa',
-      surface: '#ffffff'
-   },
-   blue: {
-      primary: '#1e3a8a',
-      secondary: '#3b82f6',
-      text: '#000000',
-      bg: '#f0f9ff',
-      surface: '#ffffff'
-   },
-   red: {
-      primary: '#dc2626',
-      secondary: '#fb923c',
-      text: '#000000',
-      bg: '#fef2f2',
-      surface: '#ffffff'
-   }
-};
-
-const defaultStatsLayout = [{
-   id: 'bike',
-   column: 0,
-   size: 'medium'
-},
-{
-   id: 'days',
-   column: 0,
-   size: 'medium'
-},
-{
-   id: 'memory',
-   column: 0,
-   size: 'medium'
-},
-{
-   id: 'event',
-   column: 0,
-   size: 'medium'
-},
-{
-   id: 'gold',
-   column: 0,
-   size: 'medium'
-}
-];
-
-let allData = [];
-let currentProfile = null;
-let currentTab = 'home';
-let currentPostId = null;
-let pendingDeleteId = null;
-let pendingDeleteType = null;
-let currentImages = [];
-let currentImagePreviews = [];
-let memoryImageData = null;
-let recordCount = 0;
-let currentTheme = 'green';
-let selectedLayout = 'grid-2x2';
-let isEditMode = false;
-let statsLayout = [...defaultStatsLayout];
-let draggedElement = null;
-let draggedId = null;
-
-let serverFeedData = [];
-let feedPage = 1;
-let feedLoading = false;
-let feedHasMore = true;
-let isLoadingFeed = false;
-let currentHashFilter = null;
-let feedObserver = null;
-
-let loadingToast, successToast;
-let createPostModal, commentModal, profileModal, postOptionsModal, deleteConfirmModal, bikeStatsModal, addBikeEntryModal, goldStatsModal, addGoldEntryModal, notificationsModal;
-
-let isEditingPost = false;
-let currentEditPostId = null;
-
-let bikeHistoryPage = 1;
-let bikeHistoryLoading = false;
-let bikeHistoryHasMore = true;
-
-// --- BIẾN QUẢN LÝ PHÂN TRANG FEED ---
-
-// --- HASHTAG LOGIC START ---
-
-
-// --- BIẾN QUẢN LÝ PHÂN TRANG notifPage ---
-let notifPage = 1;
-let notifLoading = false;
-let notifHasMore = true;
-let serverNotifications = [];
-// [MỚI] Thời điểm cuối cùng người dùng thực hiện thao tác ghi
-let pendingTasksCount = 0;
-let lastUserActionTime = 0;
-
-let isEditingGold = false;
-let currentEditGoldId = null;
-// Thêm dòng này vào danh sách biến global (cùng chỗ với createPostModal...)
-let imageViewerModal;
-
-// Biến toàn cục lưu dữ liệu vàng
-let goldMarketData = [];
-let goldPortfolioData = [];
-// --- BIẾN TOÀN CỤC MỚI CHO COMMENT ---
-let currentCommentId = null;
-let currentCommentContent = '';
-let commentOptionsModal = new bootstrap.Modal(document.getElementById('commentOptionsModal'));
-let editCommentContentModal = new bootstrap.Modal(document.getElementById('editCommentContentModal'));
-
-// Trong hàm initApp hoặc (async () => { ... })();
-// Thêm dòng này vào phần khởi tạo:
-imageViewerModal = new bootstrap.Modal(document.getElementById('imageViewerModal'));
-// --- BIẾN QUẢN LÝ TIẾN TRÌNH UPLOAD ---
-// --- LOGIC XỬ LÝ VUỐT (SWIPE) & CLICK THÔNG MINH ---
-let touchStartX = 0;
-let currentSwipedId = null;
-let isSwiping = false; // Biến cờ để chặn click nhầm khi đang vuốt
-// --- LOGIC XỬ LÝ VUỐT (SWIPE) & CLICK THÔNG MINH (ĐÃ FIX LỖI CUỘN TRANG) ---
-let touchStartY = 0; // [MỚI] Thêm biến lưu tọa độ Y
-let isScrolling = false; // [MỚI] Biến cờ xác định đang cuộn trang
-// --- BIẾN QUẢN LÝ PHÂN TRANG FEED ---
-let currentMarketPrice_GoldData = null;
 
 const globalScrollObserver = new IntersectionObserver((entries) => {
    entries.forEach(entry => {
@@ -483,32 +332,38 @@ async function syncBabyRunStats() {
 
    // D. Load Bảng tin từ Cache
    let hasCacheData = false;
+   try {
    const cachedFeed = localStorage.getItem('cached_feed_data');
    if (cachedFeed) {
-      try {
-         const parsedFeed = JSON.parse(cachedFeed);
-         if (parsedFeed && parsedFeed.length > 0) {
-            serverFeedData = parsedFeed;
-            renderPostsPaged(serverFeedData, 1);
-            hasCacheData = true;
-         }
-      } catch (e) {
-         console.error("Lỗi đọc cache feed");
-      }
+       serverFeedData = JSON.parse(cachedFeed);
+       if (Array.isArray(serverFeedData) && serverFeedData.length > 0) {
+           renderPostsPaged(serverFeedData, 1);
+			hasCacheData = true;
+       } else {
+           // Nếu dữ liệu là mảng rỗng hoặc null -> Coi như không hợp lệ
+           throw new Error("Cache rỗng hoặc không hợp lệ");
+       }
    }
+} catch (e) {
+   console.warn("Lỗi đọc cache feed -> Đang tự động dọn dẹp:", e);
+   
+   // [QUAN TRỌNG] Xóa cache hỏng ngay lập tức
+   localStorage.removeItem('cached_feed_data');
+   
+   // Reset biến về rỗng để code phía sau không bị lỗi tiếp
+   serverFeedData = []; 
+}
 
 const tasks = [
-       loadCriticalStats(),      // Nhiệm vụ 1
-       loadBackgroundInfo(),     // Nhiệm vụ 2
-       loadFeedData(1, hasCacheData),    // Nhiệm vụ 3 (true = tải ngầm update mới)
-       loadNotifications(1),      // Nhiệm vụ 4
-		setupPullToRefresh(),
-renderStats(),
-      updateStats()
+	loadCriticalStats(),
+	loadBackgroundInfo(),
+	loadFeedData(1, hasCacheData),
+	loadNotifications(1),
+	setupPullToRefresh(),
+	renderStats(),
+	updateStats()
    ];
-
-   // Không dùng await Promise.all(tasks) nếu không muốn chặn UI
-   // Hãy để chúng tự chạy và cập nhật UI khi hoàn thành (asynchronous)
+ 
    Promise.allSettled(tasks).then(() => {
        console.log("Initial loading sequence complete");
    });
@@ -822,34 +677,66 @@ usernameInput.addEventListener('blur', async () => {
 });
  
 async function runBackgroundSync() {
+   // --- [PHẦN 1: CÁC ĐIỀU KIỆN CHẶN (QUAN TRỌNG)] ---
+   
+   // 1. Nếu tab đang bị ẩn (người dùng sang tab khác), không cần sync để tiết kiệm pin/data
+   if (document.hidden) return;
+
+   // 2. Nếu đang có bất kỳ Modal nào mở (Xem ảnh, Sửa bài, Xóa bài...) -> DỪNG NGAY
+   // Logic: Class .show được Bootstrap thêm vào khi modal mở
+   if (document.querySelector('.modal.show')) {
+       console.log("Hủy sync ngầm: Đang mở Modal/Popup");
+       return;
+   }
+
+   // 3. Nếu người dùng đang gõ phím (Input/Textarea đang focus) -> DỪNG NGAY
+   // Logic: Tránh việc data mới load về làm mất focus của ô nhập liệu
+   if (document.activeElement && 
+      (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+       return;
+   }
+
+   // 4. Các điều kiện cũ của bạn (Giữ nguyên)
    if (typeof isEditingPost !== 'undefined' && isEditingPost) return;
    if (typeof pendingTasksCount !== 'undefined' && pendingTasksCount > 0) return;
    if (typeof lastUserActionTime !== 'undefined' && (Date.now() - lastUserActionTime < 10000)) return;
+
    console.log("Đang chạy đồng bộ ngầm...");
+
+   // --- [PHẦN 2: THỰC THI SYNC NHẸ] ---
+   // Các tác vụ nhẹ chạy trước
    syncUnreadCount();
    syncBabyRunStats();
    loadNotifications(1);
 
+   // --- [PHẦN 3: THỰC THI SYNC NẶNG (FEED)] ---
    try {
       const res = await sendToServer({
          action: 'get_feed',
          page: 1,
-         limit: 5
+         limit: 5 // Chỉ lấy 5 bài mới nhất để check thay đổi
       });
+
+      // --- [PHẦN 4: KIỂM TRA LẠI TRƯỚC KHI UPDATE UI] ---
+      // Trong lúc chờ server phản hồi (await), người dùng có thể đã mở Modal hoặc gõ phím.
+      // Cần check lại lần nữa để đảm bảo an toàn tuyệt đối.
+      
+      if (document.querySelector('.modal.show')) return; // Check lại Modal
+      
       if (typeof isEditingPost !== 'undefined' && isEditingPost) {
-         console.log("Hủy sync feed vì người dùng đang sửa bài.");
+         console.log("Hủy update feed: Người dùng đang sửa bài.");
          return;
       }
-      if (typeof pendingTasksCount !== 'undefined' && pendingTasksCount > 0) {
-         console.log("Hủy sync feed vì phát hiện tác vụ upload mới.");
-         return;
-      }
-      if (typeof lastUserActionTime !== 'undefined' && (Date.now() - lastUserActionTime < 10000)) {
-         console.log("Hủy sync feed vì người dùng vừa thao tác.");
-         return;
-      }
+      
+      // Nếu có dữ liệu mới -> Gọi hàm xử lý (Smart Merge)
       if (res.status === 'success' && res.data.length > 0) {
-         processNewFeedData(res.data);
+         // Lưu ý: Đảm bảo bạn đang dùng hàm mergeServerDataToView (trong feed.js) 
+         // hoặc processNewFeedData nếu bạn đã đổi tên.
+         if (typeof mergeServerDataToView === 'function') {
+             mergeServerDataToView(res.data);
+         } else if (typeof processNewFeedData === 'function') {
+             processNewFeedData(res.data);
+         }
       }
    } catch (e) {
       console.warn("Lỗi sync ngầm:", e);
@@ -1496,5 +1383,77 @@ async function searchServerSide(query, existingIds, loaderId) {
    }, { passive: true });
 })();
 
+// Thêm vào app.js
+setInterval(() => {
+    // 1. Quét tất cả thẻ thời gian của bài viết
+    document.querySelectorAll('.post-timestamp').forEach(el => {
+        // Tìm bài viết chứa nó để lấy timestamp gốc
+        const postCard = el.closest('.post-card');
+        if (postCard) {
+            const postId = postCard.id.replace('post-', '');
+            const post = serverFeedData.find(p => p.__backendId === postId);
+            if (post) {
+                // Tính toán lại thời gian hiển thị
+                el.textContent = formatTimeSmart(post.timestamp || post.createdAt);
+            }
+        }
+    });
+}, 60000); // Chạy mỗi 60 giây
+
+// --- XỬ LÝ XEM THÊM NỘI DUNG ---
+window.togglePostContent = function(btn, postId) {
+    // 1. Tìm các element liên quan
+    const shortContent = document.getElementById(`content-short-${postId}`);
+    const fullContent = document.getElementById(`content-full-${postId}`);
+    
+    if (shortContent && fullContent) {
+        // 2. Ẩn bản rút gọn, hiện bản đầy đủ
+        shortContent.style.display = 'none';
+        fullContent.style.display = 'block';
+        // Hiệu ứng fade-in nhẹ
+        fullContent.classList.add('fade-in');
+    }
+};
+// --- LOGIC IMAGE CAROUSEL ---
+window.openPostImages = function(postId, startIndex = 0) {
+    // 1. Lấy dữ liệu bài viết từ biến toàn cục
+    // Lưu ý: serverFeedData là biến chứa danh sách bài viết trong app.js/feed.js của bạn
+    const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
+    
+    if (!post || !post.images) return;
+
+    const container = document.getElementById('carousel-items-container');
+    container.innerHTML = ''; // Xóa ảnh cũ
+
+    // 2. Tạo HTML cho từng ảnh trong Carousel
+    post.images.forEach((imgUrl, index) => {
+        const isActive = index === startIndex ? 'active' : '';
+        const itemHtml = `
+            <div class="carousel-item h-100 ${isActive}">
+                <img src="${imgUrl}" class="d-block w-100 h-100" alt="Image ${index}">
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', itemHtml);
+    });
+
+    // 3. Ẩn hiện nút Next/Prev nếu chỉ có 1 ảnh
+    const controls = document.querySelectorAll('.carousel-control-prev, .carousel-control-next');
+    if (post.images.length <= 1) {
+        controls.forEach(el => el.classList.add('d-none'));
+    } else {
+        controls.forEach(el => el.classList.remove('d-none'));
+    }
+
+    // 4. Mở Modal
+    const myModal = new bootstrap.Modal(document.getElementById('imageViewerModal'));
+    myModal.show();
+};
+
+document.addEventListener('hide.bs.modal', (event) => {
+   if (document.activeElement && event.target.contains(document.activeElement)) {
+      document.activeElement.blur(); // Bỏ focus ngay lập tức
+   }
+});
 // KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
 setInterval(runBackgroundSync, 60000);
+
