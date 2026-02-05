@@ -554,3 +554,25 @@ overflow-anchor: auto;
 }
 /* Ẩn nút prev/next nếu chỉ có 1 ảnh (JS sẽ xử lý thêm class này) */
 .carousel-control-none { display: none !important; }
+
+/* 1. Trạng thái dữ liệu cũ (Stale) */
+.data-stale {
+    color: var(--text-light) !important;
+    opacity: 0.6;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* 2. Hiệu ứng Rung nhẹ (Shake) khi cập nhật */
+@keyframes shake-gentle {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+    75% { transform: translateX(-3px); }
+    100% { transform: translateX(0); }
+}
+
+.anim-update {
+    animation: shake-gentle 0.4s ease-in-out;
+    color: var(--primary-dark) !important;
+    font-weight: 800;
+}

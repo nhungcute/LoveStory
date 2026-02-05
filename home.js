@@ -1,3 +1,21 @@
+
+function updateValueWithEffect(id, newValue) {
+    const el = document.getElementById(id);
+    if (!el) return;
+ 
+    // 1. Xóa trạng thái "dữ liệu cũ" (sẽ tự động trở về màu gốc CSS ban đầu)
+    el.classList.remove('data-stale');
+
+    // 2. Kích hoạt hiệu ứng Rung
+    el.classList.remove('anim-update'); 
+    void el.offsetWidth;
+    el.classList.add('anim-update');
+ 
+    setTimeout(() => {
+        el.classList.remove('anim-update');
+    }, 400);
+}
+
   // Set ngày mặc định
    const today = new Date();
    if (document.getElementById('bike-entry-date')) document.getElementById('bike-entry-date').valueAsDate = today;
@@ -620,6 +638,7 @@ document.getElementById('stats-container').addEventListener('click', async (e) =
       const countEl = document.getElementById('bike-count');
       const currentVal = parseInt(countEl.textContent) || 0;
       countEl.textContent = currentVal + 1;
+	  localStorage.setItem('cached_babyrun_count', currentVal + 1);
       // Rung nhẹ số đếm
       countEl.style.transition = "color 0.2s";
       countEl.style.color = "var(--secondary-color)";
@@ -639,6 +658,7 @@ document.getElementById('stats-container').addEventListener('click', async (e) =
          console.error('Lỗi babyrun:', err);
          // Hoàn tác nếu lỗi
          countEl.textContent = currentVal;
+		 localStorage.setItem('cached_babyrun_count', currentVal);
          showToast('Lỗi mạng! Không lưu được.');
       });
 
@@ -1320,7 +1340,7 @@ function renderStats() {
          const days = diffDays % 7;
 
          const babyAgeText = `Em bé ${weeks} tuần ${days} ngày`;
-		 
+		 const staleClass = babyAgeText ? 'data-stale' : '';
 		
          // ----------------------------------------
 
@@ -1338,7 +1358,7 @@ function renderStats() {
       					
       					<p class="text-muted small mb-1 fw-bold theme-text-primary">${babyAgeText}</p>
       					
-      					<p id="bike-count" class="fs-2 fw-bold theme-text-primary mb-0">0</p>
+      					<p id="bike-count" class="fs-2 fw-bold theme-text-primary mb-0 ${staleClass}">0</p>
       				  </div>
       				</div>
       			  `;

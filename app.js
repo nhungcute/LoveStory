@@ -405,7 +405,7 @@ async function loadCriticalStats() {
          const bikeCountEl = document.getElementById('bike-count');
          if (bikeCountEl) {
             bikeCountEl.textContent = res.count;
-            // [QUAN TRỌNG] Lưu Cache để lần sau mở app là có ngay
+            updateValueWithEffect('bike-count');
             localStorage.setItem('cached_babyrun_count', res.count);
          }
 
@@ -416,12 +416,14 @@ async function loadCriticalStats() {
             if (goldBuyEl) 
 				{
 				goldBuyEl.textContent = formatCurrency(res.gold.buy);
+				updateValueWithEffect('gold-buy');
 				localStorage.setItem('cached_gold_buy', res.gold.buy);
 				}
             if (goldSellEl) 
 {
 				goldSellEl.textContent = formatCurrency(res.gold.sell);
-			localStorage.setItem('cached_gold_sell', res.gold.sell);
+				updateValueWithEffect('gold-sell');
+				localStorage.setItem('cached_gold_sell', res.gold.sell);
 }
 
             currentMarketPrice_GoldData = res.gold.buy;
