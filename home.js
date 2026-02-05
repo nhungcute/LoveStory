@@ -1320,6 +1320,8 @@ function renderStats() {
          const days = diffDays % 7;
 
          const babyAgeText = `Em bé ${weeks} tuần ${days} ngày`;
+		 
+		
          // ----------------------------------------
 
          return `
@@ -1341,32 +1343,41 @@ function renderStats() {
       				</div>
       			  `;
       } else if (stat.id === 'gold') {
+		  
+		const cachedBuy = localStorage.getItem('cached_gold_buy'); 
+		const cachedSell = localStorage.getItem('cached_gold_sell');
+
+		// Xử lý hiển thị: Nếu có cache thì format số, nếu chưa có thì hiện dấu gạch ngang '-'
+		const displayBuy = cachedBuy ? Number(cachedBuy).toLocaleString('vi-VN') : '-';
+		const displaySell = cachedSell ? Number(cachedSell).toLocaleString('vi-VN') : '-';
+		const staleClass = cachedBuy ? 'data-stale' : '';
+
          return `
-      				<div class="stat-card p-3 ${sizeClass}" data-stat-id="gold" draggable="${isEditMode}">
-      				  <div class="drag-handle"><i class="bi bi-arrows-move"></i></div>
-      				  <div class="size-toggle"><i class="bi bi-arrows-fullscreen"></i></div>
-      				  <button class="btn btn-link p-0 position-absolute top-0 end-0 m-2 text-muted gold-chart-btn" style="z-index: 5;">
-      					<i class="bi bi-bar-chart-fill fs-5"></i>
-      				  </button>
-      				  <div class="d-flex align-items-center mb-2">
-      					<div class="icon-box text-white me-3" style="background: #f59e0b;">
-      					  <i class="bi bi-coin fs-4"></i>
-      					</div>
-      					<div>
-      					  <p class="text-muted small mb-1">Giá vàng</p>
-      					</div>
-      				  </div>
-      				  <div class="row g-2 ms-5 ps-2">
-      					<div class="col-6">
-      					  <small class="text-muted">Giá mua</small>
-      					  <p id="gold-buy" class="fs-5 fw-bold text-success mb-0">-</p>
-      					</div>
-      					<div class="col-6">
-      					  <small class="text-muted">Giá bán</small>
-      					  <p id="gold-sell" class="fs-5 fw-bold text-danger mb-0">-</p>
-      					</div>
-      				  </div>
-      				</div>
+				<div class="card shadow-sm border-0 mb-3">
+				  <div class="card-body p-3">
+					 <div class="d-flex align-items-center mb-2">
+						 <div class="icon-box text-white me-3" style="background: #f59e0b;">
+							 <i class="bi bi-coin fs-4"></i>
+						 </div>
+						 <div><p class="text-muted small mb-1">Giá vàng</p></div>
+					 </div>
+
+					 <div class="row g-2 ms-5 ps-2">
+						<div class="col-6">
+						   <small class="text-muted">Giá mua</small>
+						   <p id="gold-buy" class="fs-5 fw-bold text-success mb-0 ${staleClass}">
+							   ${displayBuy}
+						   </p>
+						</div>
+						<div class="col-6">
+						   <small class="text-muted">Giá bán</small>
+						   <p id="gold-sell" class="fs-5 fw-bold text-danger mb-0 ${staleClass}">
+							   ${displaySell}
+						   </p>
+						</div>
+					 </div>
+				  </div>
+			   </div>
       			  `;
       }
       return '';

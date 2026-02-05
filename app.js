@@ -313,22 +313,31 @@ async function syncBabyRunStats() {
    addGoldEntryModal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
    notificationsModal = new bootstrap.Modal(document.getElementById('notificationsModal'));
  
-   // 2. LOAD OFFLINE FIRST (Hiển thị ngay lập tức)
-   const localData = getLocalData();
-   if (localData) {
-      currentProfile = localData;
-      applyTheme(currentProfile.themeName);
-      updateAvatarDisplays();
-   }
- 
-	if (window.dataSdk) {
-	   window.dataSdk.init(dataHandler).catch(err => console.warn("Lỗi SDK:", err));
+	// 2. LOAD OFFLINE FIRST (Hiển thị ngay lập tức)
+	const localData = getLocalData();
+	if (localData) {
+		currentProfile = localData;
+		applyTheme(currentProfile.themeName);
+		updateAvatarDisplays();
 	}
 
-   const cachedRun = localStorage.getItem('cached_babyrun_count');
-   if (cachedRun && document.getElementById('bike-count')) {
-      document.getElementById('bike-count').textContent = cachedRun;
-   }
+	if (window.dataSdk) {
+		window.dataSdk.init(dataHandler).catch(err => console.warn("Lỗi SDK:", err));
+	}
+	// lay run count từ local
+	const cachedRun = localStorage.getItem('cached_babyrun_count');
+	if (cachedRun && document.getElementById('bike-count')) {
+		document.getElementById('bike-count').textContent = cachedRun;
+	}
+	// lay gia vang tu local
+	const cachedprice_buy = localStorage.getItem('cached_gold_buy');
+	if (cachedprice_buy && document.getElementById('gold-buy')) {
+		document.getElementById('gold-buy').textContent = cachedprice_buy;
+	}
+	const cachedprice_sell = localStorage.getItem('cached_gold_sell');
+	if (cachedprice_sell && document.getElementById('gold-sell')) {
+		document.getElementById('gold-sell').textContent = cachedprice_sell;
+	}
 
    // D. Load Bảng tin từ Cache
    let hasCacheData = false;
@@ -344,29 +353,25 @@ async function syncBabyRunStats() {
            throw new Error("Cache rỗng hoặc không hợp lệ");
        }
    }
-} catch (e) {
-   console.warn("Lỗi đọc cache feed -> Đang tự động dọn dẹp:", e);
-   
-   // [QUAN TRỌNG] Xóa cache hỏng ngay lập tức
-   localStorage.removeItem('cached_feed_data');
-   
-   // Reset biến về rỗng để code phía sau không bị lỗi tiếp
-   serverFeedData = []; 
-}
+	} catch (e) {
+	   console.warn("Lỗi đọc cache feed -> Đang tự động dọn dẹp:", e);
+	   localStorage.removeItem('cached_feed_data');
+	   serverFeedData = []; 
+	}
 
-const tasks = [
-	loadCriticalStats(),
-	loadBackgroundInfo(),
-	loadFeedData(1, hasCacheData),
-	loadNotifications(1),
-	setupPullToRefresh(),
-	renderStats(),
-	updateStats()
-   ];
- 
-   Promise.allSettled(tasks).then(() => {
-       console.log("Initial loading sequence complete");
-   });
+	const tasks = [
+		loadCriticalStats(),
+		loadBackgroundInfo(),
+		loadFeedData(1, hasCacheData),
+		loadNotifications(1),
+		setupPullToRefresh(),
+		renderStats(),
+		updateStats()
+	   ];
+	 
+	   Promise.allSettled(tasks).then(() => {
+		   console.log("Initial loading sequence complete");
+	   });
  
 })();
 
@@ -408,8 +413,16 @@ async function loadCriticalStats() {
          if (res.gold) {
             const goldBuyEl = document.getElementById('gold-buy');
             const goldSellEl = document.getElementById('gold-sell');
-            if (goldBuyEl) goldBuyEl.textContent = formatCurrency(res.gold.buy);
-            if (goldSellEl) goldSellEl.textContent = formatCurrency(res.gold.sell);
+            if (goldBuyEl) 
+				{
+				goldBuyEl.textContent = formatCurrency(res.gold.buy);
+				localStorage.setItem('cached_gold_buy', res.gold.buy);
+				}
+            if (goldSellEl) 
+{
+				goldSellEl.textContent = formatCurrency(res.gold.sell);
+			localStorage.setItem('cached_gold_sell', res.gold.sell);
+}
 
             currentMarketPrice_GoldData = res.gold.buy;
          }
