@@ -231,7 +231,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="card mb-3">
+                     <!--div class="card mb-3">
                         <div class="card-body">
                            <div class="d-flex align-items-center mb-3">
                               <div class="icon-box icon-box-sm text-white me-3" style="background: #6f42c1;"><i
@@ -245,7 +245,7 @@
                            <button class="btn btn-outline-primary w-100" id="enter-layout-edit"> <i
                                  class="bi bi-pencil-square me-2"></i>Chỉnh sửa bố cục </button>
                         </div>
-                     </div>
+                     </div-->
                   </div>
                   <button class="btn btn-primary w-100 py-3 mt-3" id="save-profile"> <i
                         class="bi bi-check-circle me-2"></i>Lưu thay đổi </button>
@@ -548,28 +548,7 @@
          </div>
       </div>
    </div>
-   <div class="modal fade" id="imageViewerModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content bg-black">
-            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="Close"></button>
-            
-            <div class="modal-body p-0 d-flex align-items-center justify-content-center w-100 h-100">
-                <div id="carouselImageViewer" class="carousel slide w-100 h-100" data-bs-ride="false"> <div class="carousel-inner h-100" id="carousel-items-container">
-                        </div>
-                    
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImageViewer" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselImageViewer" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+	 
    <div class="modal fade" id="commentOptionsModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
@@ -602,6 +581,35 @@
          </div>
       </div>
    </div>
+   
+   <div class="modal fade p-0" id="imageViewerModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+    <div class="modal-dialog modal-fullscreen m-0">
+        <div class="modal-content bg-black h-100 border-0">
+            
+            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            <div class="modal-body p-0 d-flex align-items-center justify-content-center h-100 position-relative">
+                
+                <div id="postImageCarousel" class="carousel slide w-100 h-100" data-bs-interval="false">
+                    
+                    <div class="carousel-inner h-100 d-flex align-items-center" id="carousel-items-container">
+                        </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#postImageCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#postImageCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     
 </body>
 

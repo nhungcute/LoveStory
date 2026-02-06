@@ -541,20 +541,6 @@ overflow-anchor: auto;
     text-decoration: underline;
 }
 
-/* Tùy chỉnh Carousel để ảnh nằm giữa nền đen */
-#imageViewerModal .carousel-item {
-    height: 100%;
-    transition: transform 0.3s ease-in-out; /* Vuốt mượt hơn */
-}
-#imageViewerModal .carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Quan trọng: Giữ tỉ lệ ảnh */
-    background-color: #000;
-}
-/* Ẩn nút prev/next nếu chỉ có 1 ảnh (JS sẽ xử lý thêm class này) */
-.carousel-control-none { display: none !important; }
-
 /* 1. Trạng thái dữ liệu cũ (Stale) */
 .data-stale {
     color: var(--text-light) !important;
@@ -576,3 +562,36 @@ overflow-anchor: auto;
     color: var(--primary-dark) !important;
     font-weight: 800;
 }
+/* Bài mới thêm vào sẽ hiện dần ra */
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeInSlide 0.5s ease-out forwards;
+}
+
+/* Hiệu ứng rung khi số thay đổi (đã có ở bài trước, nhắc lại cho chắc) */
+@keyframes shake-gentle {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); color: var(--primary-color); font-weight: bold; }
+    100% { transform: scale(1); }
+}
+
+.anim-update {
+    animation: shake-gentle 0.4s ease-in-out;
+}
+/* Tùy chỉnh Carousel mới */
+#imageViewerModal .carousel-item {
+    height: 100%;
+    transition: transform 0.3s ease-in-out; /* Vuốt mượt hơn */
+}
+#imageViewerModal .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Quan trọng: Giữ tỉ lệ ảnh, không bị méo */
+    background-color: #000;
+}
+/* Ẩn nút prev/next nếu chỉ có 1 ảnh */
+.carousel-control-none { display: none !important; }

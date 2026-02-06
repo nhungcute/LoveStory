@@ -1,16 +1,48 @@
+// --- QUẢN LÝ TRẠNG THÁI PHÂN TRANG ---
+let currentPage = 1;       // Trang hiện tại
+let hasMorePosts = true;   // Server còn dữ liệu để tải không?
+let feedLoading = false;   // Đang tải dở hay không?
+// Hàm sắp xếp dữ liệu (Mới nhất lên đầu)
+function sortDataByTime(data) {
+    return data.sort((a, b) => {
+        // Ưu tiên bài Pin (nếu có logic ghim bài)
+        // Sau đó đến thời gian
+        const timeA = new Date(a.createdAt || 0).getTime();
+        const timeB = new Date(b.createdAt || 0).getTime();
+        return timeB - timeA;
+    });
+}
 
-// --- HÀM TẢI FEED
+// --- HÀM TẢI FEED (LOGIC CHÍNH) ---
 async function loadFeedData(page = 1, isBackgroundRefresh = false) {
    const container = document.getElementById('posts-container');
+   if (!container) return;
+
+   // 1. Chặn gọi trùng
    if (feedLoading) return;
+   if (!isBackgroundRefresh && page > 1 && !hasMorePosts) return;
+
    feedLoading = true;
 
-   // [THAY ĐỔI Ở ĐÂY] 
-   // Nếu là trang 1 và không phải chạy ngầm -> Hiện Skeleton thay vì Spinner quay quay
-   if (page === 1 && !isBackgroundRefresh && (!serverFeedData || serverFeedData.length === 0)) {
-      // Gọi hàm vừa tạo ở Bước A
-      container.innerHTML = createSkeletonHtml(3); 
-   }
+   // 2. Xử lý giao diện lúc bắt đầu tải
+   if (page === 1) {
+       currentPage = 1;
+       hasMorePosts = true;
+       if (!isBackgroundRefresh) {
+           // Load Cache (Giữ nguyên logic cache cũ của bạn)
+           const cachedJSON = localStorage.getItem('cached_feed_data');
+           if (cachedJSON) {
+               try {
+                   const cachedData = sortDataByTime(JSON.parse(cachedJSON));
+                   if (container.children.length > 0) smartSyncFeed(cachedData, container);
+                   else mergeServerDataToView(cachedData);
+               } catch (e) {}
+           }
+           if (container.children.length === 0) container.innerHTML = createSkeletonHtml(3);
+       }
+   } 
+   // Lưu ý: Không cần tạo loader thủ công ở đây nữa, hàm updateFeedFooter sẽ lo
+
    try {
       const payload = {
          action: 'get_feed',
@@ -21,105 +53,320 @@ async function loadFeedData(page = 1, isBackgroundRefresh = false) {
       if (typeof currentHashFilter !== 'undefined' && currentHashFilter) {
          payload.hashtag = currentHashFilter;
       }
+
       const res = await sendToServer(payload);
 
       if (res.status === 'success') {
+         const newData = res.data;
+         
+         // Kiểm tra xem còn tin tiếp theo không
+         hasMorePosts = (newData && newData.length >= 10);
+
          if (page === 1) {
-            mergeServerDataToView(res.data);
-            try {
-               localStorage.setItem('cached_feed_data', JSON.stringify(serverFeedData.slice(0, 20)));
-            } catch (e) {
-               console.warn("Cache đầy, bỏ qua lưu feed");
+            const sortedData = sortDataByTime(newData);
+            // Logic hiển thị trang 1
+            if (container.children.length > 0 && !container.querySelector('.post-skeleton')) {
+                smartSyncFeed(sortedData, container);
+            } else {
+                container.innerHTML = '';
+                mergeServerDataToView(sortedData);
             }
-            if (serverFeedData.length === 0) {
-               container.innerHTML = `
-								<div class="text-center py-5">
-									<i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
-									<p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
-									<p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
-								</div>`;
-            }
+            // Lưu cache
+            localStorage.setItem('cached_feed_data', JSON.stringify(sortedData));
+            serverFeedData = sortedData;
+            currentPage = 1;
 
          } else {
-            const newItems = res.data.filter(newItem =>
-               !serverFeedData.some(existing => existing.__backendId === newItem.__backendId)
-            );
-
-            serverFeedData = serverFeedData.concat(newItems);
-            renderPostsPaged(newItems, page);
+            // Logic trang 2 trở đi
+            if (newData.length > 0) {
+                mergeServerDataToView(newData);
+                // Nối dữ liệu global (lọc trùng)
+                const uniqueNewPosts = newData.filter(newP => 
+                    !serverFeedData.some(existP => (existP.__backendId || existP.id) === (newP.__backendId || newP.id))
+                );
+                serverFeedData = serverFeedData.concat(uniqueNewPosts);
+                currentPage = page;
+            }
          }
-
-         // Cập nhật trạng thái "Còn dữ liệu không?"
-         feedHasMore = res.hasMore;
-
-         // Xử lý Trending Tags (nếu không đang lọc)
-         if (typeof currentHashFilter === 'undefined' || !currentHashFilter) {
-            if (typeof renderTrendingTags === 'function') renderTrendingTags();
-         }
-
       } else {
-         // Lỗi từ Server trả về
-         if (page === 1 && serverFeedData.length === 0) {
-            container.innerHTML = '<div class="text-center py-5 text-muted">Không tải được dữ liệu</div>';
-         }
+         if (!isBackgroundRefresh) showToast('Lỗi: ' + res.message);
+         // Nếu lỗi ở trang > 1, ta cho phép thử lại bằng cách giữ nguyên currentPage
       }
-   } catch (e) {
-      console.error("Lỗi tải feed:", e);
-      if (page === 1 && serverFeedData.length === 0) {
-         container.innerHTML = '<div class="text-center py-5 text-danger">Lỗi kết nối mạng</div>';
+   } catch (error) {
+      console.error("Lỗi connection:", error);
+      if (page === 1 && container.children.length === 0) {
+          container.innerHTML = '<div class="text-center p-3 text-muted">Lỗi kết nối.</div>';
       }
    } finally {
       feedLoading = false;
-
-      // Ẩn spinner "Pull to refresh" nếu có
-      const ptrElement = document.getElementById('ptr-element');
-      if (ptrElement && ptrElement.classList.contains('ptr-loading')) {
-         // Logic đóng ptr nằm ở event listener, nhưng ta đảm bảo trạng thái ở đây
-         // (Code UI PullToRefresh sẽ tự đóng khi thấy xong)
-      }
+      updateFeedFooter(); 
    }
 }
+// 2. HÀM MỞ MODAL XEM ẢNH
+function openPostImages(postId, startIndex = 0) {
+    const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
+    if (!post) return;
 
-// --- HÀM PHỤ TRỢ: TRỘN DỮ LIỆU THÔNG MINH (SMART MERGE) ---
-// Trong feed.js - Thay thế hàm mergeServerDataToView cũ
-function mergeServerDataToView(newServerPosts) {
-   const container = document.getElementById('posts-container');
-   if (!newServerPosts || newServerPosts.length === 0) return;
+    let images = [];
+    if (post.imageData) {
+        if (Array.isArray(post.imageData)) {
+            images = post.imageData;
+        } else {
+            try { images = JSON.parse(post.imageData); } 
+            catch (e) { images = [post.imageData]; }
+        }
+    } 
+    // Fallback nếu code cũ dùng post.images
+    else if (post.images && Array.isArray(post.images)) {
+        images = post.images;
+    }
+    // Nếu không có ảnh nào thì thoát
+    if (!images || images.length === 0) {
+        console.warn("Bài viết không có ảnh để hiển thị");
+        return;
+    }
+    const container = document.getElementById('carousel-items-container');
+    if (!container) {
+        console.error("Thiếu HTML Modal: Không tìm thấy #carousel-items-container");
+        return;
+    }
+    container.innerHTML = '';
+    // Tạo HTML cho từng slide
+    images.forEach((imgUrl, index) => {
+        const isActive = index === startIndex ? 'active' : '';
+        // class "contain-mode" giúp ảnh không bị cắt (object-fit: contain)
+        const itemHtml = `
+            <div class="carousel-item h-100 ${isActive}">
+                <img src="${imgUrl}" class="d-block w-100 h-100" style="object-fit: contain; background: black;" alt="Image ${index}">
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', itemHtml);
+    });
 
-   const localMap = new Map(serverFeedData.map(p => [p.__backendId, p]));
+    // Ẩn/Hiện nút Next/Prev nếu chỉ có 1 ảnh
+    const controls = document.querySelectorAll('#imageViewerModal .carousel-control-prev, #imageViewerModal .carousel-control-next');
+    if (images.length <= 1) {
+        controls.forEach(el => el.style.display = 'none');
+    } else {
+        controls.forEach(el => el.style.display = 'flex');
+    }
 
-   for (let i = newServerPosts.length - 1; i >= 0; i--) {
-      const serverPost = newServerPosts[i];
-      const localPost = localMap.get(serverPost.__backendId);
+    // Mở Modal (Bootstrap 5)
+    const modalEl = document.getElementById('imageViewerModal');
+    if (modalEl) {
+        const myModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        myModal.show();
+    }
+}
 
-      if (localPost) {
-         // 1. CẬP NHẬT DỮ LIỆU GỐC
-         Object.assign(localPost, serverPost);
+// 3. Dọn dẹp khi đóng modal (để tiết kiệm bộ nhớ)
+const imageModalEl = document.getElementById('imageViewerModal');
+if (imageModalEl) {
+    imageModalEl.addEventListener('hidden.bs.modal', function () {
+        // 1. Xóa nội dung ảnh để giải phóng bộ nhớ
+        const container = document.getElementById('carousel-items-container');
+        if (container) container.innerHTML = '';
 
-         // 2. CẬP NHẬT DOM (Granular Update - Chỉ sửa chỗ cần sửa)
-         const postEl = document.getElementById(`post-${serverPost.__backendId}`);
-         if (postEl) {
-            // A. Cập nhật Like
-            const likeText = postEl.querySelector('.like-btn span');
-            if (likeText) likeText.textContent = serverPost.likes > 0 ? serverPost.likes : 'Thích';
+        // 2. [QUAN TRỌNG] Xóa cưỡng bức lớp phủ mờ (Backdrop) nếu nó bị kẹt
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(backdrop => backdrop.remove());
+
+        // 3. Xóa class khóa cuộn chuột trên body
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    });
+}
+
+// --- [MỚI] HÀM QUẢN LÝ CHÂN TRANG (OBSERVER) ---
+// Hàm này bắt chước y hệt logic trong notification.js
+function updateFeedFooter() {
+    const container = document.getElementById('posts-container');
+    
+    // 1. Dọn dẹp các trigger cũ (để tránh bị nhân bản)
+    const oldTrigger = document.getElementById('feed-load-more');
+    if (oldTrigger) oldTrigger.remove();
+    const oldEnd = document.getElementById('feed-end-message');
+    if (oldEnd) oldEnd.remove();
+
+    // 2. Nếu còn dữ liệu -> Tạo trigger để Observer theo dõi
+    if (hasMorePosts) {
+        const trigger = document.createElement('div');
+        trigger.id = 'feed-load-more';
+        // Class style giống hệt notification.js
+        trigger.className = 'py-3 text-center text-muted small cursor-pointer'; 
+        trigger.innerHTML = `
+            <div class="d-inline-block spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+            <span>Đang tải thêm...</span>
+        `;
+        
+        // Gắn sự kiện click thủ công (phòng hờ)
+        trigger.onclick = () => loadFeedData(currentPage + 1);
+        
+        container.appendChild(trigger);
+
+        // [CORE] KỸ THUẬT OBSERVER (Của Notification)
+        const observer = new IntersectionObserver((entries) => {
+             // Nếu nhìn thấy trigger VÀ không đang tải
+             if (entries[0].isIntersecting && !feedLoading) {
+                 console.log(`👀 Thấy đáy -> Tải trang ${currentPage + 1}`);
+                 loadFeedData(currentPage + 1);
+             }
+        }, { threshold: 0.1 }); // Chỉ cần thấy 10% là kích hoạt
+        
+        observer.observe(trigger);
+
+    } else {
+        // 3. Nếu hết dữ liệu -> Hiện thông báo kết thúc
+        if (serverFeedData.length > 0) {
+             container.insertAdjacentHTML('beforeend', 
+                '<div id="feed-end-message" class="text-center py-4 text-muted small">--- Bạn đã xem hết tin ---</div>'
+             );
+        }
+    }
+}
+// ----------------------------------------------------------------
+// 2. LOGIC "SMART SYNC" (ĐỒNG BỘ THÔNG MINH)
+// ----------------------------------------------------------------
+// Hàm này đảm bảo giao diện khớp 100% với danh sách Server trả về
+// mà không gây nháy màn hình, giữ nguyên vị trí cuộn.
+function smartSyncFeed(newDataList, container) {
+    // newDataList: Danh sách bài viết chuẩn từ Server (Đã sort)
+    
+    // Duyệt qua từng phần tử trong danh sách MỚI
+    newDataList.forEach((postData, index) => {
+        const postId = postData.__backendId || postData.id;
+        const existingNode = document.getElementById(`post-${postId}`);
+        
+        // Vị trí hiện tại trên DOM (children[index])
+        const currentNodeAtPos = container.children[index];
+
+        if (existingNode) {
+            // A. BÀI VIẾT ĐÃ TỒN TẠI TRÊN DOM
             
-            // B. Cập nhật Comment Count (nếu bạn hiện số comment)
-            // ...
-
-            // C. Cập nhật nội dung (chỉ khi khác biệt)
-            const contentEl = postEl.querySelector('.post-content-text');
-            // Cần hàm so sánh hoặc đơn giản là gán lại nếu text thay đổi
-            if (contentEl && localPost.content !== serverPost.content) {
-                 contentEl.innerHTML = processTextWithHashtags(serverPost.content);
+            // 1. Kiểm tra xem nó có đang nằm đúng vị trí thứ tự không?
+            if (currentNodeAtPos !== existingNode) {
+                // Nếu sai vị trí -> Chuyển nó về đúng vị trí index hiện tại
+                // (Hàm insertBefore sẽ tự động "bốc" element từ chỗ cũ sang chỗ mới)
+                if (currentNodeAtPos) {
+                    container.insertBefore(existingNode, currentNodeAtPos);
+                } else {
+                    container.appendChild(existingNode);
+                }
             }
-         }
-      } else {
-         // Bài mới chưa có -> Thêm vào đầu
-         serverFeedData.unshift(serverPost);
-         const html = createPostHtml(serverPost);
-         container.insertAdjacentHTML('afterbegin', html);
+
+            // 2. Cập nhật nội dung bên trong (Số like, comment, text...)
+            updatePostContentOnly(existingNode, postData);
+
+        } else {
+            // B. BÀI VIẾT MỚI HOÀN TOÀN (Chưa có trên DOM)
+            const newHtml = createPostHtml(postData);
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = newHtml;
+            const newNode = tempDiv.firstElementChild;
+            
+            // Thêm hiệu ứng xuất hiện
+            newNode.classList.add('fade-in');
+
+            // Chèn vào đúng vị trí index
+            if (currentNodeAtPos) {
+                container.insertBefore(newNode, currentNodeAtPos);
+            } else {
+                container.appendChild(newNode);
+            }
+        }
+    });
+
+    // C. XỬ LÝ BÀI THỪA (Đã bị xóa trên Server hoặc trôi sang trang 2)
+    // Sau khi vòng lặp chạy xong, nếu DOM còn nhiều phần tử hơn Server trả về -> Xóa bớt đuôi
+    while (container.children.length > newDataList.length) {
+        // Kiểm tra kỹ: Chỉ xóa Element là bài post, không xóa nút Load More nếu lỡ nó nằm trong đây
+        const lastEl = container.lastElementChild;
+        if (lastEl && lastEl.id.startsWith('post-')) {
+            lastEl.remove();
+        } else {
+            break; 
+        }
+    }
+}
+ 
+// Hàm chỉ cập nhật số liệu bên trong (tránh vẽ lại ảnh gây nháy)
+function updatePostContentOnly(postEl, data) {
+    // 1. Update Like Count
+    const likeCountEl = postEl.querySelector('.like-count');
+    // Dùng toán tử so sánh lỏng (!=) để bắt cả trường hợp '0' so với 0
+    if (likeCountEl && likeCountEl.textContent != data.likeCount) {
+        likeCountEl.textContent = data.likeCount || 0;
+        triggerShake(likeCountEl); // Hiệu ứng rung báo thay đổi
+    }
+
+    // 2. Update Comment Count
+    const cmtCountEl = postEl.querySelector('.comment-count');
+    // Kiểm tra kỹ data.comments có phải mảng không
+    const serverCmtCount = Array.isArray(data.comments) ? data.comments.length : 0;
+    
+    if (cmtCountEl && parseInt(cmtCountEl.textContent) !== serverCmtCount) {
+        cmtCountEl.textContent = serverCmtCount;
+        triggerShake(cmtCountEl);
+    }
+    
+    // 3. Update trạng thái nút Like (Đỏ/Xám)
+    const likeBtn = postEl.querySelector('.like-btn i');
+    
+    // --- [FIX QUAN TRỌNG] ---
+    // Kiểm tra data.likes phải là mảng (Array) trước khi gọi .includes
+    const isLiked = Array.isArray(data.likes) && 
+                    currentProfile && 
+                    data.likes.includes(currentProfile.username);
+    
+    if (likeBtn) {
+        if (isLiked) {
+            likeBtn.className = 'bi bi-heart-fill text-danger';
+        } else {
+            likeBtn.className = 'bi bi-heart';
+        }
+    }
+}
+
+// Helper hiệu ứng rung
+function triggerShake(el) {
+    el.classList.remove('anim-update');
+    void el.offsetWidth;
+    el.classList.add('anim-update');
+}
+
+// ----------------------------------------------------------------
+// 3. CÁC HÀM HỖ TRỢ CŨ (GIỮ NGUYÊN)
+// ----------------------------------------------------------------
+
+// File: feed.js
+
+function mergeServerDataToView(dataList) {
+   const container = document.getElementById('posts-container');
+   if (!container) return;
+
+   // [FIX 1] XÓA LOADING SPINNER CŨ (Nếu có)
+   // Tìm xem có cái spinner nào đang quay ở cuối không thì xóa đi
+   const bottomLoader = document.getElementById('bottom-feed-loader');
+   if (bottomLoader) bottomLoader.remove();
+
+   dataList.forEach(post => {
+      // [FIX 2] CHẶN TRÙNG LẶP BÀI VIẾT
+      // Kiểm tra xem bài này đã có trên màn hình chưa
+      const postId = post.__backendId || post.id;
+      const existEl = document.getElementById(`post-${postId}`);
+
+      if (existEl) {
+         // Nếu bài viết đã tồn tại (do bị trôi từ trang 1 xuống), ta không vẽ lại nữa
+         // Hoặc nếu muốn kỹ hơn: update lại nội dung cho nó (optional)
+         console.log(`⚠️ Bỏ qua bài trùng lặp: ${postId}`);
+         return; 
       }
-   }
+
+      // Nếu chưa có thì mới vẽ và chèn vào cuối
+      const html = createPostHtml(post);
+      container.insertAdjacentHTML('beforeend', html);
+   });
 }
 
 
@@ -366,79 +613,58 @@ if (createPostModalEl) {
    });
 }
 
-// Hàm Render chính (Hỗ trợ Append và Tự động dọn dẹp DOM)
+// Hàm Render chính (Hỗ trợ Append và Tự động dọn dẹp DOM) 
 function renderPostsPaged(newPosts, page) {
    const container = document.getElementById('posts-container');
+   if (!container) return;
 
-   // 1. Xóa trigger cũ (Nút loading cũ)
+   // 1. XÓA LOADING CŨ (Dọn dẹp kỹ càng mọi loại ID có thể xảy ra)
+   // Xóa cái loader mà chúng ta tự tạo lúc gọi API
+   const oldLoader = document.getElementById('bottom-feed-loader');
+   if (oldLoader) oldLoader.remove();
+   
+   // Xóa cả cái nút "Xem thêm" cũ nếu có (để tạo cái mới ở dưới cùng)
    const oldTrigger = document.getElementById('feed-load-more');
    if (oldTrigger) oldTrigger.remove();
 
-   // 2. Nếu là trang 1: Reset toàn bộ
-   if (page === 1) {
-      container.innerHTML = '';
-      if (!newPosts || newPosts.length === 0) {
-         container.innerHTML = `
-            <div class="text-center py-5">
-               <i class="bi bi-newspaper theme-text-primary" style="font-size: 4rem;"></i>
-               <p class="fw-semibold fs-5 mt-3">Chưa có bài đăng</p>
-               <p class="text-muted">Nhấn + để tạo bài viết đầu tiên</p>
-            </div>
-         `;
-         return;
-      }
+   // 2. LỌC TRÙNG BÀI VIẾT (Quan trọng nhất)
+   // Chỉ lấy những bài mà trên màn hình CHƯA CÓ
+   const uniquePosts = newPosts.filter(post => {
+       const postId = post.__backendId || post.id;
+       // Kiểm tra xem thẻ div có id="post-..." đã tồn tại chưa
+       return !document.getElementById(`post-${postId}`);
+   });
+
+   // Nếu không còn bài nào mới (do trùng hết) thì thôi không vẽ nữa
+   if (uniquePosts.length === 0) {
+       console.log("⚠️ Tất cả bài viết trang này đã hiển thị rồi, bỏ qua.");
+       return;
    }
 
-   // 3. Append bài mới vào cuối danh sách
-   let html = newPosts.map(post => createPostHtml(post)).join('');
-   container.insertAdjacentHTML('beforeend', html);
-
-   // --- [ĐOẠN CODE MỚI] TỐI ƯU HÓA BỘ NHỚ ---
-   // Giới hạn chỉ giữ lại khoảng 50 bài viết (5 trang) trong DOM
-   const MAX_POSTS = 30; 
-   const allPosts = container.getElementsByClassName('post-card'); // Dùng getElementsByClassName để lấy danh sách "động" nhanh hơn
-
-   // Chỉ kích hoạt dọn dẹp khi số lượng bài vượt quá giới hạn VÀ người dùng đã cuộn xuống sâu
-   if (allPosts.length > MAX_POSTS && window.scrollY > 4000) {
-      const removeCount = allPosts.length - MAX_POSTS;
-      
-      // Xóa bớt các bài cũ nhất (nằm ở trên cùng)
-      for (let i = 0; i < removeCount; i++) {
-         // Luôn xóa phần tử đầu tiên (index 0) vì sau khi xóa, phần tử thứ 2 sẽ đẩy lên thành thứ 1
-         if (allPosts[0]) allPosts[0].remove();
-      }
-      console.log(`[System] Đã dọn dẹp ${removeCount} bài viết cũ để giảm tải RAM.`);
-   }
-   // ---------------------------------------------
-
-   // 4. Xử lý Trigger tải thêm (Infinite Scroll)
-   if (feedHasMore) {
-      const trigger = document.createElement('div');
-      trigger.id = 'feed-load-more';
-      trigger.className = 'py-4 text-center text-muted small';
-      trigger.innerHTML = `<div class="spinner-border spinner-border-sm text-secondary" role="status"></div> Đang tải thêm tin...`;
-
-      // Gán hàm callback trực tiếp vào element
-      trigger._onIntersect = () => {
-         if (!feedLoading) {
-            feedPage++;
-            loadFeedData(feedPage);
-         }
-      };
-
-      container.appendChild(trigger);
-
-      // Yêu cầu Observer toàn cục theo dõi phần tử này
-      if (globalScrollObserver) {
-          globalScrollObserver.observe(trigger);
-      }
-   } else if (page > 1) {
-      // Đã hết tin để load
-      container.insertAdjacentHTML('beforeend', '<div class="text-center py-4 text-muted small">--- Bạn đã xem hết tin ---</div>');
-   }
+   // 3. VẼ BÀI VIẾT MỚI
+   uniquePosts.forEach(post => {
+       const html = createPostHtml(post);
+       container.insertAdjacentHTML('beforeend', html);
+   });
 }
+ 
 function renderPosts() {
-   renderPostsPaged(serverFeedData, 1);
+    // Nếu chưa có dữ liệu thì thôi
+    if (!serverFeedData || serverFeedData.length === 0) return;
+
+    const container = document.getElementById('posts-container');
+    
+    // TRƯỜNG HỢP 1: Nếu đang lọc Hashtag hoặc Profile riêng -> Vẽ lại từ đầu (Cách cũ)
+    // Vì lúc này danh sách bài viết thay đổi hoàn toàn cấu trúc
+    if (typeof currentHashFilter !== 'undefined' && currentHashFilter) {
+        container.innerHTML = '';
+        mergeServerDataToView(serverFeedData);
+        return;
+    }
+
+    // TRƯỜNG HỢP 2: Nếu là Feed trang chủ bình thường -> Dùng Smart Sync (Cách mới)
+    // Để giữ vị trí cuộn và cập nhật êm ái
+    smartSyncFeed(serverFeedData.slice(0, 15)); // Chỉ sync 15 bài đầu
 }
 
 function renderComments(postId) {
@@ -499,6 +725,85 @@ function updateImagePreview() {
    }
 
    gridContainer.innerHTML = renderPostImages(currentImagePreviews, selectedLayout);
+}
+
+// --- LOGIC IMAGE CAROUSEL ---
+function openPostImages(postId, startIndex = 0) {
+    console.log("1. Đang mở bài viết ID:", postId); 
+
+    // 1. Tìm bài viết trong dữ liệu
+    const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
+    
+    if (!post) {
+        console.error("❌ Không tìm thấy bài viết trong bộ nhớ");
+        return;
+    } 
+    let images = [];
+
+    // Trường hợp 1: Dữ liệu chuẩn từ Server (thường tên là imageData)
+    if (post.imageData) {
+        if (Array.isArray(post.imageData)) {
+            images = post.imageData;
+        } else {
+            // Nếu là chuỗi JSON string "['url1', 'url2']" -> Parse ra mảng
+            try { 
+                images = JSON.parse(post.imageData); 
+            } catch (e) { 
+                // Nếu không parse được (ví dụ link ảnh đơn) -> nhét vào mảng
+                images = [post.imageData]; 
+            }
+        }
+    } 
+    // Trường hợp 2: Dữ liệu đã qua xử lý (tên là images)
+    else if (post.images) {
+        images = Array.isArray(post.images) ? post.images : [post.images];
+    }
+
+    console.log("2. Danh sách ảnh tìm được:", images);
+
+    // Kiểm tra lại lần cuối
+    if (!images || images.length === 0) {
+        console.warn("⚠️ Bài viết này thực sự không có ảnh nào.");
+        return;
+    }
+
+    // 2. Tìm khung chứa trong Modal
+    const container = document.getElementById('carousel-items-container');
+    if (!container) {
+        console.error("❌ Lỗi HTML: Không tìm thấy div id='carousel-items-container'");
+        return;
+    }
+
+    // 3. Reset và Thêm ảnh vào Carousel
+    container.innerHTML = ''; 
+
+    images.forEach((imgUrl, index) => {
+        const isActive = index === startIndex ? 'active' : '';
+        // Thêm style object-fit: contain để ảnh hiển thị trọn vẹn
+        const itemHtml = `
+            <div class="carousel-item h-100 ${isActive}">
+                <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
+                    <img src="${imgUrl}" class="d-block" style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Image ${index}">
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', itemHtml);
+    });
+
+    // 4. Ẩn/Hiện nút Next/Prev nếu chỉ có 1 ảnh
+    const controls = document.querySelectorAll('#imageViewerModal .carousel-control-prev, #imageViewerModal .carousel-control-next');
+    if (images.length <= 1) {
+        controls.forEach(el => el.style.display = 'none');
+    } else {
+        controls.forEach(el => el.style.display = 'flex');
+    }
+
+    // 5. Mở Modal
+    const modalEl = document.getElementById('imageViewerModal');
+    if (modalEl) {
+        const myModal = new bootstrap.Modal(modalEl);
+        myModal.show();
+    }
 }
 
 // Sửa thêm: Nút xóa tất cả
@@ -586,85 +891,128 @@ document.getElementById('createPostModal').addEventListener('hidden.bs.modal', f
    updateLayoutSelectionUI('1-wide');
 });
 
-// --- SỰ KIỆN TƯƠNG TÁC BÀI VIẾT (LIKE, COMMENT, MENU) ---
 document.getElementById('posts-container').addEventListener('click', async (e) => {
+    const likeBtn = e.target.closest('.like-btn');
+    if (likeBtn) {
+        if (likeBtn.disabled) return; // Chặn click liên tục
 
-   // A. XỬ LÝ LIKE (CẬP NHẬT LẠC QUAN)
-   const likeBtn = e.target.closest('.like-btn');
-   if (likeBtn) {
-      // Chặn click liên tục
-      if (likeBtn.disabled) return;
+        const icon = likeBtn.querySelector('i');
+        const textSpan = likeBtn.querySelector('span');
+        const isCurrentlyLiked = icon.classList.contains('bi-heart-fill');
+        const postId = likeBtn.dataset.id;
+        const currentUsername = currentProfile ? currentProfile.username : '';
 
-      // 1. Lấy trạng thái hiện tại từ giao diện
-      const icon = likeBtn.querySelector('i');
-      const textSpan = likeBtn.querySelector('span');
-      const isCurrentlyLiked = icon.classList.contains('bi-heart-fill');
-      const postId = likeBtn.dataset.id;
+        // -- Cập nhật UI ngay lập tức --
+        if (isCurrentlyLiked) {
+            // Bỏ thích
+            icon.className = 'bi bi-heart fs-5'; 
+            icon.classList.remove('text-danger');
+            
+            let count = parseInt(textSpan.textContent) || 0;
+            count = Math.max(0, count - 1);
+            textSpan.textContent = count > 0 ? count : 'Thích';
+            
+            likeBtn.classList.remove('active');
 
-      // 2. Cập nhật UI NGAY LẬP TỨC (Không chờ Server)
-      if (isCurrentlyLiked) {
-         // Đang thích -> Bỏ thích
-         icon.className = 'bi bi-heart fs-5'; // Trái tim rỗng
-         icon.classList.remove('text-danger');
+            // Cập nhật vào bộ nhớ đệm (Local Cache) để nếu cuộn đi cuộn lại vẫn đúng
+            updateLocalDataLike(postId, currentUsername, false);
 
-         let currentCount = parseInt(textSpan.textContent) || 0;
-         // Nếu đang là chữ 'Thích' thì coi là 0
-         if (isNaN(currentCount)) currentCount = 0;
+        } else {
+            // Thích
+            icon.className = 'bi bi-heart-fill text-danger fs-5';
+            
+            let count = parseInt(textSpan.textContent) || 0;
+            textSpan.textContent = count + 1;
+            
+            likeBtn.classList.add('active'); // Hiệu ứng nhún nhảy
 
-         const newCount = Math.max(0, currentCount - 1);
-         textSpan.textContent = newCount > 0 ? newCount : 'Thích';
+            // Cập nhật vào bộ nhớ đệm
+            updateLocalDataLike(postId, currentUsername, true);
+        }
 
-         likeBtn.classList.remove('active');
-      } else {
-         // Chưa thích -> Thích
-         icon.className = 'bi bi-heart-fill text-danger fs-5'; // Trái tim đặc đỏ
+        // -- Gửi lên Server (Chạy ngầm) --
+        try {
+            const res = await sendToServer({
+                action: 'like_post',
+                postId: postId,
+                username: currentUsername || 'anonymous'
+            });
+            // Nếu server trả về số chuẩn xác thì cập nhật lại lần nữa cho chắc
+            if (res.status === 'success' && res.newCount !== undefined) {
+                textSpan.textContent = res.newCount > 0 ? res.newCount : 'Thích';
+            }
+        } catch (err) {
+            console.error("Lỗi like:", err);
+            // Có thể revert UI nếu cần thiết
+        }
+        return;
+    }
 
-         let currentCount = parseInt(textSpan.textContent) || 0;
-         if (isNaN(currentCount)) currentCount = 0;
+    // -----------------------------------------------------------
+    // 2. XỬ LÝ CLICK VÀO ẢNH -> MỞ CAROUSEL (MỚI THÊM)
+    // -----------------------------------------------------------
+    // Bắt sự kiện click vào ảnh bài viết (trừ avatar)
+    const imgEl = e.target.closest('.img-box img') || e.target.closest('.post-image') || (e.target.tagName === 'IMG' ? e.target : null);
+    
+    if (imgEl && !imgEl.classList.contains('avatar') && !imgEl.classList.contains('user-avatar')) {
+       const postCard = imgEl.closest('.post-card');
+       if (postCard) {
+          const postId = postCard.id.replace('post-', '');
+          
+          // Tính toán vị trí ảnh (index) để mở đúng ảnh đó
+          const allImages = Array.from(postCard.querySelectorAll('img:not(.avatar):not(.user-avatar)')); 
+          const clickIndex = allImages.indexOf(imgEl);
+ 
+          openPostImages(postId, clickIndex >= 0 ? clickIndex : 0);
+       }
+       return; // Dừng lại, không xử lý tiếp
+    }
 
-         textSpan.textContent = currentCount + 1;
+    // -----------------------------------------------------------
+    // 3. XỬ LÝ MỞ COMMENT
+    // -----------------------------------------------------------
+    const commentBtn = e.target.closest('.comment-btn');
+    if (commentBtn) {
+        currentPostId = commentBtn.dataset.id;
+        loadCommentsForPost(currentPostId);
+        
+        // Mở Modal bình luận
+        if(typeof commentModal !== 'undefined') commentModal.show();
+        else new bootstrap.Modal(document.getElementById('commentsModal')).show();
+        
+        return;
+    }
 
-         // Thêm hiệu ứng nhún nhảy
-         likeBtn.classList.add('active');
-      }
-
-      // 3. Gửi lệnh lên Server (Chạy ngầm)
-      try {
-         const username = currentProfile ? currentProfile.username : 'anonymous';
-         const res = await sendToServer({
-            action: 'like_post',
-            postId: postId,
-            username: username
-         });
-
-         // Nếu server trả về số lượng chính xác, cập nhật lại cho chuẩn
-         if (res.status === 'success' && res.newCount !== undefined) {
-            textSpan.textContent = res.newCount > 0 ? res.newCount : 'Thích';
-         }
-      } catch (e) {
-         console.error("Lỗi like:", e);
-         // Nếu lỗi mạng nghiêm trọng thì có thể revert UI lại ở đây (tùy chọn)
-      }
-      return;
-   }
-
-   // B. XỬ LÝ MỞ COMMENT
-   const commentBtn = e.target.closest('.comment-btn');
-   if (commentBtn) {
-      currentPostId = commentBtn.dataset.id;
-      // Load comment từ server thay vì từ dữ liệu post cũ
-      loadCommentsForPost(currentPostId);
-      commentModal.show();
-      return;
-   }
-
-   // C. XỬ LÝ MENU 3 CHẤM (Sửa/Xóa)
-   const menuBtn = e.target.closest('.post-menu-btn');
-   if (menuBtn) {
-      currentPostId = menuBtn.dataset.id;
-      postOptionsModal.show();
-   }
+    // -----------------------------------------------------------
+    // 4. XỬ LÝ MENU 3 CHẤM (Sửa/Xóa)
+    // -----------------------------------------------------------
+    const menuBtn = e.target.closest('.post-menu-btn');
+    if (menuBtn) {
+        currentPostId = menuBtn.dataset.id;
+        
+        // Mở Modal tùy chọn
+        if(typeof postOptionsModal !== 'undefined') postOptionsModal.show();
+        else new bootstrap.Modal(document.getElementById('postOptionsModal')).show();
+        
+        return;
+    }
 });
+
+// --- HÀM CẬP NHẬT CACHE CỤC BỘ KHI LIKE (Để đồng bộ dữ liệu) ---
+function updateLocalDataLike(postId, username, isLiked) {
+    const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
+    if (post) {
+        // Cập nhật danh sách likes trong bộ nhớ
+        if (!post.likes) post.likes = [];
+        
+        if (isLiked) {
+            if (!post.likes.includes(username)) post.likes.push(username);
+        } else {
+            post.likes = post.likes.filter(u => u !== username);
+        }
+        post.likeCount = post.likes.length;
+    }
+}
 
 // Post Options 
 document.getElementById('edit-post-option').addEventListener('click', () => {
@@ -787,65 +1135,7 @@ document.getElementById('comments-list').addEventListener('click', async (e) => 
    }
 });
 
-// --- TÍNH NĂNG XEM ẢNH FULL (LIGHTBOX) ---
-
-// Gắn sự kiện click cho container chứa bài viết
-document.getElementById('posts-container').addEventListener('click', (e) => {
-   // Tìm xem người dùng có click vào khung ảnh (.img-box) không
-   const imgBox = e.target.closest('.img-box');
-
-   if (imgBox) {
-      // Tìm bài viết tương ứng
-      const postCard = imgBox.closest('.post-card');
-      if (postCard) {
-         // Lấy ID bài viết (dạng post-UID -> lấy UID)
-         const postId = postCard.id.replace('post-', '');
-         openImageViewer(postId);
-      }
-   }
-});
-
-function openImageViewer(postId) {
-   // 1. Tìm dữ liệu bài viết
-   const post = serverFeedData.find(p => p.__backendId === postId);
-   if (!post) return;
-
-   // 2. Lấy danh sách ảnh
-   const images = parseImages(post.imageData);
-   if (!images || images.length === 0) return;
-
-   // 3. Render ảnh vào Modal
-   const container = document.getElementById('full-image-list');
-   const counter = document.getElementById('viewer-counter');
-
-   container.innerHTML = '';
-   counter.textContent = `Chi tiết (${images.length} ảnh)`;
-
-   images.forEach((imgUrl, index) => {
-      // Tạo container wrapper
-      const wrapper = document.createElement('div');
-      wrapper.className = "lightbox-item"; // Sử dụng class CSS mới tạo
-
-      // Tạo thẻ ảnh
-      const img = document.createElement('img');
-      img.src = imgUrl;
-      img.className = "lightbox-image"; // Sử dụng class CSS mới tạo
-      img.alt = `Ảnh chi tiết ${index + 1}`;
-
-      // Lazy load để mở modal nhanh hơn
-      img.loading = "lazy";
-
-      wrapper.appendChild(img);
-      container.appendChild(wrapper);
-   });
-
-   // 4. Hiển thị Modal
-   imageViewerModal.show();
-}
-
-document.getElementById('imageViewerModal').addEventListener('hidden.bs.modal', function () {
-   document.getElementById('full-image-list').innerHTML = '';
-});
+// --- TÍNH NĂNG XEM ẢNH
 
 function processNewFeedData(newPosts) {
    if (!serverFeedData) return;

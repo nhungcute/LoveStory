@@ -272,7 +272,8 @@ document.getElementById('confirm-delete').addEventListener('click', async () => 
 
             setTimeout(() => {
                postEl.remove();
-               if (serverFeedData.length === 0) renderPosts();
+               if (serverFeedData.length === 0) 
+				   renderPosts();
             }, 200);
          }, 400);
       }
@@ -511,7 +512,7 @@ async function handleNotificationClick(notifId) {
    // C. TÌM VÀ CUỘN TỚI BÀI VIẾT
    setTimeout(async () => {
       let postEl = document.getElementById(`post-${postId}`);
-
+ 
       if (postEl) {
          // TRƯỜNG HỢP 1: Bài viết ĐANG CÓ trên màn hình -> Cuộn tới
          console.log("Bài viết đã có sẵn, cuộn tới...");
@@ -541,7 +542,18 @@ async function handleNotificationClick(notifId) {
                   // Chèn vào đầu danh sách dữ liệu Feed
                   serverFeedData.unshift(postData);
                   // Vẽ lại Bảng tin ngay lập tức
-                  renderPosts();
+                  // 1. Nếu đang ở trang chủ thì chèn êm ái
+					if (!currentHashFilter) {
+						// Gọi Sync để nó tự phát hiện bài mới và chèn lên đầu + hiệu ứng fade-in
+						if (typeof smartSyncFeed === 'function') {
+							smartSyncFeed(serverFeedData.slice(0, 5)); 
+						} else {
+							renderPosts(); // Fallback nếu chưa có hàm mới
+						}
+					} else {
+						// Nếu đang lọc hashtag thì vẽ lại
+						renderPosts();
+					}
                }
 
                // Đợi 1 chút cho DOM vẽ xong rồi cuộn tới

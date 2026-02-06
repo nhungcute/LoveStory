@@ -1429,40 +1429,7 @@ window.togglePostContent = function(btn, postId) {
         fullContent.classList.add('fade-in');
     }
 };
-// --- LOGIC IMAGE CAROUSEL ---
-window.openPostImages = function(postId, startIndex = 0) {
-    // 1. Lấy dữ liệu bài viết từ biến toàn cục
-    // Lưu ý: serverFeedData là biến chứa danh sách bài viết trong app.js/feed.js của bạn
-    const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
-    
-    if (!post || !post.images) return;
 
-    const container = document.getElementById('carousel-items-container');
-    container.innerHTML = ''; // Xóa ảnh cũ
-
-    // 2. Tạo HTML cho từng ảnh trong Carousel
-    post.images.forEach((imgUrl, index) => {
-        const isActive = index === startIndex ? 'active' : '';
-        const itemHtml = `
-            <div class="carousel-item h-100 ${isActive}">
-                <img src="${imgUrl}" class="d-block w-100 h-100" alt="Image ${index}">
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', itemHtml);
-    });
-
-    // 3. Ẩn hiện nút Next/Prev nếu chỉ có 1 ảnh
-    const controls = document.querySelectorAll('.carousel-control-prev, .carousel-control-next');
-    if (post.images.length <= 1) {
-        controls.forEach(el => el.classList.add('d-none'));
-    } else {
-        controls.forEach(el => el.classList.remove('d-none'));
-    }
-
-    // 4. Mở Modal
-    const myModal = new bootstrap.Modal(document.getElementById('imageViewerModal'));
-    myModal.show();
-};
 
 document.addEventListener('hide.bs.modal', (event) => {
    if (document.activeElement && event.target.contains(document.activeElement)) {

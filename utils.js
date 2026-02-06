@@ -101,7 +101,6 @@ let draggedId = null;
 
 let serverFeedData = [];
 let feedPage = 1;
-let feedLoading = false;
 let feedHasMore = true;
 let isLoadingFeed = false;
 let currentHashFilter = null;
@@ -144,12 +143,7 @@ let currentCommentId = null;
 let currentCommentContent = '';
 let commentOptionsModal = new bootstrap.Modal(document.getElementById('commentOptionsModal'));
 let editCommentContentModal = new bootstrap.Modal(document.getElementById('editCommentContentModal'));
-
-// Trong hàm initApp hoặc (async () => { ... })();
-// Thêm dòng này vào phần khởi tạo:
-imageViewerModal = new bootstrap.Modal(document.getElementById('imageViewerModal'));
-// --- BIẾN QUẢN LÝ TIẾN TRÌNH UPLOAD ---
-// --- LOGIC XỬ LÝ VUỐT (SWIPE) & CLICK THÔNG MINH ---
+  
 let touchStartX = 0;
 let currentSwipedId = null;
 let isSwiping = false; // Biến cờ để chặn click nhầm khi đang vuốt
