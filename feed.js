@@ -726,84 +726,99 @@ function updateImagePreview() {
 
    gridContainer.innerHTML = renderPostImages(currentImagePreviews, selectedLayout);
 }
-
-// --- LOGIC IMAGE CAROUSEL ---
+ 
 function openPostImages(postId, startIndex = 0) {
     console.log("1. Đang mở bài viết ID:", postId); 
 
-    // 1. Tìm bài viết trong dữ liệu
+    // 1. Tìm bài viết
     const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
-    
-    if (!post) {
-        console.error("❌ Không tìm thấy bài viết trong bộ nhớ");
-        return;
-    } 
-    let images = [];
+    if (!post) return;
 
-    // Trường hợp 1: Dữ liệu chuẩn từ Server (thường tên là imageData)
+    // 2. Xử lý dữ liệu ảnh
+    let images = [];
     if (post.imageData) {
-        if (Array.isArray(post.imageData)) {
-            images = post.imageData;
-        } else {
-            // Nếu là chuỗi JSON string "['url1', 'url2']" -> Parse ra mảng
-            try { 
-                images = JSON.parse(post.imageData); 
-            } catch (e) { 
-                // Nếu không parse được (ví dụ link ảnh đơn) -> nhét vào mảng
-                images = [post.imageData]; 
-            }
+        if (Array.isArray(post.imageData)) images = post.imageData;
+        else {
+            try { images = JSON.parse(post.imageData); } 
+            catch (e) { images = [post.imageData]; }
         }
-    } 
-    // Trường hợp 2: Dữ liệu đã qua xử lý (tên là images)
-    else if (post.images) {
+    } else if (post.images) {
         images = Array.isArray(post.images) ? post.images : [post.images];
     }
 
-    console.log("2. Danh sách ảnh tìm được:", images);
+    if (!images || images.length === 0) return;
 
-    // Kiểm tra lại lần cuối
-    if (!images || images.length === 0) {
-        console.warn("⚠️ Bài viết này thực sự không có ảnh nào.");
-        return;
-    }
-
-    // 2. Tìm khung chứa trong Modal
-    const container = document.getElementById('carousel-items-container');
-    if (!container) {
-        console.error("❌ Lỗi HTML: Không tìm thấy div id='carousel-items-container'");
-        return;
-    }
-
-    // 3. Reset và Thêm ảnh vào Carousel
-    container.innerHTML = ''; 
-
-    images.forEach((imgUrl, index) => {
-        const isActive = index === startIndex ? 'active' : '';
-        // Thêm style object-fit: contain để ảnh hiển thị trọn vẹn
-        const itemHtml = `
-            <div class="carousel-item h-100 ${isActive}">
-                <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
-                    <img src="${imgUrl}" class="d-block" style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Image ${index}">
-                </div>
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', itemHtml);
-    });
-
-    // 4. Ẩn/Hiện nút Next/Prev nếu chỉ có 1 ảnh
-    const controls = document.querySelectorAll('#imageViewerModal .carousel-control-prev, #imageViewerModal .carousel-control-next');
-    if (images.length <= 1) {
-        controls.forEach(el => el.style.display = 'none');
-    } else {
-        controls.forEach(el => el.style.display = 'flex');
-    }
-
-    // 5. Mở Modal
+    // 3. --- [FIX QUAN TRỌNG: TỰ PHỤC HỒI HTML] ---
+    let container = document.getElementById('carousel-items-container');
     const modalEl = document.getElementById('imageViewerModal');
-    if (modalEl) {
-        const myModal = new bootstrap.Modal(modalEl);
+
+    // Nếu không tìm thấy Modal -> Báo lỗi
+    if (!modalEl) {
+        console.error("❌ Lỗi: Thiếu Modal trong index.html");
+        return;
+    }
+
+    // Nếu Modal còn nhưng Container bị mất (do lần trước xóa nhầm) -> TỰ TẠO LẠI
+    if (!container) {
+        console.warn("⚠️ Khung ảnh bị thiếu, đang tự động khôi phục...");
+        const modalBody = modalEl.querySelector('.modal-body');
+        if (modalBody) {
+            modalBody.innerHTML = `
+                <div id="postImageCarousel" class="carousel slide w-100 h-100" data-bs-interval="false">
+                    <div class="carousel-inner h-100 d-flex align-items-center" id="carousel-items-container"></div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#postImageCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#postImageCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </button>
+                </div>`;
+            // Lấy lại biến container sau khi vừa tạo xong
+            container = document.getElementById('carousel-items-container');
+        }
+    }
+
+    // 4. Render ảnh
+    if (container) {
+        container.innerHTML = ''; // Chỉ xóa ảnh cũ, không xóa container
+        images.forEach((imgUrl, index) => {
+            const isActive = index === startIndex ? 'active' : '';
+            const itemHtml = `
+                <div class="carousel-item h-100 ${isActive}">
+                    <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
+                        <img src="${imgUrl}" class="d-block" style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Image">
+                    </div>
+                </div>`;
+            container.insertAdjacentHTML('beforeend', itemHtml);
+        });
+
+        // Ẩn hiện nút điều hướng
+        const controls = document.querySelectorAll('#imageViewerModal .carousel-control-prev, #imageViewerModal .carousel-control-next');
+        if (images.length <= 1) controls.forEach(el => el.style.display = 'none');
+        else controls.forEach(el => el.style.display = 'flex');
+
+        // Mở Modal
+        const myModal = bootstrap.Modal.getOrCreateInstance(modalEl);
         myModal.show();
     }
+}
+
+// 5. Sự kiện dọn dẹp an toàn
+const imageModalCleanup = document.getElementById('imageViewerModal');
+if (imageModalCleanup) {
+    // Xóa sự kiện cũ để tránh bị gọi nhiều lần (clone node trick)
+    const newEl = imageModalCleanup.cloneNode(true);
+    imageModalCleanup.parentNode.replaceChild(newEl, imageModalCleanup);
+    
+    newEl.addEventListener('hidden.bs.modal', function () {
+        const container = document.getElementById('carousel-items-container');
+        if (container) container.innerHTML = ''; // Chỉ xóa nội dung bên trong
+
+        // Xóa backdrop kẹt
+        document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style = '';
+    });
 }
 
 // Sửa thêm: Nút xóa tất cả

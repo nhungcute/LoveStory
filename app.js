@@ -180,23 +180,6 @@ function createLoaderHtml(id, text = 'Đang tải...', extraClasses = 'text-cent
 		`;
 }
 
-// Dọn dẹp nội dung nặng khi đóng Modal để giải phóng RAM
-const heavyModals = ['imageViewerModal'];
-
-heavyModals.forEach(id => {
-   const el = document.getElementById(id);
-   if (el) {
-      el.addEventListener('hidden.bs.modal', function () {
-         const contentContainers = el.querySelectorAll('.modal-body');
-         contentContainers.forEach(container => {
-            while (container.firstChild) {
-               container.removeChild(container.firstChild);
-            }
-         });
-      });
-   }
-});
-
 // --- KHỞI TẠO ỨNG DỤNG ---_---
 
 async function syncUserProfile() {
@@ -509,8 +492,12 @@ document.querySelectorAll('.nav-link').forEach(btn => {
       currentTab = targetTab;
       // 3. Xử lý nút FAB (Nút tròn +)
       const fabBtn = document.getElementById('fab-btn');
-      if (currentTab === 'feed') fabBtn.classList.remove('d-none');
-      else fabBtn.classList.add('d-none');
+      if (currentTab === 'feed') 
+	  {
+		  fabBtn.classList.remove('d-none');
+	  }
+      else 
+		  fabBtn.classList.add('d-none');
       // 4. [TỐI ƯU] KHÔNG RESET DỮ LIỆU KHI CHUYỂN TAB
       if (currentTab === 'feed' && serverFeedData.length === 0) {
          loadFeedData(1);
@@ -1436,6 +1423,7 @@ document.addEventListener('hide.bs.modal', (event) => {
       document.activeElement.blur(); // Bỏ focus ngay lập tức
    }
 });
+  
 // KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
 setInterval(runBackgroundSync, 60000);
 
