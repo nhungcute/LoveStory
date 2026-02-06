@@ -500,7 +500,14 @@ document.querySelectorAll('.nav-link').forEach(btn => {
 		  fabBtn.classList.add('d-none');
       // 4. [TỐI ƯU] KHÔNG RESET DỮ LIỆU KHI CHUYỂN TAB
       if (currentTab === 'feed' && serverFeedData.length === 0) {
-         loadFeedData(1);
+         setTimeout(() => {
+                // Kiểm tra nếu chưa có dữ liệu thì mới hiện Skeleton và tải
+                const container = document.getElementById('posts-container');
+                if (!container.children.length) {
+                    // Gọi hàm tải dữ liệu sau khi tab đã hiện ra mượt mà
+                    loadFeedData(1); 
+                }
+            }, 10);
       } else if (currentTab === 'home') {
          // Home thì có thể update nhẹ số liệu nếu muốn
          updateStats();
