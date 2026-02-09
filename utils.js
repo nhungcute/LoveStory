@@ -153,9 +153,85 @@ let isScrolling = false; // [MỚI] Biến cờ xác định đang cuộn trang
 // --- BIẾN QUẢN LÝ PHÂN TRANG FEED ---
 let currentMarketPrice_GoldData = null;
 
+const DB_NAME = 'SocialMemory_Images';
+const DB_VERSION = 1;
+const STORE_NAME = 'images';
 /* ==========================================================================
    1. XỬ LÝ CHUỖI & DỮ LIỆU CƠ BẢN (STRING & DATA PARSING)
    ========================================================================== */
+
+const imageDB = {
+    db: null,
+
+    // 1. Mở kết nối Database
+    async open() {
+        if (this.db) return this.db;
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                // Tạo kho chứa nếu chưa có
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    db.createObjectStore(STORE_NAME); // Key là URL hoặc ID ảnh
+                }
+            };
+
+            request.onsuccess = (event) => {
+                this.db = event.target.result;
+                resolve(this.db);
+            };
+            request.onerror = (event) => reject(event.target.error);
+        });
+    },
+
+    // 2. Lưu ảnh (Blob) vào DB
+    async saveImage(key, blob) {
+        const db = await this.open();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            store.put(blob, key); // Lưu Blob trực tiếp
+            tx.oncomplete = () => resolve();
+            tx.onerror = () => reject(tx.error);
+        });
+    },
+
+    // 3. Lấy ảnh ra (Trả về Blob URL dùng được ngay cho thẻ img)
+    async getImage(key) {
+        const db = await this.open();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, 'readonly');
+            const store = tx.objectStore(STORE_NAME);
+            const request = store.get(key);
+
+            request.onsuccess = () => {
+                const blob = request.result;
+                if (blob) {
+                    // Tạo đường dẫn ảo siêu nhanh (blob:http://...)
+                    const url = URL.createObjectURL(blob);
+                    resolve(url);
+                } else {
+                    resolve(null);
+                }
+            };
+            request.onerror = () => reject(request.error);
+        });
+    },
+    
+    // 4. Chuyển Base64 sang Blob (để lưu vào DB cho nhẹ)
+    base64ToBlob(base64) {
+        const parts = base64.split(';base64,');
+        const contentType = parts[0].split(':')[1];
+        const raw = window.atob(parts[1]);
+        const rawLength = raw.length;
+        const uInt8Array = new Uint8Array(rawLength);
+        for (let i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+        return new Blob([uInt8Array], { type: contentType });
+    }
+};
 
 // Chuẩn hóa tiếng Việt (Xóa dấu để tìm kiếm)
 function normalizeStr(str) {

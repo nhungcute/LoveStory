@@ -39,7 +39,7 @@ body, #app {
   padding: 0;
   background-color: var(--bg-color);
   color: var(--text-dark);
-  overscroll-behavior-y: none; /* Prevent browser pull-to-refresh */
+  overscroll-behavior-y: none;
 }
 
 #app {
@@ -595,3 +595,4 @@ overflow-anchor: auto;
 }
 /* Ẩn nút prev/next nếu chỉ có 1 ảnh */
 .carousel-control-none { display: none !important; }
+ 

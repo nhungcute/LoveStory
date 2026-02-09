@@ -1,11 +1,8 @@
 
 function updateValueWithEffect(id, newValue) {
     const el = document.getElementById(id);
-    if (!el) return;
- 
-    // 1. Xóa trạng thái "dữ liệu cũ" (sẽ tự động trở về màu gốc CSS ban đầu)
-    el.classList.remove('data-stale');
-
+    if (!el) return; 
+    el.classList.remove('data-stale'); 
     // 2. Kích hoạt hiệu ứng Rung
     el.classList.remove('anim-update'); 
     void el.offsetWidth;
@@ -780,38 +777,7 @@ function openEditGoldTx(id) {
    const modal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
    modal.show();
 }
-
-
-function updateStats() {
-   const startDate = new Date('2022-02-22');
-   const today = new Date();
-   const diffTime = Math.abs(today - startDate);
-   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-   const daysEl = document.getElementById('days-together');
-   if (daysEl) daysEl.textContent = `${diffDays} ngày`;
-
-   const memoryCount = allData.filter(d => d.type === 'memory').length;
-   const memoryEl = document.getElementById('memory-count');
-   if (memoryEl) memoryEl.textContent = memoryCount;
-   // Giải pháp: Ưu tiên lấy từ Cache LocalStorage (do hàm syncBabyRunStats đã lưu)
-   const bikeEl = document.getElementById('bike-count');
-   if (bikeEl) {
-      // 1. Lấy số liệu từ Cache (Ưu tiên số 1)
-      const cachedCount = localStorage.getItem('cached_babyrun_count');
-      // 2. Nếu có Cache thì dùng Cache, nếu không mới tính từ allData (Fallback)
-      if (cachedCount !== null && cachedCount !== undefined) {
-         bikeEl.textContent = cachedCount;
-      } else {
-         // Logic cũ (chỉ dùng khi không có cache)
-         const bikeEntries = allData.filter(d => d.type === 'bike_entry');
-         const todayStr = new Date().toISOString().split('T')[0];
-         const todayCount = bikeEntries.filter(e => e.date === todayStr).reduce((sum, e) => sum + (e.count || 0), 0);
-         bikeEl.textContent = todayCount;
-      }
-   }
-}
-
+ 
 function calculateBikeStats() {
    const bikeEntries = allData.filter(d => d.type === 'bike_entry');
    const today = new Date();
@@ -1317,8 +1283,7 @@ function renderStats() {
 
    const renderCard = (stat) => {
       const sizeClass = `size-${stat.size}`;
-
-      // Tìm đoạn code này trong hàm renderStats()
+ 
       if (stat.id === 'bike') {
          const dueDate = new Date('2026-04-26');
          const today = new Date();
@@ -1366,8 +1331,7 @@ function renderStats() {
 		  
 		const cachedBuy = localStorage.getItem('cached_gold_buy'); 
 		const cachedSell = localStorage.getItem('cached_gold_sell');
-
-		// Xử lý hiển thị: Nếu có cache thì format số, nếu chưa có thì hiện dấu gạch ngang '-'
+ 
 		const displayBuy = cachedBuy ? Number(cachedBuy).toLocaleString('vi-VN') : '-';
 		const displaySell = cachedSell ? Number(cachedSell).toLocaleString('vi-VN') : '-';
 		const staleClass = cachedBuy ? 'data-stale' : '';

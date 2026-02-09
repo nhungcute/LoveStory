@@ -102,61 +102,80 @@ document.getElementById('notification-btn').addEventListener('click', () => {
    } else {
       container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
    }
-   loadNotifications(1);
+   loadNotifications(1, true);
 });
 
 // --- HÀM TẢI THÔNG BÁO TỪ SERVER
-async function loadNotifications(page) {
-   if (notifLoading) return;
-   const container = document.getElementById('notifications-list');
-   const isModalOpen = document.getElementById('notificationsModal').classList.contains('show');
-   if (isModalOpen && page === 1 && serverNotifications.length === 0) {
-      container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
-   }
-   notifLoading = true;
-   try {
-      const res = await sendToServer({
-         action: 'get_notifications',
-         page: page,
-         limit: 10
-      });
+async function loadNotifications(page, forceRender = false) {
+    if (notifLoading) return;
 
-      if (res.status === 'success') {
-         notifHasMore = res.hasMore;
+    const container = document.getElementById('notifications-list');
+    
+    // [FIX]: Kiểm tra modal mở bằng CẢ 2 cách:
+    // 1. Có class 'show' (khi đang mở sẵn)
+    // 2. Hoặc cờ forceRender = true (khi vừa bấm nút mở)
+    const isModalVisible = document.getElementById('notificationsModal').classList.contains('show');
+    const shouldRender = isModalVisible || forceRender;
 
-         if (page === 1) {
-            serverNotifications = res.data;
-         } else {
-            serverNotifications = serverNotifications.concat(res.data);
-         }
-         if (isModalOpen) {
-            if (page === 1) container.innerHTML = '';
-            else {
-               const oldTrigger = document.getElementById('notif-load-more');
-               if (oldTrigger) oldTrigger.remove();
-            }
-            renderNotificationsPaged(res.data, container);
-         }
-      }
-   } catch (e) {
-      console.error(e);
-      if (isModalOpen && page === 1) container.innerHTML = '<div class="text-center py-3 text-danger small">Lỗi kết nối</div>';
-   } finally {
-      notifLoading = false;
-   }
-}
+    // Logic hiển thị spinner khi chưa có dữ liệu (giữ nguyên của bạn)
+    if (shouldRender && page === 1 && (!serverNotifications || serverNotifications.length === 0)) {
+       container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
+    }
+ 
+    notifLoading = true;
+    try {
+       const res = await sendToServer({
+          action: 'get_notifications',
+          page: page,
+          limit: 10
+       });
+ 
+       if (res.status === 'success') {
+          notifHasMore = res.hasMore;
+          const newData = Array.isArray(res.data) ? res.data : [];
+ 
+          if (page === 1) {
+             serverNotifications = newData;
+          } else {
+             serverNotifications = serverNotifications.concat(newData);
+          }
+ 
+          // [FIX]: Sử dụng biến shouldRender thay vì isModalVisible
+          if (shouldRender) {
+             if (page === 1) {
+                container.innerHTML = ''; // Xóa Spinner cũ đi
+             } else {
+                const oldTrigger = document.getElementById('notif-load-more');
+                if (oldTrigger) oldTrigger.remove();
+             }
+             
+             // Hàm này sẽ tự lo việc vẽ "Không có thông báo" nếu mảng rỗng
+             renderNotificationsPaged(newData, container);
+          }
+       }
+    } catch (e) {
+       console.error(e);
+       if (shouldRender && page === 1) container.innerHTML = '<div class="text-center py-3 text-danger small">Lỗi kết nối</div>';
+    } finally {
+       notifLoading = false;
+    }
+ }
 
-// --- HÀM RENDER THÔNG BÁO 
+// --- HÀM RENDER THÔNG BÁO
 function renderNotificationsPaged(newNotifs, container) {
-   if (serverNotifications.length === 0) {
+   // 1. [CHECK RỖNG] Kiểm tra biến toàn cục serverNotifications
+   if (!serverNotifications || serverNotifications.length === 0) {
       container.innerHTML = `
-				<div class="text-center py-5">
-					<i class="bi bi-bell-slash theme-text-primary" style="font-size: 3rem;"></i>
-					<p class="fw-semibold mt-3">Chưa có thông báo</p>
-				</div>`;
-      return;
+            <div class="d-flex flex-column align-items-center justify-content-center py-5">
+                <i class="bi bi-bell-slash text-muted" style="font-size: 3rem; opacity: 0.5;"></i>
+                <p class="fw-semibold mt-3 text-muted">Không có thông báo nào</p>
+            </div>`;
+      return; // Dừng hàm ngay tại đây
    }
+
+   // 2. Render danh sách
    const html = newNotifs.map(notif => {
+      // Logic Icon (Giữ nguyên của bạn)
       const iconMap = {
          like: 'heart-fill text-danger',
          comment: 'chat-fill text-primary',
@@ -173,70 +192,78 @@ function renderNotificationsPaged(newNotifs, container) {
          else if (notif.action.includes('delete')) iconClass = iconMap.delete_post;
          else iconClass = iconMap[notif.action] || iconMap.system;
       }
+
+      // Logic chấm đỏ chưa đọc
       const dotHtml = !notif.isRead ?
-         `<div class="notification-dot ms-auto me-2" style="flex-shrink: 0;"></div>` :
+         `<div class="notification-dot ms-auto me-2 bg-primary rounded-circle" style="width: 8px; height: 8px; flex-shrink: 0;"></div>` :
          `<div class="ms-auto me-2"></div>`;
 
       const relatedPostId = notif.relatedId || notif.postId || '';
+      
+      // Xử lý an toàn cho hàm formatTime
+      const timeStr = (typeof formatTimeSmart === 'function') 
+            ? formatTimeSmart(notif.createdAt) 
+            : notif.formattedTime || 'Vừa xong';
 
       return `
-				<div class="notification-swipe-wrapper" id="notif-wrap-${notif.__backendId}">
-					<div class="notification-actions">
-						<button class="notif-action-btn btn-mark-unread" onclick="handleSwipeAction('${notif.__backendId}', 'unread')">
-							<i class="bi bi-envelope"></i>
-						</button>
-						<button class="notif-action-btn btn-mark-read" onclick="handleSwipeAction('${notif.__backendId}', 'read')">
-							<i class="bi bi-envelope-open"></i>
-						</button>
-						<button class="notif-action-btn btn-delete-swipe" onclick="handleSwipeAction('${notif.__backendId}', 'delete')">
-							<i class="bi bi-trash"></i>
-						</button>
-					</div>
+            <div class="notification-swipe-wrapper list-group-item border-0 border-bottom p-0" id="notif-wrap-${notif.__backendId}">
+                <div class="notification-actions">
+                    <button class="notif-action-btn btn-mark-unread bg-secondary text-white" onclick="handleSwipeAction('${notif.__backendId}', 'unread')">
+                        <i class="bi bi-envelope"></i>
+                    </button>
+                    <button class="notif-action-btn btn-delete-swipe bg-danger text-white" onclick="handleSwipeAction('${notif.__backendId}', 'delete')">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
 
-					<div class="notification-content-box p-3 ${notif.isRead ? '' : 'unread'}" 
-						 data-id="${notif.__backendId}" 
-						 data-post-id="${relatedPostId}"
-						 onclick="if(!isSwiping) handleNotificationClick('${notif.__backendId}')"
-						 ontouchstart="handleTouchStart(event, '${notif.__backendId}')"
-						 ontouchmove="handleTouchMove(event)"
-						 ontouchend="handleTouchEnd(event)">
-						
-						<div class="d-flex align-items-center pointer-event-none">
-							<div class="me-3">
-								<i class="bi bi-${iconClass} fs-4"></i>
-							</div>
-							<div class="flex-grow-1" style="font-size: 0.9rem; line-height: 1.3;">
-								<strong>${notif.fullname || 'Hệ thống'}</strong> ${notif.title}
-								<div class="text-muted small">${notif.formattedTime || formatTimeSmart(notif.createdAt)}</div>
-								${notif.message ? `<div class="text-muted small text-truncate" style="max-width: 220px;">${notif.message}</div>` : ''}
-							</div>
-							${dotHtml}
-							<i class="bi bi-chevron-left text-black-50 small ms-2" style="font-size: 0.7rem;"></i>
-						</div>
-					</div>
-				</div>
-			`;
+                <div class="notification-content-box p-3 bg-white w-100 ${notif.isRead ? '' : 'fw-semibold'}" 
+                     style="position: relative; z-index: 2;"
+                     data-id="${notif.__backendId}" 
+                     data-post-id="${relatedPostId}"
+                     onclick="if(typeof isSwiping !== 'undefined' && !isSwiping) handleNotificationClick('${notif.__backendId}')">
+                    
+                    <div class="d-flex align-items-center pointer-event-none">
+                        <div class="me-3 position-relative">
+                             <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <i class="bi bi-${iconClass} fs-5"></i>
+                             </div>
+                        </div>
+                        <div class="flex-grow-1" style="font-size: 0.9rem; line-height: 1.3;">
+                            <div class="mb-1">
+                                <span class="fw-bold">${notif.fullname || 'Hệ thống'}</span> 
+                                <span class="text-dark">${notif.title || ''}</span>
+                            </div>
+                            <div class="text-muted small">${timeStr}</div>
+                            ${notif.message ? `<div class="text-secondary small text-truncate mt-1" style="max-width: 220px;">${notif.message}</div>` : ''}
+                        </div>
+                        ${dotHtml}
+                    </div>
+                </div>
+            </div>
+        `;
    }).join('');
 
+   // 3. Chèn HTML vào container
+   // Lưu ý: Dùng insertAdjacentHTML để không bị mất dữ liệu cũ khi load thêm trang 2, 3
    container.insertAdjacentHTML('beforeend', html);
 
-   // Logic Load More (Giữ nguyên của bạn)
+   // 4. Logic Load More (Lazy Load)
    if (notifHasMore) {
       const trigger = document.createElement('div');
       trigger.id = 'notif-load-more';
-      trigger.className = 'py-3 text-center text-muted small cursor-pointer';
-      trigger.innerHTML = '<span>Đang tải thêm...</span>';
+      trigger.className = 'py-3 text-center text-muted small';
+      trigger.innerHTML = '<div class="spinner-border spinner-border-sm text-secondary" role="status"></div><span class="ms-2">Đang tải thêm...</span>';
       container.appendChild(trigger);
 
       const observer = new IntersectionObserver((entries) => {
          if (entries[0].isIntersecting && !notifLoading) {
-            notifPage++;
+            notifPage++; // Biến toàn cục quản lý số trang
             loadNotifications(notifPage);
          }
       }, { threshold: 0.1 });
       observer.observe(trigger);
    } else if (serverNotifications.length > 5) {
-      container.insertAdjacentHTML('beforeend', '<div class="text-center py-3 text-muted small">--- Hết thông báo ---</div>');
+      container.insertAdjacentHTML('beforeend', '<div class="text-center py-4 text-muted small bg-light mt-2">--- Hết thông báo ---</div>');
    }
 }
 

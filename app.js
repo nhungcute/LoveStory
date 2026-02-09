@@ -104,35 +104,6 @@ if (window.elementSdk) {
    });
 }
 
-
-const dataHandler = {
-   onDataChanged(data) {
-      allData = data;
-      recordCount = data.length;
-
-      currentProfile = data.find(d => d.type === 'profile');
-      if (currentProfile) {
-         if (currentProfile.themeName) applyTheme(currentProfile.themeName);
-         if (currentProfile.statsLayout) {
-            try {
-               statsLayout = JSON.parse(currentProfile.statsLayout);
-            } catch {
-               statsLayout = [...defaultStatsLayout];
-            }
-         }
-      }
-
-      updateAvatarDisplays();
-      updateNotificationBadge();
-
-      if (currentTab === 'feed') renderPosts();
-      else if (currentTab === 'home') {
-         renderStats();
-         updateStats();
-      }
-   }
-};
-
 function manageCacheSize() {
    let total = 0;
    for (let x in localStorage) {
@@ -348,8 +319,7 @@ async function syncBabyRunStats() {
 		loadFeedData(1, hasCacheData),
 		loadNotifications(1),
 		setupPullToRefresh(),
-		renderStats(),
-		updateStats()
+		renderStats()
 	   ];
 	 
 	   Promise.allSettled(tasks).then(() => {
@@ -376,8 +346,6 @@ async function loadCriticalStats() {
    try {
       const now = new Date();
       const dateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
-
-      // Gọi API nhẹ nhất có thể
       const res = await sendToServer({
          action: 'get_critical_stats',
          date: dateStr
@@ -417,7 +385,7 @@ async function loadCriticalStats() {
    }
 }
 
-// --- [LUỒNG 2] TẢI THÔNG TIN NỀN (Ưu tiên thấp hơn) ---
+// --- [LUỒNG 2] TẢI THÔNG TIN NỀN ---
 async function loadBackgroundInfo() {
    try {
       const fingerprint = await getBrowserFingerprint();
@@ -509,8 +477,7 @@ document.querySelectorAll('.nav-link').forEach(btn => {
                 }
             }, 10);
       } else if (currentTab === 'home') {
-         // Home thì có thể update nhẹ số liệu nếu muốn
-         updateStats();
+         // Home thì có thể update nhẹ số liệu nếu muốn 
       } else if (currentTab === 'search') {
          // Focus vào ô tìm kiếm khi mở tab
          setTimeout(() => {
@@ -776,11 +743,9 @@ function setupPullToRefresh() {
 
          ptrElement.classList.add('is-pulling');
          ptrElement.classList.remove('ptr-loading');
-
-         // Reset về trạng thái ban đầu
+ 
          progressCircle.style.strokeDashoffset = circumference;
-
-         // [QUAN TRỌNG] Reset về màu ĐỎ khi bắt đầu kéo lại
+ 
          progressCircle.style.stroke = 'red';
       }
    }, {
@@ -811,7 +776,12 @@ function setupPullToRefresh() {
          // Xử lý logic đạt ngưỡng (Chỉ rung, không đổi màu ở đây nữa để giữ màu đỏ)
          if (progress >= 1 && !isReadyToRefresh) {
             isReadyToRefresh = true;
-            if (navigator.vibrate) navigator.vibrate(15);
+            if (navigator.vibrate) 
+				try {
+                if (navigator.vibrate) navigator.vibrate(15);
+				} catch (err) {
+					// Kệ nó, không rung cũng không sao
+				}
          } else if (progress < 1 && isReadyToRefresh) {
             isReadyToRefresh = false;
          }
@@ -876,12 +846,9 @@ async function handlePageRefresh() {
       } else if (currentTab === 'home') {
          // 1. Tải lại số liệu quan trọng trước
          await loadCriticalStats();
-
          // 2. Tải các thông tin phụ sau
-         loadBackgroundInfo();
-
-         renderStats();
-         updateStats();
+         loadBackgroundInfo(); 
+ 
       }
    } catch (e) {
       console.error("Lỗi refresh:", e);

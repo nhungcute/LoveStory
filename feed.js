@@ -57,38 +57,50 @@ async function loadFeedData(page = 1, isBackgroundRefresh = false) {
       const res = await sendToServer(payload);
 
       if (res.status === 'success') {
-         const newData = res.data;
-         
-         // Kiểm tra xem còn tin tiếp theo không
-         hasMorePosts = (newData && newData.length >= 10);
+    const newData = res.data;
+    
+    // Kiểm tra xem còn tin tiếp theo không
+    hasMorePosts = (newData && newData.length >= 10);
 
-         if (page === 1) {
-            const sortedData = sortDataByTime(newData);
-            // Logic hiển thị trang 1
-            if (container.children.length > 0 && !container.querySelector('.post-skeleton')) {
+    if (page === 1) {
+        const sortedData = sortDataByTime(newData);
+        
+        // 1. Hiển thị dữ liệu lên màn hình (Ưu tiên UX chạy trước)
+        if (container.children.length > 0 && !container.querySelector('.post-skeleton')) {
+            // Nếu đã có hàm smartSyncFeed thì dùng, không thì fallback về render lại
+            if (typeof smartSyncFeed === 'function') {
                 smartSyncFeed(sortedData, container);
             } else {
                 container.innerHTML = '';
                 mergeServerDataToView(sortedData);
             }
-            // Lưu cache
-            localStorage.setItem('cached_feed_data', JSON.stringify(sortedData));
-            serverFeedData = sortedData;
-            currentPage = 1;
+        } else {
+            container.innerHTML = '';
+            mergeServerDataToView(sortedData);
+        }
+        
+        // 2. [THAY ĐỔI QUAN TRỌNG] Lưu Cache thông minh (Ảnh -> IndexedDB, Text -> LocalStorage)
+        // Code cũ: localStorage.setItem('cached_feed_data', JSON.stringify(sortedData));
+        processAndCacheFeed(sortedData); 
+        
+        // 3. Cập nhật biến toàn cục
+        serverFeedData = sortedData;
+        currentPage = 1;
 
-         } else {
-            // Logic trang 2 trở đi
-            if (newData.length > 0) {
-                mergeServerDataToView(newData);
-                // Nối dữ liệu global (lọc trùng)
-                const uniqueNewPosts = newData.filter(newP => 
-                    !serverFeedData.some(existP => (existP.__backendId || existP.id) === (newP.__backendId || newP.id))
-                );
-                serverFeedData = serverFeedData.concat(uniqueNewPosts);
-                currentPage = page;
-            }
-         }
-      } else {
+    } else {
+        // Logic trang 2 trở đi
+        if (newData.length > 0) {
+            mergeServerDataToView(newData);
+            
+            // Nối dữ liệu global (lọc trùng)
+            const uniqueNewPosts = newData.filter(newP => 
+                !serverFeedData.some(existP => (existP.__backendId || existP.id) === (newP.__backendId || newP.id))
+            );
+            serverFeedData = serverFeedData.concat(uniqueNewPosts);
+            currentPage = page;
+        }
+    }
+} else {
          if (!isBackgroundRefresh) showToast('Lỗi: ' + res.message);
          // Nếu lỗi ở trang > 1, ta cho phép thử lại bằng cách giữ nguyên currentPage
       }
@@ -226,10 +238,7 @@ function updateFeedFooter() {
     }
 }
 // ----------------------------------------------------------------
-// 2. LOGIC "SMART SYNC" (ĐỒNG BỘ THÔNG MINH)
-// ----------------------------------------------------------------
-// Hàm này đảm bảo giao diện khớp 100% với danh sách Server trả về
-// mà không gây nháy màn hình, giữ nguyên vị trí cuộn.
+// 2. LOGIC "SMART SYNC" (ĐỒNG BỘ THÔNG MINH) 
 function smartSyncFeed(newDataList, container) {
     // newDataList: Danh sách bài viết chuẩn từ Server (Đã sort)
     
@@ -334,31 +343,19 @@ function triggerShake(el) {
     void el.offsetWidth;
     el.classList.add('anim-update');
 }
-
-// ----------------------------------------------------------------
-// 3. CÁC HÀM HỖ TRỢ CŨ (GIỮ NGUYÊN)
-// ----------------------------------------------------------------
-
-// File: feed.js
-
+ 
 function mergeServerDataToView(dataList) {
    const container = document.getElementById('posts-container');
    if (!container) return;
-
-   // [FIX 1] XÓA LOADING SPINNER CŨ (Nếu có)
-   // Tìm xem có cái spinner nào đang quay ở cuối không thì xóa đi
+ 
    const bottomLoader = document.getElementById('bottom-feed-loader');
    if (bottomLoader) bottomLoader.remove();
 
-   dataList.forEach(post => {
-      // [FIX 2] CHẶN TRÙNG LẶP BÀI VIẾT
-      // Kiểm tra xem bài này đã có trên màn hình chưa
+   dataList.forEach(post => { 
       const postId = post.__backendId || post.id;
       const existEl = document.getElementById(`post-${postId}`);
 
-      if (existEl) {
-         // Nếu bài viết đã tồn tại (do bị trôi từ trang 1 xuống), ta không vẽ lại nữa
-         // Hoặc nếu muốn kỹ hơn: update lại nội dung cho nó (optional)
+      if (existEl) { 
          console.log(`⚠️ Bỏ qua bài trùng lặp: ${postId}`);
          return; 
       }
@@ -1592,13 +1589,12 @@ function highlightPost(element) {
 
 // 1. Thêm tham số postId = null
 function renderPostImages(images, layout, postId = null) {
-   if (!images || images.length === 0) 
-		return '';
-        
+   if (!images || images.length === 0) return '';
+      
    const count = images.length;
    let layoutClass = '';
    
-   // ... (Giữ nguyên logic chia layout cũ của bạn) ...
+   // --- LOGIC CHIA LAYOUT (GIỮ NGUYÊN CỦA BẠN) ---
    if (count === 1) {
       layoutClass = 'layout-1';
    } else if (count === 2) {
@@ -1616,6 +1612,7 @@ function renderPostImages(images, layout, postId = null) {
 
    let html = `<div class="post-image-grid ${layoutClass}">`;
 
+   // Logic giới hạn số lượng hiển thị
    let displayLimit = 4;
    if (layoutClass === 'layout-1-wide' || layoutClass === 'layout-1-tall') {
       displayLimit = 3;
@@ -1624,40 +1621,62 @@ function renderPostImages(images, layout, postId = null) {
    const showCount = Math.min(count, displayLimit);
 
    for (let i = 0; i < showCount; i++) {
-      // 2. [QUAN TRỌNG] Logic xử lý onclick an toàn
-      // Nếu có postId (ở Feed) -> Gán hàm mở Modal
-      // Nếu không có postId (ở Preview) -> Không gán onclick (hoặc làm việc khác tùy bạn)
+      // 1. Tạo sự kiện click
+      // Lưu ý: Nếu có postId thì gán onclick, nếu không thì thôi
       const clickAttr = postId 
           ? `onclick="openPostImages('${postId}', ${i})"` 
           : ''; 
 
-      // 3. Chèn biến clickAttr vào thẻ img
-      html += `<div class="img-box">`;
-      html += `<img src="${images[i]}" 
-              loading="lazy" 
-              class="w-100 h-100 object-fit-cover cursor-pointer" 
-              ${clickAttr} 
-              alt="Image">`;
+      const cursorClass = postId ? 'cursor-pointer' : '';
 
+      // 2. [TỐI ƯU] Gán onclick vào div bao ngoài (img-box) thay vì img trực tiếp
+      // Lý do: Để vùng bấm chính xác hơn, không bị trượt
+      html += `<div class="img-box ${cursorClass}" ${clickAttr} style="position: relative; overflow: hidden;">`;
+      
+      // 3. [TỐI ƯU] Thêm decoding="async" để không làm đơ giao diện khi cuộn
+      html += `<img src="${images[i]}" 
+                     loading="lazy" 
+                     decoding="async"
+                     class="w-100 h-100 object-fit-cover" 
+                     alt="Image ${i}">`;
+
+      // 4. Xử lý lớp phủ số lượng ảnh dư (+5, +3...)
       if (i === showCount - 1 && count > displayLimit) {
-         html += `<div class="image-overlay">+${count - displayLimit}</div>`;
+         html += `<div class="image-overlay d-flex align-items-center justify-content-center text-white fw-bold fs-4" 
+                       style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); pointer-events: none;">
+                       +${count - displayLimit}
+                  </div>`;
       }
+      
       html += `</div>`;
    }
+   
    html += '</div>';
    return html;
 }
 
-// --- HÀM RENDER POSTS 
+// ================================================================
+// HÀM RENDER HTML CHO MỘT BÀI VIẾT (Đã cập nhật logic mới)
+// ================================================================
+
 function createPostHtml(post) {
+   // 1. Xử lý thông tin người dùng
    const displayName = post.fullname || post.username || 'Người dùng';
-   const avatarUrl = post.avatar; // Biến này có vẻ chưa dùng, nhưng giữ lại theo code gốc
-   const images = parseImages(post.imageData);
    
-   // --- LOGIC 1: QUYỀN CHỦ SỞ HỮU ---
+   // Parse ảnh: Hỗ trợ cả mảng JSON lẫn mảng thường
+   let images = [];
+   try {
+       images = Array.isArray(post.imageData) ? post.imageData : JSON.parse(post.imageData || '[]');
+   } catch (e) { images = []; }
+   
+   // --- LOGIC 1: QUYỀN CHỦ SỞ HỮU (Verified & Menu) ---
    const isOwner = currentProfile && currentProfile.username === post.username;
    const verifiedIcon = isOwner ? `<i class="bi bi-patch-check-fill text-primary ms-1"></i>` : '';
-   const avatarHtml = createAvatarHtml(post, 'avatar-circle'); // Hàm này bạn đã có sẵn
+   
+   // Giả sử bạn có hàm createAvatarHtml riêng, nếu chưa có thì dùng thẻ img đơn giản
+   const avatarHtml = (typeof createAvatarHtml === 'function') 
+       ? createAvatarHtml(post, 'avatar-circle') 
+       : `<img src="${post.avatar || 'https://via.placeholder.com/40'}" class="avatar-img" alt="avatar">`;
    
    // --- LOGIC 2: TRẠNG THÁI (SPINNER / MENU 3 CHẤM) ---
    let statusBadge = '';
@@ -1677,83 +1696,98 @@ function createPostHtml(post) {
    }
 
    // --- LOGIC 3: NÚT LIKE ---
-   const heartIconClass = post.liked ? 'bi-heart-fill text-danger' : 'bi-heart';
-   const likeCountText = post.likes > 0 ? post.likes : 'Thích';
-   const likeBtnClass = post.liked ? 'active' : '';
+   // Kiểm tra xem user hiện tại đã like chưa (trong mảng likes)
+   const currentUsername = currentProfile ? currentProfile.username : '';
+   const isLiked = Array.isArray(post.likes) && post.likes.includes(currentUsername);
+   
+   const heartIconClass = isLiked ? 'bi-heart-fill text-danger' : 'bi-heart';
+   const likeCountText = (post.likes && post.likes.length > 0) ? post.likes.length : 'Thích';
+   const likeBtnClass = isLiked ? 'active' : '';
 
-   // --- LOGIC 4: XỬ LÝ NỘI DUNG DÀI (TÍNH NĂNG MỚI) ---
+   // --- LOGIC 4: XỬ LÝ NỘI DUNG DÀI (Read More) ---
    let contentHtml = '';
    if (post.content) {
        const contentRaw = post.content;
-       const MAX_LENGTH = 300; // Ngưỡng ký tự để cắt
+       const MAX_LENGTH = 300; // Ngưỡng ký tự
+
+       // Hàm xử lý hashtag (nếu bạn chưa có thì dùng text thường)
+       const processText = (typeof processTextWithHashtags === 'function') ? processTextWithHashtags : (t) => t;
 
        if (contentRaw.length > MAX_LENGTH) {
-           // Tạo bản rút gọn và bản đầy đủ
-           const shortText = processTextWithHashtags(contentRaw.substring(0, MAX_LENGTH) + '...');
-           const fullText = processTextWithHashtags(contentRaw);
+           const shortText = processText(contentRaw.substring(0, MAX_LENGTH) + '...');
+           const fullText = processText(contentRaw);
            
            contentHtml = `
-               <div class="post-content-text">
+               <div class="post-content-text mt-2">
                    <div id="content-short-${post.__backendId}">
                        ${shortText}
-                       <span class="see-more-btn fw-bold text-primary cursor-pointer" onclick="togglePostContent(this, '${post.__backendId}')">Xem thêm</span>
+                       <span class="see-more-btn fw-bold text-primary cursor-pointer" onclick="togglePostContent(this, '${post.__backendId}')" style="cursor: pointer;">Xem thêm</span>
                    </div>
                    <div id="content-full-${post.__backendId}" style="display: none;">
                        ${fullText}
                    </div>
                </div>`;
        } else {
-           // Nếu ngắn thì hiện bình thường
-           contentHtml = `<div class="post-content-text">${processTextWithHashtags(contentRaw)}</div>`;
+           contentHtml = `<div class="post-content-text mt-2">${processText(contentRaw)}</div>`;
        }
    }
 
-   // --- LOGIC 5: XỬ LÝ ẢNH (TÍNH NĂNG MỚI) ---
-   // Quan trọng: Truyền thêm post.__backendId vào tham số thứ 3
-   // để hàm renderPostImages gắn sự kiện onclick mở Modal Viewer
-   const imagesHtml = renderPostImages(images, post.layout || 'grid-2x2', post.__backendId);
+   // --- LOGIC 5: XỬ LÝ ẢNH ---
+   // Gọi hàm renderPostImages (Cần đảm bảo hàm này hỗ trợ tham số thứ 3 là ID)
+   const imagesHtml = (typeof renderPostImages === 'function') 
+       ? renderPostImages(images, post.layout || 'grid-2x2', post.__backendId) 
+       : '';
 
    // --- LOGIC 6: XỬ LÝ COMMENT ---
-   const timeDisplay = formatTimeSmart(post.timestamp || post.createdAt);
+   // Format thời gian
+   const timeDisplay = (typeof formatTimeSmart === 'function') 
+       ? formatTimeSmart(post.timestamp || post.createdAt) 
+       : new Date(post.timestamp).toLocaleDateString();
+
    let commentsHtml = '';
    const comments = post.commentsData || [];
 
    if (comments.length > 0) {
+      // Chỉ lấy 2 comment đầu
       const visibleComments = comments.slice(0, 2);
       const hiddenComments = comments.slice(2);
-      let commentListHtml = visibleComments.map(c => createCommentHtml(c)).join('');
+      
+      // Hàm tạo HTML cho 1 comment (nếu chưa có thì phải định nghĩa)
+      const renderCmt = (typeof createCommentHtml === 'function') ? createCommentHtml : (c) => `<div class="small"><b>${c.username}:</b> ${c.content}</div>`;
+
+      let commentListHtml = visibleComments.map(c => renderCmt(c)).join('');
       
       if (hiddenComments.length > 0) {
-         const hiddenHtml = hiddenComments.map(c => createCommentHtml(c)).join('');
+         const hiddenHtml = hiddenComments.map(c => renderCmt(c)).join('');
          commentListHtml += `
             <div id="hidden-comments-${post.__backendId}" class="d-none fade-in">
                ${hiddenHtml}
             </div>
-            <div class="text-start ms-5">
+            <div class="text-start ms-5 mt-1">
                <button class="btn btn-link btn-sm p-0 text-decoration-none text-muted fw-bold" style="font-size: 0.8rem;"
                      onclick="document.getElementById('hidden-comments-${post.__backendId}').classList.remove('d-none'); this.remove();">
                   Xem thêm ${hiddenComments.length} bình luận khác...
                </button>
             </div>`;
       }
-      commentsHtml = `<div class="comments-section mt-0 fade-in"><div id="comments-container-${post.__backendId}">${commentListHtml}</div></div>`;
+      commentsHtml = `<div class="comments-section mt-2 fade-in"><div id="comments-container-${post.__backendId}">${commentListHtml}</div></div>`;
    } else {
       commentsHtml = `<div class="comments-section mt-2" id="comments-container-${post.__backendId}"></div>`;
    }
 
    // --- TRẢ VỀ HTML CUỐI CÙNG ---
    return `
-      <div class="post-card p-3 fade-in" id="post-${post.__backendId}">
+      <div class="post-card p-3 mb-3 bg-white fade-in shadow-sm" style="border-radius: var(--radius);" id="post-${post.__backendId}">
          
          <div class="d-flex align-items-center mb-2">
             <div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
                ${avatarHtml}
             </div>
             <div>
-               <p class="mb-0 d-flex align-items-center post-author-name"> 
+               <p class="mb-0 d-flex align-items-center post-author-name fw-bold text-dark" style="font-size: 0.95rem;"> 
                   ${displayName} ${verifiedIcon}
                </p>
-               <div class="post-timestamp"> 
+               <div class="post-timestamp text-muted small" style="font-size: 0.75rem;"> 
                   ${timeDisplay}
                </div>
             </div>
@@ -1761,9 +1795,10 @@ function createPostHtml(post) {
          </div>
          
          ${contentHtml} 
+         
          ${imagesHtml}
          
-         <div class="d-flex gap-4 my-2" style="margin-left: 15px !important;">
+         <div class="d-flex gap-4 my-2 border-top pt-2 mt-3" style="margin-left: 0 !important;">
             <button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
                   data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
                <i class="bi ${heartIconClass} fs-5"></i>
@@ -1771,7 +1806,9 @@ function createPostHtml(post) {
             </button>
             
             <button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
-                  data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
+                  data-id="${post.__backendId}" 
+                  onclick="document.getElementById('comment-input-box-${post.__backendId}').classList.remove('d-none'); document.getElementById('input-cmt-${post.__backendId}').focus();"
+                  ${post.isUploading ? 'disabled' : ''}>
                <i class="bi bi-chat fs-5"></i>
                <span>Bình luận</span>
             </button>
@@ -1856,4 +1893,117 @@ function createSkeletonHtml(count = 3) {
         </div>`;
     }
     return html;
+}
+// Ví dụ hàm xử lý dữ liệu mới tải về
+async function processAndCacheFeed(posts) {
+    const postsForLocal = [];
+
+    for (const post of posts) {
+        // Tạo bản sao để lưu LocalStorage (nhưng sẽ xóa dữ liệu ảnh nặng đi)
+        const cleanPost = { ...post }; 
+        
+        // Nếu bài viết có ảnh dạng Base64
+        if (post.imageData) {
+            let images = [];
+            try { images = JSON.parse(post.imageData); } catch(e) { images = [post.imageData]; }
+
+            // Duyệt từng ảnh
+            for (let i = 0; i < images.length; i++) {
+                const imgStr = images[i];
+                if (imgStr.startsWith('data:image')) {
+                    // 1. Tạo ID duy nhất cho ảnh
+                    const imgKey = `img_${post.__backendId}_${i}`;
+                    
+                    // 2. Chuyển Base64 sang Blob và lưu vào IndexedDB
+                    const blob = imageDB.base64ToBlob(imgStr);
+                    await imageDB.saveImage(imgKey, blob);
+                    
+                    // 3. Thay thế nội dung ảnh trong cleanPost bằng cái KEY ngắn gọn
+                    // Để LocalStorage chỉ phải lưu text nhẹ nhàng
+                    images[i] = { type: 'indexed_db_ref', key: imgKey };
+                }
+            }
+            cleanPost.imageData = JSON.stringify(images);
+        }
+        postsForLocal.push(cleanPost);
+    }
+
+    // Lưu danh sách bài viết (đã gỡ bỏ ảnh nặng) vào LocalStorage
+    localStorage.setItem('cached_feed_data', JSON.stringify(postsForLocal));
+}
+
+// ================================================================
+// FILE: feed.js (Dán xuống cuối file)
+// HÀM XỬ LÝ CACHE: Tách ảnh lưu vào IndexedDB, Text lưu LocalStorage
+// ================================================================
+
+async function processAndCacheFeed(posts) {
+    if (!posts || posts.length === 0) return;
+    
+    // Đảm bảo imageDB đã sẵn sàng (được khai báo bên utils.js)
+    if (typeof imageDB === 'undefined') {
+        console.error("Thiếu imageDB trong utils.js");
+        return;
+    }
+
+    const postsForLocal = [];
+
+    for (const post of posts) {
+        // Tạo bản sao bài viết để xử lý (tránh sửa trực tiếp vào biến đang hiển thị)
+        const cleanPost = { ...post }; 
+        
+        // Nếu bài viết có ảnh dạng Base64 (data:image...)
+        if (cleanPost.imageData) {
+            let images = [];
+            // Parse dữ liệu ảnh
+            try { 
+                images = Array.isArray(cleanPost.imageData) 
+                    ? cleanPost.imageData 
+                    : JSON.parse(cleanPost.imageData); 
+            } catch(e) { 
+                images = [cleanPost.imageData]; 
+            }
+
+            // Duyệt từng ảnh để tách ra
+            const processedImages = [];
+            for (let i = 0; i < images.length; i++) {
+                const imgStr = images[i];
+                
+                // Chỉ xử lý nếu là Base64 nặng
+                if (typeof imgStr === 'string' && imgStr.startsWith('data:image')) {
+                    // 1. Tạo ID duy nhất cho ảnh (ID bài + Index)
+                    const imgKey = `img_${post.__backendId}_${i}`;
+                    
+                    // 2. Chuyển Base64 sang Blob và lưu vào IndexedDB
+                    try {
+                        const blob = imageDB.base64ToBlob(imgStr);
+                        await imageDB.saveImage(imgKey, blob);
+                        
+                        // 3. Thay thế nội dung ảnh bằng KEY tham chiếu
+                        processedImages.push({ type: 'indexed_db_ref', key: imgKey });
+                    } catch (err) {
+                        console.error("Lỗi lưu ảnh IDB:", err);
+                        // Nếu lỗi thì giữ nguyên ảnh gốc để không bị mất
+                        processedImages.push(imgStr);
+                    }
+                } else {
+                    // Nếu là URL thường thì giữ nguyên
+                    processedImages.push(imgStr);
+                }
+            }
+            // Cập nhật lại imageData của bản sao bằng danh sách đã tối ưu
+            cleanPost.imageData = JSON.stringify(processedImages);
+        }
+        
+        // Thêm vào danh sách để lưu LocalStorage
+        postsForLocal.push(cleanPost);
+    }
+
+    // CUỐI CÙNG: Lưu danh sách "nhẹ" vào LocalStorage
+    try {
+        localStorage.setItem('cached_feed_data', JSON.stringify(postsForLocal));
+        console.log("✅ Đã cache feed thành công (Ảnh -> IndexedDB, Text -> Local)");
+    } catch (e) {
+        console.warn("LocalStorage bị đầy:", e);
+    }
 }
