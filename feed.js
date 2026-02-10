@@ -76,8 +76,10 @@ async function loadFeedData(page = 1, isBackgroundRefresh = false) {
            if (cachedJSON) {
                try {
                    const cachedData = sortDataByTime(JSON.parse(cachedJSON));
-                   if (container.children.length > 0) smartSyncFeed(cachedData, container);
-                   else mergeServerDataToView(cachedData);
+                   if (container.children.length > 0) 
+                     smartSyncFeed(cachedData, container);
+                   else 
+                     mergeServerDataToView(cachedData);
                } catch (e) {}
            }
            if (container.children.length === 0) container.innerHTML = createSkeletonHtml(3);
@@ -672,6 +674,11 @@ if (createPostModalEl) {
 function renderPostsPaged(newPosts, page) {
    const container = document.getElementById('posts-container');
    if (!container) return;
+
+   // [SỬA] Nếu là trang đầu tiên, xóa hết nội dung cũ (kể cả skeleton)
+   if (page === 1) {
+      container.innerHTML = '';
+   }
 
    // 1. XÓA LOADING CŨ (Dọn dẹp kỹ càng mọi loại ID có thể xảy ra)
    // Xóa cái loader mà chúng ta tự tạo lúc gọi API

@@ -287,13 +287,8 @@ async function syncBabyRunStats() {
    const cachedFeed = localStorage.getItem('cached_feed_data');
    if (cachedFeed) {
        serverFeedData = JSON.parse(cachedFeed);
-       if (Array.isArray(serverFeedData) && serverFeedData.length > 0) {
-           renderPostsPaged(serverFeedData, 1);
-			hasCacheData = true;
-       } else {
-           // Nếu dữ liệu là mảng rỗng hoặc null -> Coi như không hợp lệ
-           throw new Error("Cache rỗng hoặc không hợp lệ");
-       }
+       // Chỉ kiểm tra xem có cache hay không, không render ở đây để tránh block UI lúc khởi động
+       hasCacheData = Array.isArray(serverFeedData) && serverFeedData.length > 0;
    }
 	} catch (e) {
 	   console.warn("Lỗi đọc cache feed -> Đang tự động dọn dẹp:", e);
@@ -439,15 +434,23 @@ document.querySelectorAll('.nav-link').forEach(btn => {
       else 
 		  fabBtn.classList.add('d-none');
       // 4. [TỐI ƯU] KHÔNG RESET DỮ LIỆU KHI CHUYỂN TAB
-      if (currentTab === 'feed' && serverFeedData.length === 0) {
-         setTimeout(() => {
-                // Kiểm tra nếu chưa có dữ liệu thì mới hiện Skeleton và tải
-                const container = document.getElementById('posts-container');
-                if (!container.children.length) {
-                    // Gọi hàm tải dữ liệu sau khi tab đã hiện ra mượt mà
-                    loadFeedData(1); 
-                }
-            }, 10);
+      if (currentTab === 'feed') {
+          const container = document.getElementById('posts-container');
+          // Chỉ render nếu container đang rỗng (chưa có bài viết nào hoặc skeleton)
+          if (container && !container.querySelector('.post-card') && !container.querySelector('.post-skeleton')) {
+              // A. Nếu có dữ liệu cache -> Render từ cache để hiện ngay
+              if (hasCacheData && serverFeedData.length > 0) {
+                  // Hiển thị skeleton ngay lập tức để người dùng thấy phản hồi
+                  container.innerHTML = createSkeletonHtml(5); // Dùng hàm tạo skeleton
+                  // Dùng setTimeout để render bài viết thật sau khi UI đã chuyển tab xong
+                  setTimeout(() => {
+                      renderPostsPaged(serverFeedData, 1); // Vẽ lại từ cache, hàm này sẽ tự xóa skeleton
+                  }, 50); // Delay 50ms là đủ để trình duyệt "thở"
+              } else {
+                  // B. Nếu không có cache -> Gọi loadFeedData để hiện skeleton và tải từ server
+                  loadFeedData(1);
+              }
+          }
       } else if (currentTab === 'home') {
          // Home thì có thể update nhẹ số liệu nếu muốn 
       } else if (currentTab === 'search') {
@@ -1372,4 +1375,3 @@ document.addEventListener('hide.bs.modal', (event) => {
   
 // KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
 setInterval(runBackgroundSync, 60000);
-
