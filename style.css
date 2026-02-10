@@ -612,3 +612,64 @@ overflow-anchor: auto;
 /* Ẩn nút prev/next nếu chỉ có 1 ảnh */
 .carousel-control-none { display: none !important; }
  
+
+/* =========================================
+   11. DESKTOP & RESPONSIVE STYLES (MỚI)
+   ========================================= */
+
+/* Áp dụng cho màn hình rộng (Tablet trở lên) */
+@media (min-width: 768px) {
+    body {
+        /* Nền xám cho desktop để làm nổi bật nội dung chính */
+        background-color: #f0f2f5; 
+    } 
+
+    /* --- CẤU TRÚC LAYOUT CHÍNH --- */
+     
+ 
+    .main-content {
+        padding: 1.5rem 1rem; /* Thêm khoảng đệm cho thoáng */
+    }
+
+    /* --- TỐI ƯU HÓA BẢNG TIN (FEED) --- */
+    #posts-container {
+        max-width: 680px; /* Chiều rộng chuẩn của Feed (như Facebook) */
+        margin: 0 auto;   /* Tự động căn giữa */
+    }
+
+    .post-card {
+        border-radius: 0.75rem; /* Bo góc cho bài viết trên desktop */
+        border: 1px solid #ddd;
+        margin-bottom: 1rem !important;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* --- TỐI ƯU HÓA TAB HOME --- */
+    #tab-home .container {
+        max-width: 960px; /* Giới hạn chiều rộng cho tab Home */
+    }
+    .stats-container.two-columns {
+        /* Có thể tăng khoảng cách cột trên desktop */
+        gap: 1.5rem;
+    }
+
+    /* --- TỐI ƯU HÓA MODAL --- */
+    /* Biến các modal toàn màn hình thành popup căn giữa */
+    .app-layout-modal .modal-dialog {
+        max-width: 720px; /* Giới hạn chiều rộng modal */
+        height: auto;     /* Chiều cao tự động theo nội dung */
+        max-height: 90vh; /* Chiều cao tối đa */
+        margin: 2rem auto; /* Căn giữa và cách top */
+    }
+
+    .app-layout-modal .modal-content {
+        border-radius: var(--radius); /* Bo góc cho modal */
+        box-shadow: var(--shadow-lg);
+    }
+
+    /* --- TỐI ƯU HÓA XEM ẢNH --- */
+    #imageViewerModal .modal-dialog {
+        max-width: 90vw;
+        max-height: 90vh;
+    }
+}

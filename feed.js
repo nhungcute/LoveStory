@@ -355,38 +355,42 @@ function smartSyncFeed(newDataList, container) {
  
 // Hàm chỉ cập nhật số liệu bên trong (tránh vẽ lại ảnh gây nháy)
 function updatePostContentOnly(postEl, data) {
-    // 1. Update Like Count
-    const likeCountEl = postEl.querySelector('.like-count');
-    // Dùng toán tử so sánh lỏng (!=) để bắt cả trường hợp '0' so với 0
-    if (likeCountEl && likeCountEl.textContent != data.likeCount) {
-        likeCountEl.textContent = data.likeCount || 0;
-        triggerShake(likeCountEl); // Hiệu ứng rung báo thay đổi
+    // --- 1. Cập nhật nút Like ---
+    const likeBtn = postEl.querySelector('.like-btn');
+    if (likeBtn) {
+        const icon = likeBtn.querySelector('i');
+        const textSpan = likeBtn.querySelector('span');
+
+        if (icon && textSpan) {
+            const isLiked = data.liked === true;
+            const likeCount = Number(data.likes) || 0;
+            const likeCountText = likeCount > 0 ? likeCount : 'Thích';
+
+            // Cập nhật icon (QUAN TRỌNG: Giữ lại class size 'fs-5')
+            const newIconClass = isLiked ? 'bi bi-heart-fill text-danger fs-5' : 'bi bi-heart fs-5';
+            if (icon.className !== newIconClass) {
+                icon.className = newIconClass;
+            }
+
+            // Cập nhật số lượng like
+            if (textSpan.textContent !== String(likeCountText)) {
+                textSpan.textContent = likeCountText;
+            }
+        }
     }
 
-    // 2. Update Comment Count
-    const cmtCountEl = postEl.querySelector('.comment-count');
-    // Kiểm tra kỹ data.comments có phải mảng không
-    const serverCmtCount = Array.isArray(data.comments) ? data.comments.length : 0;
-    
-    if (cmtCountEl && parseInt(cmtCountEl.textContent) !== serverCmtCount) {
-        cmtCountEl.textContent = serverCmtCount;
-        triggerShake(cmtCountEl);
-    }
-    
-    // 3. Update trạng thái nút Like (Đỏ/Xám)
-    const likeBtn = postEl.querySelector('.like-btn i');
-    
-    // --- [FIX QUAN TRỌNG] ---
-    // Kiểm tra data.likes phải là mảng (Array) trước khi gọi .includes
-    const isLiked = Array.isArray(data.likes) && 
-                    currentProfile && 
-                    data.likes.includes(currentProfile.username);
-    
-    if (likeBtn) {
-        if (isLiked) {
-            likeBtn.className = 'bi bi-heart-fill text-danger';
-        } else {
-            likeBtn.className = 'bi bi-heart';
+    // --- 2. Cập nhật nút Bình luận ---
+    const commentBtn = postEl.querySelector('.show-comment-input-btn');
+    if (commentBtn) {
+        const textSpan = commentBtn.querySelector('span');
+        if (textSpan) {
+            const comments = data.commentsData || [];
+            const commentCountText = comments.length > 0 ? comments.length : 'Bình luận';
+
+            // Cập nhật số lượng bình luận
+            if (textSpan.textContent !== String(commentCountText)) {
+                textSpan.textContent = commentCountText;
+            }
         }
     }
 }
@@ -1093,19 +1097,19 @@ document.getElementById('posts-container').addEventListener('click', async (e) =
     }
 });
 
-// --- HÀM CẬP NHẬT CACHE CỤC BỘ KHI LIKE (Để đồng bộ dữ liệu) ---
+// --- HÀM CẬP NHẬT CACHE CỤC BỘ KHI LIKE (Để đồng bộ dữ liệu) --- [FIXED]
 function updateLocalDataLike(postId, username, isLiked) {
     const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
     if (post) {
-        // Cập nhật danh sách likes trong bộ nhớ
-        if (!post.likes) post.likes = [];
-        
+        // Cập nhật trạng thái 'liked' của user hiện tại
+        post.liked = isLiked;
+        // Cập nhật tổng số 'likes'
+        let currentCount = Number(post.likes) || 0;
         if (isLiked) {
-            if (!post.likes.includes(username)) post.likes.push(username);
+            post.likes = currentCount + 1;
         } else {
-            post.likes = post.likes.filter(u => u !== username);
+            post.likes = Math.max(0, currentCount - 1);
         }
-        post.likeCount = post.likes.length;
     }
 }
 
@@ -1798,12 +1802,12 @@ function createPostHtml(post) {
    }
 
    // --- LOGIC 3: NÚT LIKE ---
-   // Kiểm tra xem user hiện tại đã like chưa (trong mảng likes)
-   const currentUsername = currentProfile ? currentProfile.username : '';
-   const isLiked = Array.isArray(post.likes) && post.likes.includes(currentUsername);
+   // [FIX] Sử dụng trường 'liked' (boolean) và 'likes' (number) từ server
+   const isLiked = post.liked === true;
    
    const heartIconClass = isLiked ? 'bi-heart-fill text-danger' : 'bi-heart';
-   const likeCountText = (post.likes && post.likes.length > 0) ? post.likes.length : 'Thích';
+   const likeCount = Number(post.likes) || 0;
+   const likeCountText = likeCount > 0 ? likeCount : 'Thích';
    const likeBtnClass = isLiked ? 'active' : '';
 
    // --- LOGIC 4: XỬ LÝ NỘI DUNG DÀI (Read More) ---
@@ -1848,6 +1852,8 @@ function createPostHtml(post) {
 
    let commentsHtml = '';
    const comments = post.commentsData || [];
+   // [SỬA] Logic hiển thị số lượng bình luận
+   const commentCountText = comments.length > 0 ? comments.length : 'Bình luận';
 
    if (comments.length > 0) {
       // Chỉ lấy 2 comment đầu
@@ -1912,7 +1918,7 @@ function createPostHtml(post) {
                   onclick="document.getElementById('comment-input-box-${post.__backendId}').classList.remove('d-none'); document.getElementById('input-cmt-${post.__backendId}').focus();"
                   ${post.isUploading ? 'disabled' : ''}>
                <i class="bi bi-chat fs-5"></i>
-               <span>Bình luận</span>
+               <span>${commentCountText}</span>
             </button>
          </div>
 
