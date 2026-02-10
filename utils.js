@@ -8,7 +8,7 @@
  * =============================================================================
  */
 // --- CẤU HÌNH KẾT NỐI ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbxplJCtu7hzAm32o1GUpG2o0FfGk-O7C1VtsLojPOYs9vY8H_4CMxvgekX4Ngr_99AW/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzKayf4rvsVDXnlCULfYIuMcXvYdT5xDizEiEPKJ_ReW7On5v-7KQlipc2nkECoP7BXIQ/exec';
 
 let userFingerprint = null;
 
