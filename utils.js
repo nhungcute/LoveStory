@@ -232,7 +232,6 @@ const imageDB = {
         return new Blob([uInt8Array], { type: contentType });
     }
 };
-
 // Chuẩn hóa tiếng Việt (Xóa dấu để tìm kiếm)
 function normalizeStr(str) {
     if (!str) return '';
@@ -446,3 +445,4 @@ async function sendToServer(payload) {
         };
     }
 }
+

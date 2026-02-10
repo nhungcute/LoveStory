@@ -110,10 +110,7 @@ async function loadNotifications(page, forceRender = false) {
     if (notifLoading) return;
 
     const container = document.getElementById('notifications-list');
-    
-    // [FIX]: Kiểm tra modal mở bằng CẢ 2 cách:
-    // 1. Có class 'show' (khi đang mở sẵn)
-    // 2. Hoặc cờ forceRender = true (khi vừa bấm nút mở)
+     
     const isModalVisible = document.getElementById('notificationsModal').classList.contains('show');
     const shouldRender = isModalVisible || forceRender;
 

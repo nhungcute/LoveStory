@@ -3,15 +3,12 @@ function saveLocalData(data) {
    try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
    } catch (e) {
-      // Chỉ khi nào bộ nhớ đầy thật sự (QuotaExceededError) thì mới đi dọn dẹp
       if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
          console.warn("Bộ nhớ đầy, đang dọn dẹp để lưu dữ liệu mới...");
          
-         // Xóa cache cũ
          localStorage.removeItem('cached_feed_data');
          localStorage.removeItem('cached_notifications');
          
-         // Thử lưu lại lần nữa
          try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
          } catch (err) {
@@ -161,14 +158,7 @@ async function syncUserProfile() {
 
       // 2. [QUAN TRỌNG] LOAD TỪ LOCAL STORAGE TRƯỚC (HIỆN NGAY LẬP TỨC)
       const localData = getLocalData();
-      if (localData) {
-         console.log("Loaded from Cache:", localData);
-         currentProfile = localData;
-         applyTheme(currentProfile.themeName);
-         updateAvatarDisplays();
-      }
-
-      // 3. GỌI SERVER KIỂM TRA (BACKGROUND SYNC)
+      
       // Kiểm tra xem Fingerprint này đã gắn với User nào chưa
       const res = await sendToServer({
          action: 'get_profile',
@@ -180,7 +170,6 @@ async function syncUserProfile() {
          console.log("Server synced:", res.data);
 
          // So sánh xem dữ liệu Server có khác Local không
-         // Nếu khác (hoặc Local chưa có) thì cập nhật lại
          if (!localData || localData.username !== res.data.username || localData.avatarData !== res.data.avaurl) {
             currentProfile = {
                username: res.data.username,
@@ -195,8 +184,7 @@ async function syncUserProfile() {
          }
 
       } else if (!localData) {
-         // B. MÁY MỚI TINH & SERVER KHÔNG BIẾT LÀ AI
-         // Tạo tạm định danh khách
+         // B. MÁY MỚI TINH  
          console.log("New Device -> Generated Guest Identity");
          const identity = generateIdentity();
          currentProfile = {
@@ -266,7 +254,7 @@ async function syncBabyRunStats() {
    goldStatsModal = new bootstrap.Modal(document.getElementById('goldStatsModal'));
    addGoldEntryModal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
    notificationsModal = new bootstrap.Modal(document.getElementById('notificationsModal'));
- 
+
 	// 2. LOAD OFFLINE FIRST (Hiển thị ngay lập tức)
 	const localData = getLocalData();
 	if (localData) {
@@ -314,7 +302,8 @@ async function syncBabyRunStats() {
 	}
 
 	const tasks = [
-		loadCriticalStats(),
+		syncUserProfile(), //lay dữ liệu user tư server
+		loadCriticalStats(), //lay số lần đạp, giá vàng từ server
 		loadBackgroundInfo(),
 		loadFeedData(1, hasCacheData),
 		loadNotifications(1),
@@ -395,23 +384,6 @@ async function loadBackgroundInfo() {
       });
 
       if (res.status === 'success') {
-         // 1. Cập nhật Profile (nếu có thay đổi)
-         if (res.profile) {
-            const localData = getLocalData();
-            // Chỉ cập nhật DOM nếu dữ liệu thực sự khác (tránh nháy hình)
-            if (!localData || localData.username !== res.profile.username || localData.avatarData !== res.profile.avaurl) {
-               currentProfile = {
-                  username: res.profile.username,
-                  fullName: res.profile.fullname,
-                  avatarData: res.profile.avaurl,
-                  themeName: res.profile.theme
-               };
-               saveLocalData(currentProfile);
-               applyTheme(currentProfile.themeName);
-               updateAvatarDisplays();
-            }
-         }
-
          // 2. Cập nhật Badge thông báo
          const badge = document.getElementById('notification-badge');
          const count = res.unreadCount || 0;

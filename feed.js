@@ -240,63 +240,70 @@ function updateFeedFooter() {
 // ----------------------------------------------------------------
 // 2. LOGIC "SMART SYNC" (ĐỒNG BỘ THÔNG MINH) 
 function smartSyncFeed(newDataList, container) {
-    // newDataList: Danh sách bài viết chuẩn từ Server (Đã sort)
+    // 1. [TỐI ƯU] Tạo Map các node hiện có để tra cứu O(1) thay vì getElementById
+    const existingNodes = new Map();
+    let child = container.firstElementChild;
+    while (child) {
+        // Chỉ map các phần tử là bài viết (có id bắt đầu bằng post-)
+        if (child.id && child.id.startsWith('post-')) {
+            const id = child.id.replace('post-', '');
+            existingNodes.set(id, child);
+        }
+        child = child.nextElementSibling;
+    }
+
+    // 2. Con trỏ tham chiếu vị trí chèn (Bắt đầu từ đầu danh sách)
+    let nextSibling = container.firstElementChild;
     
-    // Duyệt qua từng phần tử trong danh sách MỚI
-    newDataList.forEach((postData, index) => {
+    // 3. Duyệt qua danh sách dữ liệu MỚI
+    newDataList.forEach((postData) => {
         const postId = postData.__backendId || postData.id;
-        const existingNode = document.getElementById(`post-${postId}`);
-        
-        // Vị trí hiện tại trên DOM (children[index])
-        const currentNodeAtPos = container.children[index];
+        const existingNode = existingNodes.get(postId);
 
         if (existingNode) {
             // A. BÀI VIẾT ĐÃ TỒN TẠI TRÊN DOM
-            
-            // 1. Kiểm tra xem nó có đang nằm đúng vị trí thứ tự không?
-            if (currentNodeAtPos !== existingNode) {
-                // Nếu sai vị trí -> Chuyển nó về đúng vị trí index hiện tại
-                // (Hàm insertBefore sẽ tự động "bốc" element từ chỗ cũ sang chỗ mới)
-                if (currentNodeAtPos) {
-                    container.insertBefore(existingNode, currentNodeAtPos);
-                } else {
-                    container.appendChild(existingNode);
-                }
+            // Kiểm tra vị trí: Nếu node này không nằm đúng chỗ con trỏ đang đứng -> Di chuyển
+            if (existingNode !== nextSibling) {
+                container.insertBefore(existingNode, nextSibling);
+            } else {
+                // Nếu đã đúng chỗ, chỉ cần nhích con trỏ sang thằng tiếp theo
+                nextSibling = nextSibling.nextElementSibling;
             }
 
-            // 2. Cập nhật nội dung bên trong (Số like, comment, text...)
+            // Cập nhật nội dung (Like, Comment...)
             updatePostContentOnly(existingNode, postData);
+            
+            // Xóa khỏi Map để đánh dấu là "đã xử lý"
+            existingNodes.delete(postId);
 
         } else {
-            // B. BÀI VIẾT MỚI HOÀN TOÀN (Chưa có trên DOM)
+            // B. BÀI VIẾT MỚI HOÀN TOÀN
             const newHtml = createPostHtml(postData);
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = newHtml;
-            const newNode = tempDiv.firstElementChild;
             
-            // Thêm hiệu ứng xuất hiện
-            newNode.classList.add('fade-in');
-
-            // Chèn vào đúng vị trí index
-            if (currentNodeAtPos) {
-                container.insertBefore(newNode, currentNodeAtPos);
+            // [TỐI ƯU] Dùng insertAdjacentHTML nhanh hơn createElement + innerHTML
+            if (nextSibling) {
+                nextSibling.insertAdjacentHTML('beforebegin', newHtml);
+                // Lấy node vừa tạo (nằm ngay trước nextSibling) để thêm hiệu ứng
+                const newNode = nextSibling.previousElementSibling;
+                if (newNode) newNode.classList.add('fade-in');
             } else {
-                container.appendChild(newNode);
+                // Nếu nextSibling là null (đang ở cuối danh sách) -> Chèn vào cuối
+                container.insertAdjacentHTML('beforeend', newHtml);
+                const newNode = container.lastElementChild;
+                if (newNode) {
+                    // Kiểm tra nếu node cuối cùng không phải là load-more thì mới add class
+                    if (newNode.id.startsWith('post-')) newNode.classList.add('fade-in');
+                }
             }
+            // Lưu ý: Không cần dịch chuyển nextSibling vì node mới được chèn vào TRƯỚC nó
         }
     });
 
-    // C. XỬ LÝ BÀI THỪA (Đã bị xóa trên Server hoặc trôi sang trang 2)
-    // Sau khi vòng lặp chạy xong, nếu DOM còn nhiều phần tử hơn Server trả về -> Xóa bớt đuôi
-    while (container.children.length > newDataList.length) {
-        // Kiểm tra kỹ: Chỉ xóa Element là bài post, không xóa nút Load More nếu lỡ nó nằm trong đây
-        const lastEl = container.lastElementChild;
-        if (lastEl && lastEl.id.startsWith('post-')) {
-            lastEl.remove();
-        } else {
-            break; 
-        }
-    }
+    // C. DỌN DẸP BÀI THỪA
+    // Những node còn lại trong Map là những bài đã bị xóa hoặc trôi sang trang sau
+    existingNodes.forEach((node) => {
+        node.remove();
+    });
 }
  
 // Hàm chỉ cập nhật số liệu bên trong (tránh vẽ lại ảnh gây nháy)
@@ -351,19 +358,22 @@ function mergeServerDataToView(dataList) {
    const bottomLoader = document.getElementById('bottom-feed-loader');
    if (bottomLoader) bottomLoader.remove();
 
+   // [TỐI ƯU] Gom HTML thành 1 chuỗi để chèn 1 lần (Batch Insertion)
+   let htmlBuffer = '';
+
    dataList.forEach(post => { 
       const postId = post.__backendId || post.id;
       const existEl = document.getElementById(`post-${postId}`);
 
-      if (existEl) { 
-         console.log(`⚠️ Bỏ qua bài trùng lặp: ${postId}`);
-         return; 
+      if (!existEl) { 
+         htmlBuffer += createPostHtml(post);
       }
-
-      // Nếu chưa có thì mới vẽ và chèn vào cuối
-      const html = createPostHtml(post);
-      container.insertAdjacentHTML('beforeend', html);
    });
+
+   // Chỉ thao tác DOM 1 lần duy nhất -> Giảm Reflow/Repaint
+   if (htmlBuffer) {
+      container.insertAdjacentHTML('beforeend', htmlBuffer);
+   }
 }
 
 
@@ -639,10 +649,15 @@ function renderPostsPaged(newPosts, page) {
    }
 
    // 3. VẼ BÀI VIẾT MỚI
+   // [TỐI ƯU] Gom HTML lại để insert 1 lần
+   let htmlBuffer = '';
    uniquePosts.forEach(post => {
-       const html = createPostHtml(post);
-       container.insertAdjacentHTML('beforeend', html);
+       htmlBuffer += createPostHtml(post);
    });
+   
+   if (htmlBuffer) {
+       container.insertAdjacentHTML('beforeend', htmlBuffer);
+   }
 }
  
 function renderPosts() {
