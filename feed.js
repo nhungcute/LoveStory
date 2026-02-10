@@ -13,6 +13,48 @@ function sortDataByTime(data) {
     });
 }
 
+// --- [MỚI] HỆ THỐNG LAZY LOAD ẢNH ---
+const BLANK_IMG = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+let lazyImageObserver = null;
+
+function initLazyImageObserver() {
+    if (lazyImageObserver) return;
+
+    lazyImageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                // Ngừng theo dõi ngay để tiết kiệm tài nguyên
+                observer.unobserve(img);
+
+                const idbKey = img.dataset.idbKey;
+                const realSrc = img.dataset.src;
+
+                // TRƯỜNG HỢP 1: Ảnh lưu trong IndexedDB (Cache)
+                if (idbKey && typeof imageDB !== 'undefined') {
+                    try {
+                        const blobUrl = await imageDB.getImage(idbKey);
+                        if (blobUrl) {
+                            img.src = blobUrl;
+                            // Class 'loaded' sẽ được thêm bởi sự kiện onload (hoặc thêm ngay nếu blob sẵn sàng)
+                            requestAnimationFrame(() => img.classList.add('loaded'));
+                        } else if (realSrc) {
+                            // Fallback nếu không tìm thấy trong DB
+                            img.src = realSrc;
+                        }
+                    } catch (e) { console.warn("Lỗi load ảnh IDB", e); }
+                } 
+                // TRƯỜNG HỢP 2: Ảnh URL thường hoặc Base64
+                else if (realSrc) {
+                    img.src = realSrc;
+                    img.onload = () => img.classList.add('loaded');
+                }
+            }
+        });
+    }, { rootMargin: "200px 0px" }); // Tải trước khi cuộn tới 200px
+}
+
+
 // --- HÀM TẢI FEED (LOGIC CHÍNH) ---
 async function loadFeedData(page = 1, isBackgroundRefresh = false) {
    const container = document.getElementById('posts-container');
@@ -304,6 +346,9 @@ function smartSyncFeed(newDataList, container) {
     existingNodes.forEach((node) => {
         node.remove();
     });
+
+    // [MỚI] Kích hoạt Lazy Load cho các ảnh vừa vẽ
+    scanLazyImages();
 }
  
 // Hàm chỉ cập nhật số liệu bên trong (tránh vẽ lại ảnh gây nháy)
@@ -374,6 +419,9 @@ function mergeServerDataToView(dataList) {
    if (htmlBuffer) {
       container.insertAdjacentHTML('beforeend', htmlBuffer);
    }
+
+   // [MỚI] Kích hoạt Lazy Load
+   scanLazyImages();
 }
 
 
@@ -658,6 +706,9 @@ function renderPostsPaged(newPosts, page) {
    if (htmlBuffer) {
        container.insertAdjacentHTML('beforeend', htmlBuffer);
    }
+
+   // [MỚI] Kích hoạt Lazy Load
+   scanLazyImages();
 }
  
 function renderPosts() {
@@ -677,6 +728,16 @@ function renderPosts() {
     // TRƯỜNG HỢP 2: Nếu là Feed trang chủ bình thường -> Dùng Smart Sync (Cách mới)
     // Để giữ vị trí cuộn và cập nhật êm ái
     smartSyncFeed(serverFeedData.slice(0, 15)); // Chỉ sync 15 bài đầu
+}
+
+// Hàm quét và kích hoạt observer cho các ảnh chưa tải
+function scanLazyImages() {
+    initLazyImageObserver();
+    const lazyImages = document.querySelectorAll('img.lazy-load-img:not(.observed)');
+    lazyImages.forEach(img => {
+        lazyImageObserver.observe(img);
+        img.classList.add('observed');
+    });
 }
 
 function renderComments(postId) {
@@ -1556,6 +1617,9 @@ async function loadServerHashtagResults(tag, existingIds) {
             const html = newPosts.map(post => createPostHtml(post)).join('');
             container.insertAdjacentHTML('beforeend', html);
 
+            // Kích hoạt Lazy Load cho kết quả tìm kiếm
+            scanLazyImages();
+
             // Hiệu ứng báo hiệu có bài mới
             showToast(`Đã tìm thấy thêm ${newPosts.length} bài cũ`);
          } else {
@@ -1647,12 +1711,28 @@ function renderPostImages(images, layout, postId = null) {
       // 2. [TỐI ƯU] Gán onclick vào div bao ngoài (img-box) thay vì img trực tiếp
       // Lý do: Để vùng bấm chính xác hơn, không bị trượt
       html += `<div class="img-box ${cursorClass}" ${clickAttr} style="position: relative; overflow: hidden;">`;
+
+      // --- [TỐI ƯU QUAN TRỌNG] LAZY LOAD ---
+      const imgData = images[i];
+      let realSrc = '';
+      let idbKeyAttr = '';
+
+      // Kiểm tra xem dữ liệu là String (URL/Base64) hay Object (IndexedDB Ref)
+      if (typeof imgData === 'object' && imgData.type === 'indexed_db_ref') {
+          idbKeyAttr = `data-idb-key="${imgData.key}"`;
+          // Vẫn giữ src rỗng hoặc placeholder
+      } else {
+          realSrc = imgData;
+      }
       
-      // 3. [TỐI ƯU] Thêm decoding="async" để không làm đơ giao diện khi cuộn
-      html += `<img src="${images[i]}" 
-                     loading="lazy" 
+      // Thay vì src="${realSrc}", ta dùng src="${BLANK_IMG}" và data-src
+      html += `<img src="${BLANK_IMG}" 
+                     data-src="${realSrc}"
+                     ${idbKeyAttr}
+                     class="lazy-load-img" 
                      decoding="async"
-                     class="w-100 h-100 object-fit-cover" 
+                     onload="this.classList.add('loaded')"
+                     onerror="this.style.display='none'" 
                      alt="Image ${i}">`;
 
       // 4. Xử lý lớp phủ số lượng ảnh dư (+5, +3...)
@@ -1792,7 +1872,7 @@ function createPostHtml(post) {
 
    // --- TRẢ VỀ HTML CUỐI CÙNG ---
    return `
-      <div class="post-card p-3 mb-3 bg-white fade-in shadow-sm" style="border-radius: var(--radius);" id="post-${post.__backendId}">
+      <div class="post-card p-3 mb-3 bg-white shadow-sm" style="border-radius: var(--radius);" id="post-${post.__backendId}">
          
          <div class="d-flex align-items-center mb-2">
             <div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">

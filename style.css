@@ -245,8 +245,24 @@ overflow-anchor: auto;
 .post-image-grid.layout-1-tall { grid-template-columns: 2fr 1fr; grid-template-rows: repeat(2, 150px); }
 .post-image-grid.layout-1-tall .img-box:first-child { grid-row: span 2; height: 100%; }
 
-.post-image-grid .img-box { position: relative; overflow: hidden; width: 100%; height: 100%; }
-.post-image-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.post-image-grid .img-box { 
+  position: relative; 
+  overflow: hidden; 
+  width: 100%; 
+  height: 100%; 
+  background-color: #f0f2f5; /* Màu nền xám giống Facebook */
+}
+
+.post-image-grid img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  display: block; 
+}
+
+/* Khi ảnh đã tải xong (JS sẽ thêm class này) */
+.post-image-grid img.loaded {
+}
 
 .image-overlay {
   position: absolute;
