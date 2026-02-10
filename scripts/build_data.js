@@ -10,15 +10,16 @@ const DOJI_API_URL = `http://giavang.doji.vn/api/giavang/?api_key=${DOJI_API_KEY
 
 async function main() {
     // Kiểm tra cấu hình
-    if (!APPS_SCRIPT_URL) {
-        console.error("❌ Lỗi: Thiếu APPS_SCRIPT_URL trong Secrets.");
+    if (!DOJI_API_KEY || !APPS_SCRIPT_URL) {
+        console.error("❌ Lỗi: Thiếu DOJI_API_KEY hoặc APPS_SCRIPT_URL trong Secrets.");
         process.exit(1);
     }
 
     try {
         // BƯỚC 1: LẤY GIÁ VÀNG TỪ DOJI
         console.log("⏳ Đang lấy dữ liệu từ DOJI...");
-        const response = await axios.get(DOJI_API_URL);
+        // [TỐI ƯU] Thêm timeout để tránh treo khi API chậm
+        const response = await axios.get(DOJI_API_URL, { timeout: 15000 }); // Chờ tối đa 15 giây
         
         // Parse XML sang JSON
         const result = await parseStringPromise(response.data, { 
@@ -43,8 +44,7 @@ async function main() {
         const now = new Date().toISOString();
 
         console.log(`💰 Giá hiện tại: Mua ${buyPrice.toLocaleString()} - Bán ${sellPrice.toLocaleString()}`);
-
-        // BƯỚC 2: GỬI SANG GOOGLE SHEETS (APPS SCRIPT)
+       // BƯỚC 2: GỬI SANG GOOGLE SHEETS (APPS SCRIPT)
         console.log("🚀 Đang gửi dữ liệu sang Google Sheets...");
         
         const sheetResponse = await axios.post(APPS_SCRIPT_URL, {
@@ -57,15 +57,23 @@ async function main() {
             followRedirects: true
         });
 
-        // --- CẬP NHẬT LOGIC LOGGING ---
-        // Kiểm tra phản hồi từ Apps Script
-        if (sheetResponse.data && sheetResponse.data.status === 'skipped') {
-             console.log("⚠️ " + sheetResponse.data.message); // Log màu vàng hoặc thông báo bỏ qua
-        } else if (sheetResponse.data && sheetResponse.data.status === 'success') {
-             console.log("✅ " + sheetResponse.data.message);
+        // --- [TỐI ƯU] LOGIC GHI NHẬN PHẢN HỒI ---
+        // Kiểm tra xem phản hồi có phải là JSON object hợp lệ không
+        if (typeof sheetResponse.data === 'object' && sheetResponse.data !== null) {
+            if (sheetResponse.data.status === 'skipped') {
+                // Server báo giá không đổi, bỏ qua
+                console.log("🟡 [SKIPPED] " + sheetResponse.data.message);
+            } else if (sheetResponse.data.status === 'success') {
+                // Server báo đã ghi thành công
+                console.log("✅ [SUCCESS] " + sheetResponse.data.message);
+            } else {
+                // Là object nhưng không có status mong muốn
+                console.log("ℹ️ [UNEXPECTED JSON] Server response:", JSON.stringify(sheetResponse.data));
+            }
         } else {
-             // Trường hợp trả về data lạ hoặc lỗi
-             console.log("ℹ️ Server response:", JSON.stringify(sheetResponse.data));
+             // Phản hồi không phải là object (thường là HTML do redirect)
+             console.error("❌ [INVALID RESPONSE] Phản hồi từ Apps Script không phải là JSON. Có thể đã bị redirect hoặc lỗi server.");
+             console.log("   Raw response data:", sheetResponse.data);
         }
 
     } catch (error) {
