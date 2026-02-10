@@ -47,6 +47,13 @@ function calculateGoldStats() {
    };
 }
 
+// Hàm định dạng giá vàng không có ký hiệu tiền tệ 'đ'
+function formatGoldValueNoSymbol(value) {
+    if (typeof value !== 'number') return value;
+    // Thêm option để làm tròn, không hiển thị phần thập phân
+    return new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(value);
+}
+
 function updateGoldStats(historyData) {
    if (!historyData || historyData.length === 0) return;
 
@@ -397,11 +404,11 @@ function loadGoldPortfolio() {
       								</div>
       								<div class="col-3 text-center border-start">
       									<span class="text-muted" style="font-size: 0.65rem;">Giá GD</span>
-      									<p class="mb-0 text-dark" style="font-size: 0.8rem;">${formatCurrency(tx.price_per_chi)}</p>
+      									<p class="mb-0 text-dark" style="font-size: 0.8rem;">${formatGoldValueNoSymbol(tx.price_per_chi)}</p>
       								</div>
       								<div class="col-3 text-center border-start">
       									<span class="text-muted" style="font-size: 0.65rem;">Giá Vốn</span>
-      									<p class="mb-0 text-dark" style="font-size: 0.8rem;">${formatCurrency(tx.avgCostAtTx)}</p>
+      									<p class="mb-0 text-dark" style="font-size: 0.8rem;">${formatGoldValueNoSymbol(tx.avgCostAtTx)}</p>
       								</div>
       								<div class="col-3">${col4Html}</div>
       							</div>
