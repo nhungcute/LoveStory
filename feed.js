@@ -1879,7 +1879,7 @@ function createPostHtml(post) {
 
    // --- TRẢ VỀ HTML CUỐI CÙNG ---
    return `
-      <div class="post-card p-3 mb-3 bg-white shadow-sm" style="border-radius: var(--radius);" id="post-${post.__backendId}">
+      <div class="post-card p-3 bg-white shadow-sm" style="border-radius: var(--radius);" id="post-${post.__backendId}">
          
          <div class="d-flex align-items-center mb-2">
             <div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
