@@ -743,7 +743,7 @@ function renderPosts() {
 
     // TRƯỜNG HỢP 2: Nếu là Feed trang chủ bình thường -> Dùng Smart Sync (Cách mới)
     // Để giữ vị trí cuộn và cập nhật êm ái
-    smartSyncFeed(serverFeedData.slice(0, 15)); // Chỉ sync 15 bài đầu
+    smartSyncFeed(serverFeedData.slice(0, 15), container); // Chỉ sync 15 bài đầu
 }
 
 // Hàm quét và kích hoạt observer cho các ảnh chưa tải
@@ -833,7 +833,8 @@ function updateMediaPreview() { // Sửa: Image -> Media
       layoutSelector.classList.add('d-none');
    }
 
-   gridContainer.innerHTML = renderPostImages(currentImagePreviews, selectedLayout);
+   const previewUrls = currentMedia.map(item => item.previewUrl);
+   gridContainer.innerHTML = renderPostMedia(previewUrls, selectedLayout);
 }
 
 function openPostImages(postId, startIndex = 0) {
@@ -999,11 +1000,6 @@ document.getElementById('images-preview-grid').addEventListener('click', (e) => 
       currentMedia.splice(index, 1);
       updateMediaPreview();
    }
-});
-
-document.getElementById('clear-all-images').addEventListener('click', () => {
-   currentImages = [];
-   updateImagePreview();
 });
 
 // Reset lại modal về chế độ "Tạo mới" khi đóng
