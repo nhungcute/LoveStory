@@ -437,13 +437,12 @@ async function handlePostSubmit() {
    const postBtn = document.getElementById('post-btn');
    const isHD = document.getElementById('hd-quality-switch').checked;
    const finalLayout = selectedLayout;
-   const imagesToProcess = [...currentImages];
-   const previewsToSave = [...currentImagePreviews];
+   const mediaToProcess = [...currentMedia]; // Sửa: images -> media
 
    const isUpdateMode = isEditingPost;
    const postIdToUpdate = currentEditPostId;
 
-   if (!content && imagesToProcess.length === 0) {
+   if (!content && mediaToProcess.length === 0) {
       showToast('Vui lòng viết gì đó hoặc thêm ảnh!');
       return;
    }
@@ -460,7 +459,7 @@ async function handlePostSubmit() {
          serverFeedData[postIndex] = {
             ...serverFeedData[postIndex],
             content: content,
-            imageData: JSON.stringify(previewsToSave),
+            imageData: JSON.stringify(mediaToProcess.map(m => ({ type: m.type, url: m.previewUrl }))), // Sửa: Cấu trúc dữ liệu preview
             layout: finalLayout,
             isUploading: true,
             uploadStatus: 'Đang lưu...'
@@ -475,7 +474,7 @@ async function handlePostSubmit() {
          fullname: currentProfile ? currentProfile.fullName : 'Ẩn Danh',
          avatar: currentProfile ? currentProfile.avatarData : '',
          content: content,
-         imageData: JSON.stringify(previewsToSave),
+         imageData: JSON.stringify(mediaToProcess.map(m => ({ type: m.type, url: m.previewUrl }))), // Sửa: Cấu trúc dữ liệu preview
          createdAt: "Vừa xong",
          timestamp: now.getTime(),
          layout: finalLayout,
@@ -494,33 +493,39 @@ async function handlePostSubmit() {
    createPostModal.hide();
 
    try {
-      let finalImageData = [];
-      if (imagesToProcess.length > 0) {
-         for (let i = 0; i < imagesToProcess.length; i++) {
-            const item = imagesToProcess[i];
-            if (typeof item === 'string') {
-               finalImageData.push(item);
+      let finalMediaData = []; // Sửa: imageData -> mediaData
+      if (mediaToProcess.length > 0) {
+         for (let i = 0; i < mediaToProcess.length; i++) {
+            const mediaItem = mediaToProcess[i];
+
+            // Nếu là URL cũ (khi sửa bài) thì giữ nguyên
+            if (typeof mediaItem.file === 'string') {
+               finalMediaData.push({ type: mediaItem.type, url: mediaItem.file });
                continue;
             }
-            const file = item;
-            const qualityText = isHD ? "HD" : "SD";
-            updatePostStatus(tempId, `Send ${i + 1}/${imagesToProcess.length} (${qualityText})`);
 
-            if (isHD) {
-               if (i > 0) await new Promise(r => setTimeout(r, 500));
-               const base64Data = await readFileAsBase64(file);
-               const fileName = new Date().getTime() + "_" + i;
+            const file = mediaItem.file;
+            updatePostStatus(tempId, `Tải lên ${i + 1}/${mediaToProcess.length}`);
 
-               const res = await sendToServer({
-                  action: 'upload_single_image',
-                  image: base64Data,
-                  name: fileName
-               });
-               if (res.status === 'success') finalImageData.push(res.url);
-               else throw new Error("Lỗi ảnh số " + (i + 1));
-            } else {
-               const compressedBase64 = await compressImage(file, 1920, 0.7);
-               finalImageData.push(compressedBase64);
+            // Xử lý upload cho từng loại file
+            if (mediaItem.type === 'video') {
+                // Video luôn upload file gốc
+                const base64Data = await readFileAsBase64(file);
+                const res = await sendToServer({ action: 'upload_single_image', image: base64Data, name: file.name });
+                if (res.status === 'success') finalMediaData.push({ type: 'video', url: res.url });
+                else throw new Error(`Lỗi tải lên video ${i + 1}`);
+
+            } else { // Xử lý cho ảnh
+                if (isHD) {
+                    const base64Data = await readFileAsBase64(file);
+                    const res = await sendToServer({ action: 'upload_single_image', image: base64Data, name: file.name });
+                    if (res.status === 'success') finalMediaData.push({ type: 'image', url: res.url });
+                    else throw new Error(`Lỗi tải lên ảnh HD ${i + 1}`);
+                } else {
+                    const compressedBase64 = await compressImage(file, 1920, 0.7);
+                    // Ảnh nén SD gửi thẳng base64
+                    finalMediaData.push({ type: 'image', url: compressedBase64 });
+                }
             }
          }
       }
@@ -532,7 +537,7 @@ async function handlePostSubmit() {
          id: isUpdateMode ? postIdToUpdate : undefined,
          username: currentProfile ? currentProfile.username : 'Anonymous',
          content: content,
-         image: JSON.stringify(finalImageData),
+         image: JSON.stringify(finalMediaData), // Sửa: Gửi dữ liệu media đã xử lý
          layout: finalLayout,
          fingerprint: userFingerprint
       });
@@ -570,8 +575,8 @@ async function handlePostSubmit() {
       pendingTasksCount--;
 
       if (contentInput) contentInput.value = '';
-      currentImages = [];
-      currentImagePreviews = [];
+      currentMedia = []; // Sửa
+      updateMediaPreview(); // Sửa
       document.getElementById('hd-quality-switch').checked = true;
    }
 }
@@ -648,7 +653,7 @@ function openEditPost(id) {
       document.getElementById('layout-selector').classList.add('d-none');
       updateLayoutSelectionUI('grid-2x2');
    }
-   updateImagePreview();
+   updateMediaPreview();
    const modalTitle = document.querySelector('#createPostModal .modal-title');
    if (modalTitle) modalTitle.textContent = "Chỉnh sửa bài viết";
 
@@ -665,8 +670,8 @@ if (createPostModalEl) {
       currentEditPostId = null;
       const contentInput = document.getElementById('post-input');
       if (contentInput) contentInput.value = '';
-      currentImages = [];
-      updateImagePreview();
+      currentMedia = [];
+      updateMediaPreview();
       document.querySelector('#createPostModal .modal-title').textContent = "Tạo bài viết";
       const modalBtn = document.querySelector('#createPostModal .btn-primary');
       if (modalBtn) modalBtn.innerHTML = '<i class="bi bi-send me-2"></i>Đăng bài';
@@ -751,6 +756,27 @@ function scanLazyImages() {
     });
 }
 
+function parseMedia(mediaData) {
+    if (!mediaData) return [];
+    try {
+        const parsed = Array.isArray(mediaData) ? mediaData : JSON.parse(mediaData);
+        return parsed.map(item => {
+            if (typeof item === 'string') {
+                // Dữ liệu cũ, giả định là ảnh
+                return { type: 'image', url: item, file: item, previewUrl: item };
+            }
+            // Dữ liệu mới
+            return {
+                type: item.type || 'image',
+                url: item.url,
+                file: item.url, // Khi sửa, file chính là url
+                previewUrl: item.url
+            };
+        });
+    } catch (e) {
+        return [];
+    }
+}
 function renderComments(postId) {
    const post = allData.find(d => d.__backendId === postId);
    if (!post) return;
@@ -781,15 +807,14 @@ function renderComments(postId) {
       		  `).join('');
 }
 
-function updateImagePreview() {
+function updateMediaPreview() { // Sửa: Image -> Media
    const previewContainer = document.getElementById('image-preview-container');
    const imageOptions = document.getElementById('image-options');
    const layoutSelector = document.getElementById('layout-selector');
    const postBtn = document.getElementById('post-btn');
    const imageCount = document.getElementById('image-count');
    const gridContainer = document.getElementById('images-preview-grid');
-
-   if (currentImages.length === 0) {
+   if (currentMedia.length === 0) {
       previewContainer.classList.add('d-none');
       imageOptions.classList.add('d-none');
       layoutSelector.classList.add('d-none');
@@ -797,12 +822,12 @@ function updateImagePreview() {
       return;
    }
    previewContainer.classList.remove('d-none');
-   imageCount.textContent = currentImages.length;
+   imageCount.textContent = currentMedia.length;
    postBtn.disabled = false;
 
    imageOptions.classList.remove('d-none');
 
-   if (currentImages.length >= 3) {
+   if (currentMedia.length >= 3) {
       layoutSelector.classList.remove('d-none');
    } else {
       layoutSelector.classList.add('d-none');
@@ -810,7 +835,7 @@ function updateImagePreview() {
 
    gridContainer.innerHTML = renderPostImages(currentImagePreviews, selectedLayout);
 }
- 
+
 function openPostImages(postId, startIndex = 0) {
     console.log("1. Đang mở bài viết ID:", postId); 
 
@@ -907,9 +932,8 @@ if (imageModalCleanup) {
 
 // Sửa thêm: Nút xóa tất cả
 document.getElementById('clear-all-images').addEventListener('click', () => {
-   currentImages = [];
-   currentImagePreviews = [];
-   updateImagePreview();
+   currentMedia = [];
+   updateMediaPreview();
 });
 
 
@@ -918,7 +942,7 @@ document.querySelectorAll('.layout-preview-box').forEach(opt => {
    opt.addEventListener('click', () => {
       const layout = opt.dataset.layout;
       updateLayoutSelectionUI(layout);
-      updateImagePreview();
+      updateMediaPreview();
    });
 });
 
@@ -928,36 +952,43 @@ const postBtn = document.getElementById('post-btn');
 const imageInput = document.getElementById('image-input');
 
 postInput.addEventListener('input', () => {
-   postBtn.disabled = !postInput.value.trim() && currentImages.length === 0;
+   postBtn.disabled = !postInput.value.trim() && currentMedia.length === 0;
 });
 
 // --- SỬA LẠI SỰ KIỆN CHỌN ẢNH ---
 imageInput.addEventListener('change', async (e) => {
    const files = Array.from(e.target.files);
    if (files.length === 0) return;
-   // [THÊM DÒNG NÀY] Luôn tự động bật HD khi người dùng chọn ảnh mới
-   document.getElementById('hd-quality-switch').checked = true;
-   // Giới hạn 50 ảnh
-   if (currentImages.length + files.length > 50) {
-      showToast('Chỉ được chọn tối đa 50 ảnh!');
+
+   if (currentMedia.length + files.length > 50) {
+      showToast('Chỉ được chọn tối đa 50 tệp!');
       return;
    }
    showLoading();
    for (const file of files) {
-      // 1. Lưu file gốc vào mảng
-      currentImages.push(file);
-      // Dùng hàm nén cũ để tạo thumbnail hiển thị cho đỡ lag máy
-      const previewBase64 = await compressImage(file, 500, 0.6);
-      currentImagePreviews.push(previewBase64);
+      let mediaType = 'image';
+      let previewUrl = '';
+
+      if (file.type.startsWith('video/')) {
+          mediaType = 'video';
+          previewUrl = URL.createObjectURL(file);
+      } else if (file.type.startsWith('image/')) {
+          mediaType = 'image';
+          previewUrl = await compressImage(file, 500, 0.6); // Tạo thumbnail cho ảnh
+      } else {
+          continue; // Bỏ qua file không hỗ trợ
+      }
+
+      currentMedia.push({ file: file, previewUrl: previewUrl, type: mediaType });
    }
 
-   if (currentImages.length >= 3) {
+   if (currentMedia.length >= 3) {
       updateLayoutSelectionUI('1-wide');
    } else {
       updateLayoutSelectionUI('grid-2x2');
    }
    hideLoading();
-   updateImagePreview();
+   updateMediaPreview();
    e.target.value = '';
 });
 
@@ -965,8 +996,8 @@ document.getElementById('images-preview-grid').addEventListener('click', (e) => 
    const removeBtn = e.target.closest('.remove-preview-img');
    if (removeBtn) {
       const index = parseInt(removeBtn.dataset.index);
-      currentImages.splice(index, 1);
-      updateImagePreview();
+      currentMedia.splice(index, 1);
+      updateMediaPreview();
    }
 });
 
@@ -981,8 +1012,8 @@ document.getElementById('createPostModal').addEventListener('hidden.bs.modal', f
    currentEditPostId = null;
    const postInputEl = document.getElementById('post-input');
    if (postInputEl) postInputEl.value = '';
-   currentImages = [];
-   updateImagePreview();
+   currentMedia = [];
+   updateMediaPreview();
    document.querySelector('#createPostModal .modal-title').textContent = "Tạo bài viết";
    const postBtn = document.getElementById('post-btn');
    if (postBtn) postBtn.innerHTML = '<i class="bi bi-send me-2"></i>Đăng bài';
@@ -1678,10 +1709,10 @@ function highlightPost(element) {
 // File: feed.js
 
 // 1. Thêm tham số postId = null
-function renderPostImages(images, layout, postId = null) {
-   if (!images || images.length === 0) return '';
+function renderPostMedia(mediaItems, layout, postId = null) { // Sửa: images -> mediaItems
+   if (!mediaItems || mediaItems.length === 0) return '';
       
-   const count = images.length;
+   const count = mediaItems.length;
    let layoutClass = '';
    
    // --- LOGIC CHIA LAYOUT (GIỮ NGUYÊN CỦA BẠN) ---
@@ -1724,27 +1755,34 @@ function renderPostImages(images, layout, postId = null) {
       html += `<div class="img-box ${cursorClass}" ${clickAttr} style="position: relative; overflow: hidden;">`;
 
       // --- [TỐI ƯU QUAN TRỌNG] LAZY LOAD ---
-      const imgData = images[i];
-      let realSrc = '';
-      let idbKeyAttr = '';
+      const mediaData = mediaItems[i];
+      let mediaUrl = '';
+      let mediaType = 'image';
 
-      // Kiểm tra xem dữ liệu là String (URL/Base64) hay Object (IndexedDB Ref)
-      if (typeof imgData === 'object' && imgData.type === 'indexed_db_ref') {
-          idbKeyAttr = `data-idb-key="${imgData.key}"`;
-          // Vẫn giữ src rỗng hoặc placeholder
-      } else {
-          realSrc = imgData;
+      if (typeof mediaData === 'string') { // Tương thích dữ liệu cũ
+          mediaUrl = mediaData;
+      } else if (mediaData && (mediaData.url || mediaData.key)) {
+          mediaType = mediaData.type || 'image';
+          mediaUrl = mediaData.url || ''; // Ưu tiên URL
       }
-      
-      // Thay vì src="${realSrc}", ta dùng src="${BLANK_IMG}" và data-src
-      html += `<img src="${BLANK_IMG}" 
-                     data-src="${realSrc}"
-                     ${idbKeyAttr}
-                     class="lazy-load-img" 
-                     decoding="async"
-                     onload="this.classList.add('loaded')"
-                     onerror="this.style.display='none'" 
-                     alt="Image ${i}">`;
+
+      if (mediaType === 'video') {
+          html += `<video src="${mediaUrl}" class="w-100 h-100 object-fit-cover" muted loop playsinline autoplay controls></video>`;
+      } else {
+          let idbKeyAttr = '';
+          if (mediaData && mediaData.type === 'indexed_db_ref' && mediaData.key) {
+              idbKeyAttr = `data-idb-key="${mediaData.key}"`;
+          }
+
+          html += `<img src="${BLANK_IMG}" 
+                         data-src="${mediaUrl}"
+                         ${idbKeyAttr}
+                         class="lazy-load-img" 
+                         decoding="async"
+                         onload="this.classList.add('loaded')"
+                         onerror="this.style.display='none'" 
+                         alt="Image ${i}">`;
+      }
 
       // 4. Xử lý lớp phủ số lượng ảnh dư (+5, +3...)
       if (i === showCount - 1 && count > displayLimit) {
@@ -1770,10 +1808,10 @@ function createPostHtml(post) {
    const displayName = post.fullname || post.username || 'Người dùng';
    
    // Parse ảnh: Hỗ trợ cả mảng JSON lẫn mảng thường
-   let images = [];
+   let mediaItems = [];
    try {
-       images = Array.isArray(post.imageData) ? post.imageData : JSON.parse(post.imageData || '[]');
-   } catch (e) { images = []; }
+       mediaItems = parseMedia(post.imageData);
+   } catch (e) { mediaItems = []; }
    
    // --- LOGIC 1: QUYỀN CHỦ SỞ HỮU (Verified & Menu) ---
    const isOwner = currentProfile && currentProfile.username === post.username;
@@ -1839,9 +1877,9 @@ function createPostHtml(post) {
    }
 
    // --- LOGIC 5: XỬ LÝ ẢNH ---
-   // Gọi hàm renderPostImages (Cần đảm bảo hàm này hỗ trợ tham số thứ 3 là ID)
-   const imagesHtml = (typeof renderPostImages === 'function') 
-       ? renderPostImages(images, post.layout || 'grid-2x2', post.__backendId) 
+   // Gọi hàm renderPostMedia (Cần đảm bảo hàm này hỗ trợ tham số thứ 3 là ID)
+   const mediaHtml = (typeof renderPostMedia === 'function') 
+       ? renderPostMedia(mediaItems, post.layout || 'grid-2x2', post.__backendId) 
        : '';
 
    // --- LOGIC 6: XỬ LÝ COMMENT ---
@@ -1904,7 +1942,7 @@ function createPostHtml(post) {
          
          ${contentHtml} 
          
-         ${imagesHtml}
+         ${mediaHtml}
          
          <div class="d-flex gap-4 my-2 border-top pt-2 mt-3" style="margin-left: 0 !important;">
             <button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
