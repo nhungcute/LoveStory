@@ -833,8 +833,7 @@ function updateMediaPreview() { // Sửa: Image -> Media
       layoutSelector.classList.add('d-none');
    }
 
-   const previewUrls = currentMedia.map(item => item.previewUrl);
-   gridContainer.innerHTML = renderPostMedia(previewUrls, selectedLayout);
+   gridContainer.innerHTML = renderPostMedia(currentMedia, selectedLayout);
 }
 
 function openPostImages(postId, startIndex = 0) {
@@ -930,7 +929,7 @@ if (imageModalCleanup) {
         document.body.style = '';
     });
 }
-
+ 
 // Sửa thêm: Nút xóa tất cả
 document.getElementById('clear-all-images').addEventListener('click', () => {
    currentMedia = [];
@@ -952,8 +951,7 @@ const postInput = document.getElementById('post-input');
 const postBtn = document.getElementById('post-btn');
 const imageInput = document.getElementById('image-input');
 
-postInput.addEventListener('input', () => {
-   postBtn.disabled = !postInput.value.trim() && currentMedia.length === 0;
+postInput.adEed = !postInput.value.trim() && currentMedia.length === 0;
 });
 
 // --- SỬA LẠI SỰ KIỆN CHỌN ẢNH ---
@@ -1750,24 +1748,36 @@ function renderPostMedia(mediaItems, layout, postId = null) { // Sửa: images -
       // Lý do: Để vùng bấm chính xác hơn, không bị trượt
       html += `<div class="img-box ${cursorClass}" ${clickAttr} style="position: relative; overflow: hidden;">`;
 
-      // --- [TỐI ƯU QUAN TRỌNG] LAZY LOAD ---
-      const mediaData = mediaItems[i];
+      const mediaItem = mediaItems[i];
       let mediaUrl = '';
       let mediaType = 'image';
+      const isPreview = (postId === null);
 
-      if (typeof mediaData === 'string') { // Tương thích dữ liệu cũ
-          mediaUrl = mediaData;
-      } else if (mediaData && (mediaData.url || mediaData.key)) {
-          mediaType = mediaData.type || 'image';
-          mediaUrl = mediaData.url || ''; // Ưu tiên URL
+      if (typeof mediaItem === 'string') {
+          mediaUrl = mediaItem;
+          // Heuristic for preview: blob urls are videos
+          if (isPreview && mediaUrl.startsWith('blob:')) mediaType = 'video';
+      } else if (mediaItem) {
+          mediaType = mediaItem.type || 'image';
+          mediaUrl = mediaItem.previewUrl || mediaItem.url || '';
       }
 
       if (mediaType === 'video') {
-          html += `<video src="${mediaUrl}" class="w-100 h-100 object-fit-cover" muted loop playsinline autoplay controls></video>`;
+          if (isPreview) {
+              html += `<video src="${mediaUrl}" class="w-100 h-100 object-fit-cover" muted loop playsinline autoplay controls></video>`;
+          } else {
+              html += `<video src="${mediaUrl}#t=0.1" class="w-100 h-100 object-fit-cover" muted loop playsinline preload="metadata"></video>`;
+              html += `<div class="image-overlay d-flex align-items-center justify-content-center text-white fw-bold fs-1" style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.3); pointer-events: none;"><i class="bi bi-play-circle-fill"></i></div>`;
+          }
+      } else if (isPreview) {
+          // TRƯỜNG HỢP 1: ĐANG LÀ PREVIEW TRONG MODAL -> HIỆN ẢNH TRỰC TIẾP
+          // Không cần lazy load vì ảnh đã có sẵn (base64 thumbnail)
+          html += `<img src="${mediaUrl}" class="w-100 h-100 object-fit-cover" alt="Preview ${i}">`;
       } else {
+          // TRƯỜNG HỢP 2: ĐANG RENDER TRÊN FEED -> DÙNG LAZY LOAD
           let idbKeyAttr = '';
-          if (mediaData && mediaData.type === 'indexed_db_ref' && mediaData.key) {
-              idbKeyAttr = `data-idb-key="${mediaData.key}"`;
+          if (mediaItem && mediaItem.type === 'indexed_db_ref' && mediaItem.key) {
+              idbKeyAttr = `data-idb-key="${mediaItem.key}"`;
           }
 
           html += `<img src="${BLANK_IMG}" 
@@ -1803,7 +1813,6 @@ function createPostHtml(post) {
    // 1. Xử lý thông tin người dùng
    const displayName = post.fullname || post.username || 'Người dùng';
    
-   // Parse ảnh: Hỗ trợ cả mảng JSON lẫn mảng thường
    let mediaItems = [];
    try {
        mediaItems = parseMedia(post.imageData);

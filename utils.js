@@ -20,65 +20,65 @@ const randomAnimals = ['Gấu', 'Hổ', 'Sư Tử', 'Voi', 'Hươu', 'Cá', 'V�
 const randomColors = ['Xanh', 'Đỏ', 'Tím', 'Vàng', 'Cam', 'Hồng', 'Đen', 'Trắng'];
 
 const defaultConfig = {
-   app_title: 'Love Story',
-   welcome_message: 'Lưu giữ kỷ niệm đẹp'
+    app_title: 'Love Story',
+    welcome_message: 'Lưu giữ kỷ niệm đẹp'
 };
 
 const themes = {
-   green: {
-      primary: '#006B68',
-      secondary: '#FFC62F',
-      text: '#212529',
-      bg: '#f8f9fa',
-      surface: '#ffffff'
-   },
-   purple: {
-      primary: '#667eea',
-      secondary: '#764ba2',
-      text: '#1f2937',
-      bg: '#f8f9fa',
-      surface: '#ffffff'
-   },
-   blue: {
-      primary: '#1e3a8a',
-      secondary: '#3b82f6',
-      text: '#000000',
-      bg: '#f0f9ff',
-      surface: '#ffffff'
-   },
-   red: {
-      primary: '#dc2626',
-      secondary: '#fb923c',
-      text: '#000000',
-      bg: '#fef2f2',
-      surface: '#ffffff'
-   }
+    green: {
+        primary: '#006B68',
+        secondary: '#FFC62F',
+        text: '#212529',
+        bg: '#f8f9fa',
+        surface: '#ffffff'
+    },
+    purple: {
+        primary: '#667eea',
+        secondary: '#764ba2',
+        text: '#1f2937',
+        bg: '#f8f9fa',
+        surface: '#ffffff'
+    },
+    blue: {
+        primary: '#1e3a8a',
+        secondary: '#3b82f6',
+        text: '#000000',
+        bg: '#f0f9ff',
+        surface: '#ffffff'
+    },
+    red: {
+        primary: '#dc2626',
+        secondary: '#fb923c',
+        text: '#000000',
+        bg: '#fef2f2',
+        surface: '#ffffff'
+    }
 };
 
 const defaultStatsLayout = [{
-   id: 'bike',
-   column: 0,
-   size: 'medium'
+    id: 'bike',
+    column: 0,
+    size: 'medium'
 },
 {
-   id: 'days',
-   column: 0,
-   size: 'medium'
+    id: 'days',
+    column: 0,
+    size: 'medium'
 },
 {
-   id: 'memory',
-   column: 0,
-   size: 'medium'
+    id: 'memory',
+    column: 0,
+    size: 'medium'
 },
 {
-   id: 'event',
-   column: 0,
-   size: 'medium'
+    id: 'event',
+    column: 0,
+    size: 'medium'
 },
 {
-   id: 'gold',
-   column: 0,
-   size: 'medium'
+    id: 'gold',
+    column: 0,
+    size: 'medium'
 }
 ];
 
@@ -88,8 +88,7 @@ let currentTab = 'home';
 let currentPostId = null;
 let pendingDeleteId = null;
 let pendingDeleteType = null;
-let currentImages = [];
-let currentImagePreviews = [];
+let currentMedia = [];
 let memoryImageData = null;
 let recordCount = 0;
 let currentTheme = 'green';
@@ -143,7 +142,7 @@ let currentCommentId = null;
 let currentCommentContent = '';
 let commentOptionsModal = new bootstrap.Modal(document.getElementById('commentOptionsModal'));
 let editCommentContentModal = new bootstrap.Modal(document.getElementById('editCommentContentModal'));
-  
+
 let touchStartX = 0;
 let currentSwipedId = null;
 let isSwiping = false; // Biến cờ để chặn click nhầm khi đang vuốt
@@ -218,7 +217,7 @@ const imageDB = {
             request.onerror = () => reject(request.error);
         });
     },
-    
+
     // 4. Chuyển Base64 sang Blob (để lưu vào DB cho nhẹ)
     base64ToBlob(base64) {
         const parts = base64.split(';base64,');
@@ -405,9 +404,9 @@ function compressImageTo20KB(file) {
 
                 let quality = 0.8;
                 let dataUrl = canvas.toDataURL('image/jpeg', quality);
-                
+
                 // Giảm chất lượng lặp lại cho đến khi dưới 20KB
-                while (dataUrl.length > 20000 && quality > 0.1) { 
+                while (dataUrl.length > 20000 && quality > 0.1) {
                     quality -= 0.1;
                     dataUrl = canvas.toDataURL('image/jpeg', quality);
                 }
@@ -445,4 +444,3 @@ async function sendToServer(payload) {
         };
     }
 }
-
