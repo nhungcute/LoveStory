@@ -158,62 +158,6 @@ async function loadFeedData(page = 1, isBackgroundRefresh = false) {
       updateFeedFooter(); 
    }
 }
-// 2. HÀM MỞ MODAL XEM ẢNH
-function openPostImages(postId, startIndex = 0) {
-    const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
-    if (!post) return;
-
-    let images = [];
-    if (post.imageData) {
-        if (Array.isArray(post.imageData)) {
-            images = post.imageData;
-        } else {
-            try { images = JSON.parse(post.imageData); } 
-            catch (e) { images = [post.imageData]; }
-        }
-    } 
-    // Fallback nếu code cũ dùng post.images
-    else if (post.images && Array.isArray(post.images)) {
-        images = post.images;
-    }
-    // Nếu không có ảnh nào thì thoát
-    if (!images || images.length === 0) {
-        console.warn("Bài viết không có ảnh để hiển thị");
-        return;
-    }
-    const container = document.getElementById('carousel-items-container');
-    if (!container) {
-        console.error("Thiếu HTML Modal: Không tìm thấy #carousel-items-container");
-        return;
-    }
-    container.innerHTML = '';
-    // Tạo HTML cho từng slide
-    images.forEach((imgUrl, index) => {
-        const isActive = index === startIndex ? 'active' : '';
-        // class "contain-mode" giúp ảnh không bị cắt (object-fit: contain)
-        const itemHtml = `
-            <div class="carousel-item h-100 ${isActive}">
-                <img src="${imgUrl}" class="d-block w-100 h-100" style="object-fit: contain; background: black;" alt="Image ${index}">
-            </div>
-        `;
-        container.insertAdjacentHTML('beforeend', itemHtml);
-    });
-
-    // Ẩn/Hiện nút Next/Prev nếu chỉ có 1 ảnh
-    const controls = document.querySelectorAll('#imageViewerModal .carousel-control-prev, #imageViewerModal .carousel-control-next');
-    if (images.length <= 1) {
-        controls.forEach(el => el.style.display = 'none');
-    } else {
-        controls.forEach(el => el.style.display = 'flex');
-    }
-
-    // Mở Modal (Bootstrap 5)
-    const modalEl = document.getElementById('imageViewerModal');
-    if (modalEl) {
-        const myModal = bootstrap.Modal.getOrCreateInstance(modalEl);
-        myModal.show();
-    }
-}
 
 // 3. Dọn dẹp khi đóng modal (để tiết kiệm bộ nhớ)
 const imageModalEl = document.getElementById('imageViewerModal');
@@ -519,8 +463,14 @@ async function handlePostSubmit() {
                 if (isHD) {
                     const base64Data = await readFileAsBase64(file);
                     const res = await sendToServer({ action: 'upload_single_image', image: base64Data, name: file.name });
-                    if (res.status === 'success') finalMediaData.push({ type: 'image', url: res.url });
-                    else throw new Error(`Lỗi tải lên ảnh HD ${i + 1}`);
+                    if (res.status === 'success') 
+                        finalMediaData.push({ type: 'image', url: res.url });
+                    else 
+                        {
+                           console.error("Lỗi upload ảnh HD:", res);
+                           throw new Error(`Lỗi tải ảnh HD ${i+1}. Hãy thử ảnh nhỏ hơn.`);
+                        }
+
                 } else {
                     const compressedBase64 = await compressImage(file, 1920, 0.7);
                     // Ảnh nén SD gửi thẳng base64
@@ -836,81 +786,105 @@ function updateMediaPreview() { // Sửa: Image -> Media
    gridContainer.innerHTML = renderPostMedia(currentMedia, selectedLayout);
 }
 
-function openPostImages(postId, startIndex = 0) {
-    console.log("1. Đang mở bài viết ID:", postId); 
+// --- 1. THÊM VÀO ĐẦU FILE web/feed.js ---
+function getDriveId(url) {
+    if (!url || typeof url !== 'string') return null;
+    // Tìm ID trong dạng .../file/d/ID...
+    let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) return match[1];
+    // Tìm ID trong dạng ...id=ID...
+    match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) return match[1];
+    return null;
+}
 
-    // 1. Tìm bài viết
-    const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
+// --- 2. THAY THẾ HÀM openPostImages CŨ ---
+async function openPostImages(postId, startIndex = 0) {
+    let post = null;
+    if (typeof serverFeedData !== 'undefined') {
+        post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
+    }
+    if (!post && typeof allData !== 'undefined') {
+        post = allData.find(d => d.__backendId === postId);
+    }
+
     if (!post) return;
 
-    // 2. Xử lý dữ liệu ảnh
-    let images = [];
-    if (post.imageData) {
-        if (Array.isArray(post.imageData)) images = post.imageData;
-        else {
-            try { images = JSON.parse(post.imageData); } 
-            catch (e) { images = [post.imageData]; }
-        }
-    } else if (post.images) {
-        images = Array.isArray(post.images) ? post.images : [post.images];
-    }
+    let mediaItems = [];
+    try {
+        mediaItems = parseMedia(post.imageData);
+    } catch (e) { return; }
 
-    if (!images || images.length === 0) return;
+    if (!mediaItems || mediaItems.length === 0) return;
 
-    // 3. --- [FIX QUAN TRỌNG: TỰ PHỤC HỒI HTML] ---
-    let container = document.getElementById('carousel-items-container');
     const modalEl = document.getElementById('imageViewerModal');
+    if (!modalEl) return;
 
-    // Nếu không tìm thấy Modal -> Báo lỗi
-    if (!modalEl) {
-        console.error("❌ Lỗi: Thiếu Modal trong index.html");
-        return;
-    }
-
-    // Nếu Modal còn nhưng Container bị mất (do lần trước xóa nhầm) -> TỰ TẠO LẠI
-    if (!container) {
-        console.warn("⚠️ Khung ảnh bị thiếu, đang tự động khôi phục...");
-        const modalBody = modalEl.querySelector('.modal-body');
-        if (modalBody) {
-            modalBody.innerHTML = `
-                <div id="postImageCarousel" class="carousel slide w-100 h-100" data-bs-interval="false">
-                    <div class="carousel-inner h-100 d-flex align-items-center" id="carousel-items-container"></div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#postImageCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#postImageCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    </button>
-                </div>`;
-            // Lấy lại biến container sau khi vừa tạo xong
-            container = document.getElementById('carousel-items-container');
-        }
-    }
-
-    // 4. Render ảnh
+    const container = document.getElementById('carousel-items-container');
     if (container) {
-        container.innerHTML = ''; // Chỉ xóa ảnh cũ, không xóa container
-        images.forEach((imgUrl, index) => {
+        container.innerHTML = '';
+        
+        mediaItems.forEach((mediaItem, index) => {
             const isActive = index === startIndex ? 'active' : '';
-            const itemHtml = `
-                <div class="carousel-item h-100 ${isActive}">
-                    <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
-                        <img src="${imgUrl}" class="d-block" style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Image">
-                    </div>
-                </div>`;
+            let rawUrl = mediaItem.url || mediaItem.previewUrl || ''; 
+            if (typeof mediaItem === 'string') rawUrl = mediaItem;
+            
+            let itemType = mediaItem.type || 'image';
+            if (typeof mediaItem === 'string' && rawUrl.startsWith('blob:')) itemType = 'video';
+
+            let itemHtml = '';
+
+            // --- XỬ LÝ VIDEO ---
+            if (itemType === 'video') {
+                const driveId = getDriveId(rawUrl);
+                
+                if (driveId) {
+                    // Link chuẩn 100% cho iframe preview
+                    const embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
+                    itemHtml = `
+                    <div class="carousel-item h-100 ${isActive}">
+                        <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
+                             <iframe src="${embedUrl}" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="max-width: 100%; aspect-ratio: 16/9;"></iframe>
+                        </div>
+                    </div>`;
+                } else {
+                    // Fallback nếu không lấy được ID (ví dụ video upload blob)
+                    itemHtml = `
+                    <div class="carousel-item h-100 ${isActive}">
+                        <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
+                            <video src="${rawUrl}" class="d-block" style="max-width: 100%; max-height: 100%;" controls autoplay playsinline></video>
+                        </div>
+                    </div>`;
+                }
+            } 
+            // --- XỬ LÝ ẢNH ---
+            else {
+                let imgUrl = rawUrl;
+                // Fix link ảnh cũ
+                if (imgUrl.includes('/uc?id=') && !imgUrl.includes('export=view')) {
+                    const id = getDriveId(imgUrl);
+                    if (id) imgUrl = `https://drive.google.com/uc?export=view&id=${id}`;
+                }
+                itemHtml = `
+                    <div class="carousel-item h-100 ${isActive}">
+                        <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
+                            <img src="${imgUrl}" class="d-block" style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Image">
+                        </div>
+                    </div>`;
+            }
             container.insertAdjacentHTML('beforeend', itemHtml);
         });
 
-        // Ẩn hiện nút điều hướng
+        // Xử lý nút điều hướng
         const controls = document.querySelectorAll('#imageViewerModal .carousel-control-prev, #imageViewerModal .carousel-control-next');
-        if (images.length <= 1) controls.forEach(el => el.style.display = 'none');
+        if (mediaItems.length <= 1) controls.forEach(el => el.style.display = 'none');
         else controls.forEach(el => el.style.display = 'flex');
 
-        // Mở Modal
         const myModal = bootstrap.Modal.getOrCreateInstance(modalEl);
         myModal.show();
     }
 }
+
 
 // 5. Sự kiện dọn dẹp an toàn
 const imageModalCleanup = document.getElementById('imageViewerModal');
@@ -929,7 +903,7 @@ if (imageModalCleanup) {
         document.body.style = '';
     });
 }
- 
+
 // Sửa thêm: Nút xóa tất cả
 document.getElementById('clear-all-images').addEventListener('click', () => {
    currentMedia = [];
@@ -951,7 +925,8 @@ const postInput = document.getElementById('post-input');
 const postBtn = document.getElementById('post-btn');
 const imageInput = document.getElementById('image-input');
 
-postInput.adEed = !postInput.value.trim() && currentMedia.length === 0;
+postInput.addEventListener('input', () => {
+   postBtn.disabled = !postInput.value.trim() && currentMedia.length === 0;
 });
 
 // --- SỬA LẠI SỰ KIỆN CHỌN ẢNH ---
@@ -1702,85 +1677,103 @@ function highlightPost(element) {
 
 // File: feed.js
 
-// 1. Thêm tham số postId = null
-function renderPostMedia(mediaItems, layout, postId = null) { // Sửa: images -> mediaItems
+function renderPostMedia(mediaItems, layout, postId = null) {
    if (!mediaItems || mediaItems.length === 0) return '';
       
    const count = mediaItems.length;
    let layoutClass = '';
    
-   // --- LOGIC CHIA LAYOUT (GIỮ NGUYÊN CỦA BẠN) ---
+   // --- 1. XÁC ĐỊNH LAYOUT ---
    if (count === 1) {
       layoutClass = 'layout-1';
    } else if (count === 2) {
       layoutClass = 'layout-2';
    } else {
       const validLayout = layout || 'grid-2x2';
-      if (validLayout === '1-wide') {
-         layoutClass = 'layout-1-wide';
-      } else if (validLayout === '1-tall') {
-         layoutClass = 'layout-1-tall';
-      } else {
-         layoutClass = 'layout-grid-2x2';
-      }
+      if (validLayout === '1-wide') layoutClass = 'layout-1-wide';
+      else if (validLayout === '1-tall') layoutClass = 'layout-1-tall';
+      else layoutClass = 'layout-grid-2x2';
    }
 
    let html = `<div class="post-image-grid ${layoutClass}">`;
 
-   // Logic giới hạn số lượng hiển thị
+   // --- 2. GIỚI HẠN SỐ LƯỢNG HIỂN THỊ ---
    let displayLimit = 4;
    if (layoutClass === 'layout-1-wide' || layoutClass === 'layout-1-tall') {
       displayLimit = 3;
    }
-
    const showCount = Math.min(count, displayLimit);
 
+   // --- 3. RENDER TỪNG ITEM ---
    for (let i = 0; i < showCount; i++) {
-      // 1. Tạo sự kiện click
-      // Lưu ý: Nếu có postId thì gán onclick, nếu không thì thôi
-      const clickAttr = postId 
+      // Xác định: Đang xem trên feed (có postId) hay đang tạo bài mới (postId = null)
+      const isFeedView = (postId !== null);
+      
+      const clickAttr = isFeedView 
           ? `onclick="openPostImages('${postId}', ${i})"` 
           : ''; 
+      const cursorClass = isFeedView ? 'cursor-pointer' : '';
 
-      const cursorClass = postId ? 'cursor-pointer' : '';
+      html += `<div class="img-box ${cursorClass}" ${clickAttr} style="position: relative; overflow: hidden; background: #000;">`;
 
-      // 2. [TỐI ƯU] Gán onclick vào div bao ngoài (img-box) thay vì img trực tiếp
-      // Lý do: Để vùng bấm chính xác hơn, không bị trượt
-      html += `<div class="img-box ${cursorClass}" ${clickAttr} style="position: relative; overflow: hidden;">`;
-
+      // Chuẩn hóa dữ liệu item
       const mediaItem = mediaItems[i];
       let mediaUrl = '';
       let mediaType = 'image';
-      const isPreview = (postId === null);
 
       if (typeof mediaItem === 'string') {
           mediaUrl = mediaItem;
-          // Heuristic for preview: blob urls are videos
-          if (isPreview && mediaUrl.startsWith('blob:')) mediaType = 'video';
+          // Đoán type dựa trên URL
+          if (mediaUrl.startsWith('blob:') || mediaUrl.includes('/preview')) mediaType = 'video';
       } else if (mediaItem) {
           mediaType = mediaItem.type || 'image';
           mediaUrl = mediaItem.previewUrl || mediaItem.url || '';
       }
 
+      // [PHẦN QUAN TRỌNG NHẤT: XỬ LÝ VIDEO]
       if (mediaType === 'video') {
-          if (isPreview) {
-              html += `<video src="${mediaUrl}" class="w-100 h-100 object-fit-cover" muted loop playsinline autoplay controls></video>`;
-          } else {
-              html += `<video src="${mediaUrl}#t=0.1" class="w-100 h-100 object-fit-cover" muted loop playsinline preload="metadata"></video>`;
-              html += `<div class="image-overlay d-flex align-items-center justify-content-center text-white fw-bold fs-1" style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.3); pointer-events: none;"><i class="bi bi-play-circle-fill"></i></div>`;
-          }
-      } else if (isPreview) {
-          // TRƯỜNG HỢP 1: ĐANG LÀ PREVIEW TRONG MODAL -> HIỆN ẢNH TRỰC TIẾP
-          // Không cần lazy load vì ảnh đã có sẵn (base64 thumbnail)
-          html += `<img src="${mediaUrl}" class="w-100 h-100 object-fit-cover" alt="Preview ${i}">`;
-      } else {
-          // TRƯỜNG HỢP 2: ĐANG RENDER TRÊN FEED -> DÙNG LAZY LOAD
-          let idbKeyAttr = '';
-          if (mediaItem && mediaItem.type === 'indexed_db_ref' && mediaItem.key) {
-              idbKeyAttr = `data-idb-key="${mediaItem.key}"`;
+          if (!isFeedView) { 
+              // A. KHI ĐANG TẠO BÀI (PREVIEW): Dùng Iframe hoặc Video tag để check
+              if (mediaUrl.includes('/preview')) {
+                   html += `<iframe src="${mediaUrl}" class="w-100 h-100" frameborder="0" style="pointer-events: none;"></iframe>`;
+              } else {
+                  html += `<video src="${mediaUrl}" class="w-100 h-100 object-fit-cover" controls></video>`;
+              }
+          } else { 
+              // B. KHI XEM TRÊN FEED: Hiển thị "Card Video" (Màu đen + Nút Play)
+              // Lý do: Link Drive không hiện được Thumbnail tự động, nên ta dùng giao diện này cho đẹp và đồng bộ.
+              
+              html += `
+                <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-black text-white" 
+                     style="background: #000; min-height: 200px;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+                        <i class="bi bi-play-fill" style="font-size: 40px; color: white; margin-left: 4px;"></i>
+                    </div>
+                    <span class="mt-2 text-white-50 small font-monospace">VIDEO</span>
+                </div>
+              `;
           }
 
-          html += `<img src="${BLANK_IMG}" 
+      } else {
+          // --- XỬ LÝ ẢNH ---
+          
+          // Fix link ảnh cũ
+          if (mediaUrl && mediaUrl.includes('/uc?id=') && !mediaUrl.includes('export=view')) {
+              try {
+                  const fileId = new URL(mediaUrl).searchParams.get('id');
+                  if (fileId) mediaUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+              } catch(e) {}
+          }
+
+          if (!isFeedView) {
+              html += `<img src="${mediaUrl}" class="w-100 h-100 object-fit-cover" alt="Preview ${i}">`;
+          } else {
+              let idbKeyAttr = '';
+              if (mediaItem && mediaItem.type === 'indexed_db_ref' && mediaItem.key) {
+                  idbKeyAttr = `data-idb-key="${mediaItem.key}"`;
+              }
+
+              html += `<img src="${BLANK_IMG}" 
                          data-src="${mediaUrl}"
                          ${idbKeyAttr}
                          class="lazy-load-img" 
@@ -1788,20 +1781,21 @@ function renderPostMedia(mediaItems, layout, postId = null) { // Sửa: images -
                          onload="this.classList.add('loaded')"
                          onerror="this.style.display='none'" 
                          alt="Image ${i}">`;
+          }
       }
 
-      // 4. Xử lý lớp phủ số lượng ảnh dư (+5, +3...)
+      // --- 4. LỚP PHỦ SỐ LƯỢNG ẢNH DƯ ---
       if (i === showCount - 1 && count > displayLimit) {
          html += `<div class="image-overlay d-flex align-items-center justify-content-center text-white fw-bold fs-4" 
-                       style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); pointer-events: none;">
+                       style="position: absolute; inset:0; background: rgba(0,0,0,0.5); pointer-events: none;">
                        +${count - displayLimit}
                   </div>`;
       }
       
-      html += `</div>`;
+      html += `</div>`; // Đóng .img-box
    }
    
-   html += '</div>';
+   html += '</div>'; // Đóng .post-image-grid
    return html;
 }
 
@@ -1813,6 +1807,7 @@ function createPostHtml(post) {
    // 1. Xử lý thông tin người dùng
    const displayName = post.fullname || post.username || 'Người dùng';
    
+   // Parse ảnh: Hỗ trợ cả mảng JSON lẫn mảng thường
    let mediaItems = [];
    try {
        mediaItems = parseMedia(post.imageData);
