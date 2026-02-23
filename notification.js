@@ -436,18 +436,18 @@ async function handleNotificationClick(notifId) {
 }
 
 // --- 9. HÀM: XỬ LÝ SWIPE (VUỐT THÔNG BÁO) ---
-window.handleSwipeAction = async function(notifId, action) {
-    // [QUAN TRỌNG] Ngăn sự kiện click truyền xuyên xuống dưới
-    if (event) {
-        event.preventDefault();
-        event.stopPropagation();
+window.handleSwipeAction = async function(notifId, action, currentEvent) {
+    // 1. Chặn click lọt xuống bài viết
+    if (currentEvent) {
+        currentEvent.preventDefault();
+        currentEvent.stopPropagation();
     }
 
-    // Khóa mở bài viết trong 300ms để đảm bảo an toàn tuyệt đối
     window.isSwiping = true;
     setTimeout(() => { window.isSwiping = false; }, 300);
-	
-	const contentBox = document.querySelector(`#notif-wrap-${notifId} .notification-content-box`);
+    
+    // 2. Kéo thông báo đóng lại ngay lập tức
+    const contentBox = document.querySelector(`#notif-wrap-${notifId} .notification-content-box`);
     if (contentBox) contentBox.style.transform = 'translateX(0)';
 
     if (action === 'delete') {
@@ -461,29 +461,27 @@ window.handleSwipeAction = async function(notifId, action) {
     if (action === 'read' || action === 'unread') {
         const isReading = (action === 'read'); 
         
-        // 1. CẬP NHẬT GIAO DIỆN CHẤM ĐỎ NGAY LẬP TỨC
+        // 3. CẬP NHẬT GIAO DIỆN CHẤM ĐỎ NGAY LẬP TỨC
         if (contentBox) {
             let dotContainer = contentBox.querySelector('.notification-dot');
             
             if (isReading) {
-                // ĐÁNH DẤU ĐÃ ĐỌC: Bỏ in đậm và ép ẩn chấm đỏ
+                // ĐÁNH DẤU ĐÃ ĐỌC
                 contentBox.classList.remove('fw-semibold');
                 if (dotContainer) {
                     dotContainer.className = "notification-dot ms-auto me-2 d-none";
                     dotContainer.style.setProperty('display', 'none', 'important');
                 }
             } else {
-                // ĐÁNH DẤU CHƯA ĐỌC: Thêm in đậm và hiện chấm đỏ
+                // ĐÁNH DẤU CHƯA ĐỌC
                 contentBox.classList.add('fw-semibold');
                 
                 if (!dotContainer) {
-                    // CỨU CÁNH: Nếu thẻ chấm đỏ chưa từng tồn tại trong HTML, ta đẻ ra thẻ mới gắn vào góc phải
                     const flexBox = contentBox.querySelector('.d-flex.align-items-center');
                     if (flexBox) {
                         flexBox.insertAdjacentHTML('beforeend', '<div class="notification-dot ms-auto me-2 bg-danger rounded-circle" style="width: 8px; height: 8px; flex-shrink: 0; display: block !important;"></div>');
                     }
                 } else {
-                    // Nếu đã có thẻ ẩn, ta xóa class d-none và ép nó hiện lên
                     dotContainer.className = "notification-dot ms-auto me-2 bg-danger rounded-circle";
                     dotContainer.style.setProperty('display', 'block', 'important');
                     dotContainer.style.width = "8px";
@@ -492,28 +490,28 @@ window.handleSwipeAction = async function(notifId, action) {
             }
         }
 
-        // 2. CẬP NHẬT TRẠNG THÁI NÚT VUỐT BÊN DƯỚI
+        // 4. [SỬA LỖI TRIỆT ĐỂ]: XÓA NÚT CŨ, THAY BẰNG NÚT MỚI TINH
         const actionBtn = document.querySelector(`#notif-wrap-${notifId} .btn-toggle-read`);
         if (actionBtn) {
-            // Cập nhật màu và Icon
-            actionBtn.className = `notif-action-btn btn-toggle-read ${isReading ? 'bg-secondary' : 'bg-success'} text-white`;
-            actionBtn.innerHTML = `<i class="bi bi-${isReading ? 'envelope-fill' : 'envelope-open'}"></i>`;
+            const nextAction = isReading ? 'unread' : 'read';
+            const nextColor = isReading ? 'bg-secondary' : 'bg-success';
+            const nextIcon = isReading ? 'envelope-fill' : 'envelope-open';
             
-            // [SỬA LỖI TẠI ĐÂY] Gắn thẳng hàm vào bộ nhớ thay vì dùng setAttribute
-            actionBtn.removeAttribute('onclick'); // Xóa lệnh cũ trên HTML
-            actionBtn.onclick = function(e) {
-                // Gắn lệnh mới chuẩn xác 100%
-                handleSwipeAction(notifId, isReading ? 'unread' : 'read', e);
-            };
+            // Dùng outerHTML để thay máu hoàn toàn phần tử này.
+            // Nhờ đó HTML và sự kiện onclick luôn là một bản thể mới, không bao giờ bị kẹt lại lỗi cũ.
+            actionBtn.outerHTML = `
+                <button class="notif-action-btn btn-toggle-read ${nextColor} text-white" onclick="handleSwipeAction('${notifId}', '${nextAction}', event)">
+                    <i class="bi bi-${nextIcon}"></i>
+                </button>
+            `;
         }
 
-        // 3. CẬP NHẬT RAM & GỬI API SERVER
+        // 5. CẬP NHẬT RAM & GỬI API SERVER
         if (typeof serverNotifications !== 'undefined') {
             const notif = serverNotifications.find(n => n.__backendId === notifId);
             if (notif) notif.isRead = isReading;
         }
         
-        // Cập nhật thêm cả mảng allData để đồng bộ tuyệt đối
         if (typeof allData !== 'undefined') {
             const n2 = allData.find(x => x.__backendId === notifId);
             if (n2) n2.isRead = isReading;
@@ -522,7 +520,7 @@ window.handleSwipeAction = async function(notifId, action) {
         if (typeof syncUnreadCount === 'function') syncUnreadCount(); 
         
         try {
-            await sendToServer({ action: 'notification_action', type: 'toggle_read', id: notifId, status: isReading });
+            sendToServer({ action: 'notification_action', type: 'toggle_read', id: notifId, status: isReading }).catch(e=>e);
         } catch (e) {
             console.error("Lỗi đồng bộ đọc/chưa đọc:", e);
         }
