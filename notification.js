@@ -7,9 +7,9 @@ document.getElementById('mark-all-read').addEventListener('click', async () => {
    unreadItems.forEach(el => {
       el.classList.remove('fw-semibold');
       const dot = el.querySelector('.notification-dot');
-      if (dot) {
-          dot.className = "notification-dot ms-auto me-2"; 
-          dot.style.setProperty('display', 'none', 'important'); 
+      if (dot) { 
+          dot.className = "notification-dot ms-auto me-2 d-none"; 
+          dot.style = "width: 8px; height: 8px; flex-shrink: 0;";
       }
       
       const wrap = el.closest('.notification-swipe-wrapper');
@@ -150,9 +150,8 @@ function renderNotificationsPaged(newNotifs, container) {
       const isReadState = String(notif.isRead).toLowerCase() === 'true' || notif.isRead === 1;
       const fwClass = isReadState ? '' : 'fw-semibold'; 
       
-      const dotHtml = isReadState ? '':
-         `<div class="notification-dot ms-auto me-2 bg-danger rounded-circle" style="width: 8px; height: 8px; flex-shrink: 0;"></div>`;
-
+      // Luôn giữ thẻ Div ở góc phải để duy trì cấu trúc, dùng class 'd-none' để ẩn nếu đã đọc
+      const dotHtml = `<div class="notification-dot ms-auto me-2 ${isReadState ? 'd-none' : 'bg-danger rounded-circle'}" style="width: 8px; height: 8px; flex-shrink: 0;"></div>`;
       const toggleAction = isReadState ? 'unread' : 'read'; 
       const toggleIcon = isReadState ? 'envelope-fill' : 'envelope-open';
       const toggleColor = isReadState ? 'bg-secondary' : 'bg-success';
@@ -365,7 +364,11 @@ async function handleNotificationClick(notifId) {
    if (el && el.classList.contains('fw-semibold')) {
       el.classList.remove('fw-semibold');
       const dot = el.querySelector('.notification-dot');
-      if (dot) dot.style.setProperty('display', 'none', 'important'); 
+      if (dot) {
+          // Chỉ thêm class d-none để ẩn, giữ nguyên vị trí
+          dot.className = "notification-dot ms-auto me-2 d-none";
+          dot.style = "width: 8px; height: 8px; flex-shrink: 0;";
+      }
 
       if (typeof serverNotifications !== 'undefined') {
           const n = serverNotifications.find(x => x.__backendId === notifId);
@@ -458,35 +461,62 @@ window.handleSwipeAction = async function(notifId, action) {
     if (action === 'read' || action === 'unread') {
         const isReading = (action === 'read'); 
         
+        // 1. CẬP NHẬT GIAO DIỆN CHẤM ĐỎ NGAY LẬP TỨC
         if (contentBox) {
-            const dotContainer = contentBox.querySelector('.notification-dot');
+            let dotContainer = contentBox.querySelector('.notification-dot');
+            
             if (isReading) {
+                // ĐÁNH DẤU ĐÃ ĐỌC: Bỏ in đậm và ép ẩn chấm đỏ
                 contentBox.classList.remove('fw-semibold');
                 if (dotContainer) {
-                    dotContainer.className = "notification-dot ms-auto me-2";
+                    dotContainer.className = "notification-dot ms-auto me-2 d-none";
                     dotContainer.style.setProperty('display', 'none', 'important');
                 }
             } else {
+                // ĐÁNH DẤU CHƯA ĐỌC: Thêm in đậm và hiện chấm đỏ
                 contentBox.classList.add('fw-semibold');
-                if (dotContainer) {
+                
+                if (!dotContainer) {
+                    // CỨU CÁNH: Nếu thẻ chấm đỏ chưa từng tồn tại trong HTML, ta đẻ ra thẻ mới gắn vào góc phải
+                    const flexBox = contentBox.querySelector('.d-flex.align-items-center');
+                    if (flexBox) {
+                        flexBox.insertAdjacentHTML('beforeend', '<div class="notification-dot ms-auto me-2 bg-danger rounded-circle" style="width: 8px; height: 8px; flex-shrink: 0; display: block !important;"></div>');
+                    }
+                } else {
+                    // Nếu đã có thẻ ẩn, ta xóa class d-none và ép nó hiện lên
                     dotContainer.className = "notification-dot ms-auto me-2 bg-danger rounded-circle";
-                    dotContainer.style.display = 'block';
+                    dotContainer.style.setProperty('display', 'block', 'important');
                     dotContainer.style.width = "8px";
                     dotContainer.style.height = "8px";
                 }
             }
         }
 
+        // 2. CẬP NHẬT TRẠNG THÁI NÚT VUỐT BÊN DƯỚI
         const actionBtn = document.querySelector(`#notif-wrap-${notifId} .btn-toggle-read`);
         if (actionBtn) {
+            // Cập nhật màu và Icon
             actionBtn.className = `notif-action-btn btn-toggle-read ${isReading ? 'bg-secondary' : 'bg-success'} text-white`;
             actionBtn.innerHTML = `<i class="bi bi-${isReading ? 'envelope-fill' : 'envelope-open'}"></i>`;
-            actionBtn.setAttribute('onclick', `handleSwipeAction('${notifId}', '${isReading ? 'unread' : 'read'}')`);
+            
+            // [SỬA LỖI TẠI ĐÂY] Gắn thẳng hàm vào bộ nhớ thay vì dùng setAttribute
+            actionBtn.removeAttribute('onclick'); // Xóa lệnh cũ trên HTML
+            actionBtn.onclick = function(e) {
+                // Gắn lệnh mới chuẩn xác 100%
+                handleSwipeAction(notifId, isReading ? 'unread' : 'read', e);
+            };
         }
 
+        // 3. CẬP NHẬT RAM & GỬI API SERVER
         if (typeof serverNotifications !== 'undefined') {
             const notif = serverNotifications.find(n => n.__backendId === notifId);
             if (notif) notif.isRead = isReading;
+        }
+        
+        // Cập nhật thêm cả mảng allData để đồng bộ tuyệt đối
+        if (typeof allData !== 'undefined') {
+            const n2 = allData.find(x => x.__backendId === notifId);
+            if (n2) n2.isRead = isReading;
         }
 
         if (typeof syncUnreadCount === 'function') syncUnreadCount(); 
