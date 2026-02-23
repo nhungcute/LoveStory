@@ -1,75 +1,41 @@
  
-function updateNotificationBadge() {
-   const notifications = allData.filter(d => d.type === 'notification');
-   const unreadCount = notifications.filter(n => !n.isRead).length;
-   const badge = document.getElementById('notification-badge');
 
-   if (unreadCount > 0) {
-      badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
-      badge.classList.remove('d-none');
-   } else {
-      badge.classList.add('d-none');
-   }
-}
-
-function renderNotifications() {
-   const notifications = allData.filter(d => d.type === 'notification').sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-   const container = document.getElementById('notifications-list');
-
-   if (notifications.length === 0) {
-      container.innerHTML = `
-      			  <div class="text-center py-5">
-      				<i class="bi bi-bell-slash theme-text-primary" style="font-size: 4rem;"></i>
-      				<p class="fw-semibold fs-5 mt-3">Chưa có thông báo</p>
-      				<p class="text-muted">Các thông báo mới sẽ hiển thị ở đây</p>
-      			  </div>
-      			`;
-      return;
-   }
-
-   container.innerHTML = notifications.map(notif => {
-      const iconMap = {
-         like: 'heart-fill text-danger',
-         comment: 'chat-fill text-primary',
-         system: 'info-circle-fill theme-text-primary'
-      };
-
-      const icon = iconMap[notif.notifType] || iconMap.system;
-
-      return `
-      			  <div class="notification-item p-2 ${notif.isRead ? '' : 'unread'}" data-id="${notif.__backendId}">
-      				<div class="d-flex align-items-start">
-      				  <div class="me-3">
-      					<i class="bi bi-${icon} fs-6"></i>
-      				  </div>
-      				  <div class="flex-grow-1">
-      					<p class="mb-1 fw-semibold">${notif.title}</p>
-      					<p class="mb-1 text-muted small">${notif.message}</p>
-      					<small class="text-muted">${formatDate(notif.createdAt)}</small>
-      				  </div>
-      				  ${!notif.isRead ? '<div class="notification-dot ms-2"></div>' : ''}
-      				  <button class="btn btn-sm btn-link text-danger delete-notification" data-id="${notif.__backendId}">
-      					<i class="bi bi-x-lg"></i>
-      				  </button>
-      				</div>
-      			  </div>
-      			`;
-   }).join('');
-}
-
-
-// Notifications
+// --- 1. NÚT: ĐÁNH DẤU TẤT CẢ ĐÃ ĐỌC ---
 document.getElementById('mark-all-read').addEventListener('click', async () => {
-   const unreadItems = document.querySelectorAll('.notification-content-box.unread');
+   const unreadItems = document.querySelectorAll('.notification-content-box.fw-semibold');
+   
    unreadItems.forEach(el => {
-      el.classList.remove('unread');
+      el.classList.remove('fw-semibold');
       const dot = el.querySelector('.notification-dot');
-      if (dot) dot.remove();
+      if (dot) {
+          dot.className = "notification-dot ms-auto me-2"; 
+          dot.style.setProperty('display', 'none', 'important'); 
+      }
+      
+      const wrap = el.closest('.notification-swipe-wrapper');
+      if (wrap) {
+          const swipeBtn = wrap.querySelector('.btn-toggle-read');
+          if (swipeBtn) {
+              swipeBtn.className = "notif-action-btn btn-toggle-read bg-secondary text-white";
+              swipeBtn.innerHTML = '<i class="bi bi-envelope-fill"></i>';
+          }
+      }
    });
+
    const badge = document.getElementById('notification-badge');
    if (badge) badge.classList.add('d-none');
 
+   if (typeof serverNotifications !== 'undefined' && serverNotifications.length > 0) {
+       serverNotifications.forEach(n => n.isRead = true);
+   }
+   if (typeof allData !== 'undefined' && allData.length > 0) {
+       allData.forEach(n => {
+           if (n.type === 'notification') n.isRead = true;
+       });
+   }
+
    showToast('Đã đánh dấu tất cả đã đọc');
+     
    try {
       await sendToServer({
          action: 'notification_action',
@@ -80,23 +46,26 @@ document.getElementById('mark-all-read').addEventListener('click', async () => {
    }
 });
 
-// 2. Nút Xóa tất cả thông báo
-document.getElementById('clear-all-notifications').addEventListener('click', async () => {
+// --- 2. NÚT: XÓA TẤT CẢ THÔNG BÁO ---
+document.getElementById('clear-all-notifications').addEventListener('click', () => {
    showDeleteConfirm('Bạn có chắc muốn xóa sạch lịch sử thông báo không?', null, 'all-notifications');
 });
 
-
-// --- XỬ LÝ NÚT CHUÔNG
+// --- 3. NÚT CHUÔNG: MỞ MODAL THÔNG BÁO ---
 document.getElementById('notification-btn').addEventListener('click', () => {
-   closeAllModals();
-   notificationsModal.show();
-   // 1. Ẩn badge đỏ ngay (UI phản hồi tức thì)
+   if (typeof closeAllModals === 'function') closeAllModals();
+   
+   const modalEl = document.getElementById('notificationsModal');
+   if (modalEl) bootstrap.Modal.getOrCreateInstance(modalEl).show();
+   
    const badge = document.getElementById('notification-badge');
-   badge.classList.add('d-none');
-   badge.textContent = '0';
+   if (badge) {
+      badge.classList.add('d-none');
+      badge.textContent = '0';
+   }
+   
    const container = document.getElementById('notifications-list');
-   // 2. KIỂM TRA & HIỂN THỊ DỮ LIỆU TỪ CACHE
-   if (serverNotifications.length > 0) {
+   if (typeof serverNotifications !== 'undefined' && serverNotifications.length > 0) {
       container.innerHTML = '';
       renderNotificationsPaged(serverNotifications, container);
    } else {
@@ -105,27 +74,21 @@ document.getElementById('notification-btn').addEventListener('click', () => {
    loadNotifications(1, true);
 });
 
-// --- HÀM TẢI THÔNG BÁO TỪ SERVER
+// --- 4. HÀM: TẢI THÔNG BÁO TỪ SERVER ---
 async function loadNotifications(page, forceRender = false) {
     if (notifLoading) return;
 
     const container = document.getElementById('notifications-list');
-     
     const isModalVisible = document.getElementById('notificationsModal').classList.contains('show');
     const shouldRender = isModalVisible || forceRender;
 
-    // Logic hiển thị spinner khi chưa có dữ liệu (giữ nguyên của bạn)
     if (shouldRender && page === 1 && (!serverNotifications || serverNotifications.length === 0)) {
        container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
     }
  
     notifLoading = true;
     try {
-       const res = await sendToServer({
-          action: 'get_notifications',
-          page: page,
-          limit: 10
-       });
+       const res = await sendToServer({ action: 'get_notifications', page: page, limit: 10 });
  
        if (res.status === 'success') {
           notifHasMore = res.hasMore;
@@ -137,16 +100,13 @@ async function loadNotifications(page, forceRender = false) {
              serverNotifications = serverNotifications.concat(newData);
           }
  
-          // [FIX]: Sử dụng biến shouldRender thay vì isModalVisible
           if (shouldRender) {
              if (page === 1) {
-                container.innerHTML = ''; // Xóa Spinner cũ đi
+                container.innerHTML = ''; 
              } else {
                 const oldTrigger = document.getElementById('notif-load-more');
                 if (oldTrigger) oldTrigger.remove();
              }
-             
-             // Hàm này sẽ tự lo việc vẽ "Không có thông báo" nếu mảng rỗng
              renderNotificationsPaged(newData, container);
           }
        }
@@ -156,23 +116,20 @@ async function loadNotifications(page, forceRender = false) {
     } finally {
        notifLoading = false;
     }
- }
+}
 
-// --- HÀM RENDER THÔNG BÁO
+// --- 5. HÀM: RENDER HTML THÔNG BÁO ---
 function renderNotificationsPaged(newNotifs, container) {
-   // 1. [CHECK RỖNG] Kiểm tra biến toàn cục serverNotifications
    if (!serverNotifications || serverNotifications.length === 0) {
       container.innerHTML = `
             <div class="d-flex flex-column align-items-center justify-content-center py-5">
                 <i class="bi bi-bell-slash text-muted" style="font-size: 3rem; opacity: 0.5;"></i>
                 <p class="fw-semibold mt-3 text-muted">Không có thông báo nào</p>
             </div>`;
-      return; // Dừng hàm ngay tại đây
+      return;
    }
 
-   // 2. Render danh sách
    const html = newNotifs.map(notif => {
-      // Logic Icon (Giữ nguyên của bạn)
       const iconMap = {
          like: 'heart-fill text-danger',
          comment: 'chat-fill text-primary',
@@ -190,35 +147,35 @@ function renderNotificationsPaged(newNotifs, container) {
          else iconClass = iconMap[notif.action] || iconMap.system;
       }
 
-      // Logic chấm đỏ chưa đọc
-      const dotHtml = !notif.isRead ?
-         `<div class="notification-dot ms-auto me-2 bg-primary rounded-circle" style="width: 8px; height: 8px; flex-shrink: 0;"></div>` :
-         `<div class="ms-auto me-2"></div>`;
+      const isReadState = String(notif.isRead).toLowerCase() === 'true' || notif.isRead === 1;
+      const fwClass = isReadState ? '' : 'fw-semibold'; 
+      
+      const dotHtml = isReadState ? '':
+         `<div class="notification-dot ms-auto me-2 bg-danger rounded-circle" style="width: 8px; height: 8px; flex-shrink: 0;"></div>`;
+
+      const toggleAction = isReadState ? 'unread' : 'read'; 
+      const toggleIcon = isReadState ? 'envelope-fill' : 'envelope-open';
+      const toggleColor = isReadState ? 'bg-secondary' : 'bg-success';
 
       const relatedPostId = notif.relatedId || notif.postId || '';
-      
-      // Xử lý an toàn cho hàm formatTime
-      const timeStr = (typeof formatTimeSmart === 'function') 
-            ? formatTimeSmart(notif.createdAt) 
-            : notif.formattedTime || 'Vừa xong';
+      const timeStr = (typeof formatTimeSmart === 'function') ? formatTimeSmart(notif.createdAt) : notif.formattedTime || 'Vừa xong';
 
       return `
-            <div class="notification-swipe-wrapper list-group-item border-0 border-bottom p-0" id="notif-wrap-${notif.__backendId}">
+            <div class="notification-swipe-wrapper list-group-item border-0 p-0" id="notif-wrap-${notif.__backendId}">
                 <div class="notification-actions">
-                    <button class="notif-action-btn btn-mark-unread bg-secondary text-white" onclick="handleSwipeAction('${notif.__backendId}', 'unread')">
-                        <i class="bi bi-envelope"></i>
+                    <button class="notif-action-btn btn-toggle-read ${toggleColor} text-white" onclick="handleSwipeAction('${notif.__backendId}', '${toggleAction}', event)">
+                        <i class="bi bi-${toggleIcon}"></i>
                     </button>
-                    <button class="notif-action-btn btn-delete-swipe bg-danger text-white" onclick="handleSwipeAction('${notif.__backendId}', 'delete')">
+                    <button class="notif-action-btn btn-delete-swipe bg-danger text-white" onclick="handleSwipeAction('${notif.__backendId}', 'delete', event)">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
-
-                <div class="notification-content-box p-3 bg-white w-100 ${notif.isRead ? '' : 'fw-semibold'}" 
+                
+                <div class="notification-content-box p-3 bg-white w-100 border-bottom ${fwClass}" 
                      style="position: relative; z-index: 2;"
                      data-id="${notif.__backendId}" 
                      data-post-id="${relatedPostId}"
                      onclick="if(typeof isSwiping !== 'undefined' && !isSwiping) handleNotificationClick('${notif.__backendId}')">
-                    
                     <div class="d-flex align-items-center pointer-event-none">
                         <div class="me-3 position-relative">
                              <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
@@ -240,12 +197,9 @@ function renderNotificationsPaged(newNotifs, container) {
         `;
    }).join('');
 
-   // 3. Chèn HTML vào container
-   // Lưu ý: Dùng insertAdjacentHTML để không bị mất dữ liệu cũ khi load thêm trang 2, 3
    container.insertAdjacentHTML('beforeend', html);
 
-   // 4. Logic Load More (Lazy Load)
-   if (notifHasMore) {
+   if (typeof notifHasMore !== 'undefined' && notifHasMore) {
       const trigger = document.createElement('div');
       trigger.id = 'notif-load-more';
       trigger.className = 'py-3 text-center text-muted small';
@@ -253,126 +207,83 @@ function renderNotificationsPaged(newNotifs, container) {
       container.appendChild(trigger);
 
       const observer = new IntersectionObserver((entries) => {
-         if (entries[0].isIntersecting && !notifLoading) {
-            notifPage++; // Biến toàn cục quản lý số trang
+         if (entries[0].isIntersecting && typeof notifLoading !== 'undefined' && !notifLoading) {
+            notifPage++; 
             loadNotifications(notifPage);
          }
       }, { threshold: 0.1 });
       observer.observe(trigger);
-   } else if (serverNotifications.length > 5) {
+   } else if (serverNotifications && serverNotifications.length > 5) {
       container.insertAdjacentHTML('beforeend', '<div class="text-center py-4 text-muted small bg-light mt-2">--- Hết thông báo ---</div>');
    }
 }
 
-
+// --- 6. HÀM: CONFIRM XÓA (Tổng hợp nhiều loại) ---
 document.getElementById('confirm-delete').addEventListener('click', async () => {
    if (!pendingDeleteId && pendingDeleteType !== 'all-notifications') {
-      deleteConfirmModal.hide();
+      const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
+      if(modal) modal.hide();
       return;
    }
-   // TRƯỜNG HỢP 1: XÓA BÀI VIẾT (POST) -> CẬP NHẬT LẠC QUAN
+   
    if (pendingDeleteType === 'post') {
       const postId = pendingDeleteId;
       const postEl = document.getElementById(`post-${postId}`);
-      deleteConfirmModal.hide();
-      // 2. Backup dữ liệu (để hoàn tác nếu lỗi)
+      bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
+      
       const originalFeedData = [...serverFeedData];
       const postIndex = serverFeedData.findIndex(p => p.__backendId === postId);
-      if (postIndex > -1) {
-         serverFeedData.splice(postIndex, 1);
-      }
-      // B. Tạo hiệu ứng biến mất trên giao diện
+      if (postIndex > -1) serverFeedData.splice(postIndex, 1);
+      
       if (postEl) {
          postEl.style.transition = "all 0.4s ease-out";
          postEl.style.opacity = "0";
          postEl.style.transform = "translateX(50px)";
          postEl.style.height = postEl.offsetHeight + 'px';
-
          setTimeout(() => {
             postEl.style.height = '0';
             postEl.style.margin = '0';
             postEl.style.padding = '0';
             postEl.style.overflow = 'hidden';
-
             setTimeout(() => {
                postEl.remove();
-               if (serverFeedData.length === 0) 
-				   renderPosts();
+               if (serverFeedData.length === 0) renderPosts();
             }, 200);
          }, 400);
       }
-
       showToast('Đã xóa bài viết');
-
-      // 4. Gửi Server (Chạy ngầm)
       try {
-         const res = await sendToServer({
-            action: 'feed_action',
-            type: 'delete',
-            id: postId
-         });
-
-         if (res.status !== 'success') {
-            throw new Error(res.message || 'Lỗi từ server');
-         }
+         const res = await sendToServer({ action: 'feed_action', type: 'delete', id: postId });
+         if (res.status !== 'success') throw new Error(res.message || 'Lỗi từ server');
       } catch (e) {
-         console.error("Lỗi xóa post:", e);
-         // 5. Hoàn tác nếu lỗi
          showToast('Lỗi kết nối! Đang khôi phục bài viết...');
          serverFeedData = originalFeedData;
          renderPosts();
       }
-
-      // Reset biến tạm
-      pendingDeleteId = null;
-      pendingDeleteType = null;
-      return;
+      pendingDeleteId = null; pendingDeleteType = null; return;
    }
-   // TRƯỜNG HỢP 2: XÓA TẤT CẢ THÔNG BÁO 
+   
    if (pendingDeleteType === 'all-notifications') {
       const list = document.getElementById('notifications-list');
       const originalContent = list.innerHTML;
-
-      // 1. UI Lạc quan (Xóa ngay)
-      list.innerHTML = `
-      				  <div class="text-center py-5">
-      					<i class="bi bi-bell-slash theme-text-primary" style="font-size: 3rem;"></i>
-      					<p class="fw-semibold mt-3">Chưa có thông báo</p>
-      				  </div>
-      				`;
+      list.innerHTML = `<div class="text-center py-5"><i class="bi bi-bell-slash theme-text-primary" style="font-size: 3rem;"></i><p class="fw-semibold mt-3">Chưa có thông báo</p></div>`;
       document.getElementById('notification-badge').classList.add('d-none');
       showToast('Đã xóa tất cả thông báo');
-
-      // 2. Đóng Modal
-      deleteConfirmModal.hide();
-
-      // 3. Gửi Server
+      bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
       try {
-         const res = await sendToServer({
-            action: 'notification_action',
-            type: 'delete_all'
-         });
+         const res = await sendToServer({ action: 'notification_action', type: 'delete_all' });
          if (res.status === 'success') serverNotifications = [];
       } catch (e) {
-         console.error(e);
          showToast('Lỗi kết nối! Đang hoàn tác...');
          list.innerHTML = originalContent;
       }
-
-      // Reset biến tạm
-      pendingDeleteId = null;
-      pendingDeleteType = null;
-      return;
+      pendingDeleteId = null; pendingDeleteType = null; return;
    }
-   // TRƯỜNG HỢP 3: XÓA BÌNH LUẬN (COMMENT)
+   
    if (pendingDeleteType === 'comment') {
       const cmtId = pendingDeleteId;
       const commentItem = document.getElementById(`comment-${cmtId}`);
-
-      // 1. Đóng Modal
-      deleteConfirmModal.hide();
-
-      // 2. UI Lạc quan: Ẩn comment ngay lập tức
+      bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
       if (commentItem) {
          commentItem.style.transition = "all 0.3s ease";
          commentItem.style.opacity = "0";
@@ -381,103 +292,60 @@ document.getElementById('confirm-delete').addEventListener('click', async () => 
          commentItem.style.padding = "0";
          setTimeout(() => commentItem.remove(), 300);
       }
-
-      // 3. Gửi Server (Chạy ngầm)
       try {
-         const res = await sendToServer({
-            action: 'comment_action',
-            type: 'delete',
-            commentId: cmtId,
-            username: currentProfile.username
-         });
-
-         if (res.status !== 'success') {
-            throw new Error("Lỗi từ server");
-         }
+         const res = await sendToServer({ action: 'comment_action', type: 'delete', commentId: cmtId, username: currentProfile.username });
+         if (res.status !== 'success') throw new Error("Lỗi từ server");
       } catch (e) {
-         console.error(e);
          showToast('Không thể xóa bình luận! Đang khôi phục...');
-         // Nếu lỗi thì vẽ lại comment (hoặc reload) - ở đây reload cho đơn giản
-         if (currentPostId) loadCommentsForPost(currentPostId);
+         if (typeof currentPostId !== 'undefined') loadCommentsForPost(currentPostId);
       }
-
-      // Reset biến tạm
-      pendingDeleteId = null;
-      pendingDeleteType = null;
-      return;
+      pendingDeleteId = null; pendingDeleteType = null; return;
    }
 
-   // [THÊM MỚI] XÓA 1 THÔNG BÁO RIÊNG LẺ
    if (pendingDeleteType === 'notification_single') {
       const notifId = pendingDeleteId;
       const wrapBox = document.getElementById(`notif-wrap-${notifId}`);
-
-      // 1. Đóng Modal
-      deleteConfirmModal.hide();
-
-      // 2. UI Lạc quan: Ẩn dòng thông báo đi
+      bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
       if (wrapBox) {
          wrapBox.style.transition = 'height 0.3s, opacity 0.3s';
          wrapBox.style.height = '0px';
          wrapBox.style.opacity = '0';
          setTimeout(() => wrapBox.remove(), 300);
       }
-
-      // 3. Xóa khỏi Cache cục bộ (để nếu đóng mở lại không bị hiện lại)
       const idx = serverNotifications.findIndex(n => n.__backendId === notifId);
       if (idx > -1) serverNotifications.splice(idx, 1);
-
-      // 4. Gửi Server
       try {
          await sendToServer({ action: 'notification_action', type: 'delete_one', id: notifId });
       } catch (e) {
-         console.error("Lỗi xóa notification:", e);
          showToast('Lỗi kết nối!');
-         // Nếu muốn kỹ tính: Reload lại danh sách thông báo để khôi phục
       }
-
-      // Reset biến tạm
-      pendingDeleteId = null;
-      pendingDeleteType = null;
-      return;
+      pendingDeleteId = null; pendingDeleteType = null; return;
    }
-   // TRƯỜNG HỢP 4: CÁC LOẠI KHÁC -> LOGIC CŨ (Loading)
+   
    showLoading();
-
    try {
       const item = allData.find(d => d.__backendId === pendingDeleteId);
       if (item) await window.dataSdk.delete(item);
       showToast('Đã xóa!');
-
    } catch (e) {
-      console.error(e);
       showToast('Lỗi khi xóa!');
    } finally {
       hideLoading();
-      deleteConfirmModal.hide();
-      pendingDeleteId = null;
-      pendingDeleteType = null;
+      bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
+      pendingDeleteId = null; pendingDeleteType = null;
    }
 });
 
-
-// --- 1. THÊM HÀM ĐỒNG BỘ SỐ LƯỢNG CHƯA ĐỌC ---
+// --- 7. HÀM: ĐỒNG BỘ SỐ LƯỢNG CHƯA ĐỌC LÊN CHUÔNG ---
 async function syncUnreadCount() {
    try {
-      const res = await sendToServer({
-         action: 'get_unread_count'
-      });
-
+      const res = await sendToServer({ action: 'get_unread_count' });
       if (res.status === 'success') {
          const badge = document.getElementById('notification-badge');
          const count = res.count;
-
          if (count > 0) {
-            // Nếu > 99 thì hiện 99+ cho gọn
             badge.textContent = count > 99 ? '99+' : count;
             badge.classList.remove('d-none');
-
-            // Hiệu ứng rung nhẹ để gây chú ý
             badge.style.animation = "none";
             setTimeout(() => badge.style.animation = "heartBeat 0.5s", 10);
          } else {
@@ -489,115 +357,188 @@ async function syncUnreadCount() {
    }
 }
 
-
-// --- HÀM CLICK: ĐỌC THÔNG BÁO & MỞ BÀI VIẾT 
+// --- 8. HÀM: CLICK VÀO 1 THÔNG BÁO -> MỞ BÀI VIẾT ---
 async function handleNotificationClick(notifId) {
-   console.log("Click notif:", notifId);
-
-   // 1. Tìm phần tử trong DOM để lấy thông tin
    const el = document.querySelector(`#notif-wrap-${notifId} .notification-content-box`);
-
-   // Lấy ID bài viết từ data attribute
    const postId = el ? el.getAttribute('data-post-id') : null;
-   console.log("Target Post ID:", postId);
 
-   // 2. UI LẠC QUAN: Đánh dấu là đã đọc ngay lập tức (đổi màu nền)
-   if (el && el.classList.contains('unread')) {
-      handleSwipeAction(notifId, 'read');
+   if (el && el.classList.contains('fw-semibold')) {
+      el.classList.remove('fw-semibold');
+      const dot = el.querySelector('.notification-dot');
+      if (dot) dot.style.setProperty('display', 'none', 'important'); 
+
+      if (typeof serverNotifications !== 'undefined') {
+          const n = serverNotifications.find(x => x.__backendId === notifId);
+          if (n) n.isRead = true; 
+      }
+
+      if (typeof handleSwipeAction === 'function') {
+          handleSwipeAction(notifId, 'read');
+      } else {
+          sendToServer({ action: 'notification_action', type: 'toggle_read', id: notifId, status: true }).catch(e=>e);
+      }
    }
 
-   // 3. KIỂM TRA DỮ LIỆU
-   if (!postId || postId === 'undefined' || postId === 'null' || postId === '') {
-      return;
-   }
+   if (!postId || postId === 'undefined' || postId === 'null' || postId === '') return;
 
-   // --- BẮT ĐẦU QUY TRÌNH MỞ BÀI VIẾT ---
-
-   // A. ĐÓNG MODAL THÔNG BÁO (Dùng cách mạnh nhất để đảm bảo đóng được)
    const modalEl = document.getElementById('notificationsModal');
    const modalInstance = bootstrap.Modal.getInstance(modalEl);
-   if (modalInstance) {
-      modalInstance.hide();
-   } else {
-      // Fallback nếu chưa lấy được instance
-      new bootstrap.Modal(modalEl).hide();
-   }
-   // Xóa backdrop (màn hình đen) thủ công nếu nó bị kẹt
+   if (modalInstance) modalInstance.hide();
+   else new bootstrap.Modal(modalEl).hide();
+   
    document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
    document.body.classList.remove('modal-open');
    document.body.style = '';
 
-   // B. CHUYỂN TAB SANG BẢNG TIN (FEED)
    const feedTabBtn = document.querySelector('[data-tab="feed"]');
-   if (feedTabBtn) {
-      feedTabBtn.click();
-   }
+   if (feedTabBtn) feedTabBtn.click();
 
-   // C. TÌM VÀ CUỘN TỚI BÀI VIẾT
    setTimeout(async () => {
       let postEl = document.getElementById(`post-${postId}`);
  
       if (postEl) {
-         // TRƯỜNG HỢP 1: Bài viết ĐANG CÓ trên màn hình -> Cuộn tới
-         console.log("Bài viết đã có sẵn, cuộn tới...");
          postEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-         highlightPost(postEl);
+         if (typeof highlightPost === 'function') highlightPost(postEl);
       } else {
-         // TRƯỜNG HỢP 2: Bài viết KHÔNG CÓ (Bài cũ chưa load tới) -> Tải từ Server
-         console.log("Bài viết chưa có, đang tải từ server...", postId);
          showToast('Đang tải bài viết liên quan...');
-
          try {
-            // Gọi API lấy bài viết cụ thể
-            const res = await sendToServer({
-               action: 'get_feed',
-               postId: postId,
-               page: 1,
-               limit: 1
-            });
-
+            const res = await sendToServer({ action: 'get_feed', postId: postId, page: 1, limit: 1 });
             if (res.status === 'success' && res.data && res.data.length > 0) {
                const postData = res.data[0];
-
-               // Kiểm tra xem đã có chưa (tránh trùng lặp do mạng lag)
                const existIndex = serverFeedData.findIndex(p => p.__backendId === postData.__backendId);
 
                if (existIndex === -1) {
-                  // Chèn vào đầu danh sách dữ liệu Feed
                   serverFeedData.unshift(postData);
-                  // Vẽ lại Bảng tin ngay lập tức
-                  // 1. Nếu đang ở trang chủ thì chèn êm ái
-					if (!currentHashFilter) {
-						// Gọi Sync để nó tự phát hiện bài mới và chèn lên đầu + hiệu ứng fade-in
-						if (typeof smartSyncFeed === 'function') {
-							smartSyncFeed(serverFeedData.slice(0, 5)); 
-						} else {
-							renderPosts(); // Fallback nếu chưa có hàm mới
-						}
-					} else {
-						// Nếu đang lọc hashtag thì vẽ lại
-						renderPosts();
-					}
+                  if (typeof currentHashFilter !== 'undefined' && !currentHashFilter) {
+                        if (typeof smartSyncFeed === 'function') smartSyncFeed(serverFeedData.slice(0, 5)); 
+                        else renderPosts(); 
+                  } else {
+                        renderPosts();
+                  }
                }
 
-               // Đợi 1 chút cho DOM vẽ xong rồi cuộn tới
                setTimeout(() => {
                   const newEl = document.getElementById(`post-${postId}`);
                   if (newEl) {
                      newEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                     highlightPost(newEl);
-                  } else {
-                     showToast('Không thể hiển thị bài viết');
-                  }
+                     if (typeof highlightPost === 'function') highlightPost(newEl);
+                  } else showToast('Không thể hiển thị bài viết');
                }, 500);
-
-            } else {
-               showToast('Bài viết này có thể đã bị xóa');
-            }
+            } else showToast('Bài viết này có thể đã bị xóa');
          } catch (e) {
-            console.error("Lỗi tải bài viết:", e);
             showToast('Lỗi kết nối khi tải bài viết');
          }
       }
    }, 300);
 }
+
+// --- 9. HÀM: XỬ LÝ SWIPE (VUỐT THÔNG BÁO) ---
+window.handleSwipeAction = async function(notifId, action) {
+    // [QUAN TRỌNG] Ngăn sự kiện click truyền xuyên xuống dưới
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    // Khóa mở bài viết trong 300ms để đảm bảo an toàn tuyệt đối
+    window.isSwiping = true;
+    setTimeout(() => { window.isSwiping = false; }, 300);
+	
+	const contentBox = document.querySelector(`#notif-wrap-${notifId} .notification-content-box`);
+    if (contentBox) contentBox.style.transform = 'translateX(0)';
+
+    if (action === 'delete') {
+        pendingDeleteId = notifId;
+        pendingDeleteType = 'notification_single';
+        const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('deleteConfirmModal'));
+        modal.show();
+        return;
+    }
+
+    if (action === 'read' || action === 'unread') {
+        const isReading = (action === 'read'); 
+        
+        if (contentBox) {
+            const dotContainer = contentBox.querySelector('.notification-dot');
+            if (isReading) {
+                contentBox.classList.remove('fw-semibold');
+                if (dotContainer) {
+                    dotContainer.className = "notification-dot ms-auto me-2";
+                    dotContainer.style.setProperty('display', 'none', 'important');
+                }
+            } else {
+                contentBox.classList.add('fw-semibold');
+                if (dotContainer) {
+                    dotContainer.className = "notification-dot ms-auto me-2 bg-danger rounded-circle";
+                    dotContainer.style.display = 'block';
+                    dotContainer.style.width = "8px";
+                    dotContainer.style.height = "8px";
+                }
+            }
+        }
+
+        const actionBtn = document.querySelector(`#notif-wrap-${notifId} .btn-toggle-read`);
+        if (actionBtn) {
+            actionBtn.className = `notif-action-btn btn-toggle-read ${isReading ? 'bg-secondary' : 'bg-success'} text-white`;
+            actionBtn.innerHTML = `<i class="bi bi-${isReading ? 'envelope-fill' : 'envelope-open'}"></i>`;
+            actionBtn.setAttribute('onclick', `handleSwipeAction('${notifId}', '${isReading ? 'unread' : 'read'}')`);
+        }
+
+        if (typeof serverNotifications !== 'undefined') {
+            const notif = serverNotifications.find(n => n.__backendId === notifId);
+            if (notif) notif.isRead = isReading;
+        }
+
+        if (typeof syncUnreadCount === 'function') syncUnreadCount(); 
+        
+        try {
+            await sendToServer({ action: 'notification_action', type: 'toggle_read', id: notifId, status: isReading });
+        } catch (e) {
+            console.error("Lỗi đồng bộ đọc/chưa đọc:", e);
+        }
+    }
+};
+
+// --- 10. HÀM: BẮT SỰ KIỆN CẢM ỨNG (TOUCH) ĐỂ VUỐT TRÊN MOBILE ---
+window.isSwiping = false; 
+let swipeStartX = 0;
+let swipeCurrentX = 0;
+let swipingElement = null;
+
+document.addEventListener('touchstart', e => {
+    // [SỬA LỖI TẠI ĐÂY] Nếu đang bấm vào vùng nút (actions) thì bỏ qua, không thu thẻ về
+    if (e.target.closest('.notification-actions')) {
+        return;
+    }
+
+    const box = e.target.closest('.notification-content-box');
+    if (!box) {
+        document.querySelectorAll('.notification-content-box').forEach(el => el.style.transform = 'translateX(0)');
+        return;
+    }
+    document.querySelectorAll('.notification-content-box').forEach(el => {
+        if (el !== box) el.style.transform = 'translateX(0)';
+    });
+    swipeStartX = e.touches[0].clientX;
+    swipingElement = box;
+    window.isSwiping = false;
+    box.style.transition = 'none'; 
+}, {passive: true});
+
+document.addEventListener('touchmove', e => {
+    if (!swipingElement) return;
+    swipeCurrentX = e.touches[0].clientX;
+    const diffX = swipeCurrentX - swipeStartX;
+    if (Math.abs(diffX) > 10) window.isSwiping = true; 
+    if (diffX < 0 && diffX > -140) swipingElement.style.transform = `translateX(${diffX}px)`;
+}, {passive: true});
+
+document.addEventListener('touchend', e => {
+    if (!swipingElement) return;
+    swipingElement.style.transition = 'transform 0.3s ease-out'; 
+    const diffX = swipeCurrentX - swipeStartX;
+    if (diffX < -50) swipingElement.style.transform = `translateX(-120px)`; 
+    else swipingElement.style.transform = `translateX(0)`;
+    setTimeout(() => { window.isSwiping = false; }, 300);
+    swipingElement = null;
+});

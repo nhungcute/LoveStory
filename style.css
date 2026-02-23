@@ -369,29 +369,54 @@ overflow-anchor: auto;
 .notification-item.unread { background: #e7f3ff; }
 .notification-dot { width: 10px; height: 10px; background-color: #dc3545; border-radius: 50%; display: inline-block; }
 
-/* Swipe Wrapper */
-.notification-swipe-wrapper { position: relative; overflow: hidden; border-bottom: 1px solid #dee2e6; background-color: #fff; }
-.notification-content-box { will-change: transform; transition: transform 0.2s ease-out; }
-.notification-content-box.unread { background-color: #e7f3ff; box-shadow: -1px 0 0 0 #e7f3ff; }
-
-/* Swipe Actions */
-.notification-actions {
-  position: absolute; top: 1px; bottom: 1px; right: 0;
-  display: flex; z-index: 0; opacity: 0; transition: opacity 0.2s;
+/* Swipe Wrapper (Khung chứa ngoài cùng) */
+.notification-swipe-wrapper { 
+    position: relative !important; 
+    overflow: hidden !important; 
+    background-color: #f8f9fa !important; 
+    border: none !important;
 }
-.notification-actions.active { opacity: 1; }
+
+/* Lớp nội dung thông báo - Nằm trên cùng */
+.notification-content-box { 
+    position: relative !important; 
+    z-index: 2 !important; 
+    width: 100%;
+    background-color: #ffffff !important; 
+    will-change: transform; 
+    transition: transform 0.2s ease-out; 
+    border-bottom: 1px solid #dee2e6;
+}
+.notification-content-box.unread { background-color: #e7f3ff !important; box-shadow: -1px 0 0 0 #e7f3ff; }
+
+/* Các nút vuốt (Nằm ẩn ở dưới) */
+.notification-actions {
+    position: absolute !important; 
+    top: 0; 
+    bottom: 0; 
+    right: 0;
+    display: flex; 
+    z-index: 1 !important; /* Nằm dưới nội dung thông báo */
+    opacity: 1 !important; /* Đảm bảo nút luôn hiển thị, không bị tàng hình */
+}
 
 .notif-action-btn {
-  width: 60px; height: 100%; border: none;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  color: white; font-size: 0.75rem; cursor: pointer;
+    width: 60px; 
+    height: 100%; 
+    border: none;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    color: white; 
+    font-size: 1.25rem !important; 
+    cursor: pointer;
 }
 .notif-action-btn i { font-size: 1.3rem !important; }
 
 .btn-mark-read { background-color: #096f40; }
 .btn-mark-unread { background-color: #0768f5; }
 .btn-delete-swipe { background-color: #ff1f34; }
-
 /* =========================================
    8. INTERACTIVE (PULL TO REFRESH)
    ========================================= */
