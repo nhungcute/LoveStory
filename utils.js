@@ -8,7 +8,7 @@
  * =============================================================================
  */
 // --- CẤU HÌNH KẾT NỐI ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbynJaauNSifGb0ZHtMQdRliUmnAM6WURHDjKcZYLcWwUAClRLRpdjb7H4I0fHWZQeUYvQ/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxOd2LcWYe5OKRQrRe-jjZJYcRVbDe75UDWHAqqGQZdyQGoMjxKywV2j3k6cbkBxyLRlg/exec';
 
 let userFingerprint = null;
 
@@ -249,6 +249,18 @@ function escapeHtml(text) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+}
+
+function parseSafeDate(dateInput) {
+    if (!dateInput) return new Date(0);
+    if (typeof dateInput === 'number') return new Date(dateInput);
+    
+    // Đổi dấu gạch ngang '-' thành gạch chéo '/' để Safari đọc được
+    let safeString = String(dateInput).replace(/-/g, '/');
+    
+    // Xử lý nốt nếu chuỗi có phần lẻ giây (ví dụ: .000Z) mà Safari hay bắt bẻ
+    safeString = safeString.split('.')[0]; 
+    return new Date(safeString);
 }
 
 // Parse chuỗi JSON Comments an toàn
