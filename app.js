@@ -25,10 +25,25 @@ function getLocalData() {
 
 // 1. Tạo Fingerprint (Định danh thiết bị)
 async function getBrowserFingerprint() {
-   const str = navigator.userAgent + navigator.language + screen.width + 'x' + screen.height;
-   const msgBuffer = new TextEncoder().encode(str);
-   const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-   return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+   try {
+       const str = navigator.userAgent + navigator.language + screen.width + 'x' + screen.height;
+       
+       // KIỂM TRA: Nếu Safari chặn crypto.subtle (do HTTP), dùng cách tạo ID dự phòng
+       if (!window.crypto || !window.crypto.subtle) {
+           console.warn("Safari/HTTP chặn crypto.subtle, đang dùng định danh dự phòng...");
+           // Tạo chuỗi base64 ngẫu nhiên từ thông tin thiết bị thay thế cho crypto
+           return btoa(unescape(encodeURIComponent(str))).substring(0, 32);
+       }
+
+       const msgBuffer = new TextEncoder().encode(str);
+       const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+       return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+       
+   } catch (e) {
+       console.error("Lỗi tạo Fingerprint:", e);
+       // Trả về ID ngẫu nhiên nếu tất cả đều thất bại, giúp app không bị sập
+       return "fallback_id_" + Math.random().toString(36).substring(2, 15);
+   }
 }
 
 // 4. Hàm sinh tên ngẫu nhiên
