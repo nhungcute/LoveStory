@@ -327,24 +327,24 @@ let hasCacheData = false;
 
    // D. Load Bảng tin từ Cache
    
-   try {
-   const cachedFeed = localStorage.getItem('cached_feed_data');
-   if (cachedFeed) {
-       serverFeedData = JSON.parse(cachedFeed);
-       // Chỉ kiểm tra xem có cache hay không, không render ở đây để tránh block UI lúc khởi động
-       hasCacheData = Array.isArray(serverFeedData) && serverFeedData.length > 0;
-   }
-	} catch (e) {
-	   console.warn("Lỗi đọc cache feed -> Đang tự động dọn dẹp:", e);
-	   localStorage.removeItem('cached_feed_data');
-	   serverFeedData = []; 
-	}
+   let hasCache = false;
+    try {
+        const cachedFeed = localStorage.getItem('cached_feed_data');
+        if (cachedFeed) {
+            serverFeedData = JSON.parse(cachedFeed);
+            if (serverFeedData.length > 0) {
+                hasCache = true;
+                // Gọi hàm render để hiện bài cũ ngay lập tức
+                renderPostsPaged(serverFeedData, 1); 
+            }
+        }
+    } catch (e) {}
 
 	const tasks = [
 		syncUserProfile(), //lay dữ liệu user tư server
 		loadCriticalStats(), //lay số lần đạp, giá vàng từ server
 		loadBackgroundInfo(),
-		loadFeedData(1, hasCacheData),
+		loadFeedData(1, true),
 		loadNotifications(1),
 		setupPullToRefresh(),
 		renderStats()

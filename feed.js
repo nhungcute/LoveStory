@@ -798,7 +798,7 @@ function getDriveId(url) {
     return null;
 }
 
-// --- 2. THAY THẾ HÀM openPostImages CŨ ---
+
 async function openPostImages(postId, startIndex = 0) {
     let post = null;
     if (typeof serverFeedData !== 'undefined') {
@@ -865,6 +865,11 @@ async function openPostImages(postId, startIndex = 0) {
                     const id = getDriveId(imgUrl);
                     if (id) imgUrl = `https://drive.google.com/uc?export=view&id=${id}`;
                 }
+				
+				if (imgUrl && typeof imgUrl === 'string') {
+                    imgUrl = imgUrl.replace('=s600', '=s0');
+                }
+				
                 itemHtml = `
                     <div class="carousel-item h-100 ${isActive}">
                         <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
@@ -1792,10 +1797,10 @@ function renderPostMedia(mediaItems, layout, postId = null) {
                   </div>`;
       }
       
-      html += `</div>`; // Đóng .img-box
+      html += `</div>`;
    }
    
-   html += '</div>'; // Đóng .post-image-grid
+   html += '</div>';
    return html;
 }
 
