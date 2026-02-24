@@ -297,6 +297,7 @@ async function syncBabyRunStats() {
 	}
 
    // D. Load Bảng tin từ Cache
+   let hasCacheData = false;
    try {
    const cachedFeed = localStorage.getItem('cached_feed_data');
    if (cachedFeed) {
