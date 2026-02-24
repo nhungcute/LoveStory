@@ -1,3 +1,30 @@
+// ==========================================
+// CÔNG CỤ GỠ LỖI (VCONSOLE) - CHỈ BẬT TẠM THỜI
+// ==========================================
+let myVConsole = null;
+
+// Hàm bật/tắt (Không dùng localStorage nữa)
+function toggleVConsole(isEnable) {
+    if (isEnable) {
+        if (!myVConsole && window.VConsole) {
+            myVConsole = new window.VConsole();
+        }
+    } else {
+        if (myVConsole) {
+            myVConsole.destroy();
+            myVConsole = null;
+        }
+    }
+}
+
+// Lắng nghe thao tác gạt công tắc (Phản hồi tức thì)
+const vconsoleToggle = document.getElementById('vconsole-toggle');
+if (vconsoleToggle) {
+    vconsoleToggle.addEventListener('change', (e) => {
+        toggleVConsole(e.target.checked);
+    });
+}
+
 
 function saveLocalData(data) {
    try {
@@ -494,6 +521,10 @@ document.querySelectorAll('.theme-option').forEach(opt => {
 // Profile
 document.getElementById('profile-btn').addEventListener('click', () => {
    closeAllModals();
+    
+   const toggleBtn = document.getElementById('vconsole-toggle');
+   if (toggleBtn) toggleBtn.checked = (myVConsole !== null);
+   
    profileModal.show();
 });
 
