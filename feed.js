@@ -1950,19 +1950,18 @@ function createPostHtml(post) {
          ${mediaHtml}
          
          <div class="d-flex gap-4 my-2 border-top pt-2 mt-3" style="margin-left: 0 !important;">
-            <button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
+            <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
                   data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
                <i class="bi ${heartIconClass} fs-5"></i>
                <span>${likeCountText}</span>
             </button>
             
-            <button class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
-                  data-id="${post.__backendId}" 
-                  onclick="document.getElementById('comment-input-box-${post.__backendId}').classList.remove('d-none'); document.getElementById('input-cmt-${post.__backendId}').focus();"
-                  ${post.isUploading ? 'disabled' : ''}>
-               <i class="bi bi-chat fs-5"></i>
-               <span>${commentCountText}</span>
-            </button>
+            <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
+				  data-id="${post.__backendId}" 
+				  ${post.isUploading ? 'disabled' : ''}>
+			   <i class="bi bi-chat fs-5"></i>
+			   <span>${commentCountText}</span>
+			</button>
          </div>
 
          ${commentsHtml}
@@ -1970,7 +1969,7 @@ function createPostHtml(post) {
          <div class="d-flex align-items-center mt-2 gap-2 d-none" id="comment-input-box-${post.__backendId}">
             <input type="text" class="form-control form-control-sm rounded-pill bg-light border-0" 
                   id="input-cmt-${post.__backendId}" placeholder="Viết bình luận...">
-            <button class="btn btn-sm btn-primary rounded-circle send-inline-cmt-btn" data-id="${post.__backendId}">
+            <button type="button" class="btn btn-sm btn-primary rounded-circle send-inline-cmt-btn" data-id="${post.__backendId}">
                <i class="bi bi-send-fill"></i>
             </button>
          </div>
@@ -2044,45 +2043,7 @@ function createSkeletonHtml(count = 3) {
         </div>`;
     }
     return html;
-}
-// Ví dụ hàm xử lý dữ liệu mới tải về
-async function processAndCacheFeed(posts) {
-    const postsForLocal = [];
-
-    for (const post of posts) {
-        // Tạo bản sao để lưu LocalStorage (nhưng sẽ xóa dữ liệu ảnh nặng đi)
-        const cleanPost = { ...post }; 
-        
-        // Nếu bài viết có ảnh dạng Base64
-        if (post.imageData) {
-            let images = [];
-            try { images = JSON.parse(post.imageData); } catch(e) { images = [post.imageData]; }
-
-            // Duyệt từng ảnh
-            for (let i = 0; i < images.length; i++) {
-                const imgStr = images[i];
-                if (imgStr.startsWith('data:image')) {
-                    // 1. Tạo ID duy nhất cho ảnh
-                    const imgKey = `img_${post.__backendId}_${i}`;
-                    
-                    // 2. Chuyển Base64 sang Blob và lưu vào IndexedDB
-                    const blob = imageDB.base64ToBlob(imgStr);
-                    await imageDB.saveImage(imgKey, blob);
-                    
-                    // 3. Thay thế nội dung ảnh trong cleanPost bằng cái KEY ngắn gọn
-                    // Để LocalStorage chỉ phải lưu text nhẹ nhàng
-                    images[i] = { type: 'indexed_db_ref', key: imgKey };
-                }
-            }
-            cleanPost.imageData = JSON.stringify(images);
-        }
-        postsForLocal.push(cleanPost);
-    }
-
-    // Lưu danh sách bài viết (đã gỡ bỏ ảnh nặng) vào LocalStorage
-    localStorage.setItem('cached_feed_data', JSON.stringify(postsForLocal));
-}
-
+} 
 // ================================================================
 // FILE: feed.js (Dán xuống cuối file)
 // HÀM XỬ LÝ CACHE: Tách ảnh lưu vào IndexedDB, Text lưu LocalStorage
