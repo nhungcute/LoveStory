@@ -1924,7 +1924,7 @@ function createPostHtml(post) {
 
    // --- TRẢ VỀ HTML CUỐI CÙNG ---
    return `
-      <div class="post-card p-3 bg-white shadow-sm" id="post-${post.__backendId}">
+      <div class="post-card p-3 bg-white shadow-sm mb-4" id="post-${post.__backendId}">
          
          <div class="d-flex align-items-center mb-2">
             <div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
@@ -1945,7 +1945,7 @@ function createPostHtml(post) {
          
          ${mediaHtml}
          
-         <div class="d-flex gap-4 mt-3 mb-2 border-top" style="margin-left: 0 !important;">
+         <div class="d-flex gap-4 mt-3 mb-2 border-top pt-3" style="margin-left: 0 !important;">
             <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
                   data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
                <i class="bi ${heartIconClass} fs-5"></i>
@@ -1953,11 +1953,11 @@ function createPostHtml(post) {
             </button>
             
             <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
-				  data-id="${post.__backendId}" 
-				  ${post.isUploading ? 'disabled' : ''}>
-			   <i class="bi bi-chat fs-5"></i>
-			   <span>${commentCountText}</span>
-			</button>
+                  data-id="${post.__backendId}" 
+                  ${post.isUploading ? 'disabled' : ''}>
+               <i class="bi bi-chat fs-5"></i>
+               <span>${commentCountText}</span>
+            </button>
          </div>
 
          ${commentsHtml}
