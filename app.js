@@ -254,6 +254,8 @@ async function syncBabyRunStats() {
    }
 }
 
+let hasCacheData = false;
+
 // --- MAIN INITIALIZATION ---
 (async () => {
    // 1. Khởi tạo UI/Modal (Giữ nguyên)
@@ -297,7 +299,7 @@ async function syncBabyRunStats() {
 	}
 
    // D. Load Bảng tin từ Cache
-   let hasCacheData = false;
+   
    try {
    const cachedFeed = localStorage.getItem('cached_feed_data');
    if (cachedFeed) {
