@@ -1804,10 +1804,6 @@ function renderPostMedia(mediaItems, layout, postId = null) {
    return html;
 }
 
-// ================================================================
-// HÀM RENDER HTML CHO MỘT BÀI VIẾT (Đã cập nhật logic mới)
-// ================================================================
-
 function createPostHtml(post) {
    // 1. Xử lý thông tin người dùng
    const displayName = post.fullname || post.username || 'Người dùng';
@@ -1949,7 +1945,7 @@ function createPostHtml(post) {
          
          ${mediaHtml}
          
-         <div class="d-flex gap-4 my-2 border-top pt-2 mt-3" style="margin-left: 0 !important;">
+         <div class="d-flex gap-4 mt-3 mb-2 border-top" style="margin-left: 0 !important;">
             <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
                   data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
                <i class="bi ${heartIconClass} fs-5"></i>
