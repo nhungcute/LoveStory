@@ -1,17 +1,19 @@
 
-function updateValueWithEffect(id, newValue) {
+function updateValueWithEffect(id) {
     const el = document.getElementById(id);
-    if (!el) return; 
-    el.classList.remove('data-stale'); 
-    // 2. Kích hoạt hiệu ứng Rung
-    el.classList.remove('anim-update'); 
+    if (!el) return;
+    // Nếu bên trong đang có skeleton → xóa đi
+    // (app.js sẽ gán textContent ngay sau lệnh gọi hàm này)
+    if (el.querySelector('.skeleton')) {
+        el.innerHTML = '';
+    }
+    el.classList.remove('data-stale');
+    el.classList.remove('anim-update');
     void el.offsetWidth;
     el.classList.add('anim-update');
- 
-    setTimeout(() => {
-        el.classList.remove('anim-update');
-    }, 400);
+    setTimeout(() => el.classList.remove('anim-update'), 400);
 }
+
 
   // Set ngày mặc định
    const today = new Date();
@@ -1313,7 +1315,12 @@ function renderStats() {
 
          const babyAgeText = `Em bé ${weeks} tuần ${days} ngày`;
 		 const staleClass = babyAgeText ? 'data-stale' : '';
-		
+
+		 const cachedBikeCount = localStorage.getItem('cached_babyrun_count');
+		 const bikeDisplay = cachedBikeCount
+			? `<span class="data-stale">${cachedBikeCount}</span>`
+			: `<span class="skeleton skeleton-num-lg"></span>`;
+
          // ----------------------------------------
 
          return `
@@ -1330,19 +1337,32 @@ function renderStats() {
       					
       					<p class="text-muted small mb-1 fw-bold theme-text-primary">${babyAgeText}</p>
       					
-      					<p id="bike-count" class="fs-2 fw-bold theme-text-primary mb-0 ${staleClass}">0</p>
+      					<p id="bike-count" class="fs-2 fw-bold theme-text-primary mb-0 widget-loading">${bikeDisplay}</p>
+
       				  </div>
       				</div>
       			  `;
       } else if (stat.id === 'gold') {
-		  
-		const cachedBuy = localStorage.getItem('cached_gold_buy'); 
-		const cachedSell = localStorage.getItem('cached_gold_sell');
- 
+		   
 		const displayBuy = cachedBuy ? Number(cachedBuy).toLocaleString('vi-VN') : '-';
 		const displaySell = cachedSell ? Number(cachedSell).toLocaleString('vi-VN') : '-';
 		const staleClass = cachedBuy ? 'data-stale' : '';
 
+		const cachedBuy  = localStorage.getItem('cached_gold_buy');
+const cachedSell = localStorage.getItem('cached_gold_sell');
+ 
+const displayBuy = cachedBuy
+    ? `<span class="data-stale">${Number(cachedBuy).toLocaleString('vi-VN')}</span>`
+    : `<span class="skeleton skeleton-num-sm"></span>`;
+const displaySell = cachedSell
+    ? `<span class="data-stale">${Number(cachedSell).toLocaleString('vi-VN')}</span>`
+    : `<span class="skeleton skeleton-num-sm"></span>`;
+ 
+// Trong template string, sửa class của cả 2 thẻ <p>:
+// <p id="gold-buy"  class="fs-5 fw-bold text-success mb-0 widget-loading">${displayBuy}</p>
+// <p id="gold-sell" class="fs-5 fw-bold text-danger  mb-0 widget-loading">${displaySell}</p>
+
+		  
          return `
 				<div class="stat-card p-3 ${sizeClass}" data-stat-id="gold" draggable="${isEditMode}">
       				  <div class="drag-handle"><i class="bi bi-arrows-move"></i></div>
@@ -1361,15 +1381,11 @@ function renderStats() {
       				  <div class="row g-2 ms-5 ps-2">
       					<div class="col-6">
       					  <small class="text-muted">Giá mua</small>
-						   <p id="gold-buy" class="fs-5 fw-bold text-success mb-0 ${staleClass}">
-							   ${displayBuy}
-						   </p>
+						   <p id="gold-buy"  class="fs-5 fw-bold text-success mb-0 widget-loading">${displayBuy}</p>
 						</div>
 						<div class="col-6">
 						   <small class="text-muted">Giá bán</small>
-						   <p id="gold-sell" class="fs-5 fw-bold text-danger mb-0 ${staleClass}">
-							   ${displaySell}
-						   </p>
+						   <p id="gold-sell" class="fs-5 fw-bold text-danger  mb-0 widget-loading">${displaySell}</p>
 						</div>
 					 </div>
 				  </div>
@@ -1392,3 +1408,4 @@ function renderStats() {
       container.classList.remove('layout-edit-mode');
    }
 }
+
