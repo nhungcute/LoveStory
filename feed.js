@@ -798,6 +798,43 @@ function getDriveId(url) {
     return null;
 }
 
+// ─────────────────────────────────────────────────────────────
+// HÀM MỚI: Chuyển URL ảnh Drive → URL thumbnail nhỏ cho feed
+// size: chiều rộng pixel muốn hiển thị (mặc định 400px)
+// ─────────────────────────────────────────────────────────────
+function getThumbUrl(url, size = 400) {
+    if (!url || typeof url !== 'string') return url;
+ 
+    // LOẠI 1: lh3.googleusercontent.com/d/FILE_ID=sXXX hoặc =wXXX
+    // Đây là URL ảnh mới (upload từ tháng gần đây)
+    if (url.includes('lh3.googleusercontent.com')) {
+        // Xóa tham số size cũ (=s600, =w800, =s0, ...) rồi gắn =wSIZE
+        return url.replace(/=[swh]\d+$/, '') + '=w' + size;
+    }
+ 
+    // LOẠI 2: drive.google.com/uc?export=view&id=FILE_ID
+    // Đây là URL ảnh cũ — dùng thumbnail API riêng của Drive
+    if (url.includes('drive.google.com/uc')) {
+        const fileId = getDriveId(url);
+        if (fileId) {
+            return `https://drive.google.com/thumbnail?id=${fileId}&sz=w${size}`;
+        }
+    }
+ 
+    // LOẠI 3: URL khác (blob:, data:, external) → giữ nguyên
+    return url;
+}
+ 
+// Hàm lấy URL full-size để xem ảnh chi tiết (tap vào ảnh)
+function getFullUrl(url) {
+    if (!url || typeof url !== 'string') return url;
+    if (url.includes('lh3.googleusercontent.com')) {
+        // Xóa tham số size → Drive tự trả ảnh gốc
+        return url.replace(/=[swh]\d+$/, '');
+    }
+    return url; // Các loại URL khác giữ nguyên
+}
+
 
 async function openPostImages(postId, startIndex = 0) {
     let post = null;
@@ -866,9 +903,10 @@ async function openPostImages(postId, startIndex = 0) {
                     if (id) imgUrl = `https://drive.google.com/uc?export=view&id=${id}`;
                 }
 				
-				if (imgUrl && typeof imgUrl === 'string') {
-                    imgUrl = imgUrl.replace('=s600', '=s0');
-                }
+				//if (imgUrl && typeof imgUrl === 'string') {
+                    //imgUrl = imgUrl.replace('=s600', '=s0');
+                //}
+				imgUrl = getFullUrl(imgUrl);
 				
                 itemHtml = `
                     <div class="carousel-item h-100 ${isActive}">
@@ -1778,8 +1816,9 @@ function renderPostMedia(mediaItems, layout, postId = null) {
                   idbKeyAttr = `data-idb-key="${mediaItem.key}"`;
               }
 
+			  const thumbUrl = getThumbUrl(mediaUrl, 400);
               html += `<img src="${BLANK_IMG}" 
-                         data-src="${mediaUrl}"
+                         data-src="${thumbUrl}"
                          ${idbKeyAttr}
                          class="lazy-load-img" 
                          decoding="async"
@@ -2114,4 +2153,5 @@ async function processAndCacheFeed(posts) {
     } catch (e) {
         console.warn("LocalStorage bị đầy:", e);
     }
+
 }
