@@ -570,6 +570,32 @@ overflow-anchor: auto;
   border-radius: 0; 
 }
 
+/* Khối số lớn — thay thế cho bike-count (fs-2) */
+.skeleton-num-lg {
+  display: inline-block;
+  width: 80px;
+  height: 36px;       /* Khớp với fs-2 fw-bold */
+  border-radius: 6px;
+  vertical-align: middle;
+}
+ 
+/* Khối số nhỏ — thay thế cho gold-buy / gold-sell (fs-5) */
+.skeleton-num-sm {
+  display: inline-block;
+  width: 90px;
+  height: 24px;       /* Khớp với fs-5 fw-bold */
+  border-radius: 4px;
+  vertical-align: middle;
+}
+ 
+/* Đảm bảo p chứa skeleton không bị collapse về height 0 */
+.widget-loading {
+  min-height: 1em;
+  display: flex;
+  align-items: center;
+}
+
+
 /* Nút Xem thêm / Thu gọn */
 .see-more-btn {
     color: var(--primary-dark);
@@ -697,4 +723,5 @@ overflow-anchor: auto;
         max-width: 90vw;
         max-height: 90vh;
     }
+
 }
