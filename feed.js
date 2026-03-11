@@ -1972,6 +1972,9 @@ function createPostHtml(post) {
       commentsHtml = `<div class="comments-section mt-2" id="comments-container-${post.__backendId}"></div>`;
    }
 
+   // Layout bình luận. Nếu chưa có cmt thì ẩn luôn khung bao ngoài này
+   const wrapperClass = comments.length > 0 ? "px-3 pb-3" : "px-3 pb-3 d-none";
+
    // --- TRẢ VỀ HTML CUỐI CÙNG ---
    return `
       <div class="post-card bg-white" id="post-${post.__backendId}">
@@ -2012,8 +2015,6 @@ function createPostHtml(post) {
             </button>
          </div>
 
-         // Layout bình luận. Nếu chưa có cmt thì ẩn luôn khung bao ngoài này
-         const wrapperClass = comments.length > 0 ? "px-3 pb-3" : "px-3 pb-3 d-none";
          <div class="${wrapperClass}" id="post-comment-wrapper-${post.__backendId}">
             ${commentsHtml}
 
