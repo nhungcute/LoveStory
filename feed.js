@@ -4,13 +4,13 @@ let hasMorePosts = true;   // Server còn dữ liệu để tải không?
 let feedLoading = false;   // Đang tải dở hay không?
 // Hàm sắp xếp dữ liệu (Mới nhất lên đầu)
 function sortDataByTime(data) {
-    return data.sort((a, b) => {
-        // Ưu tiên bài Pin (nếu có logic ghim bài)
-        // Sau đó đến thời gian
-        const timeA = new Date(a.createdAt || 0).getTime();
-        const timeB = new Date(b.createdAt || 0).getTime();
-        return timeB - timeA;
-    });
+   return data.sort((a, b) => {
+      // Ưu tiên bài Pin (nếu có logic ghim bài)
+      // Sau đó đến thời gian
+      const timeA = new Date(a.createdAt || 0).getTime();
+      const timeB = new Date(b.createdAt || 0).getTime();
+      return timeB - timeA;
+   });
 }
 
 // --- [MỚI] HỆ THỐNG LAZY LOAD ẢNH ---
@@ -18,40 +18,40 @@ const BLANK_IMG = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAA
 let lazyImageObserver = null;
 
 function initLazyImageObserver() {
-    if (lazyImageObserver) return;
+   if (lazyImageObserver) return;
 
-    lazyImageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                // Ngừng theo dõi ngay để tiết kiệm tài nguyên
-                observer.unobserve(img);
+   lazyImageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(async (entry) => {
+         if (entry.isIntersecting) {
+            const img = entry.target;
+            // Ngừng theo dõi ngay để tiết kiệm tài nguyên
+            observer.unobserve(img);
 
-                const idbKey = img.dataset.idbKey;
-                const realSrc = img.dataset.src;
+            const idbKey = img.dataset.idbKey;
+            const realSrc = img.dataset.src;
 
-                // TRƯỜNG HỢP 1: Ảnh lưu trong IndexedDB (Cache)
-                if (idbKey && typeof imageDB !== 'undefined') {
-                    try {
-                        const blobUrl = await imageDB.getImage(idbKey);
-                        if (blobUrl) {
-                            img.src = blobUrl;
-                            // Class 'loaded' sẽ được thêm bởi sự kiện onload (hoặc thêm ngay nếu blob sẵn sàng)
-                            requestAnimationFrame(() => img.classList.add('loaded'));
-                        } else if (realSrc) {
-                            // Fallback nếu không tìm thấy trong DB
-                            img.src = realSrc;
-                        }
-                    } catch (e) { console.warn("Lỗi load ảnh IDB", e); }
-                } 
-                // TRƯỜNG HỢP 2: Ảnh URL thường hoặc Base64
-                else if (realSrc) {
-                    img.src = realSrc;
-                    img.onload = () => img.classList.add('loaded');
-                }
+            // TRƯỜNG HỢP 1: Ảnh lưu trong IndexedDB (Cache)
+            if (idbKey && typeof imageDB !== 'undefined') {
+               try {
+                  const blobUrl = await imageDB.getImage(idbKey);
+                  if (blobUrl) {
+                     img.src = blobUrl;
+                     // Class 'loaded' sẽ được thêm bởi sự kiện onload (hoặc thêm ngay nếu blob sẵn sàng)
+                     requestAnimationFrame(() => img.classList.add('loaded'));
+                  } else if (realSrc) {
+                     // Fallback nếu không tìm thấy trong DB
+                     img.src = realSrc;
+                  }
+               } catch (e) { console.warn("Lỗi load ảnh IDB", e); }
             }
-        });
-    }, { rootMargin: "200px 0px" }); // Tải trước khi cuộn tới 200px
+            // TRƯỜNG HỢP 2: Ảnh URL thường hoặc Base64
+            else if (realSrc) {
+               img.src = realSrc;
+               img.onload = () => img.classList.add('loaded');
+            }
+         }
+      });
+   }, { rootMargin: "200px 0px" }); // Tải trước khi cuộn tới 200px
 }
 
 
@@ -68,23 +68,23 @@ async function loadFeedData(page = 1, isBackgroundRefresh = false) {
 
    // 2. Xử lý giao diện lúc bắt đầu tải
    if (page === 1) {
-       currentPage = 1;
-       hasMorePosts = true;
-       if (!isBackgroundRefresh) {
-           // Load Cache (Giữ nguyên logic cache cũ của bạn)
-           const cachedJSON = localStorage.getItem('cached_feed_data');
-           if (cachedJSON) {
-               try {
-                   const cachedData = sortDataByTime(JSON.parse(cachedJSON));
-                   if (container.children.length > 0) 
-                     smartSyncFeed(cachedData, container);
-                   else 
-                     mergeServerDataToView(cachedData);
-               } catch (e) {}
-           }
-           if (container.children.length === 0) container.innerHTML = createSkeletonHtml(3);
-       }
-   } 
+      currentPage = 1;
+      hasMorePosts = true;
+      if (!isBackgroundRefresh) {
+         // Load Cache (Giữ nguyên logic cache cũ của bạn)
+         const cachedJSON = localStorage.getItem('cached_feed_data');
+         if (cachedJSON) {
+            try {
+               const cachedData = sortDataByTime(JSON.parse(cachedJSON));
+               if (container.children.length > 0)
+                  smartSyncFeed(cachedData, container);
+               else
+                  mergeServerDataToView(cachedData);
+            } catch (e) { }
+         }
+         if (container.children.length === 0) container.innerHTML = createSkeletonHtml(3);
+      }
+   }
    // Lưu ý: Không cần tạo loader thủ công ở đây nữa, hàm updateFeedFooter sẽ lo
 
    try {
@@ -101,266 +101,266 @@ async function loadFeedData(page = 1, isBackgroundRefresh = false) {
       const res = await sendToServer(payload);
 
       if (res.status === 'success') {
-    const newData = res.data;
-    
-    // Kiểm tra xem còn tin tiếp theo không
-    hasMorePosts = (newData && newData.length >= 10);
+         const newData = res.data;
 
-    if (page === 1) {
-        const sortedData = sortDataByTime(newData);
-        
-        // 1. Hiển thị dữ liệu lên màn hình (Ưu tiên UX chạy trước)
-        if (container.children.length > 0 && !container.querySelector('.post-skeleton')) {
-            // Nếu đã có hàm smartSyncFeed thì dùng, không thì fallback về render lại
-            if (typeof smartSyncFeed === 'function') {
-                smartSyncFeed(sortedData, container);
+         // Kiểm tra xem còn tin tiếp theo không
+         hasMorePosts = (newData && newData.length >= 10);
+
+         if (page === 1) {
+            const sortedData = sortDataByTime(newData);
+
+            // 1. Hiển thị dữ liệu lên màn hình (Ưu tiên UX chạy trước)
+            if (container.children.length > 0 && !container.querySelector('.post-skeleton')) {
+               // Nếu đã có hàm smartSyncFeed thì dùng, không thì fallback về render lại
+               if (typeof smartSyncFeed === 'function') {
+                  smartSyncFeed(sortedData, container);
+               } else {
+                  container.innerHTML = '';
+                  mergeServerDataToView(sortedData);
+               }
             } else {
-                container.innerHTML = '';
-                mergeServerDataToView(sortedData);
+               container.innerHTML = '';
+               mergeServerDataToView(sortedData);
             }
-        } else {
-            container.innerHTML = '';
-            mergeServerDataToView(sortedData);
-        }
-        
-        // 2. [THAY ĐỔI QUAN TRỌNG] Lưu Cache thông minh (Ảnh -> IndexedDB, Text -> LocalStorage)
-        // Code cũ: localStorage.setItem('cached_feed_data', JSON.stringify(sortedData));
-        processAndCacheFeed(sortedData); 
-        
-        // 3. Cập nhật biến toàn cục
-        serverFeedData = sortedData;
-        currentPage = 1;
 
-    } else {
-        // Logic trang 2 trở đi
-        if (newData.length > 0) {
-            mergeServerDataToView(newData);
-            
-            // Nối dữ liệu global (lọc trùng)
-            const uniqueNewPosts = newData.filter(newP => 
-                !serverFeedData.some(existP => (existP.__backendId || existP.id) === (newP.__backendId || newP.id))
-            );
-            serverFeedData = serverFeedData.concat(uniqueNewPosts);
-            currentPage = page;
-        }
-    }
-} else {
+            // 2. [THAY ĐỔI QUAN TRỌNG] Lưu Cache thông minh (Ảnh -> IndexedDB, Text -> LocalStorage)
+            // Code cũ: localStorage.setItem('cached_feed_data', JSON.stringify(sortedData));
+            processAndCacheFeed(sortedData);
+
+            // 3. Cập nhật biến toàn cục
+            serverFeedData = sortedData;
+            currentPage = 1;
+
+         } else {
+            // Logic trang 2 trở đi
+            if (newData.length > 0) {
+               mergeServerDataToView(newData);
+
+               // Nối dữ liệu global (lọc trùng)
+               const uniqueNewPosts = newData.filter(newP =>
+                  !serverFeedData.some(existP => (existP.__backendId || existP.id) === (newP.__backendId || newP.id))
+               );
+               serverFeedData = serverFeedData.concat(uniqueNewPosts);
+               currentPage = page;
+            }
+         }
+      } else {
          if (!isBackgroundRefresh) showToast('Lỗi: ' + res.message);
          // Nếu lỗi ở trang > 1, ta cho phép thử lại bằng cách giữ nguyên currentPage
       }
    } catch (error) {
       console.error("Lỗi connection:", error);
       if (page === 1 && container.children.length === 0) {
-          container.innerHTML = '<div class="text-center p-3 text-muted">Lỗi kết nối.</div>';
+         container.innerHTML = '<div class="text-center p-3 text-muted">Lỗi kết nối.</div>';
       }
    } finally {
       feedLoading = false;
-      updateFeedFooter(); 
+      updateFeedFooter();
    }
 }
 
 // 3. Dọn dẹp khi đóng modal (để tiết kiệm bộ nhớ)
 const imageModalEl = document.getElementById('imageViewerModal');
 if (imageModalEl) {
-    imageModalEl.addEventListener('hidden.bs.modal', function () {
-        // 1. Xóa nội dung ảnh để giải phóng bộ nhớ
-        const container = document.getElementById('carousel-items-container');
-        if (container) container.innerHTML = '';
+   imageModalEl.addEventListener('hidden.bs.modal', function () {
+      // 1. Xóa nội dung ảnh để giải phóng bộ nhớ
+      const container = document.getElementById('carousel-items-container');
+      if (container) container.innerHTML = '';
 
-        // 2. [QUAN TRỌNG] Xóa cưỡng bức lớp phủ mờ (Backdrop) nếu nó bị kẹt
-        const backdrops = document.querySelectorAll('.modal-backdrop');
-        backdrops.forEach(backdrop => backdrop.remove());
+      // 2. [QUAN TRỌNG] Xóa cưỡng bức lớp phủ mờ (Backdrop) nếu nó bị kẹt
+      const backdrops = document.querySelectorAll('.modal-backdrop');
+      backdrops.forEach(backdrop => backdrop.remove());
 
-        // 3. Xóa class khóa cuộn chuột trên body
-        document.body.classList.remove('modal-open');
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
-    });
+      // 3. Xóa class khóa cuộn chuột trên body
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+   });
 }
 
 // --- [MỚI] HÀM QUẢN LÝ CHÂN TRANG (OBSERVER) ---
 // Hàm này bắt chước y hệt logic trong notification.js
 function updateFeedFooter() {
-    const container = document.getElementById('posts-container');
-    
-    // 1. Dọn dẹp các trigger cũ (để tránh bị nhân bản)
-    const oldTrigger = document.getElementById('feed-load-more');
-    if (oldTrigger) oldTrigger.remove();
-    const oldEnd = document.getElementById('feed-end-message');
-    if (oldEnd) oldEnd.remove();
+   const container = document.getElementById('posts-container');
 
-    // 2. Nếu còn dữ liệu -> Tạo trigger để Observer theo dõi
-    if (hasMorePosts) {
-        const trigger = document.createElement('div');
-        trigger.id = 'feed-load-more';
-        // Class style giống hệt notification.js
-        trigger.className = 'py-3 text-center text-muted small cursor-pointer'; 
-        trigger.innerHTML = `
+   // 1. Dọn dẹp các trigger cũ (để tránh bị nhân bản)
+   const oldTrigger = document.getElementById('feed-load-more');
+   if (oldTrigger) oldTrigger.remove();
+   const oldEnd = document.getElementById('feed-end-message');
+   if (oldEnd) oldEnd.remove();
+
+   // 2. Nếu còn dữ liệu -> Tạo trigger để Observer theo dõi
+   if (hasMorePosts) {
+      const trigger = document.createElement('div');
+      trigger.id = 'feed-load-more';
+      // Class style giống hệt notification.js
+      trigger.className = 'py-3 text-center text-muted small cursor-pointer';
+      trigger.innerHTML = `
             <div class="d-inline-block spinner-border spinner-border-sm text-primary me-2" role="status"></div>
             <span>Đang tải thêm...</span>
         `;
-        
-        // Gắn sự kiện click thủ công (phòng hờ)
-        trigger.onclick = () => loadFeedData(currentPage + 1);
-        
-        container.appendChild(trigger);
 
-        // [CORE] KỸ THUẬT OBSERVER (Của Notification)
-        const observer = new IntersectionObserver((entries) => {
-             // Nếu nhìn thấy trigger VÀ không đang tải
-             if (entries[0].isIntersecting && !feedLoading) {
-                 console.log(`👀 Thấy đáy -> Tải trang ${currentPage + 1}`);
-                 loadFeedData(currentPage + 1);
-             }
-        }, { threshold: 0.1 }); // Chỉ cần thấy 10% là kích hoạt
-        
-        observer.observe(trigger);
+      // Gắn sự kiện click thủ công (phòng hờ)
+      trigger.onclick = () => loadFeedData(currentPage + 1);
 
-    } else {
-        // 3. Nếu hết dữ liệu -> Hiện thông báo kết thúc
-        if (serverFeedData.length > 0) {
-             container.insertAdjacentHTML('beforeend', 
-                '<div id="feed-end-message" class="text-center py-4 text-muted small">--- Bạn đã xem hết tin ---</div>'
-             );
-        }
-    }
+      container.appendChild(trigger);
+
+      // [CORE] KỸ THUẬT OBSERVER (Của Notification)
+      const observer = new IntersectionObserver((entries) => {
+         // Nếu nhìn thấy trigger VÀ không đang tải
+         if (entries[0].isIntersecting && !feedLoading) {
+            console.log(`👀 Thấy đáy -> Tải trang ${currentPage + 1}`);
+            loadFeedData(currentPage + 1);
+         }
+      }, { threshold: 0.1 }); // Chỉ cần thấy 10% là kích hoạt
+
+      observer.observe(trigger);
+
+   } else {
+      // 3. Nếu hết dữ liệu -> Hiện thông báo kết thúc
+      if (serverFeedData.length > 0) {
+         container.insertAdjacentHTML('beforeend',
+            '<div id="feed-end-message" class="text-center py-4 text-muted small">--- Bạn đã xem hết tin ---</div>'
+         );
+      }
+   }
 }
 // ----------------------------------------------------------------
 // 2. LOGIC "SMART SYNC" (ĐỒNG BỘ THÔNG MINH) 
 function smartSyncFeed(newDataList, container) {
-    // 1. [TỐI ƯU] Tạo Map các node hiện có để tra cứu O(1) thay vì getElementById
-    const existingNodes = new Map();
-    let child = container.firstElementChild;
-    while (child) {
-        // Chỉ map các phần tử là bài viết (có id bắt đầu bằng post-)
-        if (child.id && child.id.startsWith('post-')) {
-            const id = child.id.replace('post-', '');
-            existingNodes.set(id, child);
-        }
-        child = child.nextElementSibling;
-    }
+   // 1. [TỐI ƯU] Tạo Map các node hiện có để tra cứu O(1) thay vì getElementById
+   const existingNodes = new Map();
+   let child = container.firstElementChild;
+   while (child) {
+      // Chỉ map các phần tử là bài viết (có id bắt đầu bằng post-)
+      if (child.id && child.id.startsWith('post-')) {
+         const id = child.id.replace('post-', '');
+         existingNodes.set(id, child);
+      }
+      child = child.nextElementSibling;
+   }
 
-    // 2. Con trỏ tham chiếu vị trí chèn (Bắt đầu từ đầu danh sách)
-    let nextSibling = container.firstElementChild;
-    
-    // 3. Duyệt qua danh sách dữ liệu MỚI
-    newDataList.forEach((postData) => {
-        const postId = postData.__backendId || postData.id;
-        const existingNode = existingNodes.get(postId);
+   // 2. Con trỏ tham chiếu vị trí chèn (Bắt đầu từ đầu danh sách)
+   let nextSibling = container.firstElementChild;
 
-        if (existingNode) {
-            // A. BÀI VIẾT ĐÃ TỒN TẠI TRÊN DOM
-            // Kiểm tra vị trí: Nếu node này không nằm đúng chỗ con trỏ đang đứng -> Di chuyển
-            if (existingNode !== nextSibling) {
-                container.insertBefore(existingNode, nextSibling);
-            } else {
-                // Nếu đã đúng chỗ, chỉ cần nhích con trỏ sang thằng tiếp theo
-                nextSibling = nextSibling.nextElementSibling;
+   // 3. Duyệt qua danh sách dữ liệu MỚI
+   newDataList.forEach((postData) => {
+      const postId = postData.__backendId || postData.id;
+      const existingNode = existingNodes.get(postId);
+
+      if (existingNode) {
+         // A. BÀI VIẾT ĐÃ TỒN TẠI TRÊN DOM
+         // Kiểm tra vị trí: Nếu node này không nằm đúng chỗ con trỏ đang đứng -> Di chuyển
+         if (existingNode !== nextSibling) {
+            container.insertBefore(existingNode, nextSibling);
+         } else {
+            // Nếu đã đúng chỗ, chỉ cần nhích con trỏ sang thằng tiếp theo
+            nextSibling = nextSibling.nextElementSibling;
+         }
+
+         // Cập nhật nội dung (Like, Comment...)
+         updatePostContentOnly(existingNode, postData);
+
+         // Xóa khỏi Map để đánh dấu là "đã xử lý"
+         existingNodes.delete(postId);
+
+      } else {
+         // B. BÀI VIẾT MỚI HOÀN TOÀN
+         const newHtml = createPostHtml(postData);
+
+         // [TỐI ƯU] Dùng insertAdjacentHTML nhanh hơn createElement + innerHTML
+         if (nextSibling) {
+            nextSibling.insertAdjacentHTML('beforebegin', newHtml);
+            // Lấy node vừa tạo (nằm ngay trước nextSibling) để thêm hiệu ứng
+            const newNode = nextSibling.previousElementSibling;
+            if (newNode) newNode.classList.add('fade-in');
+         } else {
+            // Nếu nextSibling là null (đang ở cuối danh sách) -> Chèn vào cuối
+            container.insertAdjacentHTML('beforeend', newHtml);
+            const newNode = container.lastElementChild;
+            if (newNode) {
+               // Kiểm tra nếu node cuối cùng không phải là load-more thì mới add class
+               if (newNode.id.startsWith('post-')) newNode.classList.add('fade-in');
             }
+         }
+         // Lưu ý: Không cần dịch chuyển nextSibling vì node mới được chèn vào TRƯỚC nó
+      }
+   });
 
-            // Cập nhật nội dung (Like, Comment...)
-            updatePostContentOnly(existingNode, postData);
-            
-            // Xóa khỏi Map để đánh dấu là "đã xử lý"
-            existingNodes.delete(postId);
+   // C. DỌN DẸP BÀI THỪA
+   // Những node còn lại trong Map là những bài đã bị xóa hoặc trôi sang trang sau
+   existingNodes.forEach((node) => {
+      node.remove();
+   });
 
-        } else {
-            // B. BÀI VIẾT MỚI HOÀN TOÀN
-            const newHtml = createPostHtml(postData);
-            
-            // [TỐI ƯU] Dùng insertAdjacentHTML nhanh hơn createElement + innerHTML
-            if (nextSibling) {
-                nextSibling.insertAdjacentHTML('beforebegin', newHtml);
-                // Lấy node vừa tạo (nằm ngay trước nextSibling) để thêm hiệu ứng
-                const newNode = nextSibling.previousElementSibling;
-                if (newNode) newNode.classList.add('fade-in');
-            } else {
-                // Nếu nextSibling là null (đang ở cuối danh sách) -> Chèn vào cuối
-                container.insertAdjacentHTML('beforeend', newHtml);
-                const newNode = container.lastElementChild;
-                if (newNode) {
-                    // Kiểm tra nếu node cuối cùng không phải là load-more thì mới add class
-                    if (newNode.id.startsWith('post-')) newNode.classList.add('fade-in');
-                }
-            }
-            // Lưu ý: Không cần dịch chuyển nextSibling vì node mới được chèn vào TRƯỚC nó
-        }
-    });
-
-    // C. DỌN DẸP BÀI THỪA
-    // Những node còn lại trong Map là những bài đã bị xóa hoặc trôi sang trang sau
-    existingNodes.forEach((node) => {
-        node.remove();
-    });
-
-    // [MỚI] Kích hoạt Lazy Load cho các ảnh vừa vẽ
-    scanLazyImages();
+   // [MỚI] Kích hoạt Lazy Load cho các ảnh vừa vẽ
+   scanLazyImages();
 }
- 
+
 // Hàm chỉ cập nhật số liệu bên trong (tránh vẽ lại ảnh gây nháy)
 function updatePostContentOnly(postEl, data) {
-    // --- 1. Cập nhật nút Like ---
-    const likeBtn = postEl.querySelector('.like-btn');
-    if (likeBtn) {
-        const icon = likeBtn.querySelector('i');
-        const textSpan = likeBtn.querySelector('span');
+   // --- 1. Cập nhật nút Like ---
+   const likeBtn = postEl.querySelector('.like-btn');
+   if (likeBtn) {
+      const icon = likeBtn.querySelector('i');
+      const textSpan = likeBtn.querySelector('span');
 
-        if (icon && textSpan) {
-            const isLiked = data.liked === true;
-            const likeCount = Number(data.likes) || 0;
-            const likeCountText = likeCount > 0 ? likeCount : 'Thích';
+      if (icon && textSpan) {
+         const isLiked = data.liked === true;
+         const likeCount = Number(data.likes) || 0;
+         const likeCountText = likeCount > 0 ? likeCount : 'Thích';
 
-            // Cập nhật icon (QUAN TRỌNG: Giữ lại class size 'fs-5')
-            const newIconClass = isLiked ? 'bi bi-heart-fill text-danger fs-5' : 'bi bi-heart fs-5';
-            if (icon.className !== newIconClass) {
-                icon.className = newIconClass;
-            }
+         // Cập nhật icon (QUAN TRỌNG: Giữ lại class size 'fs-5')
+         const newIconClass = isLiked ? 'bi bi-heart-fill text-danger fs-5' : 'bi bi-heart fs-5';
+         if (icon.className !== newIconClass) {
+            icon.className = newIconClass;
+         }
 
-            // Cập nhật số lượng like
-            if (textSpan.textContent !== String(likeCountText)) {
-                textSpan.textContent = likeCountText;
-            }
-        }
-    }
+         // Cập nhật số lượng like
+         if (textSpan.textContent !== String(likeCountText)) {
+            textSpan.textContent = likeCountText;
+         }
+      }
+   }
 
-    // --- 2. Cập nhật nút Bình luận ---
-    const commentBtn = postEl.querySelector('.show-comment-input-btn');
-    if (commentBtn) {
-        const textSpan = commentBtn.querySelector('span');
-        if (textSpan) {
-            const comments = data.commentsData || [];
-            const commentCountText = comments.length > 0 ? comments.length : 'Bình luận';
+   // --- 2. Cập nhật nút Bình luận ---
+   const commentBtn = postEl.querySelector('.show-comment-input-btn');
+   if (commentBtn) {
+      const textSpan = commentBtn.querySelector('span');
+      if (textSpan) {
+         const comments = data.commentsData || [];
+         const commentCountText = comments.length > 0 ? comments.length : 'Bình luận';
 
-            // Cập nhật số lượng bình luận
-            if (textSpan.textContent !== String(commentCountText)) {
-                textSpan.textContent = commentCountText;
-            }
-        }
-    }
+         // Cập nhật số lượng bình luận
+         if (textSpan.textContent !== String(commentCountText)) {
+            textSpan.textContent = commentCountText;
+         }
+      }
+   }
 }
 
 // Helper hiệu ứng rung
 function triggerShake(el) {
-    el.classList.remove('anim-update');
-    void el.offsetWidth;
-    el.classList.add('anim-update');
+   el.classList.remove('anim-update');
+   void el.offsetWidth;
+   el.classList.add('anim-update');
 }
- 
+
 function mergeServerDataToView(dataList) {
    const container = document.getElementById('posts-container');
    if (!container) return;
- 
+
    const bottomLoader = document.getElementById('bottom-feed-loader');
    if (bottomLoader) bottomLoader.remove();
 
    // [TỐI ƯU] Gom HTML thành 1 chuỗi để chèn 1 lần (Batch Insertion)
    let htmlBuffer = '';
 
-   dataList.forEach(post => { 
+   dataList.forEach(post => {
       const postId = post.__backendId || post.id;
       const existEl = document.getElementById(`post-${postId}`);
 
-      if (!existEl) { 
+      if (!existEl) {
          htmlBuffer += createPostHtml(post);
       }
    });
@@ -453,29 +453,28 @@ async function handlePostSubmit() {
 
             // Xử lý upload cho từng loại file
             if (mediaItem.type === 'video') {
-                // Video luôn upload file gốc
-                const base64Data = await readFileAsBase64(file);
-                const res = await sendToServer({ action: 'upload_single_image', image: base64Data, name: file.name });
-                if (res.status === 'success') finalMediaData.push({ type: 'video', url: res.url });
-                else throw new Error(`Lỗi tải lên video ${i + 1}`);
+               // Video luôn upload file gốc
+               const base64Data = await readFileAsBase64(file);
+               const res = await sendToServer({ action: 'upload_single_image', image: base64Data, name: file.name });
+               if (res.status === 'success') finalMediaData.push({ type: 'video', url: res.url });
+               else throw new Error(`Lỗi tải lên video ${i + 1}`);
 
             } else { // Xử lý cho ảnh
-                if (isHD) {
-                    const base64Data = await readFileAsBase64(file);
-                    const res = await sendToServer({ action: 'upload_single_image', image: base64Data, name: file.name });
-                    if (res.status === 'success') 
-                        finalMediaData.push({ type: 'image', url: res.url });
-                    else 
-                        {
-                           console.error("Lỗi upload ảnh HD:", res);
-                           throw new Error(`Lỗi tải ảnh HD ${i+1}. Hãy thử ảnh nhỏ hơn.`);
-                        }
+               if (isHD) {
+                  const base64Data = await readFileAsBase64(file);
+                  const res = await sendToServer({ action: 'upload_single_image', image: base64Data, name: file.name });
+                  if (res.status === 'success')
+                     finalMediaData.push({ type: 'image', url: res.url });
+                  else {
+                     console.error("Lỗi upload ảnh HD:", res);
+                     throw new Error(`Lỗi tải ảnh HD ${i + 1}. Hãy thử ảnh nhỏ hơn.`);
+                  }
 
-                } else {
-                    const compressedBase64 = await compressImage(file, 1920, 0.7);
-                    // Ảnh nén SD gửi thẳng base64
-                    finalMediaData.push({ type: 'image', url: compressedBase64 });
-                }
+               } else {
+                  const compressedBase64 = await compressImage(file, 1920, 0.7);
+                  // Ảnh nén SD gửi thẳng base64
+                  finalMediaData.push({ type: 'image', url: compressedBase64 });
+               }
             }
          }
       }
@@ -643,7 +642,7 @@ function renderPostsPaged(newPosts, page) {
    // Xóa cái loader mà chúng ta tự tạo lúc gọi API
    const oldLoader = document.getElementById('bottom-feed-loader');
    if (oldLoader) oldLoader.remove();
-   
+
    // Xóa cả cái nút "Xem thêm" cũ nếu có (để tạo cái mới ở dưới cùng)
    const oldTrigger = document.getElementById('feed-load-more');
    if (oldTrigger) oldTrigger.remove();
@@ -651,81 +650,81 @@ function renderPostsPaged(newPosts, page) {
    // 2. LỌC TRÙNG BÀI VIẾT (Quan trọng nhất)
    // Chỉ lấy những bài mà trên màn hình CHƯA CÓ
    const uniquePosts = newPosts.filter(post => {
-       const postId = post.__backendId || post.id;
-       // Kiểm tra xem thẻ div có id="post-..." đã tồn tại chưa
-       return !document.getElementById(`post-${postId}`);
+      const postId = post.__backendId || post.id;
+      // Kiểm tra xem thẻ div có id="post-..." đã tồn tại chưa
+      return !document.getElementById(`post-${postId}`);
    });
 
    // Nếu không còn bài nào mới (do trùng hết) thì thôi không vẽ nữa
    if (uniquePosts.length === 0) {
-       console.log("⚠️ Tất cả bài viết trang này đã hiển thị rồi, bỏ qua.");
-       return;
+      console.log("⚠️ Tất cả bài viết trang này đã hiển thị rồi, bỏ qua.");
+      return;
    }
 
    // 3. VẼ BÀI VIẾT MỚI
    // [TỐI ƯU] Gom HTML lại để insert 1 lần
    let htmlBuffer = '';
    uniquePosts.forEach(post => {
-       htmlBuffer += createPostHtml(post);
+      htmlBuffer += createPostHtml(post);
    });
-   
+
    if (htmlBuffer) {
-       container.insertAdjacentHTML('beforeend', htmlBuffer);
+      container.insertAdjacentHTML('beforeend', htmlBuffer);
    }
 
    // [MỚI] Kích hoạt Lazy Load
    scanLazyImages();
 }
- 
+
 function renderPosts() {
-    // Nếu chưa có dữ liệu thì thôi
-    if (!serverFeedData || serverFeedData.length === 0) return;
+   // Nếu chưa có dữ liệu thì thôi
+   if (!serverFeedData || serverFeedData.length === 0) return;
 
-    const container = document.getElementById('posts-container');
-    
-    // TRƯỜNG HỢP 1: Nếu đang lọc Hashtag hoặc Profile riêng -> Vẽ lại từ đầu (Cách cũ)
-    // Vì lúc này danh sách bài viết thay đổi hoàn toàn cấu trúc
-    if (typeof currentHashFilter !== 'undefined' && currentHashFilter) {
-        container.innerHTML = '';
-        mergeServerDataToView(serverFeedData);
-        return;
-    }
+   const container = document.getElementById('posts-container');
 
-    // TRƯỜNG HỢP 2: Nếu là Feed trang chủ bình thường -> Dùng Smart Sync (Cách mới)
-    // Để giữ vị trí cuộn và cập nhật êm ái
-    smartSyncFeed(serverFeedData.slice(0, 15), container); // Chỉ sync 15 bài đầu
+   // TRƯỜNG HỢP 1: Nếu đang lọc Hashtag hoặc Profile riêng -> Vẽ lại từ đầu (Cách cũ)
+   // Vì lúc này danh sách bài viết thay đổi hoàn toàn cấu trúc
+   if (typeof currentHashFilter !== 'undefined' && currentHashFilter) {
+      container.innerHTML = '';
+      mergeServerDataToView(serverFeedData);
+      return;
+   }
+
+   // TRƯỜNG HỢP 2: Nếu là Feed trang chủ bình thường -> Dùng Smart Sync (Cách mới)
+   // Để giữ vị trí cuộn và cập nhật êm ái
+   smartSyncFeed(serverFeedData.slice(0, 15), container); // Chỉ sync 15 bài đầu
 }
 
 // Hàm quét và kích hoạt observer cho các ảnh chưa tải
 function scanLazyImages() {
-    initLazyImageObserver();
-    const lazyImages = document.querySelectorAll('img.lazy-load-img:not(.observed)');
-    lazyImages.forEach(img => {
-        lazyImageObserver.observe(img);
-        img.classList.add('observed');
-    });
+   initLazyImageObserver();
+   const lazyImages = document.querySelectorAll('img.lazy-load-img:not(.observed)');
+   lazyImages.forEach(img => {
+      lazyImageObserver.observe(img);
+      img.classList.add('observed');
+   });
 }
 
 function parseMedia(mediaData) {
-    if (!mediaData) return [];
-    try {
-        const parsed = Array.isArray(mediaData) ? mediaData : JSON.parse(mediaData);
-        return parsed.map(item => {
-            if (typeof item === 'string') {
-                // Dữ liệu cũ, giả định là ảnh
-                return { type: 'image', url: item, file: item, previewUrl: item };
-            }
-            // Dữ liệu mới
-            return {
-                type: item.type || 'image',
-                url: item.url,
-                file: item.url, // Khi sửa, file chính là url
-                previewUrl: item.url
-            };
-        });
-    } catch (e) {
-        return [];
-    }
+   if (!mediaData) return [];
+   try {
+      const parsed = Array.isArray(mediaData) ? mediaData : JSON.parse(mediaData);
+      return parsed.map(item => {
+         if (typeof item === 'string') {
+            // Dữ liệu cũ, giả định là ảnh
+            return { type: 'image', url: item, file: item, previewUrl: item };
+         }
+         // Dữ liệu mới
+         return {
+            type: item.type || 'image',
+            url: item.url,
+            file: item.url, // Khi sửa, file chính là url
+            previewUrl: item.url
+         };
+      });
+   } catch (e) {
+      return [];
+   }
 }
 function renderComments(postId) {
    const post = allData.find(d => d.__backendId === postId);
@@ -788,14 +787,14 @@ function updateMediaPreview() { // Sửa: Image -> Media
 
 // --- 1. THÊM VÀO ĐẦU FILE web/feed.js ---
 function getDriveId(url) {
-    if (!url || typeof url !== 'string') return null;
-    // Tìm ID trong dạng .../file/d/ID...
-    let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-    if (match && match[1]) return match[1];
-    // Tìm ID trong dạng ...id=ID...
-    match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-    if (match && match[1]) return match[1];
-    return null;
+   if (!url || typeof url !== 'string') return null;
+   // Tìm ID trong dạng .../file/d/ID...
+   let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+   if (match && match[1]) return match[1];
+   // Tìm ID trong dạng ...id=ID...
+   match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+   if (match && match[1]) return match[1];
+   return null;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -803,148 +802,148 @@ function getDriveId(url) {
 // size: chiều rộng pixel muốn hiển thị (mặc định 400px)
 // ─────────────────────────────────────────────────────────────
 function getThumbUrl(url, size = 400) {
-    if (!url || typeof url !== 'string') return url;
- 
-    // LOẠI 1: lh3.googleusercontent.com/d/FILE_ID=sXXX hoặc =wXXX
-    // Đây là URL ảnh mới (upload từ tháng gần đây)
-    if (url.includes('lh3.googleusercontent.com')) {
-        // Xóa tham số size cũ (=s600, =w800, =s0, ...) rồi gắn =wSIZE
-        return url.replace(/=[swh]\d+$/, '') + '=w' + size;
-    }
- 
-    // LOẠI 2: drive.google.com/uc?export=view&id=FILE_ID
-    // Đây là URL ảnh cũ — dùng thumbnail API riêng của Drive
-    if (url.includes('drive.google.com/uc')) {
-        const fileId = getDriveId(url);
-        if (fileId) {
-            return `https://drive.google.com/thumbnail?id=${fileId}&sz=w${size}`;
-        }
-    }
- 
-    // LOẠI 3: URL khác (blob:, data:, external) → giữ nguyên
-    return url;
+   if (!url || typeof url !== 'string') return url;
+
+   // LOẠI 1: lh3.googleusercontent.com/d/FILE_ID=sXXX hoặc =wXXX
+   // Đây là URL ảnh mới (upload từ tháng gần đây)
+   if (url.includes('lh3.googleusercontent.com')) {
+      // Xóa tham số size cũ (=s600, =w800, =s0, ...) rồi gắn =wSIZE
+      return url.replace(/=[swh]\d+$/, '') + '=w' + size;
+   }
+
+   // LOẠI 2: drive.google.com/uc?export=view&id=FILE_ID
+   // Đây là URL ảnh cũ — dùng thumbnail API riêng của Drive
+   if (url.includes('drive.google.com/uc')) {
+      const fileId = getDriveId(url);
+      if (fileId) {
+         return `https://drive.google.com/thumbnail?id=${fileId}&sz=w${size}`;
+      }
+   }
+
+   // LOẠI 3: URL khác (blob:, data:, external) → giữ nguyên
+   return url;
 }
- 
+
 // Hàm lấy URL full-size để xem ảnh chi tiết (tap vào ảnh)
 function getFullUrl(url) {
-    if (!url || typeof url !== 'string') return url;
-    if (url.includes('lh3.googleusercontent.com')) {
-        // Xóa tham số size → Drive tự trả ảnh gốc
-        return url.replace(/=[swh]\d+$/, '');
-    }
-    return url; // Các loại URL khác giữ nguyên
+   if (!url || typeof url !== 'string') return url;
+   if (url.includes('lh3.googleusercontent.com')) {
+      // Xóa tham số size → Drive tự trả ảnh gốc
+      return url.replace(/=[swh]\d+$/, '');
+   }
+   return url; // Các loại URL khác giữ nguyên
 }
 
 
 async function openPostImages(postId, startIndex = 0) {
-    let post = null;
-    if (typeof serverFeedData !== 'undefined') {
-        post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
-    }
-    if (!post && typeof allData !== 'undefined') {
-        post = allData.find(d => d.__backendId === postId);
-    }
+   let post = null;
+   if (typeof serverFeedData !== 'undefined') {
+      post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
+   }
+   if (!post && typeof allData !== 'undefined') {
+      post = allData.find(d => d.__backendId === postId);
+   }
 
-    if (!post) return;
+   if (!post) return;
 
-    let mediaItems = [];
-    try {
-        mediaItems = parseMedia(post.imageData);
-    } catch (e) { return; }
+   let mediaItems = [];
+   try {
+      mediaItems = parseMedia(post.imageData);
+   } catch (e) { return; }
 
-    if (!mediaItems || mediaItems.length === 0) return;
+   if (!mediaItems || mediaItems.length === 0) return;
 
-    const modalEl = document.getElementById('imageViewerModal');
-    if (!modalEl) return;
+   const modalEl = document.getElementById('imageViewerModal');
+   if (!modalEl) return;
 
-    const container = document.getElementById('carousel-items-container');
-    if (container) {
-        container.innerHTML = '';
-        
-        mediaItems.forEach((mediaItem, index) => {
-            const isActive = index === startIndex ? 'active' : '';
-            let rawUrl = mediaItem.url || mediaItem.previewUrl || ''; 
-            if (typeof mediaItem === 'string') rawUrl = mediaItem;
-            
-            let itemType = mediaItem.type || 'image';
-            if (typeof mediaItem === 'string' && rawUrl.startsWith('blob:')) itemType = 'video';
+   const container = document.getElementById('carousel-items-container');
+   if (container) {
+      container.innerHTML = '';
 
-            let itemHtml = '';
+      mediaItems.forEach((mediaItem, index) => {
+         const isActive = index === startIndex ? 'active' : '';
+         let rawUrl = mediaItem.url || mediaItem.previewUrl || '';
+         if (typeof mediaItem === 'string') rawUrl = mediaItem;
 
-            // --- XỬ LÝ VIDEO ---
-            if (itemType === 'video') {
-                const driveId = getDriveId(rawUrl);
-                
-                if (driveId) {
-                    // Link chuẩn 100% cho iframe preview
-                    const embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
-                    itemHtml = `
+         let itemType = mediaItem.type || 'image';
+         if (typeof mediaItem === 'string' && rawUrl.startsWith('blob:')) itemType = 'video';
+
+         let itemHtml = '';
+
+         // --- XỬ LÝ VIDEO ---
+         if (itemType === 'video') {
+            const driveId = getDriveId(rawUrl);
+
+            if (driveId) {
+               // Link chuẩn 100% cho iframe preview
+               const embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
+               itemHtml = `
                     <div class="carousel-item h-100 ${isActive}">
                         <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
                              <iframe src="${embedUrl}" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="max-width: 100%; aspect-ratio: 16/9;"></iframe>
                         </div>
                     </div>`;
-                } else {
-                    // Fallback nếu không lấy được ID (ví dụ video upload blob)
-                    itemHtml = `
+            } else {
+               // Fallback nếu không lấy được ID (ví dụ video upload blob)
+               itemHtml = `
                     <div class="carousel-item h-100 ${isActive}">
                         <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
                             <video src="${rawUrl}" class="d-block" style="max-width: 100%; max-height: 100%;" controls autoplay playsinline></video>
                         </div>
                     </div>`;
-                }
-            } 
-            // --- XỬ LÝ ẢNH ---
-            else {
-                let imgUrl = rawUrl;
-                // Fix link ảnh cũ
-                if (imgUrl.includes('/uc?id=') && !imgUrl.includes('export=view')) {
-                    const id = getDriveId(imgUrl);
-                    if (id) imgUrl = `https://drive.google.com/uc?export=view&id=${id}`;
-                }
-				
-				//if (imgUrl && typeof imgUrl === 'string') {
-                    //imgUrl = imgUrl.replace('=s600', '=s0');
-                //}
-				imgUrl = getFullUrl(imgUrl);
-				
-                itemHtml = `
+            }
+         }
+         // --- XỬ LÝ ẢNH ---
+         else {
+            let imgUrl = rawUrl;
+            // Fix link ảnh cũ
+            if (imgUrl.includes('/uc?id=') && !imgUrl.includes('export=view')) {
+               const id = getDriveId(imgUrl);
+               if (id) imgUrl = `https://drive.google.com/uc?export=view&id=${id}`;
+            }
+
+            //if (imgUrl && typeof imgUrl === 'string') {
+            //imgUrl = imgUrl.replace('=s600', '=s0');
+            //}
+            imgUrl = getFullUrl(imgUrl);
+
+            itemHtml = `
                     <div class="carousel-item h-100 ${isActive}">
                         <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black;">
                             <img src="${imgUrl}" class="d-block" style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Image">
                         </div>
                     </div>`;
-            }
-            container.insertAdjacentHTML('beforeend', itemHtml);
-        });
+         }
+         container.insertAdjacentHTML('beforeend', itemHtml);
+      });
 
-        // Xử lý nút điều hướng
-        const controls = document.querySelectorAll('#imageViewerModal .carousel-control-prev, #imageViewerModal .carousel-control-next');
-        if (mediaItems.length <= 1) controls.forEach(el => el.style.display = 'none');
-        else controls.forEach(el => el.style.display = 'flex');
+      // Xử lý nút điều hướng
+      const controls = document.querySelectorAll('#imageViewerModal .carousel-control-prev, #imageViewerModal .carousel-control-next');
+      if (mediaItems.length <= 1) controls.forEach(el => el.style.display = 'none');
+      else controls.forEach(el => el.style.display = 'flex');
 
-        const myModal = bootstrap.Modal.getOrCreateInstance(modalEl);
-        myModal.show();
-    }
+      const myModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+      myModal.show();
+   }
 }
 
 
 // 5. Sự kiện dọn dẹp an toàn
 const imageModalCleanup = document.getElementById('imageViewerModal');
 if (imageModalCleanup) {
-    // Xóa sự kiện cũ để tránh bị gọi nhiều lần (clone node trick)
-    const newEl = imageModalCleanup.cloneNode(true);
-    imageModalCleanup.parentNode.replaceChild(newEl, imageModalCleanup);
-    
-    newEl.addEventListener('hidden.bs.modal', function () {
-        const container = document.getElementById('carousel-items-container');
-        if (container) container.innerHTML = ''; // Chỉ xóa nội dung bên trong
+   // Xóa sự kiện cũ để tránh bị gọi nhiều lần (clone node trick)
+   const newEl = imageModalCleanup.cloneNode(true);
+   imageModalCleanup.parentNode.replaceChild(newEl, imageModalCleanup);
 
-        // Xóa backdrop kẹt
-        document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
-        document.body.classList.remove('modal-open');
-        document.body.style = '';
-    });
+   newEl.addEventListener('hidden.bs.modal', function () {
+      const container = document.getElementById('carousel-items-container');
+      if (container) container.innerHTML = ''; // Chỉ xóa nội dung bên trong
+
+      // Xóa backdrop kẹt
+      document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
+      document.body.classList.remove('modal-open');
+      document.body.style = '';
+   });
 }
 
 // Sửa thêm: Nút xóa tất cả
@@ -987,13 +986,13 @@ imageInput.addEventListener('change', async (e) => {
       let previewUrl = '';
 
       if (file.type.startsWith('video/')) {
-          mediaType = 'video';
-          previewUrl = URL.createObjectURL(file);
+         mediaType = 'video';
+         previewUrl = URL.createObjectURL(file);
       } else if (file.type.startsWith('image/')) {
-          mediaType = 'image';
-          previewUrl = await compressImage(file, 500, 0.6); // Tạo thumbnail cho ảnh
+         mediaType = 'image';
+         previewUrl = await compressImage(file, 500, 0.6); // Tạo thumbnail cho ảnh
       } else {
-          continue; // Bỏ qua file không hỗ trợ
+         continue; // Bỏ qua file không hỗ trợ
       }
 
       currentMedia.push({ file: file, previewUrl: previewUrl, type: mediaType });
@@ -1034,126 +1033,126 @@ document.getElementById('createPostModal').addEventListener('hidden.bs.modal', f
 });
 
 document.getElementById('posts-container').addEventListener('click', async (e) => {
-    const likeBtn = e.target.closest('.like-btn');
-    if (likeBtn) {
-        if (likeBtn.disabled) return; // Chặn click liên tục
+   const likeBtn = e.target.closest('.like-btn');
+   if (likeBtn) {
+      if (likeBtn.disabled) return; // Chặn click liên tục
 
-        const icon = likeBtn.querySelector('i');
-        const textSpan = likeBtn.querySelector('span');
-        const isCurrentlyLiked = icon.classList.contains('bi-heart-fill');
-        const postId = likeBtn.dataset.id;
-        const currentUsername = currentProfile ? currentProfile.username : '';
+      const icon = likeBtn.querySelector('i');
+      const textSpan = likeBtn.querySelector('span');
+      const isCurrentlyLiked = icon.classList.contains('bi-heart-fill');
+      const postId = likeBtn.dataset.id;
+      const currentUsername = currentProfile ? currentProfile.username : '';
 
-        // -- Cập nhật UI ngay lập tức --
-        if (isCurrentlyLiked) {
-            // Bỏ thích
-            icon.className = 'bi bi-heart fs-5'; 
-            icon.classList.remove('text-danger');
-            
-            let count = parseInt(textSpan.textContent) || 0;
-            count = Math.max(0, count - 1);
-            textSpan.textContent = count > 0 ? count : 'Thích';
-            
-            likeBtn.classList.remove('active');
+      // -- Cập nhật UI ngay lập tức --
+      if (isCurrentlyLiked) {
+         // Bỏ thích
+         icon.className = 'bi bi-heart fs-5';
+         icon.classList.remove('text-danger');
 
-            // Cập nhật vào bộ nhớ đệm (Local Cache) để nếu cuộn đi cuộn lại vẫn đúng
-            updateLocalDataLike(postId, currentUsername, false);
+         let count = parseInt(textSpan.textContent) || 0;
+         count = Math.max(0, count - 1);
+         textSpan.textContent = count > 0 ? count : 'Thích';
 
-        } else {
-            // Thích
-            icon.className = 'bi bi-heart-fill text-danger fs-5';
-            
-            let count = parseInt(textSpan.textContent) || 0;
-            textSpan.textContent = count + 1;
-            
-            likeBtn.classList.add('active'); // Hiệu ứng nhún nhảy
+         likeBtn.classList.remove('active');
 
-            // Cập nhật vào bộ nhớ đệm
-            updateLocalDataLike(postId, currentUsername, true);
-        }
+         // Cập nhật vào bộ nhớ đệm (Local Cache) để nếu cuộn đi cuộn lại vẫn đúng
+         updateLocalDataLike(postId, currentUsername, false);
 
-        // -- Gửi lên Server (Chạy ngầm) --
-        try {
-            const res = await sendToServer({
-                action: 'like_post',
-                postId: postId,
-                username: currentUsername || 'anonymous'
-            });
-            // Nếu server trả về số chuẩn xác thì cập nhật lại lần nữa cho chắc
-            if (res.status === 'success' && res.newCount !== undefined) {
-                textSpan.textContent = res.newCount > 0 ? res.newCount : 'Thích';
-            }
-        } catch (err) {
-            console.error("Lỗi like:", err);
-            // Có thể revert UI nếu cần thiết
-        }
-        return;
-    }
+      } else {
+         // Thích
+         icon.className = 'bi bi-heart-fill text-danger fs-5';
 
-    // -----------------------------------------------------------
-    // 2. XỬ LÝ CLICK VÀO ẢNH -> MỞ CAROUSEL (MỚI THÊM)
-    // -----------------------------------------------------------
-    // Bắt sự kiện click vào ảnh bài viết (trừ avatar)
-    const imgEl = e.target.closest('.img-box img') || e.target.closest('.post-image') || (e.target.tagName === 'IMG' ? e.target : null);
-    
-    if (imgEl && !imgEl.classList.contains('avatar') && !imgEl.classList.contains('user-avatar')) {
-       const postCard = imgEl.closest('.post-card');
-       if (postCard) {
-          const postId = postCard.id.replace('post-', '');
-          
-          // Tính toán vị trí ảnh (index) để mở đúng ảnh đó
-          const allImages = Array.from(postCard.querySelectorAll('img:not(.avatar):not(.user-avatar)')); 
-          const clickIndex = allImages.indexOf(imgEl);
- 
-          openPostImages(postId, clickIndex >= 0 ? clickIndex : 0);
-       }
-       return; // Dừng lại, không xử lý tiếp
-    }
+         let count = parseInt(textSpan.textContent) || 0;
+         textSpan.textContent = count + 1;
 
-    // -----------------------------------------------------------
-    // 3. XỬ LÝ MỞ COMMENT
-    // -----------------------------------------------------------
-    const commentBtn = e.target.closest('.comment-btn');
-    if (commentBtn) {
-        currentPostId = commentBtn.dataset.id;
-        loadCommentsForPost(currentPostId);
-        
-        // Mở Modal bình luận
-        if(typeof commentModal !== 'undefined') commentModal.show();
-        else new bootstrap.Modal(document.getElementById('commentsModal')).show();
-        
-        return;
-    }
+         likeBtn.classList.add('active'); // Hiệu ứng nhún nhảy
 
-    // -----------------------------------------------------------
-    // 4. XỬ LÝ MENU 3 CHẤM (Sửa/Xóa)
-    // -----------------------------------------------------------
-    const menuBtn = e.target.closest('.post-menu-btn');
-    if (menuBtn) {
-        currentPostId = menuBtn.dataset.id;
-        
-        // Mở Modal tùy chọn
-        if(typeof postOptionsModal !== 'undefined') postOptionsModal.show();
-        else new bootstrap.Modal(document.getElementById('postOptionsModal')).show();
-        
-        return;
-    }
+         // Cập nhật vào bộ nhớ đệm
+         updateLocalDataLike(postId, currentUsername, true);
+      }
+
+      // -- Gửi lên Server (Chạy ngầm) --
+      try {
+         const res = await sendToServer({
+            action: 'like_post',
+            postId: postId,
+            username: currentUsername || 'anonymous'
+         });
+         // Nếu server trả về số chuẩn xác thì cập nhật lại lần nữa cho chắc
+         if (res.status === 'success' && res.newCount !== undefined) {
+            textSpan.textContent = res.newCount > 0 ? res.newCount : 'Thích';
+         }
+      } catch (err) {
+         console.error("Lỗi like:", err);
+         // Có thể revert UI nếu cần thiết
+      }
+      return;
+   }
+
+   // -----------------------------------------------------------
+   // 2. XỬ LÝ CLICK VÀO ẢNH -> MỞ CAROUSEL (MỚI THÊM)
+   // -----------------------------------------------------------
+   // Bắt sự kiện click vào ảnh bài viết (trừ avatar)
+   const imgEl = e.target.closest('.img-box img') || e.target.closest('.post-image') || (e.target.tagName === 'IMG' ? e.target : null);
+
+   if (imgEl && !imgEl.classList.contains('avatar') && !imgEl.classList.contains('user-avatar')) {
+      const postCard = imgEl.closest('.post-card');
+      if (postCard) {
+         const postId = postCard.id.replace('post-', '');
+
+         // Tính toán vị trí ảnh (index) để mở đúng ảnh đó
+         const allImages = Array.from(postCard.querySelectorAll('img:not(.avatar):not(.user-avatar)'));
+         const clickIndex = allImages.indexOf(imgEl);
+
+         openPostImages(postId, clickIndex >= 0 ? clickIndex : 0);
+      }
+      return; // Dừng lại, không xử lý tiếp
+   }
+
+   // -----------------------------------------------------------
+   // 3. XỬ LÝ MỞ COMMENT
+   // -----------------------------------------------------------
+   const commentBtn = e.target.closest('.comment-btn');
+   if (commentBtn) {
+      currentPostId = commentBtn.dataset.id;
+      loadCommentsForPost(currentPostId);
+
+      // Mở Modal bình luận
+      if (typeof commentModal !== 'undefined') commentModal.show();
+      else new bootstrap.Modal(document.getElementById('commentsModal')).show();
+
+      return;
+   }
+
+   // -----------------------------------------------------------
+   // 4. XỬ LÝ MENU 3 CHẤM (Sửa/Xóa)
+   // -----------------------------------------------------------
+   const menuBtn = e.target.closest('.post-menu-btn');
+   if (menuBtn) {
+      currentPostId = menuBtn.dataset.id;
+
+      // Mở Modal tùy chọn
+      if (typeof postOptionsModal !== 'undefined') postOptionsModal.show();
+      else new bootstrap.Modal(document.getElementById('postOptionsModal')).show();
+
+      return;
+   }
 });
 
 // --- HÀM CẬP NHẬT CACHE CỤC BỘ KHI LIKE (Để đồng bộ dữ liệu) --- [FIXED]
 function updateLocalDataLike(postId, username, isLiked) {
-    const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
-    if (post) {
-        // Cập nhật trạng thái 'liked' của user hiện tại
-        post.liked = isLiked;
-        // Cập nhật tổng số 'likes'
-        let currentCount = Number(post.likes) || 0;
-        if (isLiked) {
-            post.likes = currentCount + 1;
-        } else {
-            post.likes = Math.max(0, currentCount - 1);
-        }
-    }
+   const post = serverFeedData.find(p => p.__backendId === postId || p.id === postId);
+   if (post) {
+      // Cập nhật trạng thái 'liked' của user hiện tại
+      post.liked = isLiked;
+      // Cập nhật tổng số 'likes'
+      let currentCount = Number(post.likes) || 0;
+      if (isLiked) {
+         post.likes = currentCount + 1;
+      } else {
+         post.likes = Math.max(0, currentCount - 1);
+      }
+   }
 }
 
 // Post Options 
@@ -1393,9 +1392,21 @@ document.getElementById('posts-container').addEventListener('click', async (e) =
    if (showInputBtn) {
       const pid = showInputBtn.dataset.id;
       const box = document.getElementById(`comment-input-box-${pid}`);
+      const wrapper = document.getElementById(`post-comment-wrapper-${pid}`);
+
       box.classList.toggle('d-none');
+
+      // Nếu mở form bình luận thì hiện cả cục bọc ngoài (chứa padding pb-3)
       if (!box.classList.contains('d-none')) {
+         wrapper.classList.remove('d-none');
          document.getElementById(`input-cmt-${pid}`).focus();
+      } else {
+         // Nếu đóng form bình luận, kiểm tra xem có bình luận nào đang hiện không
+         // Nếu không có bình luận nào thì ẩn luôn cục bọc ngoài
+         const container = document.getElementById(`comments-container-${pid}`);
+         if (container && container.innerHTML.trim() === '') {
+            wrapper.classList.add('d-none');
+         }
       }
       return;
    }
@@ -1722,10 +1733,10 @@ function highlightPost(element) {
 
 function renderPostMedia(mediaItems, layout, postId = null) {
    if (!mediaItems || mediaItems.length === 0) return '';
-      
+
    const count = mediaItems.length;
    let layoutClass = '';
-   
+
    // --- 1. XÁC ĐỊNH LAYOUT ---
    if (count === 1) {
       layoutClass = 'layout-1';
@@ -1751,10 +1762,10 @@ function renderPostMedia(mediaItems, layout, postId = null) {
    for (let i = 0; i < showCount; i++) {
       // Xác định: Đang xem trên feed (có postId) hay đang tạo bài mới (postId = null)
       const isFeedView = (postId !== null);
-      
-      const clickAttr = isFeedView 
-          ? `onclick="openPostImages('${postId}', ${i})"` 
-          : ''; 
+
+      const clickAttr = isFeedView
+         ? `onclick="openPostImages('${postId}', ${i})"`
+         : '';
       const cursorClass = isFeedView ? 'cursor-pointer' : '';
 
       html += `<div class="img-box ${cursorClass}" ${clickAttr} style="position: relative; overflow: hidden; background: #000;">`;
@@ -1765,28 +1776,28 @@ function renderPostMedia(mediaItems, layout, postId = null) {
       let mediaType = 'image';
 
       if (typeof mediaItem === 'string') {
-          mediaUrl = mediaItem;
-          // Đoán type dựa trên URL
-          if (mediaUrl.startsWith('blob:') || mediaUrl.includes('/preview')) mediaType = 'video';
+         mediaUrl = mediaItem;
+         // Đoán type dựa trên URL
+         if (mediaUrl.startsWith('blob:') || mediaUrl.includes('/preview')) mediaType = 'video';
       } else if (mediaItem) {
-          mediaType = mediaItem.type || 'image';
-          mediaUrl = mediaItem.previewUrl || mediaItem.url || '';
+         mediaType = mediaItem.type || 'image';
+         mediaUrl = mediaItem.previewUrl || mediaItem.url || '';
       }
 
       // [PHẦN QUAN TRỌNG NHẤT: XỬ LÝ VIDEO]
       if (mediaType === 'video') {
-          if (!isFeedView) { 
-              // A. KHI ĐANG TẠO BÀI (PREVIEW): Dùng Iframe hoặc Video tag để check
-              if (mediaUrl.includes('/preview')) {
-                   html += `<iframe src="${mediaUrl}" class="w-100 h-100" frameborder="0" style="pointer-events: none;"></iframe>`;
-              } else {
-                  html += `<video src="${mediaUrl}" class="w-100 h-100 object-fit-cover" controls></video>`;
-              }
-          } else { 
-              // B. KHI XEM TRÊN FEED: Hiển thị "Card Video" (Màu đen + Nút Play)
-              // Lý do: Link Drive không hiện được Thumbnail tự động, nên ta dùng giao diện này cho đẹp và đồng bộ.
-              
-              html += `
+         if (!isFeedView) {
+            // A. KHI ĐANG TẠO BÀI (PREVIEW): Dùng Iframe hoặc Video tag để check
+            if (mediaUrl.includes('/preview')) {
+               html += `<iframe src="${mediaUrl}" class="w-100 h-100" frameborder="0" style="pointer-events: none;"></iframe>`;
+            } else {
+               html += `<video src="${mediaUrl}" class="w-100 h-100 object-fit-cover" controls></video>`;
+            }
+         } else {
+            // B. KHI XEM TRÊN FEED: Hiển thị "Card Video" (Màu đen + Nút Play)
+            // Lý do: Link Drive không hiện được Thumbnail tự động, nên ta dùng giao diện này cho đẹp và đồng bộ.
+
+            html += `
                 <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-black text-white" 
                      style="background: #000; min-height: 200px;">
                     <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
@@ -1795,29 +1806,29 @@ function renderPostMedia(mediaItems, layout, postId = null) {
                     <span class="mt-2 text-white-50 small font-monospace">VIDEO</span>
                 </div>
               `;
-          }
+         }
 
       } else {
-          // --- XỬ LÝ ẢNH ---
-          
-          // Fix link ảnh cũ
-          if (mediaUrl && mediaUrl.includes('/uc?id=') && !mediaUrl.includes('export=view')) {
-              try {
-                  const fileId = new URL(mediaUrl).searchParams.get('id');
-                  if (fileId) mediaUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
-              } catch(e) {}
-          }
+         // --- XỬ LÝ ẢNH ---
 
-          if (!isFeedView) {
-              html += `<img src="${mediaUrl}" class="w-100 h-100 object-fit-cover" alt="Preview ${i}">`;
-          } else {
-              let idbKeyAttr = '';
-              if (mediaItem && mediaItem.type === 'indexed_db_ref' && mediaItem.key) {
-                  idbKeyAttr = `data-idb-key="${mediaItem.key}"`;
-              }
+         // Fix link ảnh cũ
+         if (mediaUrl && mediaUrl.includes('/uc?id=') && !mediaUrl.includes('export=view')) {
+            try {
+               const fileId = new URL(mediaUrl).searchParams.get('id');
+               if (fileId) mediaUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+            } catch (e) { }
+         }
 
-			  const thumbUrl = getThumbUrl(mediaUrl, 400);
-              html += `<img src="${BLANK_IMG}" 
+         if (!isFeedView) {
+            html += `<img src="${mediaUrl}" class="w-100 h-100 object-fit-cover" alt="Preview ${i}">`;
+         } else {
+            let idbKeyAttr = '';
+            if (mediaItem && mediaItem.type === 'indexed_db_ref' && mediaItem.key) {
+               idbKeyAttr = `data-idb-key="${mediaItem.key}"`;
+            }
+
+            const thumbUrl = getThumbUrl(mediaUrl, 400);
+            html += `<img src="${BLANK_IMG}" 
                          data-src="${thumbUrl}"
                          ${idbKeyAttr}
                          class="lazy-load-img" 
@@ -1825,7 +1836,7 @@ function renderPostMedia(mediaItems, layout, postId = null) {
                          onload="this.classList.add('loaded')"
                          onerror="this.style.display='none'" 
                          alt="Image ${i}">`;
-          }
+         }
       }
 
       // --- 4. LỚP PHỦ SỐ LƯỢNG ẢNH DƯ ---
@@ -1835,10 +1846,10 @@ function renderPostMedia(mediaItems, layout, postId = null) {
                        +${count - displayLimit}
                   </div>`;
       }
-      
+
       html += `</div>`;
    }
-   
+
    html += '</div>';
    return html;
 }
@@ -1846,22 +1857,22 @@ function renderPostMedia(mediaItems, layout, postId = null) {
 function createPostHtml(post) {
    // 1. Xử lý thông tin người dùng
    const displayName = post.fullname || post.username || 'Người dùng';
-   
+
    // Parse ảnh: Hỗ trợ cả mảng JSON lẫn mảng thường
    let mediaItems = [];
    try {
-       mediaItems = parseMedia(post.imageData);
+      mediaItems = parseMedia(post.imageData);
    } catch (e) { mediaItems = []; }
-   
+
    // --- LOGIC 1: QUYỀN CHỦ SỞ HỮU (Verified & Menu) ---
    const isOwner = currentProfile && currentProfile.username === post.username;
    const verifiedIcon = isOwner ? `<i class="bi bi-patch-check-fill text-primary ms-1"></i>` : '';
-   
+
    // Giả sử bạn có hàm createAvatarHtml riêng, nếu chưa có thì dùng thẻ img đơn giản
-   const avatarHtml = (typeof createAvatarHtml === 'function') 
-       ? createAvatarHtml(post, 'avatar-circle') 
-       : `<img src="${post.avatar || 'https://via.placeholder.com/40'}" class="avatar-img" alt="avatar">`;
-   
+   const avatarHtml = (typeof createAvatarHtml === 'function')
+      ? createAvatarHtml(post, 'avatar-circle')
+      : `<img src="${post.avatar || 'https://via.placeholder.com/40'}" class="avatar-img" alt="avatar">`;
+
    // --- LOGIC 2: TRẠNG THÁI (SPINNER / MENU 3 CHẤM) ---
    let statusBadge = '';
    if (post.isUploading) {
@@ -1882,7 +1893,7 @@ function createPostHtml(post) {
    // --- LOGIC 3: NÚT LIKE ---
    // [FIX] Sử dụng trường 'liked' (boolean) và 'likes' (number) từ server
    const isLiked = post.liked === true;
-   
+
    const heartIconClass = isLiked ? 'bi-heart-fill text-danger' : 'bi-heart';
    const likeCount = Number(post.likes) || 0;
    const likeCountText = likeCount > 0 ? likeCount : 'Thích';
@@ -1891,17 +1902,17 @@ function createPostHtml(post) {
    // --- LOGIC 4: XỬ LÝ NỘI DUNG DÀI (Read More) ---
    let contentHtml = '';
    if (post.content) {
-       const contentRaw = post.content;
-       const MAX_LENGTH = 300; // Ngưỡng ký tự
+      const contentRaw = post.content;
+      const MAX_LENGTH = 300; // Ngưỡng ký tự
 
-       // Hàm xử lý hashtag (nếu bạn chưa có thì dùng text thường)
-       const processText = (typeof processTextWithHashtags === 'function') ? processTextWithHashtags : (t) => t;
+      // Hàm xử lý hashtag (nếu bạn chưa có thì dùng text thường)
+      const processText = (typeof processTextWithHashtags === 'function') ? processTextWithHashtags : (t) => t;
 
-       if (contentRaw.length > MAX_LENGTH) {
-           const shortText = processText(contentRaw.substring(0, MAX_LENGTH) + '...');
-           const fullText = processText(contentRaw);
-           
-           contentHtml = `
+      if (contentRaw.length > MAX_LENGTH) {
+         const shortText = processText(contentRaw.substring(0, MAX_LENGTH) + '...');
+         const fullText = processText(contentRaw);
+
+         contentHtml = `
                <div class="post-content-text mt-2">
                    <div id="content-short-${post.__backendId}">
                        ${shortText}
@@ -1911,22 +1922,22 @@ function createPostHtml(post) {
                        ${fullText}
                    </div>
                </div>`;
-       } else {
-           contentHtml = `<div class="post-content-text mt-2">${processText(contentRaw)}</div>`;
-       }
+      } else {
+         contentHtml = `<div class="post-content-text mt-2">${processText(contentRaw)}</div>`;
+      }
    }
 
    // --- LOGIC 5: XỬ LÝ ẢNH ---
    // Gọi hàm renderPostMedia (Cần đảm bảo hàm này hỗ trợ tham số thứ 3 là ID)
-   const mediaHtml = (typeof renderPostMedia === 'function') 
-       ? renderPostMedia(mediaItems, post.layout || 'grid-2x2', post.__backendId) 
-       : '';
+   const mediaHtml = (typeof renderPostMedia === 'function')
+      ? renderPostMedia(mediaItems, post.layout || 'grid-2x2', post.__backendId)
+      : '';
 
    // --- LOGIC 6: XỬ LÝ COMMENT ---
    // Format thời gian
-   const timeDisplay = (typeof formatTimeSmart === 'function') 
-       ? formatTimeSmart(post.timestamp || post.createdAt) 
-       : new Date(post.timestamp).toLocaleDateString();
+   const timeDisplay = (typeof formatTimeSmart === 'function')
+      ? formatTimeSmart(post.timestamp || post.createdAt)
+      : new Date(post.timestamp).toLocaleDateString();
 
    let commentsHtml = '';
    const comments = post.commentsData || [];
@@ -1937,12 +1948,12 @@ function createPostHtml(post) {
       // Chỉ lấy 2 comment đầu
       const visibleComments = comments.slice(0, 2);
       const hiddenComments = comments.slice(2);
-      
+
       // Hàm tạo HTML cho 1 comment (nếu chưa có thì phải định nghĩa)
       const renderCmt = (typeof createCommentHtml === 'function') ? createCommentHtml : (c) => `<div class="small"><b>${c.username}:</b> ${c.content}</div>`;
 
       let commentListHtml = visibleComments.map(c => renderCmt(c)).join('');
-      
+
       if (hiddenComments.length > 0) {
          const hiddenHtml = hiddenComments.map(c => renderCmt(c)).join('');
          commentListHtml += `
@@ -1963,28 +1974,30 @@ function createPostHtml(post) {
 
    // --- TRẢ VỀ HTML CUỐI CÙNG ---
    return `
-      <div class="post-card p-3 bg-white shadow-sm mb-4" id="post-${post.__backendId}">
+      <div class="post-card bg-white" id="post-${post.__backendId}">
          
-         <div class="d-flex align-items-center mb-2">
+         <div class="d-flex align-items-center mb-2 px-3 pt-3">
             <div class="avatar-circle avatar-circle-sm me-2 overflow-hidden border">
                ${avatarHtml}
             </div>
             <div>
-               <p class="mb-0 d-flex align-items-center post-author-name fw-bold text-dark" style="font-size: 0.95rem;"> 
+               <p class="mb-0 d-flex align-items-center post-author-name fw-bold text-dark"> 
                   ${displayName} ${verifiedIcon}
                </p>
-               <div class="post-timestamp text-muted small" style="font-size: 0.75rem;"> 
+               <div class="post-timestamp text-muted small"> 
                   ${timeDisplay}
                </div>
             </div>
             ${statusBadge}
          </div>
          
-         ${contentHtml} 
+         <div class="px-3">
+            ${contentHtml}
+         </div>
          
          ${mediaHtml}
          
-         <div class="d-flex gap-4 mt-2 mb-2" style="margin-left: 0 !important;">
+         <div class="d-flex gap-4 py-2 px-3" style="margin-left: 0 !important;">
             <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
                   data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
                <i class="bi ${heartIconClass} fs-5"></i>
@@ -1999,14 +2012,18 @@ function createPostHtml(post) {
             </button>
          </div>
 
-         ${commentsHtml}
+         // Layout bình luận. Nếu chưa có cmt thì ẩn luôn khung bao ngoài này
+         const wrapperClass = comments.length > 0 ? "px-3 pb-3" : "px-3 pb-3 d-none";
+         <div class="${wrapperClass}" id="post-comment-wrapper-${post.__backendId}">
+            ${commentsHtml}
 
-         <div class="d-flex align-items-center mt-2 gap-2 d-none" id="comment-input-box-${post.__backendId}">
-            <input type="text" class="form-control form-control-sm rounded-pill bg-light border-0" 
-                  id="input-cmt-${post.__backendId}" placeholder="Viết bình luận...">
-            <button type="button" class="btn btn-sm btn-primary rounded-circle send-inline-cmt-btn" data-id="${post.__backendId}">
-               <i class="bi bi-send-fill"></i>
-            </button>
+            <div class="d-flex align-items-center mt-3 gap-2 d-none" id="comment-input-box-${post.__backendId}">
+               <input type="text" class="form-control form-control-sm rounded-pill bg-light border-0" 
+                     id="input-cmt-${post.__backendId}" placeholder="Viết bình luận...">
+               <button type="button" class="btn btn-sm btn-primary rounded-circle send-inline-cmt-btn" data-id="${post.__backendId}">
+                  <i class="bi bi-send-fill"></i>
+               </button>
+            </div>
          </div>
       </div>
    `;
@@ -2030,8 +2047,8 @@ function createCommentHtml(cmt) {
 
    return `
 			  <div class="d-flex mb-2 comment-item" id="comment-${cmt.id}">
-				<div class="avatar-circle avatar-circle-sm me-0 flex-shrink-0 overflow-hidden border" 
-					 style="width: 32px; height: 32px; margin-right: 2px;">
+				<div class="avatar-circle avatar-circle-sm flex-shrink-0 overflow-hidden border" 
+					 style="width: 32px; height: 32px; margin-right: 8px;">
 				  ${avatarHtml}
 				</div>
 				
@@ -2059,9 +2076,9 @@ function createCommentHtml(cmt) {
 
 // --- HÀM TẠO SKELETON (THÊM MỚI) ---
 function createSkeletonHtml(count = 3) {
-    let html = '';
-    for(let i=0; i<count; i++) {
-        html += `
+   let html = '';
+   for (let i = 0; i < count; i++) {
+      html += `
         <div class="post-skeleton fade-in">
             <div class="d-flex align-items-center mb-3">
                 <div class="skeleton skeleton-avatar"></div>
@@ -2076,82 +2093,82 @@ function createSkeletonHtml(count = 3) {
             
             <div class="skeleton skeleton-img"></div>
         </div>`;
-    }
-    return html;
-} 
+   }
+   return html;
+}
 // ================================================================
 // FILE: feed.js (Dán xuống cuối file)
 // HÀM XỬ LÝ CACHE: Tách ảnh lưu vào IndexedDB, Text lưu LocalStorage
 // ================================================================
 
 async function processAndCacheFeed(posts) {
-    if (!posts || posts.length === 0) return;
-    
-    // Đảm bảo imageDB đã sẵn sàng (được khai báo bên utils.js)
-    if (typeof imageDB === 'undefined') {
-        console.error("Thiếu imageDB trong utils.js");
-        return;
-    }
+   if (!posts || posts.length === 0) return;
 
-    const postsForLocal = [];
+   // Đảm bảo imageDB đã sẵn sàng (được khai báo bên utils.js)
+   if (typeof imageDB === 'undefined') {
+      console.error("Thiếu imageDB trong utils.js");
+      return;
+   }
 
-    for (const post of posts) {
-        // Tạo bản sao bài viết để xử lý (tránh sửa trực tiếp vào biến đang hiển thị)
-        const cleanPost = { ...post }; 
-        
-        // Nếu bài viết có ảnh dạng Base64 (data:image...)
-        if (cleanPost.imageData) {
-            let images = [];
-            // Parse dữ liệu ảnh
-            try { 
-                images = Array.isArray(cleanPost.imageData) 
-                    ? cleanPost.imageData 
-                    : JSON.parse(cleanPost.imageData); 
-            } catch(e) { 
-                images = [cleanPost.imageData]; 
+   const postsForLocal = [];
+
+   for (const post of posts) {
+      // Tạo bản sao bài viết để xử lý (tránh sửa trực tiếp vào biến đang hiển thị)
+      const cleanPost = { ...post };
+
+      // Nếu bài viết có ảnh dạng Base64 (data:image...)
+      if (cleanPost.imageData) {
+         let images = [];
+         // Parse dữ liệu ảnh
+         try {
+            images = Array.isArray(cleanPost.imageData)
+               ? cleanPost.imageData
+               : JSON.parse(cleanPost.imageData);
+         } catch (e) {
+            images = [cleanPost.imageData];
+         }
+
+         // Duyệt từng ảnh để tách ra
+         const processedImages = [];
+         for (let i = 0; i < images.length; i++) {
+            const imgStr = images[i];
+
+            // Chỉ xử lý nếu là Base64 nặng
+            if (typeof imgStr === 'string' && imgStr.startsWith('data:image')) {
+               // 1. Tạo ID duy nhất cho ảnh (ID bài + Index)
+               const imgKey = `img_${post.__backendId}_${i}`;
+
+               // 2. Chuyển Base64 sang Blob và lưu vào IndexedDB
+               try {
+                  const blob = imageDB.base64ToBlob(imgStr);
+                  await imageDB.saveImage(imgKey, blob);
+
+                  // 3. Thay thế nội dung ảnh bằng KEY tham chiếu
+                  processedImages.push({ type: 'indexed_db_ref', key: imgKey });
+               } catch (err) {
+                  console.error("Lỗi lưu ảnh IDB:", err);
+                  // Nếu lỗi thì giữ nguyên ảnh gốc để không bị mất
+                  processedImages.push(imgStr);
+               }
+            } else {
+               // Nếu là URL thường thì giữ nguyên
+               processedImages.push(imgStr);
             }
+         }
+         // Cập nhật lại imageData của bản sao bằng danh sách đã tối ưu
+         cleanPost.imageData = JSON.stringify(processedImages);
+      }
 
-            // Duyệt từng ảnh để tách ra
-            const processedImages = [];
-            for (let i = 0; i < images.length; i++) {
-                const imgStr = images[i];
-                
-                // Chỉ xử lý nếu là Base64 nặng
-                if (typeof imgStr === 'string' && imgStr.startsWith('data:image')) {
-                    // 1. Tạo ID duy nhất cho ảnh (ID bài + Index)
-                    const imgKey = `img_${post.__backendId}_${i}`;
-                    
-                    // 2. Chuyển Base64 sang Blob và lưu vào IndexedDB
-                    try {
-                        const blob = imageDB.base64ToBlob(imgStr);
-                        await imageDB.saveImage(imgKey, blob);
-                        
-                        // 3. Thay thế nội dung ảnh bằng KEY tham chiếu
-                        processedImages.push({ type: 'indexed_db_ref', key: imgKey });
-                    } catch (err) {
-                        console.error("Lỗi lưu ảnh IDB:", err);
-                        // Nếu lỗi thì giữ nguyên ảnh gốc để không bị mất
-                        processedImages.push(imgStr);
-                    }
-                } else {
-                    // Nếu là URL thường thì giữ nguyên
-                    processedImages.push(imgStr);
-                }
-            }
-            // Cập nhật lại imageData của bản sao bằng danh sách đã tối ưu
-            cleanPost.imageData = JSON.stringify(processedImages);
-        }
-        
-        // Thêm vào danh sách để lưu LocalStorage
-        postsForLocal.push(cleanPost);
-    }
+      // Thêm vào danh sách để lưu LocalStorage
+      postsForLocal.push(cleanPost);
+   }
 
-    // CUỐI CÙNG: Lưu danh sách "nhẹ" vào LocalStorage
-    try {
-        localStorage.setItem('cached_feed_data', JSON.stringify(postsForLocal));
-        console.log("✅ Đã cache feed thành công (Ảnh -> IndexedDB, Text -> Local)");
-    } catch (e) {
-        console.warn("LocalStorage bị đầy:", e);
-    }
+   // CUỐI CÙNG: Lưu danh sách "nhẹ" vào LocalStorage
+   try {
+      localStorage.setItem('cached_feed_data', JSON.stringify(postsForLocal));
+      console.log("✅ Đã cache feed thành công (Ảnh -> IndexedDB, Text -> Local)");
+   } catch (e) {
+      console.warn("LocalStorage bị đầy:", e);
+   }
 
 }

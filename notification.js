@@ -1,24 +1,24 @@
- 
+
 
 // --- 1. NÚT: ĐÁNH DẤU TẤT CẢ ĐÃ ĐỌC ---
 document.getElementById('mark-all-read').addEventListener('click', async () => {
    const unreadItems = document.querySelectorAll('.notification-content-box.fw-semibold');
-   
+
    unreadItems.forEach(el => {
       el.classList.remove('fw-semibold');
       const dot = el.querySelector('.notification-dot');
-      if (dot) { 
-          dot.className = "notification-dot ms-auto me-2 d-none"; 
-          dot.style = "width: 8px; height: 8px; flex-shrink: 0;";
+      if (dot) {
+         dot.className = "notification-dot ms-auto me-2 d-none";
+         dot.style = "width: 8px; height: 8px; flex-shrink: 0;";
       }
-      
+
       const wrap = el.closest('.notification-swipe-wrapper');
       if (wrap) {
-          const swipeBtn = wrap.querySelector('.btn-toggle-read');
-          if (swipeBtn) {
-              swipeBtn.className = "notif-action-btn btn-toggle-read bg-secondary text-white";
-              swipeBtn.innerHTML = '<i class="bi bi-envelope-fill"></i>';
-          }
+         const swipeBtn = wrap.querySelector('.btn-toggle-read');
+         if (swipeBtn) {
+            swipeBtn.className = "notif-action-btn btn-toggle-read bg-secondary text-white";
+            swipeBtn.innerHTML = '<i class="bi bi-envelope-fill"></i>';
+         }
       }
    });
 
@@ -26,16 +26,16 @@ document.getElementById('mark-all-read').addEventListener('click', async () => {
    if (badge) badge.classList.add('d-none');
 
    if (typeof serverNotifications !== 'undefined' && serverNotifications.length > 0) {
-       serverNotifications.forEach(n => n.isRead = true);
+      serverNotifications.forEach(n => n.isRead = true);
    }
    if (typeof allData !== 'undefined' && allData.length > 0) {
-       allData.forEach(n => {
-           if (n.type === 'notification') n.isRead = true;
-       });
+      allData.forEach(n => {
+         if (n.type === 'notification') n.isRead = true;
+      });
    }
 
    showToast('Đã đánh dấu tất cả đã đọc');
-     
+
    try {
       await sendToServer({
          action: 'notification_action',
@@ -54,16 +54,16 @@ document.getElementById('clear-all-notifications').addEventListener('click', () 
 // --- 3. NÚT CHUÔNG: MỞ MODAL THÔNG BÁO ---
 document.getElementById('notification-btn').addEventListener('click', () => {
    if (typeof closeAllModals === 'function') closeAllModals();
-   
+
    const modalEl = document.getElementById('notificationsModal');
    if (modalEl) bootstrap.Modal.getOrCreateInstance(modalEl).show();
-   
+
    const badge = document.getElementById('notification-badge');
    if (badge) {
       badge.classList.add('d-none');
       badge.textContent = '0';
    }
-   
+
    const container = document.getElementById('notifications-list');
    if (typeof serverNotifications !== 'undefined' && serverNotifications.length > 0) {
       container.innerHTML = '';
@@ -76,46 +76,46 @@ document.getElementById('notification-btn').addEventListener('click', () => {
 
 // --- 4. HÀM: TẢI THÔNG BÁO TỪ SERVER ---
 async function loadNotifications(page, forceRender = false) {
-    if (notifLoading) return;
+   if (notifLoading) return;
 
-    const container = document.getElementById('notifications-list');
-    const isModalVisible = document.getElementById('notificationsModal').classList.contains('show');
-    const shouldRender = isModalVisible || forceRender;
+   const container = document.getElementById('notifications-list');
+   const isModalVisible = document.getElementById('notificationsModal').classList.contains('show');
+   const shouldRender = isModalVisible || forceRender;
 
-    if (shouldRender && page === 1 && (!serverNotifications || serverNotifications.length === 0)) {
-       container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
-    }
- 
-    notifLoading = true;
-    try {
-       const res = await sendToServer({ action: 'get_notifications', page: page, limit: 10 });
- 
-       if (res.status === 'success') {
-          notifHasMore = res.hasMore;
-          const newData = Array.isArray(res.data) ? res.data : [];
- 
-          if (page === 1) {
-             serverNotifications = newData;
-          } else {
-             serverNotifications = serverNotifications.concat(newData);
-          }
- 
-          if (shouldRender) {
-             if (page === 1) {
-                container.innerHTML = ''; 
-             } else {
-                const oldTrigger = document.getElementById('notif-load-more');
-                if (oldTrigger) oldTrigger.remove();
-             }
-             renderNotificationsPaged(newData, container);
-          }
-       }
-    } catch (e) {
-       console.error(e);
-       if (shouldRender && page === 1) container.innerHTML = '<div class="text-center py-3 text-danger small">Lỗi kết nối</div>';
-    } finally {
-       notifLoading = false;
-    }
+   if (shouldRender && page === 1 && (!serverNotifications || serverNotifications.length === 0)) {
+      container.innerHTML = '<div class="d-flex justify-content-center align-items-center py-5"><div class="spinner-border text-primary" role="status"></div></div>';
+   }
+
+   notifLoading = true;
+   try {
+      const res = await sendToServer({ action: 'get_notifications', page: page, limit: 10 });
+
+      if (res.status === 'success') {
+         notifHasMore = res.hasMore;
+         const newData = Array.isArray(res.data) ? res.data : [];
+
+         if (page === 1) {
+            serverNotifications = newData;
+         } else {
+            serverNotifications = serverNotifications.concat(newData);
+         }
+
+         if (shouldRender) {
+            if (page === 1) {
+               container.innerHTML = '';
+            } else {
+               const oldTrigger = document.getElementById('notif-load-more');
+               if (oldTrigger) oldTrigger.remove();
+            }
+            renderNotificationsPaged(newData, container);
+         }
+      }
+   } catch (e) {
+      console.error(e);
+      if (shouldRender && page === 1) container.innerHTML = '<div class="text-center py-3 text-danger small">Lỗi kết nối</div>';
+   } finally {
+      notifLoading = false;
+   }
 }
 
 // --- 5. HÀM: RENDER HTML THÔNG BÁO ---
@@ -148,16 +148,29 @@ function renderNotificationsPaged(newNotifs, container) {
       }
 
       const isReadState = String(notif.isRead).toLowerCase() === 'true' || notif.isRead === 1;
-      const fwClass = isReadState ? '' : 'fw-semibold'; 
-      
+      const fwClass = isReadState ? '' : 'fw-semibold';
+
       // Luôn giữ thẻ Div ở góc phải để duy trì cấu trúc, dùng class 'd-none' để ẩn nếu đã đọc
       const dotHtml = `<div class="notification-dot ms-auto me-2 ${isReadState ? 'd-none' : 'bg-danger rounded-circle'}" style="width: 8px; height: 8px; flex-shrink: 0;"></div>`;
-      const toggleAction = isReadState ? 'unread' : 'read'; 
+      const toggleAction = isReadState ? 'unread' : 'read';
       const toggleIcon = isReadState ? 'envelope-fill' : 'envelope-open';
       const toggleColor = isReadState ? 'bg-secondary' : 'bg-success';
 
       const relatedPostId = notif.relatedId || notif.postId || '';
+
+      let exactTimeStr = '';
+      const dateObj = (typeof parseSafeDate === 'function') ? parseSafeDate(notif.createdAt) : new Date(notif.createdAt);
+      if (dateObj && !isNaN(dateObj.getTime()) && dateObj.getTime() > 0) {
+         const h = String(dateObj.getHours()).padStart(2, '0');
+         const m = String(dateObj.getMinutes()).padStart(2, '0');
+         const d = String(dateObj.getDate()).padStart(2, '0');
+         const mo = String(dateObj.getMonth() + 1).padStart(2, '0');
+         const y = dateObj.getFullYear();
+         exactTimeStr = `${h}:${m} ${d}/${mo}/${y} • `;
+      }
+
       const timeStr = (typeof formatTimeSmart === 'function') ? formatTimeSmart(notif.createdAt) : notif.formattedTime || 'Vừa xong';
+      const displayTime = exactTimeStr + timeStr;
 
       return `
             <div class="notification-swipe-wrapper list-group-item border-0 p-0" id="notif-wrap-${notif.__backendId}">
@@ -186,7 +199,7 @@ function renderNotificationsPaged(newNotifs, container) {
                                 <span class="fw-bold">${notif.fullname || 'Hệ thống'}</span> 
                                 <span class="text-dark">${notif.title || ''}</span>
                             </div>
-                            <div class="text-muted small">${timeStr}</div>
+                            <div class="text-muted small">${displayTime}</div>
                             ${notif.message ? `<div class="text-secondary small text-truncate mt-1" style="max-width: 220px;">${notif.message}</div>` : ''}
                         </div>
                         ${dotHtml}
@@ -207,7 +220,7 @@ function renderNotificationsPaged(newNotifs, container) {
 
       const observer = new IntersectionObserver((entries) => {
          if (entries[0].isIntersecting && typeof notifLoading !== 'undefined' && !notifLoading) {
-            notifPage++; 
+            notifPage++;
             loadNotifications(notifPage);
          }
       }, { threshold: 0.1 });
@@ -221,19 +234,19 @@ function renderNotificationsPaged(newNotifs, container) {
 document.getElementById('confirm-delete').addEventListener('click', async () => {
    if (!pendingDeleteId && pendingDeleteType !== 'all-notifications') {
       const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
-      if(modal) modal.hide();
+      if (modal) modal.hide();
       return;
    }
-   
+
    if (pendingDeleteType === 'post') {
       const postId = pendingDeleteId;
       const postEl = document.getElementById(`post-${postId}`);
       bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
-      
+
       const originalFeedData = [...serverFeedData];
       const postIndex = serverFeedData.findIndex(p => p.__backendId === postId);
       if (postIndex > -1) serverFeedData.splice(postIndex, 1);
-      
+
       if (postEl) {
          postEl.style.transition = "all 0.4s ease-out";
          postEl.style.opacity = "0";
@@ -261,7 +274,7 @@ document.getElementById('confirm-delete').addEventListener('click', async () => 
       }
       pendingDeleteId = null; pendingDeleteType = null; return;
    }
-   
+
    if (pendingDeleteType === 'all-notifications') {
       const list = document.getElementById('notifications-list');
       const originalContent = list.innerHTML;
@@ -278,7 +291,7 @@ document.getElementById('confirm-delete').addEventListener('click', async () => 
       }
       pendingDeleteId = null; pendingDeleteType = null; return;
    }
-   
+
    if (pendingDeleteType === 'comment') {
       const cmtId = pendingDeleteId;
       const commentItem = document.getElementById(`comment-${cmtId}`);
@@ -320,7 +333,7 @@ document.getElementById('confirm-delete').addEventListener('click', async () => 
       }
       pendingDeleteId = null; pendingDeleteType = null; return;
    }
-   
+
    showLoading();
    try {
       const item = allData.find(d => d.__backendId === pendingDeleteId);
@@ -365,20 +378,20 @@ async function handleNotificationClick(notifId) {
       el.classList.remove('fw-semibold');
       const dot = el.querySelector('.notification-dot');
       if (dot) {
-          // Chỉ thêm class d-none để ẩn, giữ nguyên vị trí
-          dot.className = "notification-dot ms-auto me-2 d-none";
-          dot.style = "width: 8px; height: 8px; flex-shrink: 0;";
+         // Chỉ thêm class d-none để ẩn, giữ nguyên vị trí
+         dot.className = "notification-dot ms-auto me-2 d-none";
+         dot.style = "width: 8px; height: 8px; flex-shrink: 0;";
       }
 
       if (typeof serverNotifications !== 'undefined') {
-          const n = serverNotifications.find(x => x.__backendId === notifId);
-          if (n) n.isRead = true; 
+         const n = serverNotifications.find(x => x.__backendId === notifId);
+         if (n) n.isRead = true;
       }
 
       if (typeof handleSwipeAction === 'function') {
-          handleSwipeAction(notifId, 'read');
+         handleSwipeAction(notifId, 'read');
       } else {
-          sendToServer({ action: 'notification_action', type: 'toggle_read', id: notifId, status: true }).catch(e=>e);
+         sendToServer({ action: 'notification_action', type: 'toggle_read', id: notifId, status: true }).catch(e => e);
       }
    }
 
@@ -388,7 +401,7 @@ async function handleNotificationClick(notifId) {
    const modalInstance = bootstrap.Modal.getInstance(modalEl);
    if (modalInstance) modalInstance.hide();
    else new bootstrap.Modal(modalEl).hide();
-   
+
    document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
    document.body.classList.remove('modal-open');
    document.body.style = '';
@@ -398,7 +411,7 @@ async function handleNotificationClick(notifId) {
 
    setTimeout(async () => {
       let postEl = document.getElementById(`post-${postId}`);
- 
+
       if (postEl) {
          postEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
          if (typeof highlightPost === 'function') highlightPost(postEl);
@@ -413,10 +426,10 @@ async function handleNotificationClick(notifId) {
                if (existIndex === -1) {
                   serverFeedData.unshift(postData);
                   if (typeof currentHashFilter !== 'undefined' && !currentHashFilter) {
-                        if (typeof smartSyncFeed === 'function') smartSyncFeed(serverFeedData.slice(0, 5)); 
-                        else renderPosts(); 
+                     if (typeof smartSyncFeed === 'function') smartSyncFeed(serverFeedData.slice(0, 5));
+                     else renderPosts();
                   } else {
-                        renderPosts();
+                     renderPosts();
                   }
                }
 
@@ -436,137 +449,137 @@ async function handleNotificationClick(notifId) {
 }
 
 // --- 9. HÀM: XỬ LÝ SWIPE (VUỐT THÔNG BÁO) ---
-window.handleSwipeAction = async function(notifId, action, currentEvent) {
-    // 1. Chặn click lọt xuống bài viết
-    if (currentEvent) {
-        currentEvent.preventDefault();
-        currentEvent.stopPropagation();
-    }
+window.handleSwipeAction = async function (notifId, action, currentEvent) {
+   // 1. Chặn click lọt xuống bài viết
+   if (currentEvent) {
+      currentEvent.preventDefault();
+      currentEvent.stopPropagation();
+   }
 
-    window.isSwiping = true;
-    setTimeout(() => { window.isSwiping = false; }, 300);
-    
-    // 2. Kéo thông báo đóng lại ngay lập tức
-    const contentBox = document.querySelector(`#notif-wrap-${notifId} .notification-content-box`);
-    if (contentBox) contentBox.style.transform = 'translateX(0)';
+   window.isSwiping = true;
+   setTimeout(() => { window.isSwiping = false; }, 300);
 
-    if (action === 'delete') {
-        pendingDeleteId = notifId;
-        pendingDeleteType = 'notification_single';
-        const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('deleteConfirmModal'));
-        modal.show();
-        return;
-    }
+   // 2. Kéo thông báo đóng lại ngay lập tức
+   const contentBox = document.querySelector(`#notif-wrap-${notifId} .notification-content-box`);
+   if (contentBox) contentBox.style.transform = 'translateX(0)';
 
-    if (action === 'read' || action === 'unread') {
-        const isReading = (action === 'read'); 
-        
-        // 3. CẬP NHẬT GIAO DIỆN CHẤM ĐỎ NGAY LẬP TỨC
-        if (contentBox) {
-            let dotContainer = contentBox.querySelector('.notification-dot');
-            
-            if (isReading) {
-                // ĐÁNH DẤU ĐÃ ĐỌC
-                contentBox.classList.remove('fw-semibold');
-                if (dotContainer) {
-                    dotContainer.className = "notification-dot ms-auto me-2 d-none";
-                    dotContainer.style.setProperty('display', 'none', 'important');
-                }
-            } else {
-                // ĐÁNH DẤU CHƯA ĐỌC
-                contentBox.classList.add('fw-semibold');
-                
-                if (!dotContainer) {
-                    const flexBox = contentBox.querySelector('.d-flex.align-items-center');
-                    if (flexBox) {
-                        flexBox.insertAdjacentHTML('beforeend', '<div class="notification-dot ms-auto me-2 bg-danger rounded-circle" style="width: 8px; height: 8px; flex-shrink: 0; display: block !important;"></div>');
-                    }
-                } else {
-                    dotContainer.className = "notification-dot ms-auto me-2 bg-danger rounded-circle";
-                    dotContainer.style.setProperty('display', 'block', 'important');
-                    dotContainer.style.width = "8px";
-                    dotContainer.style.height = "8px";
-                }
+   if (action === 'delete') {
+      pendingDeleteId = notifId;
+      pendingDeleteType = 'notification_single';
+      const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('deleteConfirmModal'));
+      modal.show();
+      return;
+   }
+
+   if (action === 'read' || action === 'unread') {
+      const isReading = (action === 'read');
+
+      // 3. CẬP NHẬT GIAO DIỆN CHẤM ĐỎ NGAY LẬP TỨC
+      if (contentBox) {
+         let dotContainer = contentBox.querySelector('.notification-dot');
+
+         if (isReading) {
+            // ĐÁNH DẤU ĐÃ ĐỌC
+            contentBox.classList.remove('fw-semibold');
+            if (dotContainer) {
+               dotContainer.className = "notification-dot ms-auto me-2 d-none";
+               dotContainer.style.setProperty('display', 'none', 'important');
             }
-        }
+         } else {
+            // ĐÁNH DẤU CHƯA ĐỌC
+            contentBox.classList.add('fw-semibold');
 
-        // 4. [SỬA LỖI TRIỆT ĐỂ]: XÓA NÚT CŨ, THAY BẰNG NÚT MỚI TINH
-        const actionBtn = document.querySelector(`#notif-wrap-${notifId} .btn-toggle-read`);
-        if (actionBtn) {
-            const nextAction = isReading ? 'unread' : 'read';
-            const nextColor = isReading ? 'bg-secondary' : 'bg-success';
-            const nextIcon = isReading ? 'envelope-fill' : 'envelope-open';
-            
-            // Dùng outerHTML để thay máu hoàn toàn phần tử này.
-            // Nhờ đó HTML và sự kiện onclick luôn là một bản thể mới, không bao giờ bị kẹt lại lỗi cũ.
-            actionBtn.outerHTML = `
+            if (!dotContainer) {
+               const flexBox = contentBox.querySelector('.d-flex.align-items-center');
+               if (flexBox) {
+                  flexBox.insertAdjacentHTML('beforeend', '<div class="notification-dot ms-auto me-2 bg-danger rounded-circle" style="width: 8px; height: 8px; flex-shrink: 0; display: block !important;"></div>');
+               }
+            } else {
+               dotContainer.className = "notification-dot ms-auto me-2 bg-danger rounded-circle";
+               dotContainer.style.setProperty('display', 'block', 'important');
+               dotContainer.style.width = "8px";
+               dotContainer.style.height = "8px";
+            }
+         }
+      }
+
+      // 4. [SỬA LỖI TRIỆT ĐỂ]: XÓA NÚT CŨ, THAY BẰNG NÚT MỚI TINH
+      const actionBtn = document.querySelector(`#notif-wrap-${notifId} .btn-toggle-read`);
+      if (actionBtn) {
+         const nextAction = isReading ? 'unread' : 'read';
+         const nextColor = isReading ? 'bg-secondary' : 'bg-success';
+         const nextIcon = isReading ? 'envelope-fill' : 'envelope-open';
+
+         // Dùng outerHTML để thay máu hoàn toàn phần tử này.
+         // Nhờ đó HTML và sự kiện onclick luôn là một bản thể mới, không bao giờ bị kẹt lại lỗi cũ.
+         actionBtn.outerHTML = `
                 <button class="notif-action-btn btn-toggle-read ${nextColor} text-white" onclick="handleSwipeAction('${notifId}', '${nextAction}', event)">
                     <i class="bi bi-${nextIcon}"></i>
                 </button>
             `;
-        }
+      }
 
-        // 5. CẬP NHẬT RAM & GỬI API SERVER
-        if (typeof serverNotifications !== 'undefined') {
-            const notif = serverNotifications.find(n => n.__backendId === notifId);
-            if (notif) notif.isRead = isReading;
-        }
-        
-        if (typeof allData !== 'undefined') {
-            const n2 = allData.find(x => x.__backendId === notifId);
-            if (n2) n2.isRead = isReading;
-        }
+      // 5. CẬP NHẬT RAM & GỬI API SERVER
+      if (typeof serverNotifications !== 'undefined') {
+         const notif = serverNotifications.find(n => n.__backendId === notifId);
+         if (notif) notif.isRead = isReading;
+      }
 
-        if (typeof syncUnreadCount === 'function') syncUnreadCount(); 
-        
-        try {
-            sendToServer({ action: 'notification_action', type: 'toggle_read', id: notifId, status: isReading }).catch(e=>e);
-        } catch (e) {
-            console.error("Lỗi đồng bộ đọc/chưa đọc:", e);
-        }
-    }
+      if (typeof allData !== 'undefined') {
+         const n2 = allData.find(x => x.__backendId === notifId);
+         if (n2) n2.isRead = isReading;
+      }
+
+      if (typeof syncUnreadCount === 'function') syncUnreadCount();
+
+      try {
+         sendToServer({ action: 'notification_action', type: 'toggle_read', id: notifId, status: isReading }).catch(e => e);
+      } catch (e) {
+         console.error("Lỗi đồng bộ đọc/chưa đọc:", e);
+      }
+   }
 };
 
 // --- 10. HÀM: BẮT SỰ KIỆN CẢM ỨNG (TOUCH) ĐỂ VUỐT TRÊN MOBILE ---
-window.isSwiping = false; 
+window.isSwiping = false;
 let swipeStartX = 0;
 let swipeCurrentX = 0;
 let swipingElement = null;
 
 document.addEventListener('touchstart', e => {
-    // [SỬA LỖI TẠI ĐÂY] Nếu đang bấm vào vùng nút (actions) thì bỏ qua, không thu thẻ về
-    if (e.target.closest('.notification-actions')) {
-        return;
-    }
+   // [SỬA LỖI TẠI ĐÂY] Nếu đang bấm vào vùng nút (actions) thì bỏ qua, không thu thẻ về
+   if (e.target.closest('.notification-actions')) {
+      return;
+   }
 
-    const box = e.target.closest('.notification-content-box');
-    if (!box) {
-        document.querySelectorAll('.notification-content-box').forEach(el => el.style.transform = 'translateX(0)');
-        return;
-    }
-    document.querySelectorAll('.notification-content-box').forEach(el => {
-        if (el !== box) el.style.transform = 'translateX(0)';
-    });
-    swipeStartX = e.touches[0].clientX;
-    swipingElement = box;
-    window.isSwiping = false;
-    box.style.transition = 'none'; 
-}, {passive: true});
+   const box = e.target.closest('.notification-content-box');
+   if (!box) {
+      document.querySelectorAll('.notification-content-box').forEach(el => el.style.transform = 'translateX(0)');
+      return;
+   }
+   document.querySelectorAll('.notification-content-box').forEach(el => {
+      if (el !== box) el.style.transform = 'translateX(0)';
+   });
+   swipeStartX = e.touches[0].clientX;
+   swipingElement = box;
+   window.isSwiping = false;
+   box.style.transition = 'none';
+}, { passive: true });
 
 document.addEventListener('touchmove', e => {
-    if (!swipingElement) return;
-    swipeCurrentX = e.touches[0].clientX;
-    const diffX = swipeCurrentX - swipeStartX;
-    if (Math.abs(diffX) > 10) window.isSwiping = true; 
-    if (diffX < 0 && diffX > -140) swipingElement.style.transform = `translateX(${diffX}px)`;
-}, {passive: true});
+   if (!swipingElement) return;
+   swipeCurrentX = e.touches[0].clientX;
+   const diffX = swipeCurrentX - swipeStartX;
+   if (Math.abs(diffX) > 10) window.isSwiping = true;
+   if (diffX < 0 && diffX > -140) swipingElement.style.transform = `translateX(${diffX}px)`;
+}, { passive: true });
 
 document.addEventListener('touchend', e => {
-    if (!swipingElement) return;
-    swipingElement.style.transition = 'transform 0.3s ease-out'; 
-    const diffX = swipeCurrentX - swipeStartX;
-    if (diffX < -50) swipingElement.style.transform = `translateX(-120px)`; 
-    else swipingElement.style.transform = `translateX(0)`;
-    setTimeout(() => { window.isSwiping = false; }, 300);
-    swipingElement = null;
+   if (!swipingElement) return;
+   swipingElement.style.transition = 'transform 0.3s ease-out';
+   const diffX = swipeCurrentX - swipeStartX;
+   if (diffX < -50) swipingElement.style.transform = `translateX(-120px)`;
+   else swipingElement.style.transform = `translateX(0)`;
+   setTimeout(() => { window.isSwiping = false; }, 300);
+   swipingElement = null;
 });

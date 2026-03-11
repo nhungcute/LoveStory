@@ -2,117 +2,141 @@
 // CODE.GS - SOCIAL MEMORY API (FIXED SORTING & TIMEZONE)
 // =======================================================
 
+var READ_ONLY_ACTIONS = [
+  'get_critical_stats',
+  'get_background_info',
+  'get_profile',
+  'get_profile_by_username',
+  'get_babyrun_count',
+  'get_bike_stats',
+  'get_feed',
+  'get_gold_data',
+  'get_notifications',
+  'get_unread_count',
+  'get_post_comments'
+];
+
+
 function doPost(e) {
-  var lock = LockService.getScriptLock();
-  // Thử khóa trong 10s để tránh xung đột khi ghi dữ liệu
-  if (lock.tryLock(10000)) {
+  var data = JSON.parse(e.postData.contents);
+  var action = data.action;
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var result = {};
+ 
+  // --- PHÂN LUỒNG: ĐỌC hay GHI? ---
+  var isReadOnly = READ_ONLY_ACTIONS.indexOf(action) !== -1;
+ 
+  if (isReadOnly) {
+    // ==============================================
+    // LUỒNG ĐỌC: Không cần lock, chạy ngay lập tức
+    // ==============================================
     try {
-      var data = JSON.parse(e.postData.contents);
-      var action = data.action;
-      var ss = SpreadsheetApp.getActiveSpreadsheet();
-      var result = {};
-
-      switch (action) {
-        // Load trang
-        case 'get_critical_stats': // Luồng 1: Chỉ lấy số liệu quan trọng nhất (nhanh)
-          result = handleGetCriticalStats(ss, data);
-          break;
-        case 'get_background_info': // Luồng 2: Lấy profile và thông báo (chạy ngầm)
-          result = handleGetBackgroundInfo(ss, data);
-          break;
-        // --- NHÓM 1: PROFILE ---
-        case 'get_profile':
-          result = handleGetProfile(ss, data);
-          break;
-        case 'save_profile':
-          result = handleSaveProfile(ss, data);
-          break;
-        case 'get_profile_by_username':
-          result = handleGetProfileByUsername(ss, data);
-          break;
-
-        // --- NHÓM 2: BABY RUN & STATS ---
-        case 'get_babyrun_count':
-          result = handleGetBabyRunCount(ss, data);
-          break;
-        case 'log_babyrun':
-          result = handleLogBabyRun(ss, data);
-          break;
-        case 'get_bike_stats':
-          result = handleGetBikeStats(ss, data); // <--- ĐÃ SỬA HÀM NÀY
-          break;
-
-        // --- NHÓM 3: FEED ---
-        case 'feed_action':
-          result = handleFeedAction(ss, data);
-          break;
-        case 'get_feed':
-          result = handleGetFeed(ss, data); // <-- Thêm ", data" vào
-          break;
-        case 'upload_single_image':
-          result = handleUploadSingleImage(data);
-          break;
-          
-        // --- NHÓM 4: GOLD --- 
-        case 'log_gold_transaction': // Thay thế cho gold_entry cũ
-          result = handleLogGoldTransaction(ss, data);
-          break;
-        case 'get_gold_data': // Lấy cả lịch sử giá và giao dịch mua bán
-          result = handleGetGoldData(ss, data);
-          break;
-        case 'delete_gold_transaction':
-          result = handleDeleteGoldTransaction(ss, data);
-          break;
-        // [THÊM MỚI] Xử lý cập nhật giá vàng tự động từ GitHub Actions
-        case 'update_gold_price':
-          result = handleAutoUpdateGold(ss, data);
-          break;
-        // [THÊM MỚI] Case sửa giao dịch
-        case 'update_gold_transaction': 
-          result = handleUpdateGoldTransaction(ss, data);
-          break;
-
-        //NHÓM 5: LOG
-        case 'notification_action':
-          result = handleNotificationAction(ss, data);
-          break;
-        case 'get_notifications':
-          result = handleGetNotifications(ss, data);
-          break;
-        case 'get_unread_count':
-          result = handleGetUnreadCount(ss);
-          break;
-        //NHÓM 6: like, comment
-        // --- NHÓM TƯƠNG TÁC (LIKE & COMMENT) ---
-        case 'like_post':
-          result = handleLikePost(ss, data);
-          break;
-        case 'comment_action':
-          result = handleCommentAction(ss, data); // Thêm, Sửa, Xóa comment
-          break;
-        case 'get_post_comments':
-          result = handleGetPostComments(ss, data);
-          break;
-          
-        default:
-          result = { status: 'error', message: 'Unknown action: ' + action };
-      }
-      
+      result = routeAction(ss, action, data);
       return responseJSON(result);
-      
     } catch (err) {
       return responseJSON({ status: 'error', message: err.toString() });
-    } finally {
-      lock.releaseLock();
     }
+ 
   } else {
-    return responseJSON({ status: 'error', message: 'Server busy, try again.' });
+    // ==============================================
+    // LUỒNG GHI: Cần lock để tránh xung đột dữ liệu
+    // ==============================================
+    var lock = LockService.getScriptLock();
+    if (lock.tryLock(10000)) {
+      try {
+        result = routeAction(ss, action, data);
+        return responseJSON(result);
+      } catch (err) {
+        return responseJSON({ status: 'error', message: err.toString() });
+      } finally {
+        lock.releaseLock();
+      }
+    } else {
+      return responseJSON({ status: 'error', message: 'Server busy, try again.' });
+    }
+  }
+}
+ 
+// ==========================================================
+// HÀM ĐIỀU PHỐI — Tách switch/case ra hàm riêng cho gọn
+// ==========================================================
+function routeAction(ss, action, data) {
+  switch (action) {
+    // --- TẢI TRANG ---
+    case 'get_critical_stats':
+      return handleGetCriticalStats(ss, data);
+    case 'get_background_info':
+      return handleGetBackgroundInfo(ss, data);
+ 
+    // --- NHÓM 1: PROFILE ---
+    case 'get_profile':
+      return handleGetProfile(ss, data);
+    case 'save_profile':
+      return handleSaveProfile(ss, data);
+    case 'get_profile_by_username':
+      return handleGetProfileByUsername(ss, data);
+ 
+    // --- NHÓM 2: BABY RUN & STATS ---
+    case 'get_babyrun_count':
+      return handleGetBabyRunCount(ss, data);
+    case 'log_babyrun':
+      return handleLogBabyRun(ss, data);
+    case 'get_bike_stats':
+      return handleGetBikeStats(ss, data);
+ 
+    // --- NHÓM 3: FEED ---
+    case 'feed_action':
+      return handleFeedAction(ss, data);
+    case 'get_feed':
+      return handleGetFeed(ss, data);
+    case 'upload_single_image':
+      return handleUploadSingleImage(data);
+ 
+    // --- NHÓM 4: GOLD ---
+    case 'log_gold_transaction':
+      return handleLogGoldTransaction(ss, data);
+    case 'get_gold_data':
+      return handleGetGoldData(ss, data);
+    case 'delete_gold_transaction':
+      return handleDeleteGoldTransaction(ss, data);
+    case 'update_gold_price':
+      return handleAutoUpdateGold(ss, data);
+    case 'update_gold_transaction':
+      return handleUpdateGoldTransaction(ss, data);
+ 
+    // --- NHÓM 5: THÔNG BÁO ---
+    case 'notification_action':
+      return handleNotificationAction(ss, data);
+    case 'get_notifications':
+      return handleGetNotifications(ss, data);
+    case 'get_unread_count':
+      return handleGetUnreadCount(ss);
+ 
+    // --- NHÓM 6: LIKE & COMMENT ---
+    case 'like_post':
+      return handleLikePost(ss, data);
+    case 'comment_action':
+      return handleCommentAction(ss, data);
+    case 'get_post_comments':
+      return handleGetPostComments(ss, data);
+ 
+    // --- NHÓM 7: ALERT ---
+    case 'create_alert_bot':
+      return handleCreateAlert(ss, data);
+ 
+    // --- NHÓM 8: AI CHAT ---
+    case 'ai_chat':
+      return handleAiChat(ss, data);
+ 
+    default:
+      return { status: 'error', message: 'Unknown action: ' + action };
   }
 }
 
 // --- CẤU HÌNH ---
 // Thay ID thư mục bạn vừa lấy được vào đây
 const DRIVE_FOLDER_ID = "1J6s_9PbYjB86Qe2fYhhz1oaki35yBDDF";
+const GEMINI_API_KEY = "AIzaSyASMtv1S3ZJgXkuiCI-IwcdJluEXpd171Q";
 
 // --- CORE FUNCTIONS ---
 
@@ -652,19 +676,23 @@ function handleFeedAction(ss, data) {
   if (type === 'create') {
     var id = Utilities.getUuid();
     var nowStr = Utilities.formatDate(new Date(), "GMT+7", "dd/MM/yyyy HH:mm:ss");
-    var imageUrls = [];
+    var finalMediaData = [];
     if (data.image) {
       try {
-        var images = JSON.parse(data.image);
-        imageUrls = images.map(function(base64, index) {
-          var shortName = new Date().getTime() + "_" + index;
-          return uploadImageToDrive(base64, shortName); 
+        var mediaItems = JSON.parse(data.image);
+        finalMediaData = mediaItems.map(function(item, index) {
+          if (String(item.url).startsWith('data:')) {
+            var shortName = new Date().getTime() + "_" + index;
+            var uploadedUrl = uploadImageToDrive(item.url, shortName);
+            return { type: item.type, url: uploadedUrl };
+          }
+          return item;
         });
       } catch (e) {}
     }
-    sheet.appendRow([id, nowStr, data.username, data.content, JSON.stringify(imageUrls), data.layout || 'grid-2x2']);
+    sheet.appendRow([id, nowStr, data.username, data.content, JSON.stringify(finalMediaData), data.layout || 'grid-2x2']);
     createLog(ss, username, 'create_post', 'Đã đăng bài viết mới', data.content, id);
-    return { status: 'success', id: id, time: nowStr, images: imageUrls };
+    return { status: 'success', id: id, time: nowStr, images: finalMediaData };
   }
 
   // --- TÌM DÒNG CẦN SỬA/XÓA ---
@@ -689,20 +717,21 @@ function handleFeedAction(ss, data) {
   if (type === 'update') {
     sheet.getRange(rowIndex, 4).setValue(data.content);
     
-    // Mảng chứa danh sách ảnh cuối cùng (sẽ lưu vào Sheet)
-    var finalImageUrls = [];
+    var finalMediaData = [];
 
     if (data.image) {
        try {
-        var inputImages = JSON.parse(data.image);
+        var inputMedia = JSON.parse(data.image);
 
         // A. Xử lý ảnh mới: Nếu là Base64 thì upload, nếu là Link thì giữ nguyên
-        finalImageUrls = inputImages.map(function(imgItem, index) {
-          if (imgItem.indexOf('base64,') > -1) {
+        finalMediaData = inputMedia.map(function(item, index) {
+          // Chỉ upload nếu là dữ liệu base64 mới
+          if (String(item.url).startsWith('data:')) {
              var shortName = "EDIT_" + new Date().getTime() + "_" + index;
-             return uploadImageToDrive(imgItem, shortName);
+             var uploadedUrl = uploadImageToDrive(item.url, shortName);
+             return { type: item.type, url: uploadedUrl };
           } else {
-             return imgItem;
+             return item; // Giữ nguyên object {type, url} nếu đã là URL
           }
         });
 
@@ -719,7 +748,7 @@ function handleFeedAction(ss, data) {
 
             oldUrlList.forEach(function(oldUrl) {
                 // Logic: Nếu ảnh CŨ không còn nằm trong danh sách MỚI -> Nghĩa là user đã xóa nó
-                if (finalImageUrls.indexOf(oldUrl) === -1) {
+                if (!finalMediaData.some(function(newItem) { return newItem.url === oldUrl; })) {
                     imagesToDelete.push(oldUrl);
                 }
             });
@@ -740,7 +769,7 @@ function handleFeedAction(ss, data) {
     createLog(ss, username, 'update_post', 'Đã chỉnh sửa bài viết', data.content, data.id);
     
     // Trả về danh sách ảnh mới nhất để Client cập nhật ngay lập tức
-    return { status: 'success', images: finalImageUrls };
+    return { status: 'success', images: finalMediaData };
   }
 
   // --- 3. XÓA BÀI VIẾT (Giữ nguyên) ---
@@ -754,35 +783,40 @@ function handleFeedAction(ss, data) {
   return { status: 'error', message: 'Unknown type' };
 }
 
-// [MỚI] Hàm Upload ảnh lên Drive (Dành riêng cho Feed)  
-// [SỬA LẠI] Hàm Upload: Trả về lỗi chi tiết để debug
-// [FIX] Hàm Upload ảnh: Trả về link lh3 để không bị lỗi hiển thị
-// [FIX] Hàm Upload ảnh: Trả về link lh3 chuẩn để ảnh nét (Không dùng link profile cũ)
+// TRONG FILE: web/code.gs
+
 function uploadImageToDrive(base64Data, fileName) {
   try {
-    // 1. Nếu là link cũ thì trả về nguyên vẹn
+    // Kiểm tra dữ liệu đầu vào
     if (base64Data.indexOf('base64,') === -1) return base64Data;
     
     var split = base64Data.split('base64,');
     var contentType = split[0].replace('data:', '').replace(';', '');
     var decoded = Utilities.base64Decode(split[1]);
     var blob = Utilities.newBlob(decoded, contentType, fileName);
-
-    // 2. Lấy folder
-    var folderId = "1J6s_9PbYjB86Qe2fYhhz1oaki35yBDDF"; // ID folder của bạn
-    var folder = DriveApp.getFolderById(folderId);
-
-    // 3. Tạo file
-    var file = folder.createFile(blob);
     
-    // Bắt buộc set quyền xem công khai
+    // 1. Lấy folder (Đảm bảo ID folder chính xác)
+    var folderId = "1J6s_9PbYjB86Qe2fYhhz1oaki35yBDDF"; 
+    var folder = DriveApp.getFolderById(folderId);
+    
+    // 2. Tạo file và set quyền
+    var file = folder.createFile(blob);
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    
+    // 3. [QUAN TRỌNG] Lấy ID file (Dòng này bị thiếu trong code cũ của bạn gây lỗi ReferenceError)
+    var fileId = file.getId();
 
-    // 4. [QUAN TRỌNG] Trả về link /d/ (Download/Display) thay vì /profile/
-    // Link này hỗ trợ =s0 (full size) và cực nét
-    return "https://lh3.googleusercontent.com/d/" + file.getId() + "=s0";
+    // 4. Trả về URL theo loại file
+    if (contentType.startsWith('video/')) {
+      // VIDEO: Trả về link Preview để chạy trong Iframe (Fix lỗi video)
+      return "https://drive.google.com/file/d/" + fileId + "/preview";
+    } else {
+      // ẢNH: Trả về link xem trực tiếp (Fix lỗi ảnh)
+      return "https://lh3.googleusercontent.com/d/" + fileId + "=s600";
+    }
 
   } catch (e) {
+    // Trả về lỗi chi tiết để Client hiện thông báo
     return "ERROR_UPLOAD: " + e.toString();
   }
 }
@@ -829,12 +863,14 @@ function deleteImagesFromDrive(imageJson) {
   if (!imageJson || imageJson === '[]') return;
   
   try {
-    var imageUrls = JSON.parse(imageJson);
+    var mediaItems = JSON.parse(imageJson);
     
-    if (Array.isArray(imageUrls)) {
-      imageUrls.forEach(function(url) {
+    if (Array.isArray(mediaItems)) {
+      mediaItems.forEach(function(item) {
+        // Xử lý cả định dạng cũ (string) và mới (object)
+        var url = (typeof item === 'string') ? item : item.url;
         if (typeof url !== 'string') return;
-
+        
         var fileId = null;
 
         // TRƯỜNG HỢP 1: Link mới (Chất lượng cao) -> dạng .../d/FILE_ID=s0
@@ -870,66 +906,85 @@ function deleteImagesFromDrive(imageJson) {
   }
 }
 
-// [MỚI] Hàm ghi giá vàng tự động vào sheet 'goldchart'
-// [LOGIC MỚI] Xử lý cập nhật giá vàng thông minh
-// Quy tắc: 
-// 1. Luôn lưu dòng đầu tiên của ngày mới.
-// 2. Trong ngày: Chỉ lưu và thông báo nếu giá thay đổi.
+// --- [CẬP NHẬT] LOGIC GHI GIÁ VÀNG TỰ ĐỘNG ---
+// Quy tắc:
+// 1. Luôn ghi nếu là lần đầu tiên trong ngày.
+// 2. Trong cùng ngày, chỉ ghi nếu giá thay đổi so với lần ghi cuối cùng.
 function handleAutoUpdateGold(ss, data) {
-  var sheetName = "goldchart"; // 1. Tên sheet chính xác
+  var sheetName = "goldchart";
   var sheet = ss.getSheetByName(sheetName);
   
   if (!sheet) {
     sheet = ss.insertSheet(sheetName);
-    // Tạo header đúng cấu trúc nếu chưa có
     sheet.appendRow(["Timestamp", "Date", "Time", "Buy Price", "Sell Price"]);
   }
 
-  // 2. Kiểm tra trùng lặp ở dòng cuối cùng
-  var lastRow = sheet.getLastRow();
-  var isDuplicate = false;
   var newBuy = Number(data.buy);
   var newSell = Number(data.sell);
+  var dateObj = new Date(data.timestamp);
+  var currentDateStr = Utilities.formatDate(dateObj, "GMT+7", "dd/MM/yyyy");
 
-  if (lastRow > 1) { 
-    // Lấy dữ liệu 2 cột cuối: Cột 4 (Buy Price) và Cột 5 (Sell Price)
-    // getRange(row, column, numRows, numColumns)
-    var lastValues = sheet.getRange(lastRow, 4, 1, 2).getValues()[0]; 
-    var lastBuy = Number(lastValues[0]);
-    var lastSell = Number(lastValues[1]);
+  var lastRow = sheet.getLastRow();
 
-    // So sánh
-    if (lastBuy === newBuy && lastSell === newSell) {
-      isDuplicate = true;
-    }
+  // Hàm phụ trợ dùng chung để lưu sheet và thông báo ra Telegram/chuông của ứng dụng
+  function notifyAndWrite() {
+    var notifTitle = "Biến động giá vàng 🔔";
+    var notifContent = "Giá mua: " + newBuy.toLocaleString() + " - Giá bán: " + newSell.toLocaleString();
+    
+    // Gọi hàm createLog có sẵn của bạn để ghi vào sheet 'logs'
+    createLog(ss, "System", "notification", notifTitle, notifContent, '');
+    
+    // Bắn tin qua điện thoại
+    sendTelegramAlert("🪙 <br>" + notifTitle, notifContent);
+
+    return writeGoldPrice(sheet, data.timestamp, dateObj, newBuy, newSell);
   }
 
-  // 3. Xử lý lưu hoặc bỏ qua
-  if (isDuplicate) {
+  // TRƯỜNG HỢP 1: Sheet rỗng hoặc chỉ có header -> Luôn ghi & Thông báo
+  if (lastRow <= 1) {
+    return notifyAndWrite();
+  }
+
+  // TRƯỜNG HỢP 2: Sheet đã có dữ liệu
+  var lastRowData = sheet.getRange(lastRow, 2, 1, 4).getValues()[0]; // [Date, Time, Buy, Sell]
+  var lastDateStr = lastRowData[0].replace(/'/g, ''); // Bỏ dấu ' nếu có
+  var lastBuy = Number(lastRowData[2]);
+  var lastSell = Number(lastRowData[3]);
+
+  // ĐIỀU KIỆN A: Nếu là ngày mới -> Luôn ghi & Thông báo
+  if (lastDateStr !== currentDateStr) {
+    return notifyAndWrite();
+  }
+
+  // ĐIỀU KIỆN B: Cùng ngày, kiểm tra giá có thay đổi không
+  if (lastBuy === newBuy && lastSell === newSell) {
     return { 
       status: "skipped", 
-      message: "Giá không đổi (" + newBuy + " - " + newSell + "). Bỏ qua." 
+      message: "Giá không đổi (" + newBuy.toLocaleString() + "). Bỏ qua." 
     };
   } else {
-    // Xử lý thời gian để tách ra cột Date và Time
-    var dateObj = new Date(data.timestamp); // Chuyển chuỗi ISO thành Date object
-    var dateStr = "'" + Utilities.formatDate(dateObj, "GMT+7", "dd/MM/yyyy");
-    var timeStr = Utilities.formatDate(dateObj, "GMT+7", "HH:mm:ss"); 
-
-    // Ghi đúng 5 cột: Timestamp, Date, Time, Buy Price, Sell Price
-    sheet.appendRow([
-      data.timestamp, // Cột 1: Timestamp gốc
-      dateStr,        // Cột 2: Ngày (dd/MM/yyyy)
-      timeStr,        // Cột 3: Giờ (HH:mm:ss)
-      newBuy,         // Cột 4: Giá mua
-      newSell         // Cột 5: Giá bán
-    ]);
-    
-    return { 
-      status: "success", 
-      message: "Đã cập nhật: " + newBuy + " - " + newSell 
-    };
+    // Giá thay đổi -> Ghi & Thông báo
+    return notifyAndWrite();
   }
+}
+
+// Hàm trợ giúp để tránh lặp code
+function writeGoldPrice(sheet, timestamp, dateObj, buy, sell) {
+  var dateStr = Utilities.formatDate(dateObj, "GMT+7", "dd/MM/yyyy");
+  var timeStr = Utilities.formatDate(dateObj, "GMT+7", "HH:mm:ss");
+
+  sheet.appendRow([
+    timestamp,
+    "'" + dateStr, // Thêm dấu ' để Google Sheet không tự đổi format
+    timeStr,
+    buy,
+    sell
+  ]);
+  
+  return {
+    status: "success",
+    message: "Đã cập nhật giá: " + buy.toLocaleString() + " - " + sell.toLocaleString()
+  };
 }
 
 // --- XỬ LÝ GIAO DỊCH VÀNG (SHEET "goldmb") ---
@@ -1248,4 +1303,197 @@ function handleGetBackgroundInfo(ss, data) {
     profile: (profileRes.status === 'success') ? profileRes.data : null,
     unreadCount: (notifRes.status === 'success') ? notifRes.count : 0
   };
+}
+function fixAllDrivePermissions() {
+  var folderId = "1J6s_9PbYjB86Qe2fYhhz1oaki35yBDDF"; // ID thư mục lấy từ code của bạn
+  var folder = DriveApp.getFolderById(folderId);
+  var files = folder.getFiles();
+  
+  var count = 0;
+  Logger.log("Bắt đầu sửa quyền...");
+  
+  while (files.hasNext()) {
+    var file = files.next();
+    // Set quyền: Bất kỳ ai có link đều xem được
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    count++;
+  }
+  
+  Logger.log("Đã sửa quyền xong cho " + count + " file.");
+  return "Đã sửa xong " + count + " file.";
+}
+
+
+// ==========================================
+// HÀM XỬ LÝ AI CHAT (GEMINI API)
+// ==========================================
+function handleAiChat(ss, data) {
+  var query = data.query || "";
+  var chatHistory = data.history || []; // Lịch sử chat trước đó (nếu có)
+  
+  if (!query) {
+    return { status: 'error', message: 'Query is empty' };
+  }
+
+  // 1. Lấy ngữ cảnh từ Feed (Lấy 20 bài mới nhất làm "trí nhớ")
+  var feedSheet = ss.getSheetByName("feed");
+  var contextText = "Đây là ứng dụng LoveStory lưu giữ kỷ niệm.\nDanh sách các bài đăng gần đây:\n";
+  
+  if (feedSheet) {
+    var rows = feedSheet.getDataRange().getDisplayValues();
+    // Bỏ qua header (row 0), lấy tất cả bài viết (từ dưới lên)
+    var count = 0;
+    for (var i = rows.length - 1; i >= 1; i--) {
+      var r = rows[i];
+      if (r[0]) {
+        var date = r[1];
+        var author = r[2];
+        var content = r[3];
+        contextText += "- Ngày " + date + ", " + author + " đã đăng: " + content + ".\n";
+        count++;
+      }
+    }
+  }
+
+  // 2. Tạo System Prompt (Lựa chọn 1: Mở rộng)
+  var systemPrompt = "Bạn là trợ lý ảo thân thiện của ứng dụng LoveStory (Social Memory). " +
+    "Nhiệm vụ của bạn là trò chuyện với người dùng, trả lời câu hỏi dựa trên các Kỷ Niệm (bài đăng) mà tôi cung cấp dưới đây. " +
+    "ĐỒNG THỜI, bạn có thể trả lời các kiến thức chung bên ngoài giống như một AI thông thường, nhưng hãy giữ thái độ thân thiện và luôn sẵn sàng gắn kết với ứng dụng LoveStory nếu có thể.\n\n" +
+    "--- DỮ LIỆU KỶ NIỆM ---\n" + contextText + "\n----------------------\n" +
+    "Nếu câu hỏi liên quan đến kỷ niệm, hãy trả lời chính xác dựa theo dữ liệu. Nếu không có trong dữ liệu, hãy nói không biết hoặc trả lời bằng kiến thức chung của bạn.";
+
+  // 3. Chuẩn bị payload gửi Gemini
+  // Format history for Gemini: { role: "user" | "model", parts: [{ text: "..." }] }
+  var contents = [];
+  
+  // Đưa system prompt vào tin nhắn đầu tiên của user hoặc cấu hình system_instruction
+  // Do cấu trúc API của Google AI Studio (Gemini 1.5), ta dùng system_instruction
+  var payload = {
+    system_instruction: {
+      parts: [ { text: systemPrompt } ]
+    },
+    contents: []
+  };
+
+  // Nạp lịch sử (nếu có để giữ ngữ cảnh câu chuyện)
+  if (chatHistory && chatHistory.length > 0) {
+      for(var j=0; j < chatHistory.length; j++){
+          var msg = chatHistory[j];
+          payload.contents.push({
+              role: msg.role === 'ai' ? 'model' : 'user',
+              parts: [{ text: msg.text }]
+          });
+      }
+  }
+
+  // Nạp câu hỏi hiện tại
+  payload.contents.push({
+    role: "user",
+    parts: [{ text: query }]
+  });
+
+  // Cấu hình Temperature
+  payload.generationConfig = {
+      temperature: 0.7, // Sáng tạo vừa phải
+      maxOutputTokens: 500
+  };
+
+  // 4. Gọi Gemini API
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + GEMINI_API_KEY;
+  var options = {
+    method: "post",
+    contentType: "application/json",
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+
+  try {
+    var response = UrlFetchApp.fetch(url, options);
+    var jsonRes = JSON.parse(response.getContentText());
+
+    if (jsonRes.error) {
+       Logger.log("GEMINI API ERROR: " + JSON.stringify(jsonRes.error));
+       return { status: 'error', message: 'Lỗi từ AI: ' + jsonRes.error.message };
+    }
+
+    if (jsonRes.candidates && jsonRes.candidates.length > 0) {
+      var aiReply = jsonRes.candidates[0].content.parts[0].text;
+      return { status: 'success', reply: aiReply };
+    } else {
+      return { status: 'error', message: 'Không nhận được câu trả lời từ AI.' };
+    }
+
+  } catch (e) {
+    Logger.log("Lỗi gọi Gemini: " + e.toString());
+    return { status: 'error', message: 'Lỗi kết nối máy chủ AI: ' + e.toString() };
+  }
+}
+
+
+// Thay bằng thông tin cấu hình Zalo của bạn
+const TELEGRAM_BOT_TOKEN = "8365701527:AAEn2Sy2pr-tfpxG_v6dNMeStVGzusUJZ4o"; // Ví dụ: "7123456789:AAH..."
+ 
+// ==========================================
+// HÀM XỬ LÝ TẠO CẢNH BÁO (Lưu Log & Gửi Telegram)
+// ==========================================
+function handleCreateAlert(ss, data) {
+  var title = data.title || "Cảnh báo hệ thống";
+  var message = data.message || "Có hoạt động mới được ghi nhận.";
+  var username = data.username || "System";
+
+  // 1. Lưu vào sheet 'logs' để hiện trên chuông thông báo của Website
+  // actionType để là 'alert' để web dễ nhận diện icon (nếu cần)
+  createLog(ss, username, "alert", title, message, "");
+
+  // 2. Bắn tin nhắn qua Telegram Bot về điện thoại
+  sendTelegramAlert(title, message);
+
+  return { status: 'success', message: 'Đã lưu thông báo và gửi Telegram' };
+}
+
+function sendTelegramAlert(title, message) {
+  // Tạo URL gọi API của Telegram
+  const url = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
+  
+  // Format ngày giờ chuẩn của GAS
+  var now = new Date();
+  var timeStr = Utilities.formatDate(now, "GMT+7", "HH:mm:ss dd/MM/yyyy");
+
+  // Soạn nội dung tin nhắn (Hỗ trợ định dạng HTML như <b> in đậm, <i> in nghiêng)
+  const textContent = title + "</b>\n\n📝 " + message + "\n⏰ <i>" + timeStr + "</i>";
+
+  // Gói dữ liệu
+  const payload = {
+    chat_id: TELEGRAM_CHAT_ID,
+    text: textContent,
+    parse_mode: "HTML" // Để Telegram hiểu các thẻ <b>, <i>
+  };
+
+  // Cấu hình request
+  const options = {
+    method: "post",
+    contentType: "application/json",
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+
+  // Gửi lệnh
+  try {
+    const response = UrlFetchApp.fetch(url, options);
+    const result = JSON.parse(response.getContentText());
+    
+    // Dùng Logger.log thay cho console.log để xem lỗi trong GAS
+    if (!result.ok) {
+      Logger.log("LỖI GỬI TELEGRAM: " + result.description);
+    } else {
+      Logger.log("Gửi Telegram thành công!");
+    }
+  } catch (e) {
+    Logger.log("Lỗi kết nối Telegram API: " + e.toString());
+  }
+}
+
+// Hàm test thử (Bạn có thể bấm nút Run/Chạy hàm này trên Google Apps Script để test)
+function testTelegram() {
+  sendTelegramAlert("Cảnh báo đột nhập", "Phát hiện có người di chuyển qua camera số 1 lúc nửa đêm!");
 }

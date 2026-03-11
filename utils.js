@@ -8,7 +8,7 @@
  * =============================================================================
  */
 // --- CẤU HÌNH KẾT NỐI ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbwOOADk4sow5hC8g8TFbL2ne6_P_k42PTQOWTW6WYvmq0FM6YCFmPsxqjccp_rlXA3Pmw/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxACoCV_Bg_UNSge3Hq_u0ymTq9bCmPv4REWHx1laRrh6JzRK2jDANnpZOXdG9CuFhSRg/exechttps://script.google.com/macros/s/AKfycbyD6ArbE7-YI9AFQkyO4X_XfBqtYVMDaBiKJqihiO2IZDZxmrWmxs_v6nmvpatITvU_Jw/exec';
 
 let userFingerprint = null;
 
@@ -254,12 +254,12 @@ function escapeHtml(text) {
 function parseSafeDate(dateInput) {
     if (!dateInput) return new Date(0);
     if (typeof dateInput === 'number') return new Date(dateInput);
-    
+
     // Đổi dấu gạch ngang '-' thành gạch chéo '/' để Safari đọc được
     let safeString = String(dateInput).replace(/-/g, '/');
-    
+
     // Xử lý nốt nếu chuỗi có phần lẻ giây (ví dụ: .000Z) mà Safari hay bắt bẻ
-    safeString = safeString.split('.')[0]; 
+    safeString = safeString.split('.')[0];
     return new Date(safeString);
 }
 

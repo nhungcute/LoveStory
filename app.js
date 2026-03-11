@@ -5,24 +5,24 @@ let myVConsole = null;
 
 // Hàm bật/tắt (Không dùng localStorage nữa)
 function toggleVConsole(isEnable) {
-    if (isEnable) {
-        if (!myVConsole && window.VConsole) {
-            myVConsole = new window.VConsole();
-        }
-    } else {
-        if (myVConsole) {
-            myVConsole.destroy();
-            myVConsole = null;
-        }
-    }
+   if (isEnable) {
+      if (!myVConsole && window.VConsole) {
+         myVConsole = new window.VConsole();
+      }
+   } else {
+      if (myVConsole) {
+         myVConsole.destroy();
+         myVConsole = null;
+      }
+   }
 }
 
 // Lắng nghe thao tác gạt công tắc (Phản hồi tức thì)
 const vconsoleToggle = document.getElementById('vconsole-toggle');
 if (vconsoleToggle) {
-    vconsoleToggle.addEventListener('change', (e) => {
-        toggleVConsole(e.target.checked);
-    });
+   vconsoleToggle.addEventListener('change', (e) => {
+      toggleVConsole(e.target.checked);
+   });
 }
 
 
@@ -32,10 +32,10 @@ function saveLocalData(data) {
    } catch (e) {
       if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
          console.warn("Bộ nhớ đầy, đang dọn dẹp để lưu dữ liệu mới...");
-         
+
          localStorage.removeItem('cached_feed_data');
          localStorage.removeItem('cached_notifications');
-         
+
          try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
          } catch (err) {
@@ -53,23 +53,23 @@ function getLocalData() {
 // 1. Tạo Fingerprint (Định danh thiết bị)
 async function getBrowserFingerprint() {
    try {
-       const str = navigator.userAgent + navigator.language + screen.width + 'x' + screen.height;
-       
-       // KIỂM TRA: Nếu Safari chặn crypto.subtle (do HTTP), dùng cách tạo ID dự phòng
-       if (!window.crypto || !window.crypto.subtle) {
-           console.warn("Safari/HTTP chặn crypto.subtle, đang dùng định danh dự phòng...");
-           // Tạo chuỗi base64 ngẫu nhiên từ thông tin thiết bị thay thế cho crypto
-           return btoa(unescape(encodeURIComponent(str))).substring(0, 32);
-       }
+      const str = navigator.userAgent + navigator.language + screen.width + 'x' + screen.height;
 
-       const msgBuffer = new TextEncoder().encode(str);
-       const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-       return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-       
+      // KIỂM TRA: Nếu Safari chặn crypto.subtle (do HTTP), dùng cách tạo ID dự phòng
+      if (!window.crypto || !window.crypto.subtle) {
+         console.warn("Safari/HTTP chặn crypto.subtle, đang dùng định danh dự phòng...");
+         // Tạo chuỗi base64 ngẫu nhiên từ thông tin thiết bị thay thế cho crypto
+         return btoa(unescape(encodeURIComponent(str))).substring(0, 32);
+      }
+
+      const msgBuffer = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+
    } catch (e) {
-       console.error("Lỗi tạo Fingerprint:", e);
-       // Trả về ID ngẫu nhiên nếu tất cả đều thất bại, giúp app không bị sập
-       return "fallback_id_" + Math.random().toString(36).substring(2, 15);
+      console.error("Lỗi tạo Fingerprint:", e);
+      // Trả về ID ngẫu nhiên nếu tất cả đều thất bại, giúp app không bị sập
+      return "fallback_id_" + Math.random().toString(36).substring(2, 15);
    }
 }
 
@@ -200,7 +200,7 @@ async function syncUserProfile() {
 
       // 2. [QUAN TRỌNG] LOAD TỪ LOCAL STORAGE TRƯỚC (HIỆN NGAY LẬP TỨC)
       const localData = getLocalData();
-      
+
       // Kiểm tra xem Fingerprint này đã gắn với User nào chưa
       const res = await sendToServer({
          action: 'get_profile',
@@ -299,61 +299,61 @@ let hasCacheData = false;
    addGoldEntryModal = new bootstrap.Modal(document.getElementById('addGoldEntryModal'));
    notificationsModal = new bootstrap.Modal(document.getElementById('notificationsModal'));
 
-	// 2. LOAD OFFLINE FIRST (Hiển thị ngay lập tức)
-	const localData = getLocalData();
-	if (localData) {
-		currentProfile = localData;
-		applyTheme(currentProfile.themeName);
-		updateAvatarDisplays();
-	}
+   // 2. LOAD OFFLINE FIRST (Hiển thị ngay lập tức)
+   const localData = getLocalData();
+   if (localData) {
+      currentProfile = localData;
+      applyTheme(currentProfile.themeName);
+      updateAvatarDisplays();
+   }
 
-	if (window.dataSdk) {
-		window.dataSdk.init(dataHandler).catch(err => console.warn("Lỗi SDK:", err));
-	}
-	// lay run count từ local
-	const cachedRun = localStorage.getItem('cached_babyrun_count');
-	if (cachedRun && document.getElementById('bike-count')) {
-		document.getElementById('bike-count').textContent = cachedRun;
-	}
-	// lay gia vang tu local
-	const cachedprice_buy = localStorage.getItem('cached_gold_buy');
-	if (cachedprice_buy && document.getElementById('gold-buy')) {
-		document.getElementById('gold-buy').textContent = cachedprice_buy;
-	}
-	const cachedprice_sell = localStorage.getItem('cached_gold_sell');
-	if (cachedprice_sell && document.getElementById('gold-sell')) {
-		document.getElementById('gold-sell').textContent = cachedprice_sell;
-	}
+   if (window.dataSdk) {
+      window.dataSdk.init(dataHandler).catch(err => console.warn("Lỗi SDK:", err));
+   }
+   // lay run count từ local
+   const cachedRun = localStorage.getItem('cached_babyrun_count');
+   if (cachedRun && document.getElementById('bike-count')) {
+      document.getElementById('bike-count').textContent = cachedRun;
+   }
+   // lay gia vang tu local
+   const cachedprice_buy = localStorage.getItem('cached_gold_buy');
+   if (cachedprice_buy && document.getElementById('gold-buy')) {
+      document.getElementById('gold-buy').textContent = cachedprice_buy;
+   }
+   const cachedprice_sell = localStorage.getItem('cached_gold_sell');
+   if (cachedprice_sell && document.getElementById('gold-sell')) {
+      document.getElementById('gold-sell').textContent = cachedprice_sell;
+   }
 
    // D. Load Bảng tin từ Cache
-   
-   let hasCache = false;
-    try {
-        const cachedFeed = localStorage.getItem('cached_feed_data');
-        if (cachedFeed) {
-            serverFeedData = JSON.parse(cachedFeed);
-            if (serverFeedData.length > 0) {
-                hasCache = true;
-                // Gọi hàm render để hiện bài cũ ngay lập tức
-                renderPostsPaged(serverFeedData, 1); 
-            }
-        }
-    } catch (e) {}
 
-	const tasks = [
-		syncUserProfile(), //lay dữ liệu user tư server
-		loadCriticalStats(), //lay số lần đạp, giá vàng từ server
-		loadBackgroundInfo(),
-		loadFeedData(1, true),
-		loadNotifications(1),
-		setupPullToRefresh(),
-		renderStats()
-	   ];
-	 
-	   Promise.allSettled(tasks).then(() => {
-		   console.log("Initial loading sequence complete");
-	   });
- 
+   let hasCache = false;
+   try {
+      const cachedFeed = localStorage.getItem('cached_feed_data');
+      if (cachedFeed) {
+         serverFeedData = JSON.parse(cachedFeed);
+         if (serverFeedData.length > 0) {
+            hasCache = true;
+            // Gọi hàm render để hiện bài cũ ngay lập tức
+            renderPostsPaged(serverFeedData, 1);
+         }
+      }
+   } catch (e) { }
+
+   const tasks = [
+      syncUserProfile(), //lay dữ liệu user tư server
+      loadCriticalStats(), //lay số lần đạp, giá vàng từ server
+      loadBackgroundInfo(),
+      loadFeedData(1, true),
+      loadNotifications(1),
+      setupPullToRefresh(),
+      renderStats()
+   ];
+
+   Promise.allSettled(tasks).then(() => {
+      console.log("Initial loading sequence complete");
+   });
+
 })();
 
 function showToast(message) {
@@ -368,7 +368,7 @@ function showLoading() {
 function hideLoading() {
    loadingToast.hide();
 }
-  
+
 // --- [LUỒNG 1] TẢI SỐ LIỆU QUAN TRỌNG (Ưu tiên cao nhất) ---
 async function loadCriticalStats() {
    try {
@@ -392,18 +392,16 @@ async function loadCriticalStats() {
          if (res.gold) {
             const goldBuyEl = document.getElementById('gold-buy');
             const goldSellEl = document.getElementById('gold-sell');
-            if (goldBuyEl) 
-				{
-				goldBuyEl.textContent = formatCurrency(res.gold.buy);
-				updateValueWithEffect('gold-buy');
-				localStorage.setItem('cached_gold_buy', res.gold.buy);
-				}
-            if (goldSellEl) 
-{
-				goldSellEl.textContent = formatCurrency(res.gold.sell);
-				updateValueWithEffect('gold-sell');
-				localStorage.setItem('cached_gold_sell', res.gold.sell);
-}
+            if (goldBuyEl) {
+               goldBuyEl.textContent = formatCurrency(res.gold.buy);
+               updateValueWithEffect('gold-buy');
+               localStorage.setItem('cached_gold_buy', res.gold.buy);
+            }
+            if (goldSellEl) {
+               goldSellEl.textContent = formatCurrency(res.gold.sell);
+               updateValueWithEffect('gold-sell');
+               localStorage.setItem('cached_gold_sell', res.gold.sell);
+            }
 
             currentMarketPrice_GoldData = res.gold.buy;
          }
@@ -456,7 +454,7 @@ function updateAvatarDisplays() {
       document.getElementById('profile-fullname').value = currentProfile.fullName || '';
    }
 }
-  
+
 // Navigation điều hướng 
 document.querySelectorAll('.nav-link').forEach(btn => {
    btn.addEventListener('click', () => {
@@ -471,36 +469,35 @@ document.querySelectorAll('.nav-link').forEach(btn => {
       currentTab = targetTab;
       // 3. Xử lý nút FAB (Nút tròn +)
       const fabBtn = document.getElementById('fab-btn');
-      if (currentTab === 'feed') 
-	  {
-		  fabBtn.classList.remove('d-none');
-	  }
-      else 
-		  fabBtn.classList.add('d-none');
+      if (currentTab === 'feed') {
+         fabBtn.classList.remove('d-none');
+      }
+      else
+         fabBtn.classList.add('d-none');
       // 4. [TỐI ƯU] KHÔNG RESET DỮ LIỆU KHI CHUYỂN TAB
       if (currentTab === 'feed') {
-          const container = document.getElementById('posts-container');
-          // Chỉ render nếu container đang rỗng (chưa có bài viết nào hoặc skeleton)
-          if (container && !container.querySelector('.post-card') && !container.querySelector('.post-skeleton')) {
-              // A. Nếu có dữ liệu cache -> Render từ cache để hiện ngay
-              if (hasCacheData && serverFeedData.length > 0) {
-                  // Hiển thị skeleton ngay lập tức để người dùng thấy phản hồi
-                  container.innerHTML = createSkeletonHtml(5); // Dùng hàm tạo skeleton
-                  // Dùng setTimeout để render bài viết thật sau khi UI đã chuyển tab xong
-                  setTimeout(() => {
-                      renderPostsPaged(serverFeedData, 1); // Vẽ lại từ cache, hàm này sẽ tự xóa skeleton
-                  }, 50); // Delay 50ms là đủ để trình duyệt "thở"
-              } else {
-                  // B. Nếu không có cache -> Gọi loadFeedData để hiện skeleton và tải từ server
-                  loadFeedData(1);
-              }
-          }
+         const container = document.getElementById('posts-container');
+         // Chỉ render nếu container đang rỗng (chưa có bài viết nào hoặc skeleton)
+         if (container && !container.querySelector('.post-card') && !container.querySelector('.post-skeleton')) {
+            // A. Nếu có dữ liệu cache -> Render từ cache để hiện ngay
+            if (hasCacheData && serverFeedData.length > 0) {
+               // Hiển thị skeleton ngay lập tức để người dùng thấy phản hồi
+               container.innerHTML = createSkeletonHtml(5); // Dùng hàm tạo skeleton
+               // Dùng setTimeout để render bài viết thật sau khi UI đã chuyển tab xong
+               setTimeout(() => {
+                  renderPostsPaged(serverFeedData, 1); // Vẽ lại từ cache, hàm này sẽ tự xóa skeleton
+               }, 50); // Delay 50ms là đủ để trình duyệt "thở"
+            } else {
+               // B. Nếu không có cache -> Gọi loadFeedData để hiện skeleton và tải từ server
+               loadFeedData(1);
+            }
+         }
       } else if (currentTab === 'home') {
          // Home thì có thể update nhẹ số liệu nếu muốn 
       } else if (currentTab === 'search') {
          // Focus vào ô tìm kiếm khi mở tab
          setTimeout(() => {
-            const input = document.getElementById('smart-search-input');
+            const input = document.getElementById('chat-input');
             if (input) input.focus();
          }, 100);
       }
@@ -521,10 +518,10 @@ document.querySelectorAll('.theme-option').forEach(opt => {
 // Profile
 document.getElementById('profile-btn').addEventListener('click', () => {
    closeAllModals();
-    
+
    const toggleBtn = document.getElementById('vconsole-toggle');
    if (toggleBtn) toggleBtn.checked = (myVConsole !== null);
-   
+
    profileModal.show();
 });
 
@@ -674,25 +671,25 @@ usernameInput.addEventListener('blur', async () => {
       hideLoading();
    }
 });
- 
+
 async function runBackgroundSync() {
    // --- [PHẦN 1: CÁC ĐIỀU KIỆN CHẶN (QUAN TRỌNG)] ---
-   
+
    // 1. Nếu tab đang bị ẩn (người dùng sang tab khác), không cần sync để tiết kiệm pin/data
    if (document.hidden) return;
 
    // 2. Nếu đang có bất kỳ Modal nào mở (Xem ảnh, Sửa bài, Xóa bài...) -> DỪNG NGAY
    // Logic: Class .show được Bootstrap thêm vào khi modal mở
    if (document.querySelector('.modal.show')) {
-       console.log("Hủy sync ngầm: Đang mở Modal/Popup");
-       return;
+      console.log("Hủy sync ngầm: Đang mở Modal/Popup");
+      return;
    }
 
    // 3. Nếu người dùng đang gõ phím (Input/Textarea đang focus) -> DỪNG NGAY
    // Logic: Tránh việc data mới load về làm mất focus của ô nhập liệu
-   if (document.activeElement && 
+   if (document.activeElement &&
       (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
-       return;
+      return;
    }
 
    // 4. Các điều kiện cũ của bạn (Giữ nguyên)
@@ -719,29 +716,29 @@ async function runBackgroundSync() {
       // --- [PHẦN 4: KIỂM TRA LẠI TRƯỚC KHI UPDATE UI] ---
       // Trong lúc chờ server phản hồi (await), người dùng có thể đã mở Modal hoặc gõ phím.
       // Cần check lại lần nữa để đảm bảo an toàn tuyệt đối.
-      
+
       if (document.querySelector('.modal.show')) return; // Check lại Modal
-      
+
       if (typeof isEditingPost !== 'undefined' && isEditingPost) {
          console.log("Hủy update feed: Người dùng đang sửa bài.");
          return;
       }
-      
+
       // Nếu có dữ liệu mới -> Gọi hàm xử lý (Smart Merge)
       if (res.status === 'success' && res.data.length > 0) {
          // Lưu ý: Đảm bảo bạn đang dùng hàm mergeServerDataToView (trong feed.js) 
          // hoặc processNewFeedData nếu bạn đã đổi tên.
          if (typeof mergeServerDataToView === 'function') {
-             mergeServerDataToView(res.data);
+            mergeServerDataToView(res.data);
          } else if (typeof processNewFeedData === 'function') {
-             processNewFeedData(res.data);
+            processNewFeedData(res.data);
          }
       }
    } catch (e) {
       console.warn("Lỗi sync ngầm:", e);
    }
 }
- 
+
 // --- HÀM XỬ LÝ KÉO ĐỂ LÀM MỚI (PULL TO REFRESH) --- 
 function setupPullToRefresh() {
    const container = document.querySelector('.main-content');
@@ -766,9 +763,9 @@ function setupPullToRefresh() {
 
          ptrElement.classList.add('is-pulling');
          ptrElement.classList.remove('ptr-loading');
- 
+
          progressCircle.style.strokeDashoffset = circumference;
- 
+
          progressCircle.style.stroke = 'red';
       }
    }, {
@@ -799,12 +796,12 @@ function setupPullToRefresh() {
          // Xử lý logic đạt ngưỡng (Chỉ rung, không đổi màu ở đây nữa để giữ màu đỏ)
          if (progress >= 1 && !isReadyToRefresh) {
             isReadyToRefresh = true;
-            if (navigator.vibrate) 
-				try {
-                if (navigator.vibrate) navigator.vibrate(15);
-				} catch (err) {
-					// Kệ nó, không rung cũng không sao
-				}
+            if (navigator.vibrate)
+               try {
+                  if (navigator.vibrate) navigator.vibrate(15);
+               } catch (err) {
+                  // Kệ nó, không rung cũng không sao
+               }
          } else if (progress < 1 && isReadyToRefresh) {
             isReadyToRefresh = false;
          }
@@ -870,8 +867,8 @@ async function handlePageRefresh() {
          // 1. Tải lại số liệu quan trọng trước
          await loadCriticalStats();
          // 2. Tải các thông tin phụ sau
-         loadBackgroundInfo(); 
- 
+         loadBackgroundInfo();
+
       }
    } catch (e) {
       console.error("Lỗi refresh:", e);
@@ -1091,224 +1088,133 @@ function handleTouchEnd(e) {
 
    setTimeout(() => { isSwiping = false; }, 100);
 }
- 
-// 2. Xử lý sự kiện nhập liệu
-const searchInput = document.getElementById('smart-search-input');
-const clearSearchBtn = document.getElementById('clear-search');
 
-if (searchInput) {
-   searchInput.addEventListener('input', (e) => {
-      const query = e.target.value;
-      clearSearchBtn.style.display = query ? 'block' : 'none';
+// 2. TÍNH NĂNG AI CHAT (Thay thế Tìm kiếm)
+const chatInput = document.getElementById('chat-input');
+const chatSendBtn = document.getElementById('chat-send-btn');
+const chatMessages = document.getElementById('chat-messages');
 
-      // Debounce: Đợi người dùng dừng gõ 300ms mới tìm
-      if (window.searchTimeout) clearTimeout(window.searchTimeout);
-      window.searchTimeout = setTimeout(() => {
-         handleSmartSearch(query);
-      }, 300);
+let aiChatHistory = []; // Lưu trữ cuộc hội thoại tạm thời
+
+if (chatInput && chatSendBtn) {
+   // Xử lý khi bấm nút Gửi
+   chatSendBtn.addEventListener('click', () => {
+      handleAeChatSubmit();
    });
 
-   clearSearchBtn.addEventListener('click', () => {
-      searchInput.value = '';
-      handleSmartSearch('');
-      clearSearchBtn.style.display = 'none';
+   // Xử lý khi nhấn Enter
+   chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+         e.preventDefault();
+         handleAeChatSubmit();
+      }
    });
 }
 
-// Hàm hỗ trợ click vào chip gợi ý
-function triggerSearch(text) {
-   if (!searchInput) return;
-   searchInput.value = text;
-   clearSearchBtn.style.display = 'block';
-   handleSmartSearch(text);
-}
+// 3. LOGIC GỬI TIN NHẮN VÀ GỌI AI
+async function handleAeChatSubmit() {
+   const query = chatInput.value.trim();
+   if (!query) return;
 
-// 3. LOGIC TÌM KIẾM THÔNG MINH (CORE)
-async function handleSmartSearch(query) {
-   const container = document.getElementById('search-results-area');
+   // Khóa input trong lúc chờ
+   chatInput.value = '';
+   chatInput.disabled = true;
+   chatSendBtn.disabled = true;
 
-   // Nếu ô tìm kiếm rỗng, hiện hướng dẫn
-   if (!query || !query.trim()) {
-      container.innerHTML = `
-				<div class="text-center py-5 text-muted">
-				   <i class="bi bi-robot theme-text-primary" style="font-size: 3rem;"></i>
-				   <p class="mt-3">Nhập từ khóa hoặc câu hỏi.<br>Ví dụ: "ảnh nhiều like", "sinh nhật"...</p>
-				</div>`;
-      return;
-   }
+   // 3.1. Hiển thị tin nhắn của User
+   addChatMessage('user', query);
+   aiChatHistory.push({ role: 'user', text: query });
 
-   const rawQuery = query.toLowerCase();
-   const cleanQuery = normalizeStr(query);
-   let resultsHtml = '';
-   let foundAnswer = false;
-
-   // --- A. PHÂN TÍCH INTENT (HỎI ĐÁP THÔNG MINH) ---
-   if (cleanQuery.includes('nhieu like') || cleanQuery.includes('thich nhat') || cleanQuery.includes('hot nhat')) {
-      const sortedPosts = [...serverFeedData].sort((a, b) => (b.likes || 0) - (a.likes || 0));
-      if (sortedPosts.length > 0) {
-         resultsHtml += `<div class="alert alert-success mb-3"><i class="bi bi-trophy-fill me-2"></i>Bài viết được yêu thích nhất (trong dữ liệu đã tải):</div>`;
-         resultsHtml += createPostHtml(sortedPosts[0]);
-         foundAnswer = true;
-      }
-   }
-
-   // 2. Hỏi về bài viết nhiều Comment nhất
-   else if (cleanQuery.includes('nhieu comment') || cleanQuery.includes('nhieu binh luan') || cleanQuery.includes('soi noi')) {
-      const getCmtCount = (p) => parseComments(p.comments).length;
-      const sortedPosts = [...serverFeedData].sort((a, b) => getCmtCount(b) - getCmtCount(a));
-      if (sortedPosts.length > 0) {
-         resultsHtml += `<div class="alert alert-info mb-3"><i class="bi bi-chat-quote-fill me-2"></i>Bài viết sôi nổi nhất (${getCmtCount(sortedPosts[0])} bình luận)</div>`;
-         resultsHtml += createPostHtml(sortedPosts[0]);
-         foundAnswer = true;
-      }
-   }
-
-   // 3. Hỏi Thống kê tổng quan
-   else if (cleanQuery.includes('thong ke') || cleanQuery.includes('tong so')) {
-      const totalPosts = serverFeedData.length;
-      const totalLikes = serverFeedData.reduce((sum, p) => sum + (p.likes || 0), 0);
-      // Đếm sơ bộ số ảnh
-      const totalPhotos = serverFeedData.reduce((sum, p) => {
-         const imgs = parseImages(p.imageData);
-         return sum + (Array.isArray(imgs) ? imgs.length : 0);
-      }, 0);
-
-      resultsHtml += `
-				<div class="card theme-bg-primary text-white mb-3">
-					<div class="card-body">
-						<h5 class="fw-bold"><i class="bi bi-bar-chart-line me-2"></i>Thống kê (Dữ liệu hiển thị)</h5>
-						<div class="row text-center mt-3">
-							<div class="col-4"><h3>${totalPosts}</h3><small>Bài viết</small></div>
-							<div class="col-4"><h3>${totalLikes}</h3><small>Lượt thích</small></div>
-							<div class="col-4"><h3>${totalPhotos}</h3><small>Bức ảnh</small></div>
-						</div>
-						<small class="d-block mt-2 text-white-50 fst-italic">* Số liệu dựa trên các bài viết đã tải về máy.</small>
-					</div>
-				</div>
-			`;
-      foundAnswer = true;
-   }
-
-   // 4. Hỏi Ngày sinh nhật / Kỷ niệm
-   else if (cleanQuery.includes('sinh nhat') || cleanQuery.includes('ngay sinh')) {
-      const memories = allData.filter(d => d.type === 'memory' && normalizeStr(d.memoryTitle).includes('sinh nhat'));
-
-      if (memories.length > 0) {
-         resultsHtml += `<h6 class="fw-bold theme-text-primary mb-3">📅 Sự kiện tìm thấy:</h6>`;
-         memories.forEach(mem => {
-            resultsHtml += `
-						<div class="card mb-2 border-warning shadow-sm">
-							<div class="card-body p-3">
-								<h6 class="fw-bold mb-1 text-dark">${mem.memoryTitle}</h6>
-								<p class="text-muted small mb-0"><i class="bi bi-calendar-event me-1"></i>${formatDate(mem.memoryDate)}</p>
-							</div>
-						</div>`;
-         });
-         foundAnswer = true;
-      }
-   }
-
-   // --- B. TÌM KIẾM NỘI DUNG LOCAL (TÌM TRONG FEED ĐANG CÓ) ---
-   let localMatches = [];
-   // Lọc bài viết chứa từ khóa (có dấu hoặc không dấu)
-   localMatches = serverFeedData.filter(post => {
-      const contentNorm = normalizeStr(post.content);
-      const authorNorm = normalizeStr(post.fullname || post.username);
-      return contentNorm.includes(cleanQuery) || authorNorm.includes(cleanQuery);
-   });
-
-   if (localMatches.length > 0) {
-      // Chỉ hiện tiêu đề nếu có kết quả đặc biệt ở trên
-      if (foundAnswer) {
-         resultsHtml += `<h6 class="fw-bold text-muted mt-4 mb-3 border-top pt-3">Bài viết liên quan (${localMatches.length}):</h6>`;
-      } else {
-         resultsHtml += `<h6 class="fw-bold text-muted mb-3"><i class="bi bi-phone me-2"></i>Kết quả có sẵn trong máy (${localMatches.length}):</h6>`;
-      }
-
-      localMatches.forEach(post => {
-         resultsHtml += createPostHtml(post);
-      });
-   } else if (!foundAnswer) {
-      // Nếu không tìm thấy gì ở Local và cũng không phải câu hỏi thống kê
-      resultsHtml += `
-				<div class="text-center py-4 text-muted small">
-					Chưa tìm thấy kết quả phù hợp trong dữ liệu đã tải...
-				</div>`;
-   }
-
-   // Cập nhật DOM lần 1: Hiển thị ngay kết quả Local
-   container.innerHTML = resultsHtml;
-
-   // --- C. TÌM KIẾM SERVER (FULL DATABASE) ---
-   // Chỉ gọi server nếu từ khóa có ý nghĩa (> 1 ký tự)
-   if (cleanQuery.length >= 2) {
-      // Tạo Loader Spinner
-      const loaderId = 'server-search-loader';
-      const loaderHtml = `
-				<div id="${loaderId}" class="text-center py-3 text-muted small fade-in mt-2 border-top pt-2">
-					<div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
-					Đang tìm thêm trên máy chủ...
-				</div>
-			`;
-      container.insertAdjacentHTML('beforeend', loaderHtml);
-
-      // Lấy danh sách ID đã hiển thị để Server/Client loại trừ trùng lặp
-      // Bao gồm cả bài local vừa tìm được và các bài đặc biệt (nếu có)
-      const displayedIds = localMatches.map(p => p.__backendId);
-
-      // Gọi hàm tìm kiếm server (định nghĩa bên dưới)
-      await searchServerSide(query, displayedIds, loaderId);
-   }
-}
-// --- HÀM PHỤ TRỢ: GỌI SERVER TÌM KIẾM ---
-async function searchServerSide(query, existingIds, loaderId) {
-   const container = document.getElementById('search-results-area');
-   const loader = document.getElementById(loaderId);
+   // 3.2. Hiển thị "AI đang gõ..."
+   const typingId = 'typing-' + Date.now();
+   addChatMessage('ai', '<div class="typing-indicator"><span></span><span></span><span></span></div>', typingId);
+   scrollToBottom();
 
    try {
-      // Gửi request tìm kiếm lên Server
+      // 3.3. Gọi Backend
       const res = await sendToServer({
-         action: 'get_feed',
-         page: 1,
-         limit: 20,
-         searchQuery: query,
-         username: currentProfile ? currentProfile.username : ''
+         action: 'ai_chat',
+         query: query,
+         history: aiChatHistory
       });
-      if (loader) loader.remove();
+
+      // Xóa typing indicator
+      const typingEl = document.getElementById(typingId);
+      if (typingEl) typingEl.remove();
 
       if (res.status === 'success') {
-         const serverPosts = res.data;
-         const newMatches = serverPosts.filter(p => !existingIds.includes(p.__backendId));
-
-         if (newMatches.length > 0) {
-            let serverHtml = `<h6 class="fw-bold theme-text-primary mt-3 mb-3 border-top pt-3 fade-in"><i class="bi bi-cloud-check me-2"></i>Tìm thấy thêm từ máy chủ (${newMatches.length}):</h6>`;
-            newMatches.forEach(post => {
-               serverHtml += createPostHtml(post);
-            });
-
-            container.insertAdjacentHTML('beforeend', serverHtml);
-
-         } else {
-            if (existingIds.length === 0) {
-               container.innerHTML = `
-                        <div class="text-center py-5 text-muted">
-                            <i class="bi bi-search" style="font-size: 2rem;"></i>
-                            <p class="mt-3">Không tìm thấy kết quả nào cho "<b>${query}</b>"</p>
-                        </div>`;
-            } else {
-               container.insertAdjacentHTML('beforeend', `
-                        <div class="text-center py-3 text-muted small fade-in">
-                            Đã hiển thị tất cả kết quả liên quan.
-                        </div>
-                    `);
-            }
-         }
+         // Hiển thị tin nhắn AI
+         addChatMessage('ai', res.reply);
+         aiChatHistory.push({ role: 'ai', text: res.reply });
+      } else {
+         addChatMessage('ai', '<span class="text-danger">Xin lỗi, mình đang gặp chút trục trặc: ' + res.message + '</span>');
       }
-   } catch (e) {
-      console.error("Lỗi tìm kiếm server:", e);
-      if (loader) {
-         loader.innerHTML = '<span class="text-danger small"><i class="bi bi-exclamation-circle me-1"></i>Lỗi kết nối tới máy chủ</span>';
-      }
+
+   } catch (error) {
+      console.error("Lỗi AI Chat:", error);
+      const typingEl = document.getElementById(typingId);
+      if (typingEl) typingEl.remove();
+      addChatMessage('ai', '<span class="text-danger">Mất kết nối với máy chủ. Vui lòng thử lại sau.</span>');
+   }
+
+   // Mở lại input
+   chatInput.disabled = false;
+   chatSendBtn.disabled = false;
+   chatInput.focus();
+}
+
+// Hàm phụ trợ: Thêm tin nhắn vào giao diện
+function addChatMessage(role, htmlContent, elementId = '') {
+   if (!chatMessages) return;
+
+   const isUser = role === 'user';
+   const alignClass = isUser ? 'justify-content-end' : 'justify-content-start';
+   const wrapperClass = isUser ? 'ms-auto flex-row-reverse' : 'me-auto flex-row';
+
+   // Avatar
+   let avatarHtml = '';
+   if (isUser) {
+      const userAva = (currentProfile && currentProfile.avatarData) ? currentProfile.avatarData : 'https://ui-avatars.com/api/?name=User&background=random';
+      avatarHtml = `
+         <div class="ms-2 mt-auto mb-auto">
+             <img src="${userAva}" class="rounded-circle shadow-sm" style="width: 36px; height: 36px; object-fit: cover;">
+         </div>`;
+   } else {
+      avatarHtml = `
+         <div class="me-2 mt-auto mb-auto">
+            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px;">
+               <i class="bi bi-robot theme-text-primary"></i>
+            </div>
+         </div>`;
+   }
+
+   // Nội dung bong bóng chat
+   const bubbleStyle = isUser
+      ? 'background-color: var(--theme-primary); color: var(--bs-dark); border-bottom-right-radius: 4px !important;'
+      : 'background-color: white; color: var(--bs-dark); border-bottom-left-radius: 4px !important;';
+
+   const nameHtml = !isUser ? `<p class="mb-1 fw-semibold theme-text-primary" style="font-size: 0.9rem;">Trợ lý LoveStory</p>` : '';
+
+   const html = `
+      <div class="d-flex mb-3 ${alignClass}" ${elementId ? `id="${elementId}"` : ''}>
+         <div class="d-flex ${wrapperClass}" style="max-width: 85%;">
+            ${avatarHtml}
+            <div class="p-3 rounded-4 shadow-sm" style="${bubbleStyle}">
+               ${nameHtml}
+               <p class="mb-0 small" style="line-height: 1.4; word-break: break-word;">${htmlContent}</p>
+            </div>
+         </div>
+      </div>
+   `;
+
+   chatMessages.insertAdjacentHTML('beforeend', html);
+   scrollToBottom();
+}
+
+// Cố định cuộn xuống cuối
+function scrollToBottom() {
+   if (chatMessages) {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
    }
 }
 // TÍNH NĂNG: VUỐT TỪ TRÁI SANG ĐỂ ĐÓNG (SWIPE TO BACK)
@@ -1384,34 +1290,34 @@ async function searchServerSide(query, existingIds, loaderId) {
 
 // Thêm vào app.js
 setInterval(() => {
-    // 1. Quét tất cả thẻ thời gian của bài viết
-    document.querySelectorAll('.post-timestamp').forEach(el => {
-        // Tìm bài viết chứa nó để lấy timestamp gốc
-        const postCard = el.closest('.post-card');
-        if (postCard) {
-            const postId = postCard.id.replace('post-', '');
-            const post = serverFeedData.find(p => p.__backendId === postId);
-            if (post) {
-                // Tính toán lại thời gian hiển thị
-                el.textContent = formatTimeSmart(post.timestamp || post.createdAt);
-            }
-        }
-    });
+   // 1. Quét tất cả thẻ thời gian của bài viết
+   document.querySelectorAll('.post-timestamp').forEach(el => {
+      // Tìm bài viết chứa nó để lấy timestamp gốc
+      const postCard = el.closest('.post-card');
+      if (postCard) {
+         const postId = postCard.id.replace('post-', '');
+         const post = serverFeedData.find(p => p.__backendId === postId);
+         if (post) {
+            // Tính toán lại thời gian hiển thị
+            el.textContent = formatTimeSmart(post.timestamp || post.createdAt);
+         }
+      }
+   });
 }, 60000); // Chạy mỗi 60 giây
 
 // --- XỬ LÝ XEM THÊM NỘI DUNG ---
-window.togglePostContent = function(btn, postId) {
-    // 1. Tìm các element liên quan
-    const shortContent = document.getElementById(`content-short-${postId}`);
-    const fullContent = document.getElementById(`content-full-${postId}`);
-    
-    if (shortContent && fullContent) {
-        // 2. Ẩn bản rút gọn, hiện bản đầy đủ
-        shortContent.style.display = 'none';
-        fullContent.style.display = 'block';
-        // Hiệu ứng fade-in nhẹ
-        fullContent.classList.add('fade-in');
-    }
+window.togglePostContent = function (btn, postId) {
+   // 1. Tìm các element liên quan
+   const shortContent = document.getElementById(`content-short-${postId}`);
+   const fullContent = document.getElementById(`content-full-${postId}`);
+
+   if (shortContent && fullContent) {
+      // 2. Ẩn bản rút gọn, hiện bản đầy đủ
+      shortContent.style.display = 'none';
+      fullContent.style.display = 'block';
+      // Hiệu ứng fade-in nhẹ
+      fullContent.classList.add('fade-in');
+   }
 };
 
 
@@ -1420,6 +1326,6 @@ document.addEventListener('hide.bs.modal', (event) => {
       document.activeElement.blur(); // Bỏ focus ngay lập tức
    }
 });
-  
+
 // KÍCH HOẠT ĐỊNH KỲ (Khuyên dùng 60s thay vì 10s)
 setInterval(runBackgroundSync, 60000);

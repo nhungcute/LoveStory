@@ -5,19 +5,19 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
    <title>Social Memory</title>
-   
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
    <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
    <link rel="stylesheet" href="style.css">
-	
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	
-	<script src="utils.js" defer></script>
-	<script src="home.js" defer></script>
-	<script src="feed.js" defer></script>
-	<script src="notification.js" defer></script>
-	<script src="app.js" defer></script>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+   <script src="utils.js" defer></script>
+   <script src="home.js" defer></script>
+   <script src="feed.js" defer></script>
+   <script src="notification.js" defer></script>
+   <script src="app.js" defer></script>
 
    <style>
       @view-transition {
@@ -86,34 +86,41 @@
                <div id="stats-container" class="stats-container"></div>
             </div>
          </div>
-         <div id="tab-search" class="tab-pane h-100 d-none">
-            <div class="container pt-3 pb-5">
-               <div class="card shadow-sm border-0 mb-3">
-                  <div class="card-body p-2 d-flex align-items-center">
-                     <i class="bi bi-search text-muted ms-2 fs-5"></i>
-                     <input type="text" id="smart-search-input" class="form-control border-0 shadow-none"
-                        placeholder="Hỏi tôi về kỷ niệm...">
-                     <button class="btn btn-sm btn-light rounded-circle" id="clear-search" style="display:none;">
-                        <i class="bi bi-x"></i>
-                     </button>
+         <!-- TAB AI CHAT (Thay thế Tìm kiếm) -->
+         <div id="tab-search" class="tab-pane h-100 d-none d-flex flex-column"
+            style="height: calc(100vh - 120px) !important;">
+
+            <!-- Khu vực hiển thị tin nhắn -->
+            <div id="chat-messages" class="flex-grow-1 overflow-auto p-3" style="background-color: var(--bs-light);">
+               <!-- Tin nhắn chào mừng -->
+               <div class="d-flex mb-3">
+                  <div class="me-2 mt-auto mb-auto">
+                     <div class="bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                        style="width: 36px; height: 36px;">
+                        <i class="bi bi-robot theme-text-primary"></i>
+                     </div>
+                  </div>
+                  <div class="bg-white p-3 rounded-4 shadow-sm"
+                     style="max-width: 80%; border-bottom-left-radius: 4px !important;">
+                     <p class="mb-1 fw-semibold theme-text-primary" style="font-size: 0.9rem;">Trợ lý LoveStory</p>
+                     <p class="mb-0 text-dark small" style="line-height: 1.4;">
+                        Xin chào! Mình có thể giúp gì cho bạn hôm nay?<br>
+                        Gợi ý: <i>"Kể cho mình nghe một kỷ niệm", "Có ảnh nào đẹp không?"</i>
+                     </p>
                   </div>
                </div>
+            </div>
 
-               <div id="search-suggestions" class="d-flex gap-2 overflow-auto pb-2 mb-2 no-scrollbar">
-                  <span class="badge bg-light text-dark border p-2 fw-normal cursor-pointer"
-                     onclick="triggerSearch('nhiều like nhất')">❤️ Nhiều like nhất</span>
-                  <span class="badge bg-light text-dark border p-2 fw-normal cursor-pointer"
-                     onclick="triggerSearch('sinh nhật')">🎂 Sinh nhật</span>
-                  <span class="badge bg-light text-dark border p-2 fw-normal cursor-pointer"
-                     onclick="triggerSearch('thống kê')">📊 Thống kê</span>
-               </div>
-
-               <div id="search-results-area">
-                  <div class="text-center py-5 text-muted">
-                     <i class="bi bi-robot theme-text-primary" style="font-size: 3rem;"></i>
-                     <p class="mt-3">Nhập từ khóa hoặc câu hỏi.<br>Ví dụ: "Hôm nay ăn gì", "Ngày kỷ niệm"...</p>
-                  </div>
-               </div>
+            <!-- Khu vực nhập tin nhắn -->
+            <div class="p-2 bg-white border-top shadow-sm d-flex align-items-center gap-2">
+               <input type="text" id="chat-input"
+                  class="form-control rounded-pill bg-light border-0 shadow-none px-3 py-2"
+                  placeholder="Nhập câu hỏi...">
+               <button id="chat-send-btn"
+                  class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
+                  style="width: 42px; height: 42px; background: var(--theme-secondary); border: none;">
+                  <i class="bi bi-send-fill text-white"></i>
+               </button>
             </div>
          </div>
       </main>
@@ -231,8 +238,8 @@
                            </div>
                         </div>
                      </div>
-                      
-                        <!--div class="card-body">
+
+                     <!--div class="card-body">
                            <div class="d-flex align-items-center mb-3">
                               <div class="icon-box icon-box-sm text-white me-3" style="background: #6f42c1;"><i
                                     class="bi bi-grid-3x3"></i>
@@ -245,13 +252,16 @@
                            <button class="btn btn-outline-primary w-100" id="enter-layout-edit"> <i
                                  class="bi bi-pencil-square me-2"></i>Chỉnh sửa bố cục </button>
                         </div-->
-						<div class="form-check form-switch mt-3 mb-3 p-3 border rounded bg-light d-flex align-items-center">
-							<input class="form-check-input ms-0 me-3 fs-4" type="checkbox" id="vconsole-toggle" style="cursor: pointer;">
-							<label class="form-check-label fw-bold text-secondary mb-0" for="vconsole-toggle" style="cursor: pointer;">
-								<i class="bi bi-bug-fill me-1"></i> Công cụ DevTool
-							</label>
-						</div>
-                    
+                     <div
+                        class="form-check form-switch mt-3 mb-3 p-3 border rounded bg-light d-flex align-items-center">
+                        <input class="form-check-input ms-0 me-3 fs-4" type="checkbox" id="vconsole-toggle"
+                           style="cursor: pointer;">
+                        <label class="form-check-label fw-bold text-secondary mb-0" for="vconsole-toggle"
+                           style="cursor: pointer;">
+                           <i class="bi bi-bug-fill me-1"></i> Công cụ DevTool
+                        </label>
+                     </div>
+
                   </div>
                   <button class="btn btn-primary w-100 py-3 mt-3" id="save-profile"> <i
                         class="bi bi-check-circle me-2"></i>Lưu thay đổi </button>
@@ -554,7 +564,7 @@
          </div>
       </div>
    </div>
-	 
+
    <div class="modal fade" id="commentOptionsModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
@@ -587,38 +597,41 @@
          </div>
       </div>
    </div>
-   
+
    <div class="modal fade p-0" id="imageViewerModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
-    <div class="modal-dialog modal-fullscreen m-0">
-        <div class="modal-content bg-black h-100 border-0">
-            
-            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-dialog modal-fullscreen m-0">
+         <div class="modal-content bg-black h-100 border-0">
+
+            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3"
+               data-bs-dismiss="modal" aria-label="Close"></button>
 
             <div class="modal-body p-0 d-flex align-items-center justify-content-center h-100 position-relative">
-                
-                <div id="postImageCarousel" class="carousel slide w-100 h-100" data-bs-interval="false">
-                    
-                    <div class="carousel-inner h-100 d-flex align-items-center" id="carousel-items-container">
-                        </div>
 
-                    <button class="carousel-control-prev" type="button" data-bs-target="#postImageCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
+               <div id="postImageCarousel" class="carousel slide w-100 h-100" data-bs-interval="false">
 
-                    <button class="carousel-control-next" type="button" data-bs-target="#postImageCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                  <div class="carousel-inner h-100 d-flex align-items-center" id="carousel-items-container">
+                  </div>
 
-                </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#postImageCarousel"
+                     data-bs-slide="prev">
+                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                     <span class="visually-hidden">Previous</span>
+                  </button>
+
+                  <button class="carousel-control-next" type="button" data-bs-target="#postImageCarousel"
+                     data-bs-slide="next">
+                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                     <span class="visually-hidden">Next</span>
+                  </button>
+
+               </div>
             </div>
-        </div>
-    </div>
-</div>
+         </div>
+      </div>
+   </div>
 
-<script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
-    
+   <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+
 </body>
 
 </html>

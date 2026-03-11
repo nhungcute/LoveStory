@@ -1,0 +1,68 @@
+/* === AI CHAT STYLES === */
+#chat-messages {
+    scroll-behavior: smooth;
+}
+
+#chat-messages .d-flex {
+    animation: fadeInChat 0.3s ease-in-out;
+}
+
+@keyframes fadeInChat {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Typing Indicator */
+.typing-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+}
+
+.typing-indicator span {
+    width: 6px;
+    height: 6px;
+    background-color: var(--bs-gray);
+    border-radius: 50%;
+    animation: typing 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes typing {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#chat-input:focus {
+    box-shadow: none;
+    background-color: #f0f2f5 !important;
+}
+
+#chat-send-btn:active {
+    transform: scale(0.95);
+}
