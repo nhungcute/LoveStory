@@ -1095,6 +1095,7 @@ const chatSendBtn = document.getElementById('chat-send-btn');
 const chatMessages = document.getElementById('chat-messages');
 
 let aiChatHistory = []; // Lưu trữ cuộc hội thoại tạm thời
+let currentChatMode = 'memory'; // Default mode
 
 if (chatInput && chatSendBtn) {
    // Xử lý khi bấm nút Gửi
@@ -1108,6 +1109,83 @@ if (chatInput && chatSendBtn) {
          e.preventDefault();
          handleAeChatSubmit();
       }
+   });
+}
+
+// -----------------------------------------------------------------------------
+// CHUYỂN ĐỔI CHẾ ĐỘ CHAT (Memory vs Document)
+// -----------------------------------------------------------------------------
+window.switchChatMode = function (mode) {
+   currentChatMode = mode;
+
+   // Cập nhật text & icon trên button Dropdown
+   const modeText = document.getElementById('chat-mode-text');
+   const modeIcon = document.getElementById('chat-mode-icon');
+
+   if (mode === 'memory') {
+      modeText.textContent = 'Kỷ niệm';
+      modeIcon.className = 'bi bi-clock-history';
+      chatInput.placeholder = 'Nhập câu hỏi...';
+   } else {
+      modeText.textContent = 'Tài liệu';
+      modeIcon.className = 'bi bi-file-earmark-text';
+      chatInput.placeholder = 'Hỏi về tài liệu...';
+   }
+
+   // Cập nhật trạng thái Active trong Menu Dropdown
+   document.querySelectorAll('#chatModeDropdown + .dropdown-menu .dropdown-item').forEach(el => {
+      el.classList.remove('active');
+   });
+   document.querySelector(`#chatModeDropdown + .dropdown-menu .dropdown-item[data-mode="${mode}"]`).classList.add('active');
+
+   // Thông báo cho người dùng
+   addChatMessage('ai', `Đã chuyển sang chế độ <b>${mode === 'memory' ? 'Kỷ niệm' : 'Phân tích tài liệu'}</b>. Bạn muốn hỏi gì?`);
+};
+
+// -----------------------------------------------------------------------------
+// XỬ LÝ UPLOAD TÀI LIỆU
+// -----------------------------------------------------------------------------
+const docUploadInput = document.getElementById('doc-upload-input');
+if (docUploadInput) {
+   docUploadInput.addEventListener('change', async function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      // Kiểm tra dung lượng (giới hạn 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+         showToast('File quá lớn, vui lòng chọn file < 5MB');
+         return;
+      }
+
+      showLoading();
+
+      const reader = new FileReader();
+      reader.onload = async function () {
+         try {
+            const base64Data = reader.result;
+            const res = await sendToServer({
+               action: 'upload_document',
+               fileName: file.name,
+               fileData: base64Data
+            });
+
+            if (res.status === 'success') {
+               showToast('Tải tài liệu thành công!');
+               addChatMessage('user', `<i>Đã tải lên tệp: ${file.name}</i>`);
+               addChatMessage('ai', `Mình đã nhận được tệp <b>${file.name}</b>. Hãy chuyển sang chế độ <b>Phân tích tài liệu</b> để hỏi đáp nội dung nhé!`);
+            } else {
+               showToast('Lỗi: ' + res.message);
+            }
+         } catch (err) {
+            console.error('Lỗi upload file:', err);
+            showToast('Lỗi kết nối máy chủ khi tải file');
+         } finally {
+            hideLoading();
+            // Reset input để chọn lại file cùng tên vẫn trigger event change
+            docUploadInput.value = '';
+         }
+      };
+      reader.readAsDataURL(file);
    });
 }
 
@@ -1135,7 +1213,8 @@ async function handleAeChatSubmit() {
       const res = await sendToServer({
          action: 'ai_chat',
          query: query,
-         history: aiChatHistory
+         history: aiChatHistory,
+         chatMode: currentChatMode // Gửi chế độ hiện tại lên server
       });
 
       // Xóa typing indicator
