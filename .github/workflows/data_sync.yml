@@ -2,19 +2,16 @@ name: Auto Update Gold Price (15 phút/lần)
 
 on:
   schedule:
-    # Chạy 15 phút một lần
     - cron: '*/15 * * * *'
-  
-  # Cho phép chạy thủ công để test
   workflow_dispatch:
-
-# THÊM MỚI: Ép các Action của GitHub (như checkout, setup-node) sử dụng Node 24
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   update-gold:
     runs-on: ubuntu-latest
+    # CHUYỂN ENV VÀO ĐÂY: Sát với job và thêm ngoặc kép "true"
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+    
     steps:
       - name: 1. Checkout mã nguồn
         uses: actions/checkout@v4
@@ -22,7 +19,7 @@ jobs:
       - name: 2. Cài đặt Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24' # SỬA ĐỔI: Nâng cấp từ '20' lên '24'
+          node-version: '24'
 
       - name: 3. Cài đặt thư viện (Axios & XML2JS)
         run: npm install axios xml2js
@@ -30,6 +27,5 @@ jobs:
       - name: 4. Chạy tool lấy giá vàng
         run: node scripts/build_data.js
         env:
-          # Chỉ cần 2 secret này là đủ
           DOJI_API_KEY: ${{ secrets.DOJI_API_KEY }}
           APPS_SCRIPT_URL: ${{ secrets.APPS_SCRIPT_URL }}
