@@ -8,6 +8,10 @@ on:
   # Cho phép chạy thủ công để test
   workflow_dispatch:
 
+# THÊM MỚI: Ép các Action của GitHub (như checkout, setup-node) sử dụng Node 24
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   update-gold:
     runs-on: ubuntu-latest
@@ -18,7 +22,7 @@ jobs:
       - name: 2. Cài đặt Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24' # SỬA ĐỔI: Nâng cấp từ '20' lên '24'
 
       - name: 3. Cài đặt thư viện (Axios & XML2JS)
         run: npm install axios xml2js
