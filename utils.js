@@ -8,7 +8,7 @@
  * =============================================================================
  */
 // --- CẤU HÌNH KẾT NỐI ---
-const API_URL = 'https://script.google.com/macros/s/AKfycbxACoCV_Bg_UNSge3Hq_u0ymTq9bCmPv4REWHx1laRrh6JzRK2jDANnpZOXdG9CuFhSRg/exechttps://script.google.com/macros/s/AKfycbyD6ArbE7-YI9AFQkyO4X_XfBqtYVMDaBiKJqihiO2IZDZxmrWmxs_v6nmvpatITvU_Jw/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwqqmfIBh2fYN4lCXwVZjl4qXRTvRUfLHad43uAr6NeUr9xqxcEyYEG1p0i6F_sSdYcGQ/exec';
 
 let userFingerprint = null;
 
@@ -456,5 +456,6 @@ async function sendToServer(payload) {
         };
     }
 }
+
 
 
