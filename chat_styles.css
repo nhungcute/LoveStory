@@ -5,6 +5,13 @@
 
 #chat-messages .d-flex {
     animation: fadeInChat 0.3s ease-in-out;
+    max-width: 100%;
+}
+
+#chat-messages .d-flex .p-3 {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 @keyframes fadeInChat {
