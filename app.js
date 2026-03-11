@@ -153,11 +153,42 @@ function manageCacheSize() {
    console.log(`Dung lượng LocalStorage đang dùng: ${total.toFixed(2)} MB`);
    // Nếu dùng quá 4.5MB (gần mức giới hạn 5MB), 
    if (total > 4.5) {
-      console.warn("Bộ nhớ đầy, đang dọn dẹp...");
+      console.warn("Bộ nhớ gần đầy, đang dọn dẹp...");
       localStorage.removeItem('cached_feed_data');
       localStorage.removeItem('cached_notifications');
-      // Giữ lại Profile và BabyRun vì nó quan trọng và nhẹ
    }
+}
+
+function openAvatarImage(event, imgUrl) {
+   // Ngăn chặn sự kiện click lan truyền lên thẻ cha (tránh mở post)
+   if (event) {
+      event.stopPropagation();
+   }
+
+   if (!imgUrl || imgUrl.trim() === '') return;
+
+   // Tìm thẻ modal Image Viewer và hiển thị avatar
+   const modalEl = document.getElementById('imageViewerModal');
+   if (!modalEl) return;
+
+   const container = document.getElementById('carousel-items-container');
+   if (container) {
+      container.innerHTML = `
+         <div class="carousel-item active">
+            <div class="zoom-container d-flex align-items-center justify-content-center h-100" style="overflow: auto;">
+               <img src="${imgUrl}" class="d-block w-100" style="object-fit: contain; max-height: 100vh; cursor: default;">
+            </div>
+         </div>
+      `;
+   }
+
+   const docTotal = document.getElementById('viewer-total-count');
+   const docCurrent = document.getElementById('viewer-current-index');
+   if (docTotal) docTotal.textContent = 1;
+   if (docCurrent) docCurrent.textContent = 1;
+
+   const modal = new bootstrap.Modal(modalEl);
+   modal.show();
 }
 
 function createAvatarHtml(entity, sizeClass = 'avatar-circle-sm') {
@@ -172,13 +203,16 @@ function createAvatarHtml(entity, sizeClass = 'avatar-circle-sm') {
       ? `<img src="${imgUrl}" class="w-100 h-100 object-fit-cover" loading="lazy" alt="${name}">`
       : `<span class="small fw-bold theme-text-primary" style="font-size: 1.2em;">${name.charAt(0).toUpperCase()}</span>`;
 
+   // Gán sự kiện onclick để xem avatar, phòng trường hợp không có ảnh thì không click
+   const onClickAttr = (imgUrl && imgUrl.trim() !== '') ? `onclick="openAvatarImage(event, '${imgUrl}')"` : `onclick="if(event) event.stopPropagation();"`;
+
    // 3. Trả về khung HTML chuẩn
    return `
-		  <div class="avatar-circle ${sizeClass} flex-shrink-0 overflow-hidden border d-flex align-items-center justify-content-center bg-white" 
-			   style="cursor: pointer;">
-			 ${innerContent}
-		  </div>
-	   `;
+        <div class="avatar-circle ${sizeClass} flex-shrink-0 overflow-hidden border d-flex align-items-center justify-content-center bg-white" 
+            style="cursor: pointer;" ${onClickAttr}>
+           ${innerContent}
+        </div>
+   `;
 }
 
 function createLoaderHtml(id, text = 'Đang tải...', extraClasses = 'text-center py-3 text-muted small fade-in') {

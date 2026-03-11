@@ -986,6 +986,41 @@ imageInput.addEventListener('change', async (e) => {
       let previewUrl = '';
 
       if (file.type.startsWith('video/')) {
+         // 1. Kiểm tra dung lượng (Max 25MB)
+         if (file.size > 25 * 1024 * 1024) {
+            showToast(`Video "${file.name}" quá lớn (tối đa 25MB)!`);
+            hideLoading();
+            continue;
+         }
+
+         // 2. Kiểm tra thời lượng (Max 30s) bằng Promise
+         const isValidDuration = await new Promise((resolve) => {
+            const videoNode = document.createElement('video');
+            videoNode.preload = 'metadata';
+            
+            videoNode.onloadedmetadata = () => {
+               URL.revokeObjectURL(videoNode.src);
+               if (videoNode.duration > 31) { // Lấy 31s để có xê xích nhẹ
+                  showToast(`Video "${file.name}" dài quá 30 giây!`);
+                  resolve(false);
+               } else {
+                  resolve(true);
+               }
+            };
+            
+            videoNode.onerror = () => {
+               // Nếu không đọc được metadata (lỗi format), tạm cho phép dựa trên size
+               resolve(true);
+            };
+            
+            videoNode.src = URL.createObjectURL(file);
+         });
+
+         if (!isValidDuration) {
+            hideLoading();
+            continue;
+         }
+
          mediaType = 'video';
          previewUrl = URL.createObjectURL(file);
       } else if (file.type.startsWith('image/')) {
@@ -1969,11 +2004,12 @@ function createPostHtml(post) {
       }
       commentsHtml = `<div class="comments-section mt-2 fade-in"><div id="comments-container-${post.__backendId}">${commentListHtml}</div></div>`;
    } else {
-      commentsHtml = `<div class="comments-section mt-2" id="comments-container-${post.__backendId}"></div>`;
+      commentsHtml = `<div class="comments-section" id="comments-container-${post.__backendId}"></div>`;
    }
 
    // Layout bình luận. Nếu chưa có cmt thì ẩn luôn khung bao ngoài này
    const wrapperClass = comments.length > 0 ? "px-3 pb-3" : "px-3 pb-3 d-none";
+   const inputMarginClass = comments.length > 0 ? "mt-2" : "mt-0";
 
    // --- TRẢ VỀ HTML CUỐI CÙNG ---
    return `
@@ -2000,14 +2036,14 @@ function createPostHtml(post) {
          
          ${mediaHtml}
          
-         <div class="d-flex gap-4 py-2 px-3" style="margin-left: 0 !important;">
-            <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
+         <div class="d-flex gap-4 pt-1 pb-1 px-3" style="margin-left: 0 !important;">
+            <button type="button" class="btn btn-sm btn-link py-0 text-decoration-none text-muted d-flex align-items-center justify-content-start ps-0 gap-2 like-btn ${likeBtnClass}" 
                   data-id="${post.__backendId}" ${post.isUploading ? 'disabled' : ''}>
                <i class="bi ${heartIconClass} fs-5"></i>
                <span>${likeCountText}</span>
             </button>
             
-            <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
+            <button type="button" class="btn btn-sm btn-link py-0 text-decoration-none text-muted d-flex align-items-center justify-content-start gap-2 show-comment-input-btn" 
                   data-id="${post.__backendId}" 
                   ${post.isUploading ? 'disabled' : ''}>
                <i class="bi bi-chat fs-5"></i>
@@ -2018,7 +2054,7 @@ function createPostHtml(post) {
          <div class="${wrapperClass}" id="post-comment-wrapper-${post.__backendId}">
             ${commentsHtml}
 
-            <div class="d-flex align-items-center mt-3 gap-2 d-none" id="comment-input-box-${post.__backendId}">
+            <div class="d-flex align-items-center ${inputMarginClass} gap-2 d-none" id="comment-input-box-${post.__backendId}">
                <input type="text" class="form-control form-control-sm rounded-pill bg-light border-0" 
                      id="input-cmt-${post.__backendId}" placeholder="Viết bình luận...">
                <button type="button" class="btn btn-sm btn-primary rounded-circle send-inline-cmt-btn" data-id="${post.__backendId}">
