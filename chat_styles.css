@@ -73,3 +73,24 @@
 #chat-send-btn:active {
     transform: scale(0.95);
 }
+
+/* AI Markdown Formatter Styles */
+.ai-response-formatter p:last-child {
+    margin-bottom: 0;
+}
+
+.ai-response-formatter ul,
+.ai-response-formatter ol {
+    padding-left: 20px;
+    margin-bottom: 0.5rem;
+}
+
+.ai-response-formatter ul:last-child,
+.ai-response-formatter ol:last-child {
+    margin-bottom: 0;
+}
+
+.ai-response-formatter strong,
+.ai-response-formatter b {
+    font-weight: 600;
+}

@@ -1222,11 +1222,7 @@ if (docUploadInput) {
       const file = e.target.files[0];
       if (!file) return;
 
-      // Kiểm tra dung lượng (giới hạn 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-         showToast('File quá lớn, vui lòng chọn file < 5MB');
-         return;
-      }
+      // Không giới hạn bộ nhớ file
 
       // Hiển thị progress bar
       const progressEl = document.getElementById('doc-embed-progress');
@@ -1247,6 +1243,7 @@ if (docUploadInput) {
             });
 
             if (res.status === 'success') {
+               docMentionCache = null; // Clear cache cho mention
                const chunkInfo = res.chunks > 0
                   ? `${res.chunks} chunks (tổng ${res.totalChunks || res.chunks} đoạn)`
                   : 'đã lưu (không embed)';
@@ -1326,6 +1323,7 @@ window.deleteDocument = async function (fileName) {
    try {
       const res = await sendToServer({ action: 'delete_document', fileName });
       if (res.status === 'success') {
+         docMentionCache = null; // Clear cache cho mention
          showToast(`Đã xóa ${fileName}`);
          loadDocumentList();
       } else {
@@ -1371,8 +1369,10 @@ async function handleAeChatSubmit() {
       if (typingEl) typingEl.remove();
 
       if (res.status === 'success') {
+         // Parsing markdown using marked.js
+         const formattedReply = typeof marked !== 'undefined' ? marked.parse(res.reply) : res.reply;
          // Hiển thị tin nhắn AI
-         addChatMessage('ai', res.reply);
+         addChatMessage('ai', formattedReply);
          aiChatHistory.push({ role: 'ai', text: res.reply });
       } else {
          addChatMessage('ai', '<span class="text-danger">Xin lỗi, mình đang gặp chút trục trặc: ' + res.message + '</span>');
@@ -1390,6 +1390,88 @@ async function handleAeChatSubmit() {
    chatSendBtn.disabled = false;
    chatInput.focus();
 }
+
+// -----------------------------------------------------------------------------
+// XỬ LÝ GỢI Ý MENTION FILE (CHẾ ĐỘ TÀI LIỆU)
+// -----------------------------------------------------------------------------
+let docMentionCache = null;
+
+if (chatInput) {
+   chatInput.addEventListener('input', async (e) => {
+      if (currentChatMode !== 'document') return;
+
+      const val = chatInput.value;
+      const cursorPosition = chatInput.selectionStart;
+      const textBeforeCursor = val.substring(0, cursorPosition);
+
+      // Lấy từ @ đến cuối cùng trước con trỏ (kể cả chưa nhập chữ nào sau @)
+      const match = textBeforeCursor.match(/@([^\s]*)$/);
+
+      const mentionDropdown = document.getElementById('mention-dropdown');
+      if (!mentionDropdown) return;
+
+      if (match) {
+         const searchStr = match[1].toLowerCase();
+
+         if (!docMentionCache) {
+            try {
+               const res = await sendToServer({ action: 'list_documents' });
+               if (res.status === 'success') {
+                  docMentionCache = res.data.map(d => d.fileName);
+               } else {
+                  docMentionCache = [];
+               }
+            } catch (err) {
+               docMentionCache = [];
+            }
+         }
+
+         const filtered = docMentionCache.filter(name => name.toLowerCase().includes(searchStr));
+
+         if (filtered.length > 0) {
+            mentionDropdown.innerHTML = filtered.map(name => `
+               <button class="dropdown-item rounded py-2 d-flex align-items-center gap-2" type="button" onclick="selectMention('${name.replace(/'/g, "\\'")}')">
+                  <i class="bi bi-file-earmark-text text-muted"></i>
+                  <span class="text-truncate">${name}</span>
+               </button>
+            `).join('');
+            mentionDropdown.classList.add('show');
+         } else if (searchStr === "") {
+            // Trường hợp chỉ gõ @ nhưng chưa có file nào
+            mentionDropdown.innerHTML = `<span class="dropdown-item-text text-muted small">Chưa có tài liệu nào tải lên.</span>`;
+            mentionDropdown.classList.add('show');
+         } else {
+            mentionDropdown.classList.remove('show');
+         }
+      } else {
+         mentionDropdown.classList.remove('show');
+      }
+   });
+}
+
+window.selectMention = function (fileName) {
+   const val = chatInput.value;
+   const cursorPosition = chatInput.selectionStart;
+   const textBeforeCursor = val.substring(0, cursorPosition);
+   const textAfterCursor = val.substring(cursorPosition);
+
+   const match = textBeforeCursor.match(/@([\w\.\s\-]*)$/);
+   if (match) {
+      const newTextBefore = textBeforeCursor.substring(0, match.index) + '@' + fileName + ' ';
+      chatInput.value = newTextBefore + textAfterCursor;
+      chatInput.focus();
+      chatInput.setSelectionRange(newTextBefore.length, newTextBefore.length);
+   }
+
+   document.getElementById('mention-dropdown').classList.add('d-none');
+};
+
+document.addEventListener('click', (e) => {
+   const mentionDropdown = document.getElementById('mention-dropdown');
+   if (mentionDropdown && chatInput && !chatInput.contains(e.target) && !mentionDropdown.contains(e.target)) {
+      mentionDropdown.classList.add('d-none');
+   }
+});
 
 // Hàm phụ trợ: Thêm tin nhắn vào giao diện
 function addChatMessage(role, htmlContent, elementId = '') {
@@ -1429,7 +1511,7 @@ function addChatMessage(role, htmlContent, elementId = '') {
             ${avatarHtml}
             <div class="p-3 rounded-4 shadow-sm" style="${bubbleStyle}">
                ${nameHtml}
-               <p class="mb-0 small" style="line-height: 1.4; word-break: break-word;">${htmlContent}</p>
+               <div class="mb-0 small ai-response-formatter" style="line-height: 1.4; word-break: break-word;">${htmlContent}</div>
             </div>
          </div>
       </div>

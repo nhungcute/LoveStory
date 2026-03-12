@@ -10,10 +10,12 @@
    <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
    <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="chat_styles.css">
 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
    <script src="utils.js" defer></script>
+   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
    <script src="home.js" defer></script>
    <script src="feed.js" defer></script>
    <script src="notification.js" defer></script>
@@ -175,15 +177,22 @@
                </div>
 
                <!-- Ô nhập liệu chính -->
-               <div class="d-flex align-items-center gap-2">
-                  <input type="text" id="chat-input"
-                     class="form-control rounded-pill bg-light border-0 shadow-none px-3 py-2"
-                     placeholder="Nhập câu hỏi...">
-                  <button id="chat-send-btn"
-                     class="btn rounded-circle d-flex theme-bg-primary align-items-center justify-content-center flex-shrink-0"
-                     style="width: 42px; height: 42px; border: none;">
-                     <i class="bi bi-send-fill text-white"></i>
-                  </button>
+               <div class="position-relative">
+                  <!-- Dropdown gợi ý file -->
+                  <div id="mention-dropdown" class="dropdown-menu shadow-sm border w-100 px-1 py-1"
+                     style="position: absolute; bottom: 100%; left: 0; margin-bottom: 8px; max-height: 200px; overflow-y: auto; z-index: 1050; border-radius: 12px;">
+                     <!-- JS will populate items here -->
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                     <input type="text" id="chat-input"
+                        class="form-control rounded-pill bg-light border-0 shadow-none px-3 py-2"
+                        placeholder="Nhập câu hỏi...">
+                     <button id="chat-send-btn"
+                        class="btn rounded-circle d-flex theme-bg-primary align-items-center justify-content-center flex-shrink-0"
+                        style="width: 42px; height: 42px; border: none;">
+                        <i class="bi bi-send-fill text-white"></i>
+                     </button>
+                  </div>
                </div>
             </div>
          </div>
