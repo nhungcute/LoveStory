@@ -1214,7 +1214,7 @@ window.switchChatMode = function (mode) {
 };
 
 // -----------------------------------------------------------------------------
-// XỬ LÝ UPLOAD TÀI LIỆU
+// XỬ LÝ UPLOAD TÀI LIỆU (VECTOR EMBEDDING)
 // -----------------------------------------------------------------------------
 const docUploadInput = document.getElementById('doc-upload-input');
 if (docUploadInput) {
@@ -1228,11 +1228,17 @@ if (docUploadInput) {
          return;
       }
 
-      showLoading();
+      // Hiển thị progress bar
+      const progressEl = document.getElementById('doc-embed-progress');
+      const statusEl = document.getElementById('doc-embed-status');
+      if (progressEl) progressEl.classList.remove('d-none');
+      if (statusEl) statusEl.textContent = `Đang đọc file ${file.name}...`;
 
       const reader = new FileReader();
       reader.onload = async function () {
          try {
+            if (statusEl) statusEl.textContent = `Đang mã hóa vector (có thể mất vài giây)...`;
+
             const base64Data = reader.result;
             const res = await sendToServer({
                action: 'upload_document',
@@ -1241,17 +1247,33 @@ if (docUploadInput) {
             });
 
             if (res.status === 'success') {
-               showToast('Tải tài liệu thành công!');
-               addChatMessage('user', `<i>Đã tải lên tệp: ${file.name}</i>`);
-               addChatMessage('ai', `Mình đã nhận được tệp <b>${file.name}</b>. Hãy chuyển sang chế độ <b>Phân tích tài liệu</b> để hỏi đáp nội dung nhé!`);
+               const chunkInfo = res.chunks > 0
+                  ? `${res.chunks} chunks (tổng ${res.totalChunks || res.chunks} đoạn)`
+                  : 'đã lưu (không embed)';
+               showToast(`✅ Đã xử lý ${file.name}: ${chunkInfo}`);
+               addChatMessage('user', `<i>📄 Đã tải lên: ${file.name}</i>`);
+               addChatMessage('ai',
+                  `Đã nhận và xử lý <b>${file.name}</b> thành công! ` +
+                  (res.chunks > 0
+                     ? `Đã tạo <b>${res.chunks} vector chunks</b>. ` +
+                     `Bây giờ hãy chuyển sang chế độ <b>Phân tích tài liệu</b> để hỏi đáp chính xác nhé!`
+                     : `File đã được lưu.`)
+               );
+               // Reload danh sách nếu panel đang mở
+               if (document.getElementById('doc-manager-panel') &&
+                  !document.getElementById('doc-manager-panel').classList.contains('d-none')) {
+                  loadDocumentList();
+               }
             } else {
-               showToast('Lỗi: ' + res.message);
+               showToast('Lỗi: ' + (res.message || 'Không rõ lỗi'));
+               addChatMessage('ai', `⚠️ Lỗi upload: ${res.message}`);
             }
          } catch (err) {
             console.error('Lỗi upload file:', err);
             showToast('Lỗi kết nối máy chủ khi tải file');
          } finally {
-            hideLoading();
+            // Ẩn progress bar
+            if (progressEl) progressEl.classList.add('d-none');
             // Reset input để chọn lại file cùng tên vẫn trigger event change
             docUploadInput.value = '';
          }
@@ -1259,6 +1281,62 @@ if (docUploadInput) {
       reader.readAsDataURL(file);
    });
 }
+
+// Toggle panel quản lý tài liệu
+window.toggleDocManager = function () {
+   const panel = document.getElementById('doc-manager-panel');
+   if (!panel) return;
+   const isHidden = panel.classList.contains('d-none');
+   panel.classList.toggle('d-none', !isHidden);
+   if (isHidden) loadDocumentList();
+};
+
+// Load danh sách tài liệu đã embed
+window.loadDocumentList = async function () {
+   const container = document.getElementById('doc-list-container');
+   if (!container) return;
+   container.innerHTML = '<small class="text-muted">Đang tải...</small>';
+
+   try {
+      const res = await sendToServer({ action: 'list_documents' });
+      if (res.status === 'success' && res.data.length > 0) {
+         container.innerHTML = res.data.map(doc => `
+            <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+               <div class="d-flex flex-column" style="max-width: 70%; overflow: hidden;">
+                  <small class="fw-semibold text-truncate" title="${doc.fileName}">${doc.fileName}</small>
+                  <small class="text-muted" style="font-size: 0.72rem;">${doc.chunks} chunks</small>
+               </div>
+               <button class="btn btn-sm btn-outline-danger p-1" style="font-size:0.72rem;"
+                  onclick="deleteDocument('${doc.fileName.replace(/'/g, "\\'")}')">
+                  <i class="bi bi-trash"></i>
+               </button>
+            </div>
+         `).join('');
+      } else {
+         container.innerHTML = '<small class="text-muted d-block text-center py-2">Chưa có tài liệu nào</small>';
+      }
+   } catch (err) {
+      container.innerHTML = '<small class="text-danger">Lỗi tải danh sách</small>';
+   }
+};
+
+// Xóa tài liệu
+window.deleteDocument = async function (fileName) {
+   if (!confirm(`Xóa tài liệu "${fileName}"?`)) return;
+   try {
+      const res = await sendToServer({ action: 'delete_document', fileName });
+      if (res.status === 'success') {
+         showToast(`Đã xóa ${fileName}`);
+         loadDocumentList();
+      } else {
+         showToast('Lỗi: ' + res.message);
+      }
+   } catch (err) {
+      showToast('Lỗi kết nối');
+   }
+};
+
+
 
 // 3. LOGIC GỬI TIN NHẮN VÀ GỌI AI
 async function handleAeChatSubmit() {
