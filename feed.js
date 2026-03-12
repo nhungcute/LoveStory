@@ -672,8 +672,105 @@ function renderPostsPaged(newPosts, page) {
       container.insertAdjacentHTML('beforeend', htmlBuffer);
    }
 
-   // [MỚI] Kích hoạt Lazy Load
+   // Kích hoạt Lazy Load và Video Thumbnail
    scanLazyImages();
+   scanVideoThumbnails();
+}
+
+// ─────────────────────────────────────────────────────────────
+// VIDEO THUMBNAIL: Canvas capture client-side
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Capture 1 frame từ video Drive bằng Canvas, hiển thị làm thumbnail.
+ * @param {string} driveId  - Google Drive file ID
+ * @param {HTMLElement} card - Phần tử card chứa class video-thumb-card
+ */
+function generateVideoThumbnail(driveId, card) {
+   // Kiểm tra cache sessionStorage trước
+   const cacheKey = 'vthumb_' + driveId;
+   const cached = sessionStorage.getItem(cacheKey);
+   if (cached) {
+      applyVideoThumbnail(card, cached);
+      return;
+   }
+
+   // Tạo video ẩn để capture frame
+   const video = document.createElement('video');
+   video.crossOrigin = 'anonymous';
+   video.preload = 'metadata';
+   video.muted = true;
+   video.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;';
+   // Drive direct download stream → có thể seek được
+   video.src = `https://drive.google.com/uc?export=download&id=${driveId}`;
+   document.body.appendChild(video);
+
+   // Timeout bảo vệ – nếu sau 8giây không xong → hủy
+   const timeout = setTimeout(() => {
+      cleanup();
+   }, 8000);
+
+   function cleanup() {
+      clearTimeout(timeout);
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+      if (video.parentNode) video.parentNode.removeChild(video);
+   }
+
+   video.addEventListener('error', cleanup);
+
+   video.addEventListener('loadeddata', () => {
+      // Seek đến 0.5giây (hoặc frame đầu nếu video ngắn)
+      video.currentTime = Math.min(0.5, video.duration * 0.1 || 0.5);
+   });
+
+   video.addEventListener('seeked', () => {
+      try {
+         const canvas = document.createElement('canvas');
+         canvas.width = 400;
+         canvas.height = Math.round(400 * (video.videoHeight / video.videoWidth)) || 225;
+         const ctx = canvas.getContext('2d');
+         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+         const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+         // Lưu cache
+         try { sessionStorage.setItem(cacheKey, dataUrl); } catch(e) { /* full */ }
+         // Áp dụng lên card
+         applyVideoThumbnail(card, dataUrl);
+      } catch (corsErr) {
+         console.warn('Video thumbnail CORS blocked:', corsErr);
+      } finally {
+         cleanup();
+      }
+   });
+
+   video.load();
+}
+
+/** Áp dụng thumbnail đã capture lên card */
+function applyVideoThumbnail(card, dataUrl) {
+   if (!card || !card.isConnected) return;
+   card.setAttribute('data-thumb-loaded', '1');
+   card.style.backgroundImage = `url('${dataUrl}')`;
+   card.style.backgroundSize = 'cover';
+   card.style.backgroundPosition = 'center';
+   card.style.backgroundColor = 'transparent';
+   // Thêm lớp tối nhẹ để nút play nổi rõ hơn
+   card.style.backgroundBlendMode = 'unset';
+   // Đổi icon sang play của video thật (thượng nổi hơn)
+   const overlay = card.querySelector('.video-play-overlay');
+   if (overlay) overlay.style.background = 'rgba(0,0,0,0.35)';
+}
+
+/** Quét tất cả video card chưa có thumbnail và generate */
+function scanVideoThumbnails() {
+   const cards = document.querySelectorAll('.video-thumb-card:not([data-thumb-loaded])');
+   cards.forEach(card => {
+      const driveId = card.getAttribute('data-drive-id');
+      if (driveId) {
+         generateVideoThumbnail(driveId, card);
+      }
+   });
 }
 
 function renderPosts() {
@@ -986,41 +1083,6 @@ imageInput.addEventListener('change', async (e) => {
       let previewUrl = '';
 
       if (file.type.startsWith('video/')) {
-         // 1. Kiểm tra dung lượng (Max 25MB)
-         if (file.size > 25 * 1024 * 1024) {
-            showToast(`Video "${file.name}" quá lớn (tối đa 25MB)!`);
-            hideLoading();
-            continue;
-         }
-
-         // 2. Kiểm tra thời lượng (Max 30s) bằng Promise
-         const isValidDuration = await new Promise((resolve) => {
-            const videoNode = document.createElement('video');
-            videoNode.preload = 'metadata';
-            
-            videoNode.onloadedmetadata = () => {
-               URL.revokeObjectURL(videoNode.src);
-               if (videoNode.duration > 31) { // Lấy 31s để có xê xích nhẹ
-                  showToast(`Video "${file.name}" dài quá 30 giây!`);
-                  resolve(false);
-               } else {
-                  resolve(true);
-               }
-            };
-            
-            videoNode.onerror = () => {
-               // Nếu không đọc được metadata (lỗi format), tạm cho phép dựa trên size
-               resolve(true);
-            };
-            
-            videoNode.src = URL.createObjectURL(file);
-         });
-
-         if (!isValidDuration) {
-            hideLoading();
-            continue;
-         }
-
          mediaType = 'video';
          previewUrl = URL.createObjectURL(file);
       } else if (file.type.startsWith('image/')) {
@@ -1829,16 +1891,31 @@ function renderPostMedia(mediaItems, layout, postId = null) {
                html += `<video src="${mediaUrl}" class="w-100 h-100 object-fit-cover" controls></video>`;
             }
          } else {
-            // B. KHI XEM TRÊN FEED: Hiển thị "Card Video" (Màu đen + Nút Play)
-            // Lý do: Link Drive không hiện được Thumbnail tự động, nên ta dùng giao diện này cho đẹp và đồng bộ.
+         // B. KHI XEM TRÊN FEED: Dùng Drive Thumbnail API cho video
+            const driveIdForThumb = getDriveId(mediaUrl);
+            const thumbUrl = driveIdForThumb
+               ? `https://drive.google.com/thumbnail?id=${driveIdForThumb}&sz=w400`
+               : '';
 
             html += `
-                <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-black text-white" 
-                     style="background: #000; min-height: 200px;">
-                    <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-                        <i class="bi bi-play-fill" style="font-size: 40px; color: white; margin-left: 4px;"></i>
+                <div class="w-100 h-100 video-thumb-card"
+                     style="background:#111; min-height:200px; position:relative; overflow:hidden;">
+                    ${thumbUrl ? `
+                    <img src="${thumbUrl}"
+                         style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;"
+                         onerror="this.remove()"
+                         alt="video thumbnail">` : ''}
+                    <div style="position:absolute;top:0;left:0;width:100%;height:100%;
+                                background:rgba(0,0,0,0.3);
+                                display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                        <div style="width:60px;height:60px;border-radius:50%;
+                                    background:rgba(255,255,255,0.25);
+                                    display:flex;align-items:center;justify-content:center;
+                                    backdrop-filter:blur(5px);">
+                            <i class="bi bi-play-fill" style="font-size:40px;color:white;margin-left:4px;"></i>
+                        </div>
+                        <span class="mt-2 text-white-50 small font-monospace">VIDEO</span>
                     </div>
-                    <span class="mt-2 text-white-50 small font-monospace">VIDEO</span>
                 </div>
               `;
          }

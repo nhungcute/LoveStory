@@ -1281,8 +1281,10 @@ function renderBikeHistoryFromServer(logsData) {
 
 function renderStats() {
    const container = document.getElementById('stats-container');
-   const leftColumn = statsLayout.filter(s => s.column === 0);
-   const rightColumn = statsLayout.filter(s => s.column === 1);
+   // Lọc chỉ các widget đang bật
+   const activeLayout = statsLayout.filter(s => widgetSettings[s.id] !== false);
+   const leftColumn = activeLayout.filter(s => s.column === 0);
+   const rightColumn = activeLayout.filter(s => s.column === 1);
    const hasRightColumn = rightColumn.length > 0;
 
    if (hasRightColumn) container.classList.add('two-columns');

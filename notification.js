@@ -158,19 +158,38 @@ function renderNotificationsPaged(newNotifs, container) {
 
       const relatedPostId = notif.relatedId || notif.postId || '';
 
-      let exactTimeStr = '';
-      const dateObj = (typeof parseSafeDate === 'function') ? parseSafeDate(notif.createdAt) : new Date(notif.createdAt);
-      if (dateObj && !isNaN(dateObj.getTime()) && dateObj.getTime() > 0) {
-         const h = String(dateObj.getHours()).padStart(2, '0');
-         const m = String(dateObj.getMinutes()).padStart(2, '0');
-         const d = String(dateObj.getDate()).padStart(2, '0');
-         const mo = String(dateObj.getMonth() + 1).padStart(2, '0');
-         const y = dateObj.getFullYear();
-         exactTimeStr = `${h}:${m} ${d}/${mo}/${y} • `;
+      // Debug: log fields của notification đầu tiên để kiểm tra createdAt
+      if (!window._notifDebugLogged) {
+         window._notifDebugLogged = true;
+         console.log('[Notif Debug] Sample notif fields:', JSON.stringify({
+            createdAt: notif.createdAt,
+            formattedTime: notif.formattedTime,
+            time: notif.time,
+            timestamp: notif.timestamp
+         }));
       }
 
-      const timeStr = (typeof formatTimeSmart === 'function') ? formatTimeSmart(notif.createdAt) : notif.formattedTime || 'Vừa xong';
-      const displayTime = exactTimeStr + timeStr;
+      let exactTimeStr = '';
+      // Thử parse từ nhiều trường khác nhau tùy server trả về
+      const rawTime = notif.createdAt || notif.timestamp || notif.time || '';
+      const dateObj = rawTime
+         ? ((typeof parseSafeDate === 'function') ? parseSafeDate(rawTime) : new Date(rawTime))
+         : null;
+
+      if (dateObj && !isNaN(dateObj.getTime()) && dateObj.getTime() > 0) {
+         const hh = String(dateObj.getHours()).padStart(2, '0');
+         const mm = String(dateObj.getMinutes()).padStart(2, '0');
+         const ss = String(dateObj.getSeconds()).padStart(2, '0');
+         const dd = String(dateObj.getDate()).padStart(2, '0');
+         const mo = String(dateObj.getMonth() + 1).padStart(2, '0');
+         const yyyy = dateObj.getFullYear();
+         exactTimeStr = `${dd}/${mo}/${yyyy} ${hh}:${mm}:${ss}`;
+      }
+
+      const timeStr = (typeof formatTimeSmart === 'function') ? formatTimeSmart(rawTime) : notif.formattedTime || '';
+      const displayTime = exactTimeStr
+         ? exactTimeStr + (timeStr ? ` • ${timeStr}` : '')
+         : (notif.formattedTime || timeStr || '');
 
       return `
             <div class="notification-swipe-wrapper list-group-item border-0 p-0" id="notif-wrap-${notif.__backendId}">

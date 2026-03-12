@@ -1,9 +1,9 @@
 // ==========================================
-// CÔNG CỤ GỠ LỖI (VCONSOLE) - CHỈ BẬT TẠM THỜI
+// CÔNG CỤ GỠ LỖI (VCONSOLE) - Có lưu trạng thái
 // ==========================================
 let myVConsole = null;
+const VCONSOLE_STORAGE_KEY = 'vconsole_enabled';
 
-// Hàm bật/tắt (Không dùng localStorage nữa)
 function toggleVConsole(isEnable) {
    if (isEnable) {
       if (!myVConsole && window.VConsole) {
@@ -15,6 +15,8 @@ function toggleVConsole(isEnable) {
          myVConsole = null;
       }
    }
+   // Lưu trạng thái vào localStorage
+   localStorage.setItem(VCONSOLE_STORAGE_KEY, isEnable ? '1' : '0');
 }
 
 // Lắng nghe thao tác gạt công tắc (Phản hồi tức thì)
@@ -24,6 +26,15 @@ if (vconsoleToggle) {
       toggleVConsole(e.target.checked);
    });
 }
+
+// Tự động khôi phục trạng thái từ localStorage khi tải trang
+window.addEventListener('load', () => {
+   if (localStorage.getItem(VCONSOLE_STORAGE_KEY) === '1') {
+      toggleVConsole(true);
+      const btn = document.getElementById('vconsole-toggle');
+      if (btn) btn.checked = true;
+   }
+});
 
 
 function saveLocalData(data) {
@@ -292,22 +303,24 @@ async function syncBabyRunStats() {
       });
 
       if (res && (res.status === 'success' || res.result === 'success')) {
-         // 1. Cập nhật Lượt đạp
+         // 1. Cập nhật Lượt đạp (chỉ khi widget bike bật)
          console.log("Stats loaded:", res);
-         const bikeCountEl = document.getElementById('bike-count');
-         if (bikeCountEl) {
-            bikeCountEl.textContent = res.count;
-            localStorage.setItem('cached_babyrun_count', res.count);
+         localStorage.setItem('cached_babyrun_count', res.count);
+         if (widgetSettings.bike) {
+            const bikeCountEl = document.getElementById('bike-count');
+            if (bikeCountEl) bikeCountEl.textContent = res.count;
          }
 
-         // 2. [MỚI] Cập nhật Giá Vàng
+         // 2. Cập nhật Giá Vàng (chỉ khi widget gold bật)
          if (res.gold) {
-            const goldBuyEl = document.getElementById('gold-buy');
-            const goldSellEl = document.getElementById('gold-sell');
-
-            // Hàm formatCurrency đã có sẵn trong code của bạn
-            if (goldBuyEl) goldBuyEl.textContent = formatCurrency(res.gold.buy);
-            if (goldSellEl) goldSellEl.textContent = formatCurrency(res.gold.sell);
+            localStorage.setItem('cached_gold_buy', res.gold.buy);
+            localStorage.setItem('cached_gold_sell', res.gold.sell);
+            if (widgetSettings.gold) {
+               const goldBuyEl = document.getElementById('gold-buy');
+               const goldSellEl = document.getElementById('gold-sell');
+               if (goldBuyEl) goldBuyEl.textContent = formatCurrency(res.gold.buy);
+               if (goldSellEl) goldSellEl.textContent = formatCurrency(res.gold.sell);
+            }
          }
       }
    } catch (err) {
@@ -334,6 +347,7 @@ let hasCacheData = false;
    notificationsModal = new bootstrap.Modal(document.getElementById('notificationsModal'));
 
    // 2. LOAD OFFLINE FIRST (Hiển thị ngay lập tức)
+   loadWidgetSettings(); // Load cài đặt widget từ localStorage
    const localData = getLocalData();
    if (localData) {
       currentProfile = localData;
@@ -414,30 +428,33 @@ async function loadCriticalStats() {
       });
 
       if (res.status === 'success') {
-         // 1. Cập nhật Số lượt đạp
-         const bikeCountEl = document.getElementById('bike-count');
-         if (bikeCountEl) {
-            bikeCountEl.textContent = res.count;
-            updateValueWithEffect('bike-count');
-            localStorage.setItem('cached_babyrun_count', res.count);
+         // 1. Cập nhật Số lượt đạp (chỉ khi widget bike đang bật)
+         localStorage.setItem('cached_babyrun_count', res.count); // Luôn cache
+         if (widgetSettings.bike) {
+            const bikeCountEl = document.getElementById('bike-count');
+            if (bikeCountEl) {
+               bikeCountEl.textContent = res.count;
+               updateValueWithEffect('bike-count');
+            }
          }
 
-         // 2. Cập nhật Giá vàng
+         // 2. Cập nhật Giá vàng (chỉ khi widget gold đang bật)
          if (res.gold) {
-            const goldBuyEl = document.getElementById('gold-buy');
-            const goldSellEl = document.getElementById('gold-sell');
-            if (goldBuyEl) {
-               goldBuyEl.textContent = formatCurrency(res.gold.buy);
-               updateValueWithEffect('gold-buy');
-               localStorage.setItem('cached_gold_buy', res.gold.buy);
-            }
-            if (goldSellEl) {
-               goldSellEl.textContent = formatCurrency(res.gold.sell);
-               updateValueWithEffect('gold-sell');
-               localStorage.setItem('cached_gold_sell', res.gold.sell);
-            }
-
+            localStorage.setItem('cached_gold_buy', res.gold.buy); // Luôn cache
+            localStorage.setItem('cached_gold_sell', res.gold.sell);
             currentMarketPrice_GoldData = res.gold.buy;
+            if (widgetSettings.gold) {
+               const goldBuyEl = document.getElementById('gold-buy');
+               const goldSellEl = document.getElementById('gold-sell');
+               if (goldBuyEl) {
+                  goldBuyEl.textContent = formatCurrency(res.gold.buy);
+                  updateValueWithEffect('gold-buy');
+               }
+               if (goldSellEl) {
+                  goldSellEl.textContent = formatCurrency(res.gold.sell);
+                  updateValueWithEffect('gold-sell');
+               }
+            }
          }
       }
    } catch (e) {
@@ -553,10 +570,30 @@ document.querySelectorAll('.theme-option').forEach(opt => {
 document.getElementById('profile-btn').addEventListener('click', () => {
    closeAllModals();
 
+   // Sync trạng thái vconsole toggle
    const toggleBtn = document.getElementById('vconsole-toggle');
    if (toggleBtn) toggleBtn.checked = (myVConsole !== null);
 
+   // Sync trạng thái tất cả widget toggles
+   ['bike', 'gold', 'days', 'memory', 'event'].forEach(id => {
+      const el = document.getElementById(`widget-toggle-${id}`);
+      if (el) el.checked = (widgetSettings[id] !== false);
+   });
+
    profileModal.show();
+});
+
+// Widget Toggle Listeners - cập nhật settings và re-render ngay lập tức
+['bike', 'gold', 'days', 'memory', 'event'].forEach(widgetId => {
+   const el = document.getElementById(`widget-toggle-${widgetId}`);
+   if (el) {
+      el.addEventListener('change', (e) => {
+         widgetSettings[widgetId] = e.target.checked;
+         saveWidgetSettings();
+         renderStats(); // Re-render home widgets ngay lập tức
+         console.log(`Widget '${widgetId}' ${e.target.checked ? 'bật' : 'tắt'}`);
+      });
+   }
 });
 
 // 3. Đổi Ảnh Đại Diện (Sửa: Chỉ Preview, KHÔNG lưu server ngay)

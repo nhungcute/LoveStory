@@ -98,6 +98,37 @@ let statsLayout = [...defaultStatsLayout];
 let draggedElement = null;
 let draggedId = null;
 
+// --- CÀI ĐẶT WIDGET ---
+const WIDGET_SETTINGS_KEY = 'widget_settings';
+let widgetSettings = {
+    bike: true,
+    gold: true,
+    days: true,
+    memory: true,
+    event: true
+};
+
+function loadWidgetSettings() {
+    try {
+        const saved = localStorage.getItem(WIDGET_SETTINGS_KEY);
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            // Merge để đảm bảo widget mới thêm sau vẫn có giá trị mặc định true
+            widgetSettings = { ...widgetSettings, ...parsed };
+        }
+    } catch (e) {
+        console.warn('Không đọc được widget settings:', e);
+    }
+}
+
+function saveWidgetSettings() {
+    try {
+        localStorage.setItem(WIDGET_SETTINGS_KEY, JSON.stringify(widgetSettings));
+    } catch (e) {
+        console.warn('Không lưu được widget settings:', e);
+    }
+}
+
 let serverFeedData = [];
 let feedPage = 1;
 let feedHasMore = true;

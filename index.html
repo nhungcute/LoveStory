@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi" class="h-100">
 
 <head>
@@ -283,15 +283,80 @@
                            <button class="btn btn-outline-primary w-100" id="enter-layout-edit"> <i
                                  class="bi bi-pencil-square me-2"></i>Chỉnh sửa bố cục </button>
                         </div-->
-                     <div
-                        class="form-check form-switch mt-3 mb-3 p-3 border rounded bg-light d-flex align-items-center">
-                        <input class="form-check-input ms-0 me-3 fs-4" type="checkbox" id="vconsole-toggle"
-                           style="cursor: pointer;">
-                        <label class="form-check-label fw-bold text-secondary mb-0" for="vconsole-toggle"
-                           style="cursor: pointer;">
-                           <i class="bi bi-bug-fill me-1"></i> Công cụ DevTool
-                        </label>
-                     </div>
+
+                      <!-- Card: Hiển thị Widget -->
+                      <div class="card mb-3">
+                         <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                               <div class="icon-box icon-box-sm text-white me-3" style="background: #6f42c1;">
+                                  <i class="bi bi-grid-fill"></i>
+                               </div>
+                               <div>
+                                  <h6 class="mb-0 fw-bold">Hiển thị Widget</h6>
+                                  <small class="text-muted">Bật/tắt các khối dữ liệu ở màn hình Home</small>
+                               </div>
+                            </div>
+                            <div class="d-flex flex-column gap-2">
+                               <div class="form-check form-switch d-flex align-items-center justify-content-between m-0 p-0">
+                                  <label class="form-check-label d-flex align-items-center gap-2" for="widget-toggle-bike">
+                                     <span style="font-size:1.1rem;"></span>
+                                     <span class="fw-semibold">Lượt đạp</span>
+                                  </label>
+                                  <input class="form-check-input m-0" type="checkbox" id="widget-toggle-bike" style="cursor:pointer; font-size:1.1rem;" checked>
+                               </div>
+                               <hr class="my-1">
+                               <div class="form-check form-switch d-flex align-items-center justify-content-between m-0 p-0">
+                                  <label class="form-check-label d-flex align-items-center gap-2" for="widget-toggle-gold">
+                                     <span style="font-size:1.1rem;"></span>
+                                     <span class="fw-semibold">Giá vàng</span>
+                                  </label>
+                                  <input class="form-check-input m-0" type="checkbox" id="widget-toggle-gold" style="cursor:pointer; font-size:1.1rem;" checked>
+                               </div>
+                               <hr class="my-1">
+                               <div class="form-check form-switch d-flex align-items-center justify-content-between m-0 p-0">
+                                  <label class="form-check-label d-flex align-items-center gap-2" for="widget-toggle-days">
+                                     <span style="font-size:1.1rem;"></span>
+                                     <span class="fw-semibold">Đếm ngày</span>
+                                  </label>
+                                  <input class="form-check-input m-0" type="checkbox" id="widget-toggle-days" style="cursor:pointer; font-size:1.1rem;" checked>
+                               </div>
+                               <hr class="my-1">
+                               <div class="form-check form-switch d-flex align-items-center justify-content-between m-0 p-0">
+                                  <label class="form-check-label d-flex align-items-center gap-2" for="widget-toggle-memory">
+                                     <span style="font-size:1.1rem;"></span>
+                                     <span class="fw-semibold">Kỷ niệm</span>
+                                  </label>
+                                  <input class="form-check-input m-0" type="checkbox" id="widget-toggle-memory" style="cursor:pointer; font-size:1.1rem;" checked>
+                               </div>
+                               <hr class="my-1">
+                               <div class="form-check form-switch d-flex align-items-center justify-content-between m-0 p-0">
+                                  <label class="form-check-label d-flex align-items-center gap-2" for="widget-toggle-event">
+                                     <span style="font-size:1.1rem;"></span>
+                                     <span class="fw-semibold">Sự kiện</span>
+                                  </label>
+                                  <input class="form-check-input m-0" type="checkbox" id="widget-toggle-event" style="cursor:pointer; font-size:1.1rem;" checked>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+
+                      <!-- Card: Công cụ DevTool -->
+                      <div class="card mb-3">
+                         <div class="card-body">
+                            <div class="form-check form-switch d-flex align-items-center justify-content-between m-0 p-0">
+                               <label class="form-check-label d-flex align-items-center gap-2" for="vconsole-toggle">
+                                  <div class="icon-box icon-box-sm text-white me-2" style="background: #6c757d; min-width: 36px;">
+                                     <i class="bi bi-bug-fill"></i>
+                                  </div>
+                                  <div>
+                                     <h6 class="mb-0 fw-bold">Công cụ DevTool</h6>
+                                     <small class="text-muted">Bật/tắt bảng gỡ lỗi vConsole</small>
+                                  </div>
+                               </label>
+                               <input class="form-check-input m-0" type="checkbox" id="vconsole-toggle" style="cursor:pointer; font-size:1.1rem;">
+                            </div>
+                         </div>
+                      </div>
 
                   </div>
                   <button class="btn btn-primary w-100 py-3 mt-3" id="save-profile"> <i
@@ -633,7 +698,7 @@
       <div class="modal-dialog modal-fullscreen m-0">
          <div class="modal-content bg-black h-100 border-0">
 
-            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3"
+            <button type="button" class="btn-close btn-close-white position-absolute top-0 start-0 m-3 z-3"
                data-bs-dismiss="modal" aria-label="Close"></button>
 
             <div class="modal-body p-0 d-flex align-items-center justify-content-center h-100 position-relative">

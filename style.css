@@ -584,7 +584,7 @@ body,
 .notification-swipe-wrapper {
   position: relative !important;
   overflow: hidden !important;
-  background-color: #f8f9fa !important;
+  background-color: #ffffff !important;
   border: none !important;
 }
 
@@ -604,16 +604,15 @@ body,
   box-shadow: -1px 0 0 0 #e7f3ff;
 }
 
-/* Các nút vuốt (Nằm ẩn ở dưới) */
+/* Các nút vuốt (Nằm ẩn ở dưới, cao bằng đúng content box) */
 .notification-actions {
   position: absolute !important;
   top: 0;
-  bottom: 0;
+  bottom: 1px; /* nhường 1px cho border-bottom của content-box */
   right: 0;
   display: flex;
   z-index: 1 !important;
   /* Nằm dưới nội dung thông báo */
-  opacity: 1 !important;
   /* Đảm bảo nút luôn hiển thị, không bị tàng hình */
 }
 
