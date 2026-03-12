@@ -566,23 +566,34 @@ let swipeCurrentX = 0;
 let swipingElement = null;
 
 document.addEventListener('touchstart', e => {
-   // [SỬA LỖI TẠI ĐÂY] Nếu đang bấm vào vùng nút (actions) thì bỏ qua, không thu thẻ về
    if (e.target.closest('.notification-actions')) {
       return;
    }
 
    const box = e.target.closest('.notification-content-box');
    if (!box) {
-      document.querySelectorAll('.notification-content-box').forEach(el => el.style.transform = 'translateX(0)');
+      // Ẩn action buttons và reset tất cả items khác
+      document.querySelectorAll('.notification-content-box').forEach(el => {
+         el.style.transform = 'translateX(0)';
+         el.closest('.notification-swipe-wrapper')?.classList.remove('is-swiping');
+      });
       return;
    }
+   // Reset tất cả items khác
    document.querySelectorAll('.notification-content-box').forEach(el => {
-      if (el !== box) el.style.transform = 'translateX(0)';
+      if (el !== box) {
+         el.style.transform = 'translateX(0)';
+         el.closest('.notification-swipe-wrapper')?.classList.remove('is-swiping');
+      }
    });
    swipeStartX = e.touches[0].clientX;
    swipingElement = box;
    window.isSwiping = false;
    box.style.transition = 'none';
+
+   // Hiện action buttons ngay khi bắt đầu chạm
+   const wrapper = box.closest('.notification-swipe-wrapper');
+   if (wrapper) wrapper.classList.add('is-swiping');
 }, { passive: true });
 
 document.addEventListener('touchmove', e => {
@@ -597,8 +608,17 @@ document.addEventListener('touchend', e => {
    if (!swipingElement) return;
    swipingElement.style.transition = 'transform 0.3s ease-out';
    const diffX = swipeCurrentX - swipeStartX;
-   if (diffX < -50) swipingElement.style.transform = `translateX(-120px)`;
-   else swipingElement.style.transform = `translateX(0)`;
+   if (diffX < -50) {
+      swipingElement.style.transform = `translateX(-120px)`;
+      // Giữ is-swiping → action buttons tiếp tục hiện
+   } else {
+      swipingElement.style.transform = `translateX(0)`;
+      // Ẩn action buttons khi item đóng lại
+      const wrapper = swipingElement.closest('.notification-swipe-wrapper');
+      setTimeout(() => {
+         if (wrapper) wrapper.classList.remove('is-swiping');
+      }, 300); // Chờ animation xong rồi mới ẩn
+   }
    setTimeout(() => { window.isSwiping = false; }, 300);
    swipingElement = null;
-});
+});

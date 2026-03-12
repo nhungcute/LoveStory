@@ -604,16 +604,22 @@ body,
   box-shadow: -1px 0 0 0 #e7f3ff;
 }
 
-/* Các nút vuốt (Nằm ẩn ở dưới, cao bằng đúng content box) */
+/* Các nút vuốt - ẩn mặc định, chỉ hiện khi đang vuốt */
 .notification-actions {
   position: absolute !important;
   top: 0;
-  bottom: 1px; /* nhường 1px cho border-bottom của content-box */
+  bottom: 1px;
   right: 0;
   display: flex;
   z-index: 1 !important;
+  visibility: hidden;  /* Ẩn nhưng vẫn giữ layout */
   /* Nằm dưới nội dung thông báo */
   /* Đảm bảo nút luôn hiển thị, không bị tàng hình */
+}
+
+/* Chỉ hiện khi wrapper có class is-swiping */
+.notification-swipe-wrapper.is-swiping .notification-actions {
+  visibility: visible;
 }
 
 .notif-action-btn {
