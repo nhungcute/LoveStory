@@ -284,16 +284,18 @@
 
     <!-- Profile Modal -->
     <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 rounded-4 shadow bg-light">
+        <div class="modal-dialog app-modal m-0 h-100">
+            <div class="modal-content border-0 rounded-0 h-100 d-flex flex-column">
                 <div
-                    class="modal-header bg-white shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative">
-                    <h5 class="modal-title fs-5 fw-semibold text-center w-100 m-0">Trang cá nhân</h5>
-                    <button type="button" class="btn-close shadow-none position-absolute end-0 me-3"
-                        data-bs-dismiss="modal"></button>
+                    class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-5" data-bs-dismiss="modal"
+                        style="width: 40px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title fs-6 fw-semibold position-absolute start-50 translate-middle-x m-0">Trang cá
+                        nhân</h5>
+                    <div style="width: 40px;"></div>
                 </div>
-                <div class="modal-body">
-                    <div class="text-center mb-4">
+                <div class="modal-body p-3 bg-white pb-0 flex-grow-1" style="overflow-y: auto;">
+                    <div class="text-center mb-4 mt-2">
                         <div class="position-relative d-inline-block">
                             <img id="profileCurrentAvatar" src="" class="rounded-circle shadow-sm mb-2" width="90"
                                 height="90" style="object-fit:cover;">
@@ -309,64 +311,65 @@
 
                     <div class="mb-3">
                         <label class="form-label small text-muted fw-semibold mb-1">Tài khoản (Username)</label>
-                        <input type="text" id="profileUsernameInput" class="form-control"
+                        <input type="text" id="profileUsernameInput" class="form-control rounded-3"
                             placeholder="Nhập username...">
                         <div class="form-text" style="font-size: 0.75rem;">Dùng để đồng bộ dữ liệu giữa các thiết bị
                         </div>
                     </div>
                     <div class="mb-4">
                         <label class="form-label small text-muted fw-semibold mb-1">Tên hiển thị</label>
-                        <input type="text" id="profileFullnameInput" class="form-control"
+                        <input type="text" id="profileFullnameInput" class="form-control rounded-3"
                             placeholder="Nhập tên hiển thị">
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label small text-muted fw-semibold mb-2">GIAO DIỆN MÀU</label>
-                        <div class="d-flex gap-2 justify-content-center flex-wrap">
+                        <div class="d-flex gap-3 justify-content-center flex-wrap">
                             <div class="theme-selector rounded-circle" data-theme="green" onclick="selectTheme('green')"
-                                style="width:36px;height:36px;background:#006B68;cursor:pointer;"></div>
+                                style="width:38px;height:38px;background:#006B68;cursor:pointer;"></div>
                             <div class="theme-selector rounded-circle" data-theme="purple"
                                 onclick="selectTheme('purple')"
-                                style="width:36px;height:36px;background:#605DEC;cursor:pointer;"></div>
+                                style="width:38px;height:38px;background:#605DEC;cursor:pointer;"></div>
                             <div class="theme-selector rounded-circle" data-theme="blue" onclick="selectTheme('blue')"
-                                style="width:36px;height:36px;background:#2D9CDB;cursor:pointer;"></div>
+                                style="width:38px;height:38px;background:#2D9CDB;cursor:pointer;"></div>
                             <div class="theme-selector rounded-circle" data-theme="red" onclick="selectTheme('red')"
-                                style="width:36px;height:36px;background:#EB5757;cursor:pointer;"></div>
+                                style="width:38px;height:38px;background:#EB5757;cursor:pointer;"></div>
                             <div class="theme-selector rounded-circle" data-theme="orange"
                                 onclick="selectTheme('orange')"
-                                style="width:36px;height:36px;background:#F2994A;cursor:pointer;"></div>
+                                style="width:38px;height:38px;background:#F2994A;cursor:pointer;"></div>
                             <div class="theme-selector rounded-circle" data-theme="pink" onclick="selectTheme('pink')"
-                                style="width:36px;height:36px;background:#E74C3C;cursor:pointer;"></div>
+                                style="width:38px;height:38px;background:#E74C3C;cursor:pointer;"></div>
                         </div>
                     </div>
 
-                    <div class="mb-4">
-                        <label class="form-label small text-muted fw-semibold mb-2">TÙY CHỈNH TIỆN ÍCH</label>
-                        <div class="form-check form-switch mb-2">
-                            <input class="form-check-input" type="checkbox" role="switch" id="toggleWidgetPregnancy">
-                            <label class="form-check-label" for="toggleWidgetPregnancy">Baby</label>
+                    <div class="mb-4 bg-light p-3 rounded-3">
+                        <label class="form-label small text-muted fw-bold mb-3 d-block uppercase" style="letter-spacing:0.5px;">TÙY CHỈNH TIỆN ÍCH</label>
+                        <div class="form-check form-switch mb-3 d-flex align-items-center justify-content-between p-0">
+                            <label class="form-check-label fw-medium" for="toggleWidgetPregnancy">Theo dõi Thai kỳ (Baby)</label>
+                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch" id="toggleWidgetPregnancy" style="width:2.4em; height:1.2em;">
                         </div>
-                        <div class="form-check form-switch mb-2">
-                            <input class="form-check-input" type="checkbox" role="switch" id="toggleWidgetKick">
-                            <label class="form-check-label" for="toggleWidgetKick">Đếm Lượt</label>
+                        <div class="form-check form-switch mb-3 d-flex align-items-center justify-content-between p-0">
+                            <label class="form-check-label fw-medium" for="toggleWidgetKick">Đếm lượt đạp (Kick Counter)</label>
+                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch" id="toggleWidgetKick" style="width:2.4em; height:1.2em;">
                         </div>
-                        <div class="form-check form-switch mb-2">
-                            <input class="form-check-input" type="checkbox" role="switch" id="toggleWidgetGold">
-                            <label class="form-check-label" for="toggleWidgetGold">Giá Vàng</label>
+                        <div class="form-check form-switch d-flex align-items-center justify-content-between p-0">
+                            <label class="form-check-label fw-medium" for="toggleWidgetGold">Thị trường Vàng (Gold)</label>
+                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch" id="toggleWidgetGold" style="width:2.4em; height:1.2em;">
                         </div>
                     </div>
 
-                    <hr>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="toggleDevTools">
-                        <label class="form-check-label small text-muted" for="toggleDevTools"><i
-                                class="bi bi-bug me-1"></i>Bật Console DevTools</label>
+                    <div class="mb-4 px-1">
+                        <div class="form-check form-switch d-flex align-items-center justify-content-between p-0">
+                             <label class="form-check-label small text-muted" for="toggleDevTools"><i
+                                class="bi bi-bug me-1"></i>Bật Console DevTools (Debug)</label>
+                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch" id="toggleDevTools" style="width:2em; height:1em;">
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer border-0 pt-0">
-                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn theme-bg-primary text-white rounded-pill px-4" id="btnSaveProfile"
-                        onclick="saveProfile()">Lưu thay đổi</button>
+                <div class="modal-footer border-top p-3 bg-white flex-shrink-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4 flex-grow-1" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn theme-bg-primary text-white rounded-pill px-4 flex-grow-2" id="btnSaveProfile"
+                        onclick="saveProfile()" style="min-width: 150px;">Lưu thay đổi</button>
                 </div>
             </div>
         </div>
