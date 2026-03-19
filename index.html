@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#006B68">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>LoveStory</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css?v=2.6">
+    <script>
+        window.addEventListener('error', function (e) {
+            document.body.innerHTML += '<div style="position:fixed;top:0;left:0;right:0;background:red;color:white;z-index:99999;padding:10px;">' + e.message + ' at ' + e.filename + ':' + e.lineno + '</div>';
+        });
+    </script>
+</head>
+
+<body>
+
+    <!-- Top Menu -->
+    <header class="top-nav text-white theme-bg-primary d-flex justify-content-between align-items-center px-3">
+        <div class="h3 mb-0 brand-logo">LoveStory</div>
+        <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-link text-white p-0 nav-icon" id="btnSearch">
+                <i class="bi bi-robot fs-5"></i>
+            </button>
+            <button class="btn btn-link text-white p-0 position-relative nav-icon" id="btnNotifications">
+                <i class="bi bi-bell-fill fs-5"></i>
+                <span id="notificationBadge"
+                      style="display:none; position:absolute; top:-2px; right:-2px;
+                             background:#E53935; color:#fff; font-size:0.6rem;
+                             font-weight:700; min-width:16px; height:16px;
+                             border-radius:50%; padding:0 3px;
+                             display:flex; align-items:center; justify-content:center;
+                             z-index: 10;">
+                    0
+                </span>
+            </button>
+            <div class="avatar-container" id="btnProfile">
+                <img src="https://ui-avatars.com/api/?name=Guest&background=random" id="topAvatar"
+                    class="rounded-circle" alt="Profile"
+                    style="width: 35px; height: 35px; object-fit: cover; border: 2px solid rgba(255,255,255,0.8);">
+            </div>
+        </div>
+    </header>
+
+    <!-- App Pull-to-Refresh Spinner Placeholder -->
+    <div id="pullToRefreshIndicator" class="text-center py-2" style="display: none;">
+        <div class="spinner-border spinner-border-sm text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="main-content" id="mainContent">
+
+        <!-- Tab 1: Newsfeed -->
+        <div id="tabFeed" class="tab-view d-none">
+            <!-- Create Post Banner -->
+            <div class="bg-white p-3 mb-2 shadow-sm d-flex align-items-center gap-3 cursor-pointer"
+                onclick="openCreatePost()">
+                <img src="https://ui-avatars.com/api/?name=U&background=eee" class="rounded-circle" id="feedAva"
+                    width="40" height="40" style="object-fit:cover;">
+                <div class="flex-grow-1 text-muted bg-light rounded-pill px-3 py-2" style="font-size:0.95rem;">Bạn đang
+                    nghĩ gì?</div>
+            </div>
+
+            <!-- Hashtag Filter Indicator (Hidden by default) -->
+            <div id="hashtagFilterIndicator" class="bg-white p-2 mb-2 shadow-sm d-none align-items-center justify-content-between px-3">
+                <span class="text-secondary small">Đang xem: <b class="theme-text-primary" id="activeHashtag">#hashtag</b></span>
+                <button class="btn btn-sm btn-link text-danger p-0 text-decoration-none" onclick="clearHashtagFilter()">Xóa lọc</button>
+            </div>
+
+            <!-- Feed List -->
+            <div id="feedList"></div>
+            <!-- Infinite Scroll Trigger -->
+            <div id="feedLoadMoreTrigger" style="height:20px;width:100%;"></div>
+        </div>
+
+        <!-- Tab 2: Home & Widgets -->
+        <div id="tabHome" class="tab-view active-tab p-3">
+            <h5 class="mb-3 fw-bold theme-text-primary">Tiện ích của bạn</h5>
+            <div id="homeWidgets"></div>
+        </div>
+
+        <!-- Tab 3: Document -->
+        <div id="tabDocument" class="tab-view d-none">
+            <!-- documentUI generated dynamically -->
+        </div>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <ul class="nav text-center w-100 p-0 m-0 shadow">
+            <li class="nav-item flex-fill">
+                <a class="nav-link nav-tab-btn" href="#" data-target="tabFeed">
+                    <i class="bi bi-grid-fill fs-5 d-block mb-1"></i>
+                    <span class="small d-block">Bảng tin</span>
+                </a>
+            </li>
+            <li class="nav-item flex-fill">
+                <a class="nav-link active nav-tab-btn" href="#" data-target="tabHome">
+                    <i class="bi bi-house-door-fill fs-5 d-block mb-1"></i>
+                    <span class="small d-block">Home</span>
+                </a>
+            </li>
+            <li class="nav-item flex-fill">
+                <a class="nav-link nav-tab-btn" href="#" data-target="tabDocument">
+                    <i class="bi bi-folder-fill fs-5 d-block mb-1"></i>
+                    <span class="small d-block">Tài liệu</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- ---------------------------------------------------------------------- -->
+    <!-- MODALS CONTAINER                                                       -->
+    <!-- ---------------------------------------------------------------------- -->
+
+    <!-- Create Post Modal -->
+    <div class="modal fade" id="createPostModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog app-modal m-0 h-100">
+            <div class="modal-content border-0 rounded-0 h-100 d-flex flex-column">
+                <div
+                    class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-5" data-bs-dismiss="modal"
+                        style="width: 40px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title fs-6 fw-semibold position-absolute start-50 translate-middle-x m-0">Tạo bài
+                        viết</h5>
+                    <div style="width: 40px;"></div>
+                </div>
+                <div class="modal-body p-3 bg-white pb-0 flex-grow-1" style="overflow-y: auto;">
+                    <!-- Textarea -->
+                    <textarea id="postTextarea"
+                        class="form-control border rounded-3 bg-transparent p-3 shadow-none mb-3"
+                        style="min-height: 100px; font-size:0.95rem;" placeholder="Bạn đang nghĩ gì?"></textarea>
+
+                    <!-- Header cho phần lưới ảnh -->
+                    <div class="d-flex justify-content-between align-items-center mb-2" id="previewHeader"
+                        style="display:none;">
+                        <div class="text-secondary small fw-semibold" id="previewImageCount"></div>
+                        <button class="btn btn-sm border text-danger bg-white py-1 px-3 d-none rounded-1"
+                            id="btnClearAllImages" onclick="clearAllImages()">
+                            <i class="bi bi-trash"></i> Xóa tất cả
+                        </button>
+                    </div>
+
+                    <!-- Khung Preview Hiển thị Grid -->
+                    <div id="postImagePreviewList" class="mb-3 w-100 rounded overflow-hidden"
+                        style="pointer-events: none;"></div>
+
+                    <!-- Công tắc HD (đưa xuống dưới lưới ảnh) -->
+                    <div class="d-flex justify-content-end align-items-center mb-4 d-none" id="postQualityContainer">
+                        <div class="form-check form-switch d-flex align-items-center gap-2 m-0 p-0">
+                            <input class="form-check-input m-0 mt-1 shadow-none" type="checkbox" role="switch"
+                                id="postQualitySwitch" style="width: 2.2em; height: 1.1em; cursor: pointer;"
+                                onchange="uploadQuality = this.checked ? 'hd' : 'sd'">
+                            <label class="form-check-label small fw-semibold text-dark mb-0 pt-1"
+                                for="postQualitySwitch">Chất lượng HD</label>
+                        </div>
+                    </div>
+
+                    <!-- Layout Selection Block -->
+                    <div id="layoutSelectionBlock" class="mb-3 d-none">
+                        <hr class="mt-0 mb-3 text-muted opacity-25">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label class="form-label small text-muted fw-bold mb-0" style="letter-spacing: 0.5px;"><i
+                                    class="bi bi-layout-split me-1"></i>CHỌN BỐ CỤC</label>
+                            <button class="btn btn-sm border py-0 px-2 rounded text-muted bg-light shadow-sm"
+                                style="font-size: 0.75rem;" onclick="selectPostLayout('auto')">Tự động đề xuất</button>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <!-- Grid Option -->
+                            <div class="layout-option border rounded p-2 flex-fill cursor-pointer position-relative bg-white"
+                                id="layout-opt-grid" onclick="selectPostLayout('grid')">
+                                <div class="layout-check position-absolute top-0 end-0 m-1 rounded-circle d-none shadow-sm text-center text-white theme-bg-primary"
+                                    style="width: 14px; height: 14px; font-size: 10px; line-height: 14px;"><i
+                                        class="bi bi-check-lg" style="margin-left: -1px;"></i></div>
+                                <div class="d-flex flex-wrap h-100 justify-content-center align-items-center"
+                                    style="min-height: 36px; gap: 4px;">
+                                    <div class="layout-block rounded"
+                                        style="width: calc(50% - 2px); height: 18px; background: #e0e0e0;"></div>
+                                    <div class="layout-block rounded"
+                                        style="width: calc(50% - 2px); height: 18px; background: #e0e0e0;"></div>
+                                    <div class="layout-block rounded"
+                                        style="width: calc(50% - 2px); height: 18px; background: #e0e0e0;"></div>
+                                    <div class="layout-block rounded"
+                                        style="width: calc(50% - 2px); height: 18px; background: #e0e0e0;"></div>
+                                </div>
+                            </div>
+                            <!-- Top Bottom Option -->
+                            <div class="layout-option border rounded p-2 flex-fill cursor-pointer position-relative bg-white"
+                                id="layout-opt-top-bottom" onclick="selectPostLayout('top-bottom')">
+                                <div class="layout-check position-absolute top-0 end-0 m-1 rounded-circle d-none shadow-sm text-center text-white theme-bg-primary"
+                                    style="width: 14px; height: 14px; font-size: 10px; line-height: 14px;"><i
+                                        class="bi bi-check-lg" style="margin-left: -1px;"></i></div>
+                                <div class="d-flex flex-column h-100 justify-content-center"
+                                    style="min-height: 36px; gap: 4px;">
+                                    <div class="layout-block rounded"
+                                        style="width: 100%; height: 18px; background: #e0e0e0;"></div>
+                                    <div class="d-flex" style="width: 100%; height: 18px; gap: 4px;">
+                                        <div class="layout-block rounded flex-fill" style="background: #e0e0e0;"></div>
+                                        <div class="layout-block rounded flex-fill" style="background: #e0e0e0;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Left Right Option -->
+                            <div class="layout-option border rounded p-2 flex-fill cursor-pointer position-relative bg-white"
+                                id="layout-opt-left-right" onclick="selectPostLayout('left-right')">
+                                <div class="layout-check position-absolute top-0 end-0 m-1 rounded-circle d-none shadow-sm text-center text-white theme-bg-primary"
+                                    style="width: 14px; height: 14px; font-size: 10px; line-height: 14px;"><i
+                                        class="bi bi-check-lg" style="margin-left: -1px;"></i></div>
+                                <div class="d-flex h-100 justify-content-center" style="min-height: 36px; gap: 4px;">
+                                    <div class="layout-block rounded"
+                                        style="width: calc(50% - 2px); height: 100%; background: #e0e0e0;"></div>
+                                    <div class="d-flex flex-column" style="width: calc(50% - 2px); gap: 4px;">
+                                        <div class="layout-block rounded flex-fill" style="background: #e0e0e0;"></div>
+                                        <div class="layout-block rounded flex-fill" style="background: #e0e0e0;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer d-block border-0 px-3 pb-3 bg-white flex-shrink-0">
+                    <button class="btn border theme-text-primary w-100 py-2 fw-semibold mb-2 bg-white"
+                        id="btnAddMoreImageMock" onclick="document.getElementById('postImageInput').click()"
+                        style="border-radius: 6px;">
+                        <i class="bi bi-image me-1"></i> Thêm ảnh
+                    </button>
+                    <!-- Nút đăng màu theme thay thế -->
+                    <button class="btn w-100 py-2 fw-semibold shadow-sm theme-bg-primary text-white border-0"
+                        id="bottomSubmitPostBtn" onclick="submitPost()" style="border-radius: 6px;">
+                        <i class="bi bi-send me-1"></i> Đăng bài
+                    </button>
+
+                    <input type="file" id="postImageInput" multiple accept="image/*" class="d-none"
+                        onchange="handleImageSelect(this)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Viewer Modal -->
+    <div class="modal fade p-0" id="imageViewerModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+        <div class="modal-dialog modal-fullscreen m-0">
+            <div class="modal-content bg-black h-100 border-0">
+
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 start-0 m-3 z-3"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+                <div id="viewerCounter"
+                    class="position-absolute top-0 start-50 translate-middle-x mt-3 z-3 text-white small">1 / 1</div>
+
+                <div class="modal-body p-0 d-flex align-items-center justify-content-center h-100 position-relative">
+                    <div id="postImageCarousel" class="carousel slide w-100 h-100" data-bs-interval="false">
+                        <div class="carousel-inner h-100 d-flex align-items-center" id="carousel-items-container"></div>
+
+                        <button class="carousel-control-prev" id="carouselPrev" type="button"
+                            data-bs-target="#postImageCarousel" data-bs-slide="prev" style="display:none;">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" id="carouselNext" type="button"
+                            data-bs-target="#postImageCarousel" data-bs-slide="next" style="display:none;">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow bg-light">
+                <div
+                    class="modal-header bg-white shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative">
+                    <h5 class="modal-title fs-5 fw-semibold text-center w-100 m-0">Trang cá nhân</h5>
+                    <button type="button" class="btn-close shadow-none position-absolute end-0 me-3"
+                        data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="position-relative d-inline-block">
+                            <img id="profileCurrentAvatar" src="" class="rounded-circle shadow-sm mb-2" width="90"
+                                height="90" style="object-fit:cover;">
+                            <button
+                                class="btn btn-sm btn-light rounded-circle position-absolute border shadow-sm d-flex align-items-center justify-content-center"
+                                style="bottom:5px;right:0;width:30px;height:30px;padding:0;"
+                                onclick="document.getElementById('profileAvatarInput').click()">
+                                <i class="bi bi-camera-fill theme-text-primary"></i>
+                            </button>
+                        </div>
+                        <input type="file" id="profileAvatarInput" class="d-none" accept="image/*">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small text-muted fw-semibold mb-1">Tài khoản (Username)</label>
+                        <input type="text" id="profileUsernameInput" class="form-control"
+                            placeholder="Nhập username...">
+                        <div class="form-text" style="font-size: 0.75rem;">Dùng để đồng bộ dữ liệu giữa các thiết bị
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small text-muted fw-semibold mb-1">Tên hiển thị</label>
+                        <input type="text" id="profileFullnameInput" class="form-control"
+                            placeholder="Nhập tên hiển thị">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small text-muted fw-semibold mb-2">GIAO DIỆN MÀU</label>
+                        <div class="d-flex gap-2 justify-content-center flex-wrap">
+                            <div class="theme-selector rounded-circle" data-theme="green" onclick="selectTheme('green')"
+                                style="width:36px;height:36px;background:#006B68;cursor:pointer;"></div>
+                            <div class="theme-selector rounded-circle" data-theme="purple"
+                                onclick="selectTheme('purple')"
+                                style="width:36px;height:36px;background:#605DEC;cursor:pointer;"></div>
+                            <div class="theme-selector rounded-circle" data-theme="blue" onclick="selectTheme('blue')"
+                                style="width:36px;height:36px;background:#2D9CDB;cursor:pointer;"></div>
+                            <div class="theme-selector rounded-circle" data-theme="red" onclick="selectTheme('red')"
+                                style="width:36px;height:36px;background:#EB5757;cursor:pointer;"></div>
+                            <div class="theme-selector rounded-circle" data-theme="orange"
+                                onclick="selectTheme('orange')"
+                                style="width:36px;height:36px;background:#F2994A;cursor:pointer;"></div>
+                            <div class="theme-selector rounded-circle" data-theme="pink" onclick="selectTheme('pink')"
+                                style="width:36px;height:36px;background:#E74C3C;cursor:pointer;"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small text-muted fw-semibold mb-2">TÙY CHỈNH TIỆN ÍCH</label>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" role="switch" id="toggleWidgetPregnancy">
+                            <label class="form-check-label" for="toggleWidgetPregnancy">Baby</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" role="switch" id="toggleWidgetKick">
+                            <label class="form-check-label" for="toggleWidgetKick">Đếm Lượt</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" role="switch" id="toggleWidgetGold">
+                            <label class="form-check-label" for="toggleWidgetGold">Giá Vàng</label>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="toggleDevTools">
+                        <label class="form-check-label small text-muted" for="toggleDevTools"><i
+                                class="bi bi-bug me-1"></i>Bật Console DevTools</label>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn theme-bg-primary text-white rounded-pill px-4" id="btnSaveProfile"
+                        onclick="saveProfile()">Lưu thay đổi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Modal / Sidebar -->
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="true">
+        <div class="modal-dialog modal-dialog-scrollable app-modal m-0 h-100"
+            style="width: 100%; max-width: 400px; margin-left: auto!important;">
+            <div class="modal-content border-0 rounded-0 h-100">
+                <div
+                    class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal"
+                        style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title fs-5 fw-semibold position-absolute start-50 translate-middle-x m-0"><i
+                            class="bi bi-bell-fill me-2"></i> Thông báo
+                    </h5>
+                    <div style="width: 32px;"></div>
+                </div>
+                <div class="bg-light p-2 d-flex justify-content-between border-bottom px-3">
+                    <button class="btn btn-sm btn-link text-decoration-none text-muted p-0"
+                        onclick="markAllNotifRead()"><i class="bi bi-check-all me-1"></i>Đọc tất cả</button>
+                    <button class="btn btn-sm btn-link text-decoration-none text-danger p-0"
+                        onclick="deleteAllNotif()"><i class="bi bi-trash me-1"></i>Xóa tất cả</button>
+                </div>
+                <div class="modal-body p-0 bg-light position-relative" style="overflow-x:hidden;">
+                    <!-- Modal Pull-to-Refresh Spinner -->
+                    <div id="notifPullIndicator" class="text-center py-2" style="display: none; position: absolute; top: 0; left: 0; right: 0; z-index: 10;">
+                        <div class="spinner-border spinner-border-sm text-secondary" role="status"></div>
+                    </div>
+                    <div id="notificationList"></div>
+                    <div id="notifLoadMoreTrigger" style="height:20px;width:100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Search Chat Modal -->
+    <div class="modal fade" id="aiSearchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog app-modal m-0">
+            <div class="modal-content border-0 h-100 bg-light">
+                <div
+                    class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal"
+                        style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <div class="text-center position-absolute start-50 translate-middle-x">
+                        <div class="fw-semibold lh-1 theme-text-primary fs-5">LoveStory AI <i
+                                class="bi bi-stars text-warning fs-6"></i></div>
+                        <div class="small text-muted" style="font-size:0.75rem;">Powered by Gemini</div>
+                    </div>
+                    <div style="width: 32px;"></div>
+                </div>
+                <div class="modal-body p-3 d-flex flex-column" style="overflow-y:auto;" id="chatMessageList">
+                    <!-- Messages will be injected here -->
+                </div>
+                <div class="modal-footer p-2 bg-white border-top flex-nowrap">
+                    <input type="text" id="chatInput"
+                        class="form-control rounded-pill bg-light border-0 shadow-none px-3"
+                        placeholder="Hỏi về kỷ niệm, tài liệu..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+                    <button class="btn btn-link theme-text-primary p-0 ms-2 me-1 bg-transparent border-0"
+                        onclick="sendChatMessage()" style="font-size:1.5rem;">
+                        <i class="bi bi-send-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kick Counter Dashboard (Chart) Modal -->
+    <div class="modal fade" id="kickDashboardModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-0 pb-0 justify-content-between">
+                    <h6 class="fw-bold mb-0 theme-text-primary"><i class="bi bi-activity me-1"></i>Thống kê Lượt Run
+                    </h6>
+                    <button type="button" class="btn-close shadow-none" style="font-size:0.8rem;"
+                        data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body pt-2 pb-4">
+                    <div class="w-100 overflow-x-auto position-relative" style="height:350px;">
+                        <div id="kickChartContainer" class="h-100" style="min-width: 100%;">
+                            <canvas id="kickChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Hidden data containers for quick rendering logic -->
+                    <div id="kickChartLabels" class="d-none"></div>
+                    <div id="kickChartData" class="d-none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gold Chart Dashboard Modal -->
+    <div class="modal fade" id="goldDashboardModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-0 pb-0 justify-content-between">
+                    <h6 class="fw-bold mb-0 text-warning"><i class="bi bi-graph-up-arrow me-1"></i>Biểu đồ Giá Vàng</h6>
+                    <button type="button" class="btn-close shadow-none" style="font-size:0.8rem;"
+                        data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body pt-2 pb-4">
+                    <!-- Fixed Legend -->
+                    <div class="d-flex justify-content-center gap-4 mb-2 small fw-semibold">
+                        <div class="d-flex align-items-center gap-2">
+                            <div
+                                style="width:16px;height:10px;background:rgba(44, 187, 120, 0.2);border:2px solid #009751;border-radius:50%;">
+                            </div>
+                            <span class="text-muted">Mua vào</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <div
+                                style="width:16px;height:10px;background:rgba(220, 53, 69, 0.2);border:2px solid #ff0019;border-radius:50%;">
+                            </div>
+                            <span class="text-muted">Bán ra</span>
+                        </div>
+                    </div>
+
+                    <div class="w-100 overflow-x-auto position-relative" style="height:350px;">
+                        <div id="goldChartContainer" class="h-100" style="min-width: 100%;">
+                            <canvas id="goldChart"></canvas>
+                        </div>
+                    </div>
+                    <div id="goldChartLabels" class="d-none"></div>
+                    <div id="goldChartDataBuy" class="d-none"></div>
+                    <div id="goldChartDataSell" class="d-none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Action Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="confirmModalTitle">Xác nhận</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-muted" id="confirmModalBody">
+                    Bạn có chắc chắn muốn thực hiện hành động này?
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn theme-bg-primary text-white rounded-pill px-4"
+                        id="btnConfirmAction">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js (Optional for Kick Counter, if fails uses SVG fallback) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+    <!-- Core Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/utils.js?v=1.3"></script>
+    <script src="js/app.js?v=1.4"></script>
+    <script src="js/feed.js?v=1.8"></script>
+    <script src="js/home.js?v=1.1"></script>
+    <script src="js/document.js?v=1.3"></script>
+    <script src="js/profile.js?v=1.1"></script>
+    <script src="js/search.js?v=1.4"></script>
+    <script src="js/notifications.js?v=1.7"></script>
+</body>
+
+</html>
