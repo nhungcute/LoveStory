@@ -1,1 +1,434 @@
+/* -------------------------------------------------------------------------- */
+/*                                CSS VARIABLES                               */
+/* -------------------------------------------------------------------------- */
+:root {
+    /* Define primary themes - Default: Green Theme (#006B68) */
+    --theme-primary: #006B68;
+    --theme-secondary: #00524e;
+    --theme-accent: #FFC62F; /* Yellow */
+    --theme-text-on-primary: #ffffff;
+    
+    /* Layout Variables */
+    --top-nav-height: 56px;
+    --bottom-nav-height: 58px;
+    
+    /* Z-index Management */
+    --z-index-bottom-nav: 1060;
+    --z-index-top-nav: 1060;
+    --z-index-modal-backdrop: 1040;
+    --z-index-modal: 1050;
+    --z-index-spinner: 1100;
+}
 
+/* -------------------------------------------------------------------------- */
+/*                           BASE & RESET STYLES                              */
+/* -------------------------------------------------------------------------- */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent body scroll, handle scroll in main-content */
+    background-color: #f0f2f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile iOS */
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               THEMING CLASSES                              */
+/* -------------------------------------------------------------------------- */
+.theme-bg-primary {
+    background-color: var(--theme-primary) !important;
+}
+
+.theme-text-primary {
+    color: var(--theme-primary) !important;
+}
+
+.theme-text-accent {
+    color: var(--theme-accent) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               LAYOUT STRUCTURE                             */
+/* -------------------------------------------------------------------------- */
+
+/* Top Navigation Bar */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--top-nav-height);
+    z-index: var(--z-index-top-nav);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.brand-logo {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Main Content Area (Scrollable) */
+.main-content {
+    position: absolute;
+    top: var(--top-nav-height);
+    bottom: var(--bottom-nav-height);
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scroll-behavior: smooth;
+    background-color: #f0f2f5;
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--bottom-nav-height);
+    background-color: #ffffff;
+    z-index: var(--z-index-bottom-nav);
+    border-top: 1px solid #e0e0e0;
+}
+
+.bottom-nav .nav-link {
+    color: #6c757d;
+    padding: 5px 0;
+    transition: color 0.2s ease-in-out;
+}
+
+.bottom-nav .nav-link span {
+    font-size: 0.7rem !important;
+}
+
+.bottom-nav .nav-link.active {
+    color: var(--theme-primary);
+    font-weight: 600;
+}
+
+.bottom-nav .nav-link i {
+    transition: transform 0.2s ease-in-out;
+}
+
+.bottom-nav .nav-link.active i {
+    transform: scale(1.1);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                PULL TO REFRESH                             */
+/* -------------------------------------------------------------------------- */
+#pullToRefreshIndicator {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-color: rgba(255,255,255,0.95);
+    transform: translateY(-40px);
+    opacity: 0;
+    transition: transform 0.25s ease-out, opacity 0.25s ease-out;
+    pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    UTILITIES                               */
+/* -------------------------------------------------------------------------- */
+.nav-icon {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Toggling view visibility for Single Page App experience */
+.d-none {
+    display: none !important;
+}
+
+/* Disable text selection preventing accidental long press on mobile UI elements */
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               COMPONENTS                                   */
+/* -------------------------------------------------------------------------- */
+
+/* Post Card */
+.post-card {
+    background: #ffffff;
+}
+.post-header {
+    font-size: 0.95rem;
+}
+.post-avatar {
+    border: 1px solid #eee;
+}
+
+/* Skeleton Loading */
+.skeleton-card {
+    animation: shimmer 1.5s infinite linear;
+    background: #fff;
+}
+.skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    background: #e0e0e0;
+}
+.skeleton-line {
+    height: 12px;
+    background: #e0e0e0;
+    border-radius: 4px;
+}
+@keyframes shimmer {
+    0% { opacity: 0.6; }
+    50% { opacity: 0.9; }
+    100% { opacity: 0.6; }
+}
+
+/* Like Button Interaction */
+.like-btn.liked {
+    color: #E0245E !important;
+}
+.like-btn i {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.like-btn:active i {
+    transform: scale(1.3);
+}
+
+/* Widgets */
+.widget-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    overflow: hidden;
+}
+.widget-body {
+    padding: 1rem;
+}
+.widget-title {
+    font-weight: 700;
+    color: var(--theme-secondary);
+    font-size: 1.05rem;
+}
+.pregnancy-weeks-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 107, 104, 0.1);
+    color: var(--theme-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    line-height: 1;
+}
+.pregnancy-weeks-circle .weeks-label {
+    font-size: 0.6rem;
+    font-weight: 600;
+}
+
+/* Kick Counter */
+.kick-count-display {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--theme-primary);
+    line-height: 1;
+}
+.kick-pulse {
+    animation: pulse 0.4s ease-out;
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); color: var(--theme-accent); }
+    100% { transform: scale(1); }
+}
+
+/* Dashboard Chart Container */
+#kickChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Gold Price */
+.gold-price-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0.5rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               NOTIFICATIONS                                */
+/* -------------------------------------------------------------------------- */
+.notif-row-wrapper {
+    position: relative;
+    background: #f8f9fa;
+    overflow: hidden;
+    /* Removed border-bottom to stop bleeding */
+}
+.notif-content-box {
+    position: relative;
+    z-index: 2;
+    background: #ffffff;
+    width: 100%;
+    border-bottom: 1px solid #dee2e6; /* Applied to content box for clean separation */
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    touch-action: pan-y;
+}
+.notif-content-box.notif-unread {
+    background: #e8f2f1; /* Solid very light primary to ensure it covers background buttons */
+}
+.notif-action-bg {
+    position: absolute;
+    top: 1px; /* Stop 1px short to prevent bleed */
+    bottom: 1px; /* Stop 1px short of the bottom to prevent subpixel bleeding under the border */
+    right: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+.notif-action-btn {
+    border: none;
+    color: white;
+    width: 65px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.notif-action-btn i { font-size: 1.2rem; margin-bottom: 2px; }
+.btn-read { background-color: #006B68; }
+.btn-delete { background-color: #EB5757; }
+
+/* -------------------------------------------------------------------------- */
+/*                               MODALS                                       */
+/* -------------------------------------------------------------------------- */
+/* Swipe Left/Right specific classes */
+.slide-out-right {
+    transform: translateX(100%) !important;
+    transition: transform 0.25s ease-out !important;
+}
+
+/* Custom App Fullscreen Modal */
+.modal-dialog.app-modal {
+    position: absolute !important;
+    top: var(--top-nav-height) !important;
+    bottom: var(--bottom-nav-height) !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+}
+.modal-dialog.app-modal .modal-content {
+    height: 100% !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+/* Profile Theme Rings */
+.theme-selector {
+    position: relative;
+    transition: transform 0.2s;
+}
+.theme-selector.ring-active::after {
+    content: '';
+    position: absolute;
+    top: -4px; right: -4px; bottom: -4px; left: -4px;
+    border: 2px solid var(--theme-secondary);
+    border-radius: 50%;
+}
+
+/* Cursor pointers */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Image Grid System */
+.post-images {
+    width: 100%;
+}
+.grid-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #f0f0f0;
+}
+.grid-single {
+    width: 100%;
+    max-height: 400px;
+    overflow: hidden;
+}
+.grid-two {
+    display: flex;
+    gap: 2px;
+    height: 250px;
+}
+.grid-two .grid-img {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+}
+.grid-three {
+    display: flex;
+    gap: 2px;
+    height: 300px;
+    overflow: hidden;
+}
+.grid-main {
+    flex: 2;
+    min-width: 0;
+}
+.grid-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+.grid-side .grid-img {
+    flex: 1;
+    height: 100%;
+    min-height: 0;
+}
+.grid-four {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    height: 300px;
+    overflow: hidden;
+}
+.grid-four .grid-img {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+.grid-mosaic {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.grid-mosaic-main {
+    height: 250px;
+}
+.grid-mosaic-strip {
+    display: flex;
+    gap: 2px;
+    height: 100px;
+    overflow-x: auto;
+}
+.grid-mosaic-strip .grid-img {
+    flex: 0 0 100px;
+}
