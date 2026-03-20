@@ -113,7 +113,7 @@ function createPostCard(post) {
     let videos = [];
     allMedia.forEach(item => {
         const url = (typeof item === 'string') ? item : (item.url || '');
-        const type = (typeof item === 'object' && item.type) ? item.type : (url.match(/\.(mp4|webm|ogg)$/i) ? 'video' : 'image');
+        const type = (typeof item === 'object' && item.type) ? item.type : (url.match(/\.(mp4|webm|ogg)$/i) || url.includes('/preview') ? 'video' : 'image');
 
         if (type === 'video') videos.push(url);
         else images.push(item);
@@ -339,12 +339,12 @@ function openImageViewer(postId, startIndex) {
     let mediaList = [];
     allMedia.forEach(item => {
         const url = (typeof item === 'string') ? item : (item.url || '');
-        const type = (typeof item === 'object' && item.type) ? item.type : (url.match(/\.(mp4|webm|ogg)$/i) ? 'video' : 'image');
+        const type = (typeof item === 'object' && item.type) ? item.type : (url.match(/\.(mp4|webm|ogg)$/i) || url.includes('/preview') ? 'video' : 'image');
         if (type !== 'video') mediaList.push({ url, type: 'image' });
     });
     allMedia.forEach(item => {
         const url = (typeof item === 'string') ? item : (item.url || '');
-        const type = (typeof item === 'object' && item.type) ? item.type : (url.match(/\.(mp4|webm|ogg)$/i) ? 'video' : 'image');
+        const type = (typeof item === 'object' && item.type) ? item.type : (url.match(/\.(mp4|webm|ogg)$/i) || url.includes('/preview') ? 'video' : 'image');
         if (type === 'video') mediaList.push({ url, type: 'video' });
     });
 
@@ -363,13 +363,10 @@ function openImageViewer(postId, startIndex) {
             if (item.url.includes('drive.google.com') && driveMatch) {
                 const embedUrl = `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
                 slideContent = `
-                    <div class="d-flex justify-content-center align-items-center h-100 w-100" style="background: black; position: relative;">
-                        <!-- Đẩy toàn bộ iframe xuống dưới 60px để chừa lại khoảng trống 100% cho nút X tắt Modal ở phía trên -->
-                        <div style="width: 100%; height: calc(100% - 60px); position: relative; margin-top: 60px; z-index: 1;">
-                            <iframe src="${embedUrl}" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="border: none;"></iframe>
-                            <!-- Tấm màn đen giờ chỉ bám sát viền trên của thẻ div nội bộ, tuyệt đối không đè lên nút X -->
-                            <div style="position: absolute; top: 0; left: 0; right: 0; height: 56px; background: black; z-index: 2; pointer-events: none;"></div>
-                        </div>
+                    <div class="d-flex justify-content-center align-items-center h-100 w-100 position-relative" style="background: black;">
+                        <iframe src="${embedUrl}" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="border: none; z-index: 1;"></iframe>
+                        <!-- Tấm màn đen che Top Bar của Google Drive -->
+                        <div style="position: absolute; top: 0; left: 0; right: 0; height: 56px; background: black; z-index: 2; pointer-events: none;"></div>
                     </div>`;
             } else {
                 slideContent = `
