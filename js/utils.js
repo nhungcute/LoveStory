@@ -4,7 +4,7 @@
  */
 
 // Production API URL generated from Google Apps Script deployment
-const API_URL = "https://script.google.com/macros/s/AKfycbyO-dyJRl41eNPTM_qWeS8jLxNtvh_HA3GyEfta_x2aTqN2qHyX7m0kVQhq3v4XJrS89A/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbw9Q1r-SegFi2J6G-xmJaf7Tbe9X-4Pmr-Y1j-ZRKtpjaUv3-QQG4rLCwP1-aYXrpZeng/exec";
 
 /**
  * Enhanced fetch wrapper to communicate with Google Apps Script Backend.
