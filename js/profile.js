@@ -9,6 +9,9 @@ function renderProfileModal() {
     document.getElementById('profileFullnameInput').value = p.fullname === 'Guest' ? '' : p.fullname;
     document.getElementById('profileCurrentAvatar').src = p.avaUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.fullname)}&background=FFC62F&color=006B68&bold=true`;
     
+    const statusEl = document.getElementById('usernameValidationStatus');
+    if (statusEl) statusEl.innerHTML = '';
+    
     document.getElementById('toggleWidgetPregnancy').checked = p.widgetPregnancy !== false;
     document.getElementById('toggleWidgetKick').checked = p.widgetKick !== false;
     document.getElementById('toggleWidgetGold').checked = p.widgetGold !== false;
@@ -20,84 +23,86 @@ function renderProfileModal() {
     });
 }
 
+async function validateUsername() {
+    const inputEl = document.getElementById('profileUsernameInput');
+    const inputUsername = inputEl.value.trim();
+    const statusEl = document.getElementById('usernameValidationStatus');
+    
+    if (!inputUsername || inputUsername.toLowerCase() === 'guest' || inputUsername === state.profile.username) {
+        if (statusEl) statusEl.innerHTML = '';
+        return;
+    }
+    
+    if (statusEl) statusEl.innerHTML = '<span class="spinner-border spinner-border-sm text-primary" style="width: 12px; height: 12px;"></span> <span class="small text-muted">Đang tìm dữ liệu...</span>';
+    inputEl.disabled = true;
+    
+    try {
+        const check = await sendToServer({ action: 'get_profile_by_username', username: inputUsername }, true);
+        if (check.status === 'success') {
+            // Auto-fill existing info
+            document.getElementById('profileFullnameInput').value = check.data.fullname || '';
+            const newAva = check.data.avaurl || `https://ui-avatars.com/api/?name=${encodeURIComponent(check.data.fullname)}&background=FFC62F&color=006B68&bold=true`;
+            document.getElementById('profileCurrentAvatar').src = newAva;
+            state.profile.avaUrl = check.data.avaurl || ''; // Store temp
+            selectTheme(check.data.theme || 'green');
+            
+            if(statusEl) statusEl.innerHTML = '<i class="bi bi-check-circle-fill text-success"></i> <span class="small text-success">Đã điền tự động dữ liệu cũ.</span>';
+        } else {
+            if(statusEl) statusEl.innerHTML = '<i class="bi bi-person-plus-fill text-primary"></i> <span class="small text-primary">Username có thể tạo mới.</span>';
+        }
+    } catch(e) {
+        if(statusEl) statusEl.innerHTML = '<i class="bi bi-exclamation-circle-fill text-danger"></i> <span class="small text-danger">Lỗi kết nối.</span>';
+    } finally {
+        inputEl.disabled = false;
+        // Optional: inputEl.focus(); might be annoying if they tried to click to the fullname field
+    }
+}
+
 async function saveProfile() {
     const btn = document.getElementById('btnSaveProfile');
     const ogHtml = btn.innerHTML;
 
     try {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Lên đĩa...';
+
         const inputUsername = document.getElementById('profileUsernameInput').value.trim();
         const inputFullname = document.getElementById('profileFullnameInput').value.trim();
-        const currentUsername = state.profile.username;
 
         const widgetPregnancy = document.getElementById('toggleWidgetPregnancy').checked;
         const widgetKick = document.getElementById('toggleWidgetKick').checked;
         const widgetGold = document.getElementById('toggleWidgetGold').checked;
         const devToolsOn = document.getElementById('toggleDevTools').checked;
 
-        const applyToUI = () => {
-            state.profile.widgetPregnancy = widgetPregnancy;
-            state.profile.widgetKick = widgetKick;
-            state.profile.widgetGold = widgetGold;
-            
-            if(state.profile.devTools !== devToolsOn) {
-                state.profile.devTools = devToolsOn;
-                if(devToolsOn && typeof toggleEruda === 'function') toggleEruda(true);
-                else if (!devToolsOn) alert("Vui lòng tải lại trang để tắt Developer Tools.");
-            }
+        state.profile.username = (inputUsername && inputUsername.toLowerCase() !== 'guest') ? inputUsername : 'Guest';
+        state.profile.fullname = inputFullname || (state.profile.username === 'Guest' ? 'Guest' : state.profile.username);
 
-            saveUserPreferences();
-            if (typeof updateProfileUI === 'function') updateProfileUI(); 
-            if (state.currentTab === 'tabHome' && typeof renderHomeWidgets === 'function') renderHomeWidgets();
-            
-            renderProfileModal();
-            let modal = bootstrap.Modal.getInstance(document.getElementById('profileModal'));
-            if(modal) modal.hide();
-        };
-
-        if (inputUsername && inputUsername !== 'Guest') {
-            if (currentUsername !== inputUsername) {
-                // Different username -> Login / Check Server -> BLOCKING WAIT
-                btn.disabled = true;
-                btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
-                
-                const check = await sendToServer({ action: 'get_profile_by_username', username: inputUsername }, true);
-                if (check.status === 'success') {
-                    state.profile.username = check.data.username;
-                    state.profile.fullname = check.data.fullname;
-                    state.profile.theme = check.data.theme;
-                    state.profile.avaUrl = check.data.avaurl;
-                    if(state.profile.theme) applyTheme(state.profile.theme);
-                    alert(`Đã tải dữ liệu thành công cho tài khoản: ${check.data.fullname}`);
-                } else {
-                    state.profile.username = inputUsername;
-                    state.profile.fullname = inputFullname || inputUsername;
-                    // Async without await for creating
-                    sendToServer({ action: 'save_profile', username: inputUsername, deviceFingerprint: state.deviceFingerprint, profile: state.profile }, "silent").catch(console.error);
-                }
-                applyToUI();
-                btn.disabled = false;
-                btn.innerHTML = ogHtml;
-                return;
-            } else {
-                // Same username -> Update -> OPTIMISTIC
-                state.profile.fullname = inputFullname || inputUsername;
-                applyToUI(); 
-                
-                // Async without await
-                sendToServer({ action: 'save_profile', username: inputUsername, deviceFingerprint: state.deviceFingerprint, profile: state.profile }, "silent").catch(console.error);
-                return;
-            }
-        } else {
-            // Guest mode -> OPTIMISTIC
-            state.profile.username = 'Guest';
-            state.profile.fullname = inputFullname || 'Guest';
-            applyToUI();
-            return;
+        state.profile.widgetPregnancy = widgetPregnancy;
+        state.profile.widgetKick = widgetKick;
+        state.profile.widgetGold = widgetGold;
+        
+        if(state.profile.devTools !== devToolsOn) {
+            state.profile.devTools = devToolsOn;
+            if(devToolsOn && typeof toggleEruda === 'function') toggleEruda(true);
+            else if (!devToolsOn) showAlert("Vui lòng tải lại trang để tắt Developer Tools.");
         }
+
+        saveUserPreferences();
+        if (typeof updateProfileUI === 'function') updateProfileUI(); 
+        if (state.currentTab === 'tabHome' && typeof renderHomeWidgets === 'function') renderHomeWidgets();
+        
+        // Cập nhật lên server ngầm (không bắt người dùng chờ)
+        if (state.profile.username !== 'Guest') {
+            sendToServer({ action: 'save_profile', username: state.profile.username, deviceFingerprint: state.deviceFingerprint, profile: state.profile }, "silent").catch(console.error);
+        }
+
+        let modal = bootstrap.Modal.getInstance(document.getElementById('profileModal'));
+        if(modal) modal.hide();
 
     } catch(e) {
         console.error("Save profile error", e);
-        alert("Lỗi khi lưu profile: " + e.message);
+        showAlert("Lỗi khi lưu profile: " + e.message);
+    } finally {
         btn.disabled = false;
         btn.innerHTML = ogHtml;
     }
@@ -131,6 +136,6 @@ document.getElementById('profileAvatarInput')?.addEventListener('change', async 
         } else { p.src = oldSrc; }
     } catch(err) {
         p.src = oldSrc;
-        alert("Upload Avatar thất bại");
+        showAlert("Upload Avatar thất bại");
     }
 });

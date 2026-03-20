@@ -171,11 +171,11 @@ async function openKickDashboard() {
             }
             setTimeout(() => renderKickChart(labels, data), 300);
         } else {
-            alert("Không thể lấy thống kê.");
+            showAlert("Không thể lấy thống kê.");
         }
     } catch (e) {
         if (btn) btn.innerHTML = '<i class="bi bi-bar-chart-fill"></i> Thống kê';
-        alert("Có lỗi xảy ra: " + e.toString());
+        showAlert("Có lỗi xảy ra: " + e.toString());
     }
 }
 
@@ -285,7 +285,7 @@ function formatGold(price) {
 
 function openGoldDashboard() {
     if (!goldChartDataGlobal || goldChartDataGlobal.length === 0) {
-        alert("Chưa có dữ liệu biểu đồ vàng");
+        showAlert("Chưa có dữ liệu biểu đồ vàng");
         return;
     }
     const labels = [];

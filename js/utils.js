@@ -4,7 +4,7 @@
  */
 
 // Production API URL generated from Google Apps Script deployment
-const API_URL = "https://script.google.com/macros/s/AKfycby-4M-ooVlOXEArW2VfItvY2IrBvDchesRRhe64JvNcJOYayggdqsUyk8PPxaIUZWWzpA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyO-dyJRl41eNPTM_qWeS8jLxNtvh_HA3GyEfta_x2aTqN2qHyX7m0kVQhq3v4XJrS89A/exec";
 
 /**
  * Enhanced fetch wrapper to communicate with Google Apps Script Backend.
@@ -38,7 +38,7 @@ async function sendToServer(payload, silent = false) {
     } catch (error) {
         console.error("sendToServer Error:", error);
         if (!silent) {
-            // alert("Không thể kết nối đến máy chủ. Vui lòng kiểm tra mạng.");
+            // showAlert("Không thể kết nối đến máy chủ. Vui lòng kiểm tra mạng.");
         }
         throw error;
     }
@@ -180,6 +180,40 @@ function showConfirm(message, title = 'Xác nhận') {
         newBtn.addEventListener('click', onConfirm, { once: true });
         modalEl.addEventListener('hidden.bs.modal', onHide, { once: true });
 
+        modal.show();
+    });
+}
+
+/**
+ * Shows a Bootstrap modal alert dialog instead of native browser alert().
+ * @param {string} message - The message body to display.
+ * @param {string} title - The title of the modal (default: 'Thông báo').
+ * @returns {Promise<void>}
+ */
+function showAlert(message, title = 'Thông báo') {
+    return new Promise(resolve => {
+        const modalEl = document.getElementById('alertModal');
+        const titleEl = document.getElementById('alertModalTitle');
+        const bodyEl = document.getElementById('alertModalBody');
+
+        if (!modalEl) {
+            // Fallback
+            window.alert(message);
+            resolve();
+            return;
+        }
+
+        if (titleEl) titleEl.textContent = title;
+        if (bodyEl) bodyEl.textContent = message;
+
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+        const onHide = () => {
+            modalEl.removeEventListener('hidden.bs.modal', onHide);
+            resolve();
+        };
+
+        modalEl.addEventListener('hidden.bs.modal', onHide, { once: true });
         modal.show();
     });
 }

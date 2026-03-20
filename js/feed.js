@@ -33,10 +33,10 @@ async function loadFeed(reset = false) {
 
     feedState.isLoading = true;
     try {
-        const res = await sendToServer({ 
-            action: 'get_feed', 
-            username: state.profile.username, 
-            page: feedState.page, 
+        const res = await sendToServer({
+            action: 'get_feed',
+            username: state.profile.username,
+            page: feedState.page,
             limit: feedState.limit,
             hashtag: feedState.currentHashtag
         });
@@ -77,7 +77,7 @@ async function prefetchFeed() {
                 renderFeedPosts(newPosts, true);
             }
         }
-    } catch(e) {
+    } catch (e) {
         feedState._prefetched = false; // Allow retry
         console.error('prefetchFeed failed', e);
     }
@@ -114,7 +114,7 @@ function createPostCard(post) {
     allMedia.forEach(item => {
         const url = (typeof item === 'string') ? item : (item.url || '');
         const type = (typeof item === 'object' && item.type) ? item.type : (url.match(/\.(mp4|webm|ogg)$/i) ? 'video' : 'image');
-        
+
         if (type === 'video') videos.push(url);
         else images.push(item);
     });
@@ -143,7 +143,7 @@ function createPostCard(post) {
 
     div.innerHTML = `
         <div class="post-header d-flex align-items-center px-3 pt-3 pb-2 gap-2">
-            <img src="${post.avaUrl || post.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.fullname||'U')}&background=FFC62F&color=006B68&bold=true`}"
+            <img src="${post.avaUrl || post.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.fullname || 'U')}&background=FFC62F&color=006B68&bold=true`}"
                  class="rounded-circle post-avatar" width="42" height="42" style="object-fit:cover;">
             <div class="flex-grow-1">
                 <div class="fw-semibold d-flex align-items-center gap-1" style="font-size:0.95rem;">
@@ -165,11 +165,11 @@ function createPostCard(post) {
         ${contentHtml ? `<div class="post-content px-3 pb-2" style="white-space:pre-wrap;line-height:1.5;">${contentHtml}</div>` : ''}
         ${videos.length > 0 ? `<div class="post-videos mb-1 px-1 flex-column d-flex gap-2">
             ${videos.map((vUrl, idx) => {
-                const driveMatch = vUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/) || vUrl.match(/file\/d\/([a-zA-Z0-9_-]+)/);
-                const driveId = driveMatch ? driveMatch[1] : null;
-                const thumbUrl = driveId ? `https://drive.google.com/thumbnail?id=${driveId}&sz=w400` : '';
-                const globalIdx = images.length + idx;
-                return `
+        const driveMatch = vUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/) || vUrl.match(/file\/d\/([a-zA-Z0-9_-]+)/);
+        const driveId = driveMatch ? driveMatch[1] : null;
+        const thumbUrl = driveId ? `https://drive.google.com/thumbnail?id=${driveId}&sz=w400` : '';
+        const globalIdx = images.length + idx;
+        return `
                     <div class="w-100 rounded overflow-hidden video-thumb-card"
                          style="background:#111; min-height:200px; position:relative; overflow:hidden; cursor:pointer;"
                          onclick="openImageViewer('${post.id}', ${globalIdx})">
@@ -188,7 +188,7 @@ function createPostCard(post) {
                             <span class="mt-2 text-white-50 small font-monospace">VIDEO</span>
                         </div>
                     </div>`;
-            }).join('')}
+    }).join('')}
         </div>` : ''}
         ${images.length > 0 ? `<div class="post-images">${buildImageGrid(images, post.id, layout)}</div>` : ''}
         <div class="post-actions d-flex gap-4 px-3 py-2 border-top border-bottom" style="border-color:#f0f0f0!important;">
@@ -205,7 +205,7 @@ function createPostCard(post) {
         <div class="comment-section px-3 pb-2" id="comments-${post.id}" style="${commentsData.length > 0 ? 'display:block;' : 'display:none;'}">
             <div class="comment-list mb-2 mt-2" id="comment-list-${post.id}">${initialCommentsHtml}</div>
             <div class="d-flex gap-2 mt-1 align-items-center">
-                <img src="${state.profile.avaUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(state.profile.fullname||'U')}&background=FFC62F&color=006B68&bold=true`}"
+                <img src="${state.profile.avaUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(state.profile.fullname || 'U')}&background=FFC62F&color=006B68&bold=true`}"
                      class="rounded-circle" width="32" height="32" style="object-fit:cover;">
                 <input type="text" class="form-control form-control-sm rounded-pill comment-input" id="comment-input-${post.id}"
                        placeholder="Viết bình luận..." onkeydown="if(event.key==='Enter') submitComment('${post.id}')">
@@ -224,38 +224,67 @@ function createPostCard(post) {
 function buildImageGrid(images, postId, layout) {
     if (images.length === 0) return '';
     
-    // Custom Layout Overrides — grid (2x2) cũng hỗ trợ 1 ảnh
-    if (layout === 'grid') {
-        return `<div class="d-flex flex-wrap w-100" style="gap: 2px;">
-            ${images.map((img, i) => `<div style="flex: 0 0 calc(50% - 1px); aspect-ratio: 1/1;">${imgTag(img, postId, i, 'w-100 h-100 object-fit-cover')}</div>`).join('')}
-        </div>`;
+    if (!document.getElementById('layout-scroll-style')) {
+        const style = document.createElement('style');
+        style.id = 'layout-scroll-style';
+        style.textContent = '.hide-scrollbar::-webkit-scrollbar { display: none; } .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }';
+        document.head.appendChild(style);
     }
+
     if (images.length === 1) {
-        return `<div class="grid-single w-100">${imgTag(images[0], postId, 0, 'w-100 h-100 object-fit-cover')}</div>`;
+        return `<div class="d-flex justify-content-center w-100">${imgTag(images[0], postId, 0, 'w-100 h-100 object-fit-cover rounded')}</div>`;
+    }
+
+    if (layout === 'grid') {
+        if (images.length === 2) {
+            return `<div class="d-flex w-100" style="gap: 2px;">
+                <div style="flex: 1; aspect-ratio: 1/1;">${imgTag(images[0], postId, 0, 'w-100 h-100 object-fit-cover rounded-start')}</div>
+                <div style="flex: 1; aspect-ratio: 1/1;">${imgTag(images[1], postId, 1, 'w-100 h-100 object-fit-cover rounded-end')}</div>
+            </div>`;
+        }
+        if (images.length === 3) {
+            return `<div class="d-flex w-100" style="gap: 2px;">
+                <div style="flex: 1; aspect-ratio: 1/1;">${imgTag(images[0], postId, 0, 'w-100 h-100 object-fit-cover rounded-start')}</div>
+                <div style="flex: 1; aspect-ratio: 1/1;">${imgTag(images[1], postId, 1, 'w-100 h-100 object-fit-cover')}</div>
+                <div style="flex: 1; aspect-ratio: 1/1;">${imgTag(images[2], postId, 2, 'w-100 h-100 object-fit-cover rounded-end')}</div>
+            </div>`;
+        }
+        if (images.length === 4) {
+            return `<div class="d-flex flex-wrap w-100 rounded overflow-hidden" style="gap: 2px;">
+                ${images.map((img, i) => `<div style="flex: 0 0 calc(50% - 1px); aspect-ratio: 1/1;">${imgTag(img, postId, i, 'w-100 h-100 object-fit-cover')}</div>`).join('')}
+            </div>`;
+        }
+        // > 4 images (grid 2x2 wrapping with +N overlay)
+        const firstThree = images.slice(0, 3);
+        const fourth = images[3];
+        const extraCount = images.length - 4;
+        return `<div class="d-flex flex-wrap w-100 rounded overflow-hidden" style="gap: 2px;">
+            ${firstThree.map((img, i) => `<div style="flex: 0 0 calc(50% - 1px); aspect-ratio: 1/1;">${imgTag(img, postId, i, 'w-100 h-100 object-fit-cover')}</div>`).join('')}
+            <div style="flex: 0 0 calc(50% - 1px); aspect-ratio: 1/1; position: relative; cursor: pointer;">
+                ${imgTag(fourth, postId, 3, 'w-100 h-100 object-fit-cover')}
+                <div style="position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.5); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; pointer-events: none;">
+                    +${extraCount}
+                </div>
+            </div>
+        </div>`;
     }
     else if (layout === 'top-bottom') {
         const rest = images.slice(1);
-        if (rest.length === 1) {
-            return `<div class="d-flex flex-column w-100" style="gap: 2px;">
-                <div style="width:100%; aspect-ratio: 16/9;">${imgTag(images[0], postId, 0, 'w-100 h-100 object-fit-cover')}</div>
-                <div style="width:100%; aspect-ratio: 16/9;">${imgTag(images[1], postId, 1, 'w-100 h-100 object-fit-cover')}</div>
-            </div>`;
-        }
-        return `<div class="d-flex flex-column w-100" style="gap: 2px;">
+        return `<div class="d-flex flex-column w-100 rounded overflow-hidden" style="gap: 2px;">
             <div style="width: 100%; aspect-ratio: 16/9;">${imgTag(images[0], postId, 0, 'w-100 h-100 object-fit-cover')}</div>
-            <div class="d-flex w-100" style="gap: 2px;">
-                ${rest.map((img, i) => `<div style="flex: 1; min-width: 0; aspect-ratio: 1/1;">${imgTag(img, postId, i+1, 'w-100 h-100 object-fit-cover')}</div>`).join('')}
+            <div class="d-flex w-100 hide-scrollbar" style="gap: 2px; overflow-x: auto; scroll-snap-type: x mandatory;">
+                ${rest.map((img, i) => `<div style="flex: ${rest.length >= 3 ? '0 0 calc(33.333% - 1.34px)' : '1'}; scroll-snap-align: start; aspect-ratio: 1/1;">${imgTag(img, postId, i + 1, 'w-100 h-100 object-fit-cover')}</div>`).join('')}
             </div>
         </div>`;
     }
     else if (layout === 'left-right') {
         const rest = images.slice(1);
-        return `<div class="d-flex w-100" style="gap: 2px; aspect-ratio: 4/5;">
+        return `<div class="d-flex w-100 rounded overflow-hidden" style="gap: 2px; aspect-ratio: 4/5;">
             <div style="width: calc(50% - 1px); height: 100%;">
                 ${imgTag(images[0], postId, 0, 'w-100 h-100 object-fit-cover')}
             </div>
-            <div class="d-flex flex-column" style="width: calc(50% - 1px); gap: 2px; height: 100%;">
-                ${rest.map((img, i) => `<div style="flex: 1; min-height: 0;">${imgTag(img, postId, i+1, 'w-100 h-100 object-fit-cover')}</div>`).join('')}
+            <div class="d-flex flex-column hide-scrollbar" style="width: calc(50% - 1px); gap: 2px; height: 100%; overflow-y: auto; scroll-snap-type: y mandatory;">
+                ${rest.map((img, i) => `<div style="flex: ${rest.length >= 3 ? '0 0 calc(33.333% - 1.34px)' : '1'}; scroll-snap-align: start;">${imgTag(img, postId, i + 1, 'w-100 h-100 object-fit-cover')}</div>`).join('')}
             </div>
         </div>`;
     }
@@ -281,16 +310,16 @@ function buildImageGrid(images, postId, layout) {
     const rest = images.slice(1);
     return `<div class="grid-mosaic">
         <div class="grid-mosaic-main">${imgTag(images[0], postId, 0)}</div>
-        <div class="grid-mosaic-strip">${rest.map((img, i) => imgTag(img, postId, i+1)).join('')}</div>
+        <div class="grid-mosaic-strip">${rest.map((img, i) => imgTag(img, postId, i + 1)).join('')}</div>
     </div>`;
 }
 
 function imgTag(imgObj, postId, index, customClass = 'grid-img') {
     // Extract url whether imgObj is an object ({type, url}) or just a string
     const url = (typeof imgObj === 'string') ? imgObj : (imgObj.url ? imgObj.url : '');
-    
+
     // Use smaller preview for feed, but robustly handle different suffix patterns
-    const previewUrl = url.includes('lh3.googleusercontent.com') 
+    const previewUrl = url.includes('lh3.googleusercontent.com')
         ? url.replace(/=s\d+$/, '=s400') // Force s400 for feed thumbnails
         : url;
     return `<img src="${previewUrl}" class="${customClass}" loading="lazy" style="object-fit:cover;"
@@ -401,7 +430,7 @@ function formatPostContent(text) {
  */
 function filterByHashtag(tag) {
     feedState.currentHashtag = tag;
-    
+
     // Update UI
     const indicator = document.getElementById('hashtagFilterIndicator');
     const label = document.getElementById('activeHashtag');
@@ -410,7 +439,7 @@ function filterByHashtag(tag) {
         indicator.classList.remove('d-none');
         indicator.classList.add('d-flex');
     }
-    
+
     // Reset and reload
     loadFeed(true);
 }
@@ -420,14 +449,14 @@ function filterByHashtag(tag) {
  */
 function clearHashtagFilter() {
     feedState.currentHashtag = '';
-    
+
     // Update UI
     const indicator = document.getElementById('hashtagFilterIndicator');
     if (indicator) {
         indicator.classList.add('d-none');
         indicator.classList.remove('d-flex');
     }
-    
+
     // Reset and reload
     loadFeed(true);
 }
@@ -471,8 +500,8 @@ async function toggleLike(postId, btn) {
         } else {
             post.likedBy = (post.likedBy || '').replace(new RegExp(state.profile.username + '[,\\s]*', 'g'), '');
         }
-    } catch(e) { 
-        console.error('Like failed, rolling back', e); 
+    } catch (e) {
+        console.error('Like failed, rolling back', e);
         // Rollback
         post.likeCount = previousLikeCount;
         if (wasLiked) {
@@ -529,7 +558,7 @@ function renderCommentHtml(c, postId) {
 
     return `
         <div class="comment-item d-flex gap-2 mb-1 align-items-start" id="comment-${c.id || c._optimisticId}">
-            <img src="${c.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(c.fullname||'U')}&background=eee&color=333`}"
+            <img src="${c.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(c.fullname || 'U')}&background=eee&color=333`}"
                  class="rounded-circle mt-1" width="28" height="28" style="object-fit:cover; flex-shrink:0;">
             <div class="comment-bubble w-100 position-relative p-2 rounded" style="background: rgba(0,0,0,0.04);">
                 <div class="d-flex align-items-center gap-2 mb-0">
@@ -573,7 +602,7 @@ async function editComment(postId, commentId, btn) {
     const input = document.getElementById(`edit-input-${commentId}`);
     input?.focus();
     input?.setSelectionRange(input.value.length, input.value.length);
-    
+
     // Enter to save, Esc to cancel
     input?.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') saveEditedComment(postId, commentId);
@@ -594,7 +623,7 @@ async function saveEditedComment(postId, commentId) {
     const comment = post?.commentsData?.find(c => String(c.id) === String(commentId));
     const input = document.getElementById(`edit-input-${commentId}`);
     const newContent = input?.value?.trim();
-    
+
     if (!comment || !newContent || newContent === comment.content) {
         cancelEditComment(postId, commentId, comment ? comment.content : '');
         return;
@@ -602,18 +631,18 @@ async function saveEditedComment(postId, commentId) {
 
     const oldContent = comment.content;
     comment.content = newContent;
-    
+
     // Update UI
     cancelEditComment(postId, commentId, newContent);
 
     try {
         const res = await sendToServer({ action: 'comment_action', type: 'edit', postId, commentId, content: newContent, username: state.profile.username }, true);
         if (res.status === 'error') throw new Error(res.message);
-    } catch(e) {
+    } catch (e) {
         console.error('Edit failed', e);
         comment.content = oldContent;
         cancelEditComment(postId, commentId, oldContent);
-        alert('Cập nhật thất bại. Vui lòng thử lại.');
+        showAlert('Cập nhật thất bại. Vui lòng thử lại.');
     }
 }
 
@@ -625,7 +654,7 @@ async function deleteComment(postId, commentId) {
         if (idx === -1) return;
 
         const deletedComment = post.commentsData[idx];
-        
+
         // Optimistic
         post.commentsData.splice(idx, 1);
         post.commentCount = Math.max(0, (parseInt(post.commentCount) || 0) - 1);
@@ -641,7 +670,7 @@ async function deleteComment(postId, commentId) {
         try {
             const res = await sendToServer({ action: 'comment_action', type: 'delete', postId, commentId, username: state.profile.username }, true);
             if (res.status === 'error') throw new Error(res.message);
-        } catch(e) {
+        } catch (e) {
             console.error('Delete comment failed', e);
             post.commentsData.splice(idx, 0, deletedComment);
             post.commentCount++;
@@ -649,7 +678,7 @@ async function deleteComment(postId, commentId) {
                 commentBtn.innerHTML = `<i class="bi bi-chat me-1"></i> ${post.commentCount > 0 ? post.commentCount : 'Bình luận'}`;
             }
             await loadComments(postId); // Refresh UI
-            alert('Xóa thất bại. Vui lòng thử lại.');
+            showAlert('Xóa thất bại. Vui lòng thử lại.');
         }
     });
 }
@@ -659,7 +688,7 @@ async function submitComment(postId) {
     const input = document.getElementById(`comment-input-${postId}`);
     const content = input?.value?.trim();
     if (!content) return;
-    
+
     const post = feedState.posts.find(p => p.id === postId);
     if (!post) return;
 
@@ -672,11 +701,11 @@ async function submitComment(postId) {
         content: content,
         time: new Date().toISOString()
     };
-    
+
     if (!post.commentsData) post.commentsData = [];
     post.commentsData.push(optimisticComment);
     post.commentCount = (parseInt(post.commentCount) || 0) + 1;
-    
+
     // Update Comment count button
     const commentBtn = document.querySelector(`.post-card[data-post-id="${postId}"] .post-actions button:nth-child(2)`);
     if (commentBtn) {
@@ -690,26 +719,26 @@ async function submitComment(postId) {
     try {
         const res = await sendToServer({ action: 'comment_action', type: 'add', postId, username: state.profile.username, content }, true);
         if (res.status === 'error') throw new Error(res.message);
-        
+
         // Cập nhật ID thật từ server để có thể Sửa/Xóa ngay lập tức
         if (res.id) {
             optimisticComment.id = res.id;
             await loadComments(postId);
         }
-    } catch(e) { 
+    } catch (e) {
         console.error('Comment failed, rolling back.', e);
         // Rollback
-        input.value = content; 
+        input.value = content;
         post.commentsData = post.commentsData.filter(c => c._optimisticId !== optimisticComment._optimisticId);
         post.commentCount = Math.max(0, (parseInt(post.commentCount) || 0) - 1);
         if (commentBtn) {
             commentBtn.innerHTML = `<i class="bi bi-chat me-1"></i> ${post.commentCount > 0 ? post.commentCount : 'Bình luận'}`;
         }
         await loadComments(postId);
-        // alert('Bình luận thất bại. Vui lòng thử lại.');
-    } finally { 
-        input.disabled = false; 
-        input.focus(); 
+        // showAlert('Bình luận thất bại. Vui lòng thử lại.');
+    } finally {
+        input.disabled = false;
+        input.focus();
     }
 }
 
@@ -717,11 +746,13 @@ async function submitComment(postId) {
 // CREATE / EDIT POST
 // --------------------------------------------------------------------------
 let selectedFiles = [];
+let existingImages = [];
 let uploadQuality = 'hd';
 let selectedLayout = 'top-bottom';
 
 function openCreatePost() {
     selectedFiles = [];
+    existingImages = [];
     uploadQuality = 'hd';
     selectedLayout = 'auto';
     const switchEl = document.getElementById('postQualitySwitch');
@@ -731,7 +762,7 @@ function openCreatePost() {
     const countLabel = document.getElementById('previewImageCount');
     if (countLabel) countLabel.textContent = '';
     const header = document.getElementById('previewHeader');
-    if(header) header.style.display = 'none';
+    if (header) header.style.display = 'none';
 
     // Đảm bảo data-edit-id bị xóa sạch khi tạo mới bài viết
     const modalEl = document.getElementById('createPostModal');
@@ -745,12 +776,18 @@ function openEditPost(postId) {
     const post = feedState.posts.find(p => p.id === postId);
     if (!post) return;
     document.getElementById('postTextarea').value = post.content || '';
+    
     selectedFiles = [];
+    existingImages = (typeof post.imageURLs === 'string') ? parseJSON(post.imageURLs, []) : (post.imageURLs || []);
+    
     document.getElementById('postImagePreviewList').innerHTML = '';
     selectedLayout = post.layout || 'auto';
     const switchEl = document.getElementById('postQualitySwitch');
     if (switchEl) switchEl.checked = uploadQuality === 'hd';
+    
+    renderPostPreviews(); // Vẽ lại ảnh cũ ngay lập tức
     toggleCreatePostUI();
+    
     document.getElementById('createPostModal').dataset.editId = postId;
     openModal('createPostModal');
 }
@@ -776,21 +813,21 @@ async function deletePost(postId) {
         const res = await sendToServer({ action: 'feed_action', type: 'delete', id: postId, username: state.profile.username }, true);
         if (res.status === 'error') throw new Error(res.message);
         postCard.remove(); // Permanent removal
-    } catch(e) { 
+    } catch (e) {
         console.error('Delete failed, rolling back.', e);
         // Rollback
         postCard.style.display = ''; // Restore visibility
         feedState.posts.splice(postIndex, 0, postData); // Insert back at original index
-        alert('Xóa thất bại! Vui lòng thử lại.'); 
+        showAlert('Xóa thất bại! Vui lòng thử lại.');
     }
 }
 
 async function submitPost() {
     const content = document.getElementById('postTextarea').value.trim();
     const modalEl = document.getElementById('createPostModal');
-    
+
     // Đảm bảo editId là null nếu không phải đang sửa
-    let editId = modalEl ? modalEl.getAttribute('data-edit-id') : null; 
+    let editId = modalEl ? modalEl.getAttribute('data-edit-id') : null;
     if (!editId || editId === 'undefined' || editId === 'null' || editId === '') {
         editId = null;
     }
@@ -812,13 +849,16 @@ async function submitPost() {
             type: file.type.startsWith('video/') ? 'video' : 'image',
             url: URL.createObjectURL(file)
         }));
+        
+        // Gộp ảnh cũ + ảnh mới sửa
+        const combinedPreviews = [...existingImages, ...localPreviews];
 
         let finalLayout = selectedLayout;
         if (finalLayout === 'auto') {
-            if (localPreviews.length < 3) finalLayout = 'grid';
-            else if (localPreviews.length === 3) finalLayout = 'three';
-            else if (localPreviews.length === 4) finalLayout = 'four';
-            else if (localPreviews.length > 4) finalLayout = 'mosaic';
+            if (combinedPreviews.length < 3) finalLayout = 'grid';
+            else if (combinedPreviews.length === 3) finalLayout = 'three';
+            else if (combinedPreviews.length === 4) finalLayout = 'four';
+            else if (combinedPreviews.length > 4) finalLayout = 'mosaic';
         }
 
         const optId = editId || ('opt-' + Date.now());
@@ -829,7 +869,7 @@ async function submitPost() {
             fullname: state.profile.fullname || state.profile.username,
             avaUrl: state.profile.avaUrl || '',
             content: content,
-            imageURLs: JSON.stringify(localPreviews),
+            imageURLs: JSON.stringify(combinedPreviews),
             layout: finalLayout,
             createdAt: new Date().toISOString(),
             likeCount: 0, commentCount: 0, likedBy: '', commentsData: []
@@ -868,7 +908,7 @@ async function submitPost() {
                 card.prepend(progressNote);
             }
 
-            const imageURLs = [];
+            const imageURLs = [...existingImages]; // Giữ lại ảnh cũ
             for (let i = 0; i < totalFiles; i++) {
                 const file = selectedFiles[i];
                 if (progressNote) {
@@ -921,18 +961,18 @@ async function submitPost() {
                     }
                 } else if (res && res.status === 'error') {
                     console.error('Server sync error:', res.message);
-                    alert('Có lỗi khi lưu bài viết lên hệ thống: ' + res.message);
+                    showAlert('Có lỗi khi lưu bài viết lên hệ thống: ' + res.message);
                 }
-            } catch(e) {
+            } catch (e) {
                 console.error('Sync failed', e);
             }
         })();
 
 
 
-    } catch(e) { 
+    } catch (e) {
         console.error(e);
-        alert('Đăng bài thất bại! Lỗi: ' + (e.message || 'Không xác định')); 
+        showAlert('Đăng bài thất bại! Lỗi: ' + (e.message || 'Không xác định'));
     }
     finally {
         if (submitBtn) {
@@ -950,12 +990,17 @@ function handleImageSelect(input) {
 }
 
 function removePreviewFile(idx) {
-    selectedFiles.splice(idx, 1);
+    if (idx < existingImages.length) {
+        existingImages.splice(idx, 1);
+    } else {
+        selectedFiles.splice(idx - existingImages.length, 1);
+    }
     renderPostPreviews();
 }
 
 function clearAllImages() {
     selectedFiles = [];
+    existingImages = [];
     renderPostPreviews();
 }
 
@@ -964,31 +1009,35 @@ function renderPostPreviews() {
     const countLabel = document.getElementById('previewImageCount');
     const previewHeader = document.getElementById('previewHeader');
     if (!preview) return;
-    
-    // Revoke old blob URLs memory
+
+    // Revoke old blob URLs memory (only ones that are actual local blobs, but revoking everything works around DOM limitations if cautious)
     if (preview.dataset.objectUrls) {
         try {
             let oldUrls = JSON.parse(preview.dataset.objectUrls);
-            oldUrls.forEach(url => URL.revokeObjectURL(url));
-        } catch(e){}
+            oldUrls.forEach(url => { if (url && url.startsWith('blob:')) URL.revokeObjectURL(url) });
+        } catch (e) { }
     }
-    
-    if (selectedFiles.length === 0) {
+
+    const totalImages = existingImages.length + selectedFiles.length;
+
+    if (totalImages === 0) {
         preview.innerHTML = '';
-        if(countLabel) countLabel.textContent = '';
-        if(previewHeader) previewHeader.style.display = 'none';
+        if (countLabel) countLabel.textContent = '';
+        if (previewHeader) previewHeader.style.display = 'none';
         delete preview.dataset.objectUrls;
         toggleCreatePostUI();
         return;
     }
-    
-    if(countLabel) countLabel.textContent = selectedFiles.length + ' ảnh';
-    if(previewHeader) previewHeader.style.display = 'flex';
-    
-    const urls = selectedFiles.map(f => URL.createObjectURL(f));
-    preview.dataset.objectUrls = JSON.stringify(urls);
-    
-    toggleCreatePostUI(); 
+
+    if (countLabel) countLabel.textContent = totalImages + ' ảnh';
+    if (previewHeader) previewHeader.style.display = 'flex';
+
+    const newUrls = selectedFiles.map(f => URL.createObjectURL(f));
+    const allUrls = [...existingImages.map(img => img.url), ...newUrls];
+    preview.dataset.objectUrls = JSON.stringify(allUrls);
+
+    renderPostPreviewsGridOnly(); // Force render into layout
+    toggleCreatePostUI();
 }
 
 function renderPostPreviewsGridOnly() {
@@ -997,21 +1046,22 @@ function renderPostPreviewsGridOnly() {
     try {
         const urls = JSON.parse(preview.dataset.objectUrls);
         preview.innerHTML = buildImageGrid(urls, 'preview', selectedLayout || 'auto');
-    } catch(e){}
+    } catch (e) { }
 }
 
 function toggleCreatePostUI() {
-    const hasImages = selectedFiles.length > 0;
+    const hasImages = (existingImages.length + selectedFiles.length) > 0;
     const btnClear = document.getElementById('btnClearAllImages');
     const layoutBlock = document.getElementById('layoutSelectionBlock');
     const qualityContainer = document.getElementById('postQualityContainer');
-    
+
     if (btnClear) btnClear.classList.toggle('d-none', !hasImages);
     if (layoutBlock) layoutBlock.classList.toggle('d-none', !hasImages);
     if (qualityContainer) qualityContainer.classList.toggle('d-none', !hasImages);
-    
+
     if (hasImages && selectedLayout === 'auto') {
-        selectPostLayout(selectedFiles.length < 3 ? 'grid' : 'top-bottom'); 
+        const total = existingImages.length + selectedFiles.length;
+        selectPostLayout(total < 3 ? 'grid' : 'top-bottom');
     } else if (hasImages) {
         selectPostLayout(selectedLayout);
     }
@@ -1024,7 +1074,7 @@ function selectPostLayout(layout) {
         if (!el) return;
         const blocks = el.querySelectorAll('.layout-block');
         const check = el.querySelector('.layout-check');
-        if (l === layout || (layout === 'auto' && l === 'top-bottom')) { 
+        if (l === layout || (layout === 'auto' && l === 'top-bottom')) {
             el.classList.add('theme-text-primary');
             el.style.borderColor = 'currentColor';
             el.style.borderWidth = '2px';
@@ -1034,7 +1084,7 @@ function selectPostLayout(layout) {
                 b.classList.add('theme-bg-primary');
                 b.style.background = '';
             });
-            if(check) {
+            if (check) {
                 check.classList.remove('d-none');
                 check.classList.add('theme-bg-primary');
             }
@@ -1048,14 +1098,15 @@ function selectPostLayout(layout) {
                 b.classList.add('bg-secondary', 'opacity-25');
                 b.style.background = '#e0e0e0';
             });
-            if(check) {
+            if (check) {
                 check.classList.add('d-none');
                 check.classList.remove('theme-bg-primary');
             }
         }
     });
 
-    if (selectedFiles && selectedFiles.length > 0) {
+    const hasImages = (existingImages.length + selectedFiles.length) > 0;
+    if (hasImages) {
         renderPostPreviewsGridOnly();
     }
 }
@@ -1121,7 +1172,7 @@ function parseJSON(str, fallback) {
 
 function escapeHtml(str) {
     if (!str) return '';
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function fileToBase64(file) {

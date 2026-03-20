@@ -72,6 +72,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (typeof prefetchNotifications === 'function') await prefetchNotifications();
             } catch(e) {}
         })(),
+        // Prefetch documents silently for AI autocomplete mapping
+        (async () => {
+            try {
+                if (typeof loadDocuments === 'function') await loadDocuments();
+            } catch(e) {}
+        })(),
     ]).catch(() => {});
     // Refresh badge every 2 minutes
     setInterval(fetchNotifBadge, 2 * 60 * 1000);
@@ -102,6 +108,7 @@ function setupBottomNavigation() {
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+            closeAllModals(); // Đóng tất cả modal khi chuyển tab
             const targetId = link.getAttribute('data-target');
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
@@ -315,7 +322,16 @@ function toggleEruda(enabled) {
 // --------------------------------------------------------------------------
 // MODAL HELPER
 // --------------------------------------------------------------------------
+function closeAllModals() {
+    const openModals = document.querySelectorAll('.modal.show');
+    openModals.forEach(modalEl => {
+        const instance = bootstrap.Modal.getInstance(modalEl);
+        if (instance) instance.hide();
+    });
+}
+
 function openModal(modalId) {
+    closeAllModals(); // Đóng các modal khác trước khi mở
     const el = document.getElementById(modalId);
     if (el) bootstrap.Modal.getOrCreateInstance(el).show();
 }
