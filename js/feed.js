@@ -320,7 +320,7 @@ function imgTag(imgObj, postId, index, customClass = 'grid-img') {
 
     // Use smaller preview for feed, but robustly handle different suffix patterns
     const previewUrl = url.includes('lh3.googleusercontent.com')
-        ? url.replace(/=s\d+$/, '=s400') // Force s400 for feed thumbnails
+        ? url.replace(/=s\d+$/, '=s600') // Force s600 for feed thumbnails
         : url;
     return `<img src="${previewUrl}" class="${customClass}" loading="lazy" style="object-fit:cover;"
                  onclick="openImageViewer('${postId}', ${index})"
