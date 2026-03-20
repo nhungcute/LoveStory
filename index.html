@@ -477,30 +477,100 @@
                     <div style="width: 32px;"></div>
                 </div>
                 <div class="modal-body pt-2 pb-4">
-                    <!-- Fixed Legend -->
-                    <div class="d-flex justify-content-center gap-4 mb-2 small fw-semibold">
-                        <div class="d-flex align-items-center gap-2">
-                            <div
-                                style="width:16px;height:10px;background:rgba(44, 187, 120, 0.2);border:2px solid #009751;border-radius:50%;">
-                            </div>
-                            <span class="text-muted">Mua vào</span>
-                        </div>
-                        <div class="d-flex align-items-center gap-2">
-                            <div
-                                style="width:16px;height:10px;background:rgba(220, 53, 69, 0.2);border:2px solid #ff0019;border-radius:50%;">
-                            </div>
-                            <span class="text-muted">Bán ra</span>
-                        </div>
-                    </div>
+                    <!-- Nav Tabs -->
+                    <ul class="nav nav-pills nav-fill mb-3 bg-light rounded-pill p-1" id="goldTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active rounded-pill fw-semibold" id="gold-chart-tab" data-bs-toggle="pill" data-bs-target="#gold-chart-pane" type="button" role="tab" aria-controls="gold-chart-pane" aria-selected="true"><i class="bi bi-graph-up-arrow me-1"></i>Biểu đồ</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link rounded-pill fw-semibold" id="gold-history-tab" data-bs-toggle="pill" data-bs-target="#gold-history-pane" type="button" role="tab" aria-controls="gold-history-pane" aria-selected="false" onclick="loadGoldHistory()"><i class="bi bi-card-checklist me-1"></i>Giao dịch</button>
+                        </li>
+                    </ul>
 
-                    <div class="w-100 overflow-x-auto position-relative" style="height:350px;">
-                        <div id="goldChartContainer" class="h-100" style="min-width: 100%;">
-                            <canvas id="goldChart"></canvas>
+                    <div class="tab-content" id="goldTabsContent">
+                        <!-- Chart Tab -->
+                        <div class="tab-pane fade show active" id="gold-chart-pane" role="tabpanel" aria-labelledby="gold-chart-tab" tabindex="0">
+                            <!-- Fixed Legend -->
+                            <div class="d-flex justify-content-center gap-4 mb-2 small fw-semibold">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div style="width:16px;height:10px;background:rgba(44, 187, 120, 0.2);border:2px solid #009751;border-radius:50%;"></div>
+                                    <span class="text-muted">Mua vào</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div style="width:16px;height:10px;background:rgba(220, 53, 69, 0.2);border:2px solid #ff0019;border-radius:50%;"></div>
+                                    <span class="text-muted">Bán ra</span>
+                                </div>
+                            </div>
+
+                            <div class="w-100 overflow-x-auto position-relative" style="height:350px;">
+                                <div id="goldChartContainer" class="h-100" style="min-width: 100%;">
+                                    <canvas id="goldChart"></canvas>
+                                </div>
+                            </div>
+                            <div id="goldChartLabels" class="d-none"></div>
+                            <div id="goldChartDataBuy" class="d-none"></div>
+                            <div id="goldChartDataSell" class="d-none"></div>
+                        </div>
+
+                        <!-- History Tab -->
+                        <div class="tab-pane fade" id="gold-history-pane" role="tabpanel" aria-labelledby="gold-history-tab" tabindex="0">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="mb-0 fw-bold theme-text-primary">Lịch sử giao dịch</h6>
+                                <button class="btn btn-sm theme-bg-primary text-white" onclick="openGoldFormModal()"><i class="bi bi-plus-lg"></i> Thêm mới</button>
+                            </div>
+                            <!-- Loader -->
+                            <div id="goldHistoryLoader" class="text-center py-4 d-none">
+                                <div class="spinner-border spinner-border-sm text-secondary" role="status"></div>
+                                <div class="small text-muted mt-2">Đang tải dữ liệu...</div>
+                            </div>
+                            <div id="goldHistoryContainer" class="d-flex flex-column gap-2" style="max-height: 350px; overflow-y: auto;">
+                                <!-- Content will be injected here -->
+                            </div>
                         </div>
                     </div>
-                    <div id="goldChartLabels" class="d-none"></div>
-                    <div id="goldChartDataBuy" class="d-none"></div>
-                    <div id="goldChartDataSell" class="d-none"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Gold Transaction Modal -->
+    <div class="modal fade" id="goldFormModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal" style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title fs-5 fw-semibold position-absolute start-50 translate-middle-x m-0 theme-text-primary" id="goldFormModalTitle"><i class="bi bi-pencil-square me-2"></i> Thêm giao dịch</h5>
+                    <div style="width: 32px;"></div>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="goldTxId">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted fw-semibold">Ngày giao dịch</label>
+                        <input type="date" class="form-control" id="goldTxDate">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted fw-semibold">Loại giao dịch</label>
+                        <select class="form-select" id="goldTxType">
+                            <option value="buy">Mua vào</option>
+                            <option value="sell">Bán ra</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted fw-semibold">Số lượng (Chỉ)</label>
+                        <input type="number" class="form-control" id="goldTxQuantity" step="0.1" min="0">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted fw-semibold">Giá (VND / Chỉ)</label>
+                        <input type="text" class="form-control format-currency" id="goldTxPrice" placeholder="VD: 8,000,000" onkeyup="formatCurrencyInput(this)">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-muted fw-semibold">Ghi chú (Tùy chọn)</label>
+                        <input type="text" class="form-control" id="goldTxNote" placeholder="Ghi chú thêm...">
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn theme-bg-primary text-white rounded-pill px-4" id="btnSaveGoldTx" onclick="saveGoldTransaction()">Lưu</button>
                 </div>
             </div>
         </div>

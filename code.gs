@@ -1174,13 +1174,21 @@ function handleGetGoldData(ss, data) {
          dateStr = String(rawDate);
       }
 
+      var createdAtStr = "";
+      if (r[6] instanceof Date) {
+         createdAtStr = Utilities.formatDate(r[6], "GMT+7", "yyyy-MM-dd HH:mm:ss");
+      } else {
+         createdAtStr = String(r[6]);
+      }
+
       return {
         id: r[0],
         date: dateStr,
         type: r[2],          
         quantity_chi: r[3],
         price_per_chi: r[4],
-        note: r[5]
+        note: r[5],
+        createdAt: createdAtStr
       };
     });
   }
