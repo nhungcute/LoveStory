@@ -34,8 +34,7 @@
             </button>
             <button class="btn btn-link text-white p-0 position-relative nav-icon" id="btnNotifications">
                 <i class="bi bi-bell-fill fs-5"></i>
-                <span id="notificationBadge"
-                      style="display:none; position:absolute; top:-2px; right:-2px;
+                <span id="notificationBadge" style="display:none; position:absolute; top:-2px; right:-2px;
                              background:#E53935; color:#fff; font-size:0.6rem;
                              font-weight:700; min-width:16px; height:16px;
                              border-radius:50%; padding:0 3px;
@@ -74,9 +73,12 @@
             </div>
 
             <!-- Hashtag Filter Indicator (Hidden by default) -->
-            <div id="hashtagFilterIndicator" class="bg-white p-2 mb-2 shadow-sm d-none align-items-center justify-content-between px-3">
-                <span class="text-secondary small">Đang xem: <b class="theme-text-primary" id="activeHashtag">#hashtag</b></span>
-                <button class="btn btn-sm btn-link text-danger p-0 text-decoration-none" onclick="clearHashtagFilter()">Xóa lọc</button>
+            <div id="hashtagFilterIndicator"
+                class="bg-white p-2 mb-2 shadow-sm d-none align-items-center justify-content-between px-3">
+                <span class="text-secondary small">Đang xem: <b class="theme-text-primary"
+                        id="activeHashtag">#hashtag</b></span>
+                <button class="btn btn-sm btn-link text-danger p-0 text-decoration-none"
+                    onclick="clearHashtagFilter()">Xóa lọc</button>
             </div>
 
             <!-- Feed List -->
@@ -87,7 +89,6 @@
 
         <!-- Tab 2: Home & Widgets -->
         <div id="tabHome" class="tab-view active-tab p-3">
-            <h5 class="mb-3 fw-bold theme-text-primary">Tiện ích của bạn</h5>
             <div id="homeWidgets"></div>
         </div>
 
@@ -130,13 +131,10 @@
     <div class="modal fade" id="createPostModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog app-modal m-0 h-100">
             <div class="modal-content border-0 rounded-0 h-100 d-flex flex-column">
-                <div
-                    class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
-                    <button type="button" class="btn btn-link text-dark p-0 fs-5" data-bs-dismiss="modal"
-                        style="width: 40px; text-align: left;"><i class="bi bi-x-lg"></i></button>
-                    <h5 class="modal-title fs-6 fw-semibold position-absolute start-50 translate-middle-x m-0">Tạo bài
-                        viết</h5>
-                    <div style="width: 40px;"></div>
+                <div class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal" style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title fs-5 fw-semibold position-absolute start-50 translate-middle-x m-0"><i class="bi bi-pencil-square me-2"></i> Tạo bài viết</h5>
+                    <div style="width: 32px;"></div>
                 </div>
                 <div class="modal-body p-3 bg-white pb-0 flex-grow-1" style="overflow-y: auto;">
                     <!-- Textarea -->
@@ -286,14 +284,15 @@
     <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog app-modal m-0 h-100">
             <div class="modal-content border-0 rounded-0 h-100 d-flex flex-column">
-                <div
-                    class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
-                    <button type="button" class="btn btn-link text-dark p-0 fs-5" data-bs-dismiss="modal"
-                        style="width: 40px; text-align: left;"><i class="bi bi-x-lg"></i></button>
-                    <h5 class="modal-title fs-6 fw-semibold position-absolute start-50 translate-middle-x m-0">Trang cá
-                        nhân</h5>
-                    <div style="width: 40px;"></div>
+
+                <div class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal" style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title fs-5 fw-semibold position-absolute start-50 translate-middle-x m-0"><i class="bi bi-person-circle me-2"></i> Trang cá nhân</h5>
+                    <div style="width: 32px;"></div>
                 </div>
+
+
+
                 <div class="modal-body p-3 bg-white pb-0 flex-grow-1" style="overflow-y: auto;">
                     <div class="text-center mb-4 mt-2">
                         <div class="position-relative d-inline-block">
@@ -312,7 +311,8 @@
                     <div class="mb-3">
                         <label class="form-label small text-muted fw-semibold mb-1">Tài khoản (Username)</label>
                         <input type="text" id="profileUsernameInput" class="form-control rounded-3"
-                            placeholder="Nhập username...">
+                            placeholder="Nhập username..." onblur="validateUsername()">
+                        <div id="usernameValidationStatus" class="mt-1"></div>
                         <div class="form-text" style="font-size: 0.75rem;">Dùng để đồng bộ dữ liệu giữa các thiết bị
                         </div>
                     </div>
@@ -343,33 +343,38 @@
                     </div>
 
                     <div class="mb-4 bg-light p-3 rounded-3">
-                        <label class="form-label small text-muted fw-bold mb-3 d-block uppercase" style="letter-spacing:0.5px;">TÙY CHỈNH TIỆN ÍCH</label>
+                        <label class="form-label small text-muted fw-bold mb-3 d-block uppercase"
+                            style="letter-spacing:0.5px;">TÙY CHỈNH TIỆN ÍCH</label>
                         <div class="form-check form-switch mb-3 d-flex align-items-center justify-content-between p-0">
-                            <label class="form-check-label fw-medium" for="toggleWidgetPregnancy">Theo dõi Thai kỳ (Baby)</label>
-                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch" id="toggleWidgetPregnancy" style="width:2.4em; height:1.2em;">
+                            <label class="form-check-label fw-medium" for="toggleWidgetPregnancy">Theo dõi Baby</label>
+                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch"
+                                id="toggleWidgetPregnancy" style="width:2.4em; height:1.2em;">
                         </div>
                         <div class="form-check form-switch mb-3 d-flex align-items-center justify-content-between p-0">
-                            <label class="form-check-label fw-medium" for="toggleWidgetKick">Đếm lượt đạp (Kick Counter)</label>
-                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch" id="toggleWidgetKick" style="width:2.4em; height:1.2em;">
+                            <label class="form-check-label fw-medium" for="toggleWidgetKick">Đếm lượt đạp</label>
+                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch"
+                                id="toggleWidgetKick" style="width:2.4em; height:1.2em;">
                         </div>
-                        <div class="form-check form-switch d-flex align-items-center justify-content-between p-0">
-                            <label class="form-check-label fw-medium" for="toggleWidgetGold">Thị trường Vàng (Gold)</label>
-                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch" id="toggleWidgetGold" style="width:2.4em; height:1.2em;">
+                        <div class="form-check form-switch mb-3 d-flex align-items-center justify-content-between p-0">
+                            <label class="form-check-label fw-medium" for="toggleWidgetGold">Thị trường Vàng</label>
+                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch"
+                                id="toggleWidgetGold" style="width:2.4em; height:1.2em;">
+                        </div>
+
+                        <div class="form-check form-switch mb-3 d-flex align-items-center justify-content-between p-0">
+                            <label class="form-check-label fw-medium" for="toggleDevTools">Bật Console DevTools
+                                (Debug)</label>
+                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch"
+                                id="toggleDevTools" style="width:2.4em; height:1.2em;">
                         </div>
                     </div>
 
-                    <div class="mb-4 px-1">
-                        <div class="form-check form-switch d-flex align-items-center justify-content-between p-0">
-                             <label class="form-check-label small text-muted" for="toggleDevTools"><i
-                                class="bi bi-bug me-1"></i>Bật Console DevTools (Debug)</label>
-                            <input class="form-check-input m-0 shadow-none" type="checkbox" role="switch" id="toggleDevTools" style="width:2em; height:1em;">
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer border-top p-3 bg-white flex-shrink-0">
-                    <button type="button" class="btn btn-light rounded-pill px-4 flex-grow-1" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn theme-bg-primary text-white rounded-pill px-4 flex-grow-2" id="btnSaveProfile"
-                        onclick="saveProfile()" style="min-width: 150px;">Lưu thay đổi</button>
+                    <button type="button" class="btn btn-light rounded-pill px-4 flex-grow-1"
+                        data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn theme-bg-primary text-white rounded-pill px-4 flex-grow-2"
+                        id="btnSaveProfile" onclick="saveProfile()" style="min-width: 150px;">Lưu thay đổi</button>
                 </div>
             </div>
         </div>
@@ -397,7 +402,8 @@
                 </div>
                 <div class="modal-body p-0 bg-light position-relative" style="overflow-x:hidden;">
                     <!-- Modal Pull-to-Refresh Spinner -->
-                    <div id="notifPullIndicator" class="text-center py-2" style="display: none; position: absolute; top: 0; left: 0; right: 0; z-index: 10;">
+                    <div id="notifPullIndicator" class="text-center py-2"
+                        style="display: none; position: absolute; top: 0; left: 0; right: 0; z-index: 10;">
                         <div class="spinner-border spinner-border-sm text-secondary" role="status"></div>
                     </div>
                     <div id="notificationList"></div>
@@ -411,24 +417,24 @@
     <div class="modal fade" id="aiSearchModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog app-modal m-0">
             <div class="modal-content border-0 h-100 bg-light">
-                <div
-                    class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative">
-                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal"
-                        style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
-                    <div class="text-center position-absolute start-50 translate-middle-x">
-                        <div class="fw-semibold lh-1 theme-text-primary fs-5">LoveStory AI <i
-                                class="bi bi-stars text-warning fs-6"></i></div>
-                        <div class="small text-muted" style="font-size:0.75rem;">Powered by Gemini</div>
-                    </div>
+                <div class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal" style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title theme-text-primary fs-5 fw-semibold position-absolute start-50 translate-middle-x m-0"><i class="bi bi-stars me-2"></i> LoveStory AI</h5>
                     <div style="width: 32px;"></div>
                 </div>
                 <div class="modal-body p-3 d-flex flex-column" style="overflow-y:auto;" id="chatMessageList">
                     <!-- Messages will be injected here -->
                 </div>
-                <div class="modal-footer p-2 bg-white border-top flex-nowrap">
+                <div class="modal-footer p-2 bg-white border-top flex-nowrap position-relative">
+                    <div id="chatAutocomplete"
+                        class="position-absolute bg-white border border-secondary-subtle rounded shadow-sm w-100 start-0 mb-1"
+                        style="bottom: 100%; display: none; max-height: 200px; overflow-y: auto; z-index: 1050; padding: 0.25rem 0;">
+                        <!-- List items injected by search.js -->
+                    </div>
                     <input type="text" id="chatInput"
                         class="form-control rounded-pill bg-light border-0 shadow-none px-3"
-                        placeholder="Hỏi về kỷ niệm, tài liệu..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+                        placeholder="Hỏi về kỷ niệm, tài liệu (gõ @)..."
+                        onkeydown="if(event.key==='Enter') sendChatMessage()" oninput="handleChatInput(event)">
                     <button class="btn btn-link theme-text-primary p-0 ms-2 me-1 bg-transparent border-0"
                         onclick="sendChatMessage()" style="font-size:1.5rem;">
                         <i class="bi bi-send-fill"></i>
@@ -442,11 +448,10 @@
     <div class="modal fade" id="kickDashboardModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 rounded-4 shadow">
-                <div class="modal-header border-0 pb-0 justify-content-between">
-                    <h6 class="fw-bold mb-0 theme-text-primary"><i class="bi bi-activity me-1"></i>Thống kê Lượt Run
-                    </h6>
-                    <button type="button" class="btn-close shadow-none" style="font-size:0.8rem;"
-                        data-bs-dismiss="modal"></button>
+                <div class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal" style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title theme-text-primary fs-5 fw-semibold position-absolute start-50 translate-middle-x m-0"><i class="bi bi-activity me-2"></i> Thống kê Lượt Run</h5>
+                    <div style="width: 32px;"></div>
                 </div>
                 <div class="modal-body pt-2 pb-4">
                     <div class="w-100 overflow-x-auto position-relative" style="height:350px;">
@@ -466,10 +471,10 @@
     <div class="modal fade" id="goldDashboardModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 rounded-4 shadow">
-                <div class="modal-header border-0 pb-0 justify-content-between">
-                    <h6 class="fw-bold mb-0 text-warning"><i class="bi bi-graph-up-arrow me-1"></i>Biểu đồ Giá Vàng</h6>
-                    <button type="button" class="btn-close shadow-none" style="font-size:0.8rem;"
-                        data-bs-dismiss="modal"></button>
+                <div class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal" style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title text-warning fs-5 fw-semibold position-absolute start-50 translate-middle-x m-0"><i class="bi bi-graph-up-arrow me-2"></i> Biểu đồ Giá Vàng</h5>
+                    <div style="width: 32px;"></div>
                 </div>
                 <div class="modal-body pt-2 pb-4">
                     <!-- Fixed Legend -->
@@ -505,9 +510,10 @@
     <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content border-0 rounded-4 shadow">
-                <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title fw-bold" id="confirmModalTitle">Xác nhận</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                <div class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal" style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title fs-5 fw-semibold position-absolute start-50 translate-middle-x m-0"><i class="bi bi-question-circle-fill me-2 text-primary"></i> <span id="confirmModalTitle">Xác nhận</span></h5>
+                    <div style="width: 32px;"></div>
                 </div>
                 <div class="modal-body text-muted" id="confirmModalBody">
                     Bạn có chắc chắn muốn thực hiện hành động này?
@@ -521,18 +527,47 @@
         </div>
     </div>
 
+    <!-- Alert Action Modal -->
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header bg-white text-dark shadow-sm border-bottom py-2 d-flex align-items-center justify-content-between position-relative flex-shrink-0">
+                    <button type="button" class="btn btn-link text-dark p-0 fs-4" data-bs-dismiss="modal" style="width: 32px; text-align: left;"><i class="bi bi-x-lg"></i></button>
+                    <h5 class="modal-title fs-5 fw-semibold position-absolute start-50 translate-middle-x m-0"><i class="bi bi-info-circle-fill me-2 text-primary"></i> <span id="alertModalTitle">Thông báo</span></h5>
+                    <div style="width: 32px;"></div>
+                </div>
+                <div class="modal-body text-muted" id="alertModalBody">
+                    Nội dung thông báo.
+                </div>
+                <div class="modal-footer border-0 pt-0 text-center d-flex justify-content-center">
+                    <button type="button" class="btn theme-bg-primary text-white px-4"
+                        style="min-width: 100px; border-radius: 6px;" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Chart.js (Optional for Kick Counter, if fails uses SVG fallback) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+    <!-- Document Parsing Libraries (For Client-Side RAG Chunking) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        // Set workerSrc for pdf.js
+        window.pdfjsLib && (window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <!-- Core Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/utils.js?v=1.3"></script>
-    <script src="js/app.js?v=1.4"></script>
-    <script src="js/feed.js?v=1.8"></script>
+    <script src="js/app.js?v=1.6"></script>
+    <script src="js/feed.js?v=1.11"></script>
     <script src="js/home.js?v=1.1"></script>
-    <script src="js/document.js?v=1.3"></script>
-    <script src="js/profile.js?v=1.1"></script>
-    <script src="js/search.js?v=1.4"></script>
+    <script src="js/document.js?v=1.5"></script>
+    <script src="js/profile.js?v=1.2"></script>
+    <script src="js/search.js?v=1.6"></script>
     <script src="js/notifications.js?v=1.7"></script>
 </body>
 

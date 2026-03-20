@@ -131,6 +131,10 @@ function routeAction(ss, action, data) {
       return handleAiChat(ss, data);
     case 'upload_document':
       return handleUploadDocument(ss, data);
+    case 'upload_file_chunk':
+      return handleUploadFileChunk(ss, data);
+    case 'process_text_chunks':
+      return handleProcessTextChunks(ss, data);
     case 'list_documents':
       return handleListDocuments(ss);
     case 'delete_document':
@@ -166,33 +170,7 @@ function handleGetProfile(ss, data) {
   return { status: 'not_found' };
 }
 
-function handleSaveProfile(ss, data) {
-  var sheet = getSheet(ss, "profiles");
-  var rows = sheet.getDataRange().getValues();
-  var rowIndex = -1;
-  
-  for (var i = 1; i < rows.length; i++) {
-    // Tìm theo Username (ưu tiên) hoặc Fingerprint
-    if (String(rows[i][1]) == String(data.username)) { 
-      rowIndex = i + 1; 
-      break; 
-    }
-  }
-  
-  var time = new Date();
-  if (rowIndex > 0) {
-    // Update
-    sheet.getRange(rowIndex, 1).setValue(data.fingerprint);
-    sheet.getRange(rowIndex, 3).setValue(data.fullname);
-    sheet.getRange(rowIndex, 4).setValue(data.theme);
-    sheet.getRange(rowIndex, 5).setValue(data.avaurl);
-    sheet.getRange(rowIndex, 6).setValue(time);
-  } else {
-    // Insert
-    sheet.appendRow([data.fingerprint, data.username, data.fullname, data.theme, data.avaurl, time]);
-  }
-  return { status: 'success' };
-}
+
 
 // --- HÀM LẤY THỐNG KÊ BIKE (HỖ TRỢ PHÂN TRANG & TỐI ƯU TỐC ĐỘ) ---
 function handleGetBikeStats(ss, data) {
@@ -416,11 +394,7 @@ function handleLogBabyRun(ss, data) {
   return { status: 'success', id: id };
 }
 
-function handleCreateGoldEntry(ss, data) {
-  var sheet = getSheet(ss, "gold_entries");
-  sheet.appendRow([Utilities.getUuid(), data.buyPrice, data.sellPrice, data.date, data.note, new Date()]);
-  return { status: 'success' };
-}
+
 
 // --- FEED HANDLERS ---
 // --- XỬ LÝ ACTION THÔNG BÁO (ĐÃ BỔ SUNG TOGGLE READ) ---
@@ -676,6 +650,19 @@ function handleSaveProfile(ss, data) {
   }
 
   if (rowIndex > -1) {
+    // Lấy avatar cũ để so sánh và xóa nếu cần
+    var oldAvaUrl = sheet.getRange(rowIndex, 5).getValue();
+    if (oldAvaUrl && avatar && String(oldAvaUrl) !== avatar && String(oldAvaUrl).indexOf('drive.google.com') !== -1) {
+      try {
+        var match = String(oldAvaUrl).match(/id=([a-zA-Z0-9_-]+)/) || String(oldAvaUrl).match(/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          DriveApp.getFileById(match[1]).setTrashed(true);
+        }
+      } catch(e) {
+        // Bỏ qua nếu lỗi
+      }
+    }
+
     // Cập nhật (Cột A -> F)
     sheet.getRange(rowIndex, 1, 1, 6).setValues([[deviceId, username, fullname, theme, avatar, nowStr]]);
     return { status: 'success', message: 'Updated existing profile' };
@@ -704,20 +691,7 @@ function handleGetProfileByUsername(ss, data) {
 }
 
 // --- HÀM ĐẾM THÔNG BÁO CHƯA ĐỌC (Lightweight, for badge preload) ---
-function handleGetUnreadCount(ss) {
-  var sheet = ss.getSheetByName("logs");
-  if (!sheet || sheet.getLastRow() < 2) return { status: 'success', count: 0 };
 
-  var rows = sheet.getDataRange().getValues();
-  var count = 0;
-  for (var i = 1; i < rows.length; i++) {
-    // Cột G (index 6) = isRead. Nếu không phải true/1 thì tính là chưa đọc.
-    if (rows[i][6] !== true && rows[i][6] !== 1 && String(rows[i][6]).toLowerCase() !== 'true') {
-      count++;
-    }
-  }
-  return { status: 'success', count: count };
-}
 
 // [THÊM HÀM MỚI] GetNotifications
 // --- HÀM LẤY THÔNG BÁO (CÓ FULLNAME & FORMAT NGÀY GIỜ) ---
@@ -1404,20 +1378,7 @@ function responseJSON(data) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// "1J6s_9PbYjB86Qe2fYhhz1oaki35yBDDF"
-function testPermissions() {
-  // 1. Lấy thư mục
-  var folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
-  
-  // 2. Thử TẠO một file nháp (Lệnh này sẽ kích hoạt yêu cầu quyền Ghi)
-  var file = folder.createFile("test_permission.txt", "Xin chào, đây là file kiểm tra quyền");
-  
-  // 3. In kết quả
-  Logger.log("Thành công! Đã tạo được file: " + file.getUrl());
-  
-  // (Tùy chọn) Xóa file nháp đi cho sạch
-  file.setTrashed(true); 
-}
+
 
 // --- [MỚI] HÀM XỬ LÝ LUỒNG 1: QUAN TRỌNG NHẤT (BabyRun + Giá Vàng) ---
 function handleGetCriticalStats(ss, data) {
@@ -1442,24 +1403,7 @@ function handleGetBackgroundInfo(ss, data) {
     unreadCount: (notifRes.status === 'success') ? notifRes.count : 0
   };
 }
-function fixAllDrivePermissions() {
-  var folderId = DRIVE_FOLDER_ID; // Sử dụng hằng số cấu hình chung
-  var folder = DriveApp.getFolderById(folderId);
-  var files = folder.getFiles();
-  
-  var count = 0;
-  Logger.log("Bắt đầu sửa quyền...");
-  
-  while (files.hasNext()) {
-    var file = files.next();
-    // Set quyền: Bất kỳ ai có link đều xem được
-    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    count++;
-  }
-  
-  Logger.log("Đã sửa quyền xong cho " + count + " file.");
-  return "Đã sửa xong " + count + " file.";
-}
+
 
 
 // ==========================================
@@ -1641,6 +1585,130 @@ function handleUploadDocument(ss, data) {
   }
 }
 
+// ==========================================
+// HÀM MỚI: UPLOAD CHUNK FILE LÊN DRIVE (XỬ LÝ FILE NẶNG)
+// ==========================================
+function handleUploadFileChunk(ss, data) {
+  try {
+    var targetFolderName = 'LoveStory_Documents';
+    var tempFolderName = 'LoveStory_TempChunks';
+    
+    var folders = DriveApp.getFoldersByName(targetFolderName);
+    var targetFolder = folders.hasNext() ? folders.next() : DriveApp.createFolder(targetFolderName);
+    
+    var tempFolders = DriveApp.getFoldersByName(tempFolderName);
+    var tempFolder = tempFolders.hasNext() ? tempFolders.next() : DriveApp.createFolder(tempFolderName);
+
+    var fileIdTemp = data.fileIdTemp;
+    var chunkIndex = data.chunkIndex;
+    var totalChunks = data.totalChunks;
+    var fileName = data.fileName;
+    var chunkData = data.chunkData;
+    var mimeType = data.mimeType;
+
+    // Lưu chunk vào folder tạm
+    tempFolder.createFile(fileIdTemp + '_' + chunkIndex + '.txt', chunkData);
+
+    // Nếu là mảnh cuối cùng -> Ghép file
+    if (chunkIndex === totalChunks - 1) {
+      var fullBase64 = '';
+      for (var i = 0; i < totalChunks; i++) {
+        var chunkName = fileIdTemp + '_' + i + '.txt';
+        var chunkFiles = tempFolder.getFilesByName(chunkName);
+        if (chunkFiles.hasNext()) {
+          var cf = chunkFiles.next();
+          fullBase64 += cf.getBlob().getDataAsString();
+          cf.setTrashed(true); // Dọn dẹp mảnh rác
+        }
+      }
+      
+      try {
+        var decoded = Utilities.base64Decode(fullBase64);
+        var blob = Utilities.newBlob(decoded, mimeType || 'application/octet-stream', fileName);
+        
+        var existingFiles = targetFolder.getFilesByName(fileName);
+        while (existingFiles.hasNext()) {
+          existingFiles.next().setTrashed(true);
+        }
+        
+        targetFolder.createFile(blob);
+      } catch(decErr) {
+        Logger.log('Lỗi ghép file: ' + decErr.toString());
+        return {status: 'error', message: 'Ghép file thất bại: ' + decErr.toString()};
+      }
+    }
+
+    return { status: 'success', chunkIndex: chunkIndex };
+  } catch (e) {
+    Logger.log('Lỗi chunk upload: ' + e.toString());
+    return { status: 'error', message: e.toString() };
+  }
+}
+
+// ==========================================
+// HÀM MỚI: XỬ LÝ TEXT CHUNKS (RAG EMBEDDING HÀNG LOẠT)
+// ==========================================
+function handleProcessTextChunks(ss, data) {
+  try {
+    var fileName = data.fileName;
+    var chunks = data.chunks; // Mảng text chunks
+    var batchIndex = data.batchIndex;
+    var startIndex = data.startIndex;
+    var totalChunks = data.totalChunks;
+
+    var embSheet = getEmbeddingSheet(ss);
+
+    // Xóa index cũ của file nếu đây là lô đầu tiên
+    if (batchIndex === 0) {
+      var existingRows = embSheet.getDataRange().getValues();
+      var rowsToDelete = [];
+      for (var i = existingRows.length - 1; i >= 1; i--) {
+        if (String(existingRows[i][1]) === String(fileName)) {
+          rowsToDelete.push(i + 1);
+        }
+      }
+      rowsToDelete.forEach(function(rowNum) { embSheet.deleteRow(rowNum); });
+    }
+
+    var now = new Date();
+    var embeddedCount = 0;
+
+    for (var j = 0; j < chunks.length; j++) {
+      var chunkContent = chunks[j];
+      if (chunkContent.trim().length < 10) continue; 
+      
+      var globalIndex = startIndex + j;
+
+      try {
+        var vector = embedText(chunkContent, 'RETRIEVAL_DOCUMENT');
+        var chunkId = Utilities.getUuid();
+        embSheet.appendRow([
+          chunkId,
+          fileName,
+          globalIndex,
+          chunkContent,
+          JSON.stringify(vector),
+          now
+        ]);
+        embeddedCount++;
+        Utilities.sleep(2500); // Tránh lỗi Rate Limit (429) của Gemini
+      } catch(embErr) {
+        Logger.log('Lỗi embed chunk ' + globalIndex + ': ' + embErr.toString());
+      }
+    }
+
+    return { 
+      status: 'success', 
+      embedded: embeddedCount,
+      batchIndex: batchIndex
+    };
+
+  } catch(e) {
+    Logger.log('Lỗi text chunks batch: ' + e.toString());
+    return { status: 'error', message: e.toString() };
+  }
+}
+
 // Liệt kê tài liệu đã upload (tên file + số chunks)
 function handleListDocuments(ss) {
   try {
@@ -1742,14 +1810,21 @@ function handleAiChat(ss, data) {
      if (!embSheet || embSheet.getLastRow() <= 1) {
        contextText = "Chưa có tài liệu nào được tải lên và xử lý.";
      } else {
-       // --- [MỚI] TÌM VÀ LỌC TÊN FILE NẾU NGƯỜI DÙNG DÙNG CÚ PHÁP @ ---
-       var targetFile = null;
-       // Biểu thức chính quy (Regex) tìm cú pháp bắt đầu bằng @ và theo sau là tên file
-       var match = query.match(/@([^\s]+(?: [^\s]+)*)/);
-       if (match) {
-           targetFile = match[1].trim(); // Xóa khoảng trắng 2 đầu
-           // Xóa nguyên cụm @filename ra khỏi câu hỏi để AI không bị nhiễu
-           query = query.replace('@' + targetFile, '').trim();
+       // --- TÌM VÀ LỌC TÊN FILE DỰA TRÊN CÚ PHÁP ***tên file*** ---
+       var targetFiles = [];
+       var regex = /\*\*\*(.*?)\*\*\*/g;
+       var match;
+       while ((match = regex.exec(query)) !== null) {
+           targetFiles.push(match[1].trim().toLowerCase());
+       }
+       
+       if (targetFiles.length > 0) {
+           // Xóa tất cả cụm ***filename*** ra khỏi câu hỏi để AI không bị nhiễu
+           query = query.replace(/\*\*\*(.*?)\*\*\*/g, '').trim();
+       }
+
+       if (!query) {
+           return { status: 'error', message: 'Vui lòng nhập thêm câu hỏi. (Ví dụ: ***tailieu.pdf*** tóm tắt nội dung này)' };
        }
 
        // 1. Embed câu hỏi của user (dùng RETRIEVAL_QUERY để tối ưu semantic search)
@@ -1767,8 +1842,8 @@ function handleAiChat(ss, data) {
          var row = embRows[ei];
          var rowFileName = String(row[1]);
 
-         // Nếu đang tìm trọn gói trong 1 file (@filename), bỏ qua ngay các file khác
-         if (targetFile && rowFileName.toLowerCase() !== targetFile.toLowerCase()) {
+         // Nếu user có chọn file (targetFiles), bỏ qua các file KHÔNG có trong danh sách
+         if (targetFiles.length > 0 && targetFiles.indexOf(rowFileName.toLowerCase()) === -1) {
              continue;
          }
 
@@ -1889,7 +1964,7 @@ function handleAiChat(ss, data) {
   Logger.log("GEMINI PAYLOAD (Simplified): " + JSON.stringify(payload));
 
   // 4. Gọi Gemini API
-  var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + GA_K1 + GA_K2;
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + GA_K1 + GA_K2;
   var options = {
     method: "post",
     contentType: "application/json",
@@ -1983,7 +2058,4 @@ function sendTelegramAlert(title, message) {
   }
 }
 
-// Hàm test thử (Bạn có thể bấm nút Run/Chạy hàm này trên Google Apps Script để test)
-function testTelegram() {
-  sendTelegramAlert("Cảnh báo đột nhập", "Phát hiện có người di chuyển qua camera số 1 lúc nửa đêm!");
-}
+
