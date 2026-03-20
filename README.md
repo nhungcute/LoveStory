@@ -1,65 +1,63 @@
 # 💖 LoveStory - Social Memory App
 
-LoveStory (Social Memory) là một ứng dụng Web di động (Web App) được thiết kế để lưu giữ, chia sẻ những khoảnh khắc và kỷ niệm đáng nhớ. Ứng dụng kết hợp giữa mạng xã hội cá nhân và sức mạnh trí tuệ nhân tạo (AI) để mang lại trải nghiệm độc đáo và tiện lợi.
+LoveStory (Social Memory) là một ứng dụng Web di động (Web App) được thiết kế để lưu giữ, chia sẻ những khoảnh khắc và kỷ niệm đáng nhớ. Ứng dụng kết hợp giữa mạng xã hội cá nhân và sức mạnh trí tuệ nhân tạo (AI) để mang lại trải nghiệm độc đáo, tốc độ cao và tối ưu dung lượng.
 
-## 🚀 Tính năng chính
+## 🚀 Tính năng nổi bật
 
-### 📱 Bảng tin (Newsfeed)
--   **Đăng bài**: Chia sẻ trạng thái bằng văn bản kèm theo hình ảnh hoặc video.
--   **Tương tác mạnh mẽ**: Thích (Like) và Bình luận (Comment) bài viết. Hỗ trợ chỉnh sửa và xóa bình luận của cá nhân.
--   **Hashtag (#)**: Gắn hashtag vào bài viết và dễ dàng lọc tìm các kỷ niệm có cùng chủ đề chỉ với một cú chạm.
--   **Infinite Scroll**: Cuộn vô tận giúp trải nghiệm xem bảng tin mượt mà.
--   **Trình xem đa phương tiện**: Xem ảnh chất lượng cao (HD) và video trực tiếp từ Google Drive với giao diện chuyên nghiệp.
+### 📱 Bảng tin (Newsfeed) & Trình Quản Lý Đa Phương Tiện
+-   **Đăng bài Đa Nền Tảng**: Chia sẻ trạng thái bằng văn bản kèm theo hình ảnh hoặc video lưu trữ trực tiếp trên Google Drive.
+-   **Bố cục Ảnh Thông Minh (Smart Layouts)**: Hỗ trợ tự động hiển thị ảnh theo nhiều bố cục chuyên nghiệp như `Grid (Lưới)`, `Top-Bottom (Trên-Dưới)`, `Left-Right (Trái-Phải)` và `Mosaic`. Thumbnail được tối ưu hóa ở độ phân giải s600 siêu nét.
+-   **Trình xem Ảnh Chuyên Nghiệp**: Image Viewer được thiết kế dưới dạng Modal khung nổi tinh tế, tự động giữ nguyên tỷ lệ ảnh gốc (Aspect-ratio) bằng công nghệ `object-fit`, mang lại trải nghiệm xem HD liền mạch mà không che khuất thanh điều hướng.
+-   **Tương tác mạnh mẽ**: Thích (Like) và Bình luận (Comment) bài viết. Hỗ trợ chỉnh sửa/xóa bình luận của cá nhân.
+-   **Infinite Scroll**: Cuộn vô tận giúp trải nghiệm xem bảng tin mượt mà, tối ưu hóa RAM cho thiết bị di động.
 
-### 🤖 Tìm kiếm Thông minh (AI Search)
--   **Chat AI**: Trò chuyện với trợ lý AI thân thiện, am hiểu về các kỷ niệm đã được lưu giữ trong ứng dụng.
--   **Phân tích tài liệu (RAG)**: Sử dụng cú pháp `@tên_file` để yêu cầu AI phân tích và trả lời dựa trên nội dung tài liệu (PDF, Text, v.v.) đã tải lên.
--   **Gemini 1.5 Flash**: Tích hợp mô hình AI mới nhất của Google để phản hồi nhanh chóng và chính xác.
+### 🤖 Trí tuệ Nhân tạo & Tìm kiếm (LoveStory AI)
+-   **Chat AI**: Trò chuyện với trợ lý ảo bằng mô hình **Gemini 1.5 Flash**. AI có khả năng truy xuất trực tiếp các Kỷ niệm trong bảng tin để trò chuyện như một người bạn.
+-   **Phân tích tài liệu (RAG Vector Embedding)**: Hệ thống cho phép upload các file Text/PDF nặng, tự động "băm nhỏ" văn bản (Chunking) và nén thành Vector Indexes lưu vào Google Sheets. Tính năng Bypass Rate Limit được tích hợp để chống lỗi `429 Quota Exceeded` từ Google API.
+-   **Truy vấn Tài Liệu**: Dùng cú pháp `***tên_file*** <câu hỏi>` để trò chuyện trực tiếp với tài liệu.
 
-### 🔔 Thông báo (Notifications)
--   **Thông báo thời gian thực**: Nhận thông báo khi có người thích hoặc bình luận vào bài viết của bạn.
--   **Quản lý thông minh**: Đánh dấu đã đọc, xóa từng thông báo hoặc quản lý tất cả chỉ với vài thao tác.
--   **Pull-To-Refresh**: Vuốt xuống để cập nhật thông báo mới nhất ngay lập tức.
+### 🔔 Quản lý Thông báo & Hồ sơ (Profile)
+-   **Profiles & Clean Storage**: Tùy biến thông tin cá nhân, Avatar và Theme màu (Green, Purple, Blue, Red, v.v.). Cơ chế dọn rác tự động (Auto-Trash) xóa vĩnh viễn Avatar cũ trên Drive khi cập nhật ảnh mới, giúp tiết kiệm dung lượng lưu trữ tuyệt đối.
+-   **Thông báo Real-time**: Pull-To-Refresh để làm mới thông báo. Tự động nhóm các thông báo đọc/chưa đọc. Hỗ trợ cảnh báo bảo mật qua Bot Telegram độc lập.
 
-### 🛠️ Các Tiện ích khác
--   **Baby Run Tracker**: Theo dõi các số liệu quan trọng hàng ngày.
--   **Biểu đồ giá Vàng**: Theo dõi biến động giá vàng thị trường và quản lý giao dịch cá nhân.
--   **Cá nhân hóa**: Thay đổi biệt danh, ảnh đại diện và chủ đề màu sắc ứng dụng.
+### 🛠️ Các Tiện ích Bổ sung (Widgets)
+-   **Baby Run Tracker / Kick Counter**: Tích hợp các Widget theo dõi chu kỳ, nhịp độ hàng ngày (có hỗ trợ Chart.js vẽ biểu đồ trực quan).
+-   **Biểu đồ Vàng (Gold Price)**: Kết nối dữ liệu ngoại vi để lưu trữ và hiển thị biểu đồ giao dịch Vàng cá nhân.
 
-## 🛠️ Công nghệ sử dụng
+## ⚙️ Kiến trúc Hệ thống (Architecture)
 
--   **Frontend**: HTML5, Vanilla JavaScript, CSS3 (Custom Design System).
--   **Framework**: [Bootstrap 5](https://getbootstrap.com/) & [Bootstrap Icons](https://icons.getbootstrap.com/).
--   **Backend**: [Google Apps Script](https://www.google.com/script/start/) (GAS).
--   **Database**: [Google Sheets](https://www.google.com/sheets/about/) (Sử dụng bảng tính làm cơ sở dữ liệu).
--   **AI Engine**: [Google Gemini API](https://ai.google.dev/).
--   **Storage**: [Google Drive API](https://developers.google.com/drive) (Lưu trữ ảnh và video).
+-   **Frontend**: HTML5, Vanilla JavaScript, CSS3 (Custom Design System, Variable Themes).
+-   **UI Framework**: Bootstrap 5.3.3 & Bootstrap Icons.
+-   **Backend Core**: Google Apps Script (GAS) - Đã được Clean Code, loại bỏ 100% Dead Code và tối ưu hóa hiệu suất API.
+-   **Database**: Google Sheets (Cơ sở dữ liệu NoSQL-like) + LockService chống ghi đè dữ liệu.
+-   **Storage**: Google Drive API (Chỉ mục thư mục LoveStory_Documents và LoveStory_Images).
 
-## 📦 Cấu trúc thư mục
+## 📦 Cấu trúc Thư mục Code
 
 ```text
 ├── css/
-│   └── style.css          # Hệ thống style và biến theme toàn cục
+│   └── style.css          # Hệ thống CSS Variables và Core App Styling
 ├── js/
-│   ├── app.js             # Logic khởi tạo và quản lý tab
-│   ├── feed.js            # Xử lý bảng tin, hashtag và media
-│   ├── search.js          # Giao diện AI Search & Chat
-│   ├── notifications.js   # Quản lý thông báo và modal
-│   ├── home.js            # Logic cho các Widget và Tiện ích
-│   ├── document.js        # Quản lý tài liệu và Vector Embedding
-│   └── utils.js           # Các hàm bổ trợ và kết nối API
-├── code.gs                # Toàn bộ mã nguồn Backend (chạy trên GAS)
-├── index.html             # Tệp tin chính của ứng dụng
-└── README.md              # Tài liệu hướng dẫn này
+│   ├── app.js             # Vòng đời ứng dụng, quản lý Routing & Tabs
+│   ├── feed.js            # Xử lý Bảng tin, Smart Image Layouts & Media Viewer
+│   ├── search.js          # Giao diện LoveStory AI Chat & Autocomplete
+│   ├── notifications.js   # Quản lý Inbox, Badge và Modal Thông báo
+│   ├── home.js            # Logic cho các Mini-Widgets (Gold, Baby Tracker)
+│   ├── document.js        # File Uploader & Client-Side RAG Chunking Module
+│   ├── profile.js         # Lưu hồ sơ, validation & dọn rác Drive Storage
+│   └── utils.js           # Fetch API Wrappers & Các hàm format toàn cục
+├── code.gs                # Toàn bộ mã nguồn Backend GAS (API Controller)
+├── index.html             # Tệp tin gốc (Single Page Application Hub)
+└── README.md              # File tài liệu kỹ thuật
 ```
 
-## ⚙️ Cài đặt & Triển khai
+## 🚀 Hướng dẫn Cài đặt & Triển khai
 
-1.  **Backend**: Sao chép nội dung tệp `code.gs` vào một dự án Google Apps Script mới.
-2.  **Database**: Tạo một Google Spreadsheet và liên kết với dự án script. Đảm bảo các sheet như `feed`, `profiles`, `logs`, `dtdlike`, `dtdcomment` được khởi tạo.
-3.  **Config**: Cập nhật `DRIVE_FOLDER_ID` và `API Key` (Gemini) trong tệp `code.gs`.
-4.  **Frontend**: Cập nhật hằng số `API_URL` trong tệp `js/utils.js` bằng đường dẫn Web App đã triển khai từ GAS.
-5.  **Deployment**: Triển khai GAS Web App ở chế độ "Anyone" và truy cập `index.html` để trải nghiệm.
+1.  **Backend (Google Apps Script)**: Copy toàn bộ nội dung tệp `code.gs` vào một dự án GAS mới.
+2.  **Database (Google Sheets)**: Tạo các sheet: `feed`, `profiles`, `logs`, `dtdlike`, `dtdcomment`, `Gold Data`, `EmbeddingIndex`, `gold_entries` (hoặc `goldmb`).
+3.  **Config variables**: Vào `code.gs` cập nhật `DRIVE_FOLDER_ID` (ID Thư mục lưu ảnh), `GA_K1` & `GA_K2` (Cặp khóa API Gemini), `TELEGRAM_BOT_TOKEN`, và `TELEGRAM_CHAT_ID`.
+4.  **Triển khai (Deploy)**: Build GAS dưới dạng Web App (Quyền truy cập: *Anyone* / *Bất kỳ ai*). Lấy URL Web App dán vào biến `API_URL` nằm trên cùng của tệp `js/utils.js`.
+5.  **Hosting Frontend**: Đưa các tệp HTML/CSS/JS lên bất kỳ Hosting/CDN nào (Vercel, GitHub Pages, Netlify) và tận hưởng!
 
 ---
-*Phát triển với ❤️ cho những kỷ niệm đáng nhớ.*
+*Phát triển với ❤️ cho những kỷ niệm đáng nhớ. Luôn được bảo trì và tối ưu định kỳ.*
