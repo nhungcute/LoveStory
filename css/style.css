@@ -254,7 +254,8 @@ html, body {
 }
 
 /* Dashboard Chart Container */
-#kickChart {
+#kickChart,
+#goldChart {
     width: 100% !important;
     height: 100% !important;
 }
