@@ -3,8 +3,8 @@
  * Contains shared utility functions, network helpers, and formatters for LoveStory.
  */
 
-// Production API URL generated from Google Apps Script deployment
-const API_URL = "https://script.google.com/macros/s/AKfycbw9Q1r-SegFi2J6G-xmJaf7Tbe9X-4Pmr-Y1j-ZRKtpjaUv3-QQG4rLCwP1-aYXrpZeng/exec";
+// API_URL được inject tự động bởi GitHub Actions từ secret API_URL
+const API_URL = "%%API_URL%%";
 
 /**
  * Enhanced fetch wrapper to communicate with Google Apps Script Backend.
