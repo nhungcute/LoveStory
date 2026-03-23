@@ -170,6 +170,11 @@ async function openKickDashboard() {
                 m.show();
             }
             setTimeout(() => renderKickChart(labels, data), 300);
+            setTimeout(() => {
+                requestAnimationFrame(() => {
+                    if (window._kickChart) window._kickChart.resize();
+                });
+            }, 350);
         } else {
             showAlert("Không thể lấy thống kê.");
         }
@@ -322,6 +327,10 @@ function openGoldDashboard() {
         if (outerContainer && outerContainer.parentElement) {
             outerContainer.parentElement.scrollLeft = outerContainer.parentElement.scrollWidth;
         }
+        // Resize sau 1 frame để flexbox settle xong
+        requestAnimationFrame(() => {
+            if (window._goldChart) window._goldChart.resize();
+        });
     }, 300);
 }
 
