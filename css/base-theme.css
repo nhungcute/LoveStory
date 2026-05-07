@@ -1,1 +1,173 @@
+/* -------------------------------------------------------------------------- */
+/*                                CSS VARIABLES                               */
+/* -------------------------------------------------------------------------- */
+:root {
+    /* Define primary themes - Default: Green Theme (#006B68) */
+    --theme-primary: #006B68;
+    --theme-secondary: #00524e;
+    --theme-accent: #FFC62F; /* Yellow */
+    --theme-text-on-primary: #ffffff;
 
+    /* Layout Variables */
+    --top-nav-height: 56px;
+    --bottom-nav-height: 58px;
+
+    /* Z-index Management */
+    --z-index-bottom-nav: 1060;
+    --z-index-top-nav: 1060;
+    --z-index-modal-backdrop: 1040;
+    --z-index-modal: 1050;
+    --z-index-spinner: 1100;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                           BASE & RESET STYLES                              */
+/* -------------------------------------------------------------------------- */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #f0f2f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               THEMING CLASSES                              */
+/* -------------------------------------------------------------------------- */
+.theme-bg-primary {
+    background-color: var(--theme-primary) !important;
+}
+
+.theme-text-primary {
+    color: var(--theme-primary) !important;
+}
+
+.theme-text-accent {
+    color: var(--theme-accent) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               LAYOUT STRUCTURE                             */
+/* -------------------------------------------------------------------------- */
+
+/* Top Navigation Bar */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--top-nav-height);
+    z-index: var(--z-index-top-nav);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.brand-logo {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Main Content Area (Scrollable) */
+.main-content {
+    position: absolute;
+    top: var(--top-nav-height);
+    bottom: var(--bottom-nav-height);
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    background-color: #f0f2f5;
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--bottom-nav-height);
+    background-color: #ffffff;
+    z-index: var(--z-index-bottom-nav);
+    border-top: 1px solid #e0e0e0;
+}
+
+.bottom-nav .nav-link {
+    color: #6c757d;
+    padding: 5px 0;
+    transition: color 0.2s ease-in-out;
+}
+
+.bottom-nav .nav-link span {
+    font-size: 0.7rem !important;
+}
+
+.bottom-nav .nav-link.active {
+    color: var(--theme-primary);
+    font-weight: 600;
+}
+
+.bottom-nav .nav-link i {
+    transition: transform 0.2s ease-in-out;
+}
+
+.bottom-nav .nav-link.active i {
+    transform: scale(1.1);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                PULL TO REFRESH                             */
+/* -------------------------------------------------------------------------- */
+#pullToRefreshIndicator {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background-color: rgba(255,255,255,0.95);
+    transform: translateY(-40px);
+    opacity: 0;
+    transition: transform 0.25s ease-out, opacity 0.25s ease-out;
+    pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    UTILITIES                               */
+/* -------------------------------------------------------------------------- */
+.nav-icon {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#notificationBadge {
+    display: none;
+    position: absolute;
+    top: -2px; right: -2px;
+    background: #E53935; color: #fff;
+    font-size: 0.6rem; font-weight: 700;
+    min-width: 16px; height: 16px;
+    border-radius: 50%; padding: 0 3px;
+    align-items: center; justify-content: center;
+    z-index: 10;
+}
+#notificationBadge.visible { display: flex; }
+
+.cursor-pointer {
+    cursor: pointer;
+}
