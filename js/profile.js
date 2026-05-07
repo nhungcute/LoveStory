@@ -7,7 +7,7 @@ function renderProfileModal() {
     const p = state.profile;
     document.getElementById('profileUsernameInput').value = p.username === 'Guest' ? '' : p.username;
     document.getElementById('profileFullnameInput').value = p.fullname === 'Guest' ? '' : p.fullname;
-    document.getElementById('profileCurrentAvatar').src = p.avaUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.fullname)}&background=FFC62F&color=006B68&bold=true`;
+    document.getElementById('profileCurrentAvatar').src = p.avaUrl || getDefaultAvatar(p.fullname);
     
     const statusEl = document.getElementById('usernameValidationStatus');
     if (statusEl) statusEl.innerHTML = '';
@@ -41,7 +41,7 @@ async function validateUsername() {
         if (check.status === 'success') {
             // Auto-fill existing info
             document.getElementById('profileFullnameInput').value = check.data.fullname || '';
-            const newAva = check.data.avaurl || `https://ui-avatars.com/api/?name=${encodeURIComponent(check.data.fullname)}&background=FFC62F&color=006B68&bold=true`;
+            const newAva = check.data.avaurl || getDefaultAvatar(check.data.fullname);
             document.getElementById('profileCurrentAvatar').src = newAva;
             state.profile.avaUrl = check.data.avaurl || ''; // Store temp
             selectTheme(check.data.theme || 'green');
